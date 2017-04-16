@@ -9,11 +9,18 @@
           width="96" height="96" :title="profile.id">
         </a>
         <div class="media-body mt-5">
-          <h3 class="card-title mt-2" :title="profile.id">
-          @{{profile.username}}
-          <small class="text-muted">{{profile.name}}</small>
-          </h3>
-          <h6 class="card-subtitle text-muted my-2">{{profile.counts.posts}} Posts</h6>
+          <div class="d-flex justify-content-between">
+            <div>
+              <h3 class="card-title mt-2" :title="profile.id">
+              @{{profile.username}}
+              <small class="text-muted">{{profile.name}}</small>
+              </h3>
+              <h6 class="card-subtitle text-muted my-2">{{profile.counts.posts}} Posts</h6>
+            </div>
+            <div v-if="profile.id !== user.id" class="mt-2">
+              <follow-button :initial-state="profile.you_follow" />
+            </div>
+          </div>
           <p class="card-text" v-html="profile.content.html"></p>
         </div>
       </div>
@@ -27,8 +34,15 @@
 </template>
 
 <script>
+import FollowButton from '~components/FollowButton'
+import { mapState } from 'vuex'
+
 export default {
-  props: ['profile']
+  props: ['profile'],
+  components: {
+    FollowButton
+  },
+  computed: mapState(['user'])
 }
 </script>
 

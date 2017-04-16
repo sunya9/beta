@@ -5,8 +5,7 @@
 </template>
 
 <script>
-import Stream from '~components/Stream'
-import axios from '~plugins/axios'
+import api from '~plugins/api'
 
 export default {
   layout: 'app',
@@ -27,7 +26,7 @@ export default {
     }
   },
   components: {
-    Stream
+    List
   }
 }
 </script>

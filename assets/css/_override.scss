@@ -1,6 +1,43 @@
+@import 'adn_base_variables';
+
 $body-bg: $bodyBackground;
 $body-color: $textColor;
 $brand-primary: $themeAttention;
+$border-radius: 0;
+
+// fonts
+$font-family-base: $sansFontFamily;
+$headings-font-family: $headingsFontFamily;
+$headings-color: $headingsColor;
+$link-hover-decoration: none;
+// buttons
+$btn-border-radius: $btnRadiusDefault;
+$btn-secondary-bg: $btnBackground;
+
+// components
 $component-active-bg: $grayLight;
-$nav-link-padding-y: 0;
+
+$list-group-hover-bg: $grayLightest;
+$list-group-border-radius: 0;
+
+$card-border-radius: 0;
+
+// $nav-link-padding-y: 0 0;
+// $nav-link-padding-x: 0 0;
+// $nav-link-height: 5rem;
+// $navbar-brand-padding-y: 0;
+
 $navbar-light-toggler-border: transparent;
+$navbar-light-color: $linkColor;
+$navbar-light-hover-color: $linkColorHover;
+$navbar-padding-y: 0;
+$navbar-toggler-border-radius: 0;
+
+// dropdown
+$dropdown-padding-y: 0;
+$dropdown-margin-top: 0;
+$dropdown-border-color: $grayLighter;
+$dropdown-link-color: $dropdownLinkColor;
+$dropdown-link-hover-color: $dropdownLinkColorHover;
+$dropdown-link-hover-bg: $dropdownLinkBackgroundHover;
+// $dropdown-item-padding-y: 1rem;

@@ -26,6 +26,8 @@
     "koa-passport": "^3.0.0",
     "koa-router": "next",
     "koa-session": "^5.0.0",
+    "moment": "^2.18.1",
+    "mousetrap": "^1.6.1",
     "node-sass": "^4.5.2",
     "nuxt": "latest",
     "passport-pnut": "^0.1.1",

@@ -1,19 +1,34 @@
 <template>
-  <div class="show collapse fixed-top sticky-top mb-5" style="top: 100px" id="navbarSupportedContent">
-    <ul class="list-group" v-if="user">
-      <li class="list-group-item border-left-0 border-top-0">BETA</li>
-      <nuxt-link :to="stream.url"
-        class="justify-content-between list-group-item list-group-item-action border-left-0 border-bottom-0"
-        :key="stream.url"
-        v-for="stream in streams" exact>
-        <span>
-          <i class="fa fa-fw" :class="stream.icon"></i>&nbsp;
-          {{stream.label}}
-          <!-- <span class="badge badge-important pull-right">{{ badge }}</span>-->
-        </span>
-        <i class="fa fa-chevron-right" v-show="active(stream.url)"></i>
-      </nuxt-link>
-    </ul>
+  <div class="navbar-toggleable-sm">
+    <div class="navbar-collapse collapse fixed-top sticky-top" style="top: 70px" id="navbarSupportedContent">
+      <div class="w-100 list-group pb-5" v-if="user">
+        <span class="heading list-group-item pt-4 pl-0 border-left-0 border-top-0 h5 text-uppercase">Beta</span>
+        <nuxt-link :to="stream.url"
+          class="justify-content-between list-group-item list-group-item-action border-left-0 border-bottom-0"
+          :key="stream.url"
+          :class="active(stream.url) ? 'active' : ''"
+          v-for="stream in streams" exact>
+          <span>
+            <i class="fa fa-fw" :class="stream.icon"></i>&nbsp;
+            {{stream.label}}
+            <!-- <span class="badge badge-important pull-right">{{ badge }}</span>-->
+          </span>
+          <i class="fa fa-chevron-right" v-show="active(stream.url)"></i>
+        </nuxt-link>
+        <span class="heading list-group-item pl-0 pt-5 border-left-0 border-top-0 h5 text-uppercase">Explore</span>
+        <nuxt-link :to="explore.url"
+          class="justify-content-between list-group-item list-group-item-action border-left-0 border-bottom-0"
+          :class="active(explore.url) ? 'active' : ''"
+          :key="explore.url"
+          v-for="explore in explores" exact>
+          <span>
+            <i class="fa fa-fw"></i>&nbsp;
+            {{explore.label}}
+          </span>
+          <i class="fa fa-chevron-right" v-show="active(explore.url)"></i>
+        </nuxt-link>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,13 +39,30 @@ export default {
   data() {
     return {
       streams: [
-        { label: 'stream', icon: 'fa-home', title: 'Your Stream', url: '/'},
-        { label: 'mentions', icon: 'fa-hand-o-right', title: 'Mentions', url: '/mentions'},
-        { label: 'interactions', icon: 'fa-exchange', title: 'Interactions', url: '/interactions'},
-        { label: 'stars', icon: 'fa-star', title: 'Stars', url: '/stars'}
+        { label: 'Your Stream', icon: 'fa-home', title: 'Your Stream', url: '/'},
+        { label: 'Mentions', icon: 'fa-hand-o-right', title: 'Mentions', url: '/mentions'},
+        { label: 'Interactions', icon: 'fa-exchange', title: 'Interactions', url: '/interactions'},
+        { label: 'Stars', icon: 'fa-star', title: 'Stars', url: '/stars'}
       ],
-      explores: []
-      // streams: ['Stream', 'Mentions', 'Interactions', 'Global', 'Messages']
+      explores: [
+        {
+          label: 'Conversations',
+          title: 'Conversations',
+          url: '/conversations'
+        }, {
+          label: 'Photos',
+          title: 'Photos',
+          url: '/photos'
+        }, {
+          label: 'Trending',
+          title: 'Trending',
+          url: '/trending'
+        }, {
+          label: 'Global',
+          title: 'Global',
+          url: '/global'
+        },
+      ]
     }
   },
   computed: mapState([
@@ -43,3 +75,23 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+@import '~assets/css/override';
+
+.list-group-item:not(.active) {
+  background: transparent;
+}
+.list-group-item:hover:not(.active):not(.h5) {
+  background: $list-group-hover-bg;
+}
+.list-group-item {
+  border-top-color: $grayLightest;
+}
+.heading {
+  border-bottom-color: $grayLighter;
+  margin-bottom: 0;
+}
+.heading + .list-group-item {
+  border-top: none;
+}
+</style>

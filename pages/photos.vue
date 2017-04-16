@@ -1,8 +1,11 @@
 <template>
   <div>
-      <h3>Interactions</h3>
+      <h3>Photos</h3>
       <div>
-        <list :items="data" type="Interaction" />
+        <compose />
+      </div>
+      <div>
+        <list :items="data" type="Post" />
       </div>
   </div>
 </template>
@@ -14,7 +17,9 @@ import api from '~plugins/api'
 
 export default {
   async asyncData(ctx) {
-    const { data } = await api(ctx, `/users/me/actions`)
+    const { store } = ctx
+    const { id } = store.state.user
+    const { data } = await api(ctx, '/posts/streams/explore/photos')
     return { data }
   },
   components: {

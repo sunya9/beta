@@ -12,7 +12,8 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'beta is pnut.io client.' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat' }
     ]
   },
   /*
@@ -38,15 +39,15 @@ module.exports = {
         Tether: 'tether'
       })
     ],
-    vendor: ['isomorphic-fetch', 'es6-promise', 'jquery', 'bootstrap', 'tether']
+    vendor: ['jquery', 'tether']
   },
 
   // plugin settings
-  plugins: ['~plugins/bootstrap.js'],
+  plugins: ['~plugins/bootstrap', '~plugins/api'],
 
   // router settings
   router: {
-    linkActiveClass: 'active'
+    // linkActiveClass: 'active'
   },
 
   // env

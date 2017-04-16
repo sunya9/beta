@@ -1,35 +1,32 @@
 <template>
   <div>
-    <users :users="users">
-      <nuxt-link to=".">@{{name}}</nuxt-link>'s following
-    </users>
+    <h3>
+      <nuxt-link to=".">
+        @{{name}}
+      </nuxt-link>
+      's following
+    </h3>
+    <list :items="users" type="User" />
   </div>
 </template>
 
 <script>
-import Users from '~components/Users'
-import axios from '~plugins/axios'
+import List from '~components/List'
+import api from '~plugins/api'
 
 export default {
   layout: 'app',
   async asyncData(ctx) {
-    const { req, isServer, params } = ctx
-    const headers = isServer
-      ? {
-        Cookie: req.headers['cookie']
-      }
-      : {}
+    const { params } = ctx
     const { name } = params
-    const { data: { data: users } } = await axios.get(`/users/@${name}/following`, {
-      headers
-    })
+    const { data: users } = await api(ctx, `/users/@${name}/following`)
     return {
       users,
       name
     }
   },
   components: {
-    Users
+    List
   }
 }
 </script>

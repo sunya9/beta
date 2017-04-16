@@ -1,15 +1,21 @@
 <template>
-  <splash v-if="!user" />
-  <stream v-else :stream="stream.data" title="Your Stream" />
+  <div>
+    <splash v-if="!user" />
+    <div v-else>
+      <h3>Your Stream</h3>
+      <compose />
+      <list :items="data" type="Post" />
+    </div>
+  </div>
 </template>
 
 
 <script>
 import Splash from '~/components/Splash'
-import Stream from '~/components/Stream'
+import Compose from '~/components/Compose'
+import List from '~/components/List'
 import { mapState } from 'vuex'
-import axios from '~plugins/axios'
-// import pnut from '../lib/pnut'
+import api from '~plugins/api'
 
 export default {
   layout: ({ req, store }) => {
@@ -20,25 +26,16 @@ export default {
   },
   components: {
     Splash,
-    Stream
+    Compose,
+    List
   },
   async asyncData(ctx) {
-    const { req, isServer, res, store } = ctx
-    const headers = isServer
-      ? {
-        Cookie: req.headers['cookie']
-      }
-      : {}
+    const { store } = ctx
     const user = store.state
-    console.log(user)
-    const { data: stream } = await axios.get('/posts/streams/me', {
-      headers
-    })
+    const { data } = await api(ctx, '/posts/streams/me')
     return {
-      stream,
-      user
+      user, data
     }
   },
-  // computed: mapState(['user'])
 }
 </script>

@@ -21,11 +21,14 @@
 
 <script>
 export default {
-  props: ['user'],
+  props: ['data'],
   computed: {
     html() {
       if(this.user.content && this.user.content.html)
       return this.user.content.html
+    },
+    user() {
+      return this.data
     }
   }
 }

@@ -1,32 +1,30 @@
 <template>
   <div>
-    <stream :stream="stream.data" title="Stars" />
+      <h3>Stars</h3>
+      <div>
+        <compose />
+      </div>
+      <div>
+        <list :items="data" type="Post" />
+      </div>
   </div>
 </template>
 
 <script>
-import Stream from '~components/Stream'
-import axios from '~plugins/axios'
+import Compose from '~components/Compose'
+import List from '~components/List'
+import api from '~plugins/api'
 
 export default {
-  layout: 'app',
   async asyncData(ctx) {
-    const { req, isServer, res, store } = ctx
-    const headers = isServer
-      ? {
-        Cookie: req.headers['cookie']
-      }
-      : {}
+    const { store } = ctx
     const { id } = store.state.user
-    const { data: stream } = await axios.get(`/users/${id}/bookmarks`, {
-      headers
-    })
-    return {
-      stream
-    }
+    const { data } = await api(ctx, `/users/${id}/bookmarks`)
+    return { data }
   },
   components: {
-    Stream
+    List,
+    Compose
   }
 }
 </script>
