@@ -1,0 +1,13 @@
+@import 'adn_base_variables';
+@import 'override';
+@import '~bootstrap/scss/bootstrap';
+$fa-font-path: '../../node_modules/font-awesome/fonts';
+@import '~font-awesome/scss/font-awesome';
+
+html {
+  font-size: 90%;
+}
+
+body {
+  padding-top: 100px;
+}

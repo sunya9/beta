@@ -1,0 +1,4 @@
+<template>
+  <footer>
+  </footer>
+</template>
