@@ -1,13 +1,20 @@
 <template>
   <div>
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between flex-wrap">
       <h3>Interactions</h3>
-      <div
-        class="btn-group"
-        role="group"
-        aria-label="Filter"
-        data-toggle="buttons">
-        label.btn.btn-primary.
+      <div class="btn-group" role="group" style="display: none">
+        <label class="btn btn-primary">
+          <input type="checkbox" class="sr-only" :class="active" v-model="filter" value="reply"> Reply
+        </label>
+        <label class="btn btn-primary">
+          <input type="checkbox" class="sr-only" :class="active" v-model="filter" value="repost"> Repost
+        </label>
+        <label class="btn btn-primary">
+          <input type="checkbox" class="sr-only" :class="active" v-model="filter" value="bookmark"> Star
+        </label>
+        <label class="btn btn-primary">
+          <input type="checkbox" class="sr-only" :class="active" v-model="filter" value="follow"> Follow
+        </label>
       </div>
     </div>
     <div>
@@ -26,18 +33,32 @@ export default {
     const data = await api(ctx).fetch()
     return { data }
   },
+  data () {
+    return {
+      filter: []
+    }
+  },
   computed: {
     filteredData () {
       const interactions = this.data.data
         .filter (interaction => {
-          interaction
+          const res = !this.filter.length
+          || this.filter.indexOf(interaction.action) >= 0
+          console.log(res)
+          return res
         })
-      Object.assign({}, this.data, {
+      console.log(interactions.length)
+      const data = Object.assign({}, this.data, {
         data: interactions
       })
       return data
+    },
+  },
+  methods: {
+    active (e) {
+      console.log(e)
     }
-  }
+  },
   components: {
     List,
     Compose
