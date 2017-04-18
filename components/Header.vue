@@ -15,7 +15,6 @@
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                 <nuxt-link
                   :to="`/@${user.username}`"
-                  active-class="asdf"
                   exact
                   class="dropdown-item">
                 Profile
