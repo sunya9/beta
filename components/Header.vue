@@ -33,6 +33,9 @@
             </li>
           </ul>
         </div>
+        <div id="navbarSupportedContent" class="navbar-collapse collapse">
+          <sidebar />
+        </div>
       </div>
     </div>
   </header>
@@ -40,9 +43,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import Sidebar from '~components/Sidebar'
 
 export default {
-  computed: mapState(['user'])
+  computed: mapState(['user']),
+  components: {
+    Sidebar
+  }
 }
 
 </script>

@@ -3,8 +3,8 @@
     <app-header />
     <main class="container">
       <div class="row" v-if="user">
-        <div class="col-sm-12 col-md-4 col-lg-3">
-          <sidebar />
+        <div class="hidden-sm-down col-md-4 col-lg-3">
+          <sidebar class="fixed-top sticky-top" style="top: 70px" />
         </div>
         <div class="col-sm-12 col-md-8 col-lg-9">
           <nuxt />
