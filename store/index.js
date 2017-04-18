@@ -33,7 +33,7 @@ const store = new Vuex.Store({
   actions: {
     nuxtServerInit ({ commit }, { req }) {
       if (req.user) {
-        commit('SET_USER', req.user._json)
+        commit('SET_USER', req.user)
       }
     }
   }
