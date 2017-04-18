@@ -96,6 +96,7 @@ export default {
         this.text = ''
         this.promise = null
         this.$emit('post', res.data)
+        this.$store.commit('REMOVE_REPLY')
       }).catch(console.error.bind(console))
     },
     // for IME
