@@ -12,7 +12,7 @@ const Nuxt = require('nuxt')
 const config = require('./nuxt.config.js')
 config.dev = !(app.env === 'production')
 
-app.keys = [config.dev ? 'beta' : process.env.KEY]
+app.keys = [config.dev ? 'beta' : process.env.SALT]
 app.use(bodyParser())
 app.use(json())
 app.use(session(app))
