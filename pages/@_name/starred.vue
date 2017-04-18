@@ -1,27 +1,26 @@
 <template>
   <div>
-    <stream :stream="stream" :title="`@${this.name}'s Starred`" />
+    <h3>
+      <nuxt-link to=".">
+        @{{name}}
+      </nuxt-link>
+      's Starred
+    </h3>
+    <list :data="data" type="Post" />
   </div>
 </template>
 
 <script>
 import api from '~plugins/api'
+import List from '~components/List'
 
 export default {
-  layout: 'app',
   async asyncData(ctx) {
-    const { req, isServer, params } = ctx
-    const headers = isServer
-      ? {
-        Cookie: req.headers['cookie']
-      }
-      : {}
+    const { params } = ctx
     const { name } = params
-    const { data: { data: stream } } = await axios.get(`/users/@${name}/bookmarks`, {
-      headers
-    })
+    const data = await api(ctx).fetch()
     return {
-      stream,
+      data,
       name
     }
   },

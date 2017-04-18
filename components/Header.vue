@@ -14,17 +14,18 @@
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                 <nuxt-link
-                  :to="`@${user.username}`"
+                  :to="`/@${user.username}`"
                   active-class="asdf"
                   exact
                   class="dropdown-item">
                 Profile
                 </nuxt-link>
+                <div class="dropdown-divider"></div>
                 <a href="/logout" class="dropdown-item">Log out</a>
               </div>
             </li>
             <li class="nav-item" v-if="!user">
-              <a href="/login" class="nav-link dropdown-toggle">Log in</a>
+              <a href="/login" class="nav-link">Log in</a>
             </li>
             <li class="nav-item">
               <button class="hidden-md-up navbar-toggler align-self-center" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +52,7 @@ export default {
 
 .navbar {
   background-color: rgba(255, 255, 255, .95);
-  z-index: 5123;
+  z-index: 1030;
   border-bottom: 1px solid $grayLighter;
 }
 // buggy?
@@ -66,6 +67,9 @@ export default {
   border-right: 1px solid $grayLighter;
   height: 100%;
   margin-left: -1px;
+}
+.dropdown-divider {
+  margin: 0;
 }
 
 </style>

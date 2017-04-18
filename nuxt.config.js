@@ -6,10 +6,12 @@ module.exports = {
   */
   head: {
     title: 'Beta',
+    titleTemplate: '%s - Beta',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'beta is pnut.io client.' }
+      { hid: 'description', name: 'description', content: 'beta is pnut.io client.' },
+
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -26,7 +28,7 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#d36854' },
 
   // webpack build setttings
   build: {
@@ -39,11 +41,15 @@ module.exports = {
         Tether: 'tether'
       })
     ],
-    vendor: ['jquery', 'tether']
+    vendor: ['jquery', 'tether', 'axios', 'vue-infinite-scroll']
   },
 
   // plugin settings
-  plugins: ['~plugins/bootstrap', '~plugins/api'],
+  plugins: [
+    '~plugins/bootstrap',
+    '~plugins/api',
+    '~plugins/vue-infinite'
+  ],
 
   // router settings
   router: {

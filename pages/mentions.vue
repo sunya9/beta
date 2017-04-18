@@ -5,7 +5,7 @@
         <compose />
       </div>
       <div>
-        <list :items="data" type="Post" />
+        <list :data="data" type="Post" />
       </div>
   </div>
 </template>
@@ -17,7 +17,7 @@ import api from '~plugins/api'
 
 export default {
   async asyncData(ctx) {
-    const { data } = await api(ctx, '/users/me/mentions')
+    const data = await api(ctx).fetch()
     return { data }
   },
   components: {

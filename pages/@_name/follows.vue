@@ -6,7 +6,7 @@
       </nuxt-link>
       's following
     </h3>
-    <list :items="users" type="User" />
+    <list :data="data" type="User" />
   </div>
 </template>
 
@@ -15,18 +15,17 @@ import List from '~components/List'
 import api from '~plugins/api'
 
 export default {
-  layout: 'app',
   async asyncData(ctx) {
     const { params } = ctx
     const { name } = params
-    const { data: users } = await api(ctx, `/users/@${name}/following`)
+    const data = await api(ctx).fetch()
     return {
-      users,
+      data,
       name
     }
   },
   components: {
-    List
+    List,
   }
 }
 </script>

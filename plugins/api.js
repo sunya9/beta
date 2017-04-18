@@ -1,18 +1,96 @@
-export default async (ctx, opts) => {
-  if (typeof opts === 'string') {
-    opts = {
-      resource: opts
+import qs from 'querystring'
+
+
+class API {
+  constructor (ctx) {
+    this.fetch = this.fetch.bind(this)
+    this.request = this.request.bind(this)
+    this.get = this.get.bind(this)
+    this.post = this.post.bind(this)
+    this.delete = this.delete.bind(this)
+    this.patch = this.patch.bind(this)
+    this._token = ''
+    this.isServer = ctx.isServer
+    if (ctx.route) {
+      this.resource = API.RESOURCE_MAP[ctx.route.name]
+      if (typeof this.resource === 'function') {
+        this.resource = this.resource(ctx.route.params)
+      }
     }
   }
-  if (!ctx) ctx = {}
-  const { method = 'get', resource, body } = opts
-  if (!ctx.req) {
-    const axios = require('axios')
-    const { data } = await axios[method](`/proxy${resource}`, body)
-    return data
-  } else {
-    const pnut = require('pnut-butter')
-    pnut.token = ctx.req.user.token
-    return await pnut.custom(resource, method, body)
+
+  async fetch (option = {}) {
+    return await this.get(this.resource, option)
+  }
+
+  async get (resource, body) {
+    const params = qs.stringify(body)
+    const url = `${resource}?${params}`
+    return await this.request(url)
+  }
+
+  async post (resource, body) {
+    return await this.request(resource, 'post', body)
+  }
+
+  async delete (resource, body) {
+    return await this.request(resource, 'delete', body)
+  }
+
+  async patch (resource, body) {
+    return await this.request(resource, 'patch', body)
   }
 }
+
+API.RESOURCE_MAP = {
+  index: '/posts/streams/me',
+  mentions: '/users/me/mentions',
+  interactions: '/users/me/actions',
+  stars: '/users/me/bookmarks',
+  conversations: '/posts/streams/explore/conversations',
+  photos: '/posts/streams/explore/photos',
+  trending: '/posts/streams/explore/trending',
+  global: '/posts/streams/global',
+  'posts-id': params => `/posts/${params.id}`,
+  '@name': params => `/users/@${params.name}/posts`,
+  '@name-follows': params => `/users/@${params.name}/following`,
+  '@name-followers': params => `/users/@${params.name}/followers`,
+  '@name-starred': params => `/users/@${params.name}/bookmarks`,
+}
+
+
+class PnutAPI extends API {
+  constructor (ctx) {
+    super(ctx)
+    if (ctx.req.user && ctx.req.user.token) {
+      this._token = ctx.req.user.token
+    }
+    this.request = this.request.bind(this)
+  }
+
+  async request (resource, method = 'get', body = {}) {
+    const pnut = require('pnut-butter')
+    pnut.token = this._token
+    const data = await pnut.custom(resource, method, body)
+    return data
+  }
+}
+
+
+class AxiosAPI extends API {
+  constructor (ctx) {
+    super(ctx)
+    this.request = this.request.bind(this)
+  }
+
+  async request (resource, method = 'get', body = {}) {
+    const axios = require('axios')
+    resource = `/proxy${resource}`
+    const { data } = await axios[method](resource, body)
+    return data
+  }
+}
+
+export default (ctx = {}) => ctx.isServer
+  ? new PnutAPI(ctx)
+  : new AxiosAPI(ctx)

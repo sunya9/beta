@@ -1,6 +1,6 @@
 <template>
-  <div class="navbar-toggleable-sm">
-    <div class="navbar-collapse collapse fixed-top sticky-top" style="top: 70px" id="navbarSupportedContent">
+  <div class="navbar-toggleable-sm fixed-top sticky-top" style="top: 70px">
+    <div class="navbar-collapse collapse"id="navbarSupportedContent">
       <div class="w-100 list-group pb-5" v-if="user">
         <span class="heading list-group-item pt-4 pl-0 border-left-0 border-top-0 h5 text-uppercase">Beta</span>
         <nuxt-link :to="stream.url"
@@ -27,6 +27,12 @@
           </span>
           <i class="fa fa-chevron-right" v-show="active(explore.url)"></i>
         </nuxt-link>
+        <span class="heading list-group-item pl-0 pt-5 border-left-0 border-top-0 h5 text-uppercase">Other</span>        
+        <a href="https://github.com/sunya9/beta"
+          class="border-left-0 border-bottom-0 list-group-item list-group-item-action">
+          <i class="fa fa-fw fa-github"></i>&nbsp;
+          Beta on Github
+        </a>
       </div>
     </div>
   </div>

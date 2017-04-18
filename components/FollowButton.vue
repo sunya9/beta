@@ -9,8 +9,10 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  props: ['initialState'],
+  props: ['initialState', 'userId'],
   data() {
     return {
       state: this.initialState
@@ -28,7 +30,9 @@ export default {
   },
   methods: {
     follow() {
-
+      const method = this.state ? 'delete' : 'put'
+      axios[method](`/proxy/users/${this.userId}/follow`)
+        .then(res => this.state = !this.state)
     }
   }
 }

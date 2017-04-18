@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <img :src="profile.content.cover_image.link" alt="" class="card-img-top">
+    <img :src="profile.content.cover_image.link" alt="" class="img-fluid card-img-top pb-1">
     <div class="card-block">
       <div class="media negative">
         <a :href="profile.content.avatar_image.link">
@@ -18,7 +18,7 @@
               <h6 class="card-subtitle text-muted my-2">{{profile.counts.posts}} Posts</h6>
             </div>
             <div v-if="profile.id !== user.id" class="mt-2">
-              <follow-button :initial-state="profile.you_follow" />
+              <follow-button :initial-state="profile.you_follow" :user-id="profile.id" />
             </div>
           </div>
           <p class="card-text" v-html="profile.content.html"></p>
@@ -49,8 +49,5 @@ export default {
 <style scoped>
 .negative {
   margin-top: -4rem;
-}
-.card-img-top {
-  max-height: 180px;
 }
 </style>

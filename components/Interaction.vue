@@ -1,26 +1,39 @@
 <template>
   <li class="list-group-item list-group-item-action">
-    <div class="media">
+    <div class="media pt-2">
       <div class="d-inline-block mr-4 text-muted">
         <i
           :class="icon"
           class="fa fa-fw fa-2x"></i>
       </div>
       <div class="media-body">
-        <h6 class="mt-1 text-gray-dark">
+        <h6 class="text-gray-dark">
+          <nuxt-link
+             v-if="action.action !== 'follow'"
+            :to="`/posts/${action.objects[0].id}`">
+            This post
+          </nuxt-link>
           {{actionBy}}
           <ul class="list-inline d-inline">
-            <li class="list-inline-item" v-for="(user, i) in action.users">
+            <li class="list-inline-item" :key="user.id" v-for="(user, i) in action.users">
               <nuxt-link :to="`@${user.username}`">
                 @{{user.username}}
                 <span v-if="i < action.users.length - 1">, </span>
               </nuxt-link>
             </li>
-          </ul>
-          <small class="text-muted">
-          </small>
+          </ul>.
         </h6>
-        <p></p>
+        <ul class="list-inline my-3">
+          <li :key="user.id" class="list-inline-item" v-for="user in action.users">
+            <nuxt-link :to="`@${user.username}`">
+              <img
+                width="32"
+                height="32"
+                class="rounded-circle"
+                :src="user.content.avatar_image.link">
+            </nuxt-link>
+          </li>
+        </ul>
         <footer>
           <ul class="list-inline">
             <li class="list-inline-item">
@@ -46,15 +59,15 @@ const convert = {
     icon: 'fa-user-plus'
   },
   bookmark: {
-    text: 'Starred',
+    text: 'starred',
     icon: 'fa-star'
   },
   reply: {
-    text: 'Replied',
+    text: 'replied',
     icon: 'fa-reply'
   },
   repost: {
-    text: 'Reposted',
+    text: 'reposted',
     icon: 'fa-retweet'
   }
 }
@@ -87,6 +100,14 @@ export default {
     },
     icon() {
       return convert[this.action.action].icon
+    },
+    html() {
+      switch(this.action.action) {
+        case 'bookmark':
+        case 'reply':
+        case 'repost':
+          return 'This post'
+      }
     }
   },
   methods: {

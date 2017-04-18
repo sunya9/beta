@@ -4,10 +4,10 @@
       <profile :profile="profile" />
     </div>
     <div>
-      <compose />
+      <compose :initial-text="`@${name} `" />
     </div>
     <div>
-      <list :items="stream" type="Post" />
+      <list :data="data" type="Post" />
     </div>
   </div>
 </template>
@@ -18,15 +18,15 @@ import Compose from '~components/Compose'
 import List from '~components/List'
 import api from '~plugins/api'
 
-
 export default {
   async asyncData(ctx) {
     const { params } = ctx
     const { name } = params
-    const { data: profile } = await api(ctx, `/users/@${name}`)
-    const { data: stream } = await api(ctx, `/users/@${name}/posts`)
+    const _api = api(ctx)
+    const { data: profile } = await _api.get(`/users/@${name}`)
+    const data = await _api.fetch()
     return {
-      stream, profile
+      data, profile, name
     }
   },
   components: {

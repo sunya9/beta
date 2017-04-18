@@ -5,7 +5,7 @@
         <compose />
       </div>
       <div>
-        <list :items="data" type="Post" />
+        <list :data="data" type="Post" />
       </div>
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
   async asyncData(ctx) {
     const { store } = ctx
     const { id } = store.state.user
-    const { data } = await api(ctx, '/posts/streams/explore/photos')
+    const data = await api(ctx).fetch()
     return { data }
   },
   components: {

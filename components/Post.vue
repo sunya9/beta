@@ -1,24 +1,30 @@
 <template>
-  <li class="list-group-item list-group-item-action">
+  <li :id="`post-${post.id}`" class="list-group-item list-group-item-action">
     <div class="media w-100 justify-content-start">
-      <nuxt-link :to="`/@${post.user.username}`">
-        <img :src="post.user.content.avatar_image.link"
+      <nuxt-link :to="`/@${mainPost.user.username}`">
+        <img :src="mainPost.user.content.avatar_image.link"
           alt="" class="d-flex mr-3 rounded-circle"
           width="64" height="64">
       </nuxt-link>
       <div class="media-body">
         <h6 class="mt-1">
           <nuxt-link
-            :to="`/@${post.user.username}`"
+            :to="`/@${mainPost.user.username}`"
             class="text-gray-dark">
-            {{post.user.username}}
+            {{mainPost.user.username}}
             <small class="text-muted">
-              {{post.user.name}}
+              {{mainPost.user.name}}
             </small>
           </nuxt-link>
         </h6>
-        <p v-html="html"></p>
-        <footer>
+        <p @click.prevent="clickPostLink" v-html="html"></p>
+        <footer v-if="!viewOnly">
+          <div v-if="post.repost_of">
+            <nuxt-link :to="`/@${post.user.username}`" class="text-muted">
+              <i class="fa fa-retweet"></i>&nbsp;
+              Reposted by @{{post.user.username}}
+            </nuxt-link>
+          </div>
           <ul class="list-inline">
             <li class="list-inline-item">
               <nuxt-link :to="`/posts/${post.id}`" class="text-muted" :title="absDate">
@@ -32,31 +38,64 @@
                 Reply
               </a>
             </li>
+            <li v-if="me" class="list-inline-item remove">
+              <a class="text-muted"
+                href="#"
+                data-toggle="modal"
+                :data-target="`#post-${post.id} .remove-modal`"
+                >
+                <i class="fa fa-trash"></i>
+                Remove
+              </a>
+            </li>
+            <li class="list-inline-item source">
+              <a class="text-muted" :href="post.source.link">
+              <i class="fa fa-send"></i>
+              from
+                {{mainPost.source.name}}
+              </a>
+            </li>
           </ul>
         </footer>
       </div>
-      <div class="ml-auto mt-1">
+      <div class="ml-auto mt-1" v-if="!viewOnly">
         <div class="btn-group-vertical" role="group">
-          <a @click="star" href="#" @click.prevent class="btn btn-link btn-lg my-0 py-1 mx-0 px-0">
-            <i class="icon-button fa fa-star-o fa-lg fa-fw"></i>
-          </a>
-          <a @click="repost" href="#" @click.prevent
-            v-show="user.id !== post.user.id"
-            class="btn btn-link btn-lg my-0 py-1 mx-0 px-0">
-            <i class="icon-button fa fa-retweet fa-lg fa-fw"></i>
-          </a>
+          <action-button
+            :resource="`/posts/${mainPost.id}/bookmark`"
+            :icon="['fa-star-o', 'fa-star']"
+            :initial-state="mainPost.you_bookmarked"
+            />
+          <action-button
+            v-if="!me"
+            :resource="`/posts/${mainPost.id}/repost`"
+            icon="fa-retweet"
+            :initial-state="mainPost.you_reposted"
+            />
         </div>
       </div>
     </div>
+    <modal class="remove-modal">
+      <span slot="header">Remove post?</span>
+      <p>Does you remove the post?</p>
+      <button
+        class="btn btn-primary"
+        slot="footer"
+        @click="remove"
+        data-dismiss="modal">OK</button>
+    </modal>
   </li>
 </template>
 
 <script>
 import moment from 'moment'
+import Modal from '~components/Modal'
+import ActionButton from '~components/ActionButton'
 import { mapState } from 'vuex'
+import api from '~plugins/api'
+import router from '~router'
 
 export default {
-  props: ['data'],
+  props: ['data', 'viewOnly'],
   data() {
     return {
       date: null
@@ -68,14 +107,23 @@ export default {
   },
   computed: {
     html() {
-      if(this.post.content && this.post.content.html)
-      return this.post.content.html
+      if(this.mainPost.content && this.mainPost.content.html) {
+        const text = this.mainPost.content.html
+          .replace(/(@\w+)/g, '<a href="/$1">$1</a>')
+        return text
+      }
     },
     absDate() {
-      return moment(this.post.created_at).format()
+      return moment(this.mainPost.created_at).format()
     },
     post() {
       return this.data
+    },
+    me() {
+      return this.user.id === this.post.user.id
+    },
+    mainPost() {
+      return this.post.repost_of || this.post
     },
     ...mapState(['user'])
   },
@@ -83,12 +131,24 @@ export default {
     dateUpdate() {
       this.date = moment(this.post.created_at).fromNow(true)
     },
-    star() {
-
+    reply() {
+      this.$store.commit('SET_REPLY', this.post)
     },
-    repost() {
-
+    remove() {
+      return api().delete(`/posts/${this.post.id}`)
+        .then(() => {
+          this.$emit('remove')
+        })
+    },
+    clickPostLink (e) {
+      const a = e.target
+      if (!a.href) return
+      router.push(a.pathname)
     }
+  },
+  components: {
+    Modal,
+    ActionButton
   }
 }
 </script>
@@ -98,20 +158,19 @@ export default {
 .media-body {
   word-break: break-word;
 }
-.icon-button {
-  color: #b0b0b0;
-}
+
 footer {
   font-size: .85rem;
 }
 
-.reply {
+.reply, .remove, .source {
   opacity: 0;
+  transition: all .2s ease;
 }
 
 .list-group-item {
   &:hover, &:focus {
-    .reply {
+    .reply, .remove, .source {
       opacity: 1;
     }
   }

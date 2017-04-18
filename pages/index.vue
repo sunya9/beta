@@ -3,8 +3,8 @@
     <splash v-if="!user" />
     <div v-else>
       <h3>Your Stream</h3>
-      <compose />
-      <list :items="data" type="Post" />
+      <compose @post="add" />
+      <list :data="data" type="Post" :fetch="null" />
     </div>
   </div>
 </template>
@@ -30,12 +30,19 @@ export default {
     List
   },
   async asyncData(ctx) {
-    const { store } = ctx
-    const user = store.state
-    const { data } = await api(ctx, '/posts/streams/me')
-    return {
-      user, data
+    const data = await api(ctx).fetch({
+      include_directed_posts: 0
+    })
+    return { data }
+  },
+  computed: mapState(['user']),
+  methods: {
+    add(post) {
+      this.data.data.unshift(post)
     }
   },
+  head: {
+    title: 'Your Stream'
+  }
 }
 </script>
