@@ -32,6 +32,9 @@ module.exports = {
 
   // webpack build setttings
   build: {
+    extend (config) {
+      config.plugins = config.plugins.filter(plugin => plugin.constructor.name !== 'UglifyJsPlugin')
+    },
     plugins: [
       new ProvidePlugin({
         $: 'jquery',
