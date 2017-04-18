@@ -18,12 +18,6 @@ import { mapState } from 'vuex'
 import api from '~plugins/api'
 
 export default {
-  layout: ({ req, store }) => {
-    return (req && req.user)
-      || (store && store.state.user)
-        ? 'app'
-        : 'default'
-  },
   components: {
     Splash,
     Compose,
