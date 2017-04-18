@@ -22,7 +22,7 @@
       data-toggle="collapse" data-target="#navbarSupportedContent"
       v-for="explore in explores" exact>
       <span>
-        <i class="fa fa-fw"></i>&nbsp;
+        <i class="fa fa-fw" :class="explore.icon"></i>&nbsp;
         {{explore.label}}
       </span>
       <i class="fa fa-chevron-right" v-show="active(explore.url)"></i>
@@ -52,19 +52,23 @@ export default {
         {
           label: 'Conversations',
           title: 'Conversations',
-          url: '/conversations'
+          url: '/conversations',
+          icon: 'fa-comments'
         }, {
           label: 'Photos',
           title: 'Photos',
-          url: '/photos'
+          url: '/photos',
+          icon: 'fa-camera'
         }, {
           label: 'Trending',
           title: 'Trending',
-          url: '/trending'
+          url: '/trending',
+          icon: 'fa-line-chart'
         }, {
           label: 'Global',
           title: 'Global',
-          url: '/global'
+          url: '/global',
+          icon: 'fa-globe'
         },
       ]
     }

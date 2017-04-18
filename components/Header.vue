@@ -33,7 +33,7 @@
             </li>
           </ul>
         </div>
-        <div id="navbarSupportedContent" class="navbar-collapse collapse">
+        <div id="navbarSupportedContent" class="navbar-collapse collapse hidden-md-up">
           <sidebar />
         </div>
       </div>
