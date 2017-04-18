@@ -4,7 +4,7 @@
     <div v-else>
       <h3>Your Stream</h3>
       <compose @post="add" />
-      <list :data="data" type="Post" :fetch="null" />
+      <list :data="data" type="Post" />
     </div>
   </div>
 </template>
