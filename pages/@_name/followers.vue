@@ -18,7 +18,7 @@ export default {
   async asyncData(ctx) {
     const { params } = ctx
     const { name } = params
-    const { data } = await api(ctx).fetch()
+    const data = await api(ctx).fetch()
     return {
       data,
       name
