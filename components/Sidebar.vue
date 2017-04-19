@@ -4,7 +4,7 @@
     <nuxt-link :to="stream.url"
       class="justify-content-between list-group-item list-group-item-action border-left-0 border-bottom-0"
       :key="stream.url"
-      data-toggle="collapse" data-target="#navbarSupportedContent"
+      data-toggle="collapse" data-target="#navbarSupportedContent.show"
       :class="active(stream.url) ? 'active' : ''"
       v-for="stream in streams" exact>
       <span>
@@ -19,7 +19,7 @@
       class="justify-content-between list-group-item list-group-item-action border-left-0 border-bottom-0"
       :class="active(explore.url) ? 'active' : ''"
       :key="explore.url"
-      data-toggle="collapse" data-target="#navbarSupportedContent"
+      data-toggle="collapse" data-target="#navbarSupportedContent.show"
       v-for="explore in explores" exact>
       <span>
         <i class="fa fa-fw" :class="explore.icon"></i>&nbsp;
