@@ -16,8 +16,12 @@
             'col-md-8 col-lg-9': !notLoginIndex
           }"
           class="col-12">
-          <splash v-if="!user" />
-          <nuxt />
+          <div>
+            <splash v-if="!user" />
+          </div>
+          <div>
+            <nuxt />
+          </div>
         </div>
       </div>
     </main>
