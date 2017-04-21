@@ -24,7 +24,7 @@
           </ul>.
         </h6>
         <ul class="list-inline my-3">
-          <li :key="user.id" class="list-inline-item" v-for="user in action.users">
+          <li :key="user.id" v-if="user.content" class="list-inline-item" v-for="user in action.users">
             <nuxt-link :to="`@${user.username}`">
               <img
                 width="32"
