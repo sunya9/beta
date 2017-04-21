@@ -13,9 +13,12 @@ const config = require('./nuxt.config.js')
 config.dev = !(app.env === 'production')
 
 app.keys = [config.dev ? 'beta' : process.env.SALT]
+const sessionConfig = {
+  maxAge: 1000 * 60 * 60 * 24 * 30
+}
 app.use(bodyParser())
 app.use(json())
-app.use(session(app))
+app.use(session(sessionConfig, app))
 passport(app)
 router(app)
 
@@ -32,7 +35,15 @@ if (config.dev) {
 
 app.use(async (ctx, next) => {
   ctx.status = 200 // koa defaults to 404 when it sees that status is unset
-  await nuxt.render(ctx.req, ctx.res)
+  try {
+    await nuxt.render(ctx.req, ctx.res)
+  } catch (e) {
+    console.error(e)
+  }
+})
+
+app.use(async (ctx, next) => {
+  ctx.throw('Internal server error', 500)
 })
 
 app.listen(3000)
