@@ -1,11 +1,12 @@
 <template>
-  <div class="my-4">
+  <div class="my-4 compose" v-if="user">
     <div class="card">
       <form class="card-block" @submit.prevent="submit">
         <div class="form-group">
           <textarea @keyup.ctrl.enter="submit"
-            cols="10" rows="4"
-            class="form-control" v-model="text"
+            @keyup.meta.enter="submit"
+            cols="10" rows="3"
+            class="form-control" v-model.trim="text"
             :disabled="promise"
             @input="textCount"
             ref="textarea"
@@ -31,14 +32,14 @@
             </div>
         </div>
       </form>
-      <div class="card-block" v-if="replyTarget" >
+      <div class="card-block" v-if="replyTarget">
         <div class="d-flex justify-content-between">
           <h6>Reply to…</h6>
           <button class="btn btn-link px-0" @click="cancelReply">
             <i class="fa fa-times fa-fw fa-lg"></i>
           </button>
         </div>
-        <post :data="replyTarget" view-only="true" />
+        <post :data="replyTarget" view-only />
       </div>
     </div>
   </div>
@@ -48,28 +49,28 @@
 import api from '~plugins/api'
 import { mapState } from 'vuex'
 import Post from '~components/Post'
+import bus from '~assets/js/bus'
 
 export default {
   props: {
     initialText: {
       type: String,
       default: ''
-    }
-  },
-  created() {
-    this.text = this.initialText
-    this.$store.subscribe(mutation => {
-      if(mutation.type === 'SET_REPLY' && this.$refs.textarea) {
-        this.$refs.textarea.focus()
-      }
-    })
+    },
+    focus: Boolean
   },
   data() {
     return {
       promise: null,
-      tempCount: 0
+      tempCount: 0,
+      text: '',
+      replyTarget: null
     }
   },
+  beforeDestroy() {
+    bus.$off('setReply', this.setReply)
+  },
+
   computed: {
     count() {
       return 256 - Math.max(this.text.length, this.tempCount)
@@ -77,35 +78,52 @@ export default {
     disabled() {
       return this.promise || !this.text.length || this.count < 0
     },
-    text: {
-      get() {
-        return this.$store.state.composeText
-      },
-      set(val) {
-        this.$store.commit('UPDATE_COMPOSE', val)
-      }
-    },
-    ...mapState(['replyTarget'])
+    ...mapState(['user'])
+  },
+  created() {
+    if(this.initialText)
+      this.text = this.initialText
+    bus.$on('setReply', this.setReply)
+  },
+  mounted () {
+    if(this.focus)
+      this.$refs.textarea.focus()
   },
   methods: {
+    setReply(post) {
+      this.replyTarget = post
+      const text = `@${post.user.username} `
+      if (text !== this.text) {
+        this.text = text + this.text
+      }
+      this.$refs.textarea.focus()
+    },
     submit() {
-      this.promise = api().post('/posts', {
-        text: this.text,
-        reply_to: this.replyTarget && this.replyTarget.id
-      }).then(res => {
-        this.text = ''
-        this.promise = null
-        this.$emit('post', res.data)
-        this.$store.commit('REMOVE_REPLY')
-      }).catch(console.error.bind(console))
+      const option = {
+        text: this.text
+      }
+      if(this.replyTarget) {
+        option.reply_to = this.replyTarget.id
+      }
+      this.promise = api().post('/posts', option)
+        .then(res => {
+          this.text = ''
+          this.promise = null
+          this.$emit('post', res.data)
+          this.replyTarget = null
+        }).catch(console.error.bind(console))
     },
     // for IME
     // https://vuejs.org/v2/guide/forms.html#Basic-Usage
     textCount(e) {
-      this.tempCount = e.target.value.length
+      this.tempCount = e.target.value.trim().length
     },
     cancelReply() {
-      this.$store.commit('REMOVE_REPLY')
+      const text = `@${this.replyTarget.user.username} `
+      if(this.text === text) {
+        this.text = ''
+      }
+      this.replyTarget = null
     }
   },
   components: {
@@ -113,3 +131,11 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@import '~assets/css/mixin';
+
+.compose {
+  @include no-gutter-xs
+}
+</style>

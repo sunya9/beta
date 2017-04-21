@@ -6,30 +6,14 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    user: null,
-    composeText: '',
-    replyTarget: null
+    user: null
   },
 
   mutations: {
     SET_USER (state, user) {
       state.user = user
-    },
-    SET_REPLY (state, post) {
-      const text = `@${post.user.username} `
-      state.replyTarget = post
-      if (text !== state.composeText) {
-        state.composeText = text + state.composeText
-      }
-    },
-    REMOVE_REPLY (state) {
-      state.replyTarget = null
-    },
-    UPDATE_COMPOSE (state, text) {
-      state.composeText = text
     }
   },
-
   actions: {
     nuxtServerInit ({ commit }, { req }) {
       if (req.user) {
