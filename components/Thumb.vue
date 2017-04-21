@@ -1,6 +1,6 @@
 <template>
-  <a :href="normalizeOriginal">
-    <img :src="normalizeThumb" alt="" class="img-thumbnail">
+  <a :href="original">
+    <img :src="thumb" alt="" class="img-thumbnail">
   </a>
 </template>
 
