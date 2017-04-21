@@ -1,6 +1,6 @@
 <template>
-  <a :href="original">
-    <img :src="thumb" alt="" class="img-thumbnail">
+  <a :href="normalizeOriginal">
+    <img :src="normalizeThumb" alt="" class="img-thumbnail">
   </a>
 </template>
 
@@ -16,6 +16,14 @@ export default {
         bgOpacity: .5
       })
       zooming.listen(this.$el.querySelector('img'))
+    }
+  },
+  computed: {
+    normalizeOriginal() {
+      return this.original.replace(/^https?:/, '')
+    },
+    normalizeThumb() {
+      return this.thumb.replace(/^https?:/, '')
     }
   }
 }
