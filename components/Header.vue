@@ -3,7 +3,7 @@
     <div class="navbar navbar-light navbar fixed-top d-block px-0">
       <div class="container">
         <div class="d-flex align-items-center">
-          <nuxt-link class="navbar-brand text-uppercase" to="/" exact>
+          <nuxt-link class="navbar-brand text-uppercase" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
             Beta
           </nuxt-link>
           <ul class="navbar-nav ml-auto d-flex flex-row align-items-stretch">
@@ -16,6 +16,7 @@
                 <nuxt-link
                   :to="`/@${user.username}`"
                   exact
+                  data-toggle="collapse" data-target="#navbarSupportedContent.show"
                   class="dropdown-item">
                 Profile
                 </nuxt-link>
@@ -33,7 +34,12 @@
             </li>
           </ul>
         </div>
-        <div id="navbarSupportedContent" class="navbar-collapse collapse hidden-md-up">
+        <div
+          id="navbarSupportedContent"
+          :style="{
+            'max-height': `calc(100vh - ${collapseHeight}px)`
+          }"
+          class="navbar-collapse collapse hidden-md-up scrollable">
           <sidebar />
         </div>
       </div>
@@ -46,6 +52,15 @@ import { mapState } from 'vuex'
 import Sidebar from '~components/Sidebar'
 
 export default {
+  data() {
+    return {
+    collapseHeight: 0
+    }
+  },
+  mounted () {
+    const { height } = this.$el.children[0].getBoundingClientRect()
+    this.collapseHeight = `calc(100vh - ${height}px)`
+  },
   computed: mapState(['user']),
   components: {
     Sidebar
@@ -76,6 +91,10 @@ export default {
 }
 .dropdown-divider {
   margin: 0;
+}
+
+.scrollable {
+  overflow: auto;
 }
 
 </style>
