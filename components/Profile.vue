@@ -1,31 +1,38 @@
 <template>
-  <div class="card">
-    <img :src="profile.content.cover_image.link" alt="" class="img-fluid card-img-top pb-1">
-    <div class="card-block">
-      <div class="media negative">
-        <a :href="profile.content.avatar_image.link">
-          <img :src="profile.content.avatar_image.link"
-          alt="" class="d-flex mr-3 rounded-circle"
-          width="96" height="96" :title="profile.id">
-        </a>
-        <div class="media-body mt-5">
-          <div class="d-flex justify-content-between">
-            <div>
-              <h3 class="card-title mt-2" :title="profile.id">
-              @{{profile.username}}
-              <small class="text-muted">{{profile.name}}</small>
-              </h3>
-              <h6 class="card-subtitle text-muted my-2">{{profile.counts.posts}} Posts</h6>
-            </div>
-            <div v-if="profile.id !== user.id" class="mt-2">
-              <follow-button :initial-state="profile.you_follow" :user-id="profile.id" />
+  <div class="card profile">
+    <img :src="profile.content.cover_image.link" alt="" class="img-fluid card-img-top">
+    <div class="card-block pt-3">
+      <div class="flex-column d-flex flex-sm-row align-items-sm-start">
+        <div class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row">
+          <div class="d-flex flex-column align-items-center align-items-sm-stretch flex-sm-row justify-content-center justify-content-sm-start">
+            <a :href="profile.content.avatar_image.link">
+              <img :src="profile.content.avatar_image.link"
+                alt="" class="rounded-circle mr-sm-3 negative"
+                width="96" height="96" :title="profile.id">
+            </a>
+            <h3 class="card-title w-100" :title="profile.id">
+              <div class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline">
+                <span>
+                  @{{profile.username}}
+                </span>
+                <small class="ml-sm-2 d-block d-sm-inline text-muted">{{profile.name}}</small>
+              </div>
+            </h3>
+          </div>
+          <div v-if="user && profile.id !== user.id" class="text-center">
+            <follow-button :initial-state="profile.you_follow" :user-id="profile.id" class="mb-2" />
+            <div class="text-muted">
+              <small>
+                {{relation}}
+              </small>
             </div>
           </div>
-          <p class="card-text" v-html="profile.content.html"></p>
         </div>
       </div>
+      <p class="card-text w-100 mt-3 mt-sm-0" v-html="profile.content.html"></p>
     </div>
-    <div class="card-block text-right">
+    <div class="card-block d-flex justify-content-between justify-content-md-end">
+      <span class="card-link" to="follows" append>{{profile.counts.posts}} Posts</span>
       <nuxt-link class="card-link" to="follows" append>{{profile.counts.following}} Follows</nuxt-link>
       <nuxt-link class="card-link" to="followers" append>{{profile.counts.followers}} Followers</nuxt-link>
       <nuxt-link class="card-link" to="starred" append>{{profile.counts.bookmarks}} Starred</nuxt-link>
@@ -39,15 +46,25 @@ import { mapState } from 'vuex'
 
 export default {
   props: ['profile'],
+  computed: {
+    ...mapState(['user']),
+    relation() {
+      return this.profile.follows_you ? 'Follows you' : ''
+    }
+  },
   components: {
     FollowButton
   },
-  computed: mapState(['user'])
 }
 </script>
+<style scoped lang="scss">
+@import '~assets/css/mixin';
 
-<style scoped>
 .negative {
-  margin-top: -4rem;
+  margin-top: -48px;
+}
+
+.profile {
+  @include no-gutter-xs
 }
 </style>
