@@ -26,6 +26,11 @@ export default {
   },
   components: {
     List
+  },
+  head() {
+    return {
+      title: `@${this.name}'\s starred`
+    }
   }
 }
 </script>

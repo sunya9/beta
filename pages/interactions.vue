@@ -62,6 +62,9 @@ export default {
   components: {
     List,
     Compose
+  },
+  head: {
+    title: 'Interactions'
   }
 }
 </script>

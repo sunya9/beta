@@ -23,6 +23,9 @@ export default {
   components: {
     List,
     Compose
+  },
+  head: {
+    title: 'Stars'
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>
+    <h3 class="mb-4">
       <nuxt-link to=".">
         @{{name}}
       </nuxt-link>
@@ -25,7 +25,12 @@ export default {
     }
   },
   components: {
-    List,
+    List
+  },
+  head() {
+    return {
+      title: `@${this.name}'\s following`
+    }
   }
 }
 </script>

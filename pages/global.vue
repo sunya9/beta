@@ -17,14 +17,15 @@ import api from '~plugins/api'
 
 export default {
   async asyncData(ctx) {
-    const { store } = ctx
-    const { id } = store.state.user
     const data = await api(ctx).fetch()
     return { data }
   },
   components: {
     List,
     Compose
+  },
+  head: {
+    title: 'Global'
   }
 }
 </script>

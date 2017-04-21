@@ -18,13 +18,17 @@ import api from '~plugins/api'
 export default {
   async asyncData(ctx) {
     const { store } = ctx
-    const { id } = store.state.user
-    const data = await api(ctx).fetch()
+    const data = await api(ctx).fetch({
+      include_directed_posts: 1
+    })
     return { data }
   },
   components: {
     List,
     Compose
+  },
+  head: {
+    title: 'Conversations'
   }
 }
 </script>

@@ -16,6 +16,7 @@ import List from '~components/List'
 import api from '~plugins/api'
 
 export default {
+  middleware: 'authenticated',
   async asyncData(ctx) {
     const data = await api(ctx).fetch()
     return { data }
@@ -23,6 +24,9 @@ export default {
   components: {
     List,
     Compose
+  },
+  head: {
+    title: 'Mentions'
   }
 }
 </script>
