@@ -8,7 +8,7 @@ html {
 }
 
 body {
-  margin-top: 90px;
+  overflow-x: hidden;
 }
 
 // buggy
@@ -17,3 +17,12 @@ body {
   padding-top: .8rem;
   padding-bottom: .8rem;
 }
+
+.page-enter-active, .page-leave-active {
+  transition: all .5s;
+}
+.page-enter, .page-leave-active {
+  opacity: 0;
+  transform: translateY(100px);
+}
+
