@@ -1,34 +1,46 @@
 <template>
-  <div id="wrapper">
+  <div id="wrapper" class="mt-5 pt-5">
     <app-header />
     <main class="container">
-      <div class="row" v-if="user">
-        <div class="hidden-sm-down col-md-4 col-lg-3">
+      <div class="row">
+        <div
+          v-if="!notLoginIndex"
+          :class="{
+             'col-md-4 col-lg-3': !notLoginIndex,
+          }"
+          class="hidden-sm-down">
           <sidebar class="fixed-top sticky-top" style="top: 70px" />
         </div>
-        <div class="col-sm-12 col-md-8 col-lg-9">
+        <div
+          :class="{
+            'col-md-8 col-lg-9': !notLoginIndex
+          }"
+          class="col-12">
+          <splash v-if="!user" />
           <nuxt />
         </div>
-      </div>
-      <div v-else>
-        <nuxt />
       </div>
     </main>
   </div>
 </template>
 <script>
 import AppHeader from '~components/Header'
-import AppFooter from '~components/Footer'
 import Sidebar from '~components/Sidebar'
+import Splash from '~components/Splash'
 import { mapState } from 'vuex'
 
 export default {
   props: ['error'],
   components: {
     AppHeader,
-    Sidebar
-    // Footer
+    Sidebar,
+    Splash
   },
-  computed: mapState(['user'])
+  computed: {
+    notLoginIndex() {
+      return !this.user && this.$route.name === 'index'
+    },
+    ...mapState(['user'])
+  }
 }
 </script>
