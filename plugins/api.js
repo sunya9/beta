@@ -24,7 +24,12 @@ class API {
   }
 
   async get (resource, body) {
-    const params = qs.stringify(body)
+    const defaults = {
+      include_post_raw: 1,
+      include_directed_posts: 0
+    }
+    const queryObj = Object.assign({}, defaults, body)
+    const params = qs.stringify(queryObj)
     const url = `${resource}?${params}`
     return await this.request(url)
   }
@@ -52,6 +57,7 @@ API.RESOURCE_MAP = {
   trending: '/posts/streams/explore/trending',
   global: '/posts/streams/global',
   'posts-id': params => `/posts/${params.id}`,
+  'tags-name': params => `/posts/tag/${params.name}`,
   '@name': params => `/users/@${params.name}/posts`,
   '@name-follows': params => `/users/@${params.name}/following`,
   '@name-followers': params => `/users/@${params.name}/followers`,
