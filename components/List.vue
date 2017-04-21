@@ -2,13 +2,15 @@
   <ul
     v-infinite-scroll="fetchMore"
     infinite-scroll-disabled="moreDisabled"
-    class="list-group my-4">
+    infinite-scroll-distance="100"
+    class="list-group mb-4">
     <component
       :is="type"
       :key="id(item)"
       v-for="(item, index) in filterItems"
       :data="item"
       @remove="items.splice(index, 1)"></component>
+    <slot></slot>
     <li class="list-group-item" v-show="more">
       <div class="text-center w-100 text-muted my-2">
         <i class="fa fa-spin fa-refresh fa-fw fa-2x"></i>
@@ -65,8 +67,7 @@ export default {
       const { data: newItems, meta } = await api({
           route: this.$route
         }).fetch({
-          before_id: this.meta.min_id,
-          include_directed_posts: 0
+          before_id: this.meta.min_id
         })
       this.meta = meta
 
@@ -78,3 +79,11 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+@import '~assets/css/mixin';
+
+
+.list-group {
+  @include no-gutter-xs
+}
+</style>
