@@ -2,8 +2,12 @@
   <div>
     <div v-if="user">
       <h3>Your Stream</h3>
-      <compose @post="add" />
-      <list :data="data" type="Post" />
+      <div>
+        <compose @post="add" />
+      </div>
+      <div>
+        <list :data="data" type="Post" />
+      </div>
     </div>
   </div>
 </template>
