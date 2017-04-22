@@ -29,7 +29,7 @@
           </div>
         </div>
       </div>
-      <p class="card-text w-100 mt-3 mt-sm-0" v-html="profile.content.html"></p>
+      <p class="card-text w-100 mt-3 mt-sm-0" @click="clickPostLink" v-html="html"></p>
     </div>
     <div class="card-block d-flex justify-content-between justify-content-md-end">
       <span class="card-link" to="follows" append>{{profile.counts.posts}} Posts</span>
@@ -42,7 +42,9 @@
 
 <script>
 import FollowButton from '~components/FollowButton'
+import cheerio from 'cheerio'
 import { mapState } from 'vuex'
+import router from '~router'
 
 export default {
   props: ['profile'],
@@ -50,6 +52,31 @@ export default {
     ...mapState(['user']),
     relation() {
       return this.profile.follows_you ? 'Follows you' : ''
+    },
+    html() {
+      const $ = cheerio.load(this.profile.content.html)
+        $('a').attr('target', '_new')
+        $('span[data-mention-name]')
+          .replaceWith(function () {
+            const name = $(this).data('mention-name')
+            const text = $(this).text()
+            return `<a href="/@${name}">${text}</a>`
+          })
+        $('span[data-tag-name]')
+          .replaceWith(function () {
+            const tag = $(this).data('tag-name')
+            const text = $(this).text()
+            return `<a href="/tags/${tag}">${text}</a>`
+          })
+        return $.html()
+    }
+  },
+  methods: {
+    clickPostLink (e) {
+      const a = e.target
+      if (!a.href || !a.getAttribute('href').startsWith('/')) return
+      e.preventDefault()
+      router.push(a.pathname)
     }
   },
   components: {
