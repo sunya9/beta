@@ -3,7 +3,7 @@
     <div>
       <list :data="before" type="Post" v-if="before.data.length" :key="`${id}-before`" />
     </div>
-    <div>
+    <div class="mb-4">
       <post :data="post" @post="addAfter" detail />
     </div>
     <div>
