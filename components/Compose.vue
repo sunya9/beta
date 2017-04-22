@@ -87,16 +87,22 @@ export default {
   },
   mounted () {
     if(this.focus)
-      this.$refs.textarea.focus()
+      this.setFocus()
   },
   methods: {
+    setFocus() {
+      // occur error if it not displayed like logged out
+      if(this.$refs.textarea) {
+        this.$refs.textarea.focus()
+      }
+    },
     setReply(post) {
       this.replyTarget = post
       const text = `@${post.user.username} `
       if (text !== this.text) {
         this.text = text + this.text
       }
-      this.$refs.textarea.focus()
+      this.setFocus()
     },
     submit() {
       const option = {
