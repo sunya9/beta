@@ -7,7 +7,7 @@
       <compose :initial-text="`@${name} `" :key="`${name}-compose`" />
     </div>
     <div>
-      <list :data="data" type="Post" :key="`${name}-posts`" />
+      <list :data="data" type="Post" :key="`${name}-posts`" :option="option" />
     </div>
   </div>
 </template>
@@ -24,10 +24,13 @@ export default {
     const { name } = params
     const _api = api(ctx)
     const { data: profile } = await _api.get(`/users/@${name}`)
-    const data = await _api.fetch()
+    const option = {
+      include_directed_posts: 1
+    }
+    const data = await _api.fetch(option)
     if(data.meta.code < 400) {
       return {
-        data, profile, name
+        data, profile, name, option
       }
     } else {
       error({

@@ -5,7 +5,7 @@
         <compose />
       </div>
       <div>
-        <list :data="data" type="Post" />
+        <list :data="data" type="Post" :option="option" />
       </div>
   </div>
 </template>
@@ -18,10 +18,11 @@ import api from '~plugins/api'
 export default {
   async asyncData(ctx) {
     const { store } = ctx
-    const data = await api(ctx).fetch({
+    const option = {
       include_directed_posts: 1
-    })
-    return { data }
+    }
+    const data = await api(ctx).fetch(option)
+    return { data, option }
   },
   components: {
     List,

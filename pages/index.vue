@@ -1,9 +1,9 @@
 <template>
   <div>
     <div v-if="user">
-      <h3>Your Stream</h3>
+      <h3 @click="update">Your Stream</h3>
       <div>
-        <compose @post="add" />
+        <compose />
       </div>
       <div>
         <list :data="data" type="Post" />
@@ -18,6 +18,7 @@ import Compose from '~components/Compose'
 import List from '~components/List'
 import { mapState } from 'vuex'
 import api from '~plugins/api'
+import bus from '~assets/js/bus'
 
 export default {
   components: {
@@ -30,10 +31,19 @@ export default {
       return { data }
     }
   },
+  mounted() {
+    bus.$on('post', this.add)
+  },
+  beforeDestroy() {
+    bus.$off('post', this.add)
+  },
   computed: mapState(['user']),
   methods: {
     add(post) {
       this.data.data.unshift(post)
+    },
+    update() {
+      console.log('update')
     }
   },
   head: {

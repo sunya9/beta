@@ -27,7 +27,12 @@ import Interaction from '~components/Interaction'
 import api from '~plugins/api'
 
 export default {
-  props: ['data', 'type'],
+  props: {
+    data: Object,
+    type: String,
+    all: Boolean,
+    option: Object
+  },
   components: {
     User,
     Post,
@@ -42,8 +47,8 @@ export default {
   },
   computed: {
     filterItems() {
-      if (this.type === 'Post') {
-        return this.items.filter(item => item.content)
+      if (this.type === 'Post' && !this.all) {
+        return this.items.filter(item => !item.is_deleted)
       }
       return this.items
     },
@@ -64,11 +69,12 @@ export default {
     },
     async fetchMore() {
       this.busy = true
+      const option = Object.assign({}, this.option, {
+        before_id: this.meta.min_id
+      })
       const { data: newItems, meta } = await api({
           route: this.$route
-        }).fetch({
-          before_id: this.meta.min_id
-        })
+        }).fetch(option)
       this.meta = meta
 
       if(newItems.length) {
