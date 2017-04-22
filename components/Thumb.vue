@@ -12,7 +12,7 @@ export default {
       const Zooming = require('zooming')
       const zooming = new Zooming({
         bgColor: '#000',
-        zIndex: 2000,
+        zIndex: 1040,
         bgOpacity: .5
       })
       zooming.listen(this.$el.querySelector('img'))
