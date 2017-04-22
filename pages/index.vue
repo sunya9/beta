@@ -41,9 +41,6 @@ export default {
   methods: {
     add(post) {
       this.data.data.unshift(post)
-    },
-    update() {
-      console.log('update')
     }
   },
   head: {

@@ -44,10 +44,8 @@ export default {
         .filter (interaction => {
           const res = !this.filter.length
           || this.filter.indexOf(interaction.action) >= 0
-          console.log(res)
           return res
         })
-      console.log(interactions.length)
       const data = Object.assign({}, this.data, {
         data: interactions
       })
@@ -56,7 +54,6 @@ export default {
   },
   methods: {
     active (e) {
-      console.log(e)
     }
   },
   components: {
