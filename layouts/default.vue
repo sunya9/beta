@@ -22,6 +22,14 @@
           <div>
             <nuxt />
           </div>
+          <div>
+            <post-modal ref="postModal" />
+          </div>
+          <div>
+            <remove-modal ref="removeModal" />
+          </div>
+          <div>
+          </div>
         </div>
       </div>
     </main>
@@ -32,13 +40,28 @@ import AppHeader from '~components/Header'
 import Sidebar from '~components/Sidebar'
 import Splash from '~components/Splash'
 import { mapState } from 'vuex'
+import PostModal from '~components/PostModal'
+import RemoveModal from '~components/RemoveModal'
+import router from '~router'
+
+router.beforeEach((to, from, next) => {
+  next()
+})
 
 export default {
   props: ['error'],
   components: {
     AppHeader,
     Sidebar,
-    Splash
+    Splash,
+    PostModal,
+    RemoveModal
+  },
+  watch: {
+    '$route.fullPath'() {-
+      this.$refs.removeModal.dismiss()
+      this.$refs.postModal.dismiss()
+    }
   },
   computed: {
     notLoginIndex() {
