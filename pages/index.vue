@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="user">
-      <h3 @click="update">Your Stream</h3>
+      <h3>Your Stream</h3>
       <div>
         <compose />
       </div>
