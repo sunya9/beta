@@ -1,6 +1,10 @@
 <template>
   <li :id="`post-${post.id}`" class="list-group-item list-group-item-action">
-    <div class="media w-100 justify-content-start">
+    <div
+      :class="{
+        deleted: post.is_deleted
+      }"
+      class="media w-100 justify-content-start">
       <nuxt-link :to="`/@${mainPost.user.username}`">
         <img :src="mainPost.user.content.avatar_image.link"
           alt="" class="d-flex mr-3 rounded-circle iconSize"
@@ -28,7 +32,7 @@
               v-for="(t, i) in thumbs" />
           </div>
         </div>
-        <footer>
+        <footer v-if="!post.is_deleted">
           <div v-if="post.repost_of">
             <nuxt-link :to="`/@${post.user.username}`" class="text-muted">
               <i class="fa fa-retweet"></i>&nbsp;
@@ -51,7 +55,10 @@
             </template>
             <template v-if="!viewOnly && user">
               <li class="list-inline-item reply">
-                <a class="text-muted" href="#" @click.prevent="reply">
+                <a class="text-muted"
+                  href="#"
+                  @click.stop.prevent="replyModal"
+                  >
                   <i class="fa fa-reply"></i>
                   Reply
                 </a>
@@ -61,8 +68,7 @@
               <li class="list-inline-item remove">
                 <a class="text-muted"
                   href="#"
-                  data-toggle="modal"
-                  :data-target="`#post-${post.id} .remove-modal`"
+                  @click.stop.prevent="removeModal"
                   >
                   <i class="fa fa-trash"></i>
                   Remove
@@ -81,29 +87,45 @@
         </footer>
         <template v-if="detail">
           <hr>
-          <ul class="list-inline">
-            <li class="list-inline-item">
-              <div class="count">
-                {{post.counts.replies}}
-              </div>
-              <small class="text-muted">replies</small>
+          <div class="d-flex align-items-center">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <div class="count">
+                  {{post.counts.replies}}
+                </div>
+                <small class="text-muted">replies</small>
+                </li>
+              <li class="list-inline-item">
+                <div class="count">
+                  {{post.counts.reposts}}
+                </div>
+                <small class="text-muted">reposts</small>
               </li>
-            <li class="list-inline-item">
-              <div class="count">
-                {{post.counts.reposts}}
-              </div>
-              <small class="text-muted">reposts</small>
-            </li>
-            <li class="list-inline-item">
-              <div class="count">
-                {{post.counts.bookmarks}}
-              </div>
-              <small class="text-muted">stars</small>
-            </li>
-          </ul>
+              <li class="list-inline-item">
+                <div class="count">
+                  {{post.counts.bookmarks}}
+                </div>
+                <small class="text-muted">stars</small>
+              </li>
+            </ul>
+            <ul class="list-inline ml-3">
+              <li
+                class="list-inline-item"
+                :key="user.id"
+                v-for="user in reactionUsers">
+                <nuxt-link :to="`/@${user.username}`" :title="`@${user.username}`">
+                  <img
+                    :src="user.content.avatar_image.link"
+                    class="rounded-circle"
+                    width="24"
+                    height="24" />
+                  </nuxt-link>
+              </li>
+            </ul>
+          </div>
         </template>
       </div>
-      <div class="ml-auto mt-1" v-if="!viewOnly && user">
+      <div class="ml-auto mt-1" v-if="!viewOnly && user && !post.is_deleted">
         <div class="btn-group-vertical" role="group">
           <action-button
             :resource="`/posts/${mainPost.id}/bookmark`"
@@ -119,21 +141,11 @@
         </div>
       </div>
     </div>
-    <modal class="remove-modal">
-      <span slot="header">Remove post?</span>
-      <p>Does you remove the post?</p>
-      <button
-        class="btn btn-primary"
-        slot="footer"
-        @click="remove"
-        data-dismiss="modal">OK</button>
-    </modal>
   </li>
 </template>
 
 <script>
 import moment from 'moment'
-import Modal from '~components/Modal'
 import ActionButton from '~components/ActionButton'
 import Thumb from '~components/Thumb'
 import { mapState } from 'vuex'
@@ -153,13 +165,32 @@ export default {
       date: null
     }
   },
-  mounted() {
+  created() {
     setInterval(this.dateUpdate, 1000 * 30) // 30sec
     this.dateUpdate()
   },
   computed: {
+    reactionUsers() {
+      if(!this.detail) return []
+      const users = this.mainPost.bookmarked_by.concat(this.mainPost.reposted_by)
+      return users
+        // .slice(0, 10)
+        .reduce((res, user, i, users) => {
+          let exist = false
+          for(let i = 0; res.length > i; i++) {
+            if(res[i].id === user.id) {
+              exist = true
+              break
+            }
+          }
+          if(!exist) {
+            res.push(user)
+          }
+          return res
+        }, [])
+    },
     html() {
-      if(this.mainPost.content && this.mainPost.content.html) {
+      if(!this.post.is_deleted) {
         const $ = cheerio.load(this.mainPost.content.html)
         $('a').attr('target', '_new')
         $('span[data-mention-name]')
@@ -175,6 +206,8 @@ export default {
             return `<a href="/tags/${tag}">${text}</a>`
           })
         return $.html()
+      } else {
+        return '[Post deleted]'
       }
     },
     thumbs() {
@@ -223,8 +256,11 @@ export default {
     dateUpdate() {
       this.date = moment(this.post.created_at).fromNow(true)
     },
-    reply() {
-      bus.$emit('setReply', this.post)
+    replyModal() {
+      bus.$emit('showPostModal', this.mainPost)
+    },
+    removeModal() {
+      bus.$emit('showRemoveModal', this)
     },
     remove() {
       return api().delete(`/posts/${this.post.id}`)
@@ -240,7 +276,6 @@ export default {
     }
   },
   components: {
-    Modal,
     ActionButton,
     Thumb
   }
@@ -281,5 +316,8 @@ footer {
     width: 64px;
     height: 64px;
   }
+}
+.deleted {
+  opacity: .5;
 }
 </style>

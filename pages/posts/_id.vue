@@ -1,16 +1,13 @@
 <template>
   <div>
     <div>
-      <list :data="before" type="Post" v-if="before.data.length" :key="`${id}-before`" />
+      <list all :data="before" :option="option" type="Post" v-if="before.data.length" :key="`${id}-before`" />
     </div>
-    <div class="mb-4">
-      <post :data="post" @post="addAfter" detail />
-    </div>
-    <div>
-      <compose focus />
+    <div class="mb-4 post">
+      <post :data="post" detail />
     </div>
     <div>
-      <list :data="after" type="Post" v-if="after.data.length" :key="`${id}-after`" />
+      <list all :data="after" :option="option" type="Post" v-if="after.data.length" :key="`${id}-after`" />
     </div>
   </div>
 </template>
@@ -24,14 +21,23 @@ import bus from '~assets/js/bus'
 
 export default {
   async asyncData(ctx) {
-    const { params: { id } } = ctx
+    const { params: { id }, req } = ctx
     const _api = api(ctx)
-    const postPromise = _api.fetch()
+    const option = {
+      include_directed_posts: 1
+    }
+    const postPromise = _api.fetch({
+      include_directed_posts: 1,
+      include_bookmarked_by: 1,
+      include_reposted_by: 1
+    })
     const beforePromise = _api.get(`/posts/${id}/thread`, {
-      before_id: id
+      before_id: id,
+      include_directed_posts: 1
     })
     const afterPromise = _api.get(`/posts/${id}/thread`, {
-      since_id: id
+      since_id: id,
+      include_directed_posts: 1
     })
     const [{ data: post }, before, after] = await Promise.all([
       postPromise,
@@ -41,17 +47,20 @@ export default {
     before.data = before.data.reverse()
     after.data = after.data.reverse()
     return {
-      post, before, after, id
+      post, before, after, id, option
     }
   },
   validate ({ params }) {
     return /^\d+$/.test(params.id)
   },
+  mounted() {
+    bus.$on('post', this.addAfter)
+  },
+  beforeDestroy() {
+    bus.$off('post', this.addAfter)
+  },
   components: {
     Post, Compose, List
-  },
-  mounted() {
-    bus.$emit('setReply', this.post)
   },
   methods: {
     addAfter (post) {
@@ -70,3 +79,12 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@import '~assets/css/mixin';
+
+
+.post {
+  @include no-gutter-xs
+}
+</style>
