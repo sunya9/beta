@@ -4,7 +4,7 @@
       <list all :data="before" :option="option" type="Post" v-if="before.data.length" :key="`${id}-before`" />
     </div>
     <div class="mb-4 post">
-      <post :data="post" detail />
+      <post :data="post" detail :key="`post-${post.id}`" />
     </div>
     <div>
       <list all :data="after" :option="option" type="Post" v-if="after.data.length" :key="`${id}-after`" />
