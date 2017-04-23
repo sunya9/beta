@@ -43,7 +43,7 @@ module.exports = {
         Tether: 'tether'
       })
     ],
-    vendor: ['jquery', 'tether', 'axios', 'vue-infinite-scroll']
+    vendor: ['mousetrap', 'jquery', 'tether', 'axios', 'vue-infinite-scroll']
   },
 
   // plugin settings
@@ -55,7 +55,39 @@ module.exports = {
 
   // router settings
   router: {
-    // linkActiveClass: 'active'
+    extendRoutes (routes, resolve) {
+      routes.push({
+        name: '@name-posts-id',
+        path: '/@:name/posts/:id?',
+        component: resolve(__dirname, 'pages/posts/_id.vue')
+      })
+    },
+    scrollBehavior (to, from, savedPosition) {
+      // default + alpha
+      if (savedPosition) {
+        return savedPosition
+      } else {
+        let position = {}
+        if (to.matched.length < 2) {
+          position = { x: 0, y: 0 }
+        } else if (to.matched.some((r) => r.components.default.options.scrollToTop)) {
+          position = { x: 0, y: 0 }
+        }
+        if (to.hash) {
+          position = { selector: to.hash }
+        }
+
+        // go to post page first time
+        if (!from.params.id && to.params.id) {
+          const el = document.querySelector(`#post-${to.params.id}`)
+          position = {
+            x: 0,
+            y: el.getBoundingClientRect().top - 100
+          }
+        }
+        return position
+      }
+    }
   },
 
   // env

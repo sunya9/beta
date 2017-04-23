@@ -1,5 +1,5 @@
 <template>
-  <li :id="`post-${post.id}`" class="list-group-item list-group-item-action">
+  <li @focus="focus" tabindex="-1" :id="`post-${post.id}`" class="list-group-item list-group-item-action">
     <div
       :class="{
         deleted: post.is_deleted
@@ -41,14 +41,14 @@
           </div>
           <ul class="list-inline">
             <li class="list-inline-item">
-              <nuxt-link :to="`@${mainPost.user.username}/posts/${mainPost.id}`" class="text-muted" :title="absDate">
+              <nuxt-link ref="link" :to="permalink" class="text-muted" :title="absDate">
                 <i class="fa fa-clock-o"></i>
                 {{date}}
               </nuxt-link>
             </li>
             <template v-if="!viewOnly">
               <li class="list-inline-item" v-show="post.reply_to">
-                <nuxt-link :to="`@${mainPost.user.username}/posts/${mainPost.id}`" class="text-muted" :title="absDate">
+                <nuxt-link :to="permalink" class="text-muted" :title="absDate">
                   <i class="fa fa-comments"></i>
                 </nuxt-link>
               </li>
@@ -128,12 +128,14 @@
       <div class="ml-auto mt-1" v-if="!viewOnly && user && !post.is_deleted">
         <div class="btn-group-vertical" role="group">
           <action-button
+            ref="favorite"
             :resource="`/posts/${mainPost.id}/bookmark`"
             :icon="['fa-star-o', 'fa-star']"
             :initial-state="mainPost.you_bookmarked"
             />
           <action-button
             v-if="!me"
+            ref="repost"
             :resource="`/posts/${mainPost.id}/repost`"
             icon="fa-retweet"
             :initial-state="mainPost.you_reposted"
@@ -250,9 +252,25 @@ export default {
     mainPost() {
       return this.post.repost_of || this.post
     },
+    permalink() {
+      return `/@${this.mainPost.user.username}/posts/${this.mainPost.id}`
+    },
     ...mapState(['user'])
   },
   methods: {
+    focus() {
+      const { top } = this.$el.getBoundingClientRect()
+      if(top < 70) {
+        document.body.scrollTop -= 100
+      }
+    },
+    favoriteToggle() {
+      this.$refs.favorite.click()
+    },
+    repostToggle() {
+      if(!this.me)
+        this.$refs.repost.click()
+    },
     dateUpdate() {
       this.date = moment(this.post.created_at).fromNow(true)
     },
