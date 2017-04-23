@@ -2,7 +2,7 @@
   <a
     @click.prevent="click"
     href="#"
-    class="btn btn-link btn-lg my-0 py-1 mx-0 px-0">
+    class="btn btn-link btn-lg my-0 py-1 mx-0 px-0 rounded-0">
     <i :class="[computedIcon, {
       active: state
     }]" class="icon-button fa fa-lg fa-fw"></i>
