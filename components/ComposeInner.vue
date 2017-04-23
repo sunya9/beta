@@ -4,11 +4,10 @@
       <textarea @keydown.ctrl.enter="submit"
         @keydown.meta.enter="submit"
         cols="10" rows="4"
-        class="form-control" v-model.trim="text"
+        class="form-control textarea" v-model.trim="text"
         :disabled="promise"
         @input="textCount"
         ref="textarea"
-        autofocus
       ></textarea>
     </div>
     <div class="d-flex justify-content-between align-items-center">
@@ -116,3 +115,13 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~bootstrap/scss/variables';
+
+@include media-breakpoint-down(xs) {
+  .textarea {
+    font-size: 16px;
+  }
+}
+</style>
