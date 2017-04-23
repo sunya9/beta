@@ -62,6 +62,7 @@ API.RESOURCE_MAP = {
   '@name-follows': params => `/users/@${params.name}/following`,
   '@name-followers': params => `/users/@${params.name}/followers`,
   '@name-starred': params => `/users/@${params.name}/bookmarks`,
+  '@name-posts-id': params => `/posts/${params.id}`
 }
 
 

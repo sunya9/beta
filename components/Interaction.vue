@@ -10,7 +10,7 @@
         <h6 class="text-gray-dark">
           <nuxt-link
              v-if="action.action !== 'follow'"
-            :to="`/posts/${action.objects[0].id}`">
+            :to="`@${action.objects[0].user.username}/posts/${action.objects[0].id}`">
             This post
           </nuxt-link>
           {{actionBy}}
