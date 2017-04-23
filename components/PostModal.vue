@@ -16,11 +16,10 @@
               view-only
               :data="reply"
               v-if="reply"
-              class="post" />
+              class="post pb-0" />
           </div>
           <div>
             <compose-inner
-              class="pt-0"
               :reply-target="reply"
               ref="compose"
               @post="dismiss"
@@ -38,6 +37,7 @@ import ComposeInner from '~components/ComposeInner'
 import { mapState } from 'vuex'
 import $ from 'jquery'
 import bus from '~assets/js/bus'
+import Mousetrap from '~plugins/mousetrap'
 
 export default {
   data() {
@@ -65,15 +65,19 @@ export default {
     hidden() {
       this.reply = null
       this.show = false
+      Mousetrap.unpause()
     },
     showModal(post) {
-      this.show = true
-      this.reply = post ? post : null
-      $(this.$el).modal('show')
-      this.$nextTick(() => {
-        $(this.$el)
-          .on('shown.bs.modal', () => this.$refs.compose.setFocus())
-      })
+      if(!$(this.$el).hasClass('show')) {
+        Mousetrap.pause()
+        this.show = true
+        this.reply = post ? post : null
+        $(this.$el).modal('show')
+        this.$nextTick(() => {
+          $(this.$el)
+            .on('shown.bs.modal', () => this.$refs.compose.setFocus())
+        })
+      }
     },
     dismiss() {
       if($(this.$el).hasClass('show'))

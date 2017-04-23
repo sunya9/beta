@@ -1,5 +1,5 @@
 <template>
-  <li class="list-group-item list-group-item-action">
+  <li @focus="focus" tabindex="-1" class="list-group-item list-group-item-action">
     <div class="media w-100">
       <nuxt-link :to="`/@${user.username}`">
         <img :src="user.content.avatar_image.link"
@@ -28,8 +28,10 @@
 import FollowButton from '~components/FollowButton'
 import cheerio from 'cheerio'
 import router from '~router'
+import focus from '~assets/js/focus'
 
 export default {
+  mixins: [focus],
   props: ['data'],
   computed: {
     html() {

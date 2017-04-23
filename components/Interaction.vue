@@ -1,5 +1,5 @@
 <template>
-  <li class="list-group-item list-group-item-action">
+  <li @focus="focus" tabindex="-1" class="list-group-item list-group-item-action">
     <div class="media pt-2">
       <div class="d-inline-block mr-4 text-muted">
         <i
@@ -52,6 +52,7 @@
 <script>
 import moment from 'moment'
 import { mapState } from 'vuex'
+import focus from '~assets/js/focus'
 
 const convert = {
   follow: {
@@ -73,6 +74,7 @@ const convert = {
 }
 
 export default {
+  mixins: [focus],
   props: ['data'],
   data() {
     return {

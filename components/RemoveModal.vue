@@ -30,6 +30,7 @@
 import bus from '~assets/js/bus'
 import $ from 'jquery'
 import Post from '~components/Post'
+import Mousetrap from '~plugins/mousetrap'
 
 export default {
   data() {
@@ -46,13 +47,17 @@ export default {
   },
   methods: {
     showModal(postVM) {
-      $(this.$el).modal('show')
-      this.vm = postVM
+      if(!$(this.$el).hasClass('show')) {
+        Mousetrap.pause()
+        $(this.$el).modal('show')
+        this.vm = postVM
+      }
     },
     ok() {
       this.vm.remove()
     },
     hidden() {
+      Mousetrap.unpause()
       this.vm = null
     },
     dismiss() {

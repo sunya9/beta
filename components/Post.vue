@@ -155,8 +155,10 @@ import api from '~plugins/api'
 import router from '~router'
 import cheerio from 'cheerio'
 import bus from '~assets/js/bus'
+import focus from '~assets/js/focus'
 
 export default {
+  mixins: [focus],
   props: {
     data: Object,
     viewOnly: Boolean,
@@ -258,18 +260,12 @@ export default {
     ...mapState(['user'])
   },
   methods: {
-    focus() {
-      const { top } = this.$el.getBoundingClientRect()
-      if(top < 70) {
-        document.body.scrollTop -= 100
-      }
-    },
     favoriteToggle() {
       this.$refs.favorite.click()
     },
     repostToggle() {
       if(!this.me)
-        this.$refs.repost.click()
+        thisjkkk.$refs.repost.click()
     },
     dateUpdate() {
       this.date = moment(this.post.created_at).fromNow(true)

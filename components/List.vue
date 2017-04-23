@@ -9,6 +9,12 @@
       :key="id(item)"
       v-for="(item, index) in filterItems"
       :data="item"
+      class="item"
+      ref="items"
+      :class="{
+        'my-4': id(item) === main
+      }"
+      :detail="id(item) === main"
       @remove="items.splice(index, 1)"></component>
     <slot></slot>
     <li class="list-group-item" v-show="more">
@@ -25,13 +31,15 @@ import User from '~components/User'
 import Post from '~components/Post'
 import Interaction from '~components/Interaction'
 import api from '~plugins/api'
+import router from '~router'
 
 export default {
   props: {
     data: Object,
     type: String,
     all: Boolean,
-    option: Object
+    option: Object,
+    main: String
   },
   components: {
     User,
@@ -42,7 +50,8 @@ export default {
     return {
       busy: false,
       meta: this.data.meta,
-      items: this.data.data
+      items: this.data.data,
+      internalSelect: -1,
     }
   },
   computed: {
@@ -57,9 +66,70 @@ export default {
     },
     moreDisabled() {
       return this.busy || !this.more
+    },
+    select: {
+      get() {
+        return this.internalSelect
+      },
+      set(v) {
+        if(!(this.items.length - 1 < v) && !(0 > v)) {
+          this.internalSelect = v
+        }
+      }
+    },
+    selectItem() {
+      return this.$refs.items[this.select]
+    }
+  },
+  mounted () {
+    Mousetrap.bind('j', this.scrollDown)
+    Mousetrap.bind('k', this.scrollUp)
+    if(this.type === 'Post') {
+      Mousetrap.bind('r', this.reply)
+      Mousetrap.bind('s', this.favorite)
+      Mousetrap.bind('p', this.repost)
+      Mousetrap.bind('enter', this.goPost)
+    }
+  },
+  beforeDestroy() {
+    Mousetrap.unbind('j')
+    Mousetrap.unbind('k')
+    if(this.type === 'Post') {
+      Mousetrap.unbind('s')
+      Mousetrap.unbind('r')
+      Mousetrap.unbind('p')
+      Mousetrap.unbind('enter')
     }
   },
   methods: {
+    focus() {
+      if(this.selectItem.$el)
+        this.selectItem.$el.focus()
+    },
+    scrollDown() {
+      this.select++
+      this.focus()
+    },
+    scrollUp() {
+      this.select--
+      this.focus()
+    },
+    reply () {
+      if(this.selectItem)
+        this.selectItem.replyModal()
+    },
+    favorite () {
+      if(this.selectItem)
+        this.selectItem.favoriteToggle()
+    },
+    repost () {
+      if(this.selectItem)
+        this.selectItem.repostToggle()
+    },
+    goPost () {
+      if(this.selectItem)
+        router.push(this.selectItem.permalink)
+    },
     id(item) {
       if(this.type === 'Interaction') {
         return item.pagination_id
@@ -91,5 +161,9 @@ export default {
 
 .list-group {
   @include no-gutter-xs
+}
+
+.item:only-child, .item:first-child {
+  margin-top: 0 !important;
 }
 </style>
