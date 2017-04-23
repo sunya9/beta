@@ -41,14 +41,14 @@
           </div>
           <ul class="list-inline">
             <li class="list-inline-item">
-              <nuxt-link :to="`/posts/${post.id}`" class="text-muted" :title="absDate">
+              <nuxt-link :to="`/posts/${mainPost.id}`" class="text-muted" :title="absDate">
                 <i class="fa fa-clock-o"></i>
                 {{date}}
               </nuxt-link>
             </li>
             <template v-if="!viewOnly">
               <li class="list-inline-item" v-show="post.reply_to">
-                <nuxt-link :to="`/posts/${post.id}`" class="text-muted" :title="absDate">
+                <nuxt-link :to="`/posts/${mainPost.id}`" class="text-muted" :title="absDate">
                   <i class="fa fa-comments"></i>
                 </nuxt-link>
               </li>
