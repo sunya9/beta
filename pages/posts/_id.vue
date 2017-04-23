@@ -1,14 +1,6 @@
 <template>
   <div>
-    <div>
-      <list all :data="before" :option="option" type="Post" v-if="before.data.length" :key="`${id}-before`" />
-    </div>
-    <div class="mb-4 post">
-      <post :data="post" detail :key="`post-${post.id}`" />
-    </div>
-    <div>
-      <list all :data="after" :option="option" type="Post" v-if="after.data.length" :key="`${id}-after`" />
-    </div>
+    <list :main="id" all :data="data" :option="option" type="Post" :key="`post-${id}`" />
   </div>
 </template>
 
@@ -24,35 +16,25 @@ export default {
     const { params: { id }, req } = ctx
     const _api = api(ctx)
     const option = {
-      include_directed_posts: 1
+      include_directed_posts: 1,
+      include_bookmarked_by: 1,
+      include_reposted_by: 1
     }
     const postPromise = _api.fetch({
       include_directed_posts: 1,
       include_bookmarked_by: 1,
       include_reposted_by: 1
     })
-    const beforePromise = _api.get(`/posts/${id}/thread`, {
-      before_id: id,
-      include_directed_posts: 1
-    })
-    const afterPromise = _api.get(`/posts/${id}/thread`, {
-      since_id: id,
-      include_directed_posts: 1
-    })
-    const [{ data: post }, before, after] = await Promise.all([
-      postPromise,
-      beforePromise,
-      afterPromise
-    ])
-    before.data = before.data.reverse()
-    after.data = after.data.reverse()
+
+    const data = await postPromise
+    data.data = data.data.reverse()
     return {
-      post, before, after, id, option
+      id, option, data
     }
   },
-  validate ({ params }) {
-    return /^\d+$/.test(params.id)
-  },
+  // validate ({ params }) {
+  //   return /^\d+$/.test(params.id)
+  // },
   mounted() {
     bus.$on('post', this.addAfter)
   },
@@ -64,22 +46,23 @@ export default {
   },
   methods: {
     addAfter (post) {
-      this.after.push(post)
+      // TODO: push post to list if post target is this page's post
+      // this.data.data.push(post)
     }
   },
-  head() {
-    let title = this.post.content.text
-    if(title.length > 30) {
-      title = title.substr(0, 30) + '…'
-    }
-    const name = this.post.user.name
-      ? this.post.user.name
-      : `@${this.post.user.username}`
-    title = `${name}: ${title}`
-    return {
-      title
-    }
-  }
+  // head() {
+    // let title = this.post.content.text
+    // if(title.length > 30) {
+    //   title = title.substr(0, 30) + '…'
+    // }
+    // const name = this.post.user.name
+    //   ? this.post.user.name
+    //   : `@${this.post.user.username}`
+    // title = `${name}: ${title}`
+    // return {
+    //   title
+    // }
+  // }
 }
 </script>
 

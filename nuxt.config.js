@@ -78,11 +78,13 @@ module.exports = {
         }
 
         // go to post page first time
-        if (!from.params.id && to.params.id) {
+        if (to.params.id) {
           const el = document.querySelector(`#post-${to.params.id}`)
-          position = {
-            x: 0,
-            y: el.getBoundingClientRect().top - 100
+          if (el) {
+            position = {
+              x: 0,
+              y: el.getBoundingClientRect().top - 100
+            }
           }
         }
         return position

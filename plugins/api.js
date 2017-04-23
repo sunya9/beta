@@ -56,13 +56,13 @@ API.RESOURCE_MAP = {
   photos: '/posts/streams/explore/photos',
   trending: '/posts/streams/explore/trending',
   global: '/posts/streams/global',
-  'posts-id': params => `/posts/${params.id}`,
+  'posts-id': params => `/posts/${params.id}/thread`,
   'tags-name': params => `/posts/tag/${params.name}`,
   '@name': params => `/users/@${params.name}/posts`,
   '@name-follows': params => `/users/@${params.name}/following`,
   '@name-followers': params => `/users/@${params.name}/followers`,
   '@name-starred': params => `/users/@${params.name}/bookmarks`,
-  '@name-posts-id': params => `/posts/${params.id}`
+  '@name-posts-id': params => `/posts/${params.id}/thread`
 }
 
 
