@@ -54,7 +54,8 @@ export default {
       return this.profile.follows_you ? 'Follows you' : ''
     },
     html() {
-      const $ = cheerio.load(this.profile.content.html)
+      if(this.profile.content.html) {
+        const $ = cheerio.load(this.profile.content.html)
         $('a').attr('target', '_new')
         $('span[data-mention-name]')
           .replaceWith(function () {
@@ -69,6 +70,7 @@ export default {
             return `<a href="/tags/${tag}">${text}</a>`
           })
         return $.html()
+      }
     }
   },
   methods: {
