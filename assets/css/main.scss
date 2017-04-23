@@ -11,6 +11,11 @@ body {
   overflow-x: hidden;
 }
 
+::selection {
+  background-color: rgba($themeAttention, .7);
+  color: $white;
+}
+
 // buggy
 
 .dropdown-item {
