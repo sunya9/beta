@@ -72,7 +72,10 @@ export default {
     if(title.length > 30) {
       title = title.substr(0, 30) + '…'
     }
-    title = `${this.post.user.name}: ${title}`
+    const name = this.post.user.name
+      ? this.post.user.name
+      : `@${this.post.user.username}`
+    title = `${name}: ${title}`
     return {
       title
     }
