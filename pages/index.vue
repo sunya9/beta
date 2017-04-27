@@ -6,7 +6,7 @@
         <compose />
       </div>
       <div>
-        <list :data="data" type="Post" />
+        <list :data="data" type="Post" ref="list" />
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
   computed: mapState(['user']),
   methods: {
     add(post) {
-      this.data.data.unshift(post)
+      this.$refs.list.refresh()
     }
   },
   head: {

@@ -5,7 +5,7 @@
         <compose />
       </div>
       <div>
-        <list :data="data" type="Post" :option="option" />
+        <list :data="data" type="Post" :option="option" ref="list" />
       </div>
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     add(post) {
-      this.data.data.unshift(post)
+      this.$refs.list.refresh()
     }
   },
   head: {

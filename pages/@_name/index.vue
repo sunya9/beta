@@ -7,7 +7,7 @@
       <compose :initial-text="`@${name} `" :key="`${name}-compose`" />
     </div>
     <div>
-      <list :data="data" type="Post" :key="`${name}-posts`" :option="option" />
+      <list :data="data" type="Post" :key="`${name}-posts`" :option="option" ref="list" />
     </div>
   </div>
 </template>
@@ -17,6 +17,7 @@ import Profile from '~components/Profile'
 import Compose from '~components/Compose'
 import List from '~components/List'
 import api from '~plugins/api'
+import bus from '~assets/js/bus'
 
 export default {
   async asyncData(ctx) {
@@ -37,6 +38,17 @@ export default {
         statusCode: data.meta.code,
         message: data.meta.error_message
       })
+    }
+  },
+  mounted() {
+    bus.$on('post', this.add)
+  },
+  beforeDestroy() {
+    bus.$off('post', this.add)
+  },
+  methods: {
+    add(post) {
+      this.$refs.list.refresh()
     }
   },
   components: {
