@@ -37,7 +37,7 @@
         <div
           id="navbarSupportedContent"
           :style="{
-            'max-height': `calc(100vh - ${collapseHeight}px)`
+            'max-height': collapseHeight
           }"
           class="navbar-collapse collapse hidden-md-up scrollable">
           <sidebar />
