@@ -43,7 +43,20 @@ module.exports = {
         Tether: 'tether'
       })
     ],
-    vendor: ['mousetrap', 'jquery', 'tether', 'axios', 'vue-infinite-scroll']
+    vendor: [
+      'mousetrap',
+      'jquery',
+      'tether',
+      'axios',
+      'vue-infinite-scroll',
+      '~plugins/bootstrap.js',
+      '~plugins/api.js',
+      '~plugins/vue-infinite.js',
+      'moment',
+      'cheerio',
+      '~components/Post.vue',
+      '~components/List.vue'
+    ]
   },
 
   // plugin settings
@@ -90,11 +103,6 @@ module.exports = {
         return position
       }
     }
-  },
-
-  // env
-  env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
   },
   cache: true
 }
