@@ -4,7 +4,7 @@
       <profile :profile="profile" />
     </div>
     <div>
-      <compose :initial-text="`@${name} `" :key="`${name}-compose`" />
+      <compose :initial-text="initialText" :key="`${name}-compose`" />
     </div>
     <div>
       <list :data="data" type="Post" :key="`${name}-posts`" :option="option" ref="list" />
@@ -18,6 +18,7 @@ import Compose from '~components/Compose'
 import List from '~components/List'
 import api from '~plugins/api'
 import bus from '~assets/js/bus'
+import { mapState } from 'vuex'
 
 export default {
   async asyncData(ctx) {
@@ -39,6 +40,15 @@ export default {
         message: data.meta.error_message
       })
     }
+  },
+  computed: {
+    ...mapState({
+      initialText(state) {
+        return state.user.username === this.name
+          ? ''
+          : `@${this.name} `
+      }
+    })
   },
   mounted() {
     bus.$on('post', this.add)

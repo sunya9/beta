@@ -36,6 +36,7 @@
 import api from '~plugins/api'
 import Post from '~components/Post'
 import bus from '~assets/js/bus'
+import { mapState } from 'vuex'
 
 export default {
   props: {
@@ -61,7 +62,8 @@ export default {
     },
     disabled() {
       return this.promise || !this.text.length || this.count < 0
-    }
+    },
+    ...mapState(['user'])
   },
   created() {
     if(this.initialText)
@@ -71,7 +73,9 @@ export default {
     if(this.focus)
       this.setFocus()
     if(this.replyTarget) {
-      this.text = `@${this.replyTarget.user.username} `
+      this.text = this.user.username === this.replyTarget.user.username
+          ? ''
+          : `@${this.replyTarget.user.username} `
     }
   },
   methods: {
