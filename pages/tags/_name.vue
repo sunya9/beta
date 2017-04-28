@@ -23,7 +23,9 @@ export default {
     List
   },
   head() {
-    title: `#${this.name}`
+    return {
+      title: `#${this.name}`
+    }
   }
 }
 </script>
