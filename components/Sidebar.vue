@@ -34,17 +34,22 @@
       </span>
       <i class="fa fa-chevron-right" v-show="active(explore.url)"></i>
     </nuxt-link>
-    <span class="heading list-group-item pl-0 pt-5 border-left-0 border-top-0 h5 text-uppercase">Other</span>        
+    <span class="heading list-group-item pl-0 pt-5 border-left-0 border-top-0 h5 text-uppercase">Other</span>
     <a href="https://github.com/sunya9/beta"
-      class="border-left-0 border-bottom-0 list-group-item list-group-item-action">
+      class="border-left-0 list-group-item list-group-item-action">
       <i class="fa fa-fw fa-github"></i>&nbsp;
       Beta on Github
+    </a>
+    <a href="#" @click.prevent="showHelpModal" class="border-left-0 border-bottom-0 list-group-item list-group-item-action">
+      <i class="fa fa-fw fa-keyboard-o"></i>&nbsp;
+      Keyboard shortcuts
     </a>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import bus from '~assets/js/bus'
 
 export default {
   data() {
@@ -86,6 +91,9 @@ export default {
   methods: {
     active(url) {
       return this.$route.fullPath === url ? 'active' : ''
+    },
+    showHelpModal() {
+      bus.$emit('showHelpModal')
     }
   }
 }

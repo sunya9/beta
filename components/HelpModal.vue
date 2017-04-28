@@ -15,57 +15,63 @@
             <div class="col-lg-4">
               <h6>Actions</h6>
               <dl class="row">
-                <dt class="col-3">
+                <dt class="col-4">
                   <kbd>n</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   New Post
                 </dd>
-                <dt class="col-3">
+                <dt class="col-4">
                   <kbd>s</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Star
                 </dd>
-                <dt class="col-3">
+                <dt class="col-4">
                   <kbd>r</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Reply
                 </dd>
-                <dt class="col-3">
+                <dt class="col-4">
                   <kbd>p</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Repost
                 </dd>
-                <dt class="col-3">
+                <dt class="col-4">
                   <kbd>Enter</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Go to detail page
+                </dd>
+                <dt class="col-4">
+                  <kbd><kbd>Ctrl</kbd>+<kbd>Enter</kbd></kbd>
+                </dt>
+                <dd class="col-8">
+                  Send post
                 </dd>
               </dl>
             </div>
             <div class="col-lg-4">
               <h6>Navigation</h6>
               <dl class="row">
-                <dt class="col-3">
+                <dt class="col-4">
                   <kbd>j</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Next post
                 </dd>
-                <dt class="col-3">
+                <dt class="col-4">
                   <kbd>k</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Previous post
                 </dd>
-                <dt class="col-3">
+                <dt class="col-4">
                   <kbd>?</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   This help
                 </dd>
               </dl>
@@ -73,52 +79,52 @@
             <div class="col-lg-4">
               <h6>Streams</h6>
               <dl class="row">
-                <dt class="col-3">
-                  <kbd>g</kbd><kbd>h</kbd>
+                <dt class="col-4">
+                  <kbd>g</kbd>&nbsp;<kbd>h</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Home
                 </dd>
-                <dt class="col-3">
-                  <kbd>g</kbd><kbd>m</kbd>
+                <dt class="col-4">
+                  <kbd>g</kbd>&nbsp;<kbd>m</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Mentions
                 </dd>
-                <dt class="col-3">
-                  <kbd>g</kbd><kbd>i</kbd>
+                <dt class="col-4">
+                  <kbd>g</kbd>&nbsp;<kbd>i</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Interactions
                 </dd>
-                <dt class="col-3">
-                  <kbd>g</kbd><kbd>s</kbd>
+                <dt class="col-4">
+                  <kbd>g</kbd>&nbsp;<kbd>s</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Stars
                 </dd>
-                <dt class="col-3">
-                  <kbd>g</kbd><kbd>c</kbd>
+                <dt class="col-4">
+                  <kbd>g</kbd>&nbsp;<kbd>c</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Conversations
                 </dd>
-                <dt class="col-3">
-                  <kbd>g</kbd><kbd>p</kbd>
+                <dt class="col-4">
+                  <kbd>g</kbd>&nbsp;<kbd>p</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Photos
                 </dd>
-                <dt class="col-3">
-                  <kbd>g</kbd><kbd>t</kbd>
+                <dt class="col-4">
+                  <kbd>g</kbd>&nbsp;<kbd>t</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Trending
                 </dd>
-                <dt class="col-3">
-                  <kbd>g</kbd><kbd>g</kbd>
+                <dt class="col-4">
+                  <kbd>g</kbd>&nbsp;<kbd>g</kbd>
                 </dt>
-                <dd class="col-9">
+                <dd class="col-8">
                   Global
                 </dd>
               </dl>
@@ -133,10 +139,15 @@
 <script>
 import $ from 'jquery'
 import Mousetrap from '~plugins/mousetrap'
+import bus from '~assets/js/bus'
 
 export default {
   mounted() {
     $(this.$el).on('hidden.bs.modal', this.hidden)
+    bus.$on('showHelpModal', this.showModal)
+  },
+  beforeDestroy() {
+    bus.$off('showHelpModal', this.showModal)
   },
   methods: {
     showModal() {
