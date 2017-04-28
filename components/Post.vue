@@ -157,6 +157,18 @@ import cheerio from 'cheerio'
 import bus from '~assets/js/bus'
 import focus from '~assets/js/focus'
 
+moment.updateLocale('en', {
+    relativeTime : {
+      s: '%ds',
+      m: '1m',
+      mm: '%dm',
+      h: '1h',
+      hh: '%dh',
+      d: '1d',
+      dd: '%dd'
+    }
+})
+
 export default {
   mixins: [focus],
   props: {
@@ -268,7 +280,16 @@ export default {
         thisjkkk.$refs.repost.click()
     },
     dateUpdate() {
-      this.date = moment(this.post.created_at).fromNow(true)
+      const now = moment()
+      const postDate = moment(this.post.created_at)
+      if(now.diff(postDate, 'month') >= 1) {
+        const lastYear = now.toDate().getFullYear() - postDate.toDate().getFullYear()
+        const format = lastYear ? 'D MMM YY' : 'D MMM'
+        this.date = moment(this.post.created_at).format(format)
+      } else {
+        this.date = moment(this.post.created_at)
+          .fromNow(true)
+      }
     },
     replyModal() {
       bus.$emit('showPostModal', this.mainPost)
