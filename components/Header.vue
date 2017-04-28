@@ -93,7 +93,7 @@ export default {
   margin: 0;
 }
 
-.scrollable {
+.show.scrollable {
   overflow: auto;
 }
 
