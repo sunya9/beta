@@ -24,7 +24,9 @@ const store = new Vuex.Store({
   actions: {
     nuxtServerInit ({ commit }, { req }) {
       if (req.user) {
-        commit('SET_USER', req.user)
+        const user = Object.assign({}, req.user)
+        delete user.token
+        commit('SET_USER', user)
       }
     }
   }
