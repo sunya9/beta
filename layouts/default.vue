@@ -1,6 +1,8 @@
 <template>
   <div id="wrapper" class="mt-5 pt-5">
-    <app-header />
+    <app-header>
+      <component :is="sidebar" />
+    </app-header>
     <main class="container">
       <div class="row">
         <div
@@ -9,7 +11,11 @@
              'col-md-4 col-lg-3': !notLoginIndex,
           }"
           class="hidden-sm-down">
-          <sidebar class="fixed-top sticky-top" style="top: 70px" />
+          <div class="fixed-top sticky-top" style="top: 70px">
+            <transition name="slide" mode="out-in">
+              <component :is="sidebar" />
+            </transition>
+          </div>
         </div>
         <div
           :class="{
@@ -38,7 +44,6 @@
 </template>
 <script>
 import AppHeader from '~components/Header'
-import Sidebar from '~components/Sidebar'
 import Splash from '~components/Splash'
 import { mapState } from 'vuex'
 import PostModal from '~components/PostModal'
@@ -47,16 +52,19 @@ import HelpModal from '~components/HelpModal'
 import router from '~router'
 import bus from '~assets/js/bus'
 import Mousetrap from '~plugins/mousetrap'
+import AppSidebar from '~components/sidebar/App'
+import SettingsSidebar from '~components/sidebar/Settings'
 
 export default {
   props: ['error'],
   components: {
     AppHeader,
-    Sidebar,
     Splash,
     PostModal,
     RemoveModal,
-    HelpModal
+    HelpModal,
+    AppSidebar,
+    SettingsSidebar
   },
   watch: {
     '$route.fullPath'() {-
@@ -67,6 +75,14 @@ export default {
   computed: {
     notLoginIndex() {
       return !this.user && this.$route.name === 'index'
+    },
+    isSettingsPage() {
+      return this.$route.fullPath.startsWith('/settings')
+    },
+    sidebar() {
+      return this.isSettingsPage
+        ? 'SettingsSidebar'
+        : 'AppSidebar'
     },
     ...mapState(['user'])
   },
@@ -102,3 +118,13 @@ export default {
   }
 }
 </script>
+
+<style>
+.slide-enter-active, .slide-leave-active {
+  transition: all .3s ease;
+}
+.slide-enter, .slide-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+</style>
