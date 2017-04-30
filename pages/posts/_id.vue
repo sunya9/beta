@@ -50,19 +50,21 @@ export default {
       // this.data.data.push(post)
     }
   },
-  // head() {
-    // let title = this.post.content.text
-    // if(title.length > 30) {
-    //   title = title.substr(0, 30) + '…'
-    // }
-    // const name = this.post.user.name
-    //   ? this.post.user.name
-    //   : `@${this.post.user.username}`
-    // title = `${name}: ${title}`
-    // return {
-    //   title
-    // }
-  // }
+  head() {
+    const [post] = this.data.data
+      .filter(post => post.id === this.id)
+    let title = post.content.text
+    if(title.length > 30) {
+      title = title.substr(0, 30) + '…'
+    }
+    const name = post.user.name
+      ? post.user.name
+      : `@${post.user.username}`
+    title = `${name}: ${title}`
+    return {
+      title
+    }
+  }
 }
 </script>
 
