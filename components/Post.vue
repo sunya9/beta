@@ -21,11 +21,13 @@
             </small>
           </nuxt-link>
         </h6>
-        <div class="d-flex">
+        <div class="d-flex flex-wrap flex-sm-nowrap">
           <p @click="clickPostLink" v-html="html">
           </p>
-          <div v-if="thumbs.length" class="ml-auto mr-3">
+          <div v-if="thumbs.length"
+          class="mb-2 d-flex mr-auto ml-auto mr-sm-2 flex-wrap flex-sm-nowrap justify-content-sm-end">
             <thumb
+              class="mx-1"
               :original="t.original"
               :thumb="t.thumb"
               :key="i"
