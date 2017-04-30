@@ -16,7 +16,9 @@ app.keys = [config.dev ? 'beta' : process.env.SALT]
 const sessionConfig = {
   maxAge: 1000 * 60 * 60 * 24 * 30
 }
-app.use(bodyParser())
+app.use(bodyParser({
+  jsonLimit: '10mb'
+}))
 app.use(json())
 app.use(session(sessionConfig, app))
 passport(app)
