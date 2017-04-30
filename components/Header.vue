@@ -21,6 +21,14 @@
                 Profile
                 </nuxt-link>
                 <div class="dropdown-divider"></div>
+                <nuxt-link
+                  data-toggle="collapse"
+                  data-target="#navbarSupportedContent.show"
+                  to="/settings"
+                  class="dropdown-item">
+                  Settings
+                </nuxt-link>
+                <div class="dropdown-divider"></div>
                 <a href="/logout" class="dropdown-item">Log out</a>
               </div>
             </li>
@@ -40,7 +48,7 @@
             'max-height': collapseHeight
           }"
           class="navbar-collapse collapse hidden-md-up scrollable">
-          <sidebar />
+          <slot />
         </div>
       </div>
     </div>
@@ -49,7 +57,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import Sidebar from '~components/Sidebar'
 
 export default {
   data() {
@@ -62,9 +69,6 @@ export default {
     this.collapseHeight = `calc(100vh - ${height}px)`
   },
   computed: mapState(['user']),
-  components: {
-    Sidebar
-  }
 }
 
 </script>
