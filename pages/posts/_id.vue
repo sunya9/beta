@@ -1,6 +1,6 @@
 <template>
   <div>
-    <list :main="id" all :data="data" :option="option" type="Post" :key="`post-${id}`" />
+    <list :main="id" all :data="data" :option="option" type="Post" :key="`post-${id}`" :auto-refresh="false" />
   </div>
 </template>
 
@@ -58,7 +58,7 @@ export default {
       title = title.substr(0, 30) + '…'
     }
     const name = post.user.name
-      ? post.user.name
+      ? `${post.user.name}(@${post.user.username})`
       : `@${post.user.username}`
     title = `${name}: ${title}`
     return {
