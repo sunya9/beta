@@ -83,7 +83,7 @@ export default {
 
   computed: {
     count() {
-      return 256 - Math.max(this.text.length, this.tempCount)
+      return 256 - Math.max(this.getTextLength(this.text), this.tempCount)
     },
     disabled() {
       const sending = !!this.promise
@@ -171,7 +171,7 @@ export default {
     // for IME
     // https://vuejs.org/v2/guide/forms.html#Basic-Usage
     textCount(e) {
-      this.tempCount = e.target.value.trim().length
+      this.tempCount = this.getTextLength(e.target.value.trim())
     },
     cancelReply() {
       this.replyTarget = null
@@ -200,6 +200,10 @@ export default {
         })
       Promise.all(photosPromise)
         .then(photos => this.photos.push(...photos))
+    },
+    getTextLength(str) {
+      // http://stackoverflow.com/a/32382702
+      return str.replace(/\[([^\]]+)\][^\)]+\)/g, '$1').length
     }
   },
   components: {
