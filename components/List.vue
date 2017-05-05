@@ -58,7 +58,8 @@ export default {
       meta: this.data.meta,
       items: this.data.data,
       internalSelect: -1,
-      timer: null
+      timer: null,
+      refreshing: false
     }
   },
   computed: {
@@ -152,6 +153,8 @@ export default {
       }
     },
     async refresh() {
+      if(this.refreshing) return
+      this.refreshing = true
       const option = Object.assign({}, this.option, {
         since_id: this.id(this.items[0])
       })
@@ -161,6 +164,7 @@ export default {
       if(newItems.length) {
         this.items = newItems.concat(this.items)
       }
+      this.refreshing = false
     },
     async fetchMore() {
       this.busy = true
