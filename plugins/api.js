@@ -57,7 +57,7 @@ API.RESOURCE_MAP = {
   trending: '/posts/streams/explore/trending',
   global: '/posts/streams/global',
   'posts-id': params => `/posts/${params.id}/thread`,
-  'tags-name': params => `/posts/tag/${params.name}`,
+  'tags-name': params => `/posts/tag/${encodeURIComponent(params.name)}`,
   '@name': params => `/users/@${params.name}/posts`,
   '@name-follows': params => `/users/@${params.name}/following`,
   '@name-followers': params => `/users/@${params.name}/followers`,
