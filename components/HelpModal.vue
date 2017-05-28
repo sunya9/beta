@@ -40,6 +40,12 @@
                   Repost
                 </dd>
                 <dt class="col-4">
+                  <kbd>Del</kbd>
+                </dt>
+                <dd class="col-8">
+                  Delete my post
+                </dd>
+                <dt class="col-4">
                   <kbd>Enter</kbd>
                 </dt>
                 <dd class="col-8">

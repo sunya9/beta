@@ -87,6 +87,7 @@ export default {
       }
     },
     selectItem() {
+      if(this.select < 0) return null
       return this.$refs.list.children[this.select].__vue__
     }
   },
@@ -98,6 +99,7 @@ export default {
       Mousetrap.bind('s', this.favorite)
       Mousetrap.bind('p', this.repost)
       Mousetrap.bind('enter', this.goPost)
+      Mousetrap.bind('del', this.remove)
     }
     if(this.autoRefresh) {
       if(this.timer) clearInterval(this.timer)
@@ -112,6 +114,7 @@ export default {
       Mousetrap.unbind('r')
       Mousetrap.unbind('p')
       Mousetrap.unbind('enter')
+      Mousetrap.unbind('del')
     }
     if(this.timer) {
       clearInterval(this.timer)
@@ -119,7 +122,7 @@ export default {
   },
   methods: {
     focus() {
-      if(this.selectItem.$el)
+      if(this.selectItem && this.selectItem.$el)
         this.selectItem.$el.focus()
     },
     scrollDown() {
@@ -133,6 +136,10 @@ export default {
     reply () {
       if(this.selectItem)
         this.selectItem.replyModal()
+    },
+    remove () {
+      if(!this.selectItem || !this.selectItem.me) return
+      this.selectItem.removeModal()
     },
     favorite () {
       if(this.selectItem)

@@ -15,10 +15,11 @@
           <post :data="vm.post" v-if="vm" view-only />
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" tabindex="1" class="btn btn-secondary" data-dismiss="modal" ref="cancelButton">Cancel</button>
           <button
             class="btn btn-primary"
             @click="ok"
+            tabindex="2"
             data-dismiss="modal">OK</button>
         </div>
       </div>
@@ -41,6 +42,7 @@ export default {
   mounted() {
     bus.$on('showRemoveModal', this.showModal)
     $(this.$el).on('hidden.bs.modal', this.hidden)
+    $(this.$el).on('shown.bs.modal', this.shown)
   },
   beforeDestroy() {
     bus.$off('showPostModal', this.showModal)
@@ -55,6 +57,9 @@ export default {
     },
     ok() {
       this.vm.remove()
+    },
+    shown() {
+      this.$refs.cancelButton.focus()
     },
     hidden() {
       Mousetrap.unpause()
