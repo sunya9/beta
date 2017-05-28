@@ -54,8 +54,8 @@ export default {
 <style scoped>
 .root {
   position: relative;
-  height: 96px;
-  width: 96px;
+  max-height: 96px;
+  max-width: 96px;
   box-sizing: content-box;
 }
 .remove {
