@@ -3,6 +3,7 @@
     v-infinite-scroll="fetchMore"
     infinite-scroll-disabled="moreDisabled"
     infinite-scroll-distance="100"
+    ref="list"
     class="list-group mb-4">
     <component
       :is="type"
@@ -86,7 +87,7 @@ export default {
       }
     },
     selectItem() {
-      return this.$refs.items[this.select]
+      return this.$refs.list.children[this.select].__vue__
     }
   },
   mounted () {
@@ -163,6 +164,7 @@ export default {
         }).fetch(option)
       if(newItems.length) {
         this.items = newItems.concat(this.items)
+        this.select += newItems.length
       }
       this.refreshing = false
     },
