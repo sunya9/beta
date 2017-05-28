@@ -14,7 +14,8 @@ module.exports = {
 
     ],
     link: [
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat' },
+      { rel: 'shortcut icon', href: '/favicon.ico' }
     ]
   },
   /*

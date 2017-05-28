@@ -3,7 +3,8 @@
     <div class="navbar navbar-light navbar fixed-top d-block px-0">
       <div class="container">
         <div class="d-flex align-items-center">
-          <nuxt-link class="navbar-brand text-uppercase" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
+          <nuxt-link class="navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
+          <img src="~assets/img/beta.png" width="32" height="32" alt="β" class="d-inline-block align-center mr-2">
             Beta
           </nuxt-link>
           <ul class="navbar-nav ml-auto d-flex flex-row align-items-stretch">
