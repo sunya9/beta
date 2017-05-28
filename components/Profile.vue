@@ -1,6 +1,10 @@
 <template>
   <div class="card profile">
-    <img :src="profile.content.cover_image.link" alt="" class="img-fluid card-img-top">
+    <img :src="profile.content.cover_image.link"
+      alt=""
+      :width="profile.content.cover_image.width"
+      :height="profile.content.cover_image.height"
+      class="img-fluid card-img-top">
     <div class="card-block pt-3">
       <div class="flex-column d-flex flex-sm-row align-items-sm-start">
         <div class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row">
