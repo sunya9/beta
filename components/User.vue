@@ -7,8 +7,8 @@
           width="64" height="64">
       </nuxt-link>
       <div class="media-body">
-        <div class="d-flex justify-content-between align-items-baseline">
-          <h6 class="mb-1">
+        <div class="d-flex justify-content-between align-items-baseline mb-2">
+          <h6>
             <nuxt-link :to="`/@${user.username}`">
             {{user.username}}
             </nuxt-link>
