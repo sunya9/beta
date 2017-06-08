@@ -49,6 +49,7 @@ export default {
   mounted() {
     $(this.$el).on('hide.bs.modal', this.hide)
     $(this.$el).on('hidden.bs.modal', this.hidden)
+    $(this.$el).on('shown.bs.modal', () => this.$refs.compose.setFocus())
     bus.$on('showPostModal', this.showModal)
   },
   computed: {
@@ -73,10 +74,6 @@ export default {
         this.show = true
         this.reply = post ? post : null
         $(this.$el).modal('show')
-        this.$nextTick(() => {
-          $(this.$el)
-            .on('shown.bs.modal', () => this.$refs.compose.setFocus())
-        })
       }
     },
     dismiss() {
