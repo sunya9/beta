@@ -13,6 +13,7 @@
             {{user.username}}
             </nuxt-link>
             <span class="text-muted">{{user.name}}</span>
+            <span class="ml-1 badge badge-default">{{relation}}</span>
           </h6>
           <div>
             <follow-button :initial-state="user.you_follow" :user-id="user.id" />
@@ -34,6 +35,9 @@ export default {
   mixins: [focus],
   props: ['data'],
   computed: {
+    relation() {
+      return this.data.follows_you ? 'Follows you' : ''
+    },
     html() {
       if(this.user.content && this.user.content.html) {
         const $ = cheerio.load(this.user.content.html)
