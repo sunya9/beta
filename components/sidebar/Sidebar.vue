@@ -1,6 +1,6 @@
 <template>
   <div class="list-group">
-    <template v-for="menu in menus" v-if="!menu.hidden">
+    <template v-for="menu in menus" v-if="'hidden' in menu ? !menu.hidden : true">
       <span
         class="heading list-group-item pt-4 pl-0 border-left-0 border-top-0 h5 text-uppercase"
         v-if="menu.type === 'heading'">

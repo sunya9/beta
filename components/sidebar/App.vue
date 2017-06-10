@@ -1,33 +1,33 @@
 <script>
-import { mapState } from 'vuex'
 import bus from '~assets/js/bus'
 import Sidebar from './Sidebar'
 
 export default {
   extends: Sidebar,
   data() {
+    const user = this.$store.state.user
     const menus = [
-      {type: 'heading', label: 'Beta', hidden: !this.user},
+      {type: 'heading', label: 'Beta', hidden: !user},
       {
         label: 'Your Stream',
         icon: 'fa-home',
         url: '/',
-        hidden: !this.user
+        hidden: !user
       }, {
         label: 'Mentions',
         icon: 'fa-hand-o-right',
         url: '/mentions',
-        hidden: !this.user
+        hidden: !user
       }, {
         label: 'Interactions',
         icon: 'fa-exchange',
         url: '/interactions',
-        hidden: !this.user
+        hidden: !user
       }, {
         label: 'Stars',
         icon: 'fa-star',
         url: '/stars',
-        hidden: !this.user
+        hidden: !user
       },
       {type: 'heading', label: 'Explore'},
       {
@@ -49,6 +49,10 @@ export default {
       },
       {type: 'heading', label: 'Other'},
       {
+        label: 'About',
+        url: '/about',
+        icon: 'fa-info-circle'
+      }, {
         label: 'Beta on Github',
         url: 'https://github.com/sunya9/beta',
         normal: true,
@@ -64,7 +68,6 @@ export default {
       menus
     }
   },
-  computed: mapState(['user']),
   methods: {
     showHelpModal() {
       bus.$emit('showHelpModal')

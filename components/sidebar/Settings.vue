@@ -5,11 +5,17 @@ export default {
   extends: Sidebar,
   data() {
   const menus = [
-      {type: 'heading', label: 'App'},
+      {type: 'heading', label: 'User'},
       {
-        label: 'Image upload',
+        label: 'Account',
         icon: 'fa-picture-o',
         url: '/settings'
+      },
+      {type: 'heading', label: 'App'},
+      {
+        label: 'Stream',
+        icon: 'fa-list',
+        url: '/settings/stream'
       }
     ]
     return {
