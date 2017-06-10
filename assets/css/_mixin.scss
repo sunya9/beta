@@ -3,7 +3,7 @@
 
 @mixin no-gutter-xs {
   @include media-breakpoint-down(xs) {
-    margin-left: -$grid-gutter-width-base / 2 - 1;
-    margin-right: -$grid-gutter-width-base / 2 - 1;
+    margin-left: -$grid-gutter-width-base / 2;
+    margin-right: -$grid-gutter-width-base / 2;
   }
 }
