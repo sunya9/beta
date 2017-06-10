@@ -38,12 +38,14 @@ export default {
   methods: {
     login() {
       const wnd = window.open('/imgur/login', IMGUR_LOGIN, 'resizable=yes,scrollbars=yes')
-      wnd.addEventListener('unload', () => {
-        const imgur = localStorage.getItem('imgur')
+      wnd.addEventListener('unload', this.setToken)
+      wnd.addEventListener('beforeunload', this.setToken)
+    },
+    setToken() {
+      const imgur = localStorage.getItem('imgur')
         this.imgur = imgur
           ? JSON.parse(imgur)
           : null
-      })
     },
     logout() {
       localStorage.removeItem('imgur')
