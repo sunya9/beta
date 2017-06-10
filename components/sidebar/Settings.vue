@@ -8,7 +8,7 @@ export default {
       {type: 'heading', label: 'User'},
       {
         label: 'Account',
-        icon: 'fa-picture-o',
+        icon: 'fa-user',
         url: '/settings'
       },
       {type: 'heading', label: 'App'},
