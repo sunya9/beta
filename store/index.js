@@ -3,22 +3,13 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-
 const store = new Vuex.Store({
   state: {
-    user: null,
-    reply: null
+    user: null
   },
-
   mutations: {
     SET_USER (state, user) {
       state.user = user
-    },
-    SET_REPLY (state, reply) {
-      state.reply = reply
-    },
-    REMOVE_REPLY (state) {
-      state.reply = null
     }
   },
   actions: {
