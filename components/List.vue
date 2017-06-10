@@ -57,7 +57,7 @@ export default {
     return {
       busy: false,
       meta: this.data.meta,
-      items: this.data.data,
+      items: this.data.data || [],
       internalSelect: -1,
       timer: null,
       refreshing: false
@@ -94,6 +94,7 @@ export default {
   mounted () {
     Mousetrap.bind('j', this.scrollDown)
     Mousetrap.bind('k', this.scrollUp)
+    Mousetrap.bind('.', this.refresh)
     if(this.type === 'Post') {
       Mousetrap.bind('r', this.reply)
       Mousetrap.bind('s', this.favorite)
@@ -109,6 +110,7 @@ export default {
   beforeDestroy() {
     Mousetrap.unbind('j')
     Mousetrap.unbind('k')
+    Mousetrap.unbind('.')
     if(this.type === 'Post') {
       Mousetrap.unbind('s')
       Mousetrap.unbind('r')
