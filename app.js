@@ -16,6 +16,17 @@ app.keys = [config.dev ? 'beta' : process.env.SALT]
 const sessionConfig = {
   maxAge: 1000 * 60 * 60 * 24 * 30
 }
+
+// error handling should be first middleware
+// https://github.com/koajs/koa/wiki/Error-Handling
+app.use(async (ctx, next) => {
+  try {
+    await next()
+  } catch (e) {
+    ctx.throw(`Internal server error: ${e.message}`, 500)
+  }
+})
+
 app.use(bodyParser({
   jsonLimit: '10mb'
 }))
@@ -35,6 +46,7 @@ if (config.dev) {
   })
 }
 
+// https://ja.nuxtjs.org/api/nuxt-render
 app.use(async (ctx, next) => {
   ctx.status = 200 // koa defaults to 404 when it sees that status is unset
   try {
@@ -42,10 +54,6 @@ app.use(async (ctx, next) => {
   } catch (e) {
     console.error(e)
   }
-})
-
-app.use(async (ctx, next) => {
-  ctx.throw('Internal server error', 500)
 })
 
 app.listen(3000)
