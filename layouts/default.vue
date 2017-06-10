@@ -4,6 +4,9 @@
       <component :is="sidebar" />
     </app-header>
     <main class="container">
+      <div>
+        <splash v-if="!user" class="mb-5" />
+      </div>
       <div class="row">
         <div
           v-if="!notLoginIndex"
@@ -22,9 +25,6 @@
             'col-md-8 col-lg-9': !notLoginIndex
           }"
           class="col-12">
-          <div>
-            <splash v-if="!user" />
-          </div>
           <div>
             <nuxt />
           </div>
@@ -54,6 +54,7 @@ import bus from '~assets/js/bus'
 import Mousetrap from '~plugins/mousetrap'
 import AppSidebar from '~components/sidebar/App'
 import SettingsSidebar from '~components/sidebar/Settings'
+import AboutSidebar from '~components/sidebar/About'
 
 export default {
   props: ['error'],
@@ -64,7 +65,8 @@ export default {
     RemoveModal,
     HelpModal,
     AppSidebar,
-    SettingsSidebar
+    SettingsSidebar,
+    AboutSidebar
   },
   watch: {
     '$route.fullPath'() {-
@@ -76,13 +78,13 @@ export default {
     notLoginIndex() {
       return !this.user && this.$route.name === 'index'
     },
-    isSettingsPage() {
-      return this.$route.fullPath.startsWith('/settings')
-    },
     sidebar() {
-      return this.isSettingsPage
-        ? 'SettingsSidebar'
-        : 'AppSidebar'
+      const [, name] = this.$route.fullPath.match(/\/(\w+[^/])/) || []
+      const map = {
+        settings: 'SettingsSidebar',
+        about: 'AboutSidebar'
+      }
+      return map[name] || 'AppSidebar'
     },
     ...mapState(['user'])
   },
