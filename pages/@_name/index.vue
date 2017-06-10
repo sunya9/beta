@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <profile :profile="profile" />
+      <profile :profile="profile" class="mb-4" />
     </div>
     <div>
       <compose :initial-text="initialText" :key="`${name}-compose`" />
@@ -44,7 +44,7 @@ export default {
   computed: {
     ...mapState({
       initialText(state) {
-        return state.user.username === this.name
+        return state.user && state.user.username === this.name
           ? ''
           : `@${this.name} `
       }
