@@ -5,7 +5,7 @@
         deleted: post.is_deleted
       }"
       class="media w-100 justify-content-start">
-      <nuxt-link :to="`/@${mainPost.user.username}`">
+      <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview">
         <img :src="mainPost.user.content.avatar_image.link"
           alt="" class="d-flex mr-3 rounded-circle iconSize"
           width="64" height="64">
@@ -22,7 +22,9 @@
           </nuxt-link>
         </h6>
         <div class="d-flex flex-wrap flex-sm-nowrap">
-          <p @click="clickPostLink" v-html="html">
+          <p @click="clickPostLink" v-html="html" :class="{
+            'mb-0': preview
+          }">
           </p>
           <div v-if="thumbs.length"
           class="mb-2 d-flex mr-auto ml-auto mr-sm-2 flex-wrap flex-sm-nowrap justify-content-sm-end">
@@ -34,7 +36,7 @@
               v-for="(t, i) in thumbs" />
           </div>
         </div>
-        <footer v-if="!post.is_deleted">
+        <footer v-if="!post.is_deleted && !preview">
           <div v-if="post.repost_of">
             <nuxt-link :to="`/@${post.user.username}`" class="text-muted">
               <i class="fa fa-retweet"></i>&nbsp;
@@ -176,7 +178,8 @@ export default {
   props: {
     data: Object,
     viewOnly: Boolean,
-    detail: Boolean
+    detail: Boolean,
+    preview: Boolean
   },
   data() {
     return {
