@@ -2,16 +2,24 @@
   <div>
     <div class="card">
       <div class="card-block">
-        <image-upload />
+        <account :account="account" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ImageUpload from '~components/settings/ImageUpload'
+import api from '~plugins/api'
+import Account from '~components/settings/Account'
+
 export default {
+  async asyncData(ctx) {
+    const { data: account } = await api(ctx).get('/users/me')
+    return {
+      account
+    }
+  },
   components: {
-    ImageUpload
+    Account
   }
 }</script>
