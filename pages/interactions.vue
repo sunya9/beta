@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-between flex-wrap">
-      <h3>Interactions</h3>
+      <h3 class="mb-4">Interactions</h3>
       <div class="btn-group" role="group" style="display: none">
         <label class="btn btn-primary">
           <input type="checkbox" class="sr-only" :class="active" v-model="filter" value="reply"> Reply
