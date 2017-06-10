@@ -85,7 +85,7 @@
           </div>
         </div>
       </div>
-      <crop-modal ref="cropModal" />
+      <!-- <crop-modal ref="cropModal" /> -->
     </div>
   </div>
 </template>
@@ -93,7 +93,7 @@
 <script>
 import api from '~plugins/api'
 import SubmitButton from '~components/SubmitButton'
-import CropModal from '~components/CropModal'
+// import CropModal from '~components/CropModal'
 import axios from 'axios'
 
 export default {
@@ -217,7 +217,7 @@ export default {
   },
   components: {
     SubmitButton,
-    CropModal
+    // CropModal
   }
 }
 </script>
