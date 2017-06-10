@@ -1,6 +1,5 @@
 import qs from 'querystring'
 
-
 class API {
   constructor (ctx) {
     this.fetch = this.fetch.bind(this)
@@ -65,7 +64,6 @@ API.RESOURCE_MAP = {
   '@name-posts-id': params => `/posts/${params.id}/thread`
 }
 
-
 class PnutAPI extends API {
   constructor (ctx) {
     super(ctx)
@@ -83,7 +81,6 @@ class PnutAPI extends API {
   }
 }
 
-
 class AxiosAPI extends API {
   constructor (ctx) {
     super(ctx)
@@ -92,6 +89,7 @@ class AxiosAPI extends API {
 
   async request (resource, method = 'get', body = {}) {
     const axios = require('axios')
+    resource = resource.replace(/^\/proxy/, '')
     resource = `/proxy${resource}`
     const { data } = await axios[method](resource, body)
     return data

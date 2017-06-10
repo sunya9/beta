@@ -35,11 +35,11 @@ export default {
   mixins: [focus],
   props: ['data'],
   computed: {
-    relation() {
+    relation () {
       return this.data.follows_you ? 'Follows you' : ''
     },
-    html() {
-      if(this.user.content && this.user.content.html) {
+    html () {
+      if (this.user.content && this.user.content.html) {
         const $ = cheerio.load(this.user.content.html)
         $('a').attr('target', '_new')
         $('span[data-mention-name]')
@@ -57,7 +57,7 @@ export default {
         return $.html()
       }
     },
-    user() {
+    user () {
       return this.data
     }
   },
