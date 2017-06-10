@@ -8,12 +8,12 @@
       </nuxt-link>
       <div class="media-body">
         <div class="d-flex justify-content-between align-items-baseline mb-2">
-          <h6>
+          <h6 class="d-inline-flex flex-wrap flex-row">
             <nuxt-link :to="`/@${user.username}`">
             {{user.username}}
             </nuxt-link>
-            <span class="text-muted">{{user.name}}</span>
-            <span class="ml-1 badge badge-default">{{relation}}</span>
+            <span class="ml-1 text-muted">{{user.name}}</span>
+            <span class="ml-1 badge badge-default text-uppercase">{{relation}}</span>
           </h6>
           <div>
             <follow-button :initial-state="user.you_follow" :user-id="user.id" />
@@ -74,3 +74,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.media-body {
+  word-break: break-word;
+}
+</style>
