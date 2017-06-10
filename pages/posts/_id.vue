@@ -27,7 +27,7 @@ export default {
     })
 
     const data = await postPromise
-    data.data = data.data.reverse()
+    data.data = data.data ? data.data.reverse() : []
     return {
       id, option, data
     }
