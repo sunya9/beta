@@ -75,6 +75,12 @@
                   Previous post
                 </dd>
                 <dt class="col-4">
+                  <kbd>.</kbd>
+                </dt>
+                <dd class="col-8">
+                  Load new posts
+                </dd>
+                <dt class="col-4">
                   <kbd>?</kbd>
                 </dt>
                 <dd class="col-8">
