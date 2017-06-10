@@ -30,7 +30,7 @@
       <strong class="text-muted">{{count}}</strong>
         <div>
           <button
-            v-show="imgur"
+            v-show="imgur && !noPhoto"
             type="button"
             @click="addPhoto"
             class="btn btn-link text-muted"
@@ -67,9 +67,10 @@ export default {
       type: String,
       default: ''
     },
-    focus: Boolean,
+    focus: null,
     thread: Boolean,
-    replyTarget: Object
+    replyTarget: Object,
+    noPhoto: Boolean
   },
   data() {
     return {
@@ -113,8 +114,42 @@ export default {
     setFocus() {
       // occur error if it not displayed like logged out
       if(this.$refs.textarea) {
-        this.$refs.textarea.focus()
+        switch(typeof this.focus) {
+          case 'object': { // == array
+            const [start, end] = this.focus
+            this.setCaret(start, end)
+            break
+          }
+          case 'string':
+          case 'number': {
+            this.setCaret(+this.focus)
+            break
+          }
+          case 'boolean': {
+            this.setCaret(this.$refs.textarea.value.length)
+            break
+          }
+        }
       }
+    },
+    setCaret(start, end) {
+      if(end === undefined) {
+        end = start
+      }
+      const input = this.$refs.textarea
+      if('selectionStart' in input) {
+        input.selectionStart = start
+        input.selectionEnd = end
+      } else if(input.setSelectionRange) {
+        input.setSelectionRange(start, end)
+      } else if(input.createTextRange) {
+        const range = input.createTextRange()
+        range.collapse(true)
+        range.moveEnd('character', end)
+        range.moveStart('character', start)
+        range.select()
+      }
+      input.focus()
     },
     async submit() {
       const option = {

@@ -20,7 +20,10 @@ export default {
       type: String,
       default: ''
     },
-    focus: Boolean,
+    focus: {
+      type: [Boolean, Number, String, Array],
+      default: true
+    },
     thread: Boolean,
     replyTarget: Object
   },
