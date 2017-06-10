@@ -1,6 +1,6 @@
 <template>
   <li @focus="focus" tabindex="-1" class="list-group-item list-group-item-action">
-    <div class="media pt-2">
+    <div class="media pt-2 w-100">
       <div class="d-inline-block mr-4 text-muted">
         <i
           :class="icon"
@@ -8,8 +8,21 @@
       </div>
       <div class="media-body">
         <h6 class="text-gray-dark">
+          <ul class="list-inline">
+            <li :key="user.id" v-if="user.content" class="list-inline-item" v-for="user in action.users">
+              <nuxt-link :to="`@${user.username}`">
+                <img
+                  width="32"
+                  height="32"
+                  class="rounded-circle"
+                  :src="user.content.avatar_image.link">
+              </nuxt-link>
+            </li>
+          </ul>
+        </h6>
+        <div class="my-3">
           <nuxt-link
-             v-if="action.action !== 'follow'"
+             v-if="post"
             :to="`@${action.objects[0].user.username}/posts/${action.objects[0].id}`">
             This post
           </nuxt-link>
@@ -22,18 +35,14 @@
               </nuxt-link>
             </li>
           </ul>.
-        </h6>
-        <ul class="list-inline my-3">
-          <li :key="user.id" v-if="user.content" class="list-inline-item" v-for="user in action.users">
-            <nuxt-link :to="`@${user.username}`">
-              <img
-                width="32"
-                height="32"
-                class="rounded-circle"
-                :src="user.content.avatar_image.link">
-            </nuxt-link>
-          </li>
-        </ul>
+          <nuxt-link
+            v-if="post"
+            :to="`@${action.objects[0].user.username}/posts/${action.objects[0].id}`">
+            <ul class="list-group">
+              <post class="mt-3" :data="post" view-only preview />
+            </ul>
+          </nuxt-link>
+        </div>
         <footer>
           <ul class="list-inline">
             <li class="list-inline-item">
@@ -53,6 +62,7 @@
 import moment from 'moment'
 import { mapState } from 'vuex'
 import focus from '~assets/js/focus'
+import Post from '~components/Post'
 
 const convert = {
   follow: {
@@ -110,12 +120,20 @@ export default {
         case 'repost':
           return 'This post'
       }
+    },
+    post() {
+      return this.action.action !== 'follow'
+        ? this.action.objects[0]
+        : null
     }
   },
   methods: {
     dateUpdate() {
       this.date = moment(this.action.event_date).fromNow(true)
     },
+  },
+  components: {
+    Post
   }
 }
 </script>
