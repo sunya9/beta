@@ -45,6 +45,7 @@
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
     "sass-loader": "^6.0.3",
+    "string-length": "^1.0.1",
     "tether": "^1.4.0",
     "vue-infinite-scroll": "^2.0.1",
     "zooming": "^1.1.4"

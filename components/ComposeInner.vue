@@ -60,6 +60,7 @@ import bus from '~assets/js/bus'
 import { mapState } from 'vuex'
 import Thumb from '~components/Thumb'
 import axios from 'axios'
+import stringLength from 'string-length'
 
 export default {
   props: {
@@ -238,7 +239,8 @@ export default {
     },
     getTextLength(str) {
       // http://stackoverflow.com/a/32382702
-      return str.replace(/\[([^\]]+)\][^\)]+\)/g, '$1').length
+      const markdown = str.replace(/\[([^\]]+)\][^\)]+\)/g, '$1')
+      return stringLength(markdown)
     }
   },
   components: {
