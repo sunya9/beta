@@ -74,7 +74,7 @@ const convert = {
     icon: 'fa-star'
   },
   reply: {
-    text: 'replied',
+    text: 'replied to',
     icon: 'fa-reply'
   },
   repost: {
