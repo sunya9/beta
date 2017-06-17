@@ -95,6 +95,7 @@ export default {
 
 .negative {
   margin-top: -48px;
+  background-color: white;
 }
 
 .profile {
