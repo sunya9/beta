@@ -62,9 +62,11 @@ module.exports = {
 
   // plugin settings
   plugins: [
-    '~plugins/bootstrap',
+    { src: '~plugins/bootstrap', ssr: false },
     '~plugins/api',
-    '~plugins/vue-infinite'
+    { src: '~plugins/vue-infinite', ssr: false },
+    { src: '~plugins/mousetrap', ssr: false },
+    { src: '~plugins/ga', ssr: false }
   ],
 
   // router settings
