@@ -22,7 +22,7 @@ export default {
     },
     focus: {
       type: [Boolean, Number, String, Array],
-      default: true
+      default: false
     },
     thread: Boolean,
     replyTarget: Object

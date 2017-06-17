@@ -126,7 +126,8 @@ export default {
             this.setCaret(+this.focus)
             break
           }
-          case 'boolean': {
+          case 'boolean':
+          default: {
             this.setCaret(this.$refs.textarea.value.length)
             break
           }
