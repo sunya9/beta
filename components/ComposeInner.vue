@@ -61,6 +61,7 @@ import { mapState } from 'vuex'
 import Thumb from '~components/Thumb'
 import axios from 'axios'
 import stringLength from 'string-length'
+import { setToken } from '~assets/js/imgur'
 
 export default {
   props: {
@@ -89,8 +90,7 @@ export default {
     },
     disabled() {
       const sending = !!this.promise
-      const someContents = this.photos.length
-        || this.text.length
+      const someContents = this.text.length
       const textLimit = this.count < 0
       return textLimit || !someContents || sending
     },
@@ -173,6 +173,14 @@ export default {
           title: this.text
         }
         try {
+          // expiryDate is millisecond
+          if(!token.expiryDate || token.expiryDate < Date.now()) {
+            const { data: tokenObj } = await axios.post('/imgur/token', {
+              refreshToken: token.refresh_token
+            })
+            setToken(tokenObj)
+            params.token = tokenObj
+          }
           const { data: urls } = await axios.post('/imgur/post', params)
           const raws = urls.map(obj => {
             // add version and type

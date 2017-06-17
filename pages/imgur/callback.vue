@@ -4,12 +4,13 @@
 
 <script>
 import qs from 'querystring'
+import { setToken } from '~assets/js/imgur'
+
 export default {
   mounted() {
     const paramsStr = this.$route.hash.substring(1)
     const params = qs.parse(paramsStr)
-    const paramsJSON = JSON.stringify(params)
-    localStorage.setItem('imgur', paramsJSON)
+    setToken(params)
     window.close()
   }
 }

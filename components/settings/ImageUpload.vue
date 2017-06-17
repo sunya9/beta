@@ -8,7 +8,7 @@
       You can attach images if login with imgur.
       Login info are stored in your browser(Local storage).
     </p>
-    <div v-if="imgur !== undefined">
+    <div>
       <div v-if="!imgur">
         <button @click="login" class="btn btn-primary">Login with imgur</button>
       </div>
@@ -33,7 +33,12 @@ export default {
     }
   },
   mounted() {
-    this.imgur = JSON.parse(localStorage.getItem('imgur'))
+    try {
+      const tokenStr = localStorage.getItem('imgur')
+      if(tokenStr)
+        this.imgur = JSON.parse(tokenStr)
+    } catch (e) {
+    }
   },
   methods: {
     login() {
