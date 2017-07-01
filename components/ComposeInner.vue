@@ -26,6 +26,9 @@
             />
           </transition-group>
     </div>
+    <div v-if="error" class="alert alert-danger fade show" role="alert">
+      {{ error }}
+    </div>
     <div class="d-flex justify-content-between align-items-center">
       <strong class="text-muted">{{count}}</strong>
         <div>
@@ -80,7 +83,8 @@ export default {
       tempCount: 0,
       text: '',
       imgur: null,
-      photos: []
+      photos: [],
+      error: null
     }
   },
 
@@ -197,7 +201,9 @@ export default {
           })
           option.raw.push(...raws)
         } catch(e) {
-          console.error(e)
+          const { response: { data: { message }}} = e
+          this.error = message
+          this.promise = null
           return
         }
       }
@@ -208,6 +214,7 @@ export default {
         .then(res => {
           this.text = ''
           this.promise = null
+          this.error = null
           bus.$emit('post', res.data)
           this.$emit('post', res.data)
           this.resetPost()

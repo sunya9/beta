@@ -23,7 +23,11 @@ app.use(async (ctx, next) => {
   try {
     await next()
   } catch (e) {
-    ctx.throw(`Internal server error: ${e.message}`, 500)
+    ctx.body = {
+      message: e.message
+    }
+    ctx.status = e.status || 500
+    ctx.app.emit('error', e, ctx)
   }
 })
 
