@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "nodemon -w app.js -w nuxt.config.js app.js",
     "build": "nuxt build",
-    "start": "cross-env NODE_ENV=production node --optimize_for_size --max_old_space_size=512 --gc_interval=100 app.js",
+    "start": "cross-env NODE_ENV=production node app.js",
     "precommit": "lint-staged",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint:staged": "eslint --ext .js,.vue --ignore-path .gitignore $(git diff --name-only --cached)"
