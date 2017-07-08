@@ -13,7 +13,8 @@
       class="item"
       ref="items"
       :class="{
-        'my-4': id(item) === main
+        'my-4': id(item) === main,
+        highlight: isTarget(item)
       }"
       :detail="id(item) === main"
       @remove="items.splice(index, 1)"></component>
@@ -69,6 +70,9 @@ export default {
       }
       return this.items
     },
+    mainItem() {
+      return this.filterItems.filter(item => item.id === this.main)[0]
+    },
     more() {
       return this.meta.more
     },
@@ -122,6 +126,11 @@ export default {
     }
   },
   methods: {
+    isTarget(item) {
+      return this.mainItem
+        ? this.mainItem.reply_to === item.id
+        : null
+    },
     focus() {
       if(this.selectItem && this.selectItem.$el)
         this.selectItem.$el.focus()
@@ -196,7 +205,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '~assets/css/mixin';
-
+@import '~assets/css/adn_base_variables';
 
 .list-group {
   @include no-gutter-xs
@@ -204,5 +213,9 @@ export default {
 
 .item:only-child, .item:first-child {
   margin-top: 0 !important;
+}
+
+.highlight {
+  background-color: $yellowLight;
 }
 </style>
