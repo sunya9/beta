@@ -49,9 +49,8 @@ import { mapState } from 'vuex'
 import PostModal from '~components/PostModal'
 import RemoveModal from '~components/RemoveModal'
 import HelpModal from '~components/HelpModal'
-import router from '~router'
 import bus from '~assets/js/bus'
-import Mousetrap from '~plugins/mousetrap'
+import Mousetrap from 'mousetrap'
 import AppSidebar from '~components/sidebar/App'
 import SettingsSidebar from '~components/sidebar/Settings'
 import AboutSidebar from '~components/sidebar/About'
@@ -89,6 +88,7 @@ export default {
     ...mapState(['user'])
   },
   mounted() {
+    const router = this.$router
     // new post
     Mousetrap.bind('n', () => this.$refs.postModal.showModal())
     Mousetrap.bind('?', () => this.$refs.helpModal.showModal())

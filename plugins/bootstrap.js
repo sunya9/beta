@@ -1,3 +1,1 @@
-if (process.BROWSER_BUILD) {
-  require('bootstrap')
-}
+import 'bootstrap'

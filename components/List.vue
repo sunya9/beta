@@ -32,7 +32,6 @@ import User from '~components/User'
 import Post from '~components/Post'
 import Interaction from '~components/Interaction'
 import api from '~plugins/api'
-import router from '~router'
 
 const INTERVAL = 1000 * 60 // 1min
 
@@ -153,7 +152,7 @@ export default {
     },
     goPost () {
       if(this.selectItem)
-        router.push(this.selectItem.permalink)
+        this.$router.push(this.selectItem.permalink)
     },
     id(item) {
       if(this.type === 'Interaction') {

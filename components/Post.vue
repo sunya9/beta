@@ -156,7 +156,6 @@ import ActionButton from '~components/ActionButton'
 import Thumb from '~components/Thumb'
 import { mapState } from 'vuex'
 import api from '~plugins/api'
-import router from '~router'
 import cheerio from 'cheerio'
 import bus from '~assets/js/bus'
 import focus from '~assets/js/focus'
@@ -312,7 +311,7 @@ export default {
       const a = e.target
       if (!a.href || !a.getAttribute('href').startsWith('/')) return
       e.preventDefault()
-      router.push(a.pathname)
+      this.$router.push(a.pathname)
     }
   },
   components: {

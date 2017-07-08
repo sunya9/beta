@@ -1,6 +1,4 @@
 import Vue from 'vue'
+import infiniteScroll from 'vue-infinite-scroll'
 
-if (process.BROWSER_BUILD) {
-  const infiniteScroll = require('vue-infinite-scroll')
-  Vue.use(infiniteScroll)
-}
+Vue.use(infiniteScroll)

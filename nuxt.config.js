@@ -52,6 +52,7 @@ module.exports = {
       'vue-infinite-scroll',
       '~plugins/bootstrap.js',
       '~plugins/api.js',
+      '~plugins/mousetrap.js',
       '~plugins/vue-infinite.js',
       'moment',
       'cheerio',
@@ -107,5 +108,5 @@ module.exports = {
       }
     }
   },
-  cache: true
+  cache: false
 }

@@ -1,5 +1,3 @@
 if (process.BROWSER_BUILD) {
-  const Mousetrap = require('mousetrap')
-  require('mousetrap/plugins/pause/mousetrap-pause')
-  module.exports = Mousetrap
+  require('imports-loader?Mousetrap=>require("mousetrap")!mousetrap/plugins/pause/mousetrap-pause')
 }

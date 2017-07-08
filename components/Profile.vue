@@ -48,7 +48,6 @@
 import FollowButton from '~components/FollowButton'
 import cheerio from 'cheerio'
 import { mapState } from 'vuex'
-import router from '~router'
 
 export default {
   props: ['profile'],
@@ -82,7 +81,7 @@ export default {
       const a = e.target
       if (!a.href || !a.getAttribute('href').startsWith('/')) return
       e.preventDefault()
-      router.push(a.pathname)
+      this.$router.push(a.pathname)
     }
   },
   components: {

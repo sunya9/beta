@@ -37,7 +37,7 @@ import ComposeInner from '~components/ComposeInner'
 import { mapState } from 'vuex'
 import $ from 'jquery'
 import bus from '~assets/js/bus'
-import Mousetrap from '~plugins/mousetrap'
+import mousetrap from 'mousetrap'
 
 export default {
   data() {
