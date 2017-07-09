@@ -14,7 +14,7 @@
       ref="items"
       :class="{
         'my-4': id(item) === main,
-        highlight: isTarget(item)
+        'list-group-item-warning': isTarget(item)
       }"
       :detail="id(item) === main"
       @remove="items.splice(index, 1)"></component>
@@ -71,7 +71,7 @@ export default {
       return this.items
     },
     mainItem() {
-      return this.filterItems.filter(item => item.id === this.main)[0]
+      return this.type === 'Post' && this.filterItems.filter(item => item.id === this.main)[0]
     },
     more() {
       return this.meta.more
@@ -205,7 +205,6 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '~assets/css/mixin';
-@import '~assets/css/adn_base_variables';
 
 .list-group {
   @include no-gutter-xs
@@ -213,9 +212,5 @@ export default {
 
 .item:only-child, .item:first-child {
   margin-top: 0 !important;
-}
-
-.highlight {
-  background-color: $yellowLight;
 }
 </style>
