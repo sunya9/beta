@@ -35,13 +35,9 @@
               </nuxt-link>
             </li>
           </ul>.
-          <nuxt-link
-            v-if="post"
-            :to="`@${action.objects[0].user.username}/posts/${action.objects[0].id}`">
             <ul class="list-group">
               <post class="mt-3" :data="post" view-only preview />
             </ul>
-          </nuxt-link>
         </div>
         <footer>
           <ul class="list-inline">
