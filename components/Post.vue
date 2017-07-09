@@ -1,5 +1,5 @@
 <template>
-  <li @focus="focus" tabindex="-1" :id="`post-${post.id}`" class="list-group-item list-group-item-action">
+  <li @focus="focus" tabindex="-1" :id="`post-${post.id}`" class="list-group-item list-group-item-action" @click="$emit('click')">
     <div
       :class="{
         deleted: post.is_deleted

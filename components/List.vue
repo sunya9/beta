@@ -11,7 +11,7 @@
       v-for="(item, index) in filterItems"
       :data="item"
       class="item"
-      ref="items"
+      @click="select = index"
       :class="{
         'my-4': id(item) === main,
         'list-group-item-warning': isTarget(item)

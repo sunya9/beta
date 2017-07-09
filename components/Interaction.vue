@@ -1,5 +1,5 @@
 <template>
-  <li @focus="focus" tabindex="-1" class="list-group-item list-group-item-action">
+  <li @focus="focus" tabindex="-1" class="list-group-item list-group-item-action" @click="$emit('click')">
     <div class="media pt-2 w-100">
       <div class="d-inline-block mr-4 text-muted">
         <i
