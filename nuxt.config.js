@@ -11,7 +11,6 @@ module.exports = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'beta is pnut.io client.' }
-
     ],
     link: [
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat' },
@@ -100,7 +99,7 @@ module.exports = {
           if (el) {
             position = {
               x: 0,
-              y: el.getBoundingClientRect().top - 100
+              y: window.pageYOffset + el.getBoundingClientRect().top - 100
             }
           }
         }
@@ -108,5 +107,5 @@ module.exports = {
       }
     }
   },
-  cache: false
+  cache: true
 }
