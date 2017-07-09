@@ -62,7 +62,7 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-    collapseHeight: 0
+      collapseHeight: 0
     }
   },
   mounted () {
