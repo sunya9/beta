@@ -1,6 +1,6 @@
 # Beta
 
-> pnut.io client.
+pnut.io client.
 
 ## Build Setup
 
