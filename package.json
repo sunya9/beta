@@ -2,7 +2,7 @@
   "name": "beta",
   "version": "1.2.0",
   "description": "pnut.io client.",
-  "author": "sunya9 <mugen.xyz@gmail.com>",
+  "author": "sunya9 <mugen.xyz@gmail.com> (https://unsweets.net)",
   "private": true,
   "main": "app.js",
   "scripts": {
@@ -62,5 +62,12 @@
     "lint-staged": "^3.6.1",
     "nodemon": "^1.11.0",
     "scmp": "^2.0.0"
-  }
+  },
+  "homepage": "https://github.com/sunya9/beta",
+  "bugs": "https://github.com/sunya9/beta/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunya9/beta.git"
+  },
+  "license": "MIT"
 }
