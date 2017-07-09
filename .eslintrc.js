@@ -3,13 +3,15 @@ module.exports = {
   parser: 'babel-eslint',
   env: {
     browser: true,
-    node: true
+    node: true,
+    mocha: true
   },
   extends: 'standard',
   // required to lint *.vue files
   plugins: [
     'html',
-    'vue'
+    'vue',
+    'chai-expect'
   ],
   // add your custom rules here
   rules: {},
