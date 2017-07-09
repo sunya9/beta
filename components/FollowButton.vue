@@ -31,7 +31,7 @@ export default {
   methods: {
     follow() {
       const method = this.state ? 'delete' : 'put'
-      axios[method](`/proxy/users/${this.userId}/follow`)
+      return axios[method](`/proxy/users/${this.userId}/follow`)
         .then(res => this.state = !this.state)
     }
   }
