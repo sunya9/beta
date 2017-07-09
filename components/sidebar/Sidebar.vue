@@ -1,51 +1,65 @@
 <template>
-  <div class="list-group">
-    <template v-for="menu in menus" v-if="'hidden' in menu ? !menu.hidden : true">
-      <span
-        class="heading list-group-item pt-4 pl-0 border-left-0 border-top-0 h5 text-uppercase"
-        v-if="menu.type === 'heading'">
-        {{menu.label}}
-      </span>
-      <a
-        :class="itemClass"
-        :href="menu.url"
-        v-else-if="menu.normal && menu.url">
-        <i class="fa fa-fw" :class="menu.icon"></i>&nbsp;
-        {{menu.label}}
-      </a>
-      <a
-        href="#"
-        :class="itemClass"
-        @click.prevent="menu.click"
-        v-else-if="menu.click && menu.click">
-        <i class="fa fa-fw" :class="menu.icon"></i>&nbsp;
-        {{menu.label}}
-      </a>
-      <nuxt-link
-        :to="menu.url"
-        class="justify-content-between"
-        :class="[{
-          active: active(menu.url)
-        }, itemClass]"
-        data-toggle="collapse" data-target="#navbarSupportedContent.show"
-        exact
-        v-else>
-        <span>
+  <div>
+    <div class="list-group">
+      <template v-for="menu in menus" v-if="'hidden' in menu ? !menu.hidden : true">
+        <span
+          class="heading list-group-item pt-4 pl-0 border-left-0 border-top-0 h5 text-uppercase"
+          v-if="menu.type === 'heading'">
+          {{menu.label}}
+        </span>
+        <a
+          :class="itemClass"
+          :href="menu.url"
+          v-else-if="menu.normal && menu.url">
           <i class="fa fa-fw" :class="menu.icon"></i>&nbsp;
           {{menu.label}}
-          <!-- <span class="badge badge-important pull-right">{{ badge }}</span>-->
-        </span>
-      </nuxt-link>
-    </template>
+        </a>
+        <a
+          href="#"
+          :class="itemClass"
+          @click.prevent="menu.click"
+          v-else-if="menu.click && menu.click">
+          <i class="fa fa-fw" :class="menu.icon"></i>&nbsp;
+          {{menu.label}}
+        </a>
+        <nuxt-link
+          :to="menu.url"
+          class="justify-content-between"
+          :class="[{
+            active: active(menu.url)
+          }, itemClass]"
+          data-toggle="collapse" data-target="#navbarSupportedContent.show"
+          exact
+          v-else>
+          <span>
+            <i class="fa fa-fw" :class="menu.icon"></i>&nbsp;
+            {{menu.label}}
+            <!-- <span class="badge badge-important pull-right">{{ badge }}</span>-->
+          </span>
+        </nuxt-link>
+      </template>
+    </div>
+    <div class="mt-3 mb-1">
+      <a
+        class="text-muted"
+        :href="`${npm_package_homepage}/releases/tag/v${npm_package_version}`"
+        target="_new">
+        <small>v{{npm_package_version}} last modified: {{last_modified}}</small>
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import moment from 'moment'
 export default {
   data() {
     return {
-      itemClass: 'list-group-item list-group-item-action border-left-0 border-bottom-0'
+      itemClass: 'list-group-item list-group-item-action border-left-0 border-bottom-0',
+      npm_package_version: process.env.npm_package_version,
+      npm_package_homepage: npm_package_homepage,
+      last_modified: moment(last_modified).format('YYYY-MM-DD')
     }
   },
   computed: mapState([

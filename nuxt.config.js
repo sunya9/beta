@@ -1,4 +1,7 @@
-const { ProvidePlugin } = require('webpack')
+const { ProvidePlugin, EnvironmentPlugin, DefinePlugin } = require('webpack')
+const { homepage: npm_package_homepage } = require('./package')
+const fs = require('fs')
+const lastModified = fs.statSync('./package.json').mtime
 
 module.exports = {
   /*
@@ -41,6 +44,11 @@ module.exports = {
         'window.jQuery': 'jquery',
         'window.Tether': 'tether',
         Tether: 'tether'
+      }),
+      new EnvironmentPlugin(['npm_package_version']),
+      new DefinePlugin({
+        npm_package_homepage: JSON.stringify(npm_package_homepage),
+        last_modified: JSON.stringify(lastModified)
       })
     ],
     vendor: [
