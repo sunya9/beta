@@ -1,4 +1,6 @@
 # Beta
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/sunya9/beta.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/sunya9/beta.svg?branch=master)](https://travis-ci.org/sunya9/beta)
 
 pnut.io client.
