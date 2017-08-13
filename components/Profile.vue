@@ -23,7 +23,7 @@
                   <small class="ml-sm-2 d-block d-sm-inline text-muted">{{profile.name}}</small>
                 </span>
               </h3>
-              <p v-if="profile.verified">
+              <p v-if="profile.verified" class="text-center text-md-left">
                 <a :href="profile.verified.link">{{profile.verified.domain}}</a>
               </p>
             </div>
