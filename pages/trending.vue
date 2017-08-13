@@ -16,8 +16,7 @@ import List from '~components/List'
 import api from '~plugins/api'
 
 export default {
-  async asyncData(ctx) {
-    const { store } = ctx
+  async asyncData (ctx) {
     const data = await api(ctx).fetch()
     return { data }
   },

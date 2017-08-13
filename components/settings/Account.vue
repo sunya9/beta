@@ -94,24 +94,23 @@
 import api from '~plugins/api'
 import SubmitButton from '~components/SubmitButton'
 // import CropModal from '~components/CropModal'
-import axios from 'axios'
 
 export default {
   props: {
     account: {}
   },
-  data() {
+  data () {
     return {
       name: '',
       description: '',
       cover: {},
       avatar: {},
       coverMessage: '',
-      avatarMessage: '',
+      avatarMessage: ''
     }
   },
   computed: {
-    submitData() {
+    submitData () {
       return {
         name: this.name,
         content: {
@@ -120,7 +119,7 @@ export default {
       }
     }
   },
-  async mounted() {
+  async mounted () {
     const account = this.account
     this.name = account.name
     this.description = account.content.text
@@ -128,18 +127,18 @@ export default {
     this.avatar = account.content.avatar_image
   },
   methods: {
-    async update() {
-      const { meta, data } = await api().patch('/users/me', this.submitData)
-      if(meta.code === 200) {
+    async update () {
+      const { meta } = await api().patch('/users/me', this.submitData)
+      if (meta.code === 200) {
 
       }
     },
-    changeCover() {
+    changeCover () {
       this.$refs.coverFileInput.click()
     },
-    changeAvatar() {
+    changeAvatar () {
       this.$refs.avatarFileInput.click()
-    },
+    }
     // avatarChanged(e) {
     //   if(!e.target.files.length) return
     //   const [file] = e.target.files
@@ -216,7 +215,7 @@ export default {
     // }
   },
   components: {
-    SubmitButton,
+    SubmitButton
     // CropModal
   }
 }

@@ -31,48 +31,46 @@
 import bus from '~assets/js/bus'
 import $ from 'jquery'
 import Post from '~components/Post'
-import mousetrap from 'mousetrap'
+import Mousetrap from '~plugins/mousetrap'
 
 export default {
-  data() {
+  data () {
     return {
       vm: null
     }
   },
-  mounted() {
+  mounted () {
     bus.$on('showRemoveModal', this.showModal)
     $(this.$el).on('hidden.bs.modal', this.hidden)
     $(this.$el).on('shown.bs.modal', this.shown)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     bus.$off('showPostModal', this.showModal)
   },
   methods: {
-    showModal(postVM) {
-      if(!$(this.$el).hasClass('show')) {
+    showModal (postVM) {
+      if (!$(this.$el).hasClass('show')) {
         Mousetrap.pause()
         $(this.$el).modal('show')
         this.vm = postVM
       }
     },
-    ok() {
+    ok () {
       this.vm.remove()
     },
-    shown() {
+    shown () {
       this.$refs.cancelButton.focus()
     },
-    hidden() {
+    hidden () {
       Mousetrap.unpause()
       this.vm = null
     },
-    dismiss() {
-      if($(this.$el).hasClass('show'))
-        $(this.$el).modal('hide')
+    dismiss () {
+      if ($(this.$el).hasClass('show')) { $(this.$el).modal('hide') }
     }
   },
   components: {
     Post
   }
 }
-
 </script>

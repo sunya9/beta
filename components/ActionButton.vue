@@ -14,27 +14,27 @@ import api from '~plugins/api'
 
 export default {
   props: ['icon', 'initialState', 'resource'],
-  data() {
+  data () {
     return {
       state: this.initialState
     }
   },
   methods: {
-    click() {
+    click () {
       api()
         .request(this.resource, this.method)
-        .then(() => this.state = !this.state)
+        .then(() => { this.state = !this.state })
     }
   },
   computed: {
-    computedIcon() {
-      if(typeof this.icon === 'object') {
+    computedIcon () {
+      if (typeof this.icon === 'object') {
         return this.icon[+this.state]
       } else {
         return this.icon
       }
     },
-    method() {
+    method () {
       return this.state ? 'delete' : 'put'
     }
   }

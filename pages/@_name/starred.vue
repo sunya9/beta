@@ -15,7 +15,7 @@ import api from '~plugins/api'
 import List from '~components/List'
 
 export default {
-  async asyncData(ctx) {
+  async asyncData (ctx) {
     const { params } = ctx
     const { name } = params
     const data = await api(ctx).fetch()
@@ -27,9 +27,9 @@ export default {
   components: {
     List
   },
-  head() {
+  head () {
     return {
-      title: `@${this.name}'\s starred`
+      title: `@${this.name}'s starred`
     }
   }
 }

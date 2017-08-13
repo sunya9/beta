@@ -77,7 +77,7 @@ export default {
     replyTarget: Object,
     noPhoto: Boolean
   },
-  data() {
+  data () {
     return {
       promise: null,
       tempCount: 0,
@@ -89,10 +89,10 @@ export default {
   },
 
   computed: {
-    count() {
+    count () {
       return 256 - Math.max(this.getTextLength(this.text), this.tempCount)
     },
-    disabled() {
+    disabled () {
       const sending = !!this.promise
       const someContents = this.text.length
       const textLimit = this.count < 0
@@ -100,26 +100,24 @@ export default {
     },
     ...mapState(['user'])
   },
-  created() {
-    if(this.initialText)
-      this.text = this.initialText
+  created () {
+    if (this.initialText) { this.text = this.initialText }
   },
   mounted () {
-    if(this.focus)
-      this.setFocus()
-    if(this.replyTarget) {
+    if (this.focus) { this.setFocus() }
+    if (this.replyTarget) {
       this.text = this.user.username === this.replyTarget.user.username
-          ? ''
-          : `@${this.replyTarget.user.username} `
+        ? ''
+        : `@${this.replyTarget.user.username} `
     }
     const imgur = localStorage.getItem('imgur')
     this.imgur = imgur ? JSON.parse(imgur) : null
   },
   methods: {
-    setFocus() {
+    setFocus () {
       // occur error if it not displayed like logged out
-      if(this.$refs.textarea) {
-        switch(typeof this.focus) {
+      if (this.$refs.textarea) {
+        switch (typeof this.focus) {
           case 'object': { // == array
             const [start, end] = this.focus
             this.setCaret(start, end)
@@ -138,17 +136,17 @@ export default {
         }
       }
     },
-    setCaret(start, end) {
-      if(end === undefined) {
+    setCaret (start, end) {
+      if (end === undefined) {
         end = start
       }
       const input = this.$refs.textarea
-      if('selectionStart' in input) {
+      if ('selectionStart' in input) {
         input.selectionStart = start
         input.selectionEnd = end
-      } else if(input.setSelectionRange) {
+      } else if (input.setSelectionRange) {
         input.setSelectionRange(start, end)
-      } else if(input.createTextRange) {
+      } else if (input.createTextRange) {
         const range = input.createTextRange()
         range.collapse(true)
         range.moveEnd('character', end)
@@ -157,13 +155,13 @@ export default {
       }
       input.focus()
     },
-    async submit() {
+    async submit () {
       const option = {
         text: this.text,
         raw: []
       }
 
-      if(this.photos.length) {
+      if (this.photos.length) {
         this.promise = true
         // image upload
         const imgur = localStorage.getItem('imgur')
@@ -179,7 +177,7 @@ export default {
         }
         try {
           // expiryDate is millisecond
-          if(!token.expiryDate || token.expiryDate < Date.now()) {
+          if (!token.expiryDate || token.expiryDate < Date.now()) {
             const { data: tokenObj } = await axios.post('/imgur/token', {
               refreshToken: token.refresh_token
             })
@@ -191,7 +189,7 @@ export default {
             // add version and type
             const value = Object.assign({}, obj, {
               type: 'photo',
-              version: '1.0',
+              version: '1.0'
             })
             const res = {
               type: 'io.pnut.core.oembed',
@@ -200,14 +198,14 @@ export default {
             return res
           })
           option.raw.push(...raws)
-        } catch(e) {
-          const { response: { data: { message }}} = e
+        } catch (e) {
+          const { response: { data: { message } } } = e
           this.error = message
           this.promise = null
           return
         }
       }
-      if(this.replyTarget) {
+      if (this.replyTarget) {
         option.reply_to = this.replyTarget.id
       }
       this.promise = api().post('/posts', option)
@@ -222,22 +220,22 @@ export default {
     },
     // for IME
     // https://vuejs.org/v2/guide/forms.html#Basic-Usage
-    textCount(e) {
+    textCount (e) {
       this.tempCount = this.getTextLength(e.target.value.trim())
     },
-    cancelReply() {
+    cancelReply () {
       this.replyTarget = null
     },
-    resetPost() {
+    resetPost () {
       this.text = ''
       this.tempCount = 0
       this.photos = []
     },
-    addPhoto() {
+    addPhoto () {
       this.$refs.file.click()
     },
-    fileChange(e) {
-      if(!e.target.files.length) return
+    fileChange (e) {
+      if (!e.target.files.length) return
       const photosPromise = Array.prototype.slice
         .call(e.target.files)
         .map(file => {
@@ -247,15 +245,15 @@ export default {
             fr.onload = e => {
               file.data = e.target.result
               resolve(file)
-              }
+            }
           })
         })
       Promise.all(photosPromise)
         .then(photos => this.photos.push(...photos))
     },
-    getTextLength(str) {
+    getTextLength (str) {
       // http://stackoverflow.com/a/32382702
-      const markdown = str.replace(/\[([^\]]+)\][^\)]+\)/g, '$1')
+      const markdown = str.replace(/\[([^\]]+)\][^)]+\)/g, '$1')
       return stringLength(markdown)
     }
   },

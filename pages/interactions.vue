@@ -30,7 +30,7 @@ import api from '~plugins/api'
 
 export default {
   middleware: 'authenticated',
-  async asyncData(ctx) {
+  async asyncData (ctx) {
     const data = await api(ctx).fetch()
     return { data }
   },
@@ -42,16 +42,16 @@ export default {
   computed: {
     filteredData () {
       const interactions = this.data.data
-        .filter (interaction => {
-          const res = !this.filter.length
-          || this.filter.indexOf(interaction.action) >= 0
+        .filter(interaction => {
+          const res = !this.filter.length ||
+          this.filter.indexOf(interaction.action) >= 0
           return res
         })
       const data = Object.assign({}, this.data, {
         data: interactions
       })
       return data
-    },
+    }
   },
   methods: {
     active (e) {

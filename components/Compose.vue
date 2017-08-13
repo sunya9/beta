@@ -9,10 +9,8 @@
 </template>
 
 <script>
-import api from '~plugins/api'
 import { mapState } from 'vuex'
 import ComposeInner from '~components/ComposeInner'
-import bus from '~assets/js/bus'
 
 export default {
   props: {
@@ -27,12 +25,12 @@ export default {
     thread: Boolean,
     replyTarget: Object
   },
-  data() {
+  data () {
     return {
       hidden: false
     }
   },
-  mounted() {
+  mounted () {
     this.hidden = this.thread
   },
   computed: mapState(['user']),

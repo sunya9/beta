@@ -3,8 +3,8 @@ import Sidebar from './Sidebar'
 
 export default {
   extends: Sidebar,
-  data() {
-  const menus = [
+  data () {
+    const menus = [
       {type: 'heading', label: 'User'},
       {
         label: 'Account',

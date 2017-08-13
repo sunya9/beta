@@ -34,56 +34,54 @@
 <script>
 import Post from '~components/Post'
 import ComposeInner from '~components/ComposeInner'
-import { mapState } from 'vuex'
 import $ from 'jquery'
 import bus from '~assets/js/bus'
-import mousetrap from 'mousetrap'
+import Mousetrap from 'mousetrap'
 
 export default {
-  data() {
+  data () {
     return {
       show: false,
       reply: null
     }
   },
-  mounted() {
+  mounted () {
     $(this.$el).on('hide.bs.modal', this.hide)
     $(this.$el).on('hidden.bs.modal', this.hidden)
     $(this.$el).on('shown.bs.modal', () => this.$refs.compose.setFocus())
     bus.$on('showPostModal', this.showModal)
   },
   computed: {
-    title() {
+    title () {
       return this.reply
         ? `Reply to @${this.reply.user.username}`
         : 'Compose new post'
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     bus.$off('showPostModal', this.showModal)
   },
   methods: {
-    hidden() {
+    hidden () {
       this.reply = null
       this.show = false
       Mousetrap.unpause()
     },
-    showModal(post) {
-      if(!$(this.$el).hasClass('show')) {
+    showModal (post) {
+      if (!$(this.$el).hasClass('show')) {
         Mousetrap.pause()
         this.show = true
-        this.reply = post ? post : null
+        this.reply = post || null
         $(this.$el).modal('show')
       }
     },
-    dismiss() {
-      if($(this.$el).hasClass('show'))
-        $(this.$el).modal('hide')
+    dismiss () {
+      if ($(this.$el).hasClass('show')) { $(this.$el).modal('hide') }
     }
   },
   components: {
     Post,
-    ComposeInner,
+    ComposeInner
   }
 }
 </script>

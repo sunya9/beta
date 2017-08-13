@@ -60,7 +60,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
       collapseHeight: 0
     }
@@ -69,9 +69,8 @@ export default {
     const { height } = this.$el.children[0].getBoundingClientRect()
     this.collapseHeight = `calc(100vh - ${height}px)`
   },
-  computed: mapState(['user']),
+  computed: mapState(['user'])
 }
-
 </script>
 <style scoped lang="scss">
 @import '~assets/css/override';

@@ -13,7 +13,7 @@ import api from '~plugins/api'
 import Account from '~components/settings/Account'
 
 export default {
-  async asyncData(ctx) {
+  async asyncData (ctx) {
     const { data: account } = await api(ctx).get('/users/me')
     return {
       account

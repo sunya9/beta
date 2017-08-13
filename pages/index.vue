@@ -25,21 +25,21 @@ export default {
     Compose,
     List
   },
-  async asyncData(ctx) {
-    if(ctx.store.state.user) {
+  async asyncData (ctx) {
+    if (ctx.store.state.user) {
       const data = await api(ctx).fetch()
       return { data }
     }
   },
-  mounted() {
+  mounted () {
     bus.$on('post', this.add)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     bus.$off('post', this.add)
   },
   computed: mapState(['user']),
   methods: {
-    add(post) {
+    add (post) {
       this.$refs.list.refresh()
     }
   },

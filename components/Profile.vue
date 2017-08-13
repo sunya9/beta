@@ -15,12 +15,12 @@
                 width="96" height="96" :title="profile.id">
             </a>
             <h3 class="card-title w-100" :title="profile.id">
-              <div class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline">
+              <span class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline">
                 <span>
                   @{{profile.username}}
                 </span>
                 <small class="ml-sm-2 d-block d-sm-inline text-muted">{{profile.name}}</small>
-              </div>
+              </span>
             </h3>
           </div>
           <div v-if="user && profile.id !== user.id" class="text-center">
@@ -53,11 +53,11 @@ export default {
   props: ['profile'],
   computed: {
     ...mapState(['user']),
-    relation() {
+    relation () {
       return this.profile.follows_you ? 'Follows you' : ''
     },
-    html() {
-      if(this.profile.content.html) {
+    html () {
+      if (this.profile.content.html) {
         const $ = cheerio.load(this.profile.content.html)
         $('a').attr('target', '_new')
         $('span[data-mention-name]')
@@ -86,7 +86,7 @@ export default {
   },
   components: {
     FollowButton
-  },
+  }
 }
 </script>
 <style scoped lang="scss">

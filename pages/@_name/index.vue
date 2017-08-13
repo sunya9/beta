@@ -21,7 +21,7 @@ import bus from '~assets/js/bus'
 import { mapState } from 'vuex'
 
 export default {
-  async asyncData(ctx) {
+  async asyncData (ctx) {
     const { params, error } = ctx
     const { name } = params
     const _api = api(ctx)
@@ -30,7 +30,7 @@ export default {
       include_directed_posts: 1
     }
     const data = await _api.fetch(option)
-    if(data.meta.code < 400) {
+    if (data.meta.code < 400) {
       return {
         data, profile, name, option
       }
@@ -43,21 +43,21 @@ export default {
   },
   computed: {
     ...mapState({
-      initialText(state) {
+      initialText (state) {
         return state.user && state.user.username === this.name
           ? ''
           : `@${this.name} `
       }
     })
   },
-  mounted() {
+  mounted () {
     bus.$on('post', this.add)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     bus.$off('post', this.add)
   },
   methods: {
-    add(post) {
+    add (post) {
       this.$refs.list.refresh()
     }
   },
@@ -66,7 +66,7 @@ export default {
     Compose,
     List
   },
-  head() {
+  head () {
     return {
       title: `@${this.name}`
     }

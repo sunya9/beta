@@ -23,36 +23,33 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 const IMGUR_LOGIN = 'imgur-login'
 export default {
-  data() {
+  data () {
     return {
       imgur: undefined
     }
   },
-  mounted() {
+  mounted () {
     try {
       const tokenStr = localStorage.getItem('imgur')
-      if(tokenStr)
-        this.imgur = JSON.parse(tokenStr)
+      if (tokenStr) { this.imgur = JSON.parse(tokenStr) }
     } catch (e) {
     }
   },
   methods: {
-    login() {
+    login () {
       const wnd = window.open('/imgur/login', IMGUR_LOGIN, 'resizable=yes,scrollbars=yes')
       wnd.addEventListener('unload', this.setToken)
       wnd.addEventListener('beforeunload', this.setToken)
     },
-    setToken() {
+    setToken () {
       const imgur = localStorage.getItem('imgur')
-        this.imgur = imgur
-          ? JSON.parse(imgur)
-          : null
+      this.imgur = imgur
+        ? JSON.parse(imgur)
+        : null
     },
-    logout() {
+    logout () {
       localStorage.removeItem('imgur')
       this.imgur = null
     }

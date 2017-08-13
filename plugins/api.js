@@ -19,7 +19,8 @@ class API {
   }
 
   async fetch (option = {}) {
-    return await this.get(this.resource, option)
+    const res = await this.get(this.resource, option)
+    return res
   }
 
   async get (resource, body) {
@@ -30,19 +31,23 @@ class API {
     const queryObj = Object.assign({}, defaults, body)
     const params = qs.stringify(queryObj)
     const url = `${resource}?${params}`
-    return await this.request(url)
+    const res = await this.request(url)
+    return res
   }
 
   async post (resource, body) {
-    return await this.request(resource, 'post', body)
+    const res = await this.request(resource, 'post', body)
+    return res
   }
 
   async delete (resource, body) {
-    return await this.request(resource, 'delete', body)
+    const res = await this.request(resource, 'delete', body)
+    return res
   }
 
   async patch (resource, body) {
-    return await this.request(resource, 'patch', body)
+    const res = await this.request(resource, 'patch', body)
+    return res
   }
 }
 

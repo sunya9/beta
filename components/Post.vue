@@ -161,15 +161,15 @@ import bus from '~assets/js/bus'
 import focus from '~assets/js/focus'
 
 moment.updateLocale('en', {
-    relativeTime : {
-      s: '%ds',
-      m: '1m',
-      mm: '%dm',
-      h: '1h',
-      hh: '%dh',
-      d: '1d',
-      dd: '%dd'
-    }
+  relativeTime: {
+    s: '%ds',
+    m: '1m',
+    mm: '%dm',
+    h: '1h',
+    hh: '%dh',
+    d: '1d',
+    dd: '%dd'
+  }
 })
 
 export default {
@@ -180,37 +180,37 @@ export default {
     detail: Boolean,
     preview: Boolean
   },
-  data() {
+  data () {
     return {
       date: null
     }
   },
-  created() {
+  created () {
     setInterval(this.dateUpdate, 1000 * 30) // 30sec
     this.dateUpdate()
   },
   computed: {
-    reactionUsers() {
-      if(!this.detail) return []
+    reactionUsers () {
+      if (!this.detail) return []
       const users = this.mainPost.bookmarked_by.concat(this.mainPost.reposted_by)
       return users
         // .slice(0, 10)
         .reduce((res, user, i, users) => {
           let exist = false
-          for(let i = 0; res.length > i; i++) {
-            if(res[i].id === user.id) {
+          for (let i = 0; res.length > i; i++) {
+            if (res[i].id === user.id) {
               exist = true
               break
             }
           }
-          if(!exist) {
+          if (!exist) {
             res.push(user)
           }
           return res
         }, [])
     },
-    html() {
-      if(!this.post.is_deleted) {
+    html () {
+      if (!this.post.is_deleted) {
         const $ = cheerio.load(this.mainPost.content.html)
         $('a').attr('target', '_new')
         $('span[data-mention-name]')
@@ -230,8 +230,8 @@ export default {
         return '[Post deleted]'
       }
     },
-    thumbs() {
-      if(!this.mainPost.content) return []
+    thumbs () {
+      if (!this.mainPost.content) return []
       const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
       const photos = []
       const linkPhotos = this.mainPost
@@ -244,10 +244,10 @@ export default {
           }
         })
       Array.prototype.push.apply(photos, linkPhotos)
-      if(this.mainPost.raw) {
+      if (this.mainPost.raw) {
         const embedPhotos = this.mainPost.raw.filter(r => {
-          return r.type === 'io.pnut.core.oembed'
-            && r.value.type === 'photo'
+          return r.type === 'io.pnut.core.oembed' &&
+            r.value.type === 'photo'
         }).map(r => {
           return {
             original: r.value.url,
@@ -258,35 +258,34 @@ export default {
       }
       return photos
     },
-    absDate() {
+    absDate () {
       return moment(this.mainPost.created_at).format()
     },
-    post() {
+    post () {
       return this.data
     },
-    me() {
+    me () {
       return this.user && this.user.id === this.post.user.id
     },
-    mainPost() {
+    mainPost () {
       return this.post.repost_of || this.post
     },
-    permalink() {
+    permalink () {
       return `/@${this.mainPost.user.username}/posts/${this.mainPost.id}`
     },
     ...mapState(['user'])
   },
   methods: {
-    favoriteToggle() {
+    favoriteToggle () {
       this.$refs.favorite.click()
     },
-    repostToggle() {
-      if(!this.me)
-        thisjkkk.$refs.repost.click()
+    repostToggle () {
+      if (!this.me) { this.$refs.repost.click() }
     },
-    dateUpdate() {
+    dateUpdate () {
       const now = moment()
       const postDate = moment(this.post.created_at)
-      if(now.diff(postDate, 'month') >= 1) {
+      if (now.diff(postDate, 'month') >= 1) {
         const lastYear = now.toDate().getFullYear() - postDate.toDate().getFullYear()
         const format = lastYear ? 'D MMM YY' : 'D MMM'
         this.date = moment(this.post.created_at).format(format)
@@ -295,13 +294,13 @@ export default {
           .fromNow(true)
       }
     },
-    replyModal() {
+    replyModal () {
       bus.$emit('showPostModal', this.mainPost)
     },
-    removeModal() {
+    removeModal () {
       bus.$emit('showRemoveModal', this)
     },
-    remove() {
+    remove () {
       return api().delete(`/posts/${this.post.id}`)
         .then(() => {
           this.$emit('remove')

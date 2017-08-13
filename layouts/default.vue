@@ -49,7 +49,6 @@ import { mapState } from 'vuex'
 import PostModal from '~components/PostModal'
 import RemoveModal from '~components/RemoveModal'
 import HelpModal from '~components/HelpModal'
-import bus from '~assets/js/bus'
 import Mousetrap from 'mousetrap'
 import AppSidebar from '~components/sidebar/App'
 import SettingsSidebar from '~components/sidebar/Settings'
@@ -68,16 +67,16 @@ export default {
     AboutSidebar
   },
   watch: {
-    '$route.fullPath'() {-
+    '$route.fullPath' () {
       this.$refs.removeModal.dismiss()
       this.$refs.postModal.dismiss()
     }
   },
   computed: {
-    notLoginIndex() {
+    notLoginIndex () {
       return !this.user && this.$route.name === 'index'
     },
-    sidebar() {
+    sidebar () {
       const [, name] = this.$route.fullPath.match(/\/(\w+[^/])/) || []
       const map = {
         settings: 'SettingsSidebar',
@@ -87,7 +86,7 @@ export default {
     },
     ...mapState(['user'])
   },
-  mounted() {
+  mounted () {
     const router = this.$router
     // new post
     Mousetrap.bind('n', () => this.$refs.postModal.showModal())
@@ -104,7 +103,7 @@ export default {
     Mousetrap.bind('g t', () => router.push('/trending'))
     Mousetrap.bind('g g', () => router.push('/global'))
   },
-  beforeDestroy() {
+  beforeDestroy () {
     Mousetrap.unbind('n')
     Mousetrap.unbind('?')
 

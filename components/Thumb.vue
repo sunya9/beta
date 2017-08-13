@@ -19,32 +19,32 @@ export default {
     thumb: String,
     removable: Boolean
   },
-  mounted() {
+  mounted () {
     const Zooming = require('zooming')
     const img = this.$el.querySelector('img')
     const zooming = new Zooming({
       bgColor: '#000',
       zIndex: 1040,
-      bgOpacity: .5,
-      onOpen() {
+      bgOpacity: 0.5,
+      onOpen () {
         img.classList.add('show')
       },
-      onClose() {
+      onClose () {
         img.classList.remove('show')
       }
     })
     zooming.listen(img)
   },
   computed: {
-    normalizeOriginal() {
+    normalizeOriginal () {
       return this.original.replace(/^https?:/, '')
     },
-    normalizeThumb() {
+    normalizeThumb () {
       return this.thumb.replace(/^https?:/, '')
     }
   },
   methods: {
-    remove() {
+    remove () {
       this.$emit('remove')
     }
   }

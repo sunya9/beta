@@ -13,28 +13,27 @@ import axios from 'axios'
 
 export default {
   props: ['initialState', 'userId'],
-  data() {
+  data () {
     return {
       state: this.initialState
     }
   },
   computed: {
-    text() {
+    text () {
       return this.state
         ? 'Following'
         : 'Follow'
     },
-    btnClass() {
+    btnClass () {
       return `btn-${this.state ? 'secondary' : 'primary'}`
     }
   },
   methods: {
-    follow() {
+    follow () {
       const method = this.state ? 'delete' : 'put'
       return axios[method](`/proxy/users/${this.userId}/follow`)
-        .then(res => this.state = !this.state)
+        .then(() => { this.state = !this.state })
     }
   }
 }
-
 </script>

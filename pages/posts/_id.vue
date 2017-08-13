@@ -12,8 +12,8 @@ import api from '~plugins/api'
 import bus from '~assets/js/bus'
 
 export default {
-  async asyncData(ctx) {
-    const { params: { id }, req } = ctx
+  async asyncData (ctx) {
+    const { params: { id } } = ctx
     const _api = api(ctx)
     const option = {
       include_directed_posts: 1,
@@ -35,10 +35,10 @@ export default {
   // validate ({ params }) {
   //   return /^\d+$/.test(params.id)
   // },
-  mounted() {
+  mounted () {
     bus.$on('post', this.addAfter)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     bus.$off('post', this.addAfter)
   },
   components: {
@@ -50,11 +50,11 @@ export default {
       // this.data.data.push(post)
     }
   },
-  head() {
+  head () {
     const [post] = this.data.data
       .filter(post => post.id === this.id)
     let title = post.content.text
-    if(title.length > 30) {
+    if (title.length > 30) {
       title = title.substr(0, 30) + '…'
     }
     const name = post.user.name

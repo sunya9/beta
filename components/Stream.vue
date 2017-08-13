@@ -23,7 +23,7 @@ export default {
   ]),
   components: {
     Compose,
-    Post,
+    Post
     // List
   }
 }

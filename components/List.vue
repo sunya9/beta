@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import mousetrap from 'mousetrap'
+import Mousetrap from '~plugins/mousetrap'
 import User from '~components/User'
 import Post from '~components/Post'
 import Interaction from '~components/Interaction'
@@ -53,7 +53,7 @@ export default {
     Post,
     Interaction
   },
-  data() {
+  data () {
     return {
       busy: false,
       meta: this.data.meta,
@@ -64,33 +64,33 @@ export default {
     }
   },
   computed: {
-    filterItems() {
+    filterItems () {
       if (this.type === 'Post' && !this.all) {
         return this.items.filter(item => !item.is_deleted)
       }
       return this.items
     },
-    mainItem() {
+    mainItem () {
       return this.type === 'Post' && this.filterItems.filter(item => item.id === this.main)[0]
     },
-    more() {
+    more () {
       return this.meta.more
     },
-    moreDisabled() {
+    moreDisabled () {
       return this.busy || !this.more
     },
     select: {
-      get() {
+      get () {
         return this.internalSelect
       },
-      set(v) {
-        if(!(this.items.length - 1 < v) && !(0 > v)) {
+      set (v) {
+        if (!(this.items.length - 1 < v) && !(v < 0)) {
           this.internalSelect = v
         }
       }
     },
-    selectItem() {
-      if(this.select < 0) return null
+    selectItem () {
+      if (this.select < 0) return null
       return this.$refs.list.children[this.select].__vue__
     }
   },
@@ -98,104 +98,99 @@ export default {
     Mousetrap.bind('j', this.scrollDown)
     Mousetrap.bind('k', this.scrollUp)
     Mousetrap.bind('.', this.refresh)
-    if(this.type === 'Post') {
+    if (this.type === 'Post') {
       Mousetrap.bind('r', this.reply)
       Mousetrap.bind('s', this.favorite)
       Mousetrap.bind('p', this.repost)
       Mousetrap.bind('enter', this.goPost)
       Mousetrap.bind('del', this.remove)
     }
-    if(this.autoRefresh) {
-      if(this.timer) clearInterval(this.timer)
+    if (this.autoRefresh) {
+      if (this.timer) clearInterval(this.timer)
       this.timer = setInterval(this.refresh, INTERVAL)
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     Mousetrap.unbind('j')
     Mousetrap.unbind('k')
     Mousetrap.unbind('.')
-    if(this.type === 'Post') {
+    if (this.type === 'Post') {
       Mousetrap.unbind('s')
       Mousetrap.unbind('r')
       Mousetrap.unbind('p')
       Mousetrap.unbind('enter')
       Mousetrap.unbind('del')
     }
-    if(this.timer) {
+    if (this.timer) {
       clearInterval(this.timer)
     }
   },
   methods: {
-    isTarget(item) {
+    isTarget (item) {
       return this.mainItem
         ? this.mainItem.reply_to === item.id
         : null
     },
-    focus() {
-      if(this.selectItem && this.selectItem.$el)
-        this.selectItem.$el.focus()
+    focus () {
+      if (this.selectItem && this.selectItem.$el) { this.selectItem.$el.focus() }
     },
-    scrollDown() {
+    scrollDown () {
       this.select++
       this.focus()
     },
-    scrollUp() {
+    scrollUp () {
       this.select--
       this.focus()
     },
     reply () {
-      if(this.selectItem)
-        this.selectItem.replyModal()
+      if (this.selectItem) { this.selectItem.replyModal() }
     },
     remove () {
-      if(!this.selectItem || !this.selectItem.me) return
+      if (!this.selectItem || !this.selectItem.me) return
       this.selectItem.removeModal()
     },
     favorite () {
-      if(this.selectItem)
-        this.selectItem.favoriteToggle()
+      if (this.selectItem) { this.selectItem.favoriteToggle() }
     },
     repost () {
-      if(this.selectItem)
-        this.selectItem.repostToggle()
+      if (this.selectItem) { this.selectItem.repostToggle() }
     },
     goPost () {
-      if(this.selectItem)
-        this.$router.push(this.selectItem.permalink)
+      if (this.selectItem) { this.$router.push(this.selectItem.permalink) }
     },
-    id(item) {
-      if(this.type === 'Interaction') {
+    id (item) {
+      if (this.type === 'Interaction') {
         return item.pagination_id
       } else {
         return item.id
       }
     },
-    async refresh() {
-      if(this.refreshing) return
+    async refresh () {
+      if (this.refreshing) return
       this.refreshing = true
       const option = Object.assign({}, this.option, {
         since_id: this.id(this.items[0])
       })
       const { data: newItems } = await api({
-          route: this.$route
-        }).fetch(option)
-      if(newItems.length) {
+        route: this.$route
+      }).fetch(option)
+      if (newItems.length) {
         this.items = newItems.concat(this.items)
         this.select += newItems.length
       }
       this.refreshing = false
     },
-    async fetchMore() {
+    async fetchMore () {
       this.busy = true
       const option = Object.assign({}, this.option, {
         before_id: this.meta.min_id
       })
       const { data: newItems, meta } = await api({
-          route: this.$route
-        }).fetch(option)
+        route: this.$route
+      }).fetch(option)
       this.meta = meta
 
-      if(newItems.length) {
+      if (newItems.length) {
         this.items = this.items.concat(newItems)
       }
       this.busy = false

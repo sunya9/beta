@@ -17,22 +17,21 @@ import api from '~plugins/api'
 import bus from '~assets/js/bus'
 
 export default {
-  async asyncData(ctx) {
-    const { store } = ctx
+  async asyncData (ctx) {
     const option = {
       include_directed_posts: 1
     }
     const data = await api(ctx).fetch(option)
     return { data, option }
   },
-  mounted() {
+  mounted () {
     bus.$on('post', this.add)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     bus.$off('post', this.add)
   },
   methods: {
-    add(post) {
+    add (post) {
       this.$refs.list.refresh()
     }
   },

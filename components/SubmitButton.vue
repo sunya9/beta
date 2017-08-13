@@ -19,25 +19,25 @@ export default {
   props: {
     value: {
       type: String,
-      default: 'Save',
+      default: 'Save'
     },
     class: {
       type: String
     }
   },
-  data() {
+  data () {
     return {
       message: ''
     }
   },
   methods: {
-    submit(e) {
+    submit (e) {
       const { form } = e.target
       const method = form._method.value || form.method || 'get'
       const url = form.action
       const data = Array.prototype.slice.call(form)
         .reduce((obj, el) => {
-          if(el.name !== '_method' && el.type !== 'submit') {
+          if (el.name !== '_method' && el.type !== 'submit') {
             const res = qs.parse(`${el.name}=${el.value}`)
             Object.assign(obj, res)
           }

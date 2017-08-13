@@ -3,11 +3,13 @@
     <div class="list-group">
       <template v-for="menu in menus" v-if="'hidden' in menu ? !menu.hidden : true">
         <span
+          :key="menu.label"
           class="heading list-group-item pt-4 pl-0 border-left-0 border-top-0 h5 text-uppercase"
           v-if="menu.type === 'heading'">
           {{menu.label}}
         </span>
         <a
+          :key="menu.label"
           :class="itemClass"
           :href="menu.url"
           v-else-if="menu.normal && menu.url">
@@ -15,6 +17,7 @@
           {{menu.label}}
         </a>
         <a
+          :key="menu.label"
           href="#"
           :class="itemClass"
           @click.prevent="menu.click"
@@ -23,6 +26,7 @@
           {{menu.label}}
         </a>
         <nuxt-link
+          :key="menu.label"
           :to="menu.url"
           class="justify-content-between"
           :class="[{
@@ -44,7 +48,7 @@
         class="text-muted"
         :href="`${npm_package_homepage}/releases/tag/v${npm_package_version}`"
         target="_new">
-        <small>v{{npm_package_version}} last modified: {{last_modified}}</small>
+        <small>{{npm_package_version}} last modified: {{last_modified}}</small>
       </a>
     </div>
   </div>
@@ -54,19 +58,21 @@
 import { mapState } from 'vuex'
 import moment from 'moment'
 export default {
-  data() {
+  data () {
+    // Vue might recgnize process.env as strings and replace.
+    // So, unable to use destructuring assignment because occurred errors.
     return {
       itemClass: 'list-group-item list-group-item-action border-left-0 border-bottom-0',
       npm_package_version: process.env.npm_package_version,
-      npm_package_homepage: npm_package_homepage,
-      last_modified: moment(last_modified).format('YYYY-MM-DD')
+      npm_package_homepage: process.env.npm_package_homepage,
+      last_modified: moment(process.env.last_modified).format('YYYY-MM-DD')
     }
   },
   computed: mapState([
     'user'
   ]),
   methods: {
-    active(url) {
+    active (url) {
       return this.$route.fullPath === url ? 'active' : ''
     }
   }
