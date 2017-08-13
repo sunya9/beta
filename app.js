@@ -44,10 +44,10 @@ const nuxt = new Nuxt(config)
 // Build only in dev mode
 if (config.dev) {
   nuxt.build()
-  .catch((error) => {
-    console.error(error) // eslint-disable-line no-console
-    process.exit(1)
-  })
+    .catch((error) => {
+      console.error(error) // eslint-disable-line no-console
+      process.exit(1)
+    })
 }
 
 // https://ja.nuxtjs.org/api/nuxt-render
