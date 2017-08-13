@@ -14,14 +14,19 @@
                 alt="" class="rounded-circle mr-sm-3 negative"
                 width="96" height="96" :title="profile.id">
             </a>
-            <h3 class="card-title w-100" :title="profile.id">
-              <span class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline">
-                <span>
-                  @{{profile.username}}
+            <div class="w-100">
+              <h3 class="card-title mb-1" :title="profile.id">
+                <span class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline">
+                  <span>
+                    @{{profile.username}}
+                  </span>
+                  <small class="ml-sm-2 d-block d-sm-inline text-muted">{{profile.name}}</small>
                 </span>
-                <small class="ml-sm-2 d-block d-sm-inline text-muted">{{profile.name}}</small>
-              </span>
-            </h3>
+              </h3>
+              <p v-if="profile.verified">
+                <a :href="profile.verified.link">{{profile.verified.domain}}</a>
+              </p>
+            </div>
           </div>
           <div v-if="user && profile.id !== user.id" class="text-center">
             <follow-button :initial-state="profile.you_follow" :user-id="profile.id" class="mb-2" />
