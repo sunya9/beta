@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
+  // parser: 'babel-eslint',
   env: {
     browser: true,
     node: true,
@@ -9,11 +9,14 @@ module.exports = {
   extends: 'standard',
   // required to lint *.vue files
   plugins: [
-    'html',
     'vue',
-    'chai-expect'
+    'chai-expect',
+    'chai-friendly'
   ],
   // add your custom rules here
-  rules: {},
+  rules: {
+    'no-unused-expressions': 0,
+    'chai-friendly/no-unused-expressions': 2
+  },
   globals: {}
 }
