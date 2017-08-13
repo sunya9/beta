@@ -1,6 +1,5 @@
 module.exports = {
   root: true,
-  // parser: 'babel-eslint',
   env: {
     browser: true,
     node: true,
@@ -15,8 +14,8 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    'no-unused-expressions': 0,
-    'chai-friendly/no-unused-expressions': 2
+    'no-unused-expressions': 'off',
+    'chai-friendly/no-unused-expressions': 'error'
   },
   globals: {}
 }
