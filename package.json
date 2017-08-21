@@ -41,7 +41,7 @@
     "moment": "^2.18.1",
     "mousetrap": "^1.6.1",
     "node-sass": "^4.5.3",
-    "nuxt": "1.0.0-rc4",
+    "nuxt": "1.0.0-rc5",
     "oauth": "^0.9.15",
     "passport-pnut": "^0.1.1",
     "pnut-butter": "^0.13.0",
