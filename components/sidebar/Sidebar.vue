@@ -40,6 +40,9 @@
             {{menu.label}}
             <!-- <span class="badge badge-important pull-right">{{ badge }}</span>-->
           </span>
+          <span v-show="active(menu.url)" class="float-right">
+            <i class="fa fa-chevron-right"></i>
+          </span>
         </nuxt-link>
       </template>
     </div>
