@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="card-block">
+    <div class="card-body">
       <h1 class="h3 card-title">
         What is beta?
       </h1>

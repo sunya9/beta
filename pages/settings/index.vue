@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="card">
-      <div class="card-block">
+      <div class="card-body">
         <account :account="account" />
       </div>
     </div>

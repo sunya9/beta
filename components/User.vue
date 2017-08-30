@@ -13,7 +13,7 @@
             {{user.username}}
             </nuxt-link>
             <span class="ml-1 text-muted">{{user.name}}</span>
-            <span class="ml-1 badge badge-default text-uppercase">{{relation}}</span>
+            <span class="ml-1 badge badge-secondary text-uppercase">{{relation}}</span>
           </h6>
           <div>
             <follow-button :initial-state="user.you_follow" :user-id="user.id" />

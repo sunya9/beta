@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
-    "bootstrap": "4.0.0-alpha.6",
+    "bootstrap": "4.0.0-beta",
     "cheerio": "^0.22.0",
     "cross-env": "^5.0.5",
     "dotenv": "^4.0.0",
@@ -48,6 +48,7 @@
     "oauth": "^0.9.15",
     "passport-pnut": "^0.1.1",
     "pnut-butter": "^0.13.0",
+    "popper.js": "^1.11.1",
     "qs": "^6.4.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",

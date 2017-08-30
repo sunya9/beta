@@ -1,9 +1,7 @@
 <template>
   <div class="my-4 compose" v-if="user && !hidden">
     <div class="card">
-      <div>
-        <compose-inner :reply-target="replyTarget" :initial-text="initialText" :focus="focus" />
-      </div>
+      <compose-inner :reply-target="replyTarget" :initial-text="initialText" :focus="focus" />
     </div>
   </div>
 </template>

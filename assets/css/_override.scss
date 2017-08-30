@@ -1,8 +1,17 @@
 @import 'adn_base_variables';
-
 $body-bg: $bodyBackground;
-$body-color: $textColor;
-$brand-primary: $themeAttention;
+
+$theme-colors: (
+  primary: $themeAttention,
+  secondary: $gray,
+  success: $adn_base_green,
+  info: $blue,
+  warning: $yellow,
+  danger: $themeWarning,
+  light: $gray,
+  dark: $grayDarker
+);
+
 $border-radius: 0;
 
 // fonts

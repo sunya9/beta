@@ -13,12 +13,10 @@
           :class="{
              'col-md-4 col-lg-3': !notLoginIndex,
           }"
-          class="hidden-sm-down">
-          <div class="fixed-top sticky-top" style="top: 81px">
-            <transition name="slide" mode="out-in">
-              <component :is="sidebar" style="height: calc(100vh - 81px);" class="d-flex flex-column justify-content-between" />
-            </transition>
-          </div>
+          class="d-none d-sm-block">
+          <transition name="slide" mode="out-in">
+            <component :is="sidebar" />
+          </transition>
         </div>
         <div
           :class="{

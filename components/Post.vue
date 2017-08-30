@@ -321,8 +321,9 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '~assets/css/override';
-@import '~bootstrap/scss/mixins/breakpoints';
+@import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
 
 .media-body {
   word-break: break-word;
@@ -357,5 +358,9 @@ footer {
 }
 .deleted {
   opacity: .5;
+}
+
+.text-gray-dark {
+  color: $gray;
 }
 </style>

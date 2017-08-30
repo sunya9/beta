@@ -1,5 +1,5 @@
 <template>
-  <form class="card-block" @submit.prevent="submit">
+  <form class="card-body" @submit.prevent="submit">
     <div class="form-group">
       <textarea @keydown.ctrl.enter="submit"
         @keydown.meta.enter="submit"
@@ -263,8 +263,9 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import '~bootstrap/scss/mixins/breakpoints';
+@import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins/breakpoints';
 
 @include media-breakpoint-down(xs) {
   .textarea {

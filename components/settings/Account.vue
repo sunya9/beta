@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card-block">
+    <div class="card-body">
       <h3 class="card-title mb-4">
         Account
       </h3>
@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="form-group row">
-          <div class="offset-md-3 col-md-9">
+          <div class="ml-md-auto col-md-9">
             <submit-button />
           </div>
         </div>

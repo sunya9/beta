@@ -42,8 +42,9 @@ module.exports = {
         $: 'jquery',
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
-        'window.Tether': 'tether',
-        Tether: 'tether'
+        Popper: ['popper.js', 'default'],
+        Util: 'exports-loader?Util!bootstrap/js/dist/util',
+        Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown'
       }),
       new EnvironmentPlugin(['npm_package_version'])
     ],

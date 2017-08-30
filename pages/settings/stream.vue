@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="card">
-      <div class="card-block">
+      <div class="card-body">
         <image-upload />
       </div>
     </div>

@@ -4,8 +4,12 @@
       alt=""
       :width="profile.content.cover_image.width"
       :height="profile.content.cover_image.height || 500"
+      @load="loaded = true"
+      :class="{
+        'min-card-image-height': !loaded
+      }"
       class="img-fluid card-img-top">
-    <div class="card-block pt-3">
+    <div class="card-body pt-3">
       <div class="flex-column d-flex flex-sm-row align-items-sm-start">
         <div class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row">
           <div class="d-flex flex-column align-items-center align-items-sm-stretch flex-sm-row justify-content-center justify-content-sm-start">
@@ -38,9 +42,9 @@
           </div>
         </div>
       </div>
-      <p class="card-text w-100 mt-3 mt-sm-0" @click="clickPostLink" v-html="html"></p>
+      <p class="description card-text w-100 mt-3 mt-sm-0" @click="clickPostLink" v-html="html"></p>
     </div>
-    <div class="card-block d-flex justify-content-between justify-content-md-end">
+    <div class="card-body d-flex justify-content-between justify-content-md-end">
       <span class="card-link" to="follows" append>{{profile.counts.posts}} Posts</span>
       <nuxt-link class="card-link" to="follows" append>{{profile.counts.following}} Follows</nuxt-link>
       <nuxt-link class="card-link" to="followers" append>{{profile.counts.followers}} Followers</nuxt-link>
@@ -56,6 +60,11 @@ import { mapState } from 'vuex'
 
 export default {
   props: ['profile'],
+  data () {
+    return {
+      loaded: false
+    }
+  },
   computed: {
     ...mapState(['user']),
     relation () {
@@ -104,5 +113,13 @@ export default {
 
 .profile {
   @include no-gutter-xs
+}
+
+.min-card-image-height {
+  min-height: 200px;
+}
+
+.description {
+  white-space: pre-wrap;
 }
 </style>
