@@ -11,20 +11,20 @@
       ></textarea>
     </div>
     <div class="form-group" v-show="photos.length">
-        <transition-group
-          tag="div"
-          name="photos"
-          class="d-flex flex-wrap justify-cotnent align-items-center">
-          <thumb
-            :key="photo.data"
-            v-for="(photo, i) in photos"
-            :original="photo.data"
-            :thumb="photo.data"
-            removable
-            class="mr-2"
-            @remove="photos.splice(i, 1)"
-            />
-          </transition-group>
+      <transition-group
+        tag="div"
+        name="photos"
+        class="d-flex flex-wrap justify-cotnent align-items-center">
+        <thumb
+          :key="photo.data"
+          v-for="(photo, i) in previewPhotos"
+          :original="photo.data"
+          :thumb="photo.data"
+          removable
+          class="mr-2"
+          @remove="photos.splice(i, 1)"
+          />
+        </transition-group>
     </div>
     <div v-if="error" class="alert alert-danger fade show" role="alert">
       {{ error }}
@@ -62,9 +62,8 @@ import Post from '~components/Post'
 import bus from '~assets/js/bus'
 import { mapState } from 'vuex'
 import Thumb from '~components/Thumb'
-import axios from 'axios'
 import stringLength from 'string-length'
-import { setToken } from '~assets/js/imgur'
+import axios from 'axios'
 
 export default {
   props: {
@@ -84,7 +83,23 @@ export default {
       text: '',
       imgur: null,
       photos: [],
+      previewPhotos: [],
       error: null
+    }
+  },
+  watch: {
+    async photos () {
+      const promisePhotos = this.photos.map(file => {
+        return new Promise(resolve => {
+          const fr = new FileReader()
+          fr.readAsDataURL(file)
+          fr.onload = e => {
+            file.data = e.target.result
+            resolve(file)
+          }
+        })
+      })
+      this.previewPhotos = await Promise.all(promisePhotos)
     }
   },
 
@@ -161,53 +176,46 @@ export default {
         raw: []
       }
 
-      if (this.photos.length) {
-        this.promise = true
-        // image upload
-        const imgur = localStorage.getItem('imgur')
-        const token = JSON.parse(imgur)
-        const images = this.photos.map(photo => {
-          const [, image] = photo.data.split(',')
-          return image
-        })
-        const params = {
-          token,
-          images,
-          title: this.text
-        }
-        try {
-          // expiryDate is millisecond
-          if (!token.expiryDate || token.expiryDate < Date.now()) {
-            const { data: tokenObj } = await axios.post('/imgur/token', {
-              refreshToken: token.refresh_token
-            })
-            setToken(tokenObj)
-            params.token = tokenObj
-          }
-          const { data: urls } = await axios.post('/imgur/post', params)
-          const raws = urls.map(obj => {
-            // add version and type
-            const value = Object.assign({}, obj, {
-              type: 'photo',
-              version: '1.0'
-            })
-            const res = {
-              type: 'io.pnut.core.oembed',
-              value
-            }
-            return res
+      const hasPhotos = this.photos.length > 0
+
+      if (hasPhotos) {
+        const photosPromise = this.photos.map(async content => {
+          const data = obj2FormData({
+            type: 'net.unsweets.beta',
+            name: content.name,
+            kind: 'image',
+            content,
+            is_public: true
           })
-          option.raw.push(...raws)
-        } catch (e) {
-          const { response: { data: { message } } } = e
-          this.error = message
-          this.promise = null
-          return
-        }
+          const res = await axios.post('/proxy/files', data, {
+            headers: {
+              'Content-type': 'multipart/form-data'
+            }
+          })
+          return res
+        })
+        const photosJson = await Promise.all(photosPromise)
+        const raws = photosJson.map(res => {
+          const image = res.data.data
+          return Object.assign({}, {
+            type: 'io.pnut.core.oembed'
+          }, {
+            value: {
+              width: image.image_info.width,
+              height: image.image_info.height,
+              version: '1.0',
+              type: 'photo',
+              url: image.link,
+              title: this.text
+            }
+          })
+        })
+        option.raw.push(...raws)
       }
       if (this.replyTarget) {
         option.reply_to = this.replyTarget.id
       }
+
       this.promise = api().post('/posts', option)
         .then(res => {
           this.text = ''
@@ -216,7 +224,12 @@ export default {
           bus.$emit('post', res.data)
           this.$emit('post', res.data)
           this.resetPost()
-        }).catch(console.error.bind(console))
+        }).catch(e => {
+          console.error(e)
+          const { response: { data: { message } } } = e
+          this.error = message
+          this.promise = null
+        })
     },
     // for IME
     // https://vuejs.org/v2/guide/forms.html#Basic-Usage
@@ -236,20 +249,9 @@ export default {
     },
     fileChange (e) {
       if (!e.target.files.length) return
-      const photosPromise = Array.prototype.slice
-        .call(e.target.files)
-        .map(file => {
-          return new Promise(resolve => {
-            const fr = new FileReader()
-            fr.readAsDataURL(file)
-            fr.onload = e => {
-              file.data = e.target.result
-              resolve(file)
-            }
-          })
-        })
-      Promise.all(photosPromise)
-        .then(photos => this.photos.push(...photos))
+      this.photos.push(...Array.prototype.slice.call(e.target.files))
+      // reset file form for detecting changes(if there isn't below code, not working when is selected same file)
+      this.$refs.file.value = ''
     },
     getTextLength (str) {
       // http://stackoverflow.com/a/32382702
@@ -260,6 +262,13 @@ export default {
   components: {
     Post, Thumb
   }
+}
+
+function obj2FormData (obj) {
+  return Object.keys(obj).reduce((fd, key) => {
+    fd.append(key, obj[key])
+    return fd
+  }, new FormData())
 }
 </script>
 <style scoped lang="scss">
@@ -272,7 +281,7 @@ export default {
     font-size: 16px;
   }
 }
-.photos-enter-active, .photos-leave-active {
+.photos-enter-active, .photos-leave-to {
   transition: all .5s ease;
 }
 .photos-enter, .photos-leave-to {
