@@ -20,9 +20,6 @@ export default {
     value: {
       type: String,
       default: 'Save'
-    },
-    class: {
-      type: String
     }
   },
   data () {
