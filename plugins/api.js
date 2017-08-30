@@ -57,6 +57,7 @@ API.RESOURCE_MAP = {
   interactions: '/users/me/actions',
   stars: '/users/me/bookmarks',
   conversations: '/posts/streams/explore/conversations',
+  'missed-conversations': '/posts/streams/explore/missed_conversations',
   photos: '/posts/streams/explore/photos',
   trending: '/posts/streams/explore/trending',
   global: '/posts/streams/global',

@@ -35,6 +35,10 @@ export default {
         url: '/conversations',
         icon: 'fa-comments'
       }, {
+        label: 'Missed Conversations',
+        url: '/missed-conversations',
+        icon: 'fa-comment'
+      }, {
         label: 'Photos',
         url: '/photos',
         icon: 'fa-camera'
