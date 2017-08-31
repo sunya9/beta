@@ -13,6 +13,11 @@ import ImageUpload from '~components/settings/ImageUpload'
 export default {
   components: {
     ImageUpload
+  },
+  head () {
+    return {
+      title: 'Stream settings'
+    }
   }
 }
 </script>

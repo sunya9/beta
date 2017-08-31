@@ -21,6 +21,11 @@ export default {
   },
   components: {
     Account
+  },
+  head () {
+    return {
+      title: 'Account settings'
+    }
   }
 }
 </script>
