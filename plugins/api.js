@@ -3,7 +3,6 @@ import qs from 'querystring'
 class API {
   constructor (ctx) {
     this.fetch = this.fetch.bind(this)
-    this.request = this.request.bind(this)
     this.get = this.get.bind(this)
     this.post = this.post.bind(this)
     this.delete = this.delete.bind(this)
@@ -67,7 +66,9 @@ API.RESOURCE_MAP = {
   '@name-follows': params => `/users/@${params.name}/following`,
   '@name-followers': params => `/users/@${params.name}/followers`,
   '@name-starred': params => `/users/@${params.name}/bookmarks`,
-  '@name-posts-id': params => `/posts/${params.id}/thread`
+  '@name-posts-id': params => `/posts/${params.id}/thread`,
+  'files': '/users/me/files',
+  'files-id': params => `/files/${params.id}`
 }
 
 class PnutAPI extends API {

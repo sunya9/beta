@@ -51,6 +51,7 @@ import Mousetrap from 'mousetrap'
 import AppSidebar from '~components/sidebar/App'
 import SettingsSidebar from '~components/sidebar/Settings'
 import AboutSidebar from '~components/sidebar/About'
+import FilesSidebar from '~components/sidebar/Files'
 
 export default {
   props: ['error'],
@@ -62,7 +63,8 @@ export default {
     HelpModal,
     AppSidebar,
     SettingsSidebar,
-    AboutSidebar
+    AboutSidebar,
+    FilesSidebar
   },
   watch: {
     '$route.fullPath' () {
@@ -78,7 +80,8 @@ export default {
       const [, name] = this.$route.fullPath.match(/\/(\w+[^/])/) || []
       const map = {
         settings: 'SettingsSidebar',
-        about: 'AboutSidebar'
+        about: 'AboutSidebar',
+        files: 'FilesSidebar'
       }
       return map[name] || 'AppSidebar'
     },

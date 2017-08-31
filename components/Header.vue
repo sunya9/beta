@@ -7,6 +7,11 @@
           Beta
         </nuxt-link>
         <ul class="navbar-nav ml-auto d-flex flex-row align-items-stretch">
+          <li class="nav-item" v-if="user">
+            <nuxt-link to="/files" class="nav-link text-dark">
+              <i class="fa fa-database fa-lg"></i>
+            </nuxt-link>
+          </li>
           <li class="nav-item dropdown" v-if="user">
             <a href="#" class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown"
               aria-haspopup="true"
@@ -37,8 +42,8 @@
           <li class="nav-item" v-if="!user">
             <a href="/login" class="nav-link">Log in</a>
           </li>
-          <li class="nav-item" v-if="$slots.default">
-            <button class="d-md-none navbar-toggler align-self-center" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <li class="nav-item d-md-none" v-if="$slots.default">
+            <button class="navbar-toggler align-self-center" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
           </li>
@@ -80,18 +85,22 @@ export default {
   z-index: 1030;
   border-bottom: 1px solid $grayLighter;
 }
-// buggy?
+
 .nav-link {
-  padding: 1rem 2.5rem;
-  border-left: 1px solid $grayLighter;
-  border-right: 1px solid $grayLighter;
+  padding: 1rem 2rem;
+}
+
+.nav-item {
+  .nav-link {
+    border-right: 1px solid $grayLighter;
+  }
+  &:first-child .nav-link {
+    border-left: 1px solid $grayLighter;
+  }
 }
 
 .navbar-toggler {
-  border-left: 1px solid $grayLighter;
-  border-right: 1px solid $grayLighter;
-  border-bottom: 0;
-  border-top: 0;
+  border: none;
   height: 100%;
   margin-left: -1px;
 }
