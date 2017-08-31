@@ -91,11 +91,13 @@ export default {
 }
 
 .nav-item {
-  .nav-link {
+  .nav-link, button {
     border-right: 1px solid $grayLighter;
   }
-  &:first-child .nav-link {
-    border-left: 1px solid $grayLighter;
+  &:first-child {
+    .nav-link, button {
+      border-left: 1px solid $grayLighter;
+    }
   }
 }
 
