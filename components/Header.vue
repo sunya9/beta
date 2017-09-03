@@ -43,7 +43,7 @@
           <li class="nav-item" v-if="!user">
             <a href="/login" class="nav-link">Log in</a>
           </li>
-          <li class="nav-item d-md-none" v-if="$slots.default">
+          <li class="nav-item d-md-none" v-if="$slots.menu">
             <button class="navbar-toggler align-self-center" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
