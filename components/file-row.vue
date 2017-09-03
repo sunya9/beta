@@ -4,7 +4,7 @@
     <td>{{file.id}}</td>
     <td>
       <div class="d-flex">
-        <a :href="file.link" target="_new" class="">
+        <a @click.stop :href="file.link" target="_new" class="">
           {{file.name}}
         </a>
         <span class="thumb ml-auto">
