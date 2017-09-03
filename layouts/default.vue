@@ -1,9 +1,10 @@
 <template>
-  <div id="wrapper" class="mt-5 pt-5">
-    <app-header>
-      <component :is="sidebar" />
+  <div id="wrapper" class="wrapper" :style="`margin-top: ${marginTop}px`">
+    <app-header ref="header">
+      <component :is="sidebar" slot="menu" />
+      <jumbotron v-if="searchPage" slot="jumbotron" class="jumbotron" />
     </app-header>
-    <main class="container">
+    <main class="container main">
       <div>
         <splash v-if="!user" class="mb-5" />
       </div>
@@ -52,6 +53,8 @@ import AppSidebar from '~components/sidebar/App'
 import SettingsSidebar from '~components/sidebar/Settings'
 import AboutSidebar from '~components/sidebar/About'
 import FilesSidebar from '~components/sidebar/Files'
+import SearchSidebar from '~components/sidebar/Search'
+import Jumbotron from '~components/Jumbotron'
 
 export default {
   props: ['error'],
@@ -64,7 +67,9 @@ export default {
     AppSidebar,
     SettingsSidebar,
     AboutSidebar,
-    FilesSidebar
+    FilesSidebar,
+    SearchSidebar,
+    Jumbotron
   },
   watch: {
     '$route.fullPath' () {
@@ -72,22 +77,33 @@ export default {
       this.$refs.postModal.dismiss()
     }
   },
+  data () {
+    return {
+      marginTop: 48 // default margin size
+    }
+  },
   computed: {
     notLoginIndex () {
       return !this.user && this.$route.name === 'index'
     },
+    searchPage () {
+      return this.$route.fullPath.match(/^\/search/)
+    },
     sidebar () {
-      const [, name] = this.$route.fullPath.match(/\/(\w+[^/])/) || []
+      const [, name] = this.$route.fullPath.match(/\/(\w+[^/?#])/) || []
       const map = {
         settings: 'SettingsSidebar',
         about: 'AboutSidebar',
-        files: 'FilesSidebar'
+        files: 'FilesSidebar',
+        search: 'SearchSidebar'
       }
       return map[name] || 'AppSidebar'
     },
     ...mapState(['user'])
   },
   mounted () {
+    const { height } = this.$refs.header.$el.querySelector('.navbar').getBoundingClientRect()
+    this.marginTop = height
     const router = this.$router
     // new post
     Mousetrap.bind('n', () => this.$refs.postModal.showModal())
@@ -121,12 +137,18 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .slide-enter-active, .slide-leave-active {
   transition: all .3s ease;
 }
 .slide-enter, .slide-leave-to {
   transform: translateX(-100%);
   opacity: 0;
+}
+.main {
+  margin-top: 100px;
+}
+.jumbotron {
+  margin-bottom: -50px;
 }
 </style>

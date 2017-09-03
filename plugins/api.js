@@ -12,7 +12,10 @@ class API {
     if (ctx.route) {
       this.resource = API.RESOURCE_MAP[ctx.route.name]
       if (typeof this.resource === 'function') {
-        this.resource = this.resource(ctx.route.params)
+        this.resource = this.resource({
+          params: ctx.route.params,
+          query: ctx.route.query
+        })
       }
     }
   }
@@ -60,15 +63,17 @@ API.RESOURCE_MAP = {
   photos: '/posts/streams/explore/photos',
   trending: '/posts/streams/explore/trending',
   global: '/posts/streams/global',
-  'posts-id': params => `/posts/${params.id}/thread`,
-  'tags-name': params => `/posts/tag/${encodeURIComponent(params.name)}`,
-  '@name': params => `/users/@${params.name}/posts`,
-  '@name-follows': params => `/users/@${params.name}/following`,
-  '@name-followers': params => `/users/@${params.name}/followers`,
-  '@name-starred': params => `/users/@${params.name}/bookmarks`,
-  '@name-posts-id': params => `/posts/${params.id}/thread`,
+  'posts-id': ({ params }) => `/posts/${params.id}/thread`,
+  'tags-name': ({ params }) => `/posts/tag/${encodeURIComponent(params.name)}`,
+  '@name': ({ params }) => `/users/@${params.name}/posts`,
+  '@name-follows': ({ params }) => `/users/@${params.name}/following`,
+  '@name-followers': ({ params }) => `/users/@${params.name}/followers`,
+  '@name-starred': ({ params }) => `/users/@${params.name}/bookmarks`,
+  '@name-posts-id': ({ params }) => `/posts/${params.id}/thread`,
   'files': '/users/me/files',
-  'files-id': params => `/files/${params.id}`
+  'files-id': ({ params }) => `/files/${params.id}`,
+  'search-users': '/users/search',
+  'search-posts': '/posts/search'
 }
 
 class PnutAPI extends API {

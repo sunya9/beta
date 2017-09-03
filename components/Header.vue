@@ -1,12 +1,13 @@
 <template>
   <header>
     <div class="navbar navbar-light navbar fixed-top px-0">
-      <div class="container">
+      <div class="container relative">
         <nuxt-link class="navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
         <img src="~assets/img/beta.png" width="32" height="32" alt="β" class="d-inline-block align-center mr-2">
           Beta
         </nuxt-link>
-        <ul class="navbar-nav ml-auto d-flex flex-row align-items-stretch">
+        <search-form />
+        <ul class="navbar-nav d-flex flex-row align-items-stretch">
           <li class="nav-item" v-if="user">
             <nuxt-link to="/files" class="nav-link text-dark">
               <i class="fa fa-database fa-lg"></i>
@@ -55,14 +56,16 @@
           'max-height': collapseHeight
         }"
         class="navbar-collapse collapse d-md-none scrollable">
-        <slot />
+        <slot name="menu" />
       </div>
     </div>
+    <slot name="jumbotron" />
   </header>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import SearchForm from './SearchForm'
 
 export default {
   data () {
@@ -74,11 +77,14 @@ export default {
     const { height } = this.$el.children[0].getBoundingClientRect()
     this.collapseHeight = `calc(100vh - ${height}px)`
   },
-  computed: mapState(['user'])
+  computed: mapState(['user']),
+  components: {
+    SearchForm
+  }
 }
 </script>
 <style scoped lang="scss">
-@import '~assets/css/override';
+@import '~assets/css/adn_base_variables';
 
 .navbar {
   background-color: rgba(255, 255, 255, .95);
@@ -121,5 +127,8 @@ export default {
   right: 0;
   left: auto;
   margin-top: 0;
+}
+.relative {
+  position: relative;
 }
 </style>

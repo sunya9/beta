@@ -30,7 +30,9 @@
           :to="menu.url"
           class="justify-content-between"
           :class="[{
-            active: active(menu.url)
+            active: menu.active && typeof menu.active === 'function'
+              ? menu.active()
+              : menu.active || active(menu.url)
           }, itemClass]"
           data-toggle="collapse" data-target="#navbarSupportedContent.show"
           exact
