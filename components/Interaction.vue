@@ -36,7 +36,7 @@
             </li>
           </ul>.
             <ul class="list-group">
-              <post class="mt-3" :data="post" view-only preview />
+              <post class="mt-3" :data="post" view-only preview v-if="post" />
             </ul>
         </div>
         <footer>
