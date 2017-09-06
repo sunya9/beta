@@ -7,14 +7,14 @@
           class="d-md-none mr-3 navbar-toggler align-self-center" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <nuxt-link class="navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
+        <nuxt-link class="mr-auto p-0 navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
           <img src="~assets/img/beta.png" width="32" height="32" alt="β" class="d-inline-block align-center mr-2">
           <span class="d-none d-sm-inline">
             Beta
           </span>
         </nuxt-link>
-        <search-form />
-        <ul class="navbar-nav d-flex flex-row align-items-stretch">
+        <search-form class="mr-md-4 order-3 order-md-1" />
+        <ul class="order-2 navbar-nav d-flex flex-row align-items-stretch">
           <li class="nav-item" v-if="user">
             <nuxt-link to="/files" class="nav-link text-dark">
               <i class="fa fa-database fa-lg"></i>
@@ -54,11 +54,12 @@
       </div>
       <div
         id="navbarSupportedContent"
-        :style="{
-          'max-height': collapseHeight
-        }"
         class="navbar-collapse collapse d-md-none scrollable">
-        <slot name="menu" />
+          <div class="container" :style="{
+            'max-height': collapseHeight
+          }">
+            <slot name="menu" />
+          </div>
       </div>
     </div>
     <slot name="jumbotron" />
@@ -95,10 +96,8 @@ export default {
 }
 
 .navbar-brand {
-  padding: 0;
   font-size: 200%;
   font-weight: 300;
-  margin: 0 auto 0 0;
   color: $gray;
 }
 

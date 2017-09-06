@@ -48,7 +48,7 @@
         </nuxt-link>
       </template>
     </div>
-    <div class="mt-3">
+    <div class="py-3">
       <a
         class="text-muted"
         :href="`${npm_package_homepage}/releases/tag/v${npm_package_version}`"

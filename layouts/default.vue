@@ -14,7 +14,7 @@
           :class="{
              'col-md-4 col-lg-3': !notLoginIndex,
           }"
-          class="d-none d-sm-block">
+          class="d-none d-md-block">
           <transition name="slide" mode="out-in">
             <component :is="sidebar" />
           </transition>
@@ -150,5 +150,6 @@ export default {
 }
 .jumbotron {
   margin-bottom: -50px;
+  padding-top: 4rem;
 }
 </style>

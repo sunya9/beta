@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="search" class="form-inline ml-sm-auto mr-sm-5 search-form d-inline-flex align-items-center">
+  <form @submit.prevent="search" class="form-inline search-form d-inline-flex align-items-center">
     <input type="search" class="form-control" placeholder="search" v-model="text">
     <button
       type="submit"
@@ -42,35 +42,36 @@ export default {
 @import '~bootstrap/scss/mixins';
 
 .search-form {
-  position: relative;
-  z-index: 1;
   input[type='search'] {
-    background: $grayLightest;
-    border-color: $grayLighter;
     padding-right: 36px;
+    background: $grayLightest;
     &:focus {
       background: white;
     }
-    width: 100%;
+    margin-right: -36px;
   }
-  button {
-    position: absolute;
-    right: 0;
-  }
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
+    position: relative;
+    z-index: 1;
+    margin: 0 calc((100% - 100vw) / 2) -1px;
     left: 0;
-    width: calc(100% + #{$grid-gutter-width} * 2);
-    margin: 0 (-$grid-gutter-width / 2) -1px;
+    width: 100%;
+    margin: 0 0 -1px;
     top: 0;
-    order: 4;
     input[type='search'] {
+      display: block;
+      border-color: $grayLighter;
       border-left: none;
       border-right: none;
-      padding-right: calc(#{$grid-gutter-width} / 2 + 36px);
-      padding-left: $grid-gutter-width / 2;
+      width: 100%;
+      box-sizing: content-box;
+      margin: 0 calc((100% - 100vw) / 2);
+      padding-left: calc((100vw - 100%) / 2);
+      padding-right: calc((100vw - 100%) / 2 + 36px);
     }
     button {
-      right: $grid-gutter-width / 2;
+      position: absolute;
+      right: 0;
     }
   }
 }
