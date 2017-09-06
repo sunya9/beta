@@ -16,7 +16,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'beta is pnut.io client.' }
     ],
     link: [
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat:300,400' },
       { rel: 'shortcut icon', href: '/favicon.ico' }
     ]
   },

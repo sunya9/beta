@@ -97,6 +97,7 @@ export default {
 .navbar-brand {
   padding: 0;
   font-size: 200%;
+  font-weight: 300;
   margin: 0 auto 0 0;
   color: $gray;
 }
