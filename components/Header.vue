@@ -2,9 +2,16 @@
   <header>
     <div class="navbar navbar-light navbar fixed-top px-0">
       <div class="container relative">
+
+        <button v-if="$slots.menu"
+          class="d-md-none mr-3 navbar-toggler align-self-center" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
         <nuxt-link class="navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
-        <img src="~assets/img/beta.png" width="32" height="32" alt="β" class="d-inline-block align-center mr-2">
-          Beta
+          <img src="~assets/img/beta.png" width="32" height="32" alt="β" class="d-inline-block align-center mr-2">
+          <span class="d-none d-sm-inline">
+            Beta
+          </span>
         </nuxt-link>
         <search-form />
         <ul class="navbar-nav d-flex flex-row align-items-stretch">
@@ -42,11 +49,6 @@
           </li>
           <li class="nav-item" v-if="!user">
             <a href="/login" class="nav-link">Log in</a>
-          </li>
-          <li class="nav-item d-md-none" v-if="$slots.menu">
-            <button class="navbar-toggler align-self-center" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
           </li>
         </ul>
       </div>
@@ -92,8 +94,15 @@ export default {
   border-bottom: 1px solid $grayLighter;
 }
 
+.navbar-brand {
+  padding: 0;
+  font-size: 200%;
+  margin: 0 auto 0 0;
+  color: $gray;
+}
+
 .nav-link {
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
 }
 
 .nav-item {
@@ -111,6 +120,8 @@ export default {
   border: none;
   height: 100%;
   margin-left: -1px;
+  padding-left: 0;
+  padding-right: 0;
 }
 .dropdown-divider {
   margin: 0;
