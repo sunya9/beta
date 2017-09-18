@@ -33,7 +33,7 @@
       <strong class="text-muted">{{count}}</strong>
         <div>
           <button
-            v-show="imgur && !noPhoto"
+            v-show="!noPhoto"
             type="button"
             @click="addPhoto"
             class="btn btn-link text-muted"
@@ -81,7 +81,6 @@ export default {
       promise: null,
       tempCount: 0,
       text: '',
-      imgur: null,
       photos: [],
       previewPhotos: [],
       error: null
@@ -125,8 +124,6 @@ export default {
         ? ''
         : `@${this.replyTarget.user.username} `
     }
-    const imgur = localStorage.getItem('imgur')
-    this.imgur = imgur ? JSON.parse(imgur) : null
   },
   methods: {
     setFocus () {
