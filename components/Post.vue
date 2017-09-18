@@ -251,7 +251,7 @@ export default {
         }).map(r => {
           return {
             original: r.value.url,
-            thumb: r.value.thumbnail_url || r.value.url
+            thumb: r.value.url
           }
         })
         Array.prototype.push.apply(photos, embedPhotos)
