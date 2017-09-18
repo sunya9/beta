@@ -285,7 +285,7 @@ export default {
     dateUpdate () {
       const now = moment()
       const postDate = moment(this.post.created_at)
-      if (now.diff(postDate, 'month') >= 1) {
+      if (now.diff(postDate, 'day') >= 1) {
         const lastYear = now.toDate().getFullYear() - postDate.toDate().getFullYear()
         const format = lastYear ? 'D MMM YY' : 'D MMM'
         this.date = moment(this.post.created_at).format(format)
