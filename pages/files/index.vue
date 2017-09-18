@@ -1,7 +1,11 @@
 <template>
   <div>
-    <h1>Your files</h1>
-    <file-list :data="data" />
+    <h3 class="mb-4">Your files</h3>
+    <div class="card">
+      <div class="card-body">
+        <file-list :data="data" />
+      </div>
+    </div>
   </div>
 </template>
 <script>
