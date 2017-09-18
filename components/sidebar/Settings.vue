@@ -16,6 +16,11 @@ export default {
         label: 'Stream',
         icon: 'fa-list',
         url: '/settings/stream'
+      },
+      {
+        label: 'Notification',
+        icon: 'fa-bell',
+        url: '/settings/notification'
       }
     ]
     return {

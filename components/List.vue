@@ -33,6 +33,7 @@ import User from '~components/User'
 import Post from '~components/Post'
 import Interaction from '~components/Interaction'
 import api from '~plugins/api'
+import { sendPostNotification, sendMentionNotification } from '~assets/js/notification-wrapper'
 
 const INTERVAL = 1000 * 60 // 1min
 
@@ -177,6 +178,22 @@ export default {
       if (newItems.length) {
         this.items = newItems.concat(this.items)
         this.select += newItems.length
+        if (this.type === 'Post') {
+          const posts = newItems.filter(post =>
+            this.$store.state.user.id !== post.user.id)
+          if (posts.length > 0) {
+            sendPostNotification(posts)
+          }
+          const mentions = newItems.filter(post => {
+            const notMe = this.$store.state.user.id !== post.user.id
+            const includedInMention = post.content.entities.mentions.some(mention =>
+              mention.id === this.$store.state.user.id)
+            return notMe && includedInMention
+          })
+          if (mentions.length > 0) {
+            sendMentionNotification(mentions)
+          }
+        }
       }
       this.refreshing = false
     },
