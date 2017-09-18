@@ -1,92 +1,90 @@
 <template>
   <div>
-    <div class="card-body">
-      <h3 class="card-title mb-4">
-        Account
-      </h3>
-      <h4 class="card-subtitle">Profile</h4>
-      <form @submit.prevent="update" action="/proxy/users/me" method="post">
-        <input type="hidden" name="_method" value="patch">
-        <div class="form-group row">
-          <label class="col-form-label col-sm-12 col-md-3" for="name">
-            Name
-          </label>
-          <div class="col-sm-12 col-md-9">
-            <input type="text" id="name" name="name" v-model="name" class="form-control">
-          </div>
+    <h3 class="card-title mb-4">
+      Account
+    </h3>
+    <h4 class="card-subtitle">Profile</h4>
+    <form @submit.prevent="update" action="/proxy/users/me" method="post">
+      <input type="hidden" name="_method" value="patch">
+      <div class="form-group row">
+        <label class="col-form-label col-sm-12 col-md-3" for="name">
+          Name
+        </label>
+        <div class="col-sm-12 col-md-9">
+          <input type="text" id="name" name="name" v-model="name" class="form-control">
         </div>
-        <div class="form-group row">
-          <label class="col-form-label col-sm-12 col-md-3" for="description">
-            Description
-          </label>
-          <div class="col-sm-12 col-md-9">
-            <textarea v-model="description" name="content[text]" cols="30" rows="7" id="description" class="form-control"></textarea>
-          </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-sm-12 col-md-3" for="description">
+          Description
+        </label>
+        <div class="col-sm-12 col-md-9">
+          <textarea v-model="description" name="content[text]" cols="30" rows="7" id="description" class="form-control"></textarea>
         </div>
-        <div class="form-group row">
-          <div class="ml-md-auto col-md-9">
-            <submit-button />
-          </div>
+      </div>
+      <div class="form-group row">
+        <div class="ml-md-auto col-md-9">
+          <submit-button />
         </div>
-      </form>
-      <div v-if="false">
-        <div class="row">
-          <div class="col-sm-12 col-md-3">
-            <h4>Cover</h4>
-          </div>
-          <div class="col-sm-12 col-md-9">
-            <div class="form-group">
-              <img :src="cover.link"
-                :width="cover.width" :height="cover.height"
-                alt="cover image" class="img-fluid">
-            </div>
-            <div class="form-group">
-              <input
-                type="file"
-                accept="image/*"
-                @change="coverChanged"
-                style="display: none"
-                ref="coverFileInput">
-              <button
-                type="button"
-                @click="changeCover"
-                class="btn btn-secondary mr-2">
-                Change cover
-              </button>
-              {{coverMessage}}
-            </div>
-          </div>
+      </div>
+    </form>
+    <div v-if="false">
+      <div class="row">
+        <div class="col-sm-12 col-md-3">
+          <h4>Cover</h4>
         </div>
-        <div class="row">
-          <div class="col-sm-12 col-md-3">
-            <h4>Avatar</h4>
+        <div class="col-sm-12 col-md-9">
+          <div class="form-group">
+            <img :src="cover.link"
+              :width="cover.width" :height="cover.height"
+              alt="cover image" class="img-fluid">
           </div>
-          <div class="col-ms-12 col-md-9">
-            <div class="form-group">
-              <img :src="avatar.link"
-                width="128" height="128"
-                alt="avatar image">
-            </div>
-            <div class="form-group">
-              <input
-                type="file"
-                @change="avatarChanged"
-                accept="image/*"
-                style="display: none"
-                ref="avatarFileInput">
-              <button
-                type="button"
-                @click="changeAvatar"
-                class="btn btn-secondary mr-2">
-                Change avatar
-              </button>
-              {{avatarMessage}}
-            </div>
+          <div class="form-group">
+            <input
+              type="file"
+              accept="image/*"
+              @change="coverChanged"
+              style="display: none"
+              ref="coverFileInput">
+            <button
+              type="button"
+              @click="changeCover"
+              class="btn btn-secondary mr-2">
+              Change cover
+            </button>
+            {{coverMessage}}
           </div>
         </div>
       </div>
-      <!-- <crop-modal ref="cropModal" /> -->
+      <div class="row">
+        <div class="col-sm-12 col-md-3">
+          <h4>Avatar</h4>
+        </div>
+        <div class="col-ms-12 col-md-9">
+          <div class="form-group">
+            <img :src="avatar.link"
+              width="128" height="128"
+              alt="avatar image">
+          </div>
+          <div class="form-group">
+            <input
+              type="file"
+              @change="avatarChanged"
+              accept="image/*"
+              style="display: none"
+              ref="avatarFileInput">
+            <button
+              type="button"
+              @click="changeAvatar"
+              class="btn btn-secondary mr-2">
+              Change avatar
+            </button>
+            {{avatarMessage}}
+          </div>
+        </div>
+      </div>
     </div>
+    <!-- <crop-modal ref="cropModal" /> -->
   </div>
 </template>
 
