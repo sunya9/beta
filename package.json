@@ -48,7 +48,6 @@
     "node-fetch": "^1.7.2",
     "node-sass": "^4.5.3",
     "nuxt": "^1.0.0-rc11",
-    "oauth": "^0.9.15",
     "passport-pnut": "^0.1.1",
     "pnut-butter": "^0.13.0",
     "popper.js": "^1.11.1",
