@@ -34,6 +34,7 @@
         <div>
           <button
             v-show="!noPhoto"
+            v-if="$store.state.user.storage"
             type="button"
             @click="addPhoto"
             class="btn btn-link text-muted"
