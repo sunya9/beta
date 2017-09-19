@@ -11,6 +11,7 @@ const { Nuxt, Builder } = require('nuxt')
 
 const config = require('./nuxt.config.js')
 config.dev = !(app.env === 'production')
+const test = app.env === 'test'
 
 app.keys = [config.dev ? 'beta' : process.env.SALT]
 const sessionConfig = {
@@ -42,7 +43,7 @@ router(app)
 const nuxt = new Nuxt(config)
 
 // Build only in dev mode
-if (config.dev) {
+if (config.dev && !test) {
   const builder = new Builder(nuxt)
   builder.build()
     .catch((error) => {
@@ -51,7 +52,8 @@ if (config.dev) {
     })
 }
 
-app.use(ctx => {
+app.use(async (ctx, next) => {
+  await next()
   ctx.status = 200 // koa defaults to 404 when it sees that status is unset
 
   return new Promise((resolve, reject) => {
@@ -64,4 +66,4 @@ app.use(ctx => {
   })
 })
 
-app.listen(3000)
+module.exports = app

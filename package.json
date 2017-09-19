@@ -6,9 +6,9 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon -w app.js -w nuxt.config.js app.js",
+    "dev": "nodemon -w index.js -w nuxt.config.js index.js",
     "build": "nuxt build",
-    "start": "cross-env NODE_ENV=production node app.js",
+    "start": "cross-env NODE_ENV=production node index.js",
     "precommit": "lint-staged",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint:fix": "eslint --ext .js,.vue --ignore-path .gitignore --fix .",
@@ -35,7 +35,6 @@
     "font-awesome": "^4.7.0",
     "form-data": "^2.3.1",
     "imports-loader": "^0.7.1",
-    "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.2.1",
     "koa": "^2.0.0",
     "koa-bodyparser": "^4.2.0",
@@ -64,6 +63,8 @@
     "ava": "^0.22.0",
     "axios-mock-adapter": "^1.9.0",
     "babel-eslint": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.26.0",
     "chai": "^4.0.2",
     "eslint": "^4.4.1",
     "eslint-config-standard": "^10.2.1",
@@ -83,7 +84,8 @@
     "mocha": "^3.4.2",
     "nodemon": "^1.11.0",
     "scmp": "^2.0.0",
-    "should": "^12.0.0"
+    "should": "^12.0.0",
+    "supertest": "^3.0.0"
   },
   "homepage": "https://github.com/sunya9/beta",
   "bugs": "https://github.com/sunya9/beta/issues",
