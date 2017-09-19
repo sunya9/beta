@@ -8,7 +8,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import ComposeInner from '~components/ComposeInner'
+import ComposeInner from '~/components/ComposeInner'
 
 export default {
   props: {

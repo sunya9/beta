@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import Post from '~components/Post'
-import Compose from '~components/Compose'
-import List from '~components/List'
-import api from '~plugins/api'
-import bus from '~assets/js/bus'
+import Post from '~/components/Post'
+import Compose from '~/components/Compose'
+import List from '~/components/List'
+import api from '~/plugins/api'
+import bus from '~/assets/js/bus'
 
 export default {
   async asyncData (ctx) {

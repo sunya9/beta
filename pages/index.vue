@@ -14,11 +14,11 @@
 
 
 <script>
-import Compose from '~components/Compose'
-import List from '~components/List'
+import Compose from '~/components/Compose'
+import List from '~/components/List'
 import { mapState } from 'vuex'
-import api from '~plugins/api'
-import bus from '~assets/js/bus'
+import api from '~/plugins/api'
+import bus from '~/assets/js/bus'
 
 export default {
   components: {

@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import FollowButton from '~components/FollowButton'
+import FollowButton from '~/components/FollowButton'
 import cheerio from 'cheerio'
-import focus from '~assets/js/focus'
+import focus from '~/assets/js/focus'
 
 export default {
   mixins: [focus],

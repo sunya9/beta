@@ -42,19 +42,19 @@
   </div>
 </template>
 <script>
-import AppHeader from '~components/Header'
-import Splash from '~components/Splash'
+import AppHeader from '~/components/Header'
+import Splash from '~/components/Splash'
 import { mapState } from 'vuex'
-import PostModal from '~components/PostModal'
-import RemoveModal from '~components/RemoveModal'
-import HelpModal from '~components/HelpModal'
+import PostModal from '~/components/PostModal'
+import RemoveModal from '~/components/RemoveModal'
+import HelpModal from '~/components/HelpModal'
 import Mousetrap from 'mousetrap'
-import AppSidebar from '~components/sidebar/App'
-import SettingsSidebar from '~components/sidebar/Settings'
-import AboutSidebar from '~components/sidebar/About'
-import FilesSidebar from '~components/sidebar/Files'
-import SearchSidebar from '~components/sidebar/Search'
-import Jumbotron from '~components/Jumbotron'
+import AppSidebar from '~/components/sidebar/App'
+import SettingsSidebar from '~/components/sidebar/Settings'
+import AboutSidebar from '~/components/sidebar/About'
+import FilesSidebar from '~/components/sidebar/Files'
+import SearchSidebar from '~/components/sidebar/Search'
+import Jumbotron from '~/components/Jumbotron'
 
 export default {
   props: ['error'],

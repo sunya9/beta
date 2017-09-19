@@ -9,8 +9,8 @@
   </div>
 </template>
 <script>
-import api from '~plugins/api'
-import FileList from '~components/file-list'
+import api from '~/plugins/api'
+import FileList from '~/components/file-list'
 
 export default {
   async asyncData (ctx) {

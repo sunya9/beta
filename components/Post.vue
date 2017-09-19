@@ -152,13 +152,13 @@
 
 <script>
 import moment from 'moment'
-import ActionButton from '~components/ActionButton'
-import Thumb from '~components/Thumb'
+import ActionButton from '~/components/ActionButton'
+import Thumb from '~/components/Thumb'
 import { mapState } from 'vuex'
-import api from '~plugins/api'
+import api from '~/plugins/api'
 import cheerio from 'cheerio'
-import bus from '~assets/js/bus'
-import focus from '~assets/js/focus'
+import bus from '~/assets/js/bus'
+import focus from '~/assets/js/focus'
 
 moment.updateLocale('en', {
   relativeTime: {

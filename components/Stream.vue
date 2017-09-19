@@ -12,9 +12,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import Compose from '~components/Compose.vue'
-// import List from '~components/List.vue'
-import Post from '~components/Post.vue'
+import Compose from '~/components/Compose.vue'
+// import List from '~/components/List.vue'
+import Post from '~/components/Post.vue'
 
 export default {
   props: ['stream', 'title'],

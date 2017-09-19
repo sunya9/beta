@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import Mousetrap from '~plugins/mousetrap'
-import User from '~components/User'
-import Post from '~components/Post'
-import Interaction from '~components/Interaction'
-import api from '~plugins/api'
-import { sendPostNotification, sendMentionNotification } from '~assets/js/notification-wrapper'
+import Mousetrap from '~/plugins/mousetrap'
+import User from '~/components/User'
+import Post from '~/components/Post'
+import Interaction from '~/components/Interaction'
+import api from '~/plugins/api'
+import { sendPostNotification, sendMentionNotification } from '~/assets/js/notification-wrapper'
 
 const INTERVAL = 1000 * 60 // 1min
 

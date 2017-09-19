@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import Compose from '~components/Compose'
-import List from '~components/List'
-import api from '~plugins/api'
+import Compose from '~/components/Compose'
+import List from '~/components/List'
+import api from '~/plugins/api'
 
 export default {
   middleware: 'authenticated',

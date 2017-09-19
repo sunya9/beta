@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import api from '~plugins/api'
+import api from '~/plugins/api'
 
 export default {
   props: ['icon', 'initialState', 'resource'],

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import search from '~assets/js/search'
+import search from '~/assets/js/search'
 export default {
   mixins: [search]
 }

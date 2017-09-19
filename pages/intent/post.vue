@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import ComposeInner from '~components/ComposeInner'
+import ComposeInner from '~/components/ComposeInner'
 
 export default {
   middleware: 'authenticated',

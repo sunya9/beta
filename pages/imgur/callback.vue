@@ -4,7 +4,7 @@
 
 <script>
 import qs from 'querystring'
-import { setToken } from '~assets/js/imgur'
+import { setToken } from '~/assets/js/imgur'
 
 export default {
   mounted () {

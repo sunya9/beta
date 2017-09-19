@@ -151,7 +151,7 @@
 <script>
 import $ from 'jquery'
 import Mousetrap from 'mousetrap'
-import bus from '~assets/js/bus'
+import bus from '~/assets/js/bus'
 
 export default {
   mounted () {

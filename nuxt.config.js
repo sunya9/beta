@@ -54,33 +54,35 @@ module.exports = {
       'tether',
       'axios',
       'vue-infinite-scroll',
-      '~plugins/bootstrap.js',
-      '~plugins/api.js',
-      '~plugins/mousetrap.js',
-      '~plugins/vue-infinite.js',
+      '~/plugins/bootstrap.js',
+      '~/plugins/api.js',
+      '~/plugins/mousetrap.js',
+      '~/plugins/vue-infinite.js',
       'moment',
       'cheerio',
-      '~components/Post.vue',
-      '~components/List.vue'
+      '~/components/Post.vue',
+      '~/components/List.vue'
     ]
   },
 
   // plugin settings
   plugins: [
-    { src: '~plugins/bootstrap', ssr: false },
-    '~plugins/api',
-    { src: '~plugins/vue-infinite', ssr: false },
-    { src: '~plugins/mousetrap', ssr: false },
-    { src: '~plugins/ga', ssr: false }
+    { src: '~/plugins/bootstrap', ssr: false },
+    '~/plugins/api',
+    { src: '~/plugins/vue-infinite', ssr: false },
+    { src: '~/plugins/mousetrap', ssr: false },
+    { src: '~/plugins/ga', ssr: false }
   ],
 
   // router settings
   router: {
     extendRoutes (routes, resolve) {
-      routes.push({
-        name: '@name-posts-id',
-        path: '/@:name/posts/:id?',
-        component: resolve(__dirname, 'pages/posts/_id.vue')
+      // Replace "at" prefix with @ because cannot use @ for file/dir name in nuxt's project.
+      routes.forEach(route => {
+        if (route.name.startsWith('atname')) {
+          route.name = route.name.replace(/^atname/, '@name')
+          route.path = route.path.replace(/^\/at/, '/@')
+        }
       })
     },
     scrollBehavior (to, from, savedPosition) {

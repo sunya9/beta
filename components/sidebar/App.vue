@@ -1,5 +1,5 @@
 <script>
-import bus from '~assets/js/bus'
+import bus from '~/assets/js/bus'
 import Sidebar from './Sidebar'
 
 export default {

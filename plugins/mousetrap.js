@@ -1,4 +1,4 @@
-if (process.BROWSER_BUILD) {
+if (process.browser) {
   require('imports-loader?Mousetrap=>require("mousetrap")!mousetrap/plugins/pause/mousetrap-pause') // eslint-disable-line
 
   module.exports = {

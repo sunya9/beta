@@ -108,6 +108,6 @@ class AxiosAPI extends API {
   }
 }
 
-export default (ctx = {}) => process.SERVER_BUILD
+export default (ctx = {}) => process.server
   ? new PnutAPI(ctx)
   : new AxiosAPI(ctx)

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Notification from '~components/settings/Notification'
+import Notification from '~/components/settings/Notification'
 export default {
   components: {
     Notification

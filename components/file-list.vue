@@ -52,8 +52,8 @@
 </template>
 
 <script>
-import FileRow from '~components/file-row'
-import api from '~plugins/api'
+import FileRow from '~/components/file-row'
+import api from '~/plugins/api'
 import $ from 'jquery'
 
 export default {

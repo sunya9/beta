@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import api from '~plugins/api'
-import Account from '~components/settings/Account'
+import api from '~/plugins/api'
+import Account from '~/components/settings/Account'
 
 export default {
   async asyncData (ctx) {

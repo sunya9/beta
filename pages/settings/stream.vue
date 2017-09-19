@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import ImageUpload from '~components/settings/ImageUpload'
+import ImageUpload from '~/components/settings/ImageUpload'
 export default {
   components: {
     ImageUpload

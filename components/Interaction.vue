@@ -56,8 +56,8 @@
 
 <script>
 import moment from 'moment'
-import focus from '~assets/js/focus'
-import Post from '~components/Post'
+import focus from '~/assets/js/focus'
+import Post from '~/components/Post'
 
 const convert = {
   follow: {

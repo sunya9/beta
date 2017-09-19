@@ -32,10 +32,10 @@
 </template>
 
 <script>
-import Post from '~components/Post'
-import ComposeInner from '~components/ComposeInner'
+import Post from '~/components/Post'
+import ComposeInner from '~/components/ComposeInner'
 import $ from 'jquery'
-import bus from '~assets/js/bus'
+import bus from '~/assets/js/bus'
 import Mousetrap from 'mousetrap'
 
 export default {

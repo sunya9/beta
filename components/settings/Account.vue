@@ -89,9 +89,9 @@
 </template>
 
 <script>
-import api from '~plugins/api'
-import SubmitButton from '~components/SubmitButton'
-// import CropModal from '~components/CropModal'
+import api from '~/plugins/api'
+import SubmitButton from '~/components/SubmitButton'
+// import CropModal from '~/components/CropModal'
 
 export default {
   props: {

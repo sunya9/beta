@@ -7,7 +7,7 @@ const json = require('koa-json')
 const router = require('./lib/router')
 const passport = require('./lib/passport')
 const app = new Koa()
-const Nuxt = require('nuxt')
+const { Nuxt, Builder } = require('nuxt')
 
 const config = require('./nuxt.config.js')
 config.dev = !(app.env === 'production')
@@ -43,21 +43,25 @@ const nuxt = new Nuxt(config)
 
 // Build only in dev mode
 if (config.dev) {
-  nuxt.build()
+  const builder = new Builder(nuxt)
+  builder.build()
     .catch((error) => {
       console.error(error) // eslint-disable-line no-console
       process.exit(1)
     })
 }
 
-// https://ja.nuxtjs.org/api/nuxt-render
-app.use(async (ctx, next) => {
+app.use(ctx => {
   ctx.status = 200 // koa defaults to 404 when it sees that status is unset
-  try {
-    await nuxt.render(ctx.req, ctx.res)
-  } catch (e) {
-    console.error(e)
-  }
+
+  return new Promise((resolve, reject) => {
+    ctx.res.on('close', resolve)
+    ctx.res.on('finish', resolve)
+    nuxt.render(ctx.req, ctx.res, promise => {
+      // nuxt.render passes a rejected promise into callback on error.
+      promise.then(resolve).catch(reject)
+    })
+  })
 })
 
 app.listen(3000)

@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import bus from '~assets/js/bus'
+import bus from '~/assets/js/bus'
 import $ from 'jquery'
-import Post from '~components/Post'
-import Mousetrap from '~plugins/mousetrap'
+import Post from '~/components/Post'
+import Mousetrap from '~/plugins/mousetrap'
 
 export default {
   data () {

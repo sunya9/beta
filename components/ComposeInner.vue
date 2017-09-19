@@ -57,11 +57,11 @@
 </template>
 
 <script>
-import api from '~plugins/api'
-import Post from '~components/Post'
-import bus from '~assets/js/bus'
+import api from '~/plugins/api'
+import Post from '~/components/Post'
+import bus from '~/assets/js/bus'
 import { mapState } from 'vuex'
-import Thumb from '~components/Thumb'
+import Thumb from '~/components/Thumb'
 import stringLength from 'string-length'
 import axios from 'axios'
 

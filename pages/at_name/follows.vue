@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import List from '~components/List'
-import api from '~plugins/api'
+import List from '~/components/List'
+import api from '~/plugins/api'
 
 export default {
   async asyncData (ctx) {

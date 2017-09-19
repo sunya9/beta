@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import FollowButton from '~components/FollowButton'
+import FollowButton from '~/components/FollowButton'
 import cheerio from 'cheerio'
 import { mapState } from 'vuex'
 

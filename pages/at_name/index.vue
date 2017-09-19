@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import Profile from '~components/Profile'
-import Compose from '~components/Compose'
-import List from '~components/List'
-import api from '~plugins/api'
-import bus from '~assets/js/bus'
+import Profile from '~/components/Profile'
+import Compose from '~/components/Compose'
+import List from '~/components/List'
+import api from '~/plugins/api'
+import bus from '~/assets/js/bus'
 import { mapState } from 'vuex'
 
 export default {
