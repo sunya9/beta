@@ -1,17 +1,5 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
 import request from 'supertest'
 import koaApp from '../app'
-
-Vue.config.productionTip = false
-Vue.config.devtools = false
-Vue.config.silent = true
-Vue.use(Vuex)
-
-export const getVm = (VueComponent, opts) => {
-  const Ctor = Vue.extend(VueComponent)
-  return new Ctor(opts).$mount()
-}
 
 export const app = request()
 export class ServerHepler {
@@ -21,7 +9,7 @@ export class ServerHepler {
     this.context = null
   }
   listen () {
-    this.server = this.app.listen(process.env.PORT || 3333)
+    this.server = this.app.listen()
     return this
   }
   get client () {

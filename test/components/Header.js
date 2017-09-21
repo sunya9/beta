@@ -1,7 +1,7 @@
-import Header from '~components/Header'
+import Header from '~/components/Header'
 import createStore from '../../store'
-import { getVm } from '../helpers'
 import { expect } from 'chai'
+import { getVm } from '../client-helpers'
 
 describe('Header component', () => {
   const store = createStore()

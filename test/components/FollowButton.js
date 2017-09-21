@@ -1,6 +1,7 @@
-import Header from '~components/FollowButton'
-import { getVm } from '../helpers'
+import Header from '~/components/FollowButton'
 import { expect } from 'chai'
+import { getVm } from '../client-helpers'
+
 import '../fixtures/axios-mock'
 
 describe('FollowButton component', () => {
