@@ -1,3 +1,5 @@
+import { getTitle } from './util'
+
 function isEnabledNotification () {
   return localStorage.getItem('notification') === 'true'
 }
@@ -44,10 +46,4 @@ export function sendMentionNotification (mentions) {
     }
     return new Notification(title, options)
   })
-}
-
-function getTitle ({ username, name }) {
-  return name
-    ? `${name}(@${username})`
-    : `@${username}`
 }
