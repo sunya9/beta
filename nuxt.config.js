@@ -84,6 +84,11 @@ module.exports = {
           route.path = route.path.replace(/^\/at/, '/@')
         }
       })
+      routes.push({
+        name: '@name-posts-id',
+        path: '/@:name/posts/:id?',
+        component: resolve(__dirname, 'pages/posts/_id.vue')
+      })
     },
     scrollBehavior (to, from, savedPosition) {
       // default + alpha
