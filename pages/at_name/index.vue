@@ -19,6 +19,7 @@ import List from '~/components/List'
 import api from '~/plugins/api'
 import bus from '~/assets/js/bus'
 import { mapState } from 'vuex'
+import { getTitle } from '~/assets/js/util'
 
 export default {
   async asyncData (ctx) {
@@ -68,7 +69,7 @@ export default {
   },
   head () {
     return {
-      title: `@${this.name}`
+      title: getTitle(this.profile)
     }
   }
 }
