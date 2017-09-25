@@ -1,40 +1,34 @@
 <template>
-  <a
-    @click.prevent="click"
-    href="#"
-    class="btn btn-link btn-lg my-0 py-1 mx-0 px-0 rounded-0">
-    <i :class="[computedIcon, {
-      active: state
-    }]" class="icon-button fa fa-lg fa-fw"></i>
+  <a @click.prevent="click" href="#" class="btn btn-link btn-lg my-0 py-1 mx-0 px-0 rounded-0">
+    <i :class="[computedIcon, { active: state }]" class="icon-button fa fa-lg fa-fw"></i>
   </a>
 </template>
 
 <script>
-import api from '~/plugins/api'
+import axios from 'axios'
 
 export default {
   props: ['icon', 'initialState', 'resource'],
-  data () {
+  data() {
     return {
       state: this.initialState
     }
   },
   methods: {
-    click () {
-      api()
-        .request(this.resource, this.method)
+    click() {
+      return axios[this.method](this.resource)
         .then(() => { this.state = !this.state })
     }
   },
   computed: {
-    computedIcon () {
+    computedIcon() {
       if (typeof this.icon === 'object') {
         return this.icon[+this.state]
       } else {
         return this.icon
       }
     },
-    method () {
+    method() {
       return this.state ? 'delete' : 'put'
     }
   }
@@ -47,6 +41,7 @@ export default {
 .icon-button {
   color: #b0b0b0;
 }
+
 .active {
   color: $themeAttention;
 }
