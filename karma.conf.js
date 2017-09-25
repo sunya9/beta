@@ -1,11 +1,10 @@
 const webpack = require('./webpack.config')
+process.env.CHROME_BIN = require('puppeteer').executablePath()
 
 module.exports = config => {
   config.set({
     frameworks: ['mocha', 'chai'],
-    files: [
-      { pattern: 'test/components/*.js', watched: false }
-    ],
+    files: ['test/components/index.js', 'test/components/*.js'],
     preprocessors: {
       'test/components/*.js': ['webpack']
     },
@@ -14,7 +13,7 @@ module.exports = config => {
       stats: 'errors-only',
       noInfo: true
     },
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     reporters: ['mocha'],
     customLaunchers: {
       Chrome_travis_ci: {
