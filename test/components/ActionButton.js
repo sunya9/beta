@@ -1,7 +1,7 @@
 import ActionButton from '~/components/ActionButton'
 import {
   mount
-} from '../client-helpers'
+} from 'helpers/client'
 
 describe('ActionButton component', () => {
   it('initial state equals state', () => {

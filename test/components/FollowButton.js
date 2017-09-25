@@ -1,7 +1,7 @@
 import Header from '~/components/FollowButton'
 import {
   mount
-} from '../client-helpers'
+} from 'helpers/client'
 
 describe('FollowButton component', () => {
   describe('initialState is false', () => {

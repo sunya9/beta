@@ -2,7 +2,7 @@ import Header from '~/components/Header'
 import {
   shallow,
   createStore
-} from '../client-helpers'
+} from 'helpers/client'
 
 describe('Header component', () => {
   let store

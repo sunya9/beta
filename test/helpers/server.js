@@ -1,5 +1,5 @@
 import request from 'supertest'
-import koaApp from '../app'
+import koaApp from '~/app'
 
 export const app = request()
 export class ServerHepler {
