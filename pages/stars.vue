@@ -17,7 +17,7 @@ import api from '~/plugins/api'
 
 export default {
   middleware: 'authenticated',
-  async asyncData (ctx) {
+  async asyncData(ctx) {
     const data = await api(ctx).fetch()
     return { data }
   },

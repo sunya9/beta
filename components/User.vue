@@ -34,21 +34,21 @@ export default {
   mixins: [focus],
   props: ['data'],
   computed: {
-    relation () {
+    relation() {
       return this.data.follows_you ? 'Follows you' : ''
     },
-    html () {
+    html() {
       if (this.user.content && this.user.content.html) {
         const $ = cheerio.load(this.user.content.html)
         $('a').attr('target', '_new')
         $('span[data-mention-name]')
-          .replaceWith(function () {
+          .replaceWith(function() {
             const name = $(this).data('mention-name')
             const text = $(this).text()
             return `<a href="/@${name}">${text}</a>`
           })
         $('span[data-tag-name]')
-          .replaceWith(function () {
+          .replaceWith(function() {
             const tag = $(this).data('tag-name')
             const text = $(this).text()
             return `<a href="/tags/${tag}">${text}</a>`
@@ -56,12 +56,12 @@ export default {
         return $.html()
       }
     },
-    user () {
+    user() {
       return this.data
     }
   },
   methods: {
-    clickPostLink (e) {
+    clickPostLink(e) {
       const a = e.target
       if (!a.href || !a.getAttribute('href').startsWith('/')) return
       e.preventDefault()

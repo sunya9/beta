@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 
 export default {
   extends: Sidebar,
-  data () {
+  data() {
     const user = this.$store.state.user
     const menus = [
       {type: 'heading', label: 'Beta', hidden: !user},
@@ -73,7 +73,7 @@ export default {
     }
   },
   methods: {
-    showHelpModal () {
+    showHelpModal() {
       bus.$emit('showHelpModal')
     }
   }

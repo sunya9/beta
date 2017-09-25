@@ -54,7 +54,7 @@ export default {
     Post,
     Interaction
   },
-  data () {
+  data() {
     return {
       busy: false,
       meta: this.data.meta,
@@ -65,37 +65,37 @@ export default {
     }
   },
   computed: {
-    filterItems () {
+    filterItems() {
       if (this.type === 'Post' && !this.all) {
         return this.items.filter(item => !item.is_deleted)
       }
       return this.items
     },
-    mainItem () {
+    mainItem() {
       return this.type === 'Post' && this.filterItems.filter(item => item.id === this.main)[0]
     },
-    more () {
+    more() {
       return this.meta.more
     },
-    moreDisabled () {
+    moreDisabled() {
       return this.busy || !this.more
     },
     select: {
-      get () {
+      get() {
         return this.internalSelect
       },
-      set (v) {
+      set(v) {
         if (!(this.items.length - 1 < v) && !(v < 0)) {
           this.internalSelect = v
         }
       }
     },
-    selectItem () {
+    selectItem() {
       if (this.select < 0) return null
       return this.$refs.list.children[this.select].__vue__
     }
   },
-  mounted () {
+  mounted() {
     Mousetrap.bind('j', this.scrollDown)
     Mousetrap.bind('k', this.scrollUp)
     Mousetrap.bind('.', this.refresh)
@@ -111,7 +111,7 @@ export default {
       this.timer = setInterval(this.refresh, INTERVAL)
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     Mousetrap.unbind('j')
     Mousetrap.unbind('k')
     Mousetrap.unbind('.')
@@ -127,46 +127,46 @@ export default {
     }
   },
   methods: {
-    isTarget (item) {
+    isTarget(item) {
       return this.mainItem
         ? this.mainItem.reply_to === item.id
         : null
     },
-    focus () {
+    focus() {
       if (this.selectItem && this.selectItem.$el) { this.selectItem.$el.focus() }
     },
-    scrollDown () {
+    scrollDown() {
       this.select++
       this.focus()
     },
-    scrollUp () {
+    scrollUp() {
       this.select--
       this.focus()
     },
-    reply () {
+    reply() {
       if (this.selectItem) { this.selectItem.replyModal() }
     },
-    remove () {
+    remove() {
       if (!this.selectItem || !this.selectItem.me) return
       this.selectItem.removeModal()
     },
-    favorite () {
+    favorite() {
       if (this.selectItem) { this.selectItem.favoriteToggle() }
     },
-    repost () {
+    repost() {
       if (this.selectItem) { this.selectItem.repostToggle() }
     },
-    goPost () {
+    goPost() {
       if (this.selectItem) { this.$router.push(this.selectItem.permalink) }
     },
-    id (item) {
+    id(item) {
       if (this.type === 'Interaction') {
         return item.pagination_id
       } else {
         return item.id
       }
     },
-    async refresh () {
+    async refresh() {
       if (this.refreshing) return
       this.refreshing = true
       const option = Object.assign({}, this.option, {
@@ -197,7 +197,7 @@ export default {
       }
       this.refreshing = false
     },
-    async fetchMore () {
+    async fetchMore() {
       this.busy = true
       const option = Object.assign({}, this.option, {
         before_id: this.meta.min_id

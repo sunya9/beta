@@ -63,7 +63,7 @@
 import { mapState } from 'vuex'
 import moment from 'moment'
 export default {
-  data () {
+  data() {
     // Vue might recgnize process.env as strings and replace.
     // So, unable to use destructuring assignment because occurred errors.
     return {
@@ -77,7 +77,7 @@ export default {
     'user'
   ]),
   methods: {
-    active (url) {
+    active(url) {
       return this.$route.fullPath === url ? 'active' : ''
     }
   }

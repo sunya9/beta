@@ -61,7 +61,7 @@ export default {
   components: {
     FileRow
   },
-  data () {
+  data() {
     return {
       busy: false,
       meta: this.data.meta,
@@ -69,20 +69,20 @@ export default {
       modal: null
     }
   },
-  mounted () {
+  mounted() {
     this.modal = $('#delete-file-modal')
   },
   computed: {
-    isSelected () {
+    isSelected() {
       return this.modifiedFiles.some(file => file.select)
     },
-    selectedFiles () {
+    selectedFiles() {
       return this.modifiedFiles.filter(file => file.select)
     },
-    moreDisabled () {
+    moreDisabled() {
       return this.busy || !this.meta.more
     },
-    modifiedFiles () {
+    modifiedFiles() {
       return this.files.map(file => {
         this.$set(file, 'select', false)
         return file
@@ -90,7 +90,7 @@ export default {
     }
   },
   methods: {
-    async fetchMore () {
+    async fetchMore() {
       this.busy = true
       const option = Object.assign({}, this.option, {
         before_id: this.meta.min_id
@@ -105,10 +105,10 @@ export default {
       }
       this.busy = false
     },
-    showModal () {
+    showModal() {
       this.modal.modal('show')
     },
-    async deleteFiles () {
+    async deleteFiles() {
       const deletePromises = this.selectedFiles.map(async file => {
         const res = await api().delete(`/files/${file.id}`)
         return res

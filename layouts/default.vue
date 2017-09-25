@@ -72,24 +72,24 @@ export default {
     Jumbotron
   },
   watch: {
-    '$route.fullPath' () {
+    '$route.fullPath'() {
       this.$refs.removeModal.dismiss()
       this.$refs.postModal.dismiss()
     }
   },
-  data () {
+  data() {
     return {
       marginTop: 48 // default margin size
     }
   },
   computed: {
-    notLoginIndex () {
+    notLoginIndex() {
       return !this.user && this.$route.name === 'index'
     },
-    searchPage () {
+    searchPage() {
       return this.$route.fullPath.match(/^\/search/)
     },
-    sidebar () {
+    sidebar() {
       const [, name] = this.$route.fullPath.match(/\/(\w+[^/?#])/) || []
       const map = {
         settings: 'SettingsSidebar',
@@ -101,7 +101,7 @@ export default {
     },
     ...mapState(['user'])
   },
-  mounted () {
+  mounted() {
     const { height } = this.$refs.header.$el.querySelector('.navbar').getBoundingClientRect()
     this.marginTop = height
     const router = this.$router
@@ -120,7 +120,7 @@ export default {
     Mousetrap.bind('g t', () => router.push('/trending'))
     Mousetrap.bind('g g', () => router.push('/global'))
   },
-  beforeDestroy () {
+  beforeDestroy() {
     Mousetrap.unbind('n')
     Mousetrap.unbind('?')
 

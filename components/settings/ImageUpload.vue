@@ -21,12 +21,12 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       imgur: undefined
     }
   },
-  mounted () {
+  mounted() {
     try {
       const tokenStr = localStorage.getItem('imgur')
       if (tokenStr) { this.imgur = JSON.parse(tokenStr) }
@@ -34,7 +34,7 @@ export default {
     }
   },
   methods: {
-    logout () {
+    logout() {
       localStorage.removeItem('imgur')
       this.imgur = null
     }

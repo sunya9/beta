@@ -12,7 +12,7 @@ import api from '~/plugins/api'
 import bus from '~/assets/js/bus'
 
 export default {
-  async asyncData (ctx) {
+  async asyncData(ctx) {
     const { params: { id } } = ctx
     const _api = api(ctx)
     const option = {
@@ -35,22 +35,22 @@ export default {
   // validate ({ params }) {
   //   return /^\d+$/.test(params.id)
   // },
-  mounted () {
+  mounted() {
     bus.$on('post', this.addAfter)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     bus.$off('post', this.addAfter)
   },
   components: {
     Post, Compose, List
   },
   methods: {
-    addAfter (post) {
+    addAfter(post) {
       // TODO: push post to list if post target is this page's post
       // this.data.data.push(post)
     }
   },
-  head () {
+  head() {
     const [post] = this.data.data
       .filter(post => post.id === this.id)
     let title = post.content.text

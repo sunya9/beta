@@ -2,16 +2,16 @@ if (process.browser) {
   require('imports-loader?Mousetrap=>require("mousetrap")!mousetrap/plugins/pause/mousetrap-pause') // eslint-disable-line
 
   module.exports = {
-    pause () {
+    pause() {
       Mousetrap.pause() // eslint-disable-line
     },
-    unpause () {
+    unpause() {
       Mousetrap.unpause() // eslint-disable-line
     },
-    bind (...args) {
+    bind(...args) {
       Mousetrap.bind(...args) // eslint-disable-line
     },
-    unbind (...args) {
+    unbind(...args) {
       Mousetrap.unbind(...args) // eslint-disable-line
     }
   }

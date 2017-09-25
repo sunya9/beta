@@ -9,12 +9,12 @@ const store = () => new Vuex.Store({
     user: null
   },
   mutations: {
-    SET_USER (state, user) {
+    SET_USER(state, user) {
       state.user = user
     }
   },
   actions: {
-    async nuxtServerInit ({ commit }, ctx) {
+    async nuxtServerInit({ commit }, ctx) {
       const { req } = ctx
       if (req.user) {
         const { data: { storage } } = await api(ctx).request('/token').catch(() => ({data: {}}))

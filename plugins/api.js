@@ -1,7 +1,7 @@
 import qs from 'querystring'
 
 class API {
-  constructor (ctx) {
+  constructor(ctx) {
     this.fetch = this.fetch.bind(this)
     this.get = this.get.bind(this)
     this.post = this.post.bind(this)
@@ -20,12 +20,12 @@ class API {
     }
   }
 
-  async fetch (option = {}) {
+  async fetch(option = {}) {
     const res = await this.get(this.resource, option)
     return res
   }
 
-  async get (resource, body) {
+  async get(resource, body) {
     const defaults = {
       include_post_raw: 1,
       include_directed_posts: 0
@@ -37,17 +37,17 @@ class API {
     return res
   }
 
-  async post (resource, body) {
+  async post(resource, body) {
     const res = await this.request(resource, 'post', body)
     return res
   }
 
-  async delete (resource, body) {
+  async delete(resource, body) {
     const res = await this.request(resource, 'delete', body)
     return res
   }
 
-  async patch (resource, body) {
+  async patch(resource, body) {
     const res = await this.request(resource, 'patch', body)
     return res
   }
@@ -77,7 +77,7 @@ API.RESOURCE_MAP = {
 }
 
 class PnutAPI extends API {
-  constructor (ctx) {
+  constructor(ctx) {
     super(ctx)
     if (ctx.req.user && ctx.req.user.token) {
       this._token = ctx.req.user.token
@@ -85,7 +85,7 @@ class PnutAPI extends API {
     this.request = this.request.bind(this)
   }
 
-  async request (resource, method = 'get', body = {}) {
+  async request(resource, method = 'get', body = {}) {
     const pnut = require('pnut-butter')
     pnut.token = this._token
     const data = await pnut.custom(resource, method, body)
@@ -94,12 +94,12 @@ class PnutAPI extends API {
 }
 
 class AxiosAPI extends API {
-  constructor (ctx) {
+  constructor(ctx) {
     super(ctx)
     this.request = this.request.bind(this)
   }
 
-  async request (resource, method = 'get', body = {}) {
+  async request(resource, method = 'get', body = {}) {
     const axios = require('axios')
     resource = resource.replace(/^\/proxy/, '')
     resource = `/proxy${resource}`

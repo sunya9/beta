@@ -22,13 +22,13 @@ export default {
       default: 'Save'
     }
   },
-  data () {
+  data() {
     return {
       message: ''
     }
   },
   methods: {
-    submit (e) {
+    submit(e) {
       const { form } = e.target
       const method = form._method.value || form.method || 'get'
       const url = form.action

@@ -13,13 +13,13 @@ import api from '~/plugins/api'
 import FileList from '~/components/file-list'
 
 export default {
-  async asyncData (ctx) {
+  async asyncData(ctx) {
     const data = await api(ctx).fetch()
     return {
       data
     }
   },
-  head () {
+  head() {
     return {
       title: 'Your files'
     }

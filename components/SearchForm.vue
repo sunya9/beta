@@ -12,18 +12,18 @@
 <script>
 import qs from 'querystring'
 export default {
-  data () {
+  data() {
     return {
       text: this.$route.query.q
     }
   },
   watch: {
-    '$route.query.q' (text) {
+    '$route.query.q'(text) {
       this.text = text
     }
   },
   methods: {
-    search (e) {
+    search(e) {
       if (!this.text) return e.preventDefault()
       const query = {
         q: this.text

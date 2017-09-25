@@ -14,7 +14,7 @@ export default {
   components: {
     ImageUpload
   },
-  head () {
+  head() {
     return {
       title: 'Stream settings'
     }

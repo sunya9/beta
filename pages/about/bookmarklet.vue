@@ -13,7 +13,7 @@ javascript:(function(){var D=550,A=450,C=screen.height,B=screen.width,H=Math.rou
 `
 
 export default {
-  data () {
+  data() {
     return {
       shareScript
     }

@@ -22,7 +22,7 @@ import ComposeInner from '~/components/ComposeInner'
 export default {
   middleware: 'authenticated',
   layout: 'intent',
-  async asyncData ({ query }) {
+  async asyncData({ query }) {
     const { text, url } = query
     const message = text && url ? `[${text}](${url})` : ''
     return {
@@ -30,24 +30,24 @@ export default {
     }
   },
   computed: {
-    title () {
+    title() {
       return !this.posted
         ? 'Share a link'
         : 'Shared link!'
     }
   },
   methods: {
-    finishPosting () {
+    finishPosting() {
       this.posted = true
     },
-    close () {
+    close() {
       window.close()
     }
   },
   components: {
     ComposeInner
   },
-  head () {
+  head() {
     return {
       title: this.title
     }

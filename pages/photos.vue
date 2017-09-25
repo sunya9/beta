@@ -17,18 +17,18 @@ import api from '~/plugins/api'
 import bus from '~/assets/js/bus'
 
 export default {
-  async asyncData (ctx) {
+  async asyncData(ctx) {
     const data = await api(ctx).fetch()
     return { data }
   },
-  mounted () {
+  mounted() {
     bus.$on('post', this.add)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     bus.$off('post', this.add)
   },
   methods: {
-    add (post) {
+    add(post) {
       this.$refs.list.refresh()
     }
   },

@@ -17,7 +17,7 @@
 import CustomCheckbox from '../CustomCheckbox'
 
 export default {
-  data () {
+  data() {
     return {
       notification: false,
       types: {
@@ -28,28 +28,28 @@ export default {
       error: null
     }
   },
-  mounted () {
+  mounted() {
     this.checkPermission()
     Object.keys(this.types).forEach(key => {
       this.types[key] = localStorage.getItem(`notification:${key}`) === 'true'
     })
   },
   watch: {
-    notification (newVal) {
+    notification(newVal) {
       localStorage.setItem('notification', newVal)
       if (newVal) {
         Notification.requestPermission(this.checkPermission)
       }
     },
-    'types.posts' (newVal) {
+    'types.posts'(newVal) {
       localStorage.setItem('notification:posts', newVal)
     },
-    'types.mentions' (newVal) {
+    'types.mentions'(newVal) {
       localStorage.setItem('notification:mentions', newVal)
     }
   },
   methods: {
-    checkPermission () {
+    checkPermission() {
       this.disabledNotification = !('Notification' in window) || Notification.permission === 'denied'
       if (!('Notification' in window)) {
         this.error = {

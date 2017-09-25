@@ -16,7 +16,7 @@ import List from '~/components/List'
 import api from '~/plugins/api'
 
 export default {
-  async asyncData (ctx) {
+  async asyncData(ctx) {
     const option = {
       include_directed_posts: 1
     }

@@ -20,7 +20,7 @@
 export default {
   props: ['file'],
   methods: {
-    toggleSelect () {
+    toggleSelect() {
       this.file.select = !this.file.select
     }
   }

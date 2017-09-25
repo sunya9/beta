@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 export default {
   extends: Sidebar,
   computed: {
-    menus () {
+    menus() {
       const { q } = this.$route.query
       return [
         {type: 'heading', label: 'Search'},

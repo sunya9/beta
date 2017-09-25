@@ -21,7 +21,7 @@ export default {
     event: 'change'
   },
   methods: {
-    updateValue (e) {
+    updateValue(e) {
       const { checked } = e.target
       this.$emit('change', checked)
     }

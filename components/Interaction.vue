@@ -81,34 +81,34 @@ const convert = {
 export default {
   mixins: [focus],
   props: ['data'],
-  data () {
+  data() {
     return {
       date: null
     }
   },
-  mounted () {
+  mounted() {
     setInterval(this.dateUpdate, 1000 * 30) // 30sec
     this.dateUpdate()
   },
   computed: {
-    absDate () {
+    absDate() {
       return moment(this.action.event_date).format()
     },
-    action () {
+    action() {
       return this.data
     },
-    users () {
+    users() {
       return this.action.users
         .map(user => user.username)
         .join(', ')
     },
-    actionBy () {
+    actionBy() {
       return `${convert[this.action.action].text} by`
     },
-    icon () {
+    icon() {
       return convert[this.action.action].icon
     },
-    html () {
+    html() {
       switch (this.action.action) {
         case 'bookmark':
         case 'reply':
@@ -116,14 +116,14 @@ export default {
           return 'This post'
       }
     },
-    post () {
+    post() {
       return this.action.action !== 'follow'
         ? this.action.objects[0]
         : null
     }
   },
   methods: {
-    dateUpdate () {
+    dateUpdate() {
       this.date = moment(this.action.event_date).fromNow(true)
     }
   },

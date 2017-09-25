@@ -1,58 +1,30 @@
 <template>
   <form class="card-body" @submit.prevent="submit">
     <div class="form-group">
-      <textarea @keydown.ctrl.enter="submit"
-        @keydown.meta.enter="submit"
-        cols="10" rows="5"
-        class="form-control textarea" v-model.trim="text"
-        :disabled="promise"
-        @input="textCount"
-        ref="textarea"
-      ></textarea>
+      <textarea @keydown.ctrl.enter="submit" @keydown.meta.enter="submit" cols="10" rows="5" class="form-control textarea" v-model.trim="text" :disabled="promise" @input="textCount" ref="textarea"></textarea>
     </div>
     <div class="form-group" v-show="photos.length">
-      <transition-group
-        tag="div"
-        name="photos"
-        class="d-flex flex-wrap justify-cotnent align-items-center">
-        <thumb
-          :key="photo.data"
-          v-for="(photo, i) in previewPhotos"
-          :original="photo.data"
-          :thumb="photo.data"
-          removable
-          class="mr-2"
-          @remove="photos.splice(i, 1)"
-          />
-        </transition-group>
+      <transition-group tag="div" name="photos" class="d-flex flex-wrap justify-cotnent align-items-center">
+        <thumb :key="photo.data" v-for="(photo, i) in previewPhotos" :original="photo.data" :thumb="photo.data" removable class="mr-2" @remove="photos.splice(i, 1)" />
+      </transition-group>
     </div>
     <div v-if="error" class="alert alert-danger fade show" role="alert">
       {{ error }}
     </div>
     <div class="d-flex justify-content-between align-items-center">
       <strong class="text-muted">{{count}}</strong>
-        <div>
-          <button
-            v-show="!noPhoto"
-            v-if="$store.state.user.storage"
-            type="button"
-            @click="addPhoto"
-            class="btn btn-link text-muted"
-            :disabled="promise">
-            <i class="fa fa-picture-o"></i>&nbsp;
-            Add photo…
-          </button>
-          <input type="file" multiple @change="fileChange" style="display: none" ref="file">
-          <button type="submit"
-            class="btn text-uppercase"
-            :class="'btn-' + (disabled ? 'secondary' : 'primary')"
-            :disabled="disabled">
-            <span v-show="promise">
-              <i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
-            </span>
-            Post
-          </button>
-        </div>
+      <div>
+        <button v-show="!noPhoto" v-if="$store.state.user.storage" type="button" @click="addPhoto" class="btn btn-link text-muted" :disabled="promise">
+          <i class="fa fa-picture-o"></i>&nbsp; Add photo…
+        </button>
+        <input type="file" multiple @change="fileChange" style="display: none" ref="file">
+        <button type="submit" class="btn text-uppercase" :class="'btn-' + (disabled ? 'secondary' : 'primary')" :disabled="disabled">
+          <span v-show="promise">
+            <i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
+          </span>
+          Post
+        </button>
+      </div>
     </div>
   </form>
 </template>
@@ -77,7 +49,7 @@ export default {
     replyTarget: Object,
     noPhoto: Boolean
   },
-  data () {
+  data() {
     return {
       promise: null,
       tempCount: 0,
@@ -88,7 +60,7 @@ export default {
     }
   },
   watch: {
-    async photos () {
+    async photos() {
       const promisePhotos = this.photos.map(file => {
         return new Promise(resolve => {
           const fr = new FileReader()
@@ -104,10 +76,10 @@ export default {
   },
 
   computed: {
-    count () {
+    count() {
       return 256 - Math.max(this.getTextLength(this.text), this.tempCount)
     },
-    disabled () {
+    disabled() {
       const sending = !!this.promise
       const someContents = this.text.length
       const textLimit = this.count < 0
@@ -115,10 +87,10 @@ export default {
     },
     ...mapState(['user'])
   },
-  created () {
+  created() {
     if (this.initialText) { this.text = this.initialText }
   },
-  mounted () {
+  mounted() {
     if (this.focus) { this.setFocus() }
     if (this.replyTarget) {
       this.text = this.user.username === this.replyTarget.user.username
@@ -127,7 +99,7 @@ export default {
     }
   },
   methods: {
-    setFocus () {
+    setFocus() {
       // occur error if it not displayed like logged out
       if (this.$refs.textarea) {
         switch (typeof this.focus) {
@@ -149,7 +121,7 @@ export default {
         }
       }
     },
-    setCaret (start, end) {
+    setCaret(start, end) {
       if (end === undefined) {
         end = start
       }
@@ -168,7 +140,7 @@ export default {
       }
       input.focus()
     },
-    async submit () {
+    async submit() {
       const option = {
         text: this.text,
         raw: []
@@ -195,18 +167,17 @@ export default {
         const photosJson = await Promise.all(photosPromise)
         const raws = photosJson.map(res => {
           const image = res.data.data
+          const value = {
+            width: image.image_info.width,
+            height: image.image_info.height,
+            version: '1.0',
+            type: 'photo',
+            url: image.link,
+            title: this.text
+          }
           return Object.assign({}, {
             type: 'io.pnut.core.oembed'
-          }, {
-            value: {
-              width: image.image_info.width,
-              height: image.image_info.height,
-              version: '1.0',
-              type: 'photo',
-              url: image.link,
-              title: this.text
-            }
-          })
+          }, { value })
         })
         option.raw.push(...raws)
       }
@@ -231,27 +202,27 @@ export default {
     },
     // for IME
     // https://vuejs.org/v2/guide/forms.html#Basic-Usage
-    textCount (e) {
+    textCount(e) {
       this.tempCount = this.getTextLength(e.target.value.trim())
     },
-    cancelReply () {
+    cancelReply() {
       this.replyTarget = null
     },
-    resetPost () {
+    resetPost() {
       this.text = ''
       this.tempCount = 0
       this.photos = []
     },
-    addPhoto () {
+    addPhoto() {
       this.$refs.file.click()
     },
-    fileChange (e) {
+    fileChange(e) {
       if (!e.target.files.length) return
       this.photos.push(...Array.prototype.slice.call(e.target.files))
       // reset file form for detecting changes(if there isn't below code, not working when is selected same file)
       this.$refs.file.value = ''
     },
-    getTextLength (str) {
+    getTextLength(str) {
       // http://stackoverflow.com/a/32382702
       const markdown = str.replace(/\[([^\]]+)\][^)]+\)/g, '$1')
       return stringLength(markdown)
@@ -262,7 +233,7 @@ export default {
   }
 }
 
-function obj2FormData (obj) {
+function obj2FormData(obj) {
   return Object.keys(obj).reduce((fd, key) => {
     fd.append(key, obj[key])
     return fd
@@ -279,13 +250,18 @@ function obj2FormData (obj) {
     font-size: 16px;
   }
 }
-.photos-enter-active, .photos-leave-to {
+
+.photos-enter-active,
+.photos-leave-to {
   transition: all .5s ease;
 }
-.photos-enter, .photos-leave-to {
+
+.photos-enter,
+.photos-leave-to {
   opacity: 0;
   transform: scale(0);
 }
+
 .photos-move {
   transition: transform .5s;
 }

@@ -34,7 +34,7 @@ module.exports = {
 
   // webpack build setttings
   build: {
-    extend (config) {
+    extend(config) {
       config.plugins = config.plugins.filter(plugin => plugin.constructor.name !== 'UglifyJsPlugin')
     },
     plugins: [
@@ -76,7 +76,7 @@ module.exports = {
 
   // router settings
   router: {
-    extendRoutes (routes, resolve) {
+    extendRoutes(routes, resolve) {
       // Replace "at" prefix with @ because cannot use @ for file/dir name in nuxt's project.
       routes.forEach(route => {
         if (route.name.startsWith('atname')) {
@@ -90,7 +90,7 @@ module.exports = {
         component: resolve(__dirname, 'pages/posts/_id.vue')
       })
     },
-    scrollBehavior (to, from, savedPosition) {
+    scrollBehavior(to, from, savedPosition) {
       // default + alpha
       if (savedPosition) {
         return savedPosition

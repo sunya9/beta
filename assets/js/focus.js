@@ -1,6 +1,6 @@
 export default {
   methods: {
-    focus () {
+    focus() {
       const { top, bottom } = this.$el.getBoundingClientRect()
       if (top < 70) {
         document.body.scrollTop -= 100

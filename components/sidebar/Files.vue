@@ -3,7 +3,7 @@ import Sidebar from './Sidebar'
 
 export default {
   extends: Sidebar,
-  data () {
+  data() {
     const menus = [
       {type: 'heading', label: 'Files'},
       {

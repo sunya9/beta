@@ -154,21 +154,21 @@ import Mousetrap from 'mousetrap'
 import bus from '~/assets/js/bus'
 
 export default {
-  mounted () {
+  mounted() {
     $(this.$el).on('hidden.bs.modal', this.hidden)
     bus.$on('showHelpModal', this.showModal)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     bus.$off('showHelpModal', this.showModal)
   },
   methods: {
-    showModal () {
+    showModal() {
       if (!$(this.$el).hasClass('show')) {
         Mousetrap.pause()
         $(this.$el).modal('show')
       }
     },
-    hidden () {
+    hidden() {
       Mousetrap.unpause()
     }
   }

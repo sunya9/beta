@@ -23,12 +23,12 @@ export default {
     thread: Boolean,
     replyTarget: Object
   },
-  data () {
+  data() {
     return {
       hidden: false
     }
   },
-  mounted () {
+  mounted() {
     this.hidden = this.thread
   },
   computed: mapState(['user']),

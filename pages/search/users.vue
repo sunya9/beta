@@ -8,7 +8,7 @@ import List from '~/components/List'
 
 export default {
   mixins: [search],
-  async asyncData (ctx) {
+  async asyncData(ctx) {
     const { query } = ctx
     const options = {
       type: 'User',
@@ -19,7 +19,7 @@ export default {
       data, options
     }
   },
-  head () {
+  head() {
     return {
       title: this.title
     }

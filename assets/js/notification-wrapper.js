@@ -1,10 +1,10 @@
 import { getTitle } from './util'
 
-function isEnabledNotification () {
+function isEnabledNotification() {
   return localStorage.getItem('notification') === 'true'
 }
 
-export function sendPostNotification (posts) {
+export function sendPostNotification(posts) {
   const enabled = localStorage.getItem('notification:posts') === 'true'
   if (!enabled || !isEnabledNotification()) return
   if (posts.length === 1) {
@@ -27,7 +27,7 @@ export function sendPostNotification (posts) {
   }
 }
 
-export function sendMentionNotification (mentions) {
+export function sendMentionNotification(mentions) {
   const enabled = localStorage.getItem('notification:mentions') === 'true'
   if (!enabled || !isEnabledNotification()) return
   return mentions.map(mention => {

@@ -39,35 +39,35 @@ import bus from '~/assets/js/bus'
 import Mousetrap from 'mousetrap'
 
 export default {
-  data () {
+  data() {
     return {
       show: false,
       reply: null
     }
   },
-  mounted () {
+  mounted() {
     $(this.$el).on('hide.bs.modal', this.hide)
     $(this.$el).on('hidden.bs.modal', this.hidden)
     $(this.$el).on('shown.bs.modal', () => this.$refs.compose.setFocus())
     bus.$on('showPostModal', this.showModal)
   },
   computed: {
-    title () {
+    title() {
       return this.reply
         ? `Reply to @${this.reply.user.username}`
         : 'Compose new post'
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     bus.$off('showPostModal', this.showModal)
   },
   methods: {
-    hidden () {
+    hidden() {
       this.reply = null
       this.show = false
       Mousetrap.unpause()
     },
-    showModal (post) {
+    showModal(post) {
       if (!$(this.$el).hasClass('show')) {
         Mousetrap.pause()
         this.show = true
@@ -75,7 +75,7 @@ export default {
         $(this.$el).modal('show')
       }
     },
-    dismiss () {
+    dismiss() {
       if ($(this.$el).hasClass('show')) { $(this.$el).modal('hide') }
     }
   },

@@ -71,12 +71,12 @@ import { mapState } from 'vuex'
 import SearchForm from './SearchForm'
 
 export default {
-  data () {
+  data() {
     return {
       collapseHeight: 0
     }
   },
-  mounted () {
+  mounted() {
     const { height } = this.$el.children[0].getBoundingClientRect()
     this.collapseHeight = `calc(100vh - ${height}px)`
   },

@@ -14,7 +14,7 @@ export default {
   components: {
     Notification
   },
-  head () {
+  head() {
     return {
       title: 'Notification settings'
     }
