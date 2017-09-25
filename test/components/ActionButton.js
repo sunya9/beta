@@ -1,14 +1,7 @@
 import ActionButton from '~/components/ActionButton'
 import {
-  expect
-} from 'chai'
-import {
   mount
-} from 'avoriaz'
-import '../fixtures/axios-mock'
-import Vue from 'vue'
-Vue.config.devtools = false
-Vue.config.productionTip = false
+} from '../client-helpers'
 
 describe('ActionButton component', () => {
   it('initial state equals state', () => {

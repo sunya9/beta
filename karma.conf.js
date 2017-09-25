@@ -4,9 +4,10 @@ process.env.CHROME_BIN = require('puppeteer').executablePath()
 module.exports = config => {
   config.set({
     frameworks: ['mocha', 'chai'],
-    files: ['test/components/index.js', 'test/components/*.js'],
+    files: ['test/components/*.js'],
     preprocessors: {
-      'test/components/*.js': ['webpack']
+      'test/components/*.js': 'webpack',
+      'test/client-helpers.js': 'webpack'
     },
     webpack,
     webpackMiddleware: {

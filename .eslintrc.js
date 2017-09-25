@@ -21,5 +21,7 @@ module.exports = {
       }
     ]
   },
-  globals: {}
+  globals: {
+    expect: true
+  }
 }
