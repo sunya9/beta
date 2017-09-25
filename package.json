@@ -11,15 +11,15 @@
     "start": "cross-env NODE_ENV=production node index.js",
     "precommit": "lint-staged",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "lint:fix": "eslint --ext .js,.vue --ignore-path .gitignore --fix .",
+    "lint:fix": "eslint --ext .js,.vue --fix .",
     "test": "npm run test:mocha && npm run test:karma -- --single-run",
     "test:mocha": "mocha test/lib",
     "test:karma": "karma start"
   },
   "lint-staged": {
     "*.@(js|vue)": [
-      "prettier-eslint --write",
-      "eslint --ext .js,.vue",
+      "eslint --ext .js,.vue --fix .",
+      "eslint --ext .js,.vue .",
       "git add"
     ]
   },
@@ -68,7 +68,6 @@
     "babel-register": "^6.26.0",
     "chai": "^4.0.2",
     "eslint": "^4.4.1",
-    "eslint-config-prettier": "^2.6.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-chai-expect": "^1.1.1",
     "eslint-plugin-chai-friendly": "^0.4.0",
@@ -85,8 +84,7 @@
     "lint-staged": "^4.0.3",
     "mocha": "^3.4.2",
     "nodemon": "^1.11.0",
-    "prettier-eslint": "^8.1.1",
-    "prettier-eslint-cli": "^4.3.2",
+    "puppeteer": "^0.11.0",
     "scmp": "^2.0.0",
     "should": "^12.0.0",
     "supertest": "^3.0.0"
