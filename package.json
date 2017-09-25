@@ -61,12 +61,14 @@
     "zooming": "^1.1.4"
   },
   "devDependencies": {
+    "avoriaz": "^4.2.0",
     "axios-mock-adapter": "^1.9.0",
     "babel-eslint": "^7.1.1",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.26.0",
     "chai": "^4.0.2",
     "eslint": "^4.4.1",
+    "eslint-config-prettier": "^2.6.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-chai-expect": "^1.1.1",
     "eslint-plugin-chai-friendly": "^0.4.0",
