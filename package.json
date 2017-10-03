@@ -82,7 +82,7 @@
     "karma-mocha-reporter": "^2.2.3",
     "karma-webpack": "^2.0.4",
     "lint-staged": "^4.0.3",
-    "mocha": "^3.4.2",
+    "mocha": "^4.0.0",
     "nodemon": "^1.11.0",
     "puppeteer": "^0.11.0",
     "scmp": "^2.0.0",
