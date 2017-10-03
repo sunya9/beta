@@ -49,7 +49,7 @@
     "node-sass": "^4.5.3",
     "nuxt": "^1.0.0-rc11",
     "passport-pnut": "^0.1.1",
-    "pnut-butter": "^0.13.0",
+    "pnut-butter": "^0.14.0",
     "popper.js": "^1.11.1",
     "qs": "^6.4.0",
     "request": "^2.81.0",
