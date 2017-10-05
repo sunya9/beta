@@ -1,4 +1,6 @@
-import { ServerHepler } from '../helpers'
+import {
+  ServerHepler
+} from 'helpers/server'
 
 describe('Auth', () => {
   let serverHelper, client

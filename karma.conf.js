@@ -6,8 +6,7 @@ module.exports = config => {
     frameworks: ['mocha', 'chai'],
     files: ['test/components/*.js'],
     preprocessors: {
-      'test/components/*.js': 'webpack',
-      'test/client-helpers.js': 'webpack'
+      'test/components/*.js': 'webpack'
     },
     webpack,
     webpackMiddleware: {

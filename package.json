@@ -13,7 +13,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint:fix": "eslint --ext .js,.vue --fix .",
     "test": "npm run test:mocha && npm run test:karma -- --single-run",
-    "test:mocha": "mocha test/lib",
+    "test:mocha": "NODE_PATH=test mocha test/lib",
     "test:karma": "karma start"
   },
   "lint-staged": {
