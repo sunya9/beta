@@ -13,7 +13,7 @@
 import User from '~/components/User'
 
 export default {
-  props: ['users', 'title'],
+  props: ['users'],
   components: {
     User
   }
