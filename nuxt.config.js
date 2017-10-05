@@ -1,41 +1,76 @@
-const { ProvidePlugin, EnvironmentPlugin } = require('webpack')
-const { homepage: npm_package_homepage } = require('./package')
+const {
+  ProvidePlugin,
+  EnvironmentPlugin
+} = require('webpack')
+const {
+  homepage: npm_package_homepage
+} = require('./package')
 const fs = require('fs')
 const lastModified = fs.statSync('./package.json').mtime
 
 module.exports = {
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: 'Beta',
     titleTemplate: '%s - Beta',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'beta is pnut.io client.' }
+    meta: [{
+      charset: 'utf-8'
+    },
+    {
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1'
+    },
+    {
+      hid: 'description',
+      name: 'description',
+      content: 'beta is pnut.io client.'
+    }
     ],
-    link: [
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat:300,400' },
-      { rel: 'shortcut icon', href: '/favicon.ico' }
+    link: [{
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css?family=Montserrat:300,400'
+    },
+    {
+      rel: 'shortcut icon',
+      href: '/favicon.ico'
+    },
+    {
+      'http-equiv': 'Pragma',
+      content: 'no-cache'
+    },
+    {
+      'http-equiv': 'Cache-Control',
+      content: 'no-cache'
+    }
     ]
   },
   /*
-  ** Global CSS
-  */
+   ** Global CSS
+   */
   css: [{
     src: '~assets/css/main.scss',
     lang: 'scss'
   }],
   /*
-  ** Customize the progress-bar color
-  */
-  loading: { color: '#d36854' },
+   ** Customize the progress-bar color
+   */
+  loading: {
+    color: '#d36854'
+  },
 
   // webpack build setttings
   build: {
-    extend(config) {
-      config.plugins = config.plugins.filter(plugin => plugin.constructor.name !== 'UglifyJsPlugin')
+    extend(config, {
+      isDev,
+      isClient
+    }) {
+      if (!isDev) {
+        if (isClient) {
+          config.plugins = config.plugins.filter(plugin => plugin.constructor.name !== 'UglifyJsPlugin')
+        }
+      }
     },
     plugins: [
       new ProvidePlugin({
@@ -66,12 +101,23 @@ module.exports = {
   },
 
   // plugin settings
-  plugins: [
-    { src: '~/plugins/bootstrap', ssr: false },
-    '~/plugins/api',
-    { src: '~/plugins/vue-infinite', ssr: false },
-    { src: '~/plugins/mousetrap', ssr: false },
-    { src: '~/plugins/ga', ssr: false }
+  plugins: [{
+    src: '~/plugins/bootstrap',
+    ssr: false
+  },
+  '~/plugins/api',
+  {
+    src: '~/plugins/vue-infinite',
+    ssr: false
+  },
+  {
+    src: '~/plugins/mousetrap',
+    ssr: false
+  },
+  {
+    src: '~/plugins/ga',
+    ssr: false
+  }
   ],
 
   // router settings
@@ -97,12 +143,20 @@ module.exports = {
       } else {
         let position = {}
         if (to.matched.length < 2) {
-          position = { x: 0, y: 0 }
+          position = {
+            x: 0,
+            y: 0
+          }
         } else if (to.matched.some((r) => r.components.default.options.scrollToTop)) {
-          position = { x: 0, y: 0 }
+          position = {
+            x: 0,
+            y: 0
+          }
         }
         if (to.hash) {
-          position = { selector: to.hash }
+          position = {
+            selector: to.hash
+          }
         }
 
         // go to post page first time
@@ -121,6 +175,7 @@ module.exports = {
   },
   cache: true,
   env: {
-    npm_package_homepage, last_modified: lastModified
+    npm_package_homepage,
+    last_modified: lastModified
   }
 }
