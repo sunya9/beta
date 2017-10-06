@@ -26,6 +26,14 @@ module.exports = {
       hid: 'description',
       name: 'description',
       content: 'beta is pnut.io client.'
+    },
+    {
+      'http-equiv': 'Pragma',
+      content: 'no-cache'
+    },
+    {
+      'http-equiv': 'Cache-Control',
+      content: 'no-cache'
     }
     ],
     link: [{
@@ -35,14 +43,6 @@ module.exports = {
     {
       rel: 'shortcut icon',
       href: '/favicon.ico'
-    },
-    {
-      'http-equiv': 'Pragma',
-      content: 'no-cache'
-    },
-    {
-      'http-equiv': 'Cache-Control',
-      content: 'no-cache'
     }
     ]
   },
