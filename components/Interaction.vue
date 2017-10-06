@@ -7,7 +7,7 @@
       <div class="media-body">
         <h6 class="text-gray-dark">
           <ul class="list-inline">
-            <li :key="user.id" v-if="user.content" class="list-inline-item" v-for="user in action.users">
+            <li :key="user.id" v-if="user.content" class="list-inline-item" v-for="user in filteredUsers">
               <nuxt-link :to="`@${user.username}`">
                 <img width="32" height="32" class="rounded-circle" :src="user.content.avatar_image.link">
               </nuxt-link>
@@ -20,10 +20,10 @@
           </nuxt-link>
           {{actionBy}}
           <ul class="list-inline d-inline">
-            <li class="list-inline-item" :key="user.id" v-for="(user, i) in action.users">
+            <li class="list-inline-item" :key="user.id" v-for="(user, i) in filteredUsers">
               <nuxt-link :to="`@${user.username}`">
                 @{{user.username}}
-                <span v-if="i < action.users.length - 1">, </span>
+                <span v-if="i < filteredUsers.length - 1">, </span>
               </nuxt-link>
             </li>
           </ul>.
@@ -89,11 +89,6 @@ export default {
     action() {
       return this.data
     },
-    users() {
-      return this.action.users
-        .map(user => user.username)
-        .join(', ')
-    },
     actionBy() {
       return `${convert[this.action.action].text} by`
     },
@@ -112,6 +107,11 @@ export default {
       return this.action.action !== 'follow'
         ? this.action.objects[0]
         : null
+    },
+    filteredUsers() {
+      return this.action.users.filter((user, i, ary) => {
+        return !ary.slice(0, i).some(user2 => user.id === user2.id)
+      })
     }
   },
   methods: {
