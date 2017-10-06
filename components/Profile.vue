@@ -1,22 +1,14 @@
 <template>
   <div class="card profile">
-    <img :src="profile.content.cover_image.link"
-      alt=""
-      :width="profile.content.cover_image.width"
-      :height="profile.content.cover_image.height || 500"
-      @load="loaded = true"
-      :class="{
-        'min-card-image-height': !loaded
-      }"
-      class="img-fluid card-img-top">
+    <img :src="profile.content.cover_image.link" alt="" :width="profile.content.cover_image.width" :height="profile.content.cover_image.height || 500" @load="loaded = true" :class="{
+            'min-card-image-height': !loaded
+          }" class="img-fluid card-img-top">
     <div class="card-body pt-3">
       <div class="flex-column d-flex flex-sm-row align-items-sm-start">
         <div class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row">
           <div class="d-flex flex-column align-items-center align-items-sm-stretch flex-sm-row justify-content-center justify-content-sm-start">
             <a :href="profile.content.avatar_image.link">
-              <img :src="profile.content.avatar_image.link"
-                alt="" class="rounded-circle mr-sm-3 negative"
-                width="96" height="96" :title="profile.id">
+              <img :src="profile.content.avatar_image.link" alt="" class="rounded-circle mr-sm-3 negative" width="96" height="96" :title="profile.id">
             </a>
             <div class="w-100">
               <h3 class="card-title mb-1" :title="profile.id">
@@ -56,6 +48,7 @@
 <script>
 import FollowButton from '~/components/FollowButton'
 import cheerio from 'cheerio'
+import emojione from 'emojione'
 import { mapState } from 'vuex'
 
 export default {
@@ -86,7 +79,7 @@ export default {
             const text = $(this).text()
             return `<a href="/tags/${tag}">${text}</a>`
           })
-        return $.html()
+        return emojione.toImage($('span').html())
       }
     }
   },

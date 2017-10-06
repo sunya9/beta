@@ -1,8 +1,8 @@
 <template>
   <li @focus="focus" tabindex="-1" :id="`post-${post.id}`" class="list-group-item list-group-item-action" @click="$emit('click')">
     <div :class="{
-              deleted: post.is_deleted
-            }" class="media w-100 justify-content-start">
+                                                deleted: post.is_deleted
+                                              }" class="media w-100 justify-content-start">
       <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview">
         <img :src="mainPost.user.content.avatar_image.link" alt="" class="d-flex mr-3 rounded-circle iconSize" width="64" height="64">
       </nuxt-link>
@@ -17,8 +17,8 @@
         </h6>
         <div class="d-flex flex-wrap flex-sm-nowrap">
           <p @click="clickPostLink" v-html="html" :class="{
-                  'mb-0': preview
-                }">
+                                                    'mb-0': preview
+                                                  }">
           </p>
           <div v-if="thumbs.length" class="mb-2 d-flex mr-auto ml-auto mr-sm-2 flex-wrap flex-sm-nowrap justify-content-sm-end">
             <thumb class="mx-1" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
@@ -115,6 +115,7 @@
 
 <script>
 import moment from 'moment'
+import emojione from 'emojione'
 import ActionButton from '~/components/ActionButton'
 import Thumb from '~/components/Thumb'
 import { mapState } from 'vuex'
@@ -172,7 +173,7 @@ export default {
     },
     html() {
       if (!this.post.is_deleted) {
-        const $ = cheerio.load(this.mainPost.content.html)
+        const $ = cheerio.load(this.mainPost.content.html, { decodeEntities: false })
         $('a').attr('target', '_new')
         $('span[data-mention-name]')
           .replaceWith(function() {
@@ -186,7 +187,7 @@ export default {
             const text = $(this).text()
             return `<a href="/tags/${tag}">${text}</a>`
           })
-        return $.html()
+        return emojione.toImage($('span').html())
       } else {
         return '[Post deleted]'
       }

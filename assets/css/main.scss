@@ -2,7 +2,6 @@
 @import '~bootstrap/scss/bootstrap';
 $fa-font-path: '~font-awesome/fonts';
 @import '~font-awesome/scss/font-awesome';
-
 html {
   font-size: 85%;
 }
@@ -17,17 +16,23 @@ body {
 }
 
 // buggy
-
 .dropdown-item {
   padding-top: .8rem;
   padding-bottom: .8rem;
 }
 
-.page-enter-active, .page-leave-active {
+.page-enter-active,
+.page-leave-active {
   transition: all .5s;
 }
-.page-enter, .page-leave-active {
+
+.page-enter,
+.page-leave-active {
   opacity: 0;
   transform: translateY(100px);
 }
 
+.emojione {
+  max-width: 1.5rem;
+  vertical-align: -.25rem;
+}

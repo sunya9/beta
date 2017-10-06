@@ -89,10 +89,13 @@ module.exports = {
       'tether',
       'axios',
       'vue-infinite-scroll',
+      'vue-on-click-outside',
       '~/plugins/bootstrap.js',
       '~/plugins/api.js',
       '~/plugins/mousetrap.js',
       '~/plugins/vue-infinite.js',
+      '~/plugins/vue-outside.js',
+      '~/plugins/emoji.js',
       'moment',
       'cheerio',
       '~/components/Post.vue',
@@ -116,6 +119,9 @@ module.exports = {
   },
   {
     src: '~/plugins/ga',
+    ssr: false
+  }, {
+    src: '~/plugins/emoji',
     ssr: false
   }
   ],

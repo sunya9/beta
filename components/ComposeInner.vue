@@ -1,7 +1,13 @@
 <template>
   <form class="card-body" @submit.prevent="submit">
-    <div class="form-group">
+    <div class="form-group relative">
       <textarea @keydown.ctrl.enter="submit" @keydown.meta.enter="submit" cols="10" rows="5" class="form-control textarea" v-model.trim="text" :disabled="promise" @input="textCount" ref="textarea"></textarea>
+      <a class="open-emoji-picker text-dark" @click.stop="toggleEmojiPalette">
+        <i class="fa fa-lg fa-smile-o"></i>
+      </a>
+      <div v-if="mounted">
+        <picker set="emojione" class="emoji-picker" @click="addEmoji" v-show="showEmojiPicker" v-on-click-outside="closeEmojiPalette" />
+      </div>
     </div>
     <div class="form-group" v-show="photos.length">
       <transition-group tag="div" name="photos" class="d-flex flex-wrap justify-cotnent align-items-center">
@@ -37,6 +43,8 @@ import { mapState } from 'vuex'
 import Thumb from '~/components/Thumb'
 import stringLength from 'string-length'
 import axios from 'axios'
+import emoji from 'node-emoji'
+import { Picker } from '~/plugins/emoji'
 
 export default {
   props: {
@@ -56,7 +64,9 @@ export default {
       text: '',
       photos: [],
       previewPhotos: [],
-      error: null
+      error: null,
+      showEmojiPicker: false,
+      mounted: false
     }
   },
   watch: {
@@ -77,13 +87,16 @@ export default {
 
   computed: {
     count() {
-      return 256 - Math.max(this.getTextLength(this.text), this.tempCount)
+      return 256 - Math.max(this.getTextLength(this.emojifyText), this.tempCount)
     },
     disabled() {
       const sending = !!this.promise
-      const someContents = this.text.length
+      const someContents = this.emojifyText.length
       const textLimit = this.count < 0
       return textLimit || !someContents || sending
+    },
+    emojifyText() {
+      return emoji.emojify(this.text)
     },
     ...mapState(['user'])
   },
@@ -91,6 +104,7 @@ export default {
     if (this.initialText) { this.text = this.initialText }
   },
   mounted() {
+    this.mounted = true
     if (this.focus) { this.setFocus() }
     if (this.replyTarget) {
       this.text = this.user.username === this.replyTarget.user.username
@@ -142,7 +156,7 @@ export default {
     },
     async submit() {
       const option = {
-        text: this.text,
+        text: this.emojifyText,
         raw: []
       }
 
@@ -204,7 +218,7 @@ export default {
     // for IME
     // https://vuejs.org/v2/guide/forms.html#Basic-Usage
     textCount(e) {
-      this.tempCount = this.getTextLength(e.target.value.trim())
+      this.tempCount = this.getTextLength(emoji.emojify(e.target.value.trim()))
     },
     cancelReply() {
       this.replyTarget = null
@@ -227,10 +241,43 @@ export default {
       // http://stackoverflow.com/a/32382702
       const markdown = str.replace(/\[([^\]]+)\][^)]+\)/g, '$1')
       return stringLength(markdown)
+    },
+    addEmoji(emoji) {
+      const { textarea } = this.$refs
+      if (document.selection) {
+        textarea.focus()
+        const sel = document.selection.createRange()
+        sel.text = emoji.colons
+        textarea.focus()
+      } else if (textarea.selectionStart || textarea.selectionStart === 0) {
+        const startPos = textarea.selectionStart
+        const endPos = textarea.selectionEnd
+        const scrollTop = textarea.scrollTop
+        this.text = textarea.value.substring(0, startPos) +
+          emoji.colons +
+          textarea.value.substring(endPos, textarea.value.length)
+        textarea.focus()
+        textarea.selectionStart = startPos + emoji.colons.length
+        textarea.selectionEnd = startPos + emoji.colons.length
+        textarea.scrollTop = scrollTop
+      } else {
+        this.text += emoji.colons
+        textarea.focus()
+      }
+      this.closeEmojiPalette()
+    },
+    showEmojiPalette() {
+      this.showEmojiPicker = true
+    },
+    toggleEmojiPalette() {
+      this.showEmojiPicker = !this.showEmojiPicker
+    },
+    closeEmojiPalette() {
+      this.showEmojiPicker = false
     }
   },
   components: {
-    Post, Thumb
+    Post, Thumb, Picker
   }
 }
 
@@ -265,5 +312,25 @@ function obj2FormData(obj) {
 
 .photos-move {
   transition: transform .5s;
+}
+
+.relative {
+  position: relative;
+}
+
+.open-emoji-picker {
+  position: absolute;
+  right: .5rem;
+  bottom: .5rem;
+}
+
+.textarea {
+  padding-bottom: 1.2rem;
+}
+
+.emoji-picker {
+  position: absolute;
+  right: 0;
+  z-index: 3;
 }
 </style>

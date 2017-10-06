@@ -2,15 +2,13 @@
   <li @focus="focus" tabindex="-1" class="list-group-item list-group-item-action">
     <div class="media w-100">
       <nuxt-link :to="`/@${user.username}`">
-        <img :src="user.content.avatar_image.link"
-          alt="" class="d-flex mr-3 rounded-circle"
-          width="64" height="64">
+        <img :src="user.content.avatar_image.link" alt="" class="d-flex mr-3 rounded-circle" width="64" height="64">
       </nuxt-link>
       <div class="media-body">
         <div class="d-flex justify-content-between align-items-baseline mb-2">
           <h6 class="d-inline-flex flex-wrap flex-row">
             <nuxt-link :to="`/@${user.username}`">
-            {{user.username}}
+              {{user.username}}
             </nuxt-link>
             <span class="ml-1 text-muted">{{user.name}}</span>
             <span class="ml-1 badge badge-secondary text-uppercase">{{relation}}</span>
@@ -28,6 +26,7 @@
 <script>
 import FollowButton from '~/components/FollowButton'
 import cheerio from 'cheerio'
+import emojione from 'emojione'
 import focus from '~/assets/js/focus'
 
 export default {
@@ -53,7 +52,7 @@ export default {
             const text = $(this).text()
             return `<a href="/tags/${tag}">${text}</a>`
           })
-        return $.html()
+        return emojione.toImage($('span').html())
       }
     },
     user() {

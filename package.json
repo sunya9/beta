@@ -30,6 +30,8 @@
     "cheerio": "^0.22.0",
     "cross-env": "^5.0.5",
     "dotenv": "^4.0.0",
+    "emoji-mart-vue": "^1.0.2",
+    "emojione": "^3.1.2",
     "es6-promise": "^4.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.1",
@@ -45,6 +47,7 @@
     "koa-session": "^5.0.0",
     "moment": "^2.18.1",
     "mousetrap": "^1.6.1",
+    "node-emoji": "^1.8.1",
     "node-fetch": "^1.7.2",
     "node-sass": "^4.5.3",
     "nuxt": "^1.0.0-rc11",
@@ -57,7 +60,9 @@
     "sass-loader": "^6.0.3",
     "string-length": "^2.0.0",
     "tether": "^1.4.0",
+    "twemoji": "^2.5.0",
     "vue-infinite-scroll": "^2.0.1",
+    "vue-on-click-outside": "^1.0.3",
     "zooming": "^1.1.4"
   },
   "devDependencies": {
