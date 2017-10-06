@@ -105,8 +105,8 @@
       </div>
       <div class="ml-auto mt-1" v-if="!viewOnly && user && !post.is_deleted">
         <div class="btn-group-vertical" role="group">
-          <action-button ref="favorite" :resource="`/posts/${mainPost.id}/bookmark`" :icon="['fa-star-o', 'fa-star']" :initial-state="mainPost.you_bookmarked" />
-          <action-button v-if="!me" ref="repost" :resource="`/posts/${mainPost.id}/repost`" icon="fa-retweet" :initial-state="mainPost.you_reposted" />
+          <action-button ref="favorite" :resource="`/proxy/posts/${mainPost.id}/bookmark`" :icon="['fa-star-o', 'fa-star']" :initial-state="mainPost.you_bookmarked" />
+          <action-button v-if="!me" ref="repost" :resource="`/proxy/posts/${mainPost.id}/repost`" icon="fa-retweet" :initial-state="mainPost.you_reposted" />
         </div>
       </div>
     </div>
@@ -129,9 +129,7 @@ moment.updateLocale('en', {
     m: '1m',
     mm: '%dm',
     h: '1h',
-    hh: '%dh',
-    d: '1d',
-    dd: '%dd'
+    hh: '%dh'
   }
 })
 
