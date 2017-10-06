@@ -3,8 +3,7 @@
     <div class="navbar navbar-light navbar fixed-top px-0">
       <div class="container relative">
 
-        <button v-if="$slots.menu"
-          class="d-md-none mr-3 navbar-toggler align-self-center" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button v-if="$slots.menu" class="d-md-none mr-3 navbar-toggler align-self-center" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <nuxt-link class="mr-auto p-0 navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
@@ -13,34 +12,24 @@
             Beta
           </span>
         </nuxt-link>
-        <search-form class="mr-md-4 order-3 order-md-1" />
+        <search-form class="mr-md-4 order-3 order-md-1" v-if="user" id="search-form" />
         <ul class="order-2 navbar-nav d-flex flex-row align-items-stretch">
-          <li class="nav-item" v-if="user">
+          <li class="nav-item" v-if="user" id="nav-files">
             <nuxt-link to="/files" class="nav-link text-dark">
               <i class="fa fa-database fa-lg"></i>
             </nuxt-link>
           </li>
           <li class="nav-item dropdown" v-if="user">
-            <a href="#" class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false">
+            <a href="#" class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{user.username}}
               <i class="fa fa-chevron-down"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-              <nuxt-link
-                :to="`/@${user.username}`"
-                exact
-                data-toggle="collapse" data-target="#navbarSupportedContent.show"
-                class="dropdown-item">
-              Profile
+              <nuxt-link :to="`/@${user.username}`" exact data-toggle="collapse" data-target="#navbarSupportedContent.show" class="dropdown-item">
+                Profile
               </nuxt-link>
               <div class="dropdown-divider"></div>
-              <nuxt-link
-                data-toggle="collapse"
-                data-target="#navbarSupportedContent.show"
-                to="/settings"
-                class="dropdown-item">
+              <nuxt-link data-toggle="collapse" data-target="#navbarSupportedContent.show" to="/settings" class="dropdown-item">
                 Settings
               </nuxt-link>
               <div class="dropdown-divider"></div>
@@ -52,14 +41,12 @@
           </li>
         </ul>
       </div>
-      <div
-        id="navbarSupportedContent"
-        class="navbar-collapse collapse d-md-none scrollable">
-          <div class="container" :style="{
-            'max-height': collapseHeight
-          }">
-            <slot name="menu" />
-          </div>
+      <div id="navbarSupportedContent" class="navbar-collapse collapse d-md-none scrollable">
+        <div class="container" :style="{
+              'max-height': collapseHeight
+            }">
+          <slot name="menu" />
+        </div>
       </div>
     </div>
     <slot name="jumbotron" />
@@ -106,11 +93,13 @@ export default {
 }
 
 .nav-item {
-  .nav-link, button {
+  .nav-link,
+  button {
     border-right: 1px solid $grayLighter;
   }
   &:first-child {
-    .nav-link, button {
+    .nav-link,
+    button {
       border-left: 1px solid $grayLighter;
     }
   }
@@ -123,6 +112,7 @@ export default {
   padding-left: 0;
   padding-right: 0;
 }
+
 .dropdown-divider {
   margin: 0;
 }
@@ -134,11 +124,13 @@ export default {
 .dropdown-menu {
   position: absolute;
 }
+
 .dropdown-menu-right {
   right: 0;
   left: auto;
   margin-top: 0;
 }
+
 .relative {
   position: relative;
 }
