@@ -164,6 +164,7 @@ export default {
           })
           return res
         })
+        this.promise = true
         const photosJson = await Promise.all(photosPromise)
         const raws = photosJson.map(res => {
           const image = res.data.data
