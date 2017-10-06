@@ -2,28 +2,20 @@
   <li @focus="focus" tabindex="-1" class="list-group-item list-group-item-action" @click="$emit('click')">
     <div class="media pt-2 w-100">
       <div class="d-inline-block mr-4 text-muted">
-        <i
-          :class="icon"
-          class="fa fa-fw fa-2x"></i>
+        <i :class="icon" class="fa fa-fw fa-2x"></i>
       </div>
       <div class="media-body">
         <h6 class="text-gray-dark">
           <ul class="list-inline">
             <li :key="user.id" v-if="user.content" class="list-inline-item" v-for="user in action.users">
               <nuxt-link :to="`@${user.username}`">
-                <img
-                  width="32"
-                  height="32"
-                  class="rounded-circle"
-                  :src="user.content.avatar_image.link">
+                <img width="32" height="32" class="rounded-circle" :src="user.content.avatar_image.link">
               </nuxt-link>
             </li>
           </ul>
         </h6>
         <div class="my-3">
-          <nuxt-link
-             v-if="post"
-            :to="`@${action.objects[0].user.username}/posts/${action.objects[0].id}`">
+          <nuxt-link v-if="post" :to="`@${action.objects[0].user.username}/posts/${action.objects[0].id}`">
             This post
           </nuxt-link>
           {{actionBy}}
@@ -35,9 +27,9 @@
               </nuxt-link>
             </li>
           </ul>.
-            <ul class="list-group">
-              <post class="mt-3" :data="post" view-only preview v-if="post" />
-            </ul>
+          <ul class="list-group">
+            <post class="mt-3" :data="post" view-only preview v-if="post" />
+          </ul>
         </div>
         <footer>
           <ul class="list-inline">
@@ -124,7 +116,16 @@ export default {
   },
   methods: {
     dateUpdate() {
-      this.date = moment(this.action.event_date).fromNow(true)
+      const now = moment()
+      const postDate = moment(this.action.event_date)
+      if (now.diff(postDate, 'day') >= 1) {
+        const lastYear = now.toDate().getFullYear() - postDate.toDate().getFullYear()
+        const format = lastYear ? 'D MMM YY' : 'D MMM'
+        this.date = moment(this.action.event_date).format(format)
+      } else {
+        this.date = moment(this.action.event_date)
+          .fromNow(true)
+      }
     }
   },
   components: {
