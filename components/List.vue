@@ -1,23 +1,9 @@
 <template>
-  <ul
-    v-infinite-scroll="fetchMore"
-    infinite-scroll-disabled="moreDisabled"
-    infinite-scroll-distance="100"
-    ref="list"
-    class="list-group mb-4">
-    <component
-      :is="type"
-      :key="id(item)"
-      v-for="(item, index) in filterItems"
-      :data="item"
-      class="item"
-      @click="select = index"
-      :class="{
-        'my-4': id(item) === main,
-        'list-group-item-warning': isTarget(item)
-      }"
-      :detail="id(item) === main"
-      @remove="items.splice(index, 1)"></component>
+  <ul v-infinite-scroll="fetchMore" infinite-scroll-disabled="moreDisabled" infinite-scroll-distance="100" ref="list" class="list-group mb-4">
+    <component :is="type" :key="id(item)" v-for="(item, index) in filterItems" :data="item" class="item" @click="select = index" :class="{
+          'my-4': id(item) === main,
+          'list-group-item-warning': isTarget(item)
+        }" :detail="id(item) === main" @remove="items.splice(index, 1)"></component>
     <slot></slot>
     <li class="list-group-item" v-show="more">
       <div class="text-center w-100 text-muted my-2">
@@ -186,7 +172,7 @@ export default {
           }
           const mentions = newItems.filter(post => {
             const notMe = this.$store.state.user.id !== post.user.id
-            const includedInMention = post.content.entities.mentions.some(mention =>
+            const includedInMention = post.content.entities && post.content.entities.mentions.some(mention =>
               mention.id === this.$store.state.user.id)
             return notMe && includedInMention
           })
@@ -222,7 +208,8 @@ export default {
   @include no-gutter-xs
 }
 
-.item:only-child, .item:first-child {
+.item:only-child,
+.item:first-child {
   margin-top: 0 !important;
 }
 </style>
