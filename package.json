@@ -93,6 +93,7 @@
     "puppeteer": "^0.11.0",
     "scmp": "^2.0.0",
     "should": "^13.1.0",
+    "sinon": "^4.0.1",
     "supertest": "^3.0.0"
   },
   "homepage": "https://github.com/sunya9/beta",
