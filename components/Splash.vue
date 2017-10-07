@@ -5,6 +5,7 @@
     <p>
       <a href="/login" class="btn btn-primary btn-lg">
         Login with pnut.io
+        <i class="fa fa-chevron-right"></i>
       </a>
     </p>
   </div>
