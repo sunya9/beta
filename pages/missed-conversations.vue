@@ -5,7 +5,7 @@
         <compose />
       </div>
       <div>
-        <list :data="data" type="Post" :option="option" ref="list" />
+        <list :data="data" type="Post" :option="option" ref="list" :auto-refresh="false" />
       </div>
   </div>
 </template>
