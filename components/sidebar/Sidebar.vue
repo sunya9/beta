@@ -28,7 +28,7 @@
         <nuxt-link
           :key="menu.label"
           :to="menu.url"
-          class="justify-content-between"
+          class="d-inline-flex justify-content-between flex-nowrap text-overflow"
           :class="[{
             active: menu.active && typeof menu.active === 'function'
               ? menu.active()
@@ -42,7 +42,7 @@
             {{menu.label}}
             <!-- <span class="badge badge-important pull-right">{{ badge }}</span>-->
           </span>
-          <span v-show="active(menu.url)" class="float-right">
+          <span v-show="active(menu.url)">
             <i class="fa fa-chevron-right"></i>
           </span>
         </nuxt-link>
@@ -101,5 +101,10 @@ export default {
 }
 .heading + .list-group-item {
   border-top: none;
+}
+.text-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
