@@ -1,6 +1,6 @@
 import User from '~/components/User'
 import {
-  shallow
+  shallow, createStore
 } from 'helpers/client'
 
 function extendData(obj) {
@@ -9,15 +9,21 @@ function extendData(obj) {
       avatar_image: {
         link: 'image_url'
       },
-      html: 'hello'
+      html: '<span>Hello</span>'
     },
     name: 'foo',
-    username: 'bar'
+    username: 'bar',
+    you_follow: false,
+    id: 1
   }
   return Object.assign({}, baseData, obj)
 }
 
 describe('User', () => {
+  let store
+  beforeEach(() => {
+    store = createStore()
+  })
   it('data prop equals user property', () => {
     const data = extendData({
       foo: 'bar'
@@ -25,6 +31,7 @@ describe('User', () => {
     const {
       vm
     } = shallow(User, {
+      store,
       propsData: {
         data
       }
@@ -39,6 +46,7 @@ describe('User', () => {
       const {
         vm
       } = shallow(User, {
+        store,
         propsData: {
           data
         }
@@ -52,6 +60,7 @@ describe('User', () => {
       const {
         vm
       } = shallow(User, {
+        store,
         propsData: {
           data
         }

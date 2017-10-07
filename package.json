@@ -69,6 +69,7 @@
     "avoriaz": "^6.0.0",
     "axios-mock-adapter": "^1.9.0",
     "babel-eslint": "^8.0.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.26.0",
     "chai": "^4.0.2",
