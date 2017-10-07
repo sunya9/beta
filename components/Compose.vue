@@ -134,6 +134,7 @@ export default {
       this.compiledTextLength = length
     },
     setFocus() {
+      if (this.focus === false) return
       // occur error if it not displayed like logged out
       const { textarea } = this.$refs
       switch (typeof this.focus) {
