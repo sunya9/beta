@@ -12,17 +12,20 @@
         </div>
         <div class="modal-body">
           <div>
-            <post
-              view-only
-              :data="reply"
-              v-if="reply"
-              class="post pb-0" />
+            <ul class="list-group">
+              <post
+                view-only
+                :data="reply"
+                v-if="reply"
+                class="post px-0" />
+            </ul>
           </div>
           <div>
-            <compose-inner
+            <compose
               :reply-target="reply"
               ref="compose"
               @post="dismiss"
+              compact
                />
           </div>
         </div>
@@ -33,7 +36,7 @@
 
 <script>
 import Post from '~/components/Post'
-import ComposeInner from '~/components/ComposeInner'
+import Compose from '~/components/Compose'
 import $ from 'jquery'
 import bus from '~/assets/js/bus'
 import Mousetrap from 'mousetrap'
@@ -81,15 +84,12 @@ export default {
   },
   components: {
     Post,
-    ComposeInner
+    Compose
   }
 }
 </script>
 
 <style scoped>
-.modal-body {
-  padding: 0;
-}
 .post {
   border: none;
   background: transparent;
