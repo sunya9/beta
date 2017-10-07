@@ -12,7 +12,7 @@
             Beta
           </span>
         </nuxt-link>
-          <search-form v-show="user" id="search-form" class="mr-md-4 order-3 order-md-1" />
+        <search-form id="search-form" class="mr-md-4 order-3 order-md-1" />
         <ul class="order-2 navbar-nav d-flex flex-row align-items-stretch">
           <li class="nav-item" v-if="user" id="nav-files">
             <nuxt-link to="/files" class="nav-link text-dark">

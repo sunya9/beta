@@ -46,33 +46,6 @@ describe('Header component', () => {
     })
   })
 
-  it('Hide search form when not logged in', async () => {
-    const {
-      vm
-    } = shallow(Header, {
-      store
-    })
-
-    await vm.$nextTick()
-    const el = vm.$el.querySelector('#search-form')
-    expect(el).is.null
-  })
-
-  it('Show search form when logged in', async () => {
-    const {
-      vm
-    } = shallow(Header, {
-      store
-    })
-    store.commit('SET_USER', {
-      username: 'foo',
-      id: 1
-    })
-    await vm.$nextTick()
-    const el = vm.$el.querySelector('#search-form')
-    expect(el).is.not.null
-  })
-
   it('Hide files link when not logged in', async () => {
     const {
       vm
