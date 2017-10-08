@@ -162,7 +162,7 @@ export default {
       }
 
       if (this.hasPhotos) {
-        const raws = this.uploadPhotos()
+        const raws = await this.uploadPhotos()
         option.raw.push(...raws)
       }
       if (this.replyTarget) {
