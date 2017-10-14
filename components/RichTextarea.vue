@@ -39,6 +39,10 @@ export default {
       return length
     }
   },
+  mounted() {
+    this.$emit('update:compiledText', this.compiledText)
+    this.$emit('update:compiledTextCount', this.compiledTextLength)
+  },
   methods: {
     insertText(text) {
       const { textarea } = this.$refs
@@ -65,9 +69,6 @@ export default {
         this.updateValue(this.text + text)
         textarea.focus()
       }
-    },
-    focus() {
-
     },
     setCaret(start, end) {
       if (end === undefined) {
