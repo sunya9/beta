@@ -1,7 +1,10 @@
 <template>
-  <div class="compose" :class="{'my-4': !compact}" v-if="user">
-    <div :class="{ card: !compact }">
-      <form :class="{'card-body': !compact }" @submit.prevent="submit">
+  <div :class="{'my-4 compose': !compact}" v-if="user">
+    <div class="card" :class="{'border-0': compact}">
+      <form
+        class="card-body"
+        :class="{'p-0': compact}"
+        @submit.prevent="submit">
           <div class="form-group relative">
             <rich-textarea
               ref="textarea"
@@ -259,6 +262,7 @@ function obj2FormData(obj) {
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins/breakpoints';
 @import '~assets/css/mixin';
+
 
 .compose {
   @include no-gutter-xs
