@@ -79,6 +79,18 @@ export default {
     selectItem() {
       if (this.select < 0) return null
       return this.$refs.list.children[this.select].__vue__
+    },
+    defaultOption() {
+      const option = {}
+      switch (this.type) {
+        case 'Post': {
+          option.include_deleted = false
+        }
+      }
+      return Object.assign({}, this.option, option)
+    },
+    isAutoRefresh() {
+      return this.autoRefresh && this.type === 'Post'
     }
   },
   mounted() {
@@ -92,7 +104,7 @@ export default {
       Mousetrap.bind('enter', this.goPost)
       Mousetrap.bind('del', this.remove)
     }
-    if (this.autoRefresh) {
+    if (this.isAutoRefresh) {
       if (this.timer) clearInterval(this.timer)
       this.timer = setInterval(this.refresh, INTERVAL)
     }
@@ -155,7 +167,7 @@ export default {
     async refresh() {
       if (this.refreshing) return
       this.refreshing = true
-      const option = Object.assign({}, this.option, {
+      const option = Object.assign({}, this.defaultOption, {
         since_id: this.id(this.items[0])
       })
       const { data: newItems } = await api({
@@ -185,7 +197,7 @@ export default {
     },
     async fetchMore() {
       this.busy = true
-      const option = Object.assign({}, this.option, {
+      const option = Object.assign({}, this.defaultOption, {
         before_id: this.meta.min_id
       })
       const { data: newItems, meta } = await api({
