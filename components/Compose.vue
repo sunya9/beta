@@ -108,11 +108,15 @@ export default {
     postCounter() {
       return 256 - this.compiledTextLength
     },
+    textOverflow() {
+      return this.postCounter < 0
+    },
+    hasNotText() {
+      return this.compiledTextLength === 0
+    },
     disabled() {
       const sending = !!this.promise
-      const emptyText = this.compiledTextLength === 0
-      const textLimit = this.postCounter < 0
-      return textLimit || emptyText || sending
+      return this.textOverflow || this.hasNotText || sending
     },
     hasPhotos() {
       return this.photos.length
@@ -159,6 +163,7 @@ export default {
       }
     },
     async submit() {
+      if (this.textOverflow || this.hasNotText) return false
       const option = {
         text: this.compiledText,
         raw: []
@@ -178,13 +183,15 @@ export default {
           this.error = null
           bus.$emit('post', res.data)
           this.$emit('post', res.data)
-          this.resetPost()
+          this.rawText = ''
+          this.photos = []
         }).catch(e => {
           console.error(e)
           const { response: { data: { message } } } = e
           this.error = message
           this.promise = null
         })
+      return this.promise
     },
     async uploadPhotos() {
       const photosPromise = this.photos.map(async content => {
@@ -219,10 +226,6 @@ export default {
         }, { value })
       })
       return raws
-    },
-    resetPost() {
-      this.rawText = ''
-      this.photos = []
     },
     fileChange(e) {
       if (!e.target.files.length) return
