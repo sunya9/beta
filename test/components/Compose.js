@@ -37,6 +37,40 @@ describe('Compose component', () => {
         })
       })
     })
+    describe('textOverflow', () => {
+      context('when has no text', () => {
+        it('should false', () => {
+          vm.compiledTextLength = 0
+          expect(vm.textOverflow).to.be.false
+        })
+      })
+      context('when has some text within 256 characters', () => {
+        it('should false', () => {
+          vm.compiledTextLength = 128
+          expect(vm.textOverflow).to.be.false
+        })
+      })
+      context('when has some text over 256 characters', () => {
+        it('should true', () => {
+          vm.compiledTextLength = 260
+          expect(vm.textOverflow).to.be.true
+        })
+      })
+    })
+    describe('hasNotText', () => {
+      context('when has no text', () => {
+        it('should true', () => {
+          vm.compiledTextLength = 0
+          expect(vm.hasNotText).to.be.true
+        })
+      })
+      context('when has some text', () => {
+        it('should false', () => {
+          vm.compiledTextLength = 128
+          expect(vm.hasNotText).to.be.false
+        })
+      })
+    })
     describe('disabled', () => {
       context('when sending', () => {
         it('should true', () => {
@@ -156,6 +190,42 @@ describe('Compose component', () => {
             expect(vm.$refs.textarea.setCaret.notCalled).to.be.true
           })
         })
+      })
+    })
+    describe('submit', () => {
+      context('when has not text', () => {
+        it('return false', async () => {
+          expect(await vm.submit()).to.be.false
+        })
+      })
+      context('when has text over 256 characters', () => {
+        it('return false', async () => {
+          vm.compiledTextLength = 260
+          expect(await vm.submit()).to.be.false
+        })
+      })
+      context('when text only', () => {
+        it('return promise and reset some properties', async () => {
+          vm.compiledText = 'foo'
+          const res = vm.submit()
+          expect(res).to.be.an.instanceof(Promise)
+          await res
+          expect(vm.promise).to.be.null
+          expect(vm.error).to.be.null
+          expect(vm.rawText).to.be.a('string').that.is.empty
+          expect(vm.photos).to.be.an('array').that.is.empty
+        })
+      })
+      context('when has some photos', () => {
+        context('but has not text', () => {
+          it('return false', async () => {
+            expect(await vm.submit()).to.be.false
+          })
+        })
+        // TODO: write more tests
+        // context('with some text', () => {
+        //   it('return promise')
+        // })
       })
     })
   })
