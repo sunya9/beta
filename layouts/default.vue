@@ -27,18 +27,18 @@
           <div>
             <nuxt />
           </div>
-          <div>
-            <post-modal ref="postModal" />
-          </div>
-          <div>
-            <remove-modal ref="removeModal" />
-          </div>
-          <div>
-            <help-modal ref="helpModal" />
-          </div>
         </div>
       </div>
     </main>
+    <div>
+      <post-modal ref="postModal" />
+    </div>
+    <div>
+      <remove-modal ref="removeModal" />
+    </div>
+    <div>
+      <help-modal ref="helpModal" />
+    </div>
   </div>
 </template>
 <script>
