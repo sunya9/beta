@@ -14,6 +14,12 @@
         </nuxt-link>
         <search-form id="search-form" class="mr-md-4 order-3 order-md-1" />
         <ul class="order-2 navbar-nav d-flex flex-row align-items-stretch">
+          <li class="nav-item" v-if="user" id="nav-messages">
+            <nuxt-link to="/messages"
+              class="nav-link text-dark">
+              <i class="fa fa-envelope"></i>
+            </nuxt-link>
+          </li>
           <li class="nav-item" v-if="user" id="nav-files">
             <nuxt-link to="/files" class="nav-link text-dark">
               <i class="fa fa-database fa-lg"></i>
