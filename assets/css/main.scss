@@ -36,3 +36,10 @@ body {
   max-width: 1.5rem;
   vertical-align: -.25rem;
 }
+
+.btn {
+  cursor: pointer;
+}
+.btn-secondary.disabled, .btn-secondary:disabled {
+  cursor: auto;
+}
