@@ -120,7 +120,7 @@ export default {
   async mounted() {
     const account = this.account
     this.name = account.name
-    this.description = account.content.text
+    this.description = account.content.markdown_text
     this.cover = account.content.cover_image
     this.avatar = account.content.avatar_image
   },
