@@ -32,4 +32,6 @@ For detailed explanation on how things work, checkout the [Nuxt.js docs](https:/
 
 ## Client Setup
 
-Set environment variables for `CLIENT_ID`, `CLIENT_SECRET`, and `CALLBACK_URI`, retrieved from your pnut.io developer area.
+Set up a client in the pnut.io developer area.
+
+Set environment variables referenced in [example.env](example.env).

@@ -102,6 +102,13 @@ export default {
     ...mapState(['user'])
   },
   mounted() {
+    if (typeof this.$store.state.set === 'undefined') {
+      this.$store.state.set = 1 // inferior way to restore state
+      this.$store.commit('SET_UNIFIED', localStorage.unified_timeline === 'true')
+      this.$store.commit('SET_DIRECTED', localStorage.hide_directed_posts === 'true')
+      this.$store.commit('SET_SQUARE', localStorage.square_avatars === 'true')
+    }
+
     const { height } = this.$refs.header.$el.querySelector('.navbar').getBoundingClientRect()
     this.marginTop = height
     const router = this.$router

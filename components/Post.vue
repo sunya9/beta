@@ -4,7 +4,7 @@
                                                 deleted: post.is_deleted
                                               }" class="media w-100 justify-content-start">
       <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview">
-        <img :src="mainPost.user.content.avatar_image.link" alt="" class="d-flex mr-3 rounded-circle iconSize" width="64" height="64">
+        <img :src="mainPost.user.content.avatar_image.link + '?w=120'" alt="" :class="'d-flex mr-3 iconSize ' + avatarClass" width="64" height="64">
       </nuxt-link>
       <div class="media-body">
         <h6 class="mt-1">
@@ -96,7 +96,7 @@
             <ul class="list-inline ml-3">
               <li class="list-inline-item" :key="user.id" v-for="user in reactionUsers">
                 <nuxt-link :to="`/@${user.username}`" :title="`@${user.username}`">
-                  <img :src="user.content.avatar_image.link" class="rounded-circle" width="24" height="24" />
+                  <img :src="user.content.avatar_image.link + '?w=120'" :class="avatarClass" width="24" height="24" />
                 </nuxt-link>
               </li>
             </ul>
@@ -144,7 +144,8 @@ export default {
   },
   data() {
     return {
-      date: null
+      date: null,
+      avatarClass: this.$store.state.square_avatars ? '' : 'rounded-circle'
     }
   },
   created() {

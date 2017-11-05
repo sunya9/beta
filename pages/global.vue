@@ -19,7 +19,7 @@ import bus from '~/assets/js/bus'
 export default {
   async asyncData(ctx) {
     const option = {
-      include_directed_posts: 1
+      include_directed_posts: ctx.store.state.hide_directed_posts ? 0 : 1
     }
     const data = await api(ctx).fetch(option)
     return { data, option }
