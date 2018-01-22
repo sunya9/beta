@@ -43,3 +43,118 @@ body {
 .btn-secondary.disabled, .btn-secondary:disabled {
   cursor: auto;
 }
+
+/* Dark theme */
+body.dark,body.dark .jumbotron {
+  background-color: #252525;
+  color: #d5d5d5;
+}
+
+body.dark .navbar {
+  background-color: #252525;
+  border-bottom-color: #212121;
+}
+
+body.dark .card {
+  background-color: #252525;
+}
+
+body.dark .list-group-item {
+  background-color: #252525;
+}
+
+body.dark .form-control {
+  background-color: #252525;
+}
+
+body.dark .dropdown-menu {
+  background-color: #252525;
+  color: #d5d5d5;
+}
+
+body.dark .dropdown-item {
+  color: #d5d5d5;
+}
+
+body.dark .list-group-item[data-v-1084c69e]:hover:not(.active):not(.h5) {
+  background-color: #d5d5d5;
+}
+
+body.dark .modal-content {
+  background-color: #252525;
+  color: #d5d5d5;
+}
+
+body.dark .nav-item:first-child .nav-link, .nav-item:first-child button {
+  border-left-color: #242424;
+}
+
+body.dark .nav-item .nav-link, .nav-item button {
+  border-right-color: #242424;
+}
+
+body.dark .form-control {
+  border-color: #181818;
+  color: #94a3b1;
+}
+
+body.dark .form-control:focus {
+  color: #eee;
+}
+
+body.dark .heading {
+  border-bottom-color: #181818;
+}
+
+body.dark .dropdown-divider,body.dark .dropdown-menu {
+  border-color: #242424;
+}
+
+body.dark .list-group-item.active {
+  border-color: #232222;
+}
+
+body.dark .list-group-item {
+  border-top-color: #232222;
+}
+
+/* post text */
+body.dark .media-body {
+  color: #a1a7ae;
+}
+
+/* usernames */
+body.dark .text-gray-dark {
+  color: #ddd !important;
+}
+
+/* new post line */
+body.dark .modal-header {
+  border-bottom-color: #232323;
+}
+
+/* focused post */
+body.dark .list-group-item-warning.list-group-item-action:hover, body.dark .list-group-item-warning.list-group-item-action:focus, body.dark .list-group-item-warning {
+  background-color: #1d2324;
+}
+
+/* top menu toggle */
+body.dark .navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active {
+  color: rgb(189, 148, 139);
+}
+
+/* beta text */
+body.dark .navbar-light .navbar-brand:hover, .navbar-light .navbar-brand:focus {
+  color: #fff;
+}
+
+/* file list table */
+body.dark .table th, body.dark .table td {
+  border-color: #232323;
+}
+
+/* side panel hover */
+body.dark .list-group-item:hover:not(.active):not(.h5) {
+  background-color: #2a2a2a !important;
+  color: #aaa;
+}

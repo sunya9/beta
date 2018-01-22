@@ -79,7 +79,8 @@ export default {
   },
   data() {
     return {
-      marginTop: 48 // default margin size
+      marginTop: 48, // default margin size
+      bodyClass: '',
     }
   },
   computed: {
@@ -102,11 +103,12 @@ export default {
     ...mapState(['user'])
   },
   mounted() {
-    if (typeof this.$store.state.set === 'undefined') {
-      this.$store.state.set = 1 // inferior way to restore state
-      this.$store.commit('SET_UNIFIED', localStorage.unified_timeline === 'true')
-      this.$store.commit('SET_DIRECTED', localStorage.hide_directed_posts === 'true')
-      this.$store.commit('SET_SQUARE', localStorage.square_avatars === 'true')
+    // dark theme
+    if (process.browser) {
+      if (localStorage.getItem(`dark_theme`) === 'true') {
+        this.bodyClass = 'dark';
+        $('body').addClass('dark');
+      }
     }
 
     const { height } = this.$refs.header.$el.querySelector('.navbar').getBoundingClientRect()
@@ -140,6 +142,13 @@ export default {
     Mousetrap.unbind('g p')
     Mousetrap.unbind('g t')
     Mousetrap.unbind('g g')
+  },
+  head() {
+    return {
+      bodyAttrs: {
+        class: this.bodyClass
+      }
+    }
   }
 }
 </script>

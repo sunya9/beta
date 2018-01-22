@@ -34,8 +34,11 @@ export default {
   props: ['data'],
   data() {
     return {
-      avatarClass: this.$store.state.square_avatars ? '' : 'rounded-circle'
+      avatarClass: 'rounded-circle'
     }
+  },
+  mounted() {
+    this.avatarClass = (localStorage.getItem('square_avatars') === 'true') ? '' : 'rounded-circle'
   },
   computed: {
     relation() {

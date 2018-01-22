@@ -1,10 +1,10 @@
 <template>
   <div>
     <h3 class="card-title">Stream</h3>
-    <custom-checkbox v-model="directed">
+    <custom-checkbox v-model="directed" :disabled="true">
       Hide posts directed at people you do not follow
     </custom-checkbox>
-    <!--<custom-checkbox v-model="unified">
+    <!--<custom-checkbox v-model="unified" :disabled="true">
       Unified timeline; include your mentions and personal stream together
     </custom-checkbox>-->
   </div>
@@ -23,16 +23,11 @@ export default {
   },
   watch: {
     unified(newVal) {
-      this.$store.commit('SET_UNIFIED', newVal)
-      localStorage.unified_timeline = newVal
+      // this.$store.commit('TOGGLE_KEY', 'unified_timeline')
     },
     directed(newVal) {
-      this.$store.commit('SET_DIRECTED', newVal)
-      localStorage.hide_directed_posts = newVal
+      // this.$store.commit('TOGGLE_KEY', 'hide_directed_posts')
     }
-  },
-  methods: {
-    
   },
   components: {
     CustomCheckbox

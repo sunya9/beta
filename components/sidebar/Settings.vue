@@ -19,11 +19,6 @@ export default {
       },
       {type: 'heading', label: 'App'},
       {
-        label: 'Stream',
-        icon: 'fa-list',
-        url: '/settings/stream'
-      },
-      {
         label: 'Display',
         icon: 'fa-paint-brush',
         url: '/settings/display'

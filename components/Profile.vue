@@ -56,8 +56,11 @@ export default {
   data() {
     return {
       loaded: false,
-      avatarClass: this.$store.state.square_avatars ? '' : 'rounded-circle'
+      avatarClass: 'rounded-circle'
     }
+  },
+  mounted() {
+    this.avatarClass = (localStorage.getItem('square_avatars') === 'true') ? '' : 'rounded-circle'
   },
   computed: {
     ...mapState(['user']),

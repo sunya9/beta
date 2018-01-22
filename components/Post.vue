@@ -145,12 +145,15 @@ export default {
   data() {
     return {
       date: null,
-      avatarClass: this.$store.state.square_avatars ? '' : 'rounded-circle'
+      avatarClass: 'rounded-circle'
     }
   },
   created() {
     setInterval(this.dateUpdate, 1000 * 30) // 30sec
     this.dateUpdate()
+  },
+  mounted() {
+    this.avatarClass = (localStorage.getItem('square_avatars') === 'true') ? '' : 'rounded-circle'
   },
   computed: {
     reactionUsers() {
