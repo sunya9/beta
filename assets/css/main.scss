@@ -158,3 +158,8 @@ body.dark .list-group-item:hover:not(.active):not(.h5) {
   background-color: #2a2a2a !important;
   color: #aaa;
 }
+
+/* search form */
+body.dark .search-form input[type="search"]:focus {
+  color: #262626;
+}
