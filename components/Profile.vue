@@ -41,6 +41,7 @@
       <nuxt-link class="card-link" to="follows" append>{{profile.counts.following}} Follows</nuxt-link>
       <nuxt-link class="card-link" to="followers" append>{{profile.counts.followers}} Followers</nuxt-link>
       <nuxt-link class="card-link" to="starred" append>{{profile.counts.bookmarks}} Starred</nuxt-link>
+      <a class="card-link" :href="'https://api.pnut.io/v0/feed/rss/users/' + profile.id + '/posts'"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
     </div>
   </div>
 </template>
