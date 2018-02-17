@@ -8,7 +8,7 @@ class API {
     this.delete = this.delete.bind(this)
     this.patch = this.patch.bind(this)
     this._token = ''
-    this.isServer = ctx.isServer
+    this.isServer = process.server
     if (ctx.route) {
       this.resource = API.RESOURCE_MAP[ctx.route.name]
       if (typeof this.resource === 'function') {
