@@ -2,7 +2,7 @@
   <li @focus="focus" tabindex="-1" class="list-group-item list-group-item-action">
     <div class="media w-100">
       <nuxt-link :to="`/@${user.username}`">
-        <img :src="user.content.avatar_image.link + '?w=120'" alt="" :class="'d-flex mr-3 ' + avatarClass" width="64" height="64">
+        <img :src="user.content.avatar_image.link + '?w=140'" alt="" :class="'d-flex mr-3 ' + avatarClass" width="64" height="64">
       </nuxt-link>
       <div class="media-body">
         <div class="d-flex justify-content-between align-items-baseline mb-2">
