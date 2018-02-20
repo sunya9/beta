@@ -37,7 +37,7 @@
     "eslint-plugin-node": "^5.1.1",
     "font-awesome": "^4.7.0",
     "form-data": "^2.3.1",
-    "imports-loader": "^0.7.1",
+    "imports-loader": "^0.8.0",
     "jquery": "^3.2.1",
     "koa": "^2.0.0",
     "koa-bodyparser": "^4.2.0",
