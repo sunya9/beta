@@ -16,6 +16,7 @@ const store = () => new Vuex.Store({
   actions: {
     async nuxtServerInit({ commit }, ctx) {
       const { req } = ctx
+
       if (req.user) {
         const { data: { storage } } = await api(ctx).request('/token').catch(() => ({data: {}}))
         const user = Object.assign({}, req.user, {

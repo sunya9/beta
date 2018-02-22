@@ -79,7 +79,8 @@ export default {
   },
   data() {
     return {
-      marginTop: 48 // default margin size
+      marginTop: 48, // default margin size
+      bodyClass: '',
     }
   },
   computed: {
@@ -102,6 +103,14 @@ export default {
     ...mapState(['user'])
   },
   mounted() {
+    // dark theme
+    if (process.browser) {
+      if (localStorage.getItem(`dark_theme`) === 'true') {
+        this.bodyClass = 'dark';
+        $('body').addClass('dark');
+      }
+    }
+
     const { height } = this.$refs.header.$el.querySelector('.navbar').getBoundingClientRect()
     this.marginTop = height
     const router = this.$router
@@ -133,6 +142,13 @@ export default {
     Mousetrap.unbind('g p')
     Mousetrap.unbind('g t')
     Mousetrap.unbind('g g')
+  },
+  head() {
+    return {
+      bodyAttrs: {
+        class: this.bodyClass
+      }
+    }
   }
 }
 </script>

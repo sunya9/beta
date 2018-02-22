@@ -8,7 +8,7 @@
         <div class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row">
           <div class="d-flex flex-column align-items-center align-items-sm-stretch flex-sm-row justify-content-center justify-content-sm-start">
             <a :href="profile.content.avatar_image.link">
-              <img :src="profile.content.avatar_image.link" alt="" class="rounded-circle mr-sm-3 negative" width="96" height="96" :title="profile.id">
+              <img :src="profile.content.avatar_image.link + '?w=140'" alt="" :class="'mr-sm-3 negative ' + avatarClass" width="120" height="120" :title="profile.id">
             </a>
             <div class="w-100">
               <h3 class="card-title mb-1" :title="profile.id">
@@ -37,10 +37,14 @@
       <p class="description card-text w-100 mt-3 mt-sm-0" @click="clickPostLink" v-html="html"></p>
     </div>
     <div class="card-body d-flex justify-content-between justify-content-md-end">
-      <span class="card-link" to="follows" append>{{profile.counts.posts}} Posts</span>
-      <nuxt-link class="card-link" to="follows" append>{{profile.counts.following}} Follows</nuxt-link>
-      <nuxt-link class="card-link" to="followers" append>{{profile.counts.followers}} Followers</nuxt-link>
-      <nuxt-link class="card-link" to="starred" append>{{profile.counts.bookmarks}} Starred</nuxt-link>
+      <span class="card-link" append>{{profile.counts.posts}} Posts</span>
+      <nuxt-link v-if="user" class="card-link" to="follows" append>{{profile.counts.following}} Follows</nuxt-link>
+      <span v-if="!user" class="card-link" append>{{profile.counts.following}} Follows</span>
+      <nuxt-link v-if="user" class="card-link" to="followers" append>{{profile.counts.followers}} Followers</nuxt-link>
+      <span v-if="!user" class="card-link" append>{{profile.counts.followers}} Followers</span>
+      <nuxt-link v-if="user" class="card-link" to="starred" append>{{profile.counts.bookmarks}} Starred</nuxt-link>
+      <span v-if="!user" class="card-link" append>{{profile.counts.bookmarks}} Starred</span>
+      <a class="card-link" :href="'https://api.pnut.io/v0/feed/rss/users/' + profile.id + '/posts'"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
     </div>
   </div>
 </template>
@@ -55,8 +59,12 @@ export default {
   props: ['profile'],
   data() {
     return {
-      loaded: false
+      loaded: false,
+      avatarClass: 'rounded-circle'
     }
+  },
+  mounted() {
+    this.avatarClass = (localStorage.getItem('square_avatars') === 'true') ? '' : 'rounded-circle'
   },
   computed: {
     ...mapState(['user']),

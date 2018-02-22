@@ -12,7 +12,8 @@ export default {
     const { query } = ctx
     const options = {
       type: 'Post',
-      q: encodeURIComponent(query.q)
+      q: encodeURIComponent(query.q),
+      order: 'id'
     }
     const data = await api(ctx).fetch(options)
     return {

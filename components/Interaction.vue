@@ -9,7 +9,7 @@
           <ul class="list-inline">
             <li :key="user.id" v-if="user.content" class="list-inline-item" v-for="user in filteredUsers">
               <nuxt-link :to="`@${user.username}`">
-                <img width="32" height="32" class="rounded-circle" :src="user.content.avatar_image.link">
+                <img width="32" height="32" :class="avatarClass" :src="user.content.avatar_image.link + '?w=120'">
               </nuxt-link>
             </li>
           </ul>
@@ -75,12 +75,14 @@ export default {
   props: ['data'],
   data() {
     return {
-      date: null
+      date: null,
+      avatarClass: 'rounded-circle'
     }
   },
   mounted() {
     setInterval(this.dateUpdate, 1000 * 30) // 30sec
     this.dateUpdate()
+    this.avatarClass = (localStorage.getItem('square_avatars') === 'true') ? '' : 'rounded-circle'
   },
   computed: {
     absDate() {

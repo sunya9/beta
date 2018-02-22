@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="svg2" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:osb="http://www.openswatchbook.org/uri/2009/osb" height="92.807mm" width="92.807mm" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 328.84286 328.84286" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <defs id="defs4">
+  <linearGradient id="linearGradient5634" y2="340.22" gradientUnits="userSpaceOnUse" x2="100.9" y1="525.93" x1="406.25">
+   <stop id="stop5646" offset="0"/>
+   <stop id="stop5648" stop-color="#fff" stop-opacity="0" offset="1"/>
+  </linearGradient>
+ </defs>
+ <metadata id="metadata7">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g id="layer1" transform="translate(-220.58 -317.23)">
+  <text id="text3336" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" font-size="12.5px" y="415.21936" x="94.285713" font-family="sans-serif" line-height="125%" fill="#000000"><tspan id="tspan3338" x="94.285713" y="415.21936"/></text>
+  <text id="text3340" style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" font-size="30px" y="458.07648" x="251.42857" font-family="sans-serif" line-height="125%" fill="#000000"><tspan id="tspan3342" x="251.42857" y="458.07648"/></text>
+  <circle id="path3348" stroke-width="1.7" stroke-opacity=".46341" stroke="#000" cy="481.65" cx="385" r="163.57" fill="#545454"/>
+  <text id="text3344" style="word-spacing:0px;letter-spacing:0px" font-family="sans-serif" xml:space="preserve" font-size="180px" stroke="url(#linearGradient5634)" stroke-linecap="round" y="531.87738" x="325.58591" line-height="125%" fill="#ffffff"><tspan id="tspan3346" stroke="url(#linearGradient5634)" stroke-linecap="round" y="531.87738" x="325.58591" fill="#ffffff">β</tspan></text>
+ </g>
+</svg>
