@@ -2943,9 +2943,9 @@ dot-prop@^3.0.0:
   dependencies:
     is-obj "^1.0.0"
 
-dotenv@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
+dotenv@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-5.0.0.tgz#0206eb5b336639bf377618a2a304ff00c6a1fddb"
 
 double-ended-queue@^2.1.0-0:
   version "2.1.0-0"
@@ -3245,9 +3245,9 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-config-standard@^10.2.1:
-  version "10.2.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-standard/-/eslint-config-standard-10.2.1.tgz#c061e4d066f379dc17cd562c64e819b4dd454591"
+eslint-config-standard@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-standard/-/eslint-config-standard-11.0.0.tgz#87ee0d3c9d95382dc761958cbb23da9eea31e0ba"
 
 eslint-import-resolver-node@^0.3.1:
   version "0.3.1"
@@ -3286,14 +3286,14 @@ eslint-plugin-import@^2.8.0:
     minimatch "^3.0.3"
     read-pkg-up "^2.0.0"
 
-eslint-plugin-node@^5.2.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-node/-/eslint-plugin-node-5.2.1.tgz#80df3253c4d7901045ec87fa660a284e32bdca29"
+eslint-plugin-node@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-node/-/eslint-plugin-node-6.0.0.tgz#5ad5ee6b5346aec6cc9cde0b8619caed2c6d8f25"
   dependencies:
     ignore "^3.3.6"
     minimatch "^3.0.4"
     resolve "^1.3.3"
-    semver "5.3.0"
+    semver "^5.4.1"
 
 eslint-plugin-promise@^3.4.0:
   version "3.5.0"
@@ -4574,12 +4574,12 @@ ignore@^3.3.6:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.7.tgz#612289bfb3c220e186a58118618d5be8c1bab021"
 
-imports-loader@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/imports-loader/-/imports-loader-0.7.1.tgz#f204b5f34702a32c1db7d48d89d5e867a0441253"
+imports-loader@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/imports-loader/-/imports-loader-0.8.0.tgz#030ea51b8ca05977c40a3abfd9b4088fe0be9a69"
   dependencies:
     loader-utils "^1.0.2"
-    source-map "^0.5.6"
+    source-map "^0.6.1"
 
 imurmurhash@^0.1.4:
   version "0.1.4"
@@ -6360,12 +6360,9 @@ node-fetch@1.6.3, node-fetch@^1.0.1:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
-node-fetch@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
-  dependencies:
-    encoding "^0.1.11"
-    is-stream "^1.0.1"
+node-fetch@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.0.0.tgz#982bba43ecd4f2922a29cc186a6bbb0bb73fcba6"
 
 node-gyp@^3.3.1:
   version "3.6.0"
@@ -8700,7 +8697,7 @@ semver-diff@^2.0.0:
   dependencies:
     semver "^5.0.3"
 
-"semver@2 || 3 || 4 || 5", semver@5.3.0, semver@^5.0.3, semver@^5.1.0, semver@^5.3.0, semver@~5.3.0:
+"semver@2 || 3 || 4 || 5", semver@^5.0.3, semver@^5.1.0, semver@^5.3.0, semver@~5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
 
@@ -8708,7 +8705,7 @@ semver@^5.0.1:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.4.1.tgz#e059c09d8571f0540823733433505d3a2f00b18e"
 
-semver@^5.5.0:
+semver@^5.4.1, semver@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
 
