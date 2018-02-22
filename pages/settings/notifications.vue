@@ -2,21 +2,21 @@
   <div>
     <div class="card">
       <div class="card-body">
-        <stream />
+        <notifications />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Stream from '~/components/settings/Stream'
+import Notifications from '~/components/settings/Notifications'
 export default {
   components: {
-    Stream
+    Notifications
   },
   head() {
     return {
-      title: 'Stream settings'
+      title: 'Notification settings'
     }
   }
 }

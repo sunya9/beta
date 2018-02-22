@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="search" class="form-inline search-form d-inline-flex align-items-center">
-    <input type="search" class="form-control" placeholder="search" v-model="text">
+    <input type="search" class="form-control" placeholder="keyword search" v-model="text">
     <button
       type="submit"
       class="btn btn-link text-dark"

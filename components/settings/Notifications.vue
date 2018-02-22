@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="card-title">Notification</h3>
+    <h3 class="card-title">Notifications</h3>
     <custom-checkbox v-model="notification" :disabled="disabledNotification">
       Enable notification <span :class="`text-${error.type}`" v-if="error">{{error.message}}</span>
     </custom-checkbox>

@@ -2,21 +2,21 @@
   <div>
     <div class="card">
       <div class="card-body">
-        <notification />
+        <display />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Notification from '~/components/settings/Notification'
+import Display from '~/components/settings/Display'
 export default {
   components: {
-    Notification
+    Display
   },
   head() {
     return {
-      title: 'Notification settings'
+      title: 'Display settings'
     }
   }
 }

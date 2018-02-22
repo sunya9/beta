@@ -14,7 +14,7 @@
           :href="menu.url"
           v-else-if="menu.normal && menu.url">
           <i class="fa fa-fw" :class="menu.icon"></i>&nbsp;
-          {{menu.label}}
+          {{menu.label}} <i class="fa fa-external-link"></i>
         </a>
         <a
           :key="menu.label"
