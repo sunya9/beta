@@ -37,10 +37,13 @@
       <p class="description card-text w-100 mt-3 mt-sm-0" @click="clickPostLink" v-html="html"></p>
     </div>
     <div class="card-body d-flex justify-content-between justify-content-md-end">
-      <span class="card-link" to="follows" append>{{profile.counts.posts}} Posts</span>
-      <nuxt-link class="card-link" to="follows" append>{{profile.counts.following}} Follows</nuxt-link>
-      <nuxt-link class="card-link" to="followers" append>{{profile.counts.followers}} Followers</nuxt-link>
-      <nuxt-link class="card-link" to="starred" append>{{profile.counts.bookmarks}} Starred</nuxt-link>
+      <span class="card-link" append>{{profile.counts.posts}} Posts</span>
+      <nuxt-link v-if="user" class="card-link" to="follows" append>{{profile.counts.following}} Follows</nuxt-link>
+      <span v-if="!user" class="card-link" append>{{profile.counts.following}} Follows</span>
+      <nuxt-link v-if="user" class="card-link" to="followers" append>{{profile.counts.followers}} Followers</nuxt-link>
+      <span v-if="!user" class="card-link" append>{{profile.counts.followers}} Followers</span>
+      <nuxt-link v-if="user" class="card-link" to="starred" append>{{profile.counts.bookmarks}} Starred</nuxt-link>
+      <span v-if="!user" class="card-link" append>{{profile.counts.bookmarks}} Starred</span>
       <a class="card-link" :href="'https://api.pnut.io/v0/feed/rss/users/' + profile.id + '/posts'"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
     </div>
   </div>
