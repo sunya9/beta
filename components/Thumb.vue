@@ -1,10 +1,17 @@
 <template>
-  <div class="root img-thumbnail d-flex justify-content-center align-items-center">
+  <div class="root d-flex justify-content-center align-items-center"
+    :class="{
+      'img-thumbnail': !noBorder
+    }"
+    :style="style"
+    >
     <div>
       <a :href="original">
-        <img :src="thumb" alt="" class="thumb">
+        <slot>
+          <img :src="thumb" alt="" class="thumb">
+        </slot>
       </a>
-      <a  @click.prevent="remove"
+      <a @click.prevent="remove"
         v-if="removable" class="remove">
         <i class="fa fa-times"></i>
       </a>
@@ -17,10 +24,19 @@ export default {
   props: {
     original: String,
     thumb: String,
-    removable: Boolean
+    removable: Boolean,
+    noBorder: Boolean,
+    width: {
+      type: Number,
+      default: 96
+    },
+    height: {
+      type: Number,
+      default: 96
+    }
   },
   mounted() {
-    const Zooming = require('zooming')
+    const Zooming = require('zooming').default
     const img = this.$el.querySelector('img')
     const zooming = new Zooming({
       bgColor: '#000',
@@ -41,6 +57,12 @@ export default {
     },
     normalizeThumb() {
       return this.thumb.replace(/^https?:/, '')
+    },
+    style() {
+      const style = {}
+      if (this.height > 0) style['max-height'] = `${this.height}px`
+      if (this.width > 0) style['max-width'] = `${this.width}px`
+      return style
     }
   },
   methods: {
@@ -54,16 +76,14 @@ export default {
 <style scoped>
 .root {
   position: relative;
-  max-height: 96px;
-  max-width: 96px;
   box-sizing: content-box;
 }
 .remove {
   position: absolute;
-  top: .5rem;
-  right: .5rem;
+  top: 0.5rem;
+  right: 0.5rem;
   overflow: hidden;
-  padding: .3rem;
+  padding: 0.3rem;
   line-height: 1;
   background: white;
   border-radius: 50%;
