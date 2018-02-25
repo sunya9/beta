@@ -70,10 +70,11 @@ API.RESOURCE_MAP = {
   '@name-followers': ({ params }) => `/users/@${params.name}/followers`,
   '@name-starred': ({ params }) => `/users/@${params.name}/bookmarks`,
   '@name-posts-id': ({ params }) => `/posts/${params.id}/thread`,
-  'files': '/users/me/files',
+  files: '/users/me/files',
   'files-id': ({ params }) => `/files/${params.id}`,
   'search-users': '/users/search',
-  'search-posts': '/posts/search'
+  'search-posts': '/posts/search',
+  'messages-channel': ({ params }) => `/channels/${params.channel}/messages`
 }
 
 class PnutAPI extends API {
@@ -108,6 +109,5 @@ class AxiosAPI extends API {
   }
 }
 
-export default (ctx = {}) => process.server
-  ? new PnutAPI(ctx)
-  : new AxiosAPI(ctx)
+export default (ctx = {}) =>
+  process.server ? new PnutAPI(ctx) : new AxiosAPI(ctx)
