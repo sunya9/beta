@@ -33,22 +33,36 @@ export default {
     height: {
       type: Number,
       default: 96
+    },
+    zoomingOptions: {
+      type: Object,
+      default: () => ({})
     }
   },
   mounted() {
     const Zooming = require('zooming').default
     const img = this.$el.querySelector('img')
-    const zooming = new Zooming({
+    const option = {
       bgColor: '#000',
-      zIndex: 1040,
+      zIndex: 99999,
       bgOpacity: 0.5,
       onOpen() {
         img.classList.add('show')
       },
       onClose() {
         img.classList.remove('show')
-      }
-    })
+      },
+      ...this.zoomnigOptions
+    }
+    const { customSize = {} } = this.zoomingOptions
+    const root = document.documentElement
+    if (
+      customSize.width > root.clientWidth ||
+      customSize.height > root.clientHeight
+    ) {
+      option.customSize = null
+    }
+    const zooming = new Zooming(option)
     zooming.listen(img)
   },
   computed: {
