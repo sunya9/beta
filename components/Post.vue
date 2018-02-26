@@ -5,7 +5,7 @@
     }" class="media w-100 justify-content-start">
       <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview">
         <avatar :avatar="mainPost.user.content.avatar_image"
-          class="d-flex mr-3 iconSize" :size="64" :max-size="140" />
+          class="d-flex mr-3 iconSize" size="64" max-size="64" />
       </nuxt-link>
       <div class="media-body">
         <h6 class="mt-1">
@@ -18,8 +18,8 @@
         </h6>
         <div class="d-flex flex-wrap flex-sm-nowrap">
           <p @click="clickPostLink" v-html="html" :class="{
-                                                    'mb-0': preview
-                                                  }">
+            'mb-0': preview
+          }">
           </p>
           <div v-if="thumbs.length" class="mb-2 d-flex mr-auto ml-auto mr-sm-2 flex-wrap flex-sm-nowrap justify-content-sm-end">
             <thumb class="mx-1" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
@@ -106,8 +106,19 @@
       </div>
       <div class="ml-auto mt-1" v-if="!viewOnly && user && !post.is_deleted">
         <div class="btn-group-vertical" role="group">
-          <action-button ref="favorite" :resource="`/proxy/posts/${mainPost.id}/bookmark`" :icon="['fa-star-o', 'fa-star']" :initial-state="mainPost.you_bookmarked" />
-          <action-button v-if="!me" ref="repost" :resource="`/proxy/posts/${mainPost.id}/repost`" icon="fa-retweet" :initial-state="mainPost.you_reposted" />
+          <action-button
+            ref="favorite"
+            :resource="`/posts/${mainPost.id}/bookmark`"
+            :icon="['fa-star-o', 'fa-star']"
+            v-model="mainPost.you_bookmarked"
+          />
+          <action-button
+            v-if="!me"
+            ref="repost"
+            :resource="`/posts/${mainPost.id}/repost`"
+            icon="fa-retweet"
+            v-model="mainPost.you_reposted"
+          />
         </div>
       </div>
     </div>
