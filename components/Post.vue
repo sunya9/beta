@@ -1,10 +1,11 @@
 <template>
   <li @focus="focus" tabindex="-1" :id="`post-${post.id}`" class="list-group-item list-group-item-action" @click="$emit('click')">
     <div :class="{
-                                                deleted: post.is_deleted
-                                              }" class="media w-100 justify-content-start">
+      deleted: post.is_deleted
+    }" class="media w-100 justify-content-start">
       <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview">
-        <img :src="mainPost.user.content.avatar_image.link + '?w=140'" alt="" :class="'d-flex mr-3 iconSize ' + avatarClass" width="64" height="64">
+        <avatar :avatar="mainPost.user.content.avatar_image"
+          class="d-flex mr-3 iconSize" :size="64" :max-size="140" />
       </nuxt-link>
       <div class="media-body">
         <h6 class="mt-1">
@@ -96,7 +97,7 @@
             <ul class="list-inline ml-3">
               <li class="list-inline-item" :key="user.id" v-for="user in reactionUsers">
                 <nuxt-link :to="`/@${user.username}`" :title="`@${user.username}`">
-                  <img :src="user.content.avatar_image.link + '?w=120'" :class="avatarClass" width="24" height="24" />
+                  <avatar :avatar="user.content.avater_image" />
                 </nuxt-link>
               </li>
             </ul>
@@ -117,6 +118,7 @@
 import moment from 'moment'
 import emojione from 'emojione'
 import ActionButton from '~/components/ActionButton'
+import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
 import { mapState } from 'vuex'
 import api from '~/plugins/api'
@@ -148,49 +150,50 @@ export default {
       avatarClass: 'rounded-circle'
     }
   },
-  created() {
+  mounted() {
     setInterval(this.dateUpdate, 1000 * 30) // 30sec
     this.dateUpdate()
-  },
-  mounted() {
-    this.avatarClass = (localStorage.getItem('square_avatars') === 'true') ? '' : 'rounded-circle'
   },
   computed: {
     reactionUsers() {
       if (!this.detail) return []
-      const users = this.mainPost.bookmarked_by.concat(this.mainPost.reposted_by)
-      return users
-        // .slice(0, 10)
-        .reduce((res, user, i, users) => {
-          let exist = false
-          for (let i = 0; res.length > i; i++) {
-            if (res[i].id === user.id) {
-              exist = true
-              break
+      const users = this.mainPost.bookmarked_by.concat(
+        this.mainPost.reposted_by
+      )
+      return (
+        users
+          // .slice(0, 10)
+          .reduce((res, user) => {
+            let exist = false
+            for (let i = 0; res.length > i; i++) {
+              if (res[i].id === user.id) {
+                exist = true
+                break
+              }
             }
-          }
-          if (!exist) {
-            res.push(user)
-          }
-          return res
-        }, [])
+            if (!exist) {
+              res.push(user)
+            }
+            return res
+          }, [])
+      )
     },
     html() {
       if (!this.post.is_deleted) {
-        const $ = cheerio.load(this.mainPost.content.html, { decodeEntities: false })
+        const $ = cheerio.load(this.mainPost.content.html, {
+          decodeEntities: false
+        })
         $('a').attr('target', '_new')
-        $('span[data-mention-name]')
-          .replaceWith(function() {
-            const name = $(this).data('mention-name')
-            const text = $(this).text()
-            return `<a href="/@${name}">${text}</a>`
-          })
-        $('span[data-tag-name]')
-          .replaceWith(function() {
-            const tag = $(this).data('tag-name')
-            const text = $(this).text()
-            return `<a href="/tags/${tag}">${text}</a>`
-          })
+        $('span[data-mention-name]').replaceWith(function() {
+          const name = $(this).data('mention-name')
+          const text = $(this).text()
+          return `<a href="/@${name}">${text}</a>`
+        })
+        $('span[data-tag-name]').replaceWith(function() {
+          const tag = $(this).data('tag-name')
+          const text = $(this).text()
+          return `<a href="/tags/${tag}">${text}</a>`
+        })
         return emojione.toImage($('span').html())
       } else {
         return '[Post deleted]'
@@ -200,8 +203,7 @@ export default {
       if (!this.mainPost.content) return []
       const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
       const photos = []
-      const linkPhotos = this.mainPost
-        .content.entities.links
+      const linkPhotos = this.mainPost.content.entities.links
         .filter(link => imgExt.test(link.link))
         .map(link => {
           return {
@@ -211,15 +213,16 @@ export default {
         })
       Array.prototype.push.apply(photos, linkPhotos)
       if (this.mainPost.raw) {
-        const embedPhotos = this.mainPost.raw.filter(r => {
-          return r.type === 'io.pnut.core.oembed' &&
-            r.value.type === 'photo'
-        }).map(r => {
-          return {
-            original: r.value.url,
-            thumb: r.value.url
-          }
-        })
+        const embedPhotos = this.mainPost.raw
+          .filter(r => {
+            return r.type === 'io.pnut.core.oembed' && r.value.type === 'photo'
+          })
+          .map(r => {
+            return {
+              original: r.value.url,
+              thumb: r.value.url
+            }
+          })
         Array.prototype.push.apply(photos, embedPhotos)
       }
       return photos
@@ -246,18 +249,20 @@ export default {
       this.$refs.favorite.click()
     },
     repostToggle() {
-      if (!this.me) { this.$refs.repost.click() }
+      if (!this.me) {
+        this.$refs.repost.click()
+      }
     },
     dateUpdate() {
       const now = moment()
       const postDate = moment(this.post.created_at)
       if (now.diff(postDate, 'day') >= 1) {
-        const lastYear = now.toDate().getFullYear() - postDate.toDate().getFullYear()
+        const lastYear =
+          now.toDate().getFullYear() - postDate.toDate().getFullYear()
         const format = lastYear ? 'D MMM YY' : 'D MMM'
         this.date = moment(this.post.created_at).format(format)
       } else {
-        this.date = moment(this.post.created_at)
-          .fromNow(true)
+        this.date = moment(this.post.created_at).fromNow(true)
       }
     },
     replyModal() {
@@ -267,7 +272,8 @@ export default {
       bus.$emit('showRemoveModal', this)
     },
     remove() {
-      return api().delete(`/posts/${this.post.id}`)
+      return api()
+        .delete(`/posts/${this.post.id}`)
         .then(() => {
           this.$emit('remove')
         })
@@ -281,7 +287,8 @@ export default {
   },
   components: {
     ActionButton,
-    Thumb
+    Thumb,
+    Avatar
   }
 }
 </script>
@@ -296,14 +303,14 @@ export default {
 }
 
 footer {
-  font-size: .85rem;
+  font-size: 0.85rem;
 }
 
 .reply,
 .remove,
 .source {
   opacity: 0;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .list-group-item {
@@ -331,7 +338,7 @@ footer {
 }
 
 .deleted {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .text-gray-dark {
