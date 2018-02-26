@@ -2,7 +2,12 @@
   <li @focus="focus" tabindex="-1" class="list-group-item list-group-item-action">
     <div class="media w-100">
       <nuxt-link :to="`/@${user.username}`">
-        <img :src="user.content.avatar_image.link + '?w=140'" alt="" :class="'d-flex mr-3 ' + avatarClass" width="64" height="64">
+        <avatar
+          :avatar="user.content.avatar_image"
+          :max-size="64"
+          :size="64"
+          class="d-flex mr-3"
+        />
       </nuxt-link>
       <div class="media-body">
         <div class="d-flex justify-content-between align-items-baseline mb-2">
@@ -25,6 +30,7 @@
 
 <script>
 import FollowButton from '~/components/FollowButton'
+import Avatar from '~/components/Avatar'
 import cheerio from 'cheerio'
 import emojione from 'emojione'
 import focus from '~/assets/js/focus'
@@ -38,7 +44,8 @@ export default {
     }
   },
   mounted() {
-    this.avatarClass = (localStorage.getItem('square_avatars') === 'true') ? '' : 'rounded-circle'
+    this.avatarClass =
+      localStorage.getItem('square_avatars') === 'true' ? '' : 'rounded-circle'
   },
   computed: {
     relation() {
@@ -48,18 +55,16 @@ export default {
       if (this.user.content && this.user.content.html) {
         const $ = cheerio.load(this.user.content.html)
         $('a').attr('target', '_new')
-        $('span[data-mention-name]')
-          .replaceWith(function() {
-            const name = $(this).data('mention-name')
-            const text = $(this).text()
-            return `<a href="/@${name}">${text}</a>`
-          })
-        $('span[data-tag-name]')
-          .replaceWith(function() {
-            const tag = $(this).data('tag-name')
-            const text = $(this).text()
-            return `<a href="/tags/${tag}">${text}</a>`
-          })
+        $('span[data-mention-name]').replaceWith(function() {
+          const name = $(this).data('mention-name')
+          const text = $(this).text()
+          return `<a href="/@${name}">${text}</a>`
+        })
+        $('span[data-tag-name]').replaceWith(function() {
+          const tag = $(this).data('tag-name')
+          const text = $(this).text()
+          return `<a href="/tags/${tag}">${text}</a>`
+        })
         return emojione.toImage($('span').html())
       }
     },
@@ -76,7 +81,8 @@ export default {
     }
   },
   components: {
-    FollowButton
+    FollowButton,
+    Avatar
   }
 }
 </script>
