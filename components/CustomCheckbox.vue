@@ -1,15 +1,14 @@
 <template>
-  <div
-    class="form-check"
-    :class="{
-      disabled: disabled
-    }">
-    <label class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" @change="updateValue" :disabled="disabled" :checked="checked">
-    <span class="custom-control-indicator"></span>
-    <span class="custom-control-description">
-      <slot></slot>
-    </span>
+  <div class="custom-control custom-checkbox">
+    <input
+      type="checkbox"
+      :id="id"
+      class="custom-control-input"
+      @change="updateValue"
+      :disabled="disabled"
+      :checked="checked">
+    <label :for="id" class="custom-control-label">
+      <slot />
     </label>
   </div>
 </template>
@@ -19,6 +18,11 @@ export default {
   model: {
     prop: 'checked',
     event: 'change'
+  },
+  data() {
+    return {
+      id: `checkbox-${Math.random()}`
+    }
   },
   methods: {
     updateValue(e) {
