@@ -1,10 +1,5 @@
-const {
-  ProvidePlugin,
-  EnvironmentPlugin
-} = require('webpack')
-const {
-  homepage: npm_package_homepage
-} = require('./package')
+const { ProvidePlugin, EnvironmentPlugin } = require('webpack')
+const { homepage: npm_package_homepage } = require('./package')
 const fs = require('fs')
 const lastModified = fs.statSync('./package.json').mtime
 
@@ -15,44 +10,48 @@ module.exports = {
   head: {
     title: 'Beta',
     titleTemplate: '%s - Beta',
-    meta: [{
-      charset: 'utf-8'
-    },
-    {
-      name: 'viewport',
-      content: 'width=device-width, initial-scale=1'
-    },
-    {
-      hid: 'description',
-      name: 'description',
-      content: 'beta is a client for pnut.io.'
-    },
-    {
-      'http-equiv': 'Pragma',
-      content: 'no-cache'
-    },
-    {
-      'http-equiv': 'Cache-Control',
-      content: 'no-cache'
-    }
+    meta: [
+      {
+        charset: 'utf-8'
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'beta is a client for pnut.io.'
+      },
+      {
+        'http-equiv': 'Pragma',
+        content: 'no-cache'
+      },
+      {
+        'http-equiv': 'Cache-Control',
+        content: 'no-cache'
+      }
     ],
-    link: [{
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css?family=Montserrat:300,400'
-    },
-    {
-      rel: 'shortcut icon',
-      href: '/favicon.ico'
-    }
+    link: [
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Montserrat:300,400'
+      },
+      {
+        rel: 'shortcut icon',
+        href: '/favicon.ico'
+      }
     ]
   },
   /*
    ** Global CSS
    */
-  css: [{
-    src: '~assets/css/main.scss',
-    lang: 'scss'
-  }],
+  css: [
+    {
+      src: '~assets/css/main.scss',
+      lang: 'scss'
+    }
+  ],
   /*
    ** Customize the progress-bar color
    */
@@ -62,13 +61,12 @@ module.exports = {
 
   // webpack build setttings
   build: {
-    extend(config, {
-      isDev,
-      isClient
-    }) {
+    extend(config, { isDev, isClient }) {
       if (!isDev) {
         if (isClient) {
-          config.plugins = config.plugins.filter(plugin => plugin.constructor.name !== 'UglifyJsPlugin')
+          config.plugins = config.plugins.filter(
+            plugin => plugin.constructor.name !== 'UglifyJsPlugin'
+          )
         }
       }
     },
@@ -94,7 +92,6 @@ module.exports = {
       '~/plugins/api.js',
       '~/plugins/mousetrap.js',
       '~/plugins/vue-infinite.js',
-      '~/plugins/vue-outside.js',
       '~/plugins/emoji.js',
       'moment',
       'cheerio',
@@ -104,26 +101,28 @@ module.exports = {
   },
 
   // plugin settings
-  plugins: [{
-    src: '~/plugins/bootstrap',
-    ssr: false
-  },
-  '~/plugins/api',
-  {
-    src: '~/plugins/vue-infinite',
-    ssr: false
-  },
-  {
-    src: '~/plugins/mousetrap',
-    ssr: false
-  },
-  {
-    src: '~/plugins/ga',
-    ssr: false
-  }, {
-    src: '~/plugins/emoji',
-    ssr: false
-  }
+  plugins: [
+    {
+      src: '~/plugins/bootstrap',
+      ssr: false
+    },
+    '~/plugins/api',
+    {
+      src: '~/plugins/vue-infinite',
+      ssr: false
+    },
+    {
+      src: '~/plugins/mousetrap',
+      ssr: false
+    },
+    {
+      src: '~/plugins/ga',
+      ssr: false
+    },
+    {
+      src: '~/plugins/emoji',
+      ssr: false
+    }
   ],
 
   // router settings
@@ -131,7 +130,7 @@ module.exports = {
     extendRoutes(routes, resolve) {
       // Replace "at" prefix with @ because cannot use @ for file/dir name in nuxt's project.
       routes.forEach(route => {
-        if (route.name.startsWith('atname')) {
+        if (route.name && route.name.startsWith('atname')) {
           route.name = route.name.replace(/^atname/, '@name')
           route.path = route.path.replace(/^\/at/, '/@')
         }
@@ -153,7 +152,9 @@ module.exports = {
             x: 0,
             y: 0
           }
-        } else if (to.matched.some((r) => r.components.default.options.scrollToTop)) {
+        } else if (
+          to.matched.some(r => r.components.default.options.scrollToTop)
+        ) {
           position = {
             x: 0,
             y: 0
