@@ -21,7 +21,7 @@
         </div>
         <div
           :class="{
-            'col-md-8 col-lg-9': !notLoginIndex
+            'col-md-8 col-lg-9': !notLoginIndex || !sidebar
           }"
           class="col-12">
           <div>
@@ -80,7 +80,7 @@ export default {
   data() {
     return {
       marginTop: 48, // default margin size
-      bodyClass: '',
+      bodyClass: ''
     }
   },
   computed: {
@@ -106,12 +106,14 @@ export default {
     // dark theme
     if (process.browser) {
       if (localStorage.getItem(`dark_theme`) === 'true') {
-        this.bodyClass = 'dark';
-        $('body').addClass('dark');
+        this.bodyClass = 'dark'
+        $('body').addClass('dark')
       }
     }
 
-    const { height } = this.$refs.header.$el.querySelector('.navbar').getBoundingClientRect()
+    const { height } = this.$refs.header.$el
+      .querySelector('.navbar')
+      .getBoundingClientRect()
     this.marginTop = height
     const router = this.$router
     // new post
@@ -154,10 +156,12 @@ export default {
 </script>
 
 <style scoped>
-.slide-enter-active, .slide-leave-active {
-  transition: all .3s ease;
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
 }
-.slide-enter, .slide-leave-to {
+.slide-enter,
+.slide-leave-to {
   transform: translateX(-100%);
   opacity: 0;
 }
