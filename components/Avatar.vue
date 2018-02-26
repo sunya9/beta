@@ -1,7 +1,8 @@
 <template>
   <img :src="src" :class="{
     'rounded-circle': !isSquare
-  }" :width="size" :height="size" v-bind="$attrs" />
+  }"
+  :width="size" :height="size" v-bind="$attrs" />
 </template>
 
 <script>
@@ -19,7 +20,7 @@ export default {
     },
     maxSize: {
       type: Number,
-      default: 128
+      default: 0
     }
   },
   data() {
@@ -32,7 +33,9 @@ export default {
   },
   computed: {
     src() {
-      return `${this.avatar.link}?w=${this.maxSize}`
+      let src = this.avatar.link
+      if (this.maxSize > 0) src += `?w=${this.maxSize}`
+      return src
     }
   }
 }
