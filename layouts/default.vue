@@ -55,6 +55,7 @@ import AboutSidebar from '~/components/sidebar/About'
 import FilesSidebar from '~/components/sidebar/Files'
 import SearchSidebar from '~/components/sidebar/Search'
 import Jumbotron from '~/components/Jumbotron'
+import $ from 'jquery'
 
 export default {
   props: ['error'],
@@ -96,9 +97,10 @@ export default {
         settings: 'SettingsSidebar',
         about: 'AboutSidebar',
         files: 'FilesSidebar',
-        search: 'SearchSidebar'
+        search: 'SearchSidebar',
+        messages: null
       }
-      return map[name] || 'AppSidebar'
+      return map[name] || (map[name] !== null && 'AppSidebar')
     },
     ...mapState(['user'])
   },

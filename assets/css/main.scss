@@ -40,14 +40,12 @@ body {
 .btn {
   cursor: pointer;
 }
-
 .btn-secondary.disabled,
 .btn-secondary:disabled {
   cursor: auto;
 }
 
 /* Dark theme */
-
 body.dark,
 body.dark .jumbotron {
   background-color: #252525;
@@ -144,7 +142,6 @@ body.dark .modal-header {
 }
 
 /* focused post */
-
 body.dark .list-group-item-warning.list-group-item-action:hover,
 body.dark .list-group-item-warning.list-group-item-action:focus,
 body.dark .list-group-item-warning {
@@ -152,7 +149,6 @@ body.dark .list-group-item-warning {
 }
 
 /* top menu toggle */
-
 body.dark .navbar-light .navbar-nav .show > .nav-link,
 .navbar-light .navbar-nav .active > .nav-link,
 .navbar-light .navbar-nav .nav-link.show,
@@ -161,14 +157,12 @@ body.dark .navbar-light .navbar-nav .show > .nav-link,
 }
 
 /* beta text */
-
 body.dark .navbar-light .navbar-brand:hover,
 .navbar-light .navbar-brand:focus {
   color: #fff;
 }
 
 /* file list table */
-
 body.dark .table th,
 body.dark .table td {
   border-color: #232323;
@@ -182,7 +176,6 @@ body.dark .list-group-item:hover:not(.active):not(.h5) {
 }
 
 /* search form */
-
 body.dark .search-form input[type='search']:focus {
   color: #262626;
 }
