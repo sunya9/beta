@@ -15,11 +15,11 @@ export default {
       }
     },
     size: {
-      type: Number,
+      type: [String, Number],
       default: 24
     },
     maxSize: {
-      type: Number,
+      type: [String, Number],
       default: 0
     }
   },
