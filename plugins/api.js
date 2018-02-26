@@ -74,6 +74,7 @@ API.RESOURCE_MAP = {
   'files-id': ({ params }) => `/files/${params.id}`,
   'search-users': '/users/search',
   'search-posts': '/posts/search',
+  messages: '/users/me/channels/subscribed',
   'messages-channel': ({ params }) => `/channels/${params.channel}/messages`
 }
 
