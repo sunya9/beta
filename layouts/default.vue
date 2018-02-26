@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper" class="wrapper" :style="`margin-top: ${marginTop}px`">
+  <div id="wrapper" class="wrapper mb-3" :style="`margin-top: ${marginTop}px`">
     <app-header ref="header">
       <component :is="sidebar" slot="menu" />
       <jumbotron v-if="searchPage" slot="jumbotron" class="jumbotron" />
@@ -10,7 +10,7 @@
       </div>
       <div class="row">
         <div
-          v-if="!notLoginIndex"
+          v-if="!notLoginIndex && sidebar"
           :class="{
              'col-md-4 col-lg-3': !notLoginIndex,
           }"
@@ -21,7 +21,7 @@
         </div>
         <div
           :class="{
-            'col-md-8 col-lg-9': !notLoginIndex || !sidebar
+            'col-md-8 col-lg-9': !notLoginIndex && sidebar
           }"
           class="col-12">
           <div>
