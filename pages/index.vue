@@ -39,7 +39,7 @@ export default {
   },
   computed: mapState(['user']),
   methods: {
-    add(post) {
+    add() {
       this.$refs.list.refresh()
     }
   },
