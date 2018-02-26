@@ -6,7 +6,7 @@
         Delete
       </button>
     </div>
-    <table class="table table-hover table-responsive"
+    <table class="table table-hover"
       v-infinite-scroll="fetchMore"
       infinite-scroll-disabled="moreDisabled"
       infinite-scroll-distance="100">
@@ -19,7 +19,7 @@
       </thead>
       <tbody>
         <file-row
-          v-for="(file, index) in modifiedFiles"
+          v-for="file in modifiedFiles"
           :file="file"
           :key="file.id" />
       </tbody>
