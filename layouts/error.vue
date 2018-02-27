@@ -6,8 +6,8 @@
     <p class="lead">
       {{ error.message }}
     </p>
-    <nuxt-link class="btn btn-primary" to="/" v-if="error.statusCode === 404">
-      Homepage
+    <nuxt-link class="btn btn-primary" :to="error.home || '/'" v-if="error.statusCode">
+      Top
     </nuxt-link>
   </div>
 </template>
