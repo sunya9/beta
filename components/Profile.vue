@@ -27,9 +27,11 @@
                   height: profile.content.avatar_image.height
                 }
               }">
-              <avatar :avatar="profile.content.avatar_image"
+              <a :href="`/@${profile.username}`" :rel="(profile.verified ? '' : 'me')" v-bind:class="{ 'u-url': !profile.verified }">
+                <avatar :avatar="profile.content.avatar_image"
                 class="mr-sm-3 negative u-photo"
-                :size="96" :max-size="96" :title="profile.id" />
+                :size="96" :max-size="96" :alt="profile.username" :title="profile.id" />
+              </a>
             </thumb>
             <div class="w-100">
               <h3 class="card-title mb-1" :title="profile.id">
@@ -37,7 +39,7 @@
                   <span class="p-nickname" v-bind:class="{'p-name': !profile.name}">
                     @{{profile.username}}
                   </span>
-                  <small v-if="profile.name" class="ml-sm-2 d-block d-sm-inline text-muted">{{profile.name}}</small>
+                  <small v-if="profile.name" class="ml-sm-2 d-block d-sm-inline text-muted p-name">{{profile.name}}</small>
                 </span>
               </h3>
               <p v-if="profile.verified" class="text-center text-md-left">

@@ -6,7 +6,7 @@
     }" class="media w-100 justify-content-start">
       <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview" v-bind:class="{ 'p-author h-card': detail }">
         <avatar :avatar="mainPost.user.content.avatar_image"
-          class="d-flex mr-3 iconSize" v-bind:class="{'u-photo': detail}" size="64" max-size="64" />
+          class="d-flex mr-3 iconSize" v-bind:class="{'u-photo': detail}" :alt="mainPost.user.username" size="64" max-size="64" />
       </nuxt-link>
       <div class="media-body">
         <h6 class="mt-1">
