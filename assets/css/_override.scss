@@ -3,7 +3,7 @@ $body-bg: $bodyBackground;
 
 $theme-colors: (
   primary: $themeAttention,
-  secondary: $gray,
+  secondary: #b0b0b0,
   success: $adn_base_green,
   info: $blue,
   warning: $yellow,
@@ -38,8 +38,8 @@ $card-border-radius: 0;
 // $navbar-brand-padding-y: 0;
 
 $navbar-light-toggler-border: transparent;
-$navbar-light-color: $linkColor;
-$navbar-light-hover-color: $linkColorHover;
+// $navbar-light-color: $linkColor;
+// $navbar-light-hover-color: $linkColorHover;
 $navbar-padding-y: 0;
 $navbar-toggler-border-radius: 0;
 

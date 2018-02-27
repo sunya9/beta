@@ -1,15 +1,36 @@
 <template>
   <div class="card profile">
-    <img :src="profile.content.cover_image.link" alt="" :width="profile.content.cover_image.width" :height="profile.content.cover_image.height || 500" @load="loaded = true" :class="{
-            'min-card-image-height': !loaded
-          }" class="img-fluid card-img-top">
+    <img
+      :src="profile.content.cover_image.link"
+      alt=""
+      :width="profile.content.cover_image.width"
+      :height="profile.content.cover_image.height"
+      @load="loaded = true"
+      :class="{
+        show: loaded
+      }"
+      :style="{
+        'min-height': `${headerHeight}px`
+      }"
+      class="img-fluid card-img-top">
     <div class="card-body pt-3 h-card">
       <div class="flex-column d-flex flex-sm-row align-items-sm-start">
         <div class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row">
           <div class="d-flex flex-column align-items-center align-items-sm-stretch flex-sm-row justify-content-center justify-content-sm-start">
-            <a :href="`/@${profile.username}`" :rel="(profile.verified ? '' : 'me')" v-bind:class="{ 'u-url': !profile.verified }">
-              <img :src="profile.content.avatar_image.link + '?w=140'" :alt="profile.username" :class="'u-photo mr-sm-3 negative ' + avatarClass" width="120" height="120" :title="profile.id">
-            </a>
+            <thumb
+              :original="profile.content.avatar_image.link"
+              no-border
+              :width="0" :height="0"
+              :zooming-options="{
+                customSize: {
+                  width: profile.content.avatar_image.width,
+                  height: profile.content.avatar_image.height
+                }
+              }">
+              <avatar :avatar="profile.content.avatar_image"
+                class="mr-sm-3 negative u-photo"
+                :size="96" :max-size="96" :title="profile.id" />
+            </thumb>
             <div class="w-100">
               <h3 class="card-title mb-1" :title="profile.id">
                 <span class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline">
@@ -51,6 +72,8 @@
 
 <script>
 import FollowButton from '~/components/FollowButton'
+import Thumb from '~/components/Thumb'
+import Avatar from '~/components/Avatar'
 import cheerio from 'cheerio'
 import emojione from 'emojione'
 import { mapState } from 'vuex'
@@ -59,12 +82,15 @@ export default {
   props: ['profile'],
   data() {
     return {
-      loaded: false,
-      avatarClass: 'rounded-circle'
+      headerHeight: 0,
+      loaded: false
     }
   },
   mounted() {
-    this.avatarClass = (localStorage.getItem('square_avatars') === 'true') ? '' : 'rounded-circle'
+    const { width } = this.$el.getBoundingClientRect()
+    // 2 === side border width
+    const ratio = (width - 2) / this.profile.content.cover_image.width
+    this.headerHeight = this.profile.content.cover_image.height * ratio
   },
   computed: {
     ...mapState(['user']),
@@ -75,18 +101,16 @@ export default {
       if (this.profile.content.html) {
         const $ = cheerio.load(this.profile.content.html)
         $('a').attr('target', '_new')
-        $('span[data-mention-name]')
-          .replaceWith(function() {
-            const name = $(this).data('mention-name')
-            const text = $(this).text()
-            return `<a href="/@${name}">${text}</a>`
-          })
-        $('span[data-tag-name]')
-          .replaceWith(function() {
-            const tag = $(this).data('tag-name')
-            const text = $(this).text()
-            return `<a href="/tags/${tag}">${text}</a>`
-          })
+        $('span[data-mention-name]').replaceWith(function() {
+          const name = $(this).data('mention-name')
+          const text = $(this).text()
+          return `<a href="/@${name}">${text}</a>`
+        })
+        $('span[data-tag-name]').replaceWith(function() {
+          const tag = $(this).data('tag-name')
+          const text = $(this).text()
+          return `<a href="/tags/${tag}">${text}</a>`
+        })
         return emojione.toImage($('span').html())
       }
     }
@@ -100,7 +124,9 @@ export default {
     }
   },
   components: {
-    FollowButton
+    FollowButton,
+    Thumb,
+    Avatar
   }
 }
 </script>
@@ -113,7 +139,7 @@ export default {
 }
 
 .profile {
-  @include no-gutter-xs
+  @include no-gutter-xs;
 }
 
 .min-card-image-height {
@@ -122,5 +148,12 @@ export default {
 
 .description {
   white-space: pre-wrap;
+}
+.card-img-top {
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+.show {
+  opacity: 1;
 }
 </style>

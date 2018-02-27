@@ -1,10 +1,12 @@
 <template>
   <li @focus="focus" tabindex="-1" :id="`post-${post.id}`" class="list-group-item list-group-item-action" @click="$emit('click')">
     <div :class="{
-                                                deleted: post.is_deleted, 'h-entry': detail
-                                              }" class="media w-100 justify-content-start">
+      deleted: post.is_deleted,
+      'h-entry': detail
+    }" class="media w-100 justify-content-start">
       <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview" v-bind:class="{ 'p-author h-card': detail }">
-        <img :src="mainPost.user.content.avatar_image.link + '?w=140'" :alt="mainPost.user.username" class="d-flex mr-3 iconSize" v-bind:class="{'u-photo': detail, 'rounded-circle': !squareAvatars }" width="64" height="64">
+        <avatar :avatar="mainPost.user.content.avatar_image"
+          class="d-flex mr-3 iconSize" v-bind:class="{'u-photo': detail}" size="64" max-size="64" />
       </nuxt-link>
       <div class="media-body">
         <h6 class="mt-1">
@@ -17,10 +19,9 @@
         </h6>
         <div class="d-flex flex-wrap flex-sm-nowrap">
           <p @click="clickPostLink" v-html="html" :class="{
-                                                    'mb-0': preview,
-                                                    'e-content': detail,
-                                                    'p-name': detail
-                                                  }">
+            'mb-0': preview,
+            'e-content p-name': detail
+          }">
           </p>
           <div v-if="thumbs.length" class="mb-2 d-flex mr-auto ml-auto mr-sm-2 flex-wrap flex-sm-nowrap justify-content-sm-end">
             <thumb class="mx-1" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
@@ -35,13 +36,13 @@
           <ul class="list-inline">
             <li class="list-inline-item">
               <nuxt-link ref="link" :to="permalink" class="text-muted" v-bind:class="{ 'u-url': detail }" :title="absDate">
-                <i class="fa fa-clock-o"></i> 
+                <i class="fa fa-clock-o"></i>
                 <time :class="{ 'dt-published': detail }" :datetime="absDate"> {{date}}</time>
               </nuxt-link>
             </li>
             <template v-if="!viewOnly">
-              <li class="list-inline-item" v-if="post.reply_to">
-                <nuxt-link v-bind:class="{ 'u-in-reply-to': detail }" :to="reply_permalink" class="text-muted" title="In Reply To">
+              <li class="list-inline-item" v-show="post.reply_to">
+                <nuxt-link :to="reply_permalink" class="text-muted" v-bind:class="{ 'u-in-reply-to': detail }" title="In Reply To">
                   <i class="fa fa-comments"></i>
                 </nuxt-link>
               </li>
@@ -98,7 +99,7 @@
             <ul class="list-inline ml-3">
               <li class="list-inline-item" :key="user.id" v-for="user in reactionUsers">
                 <nuxt-link :to="`/@${user.username}`" :title="`@${user.username}`">
-                  <img :src="user.content.avatar_image.link + '?w=140'" :class="{ 'rounded-circle': !squareAvatars }" width="24" height="24" />
+                  <avatar :avatar="user.content.avater_image" />
                 </nuxt-link>
               </li>
             </ul>
@@ -107,8 +108,19 @@
       </div>
       <div class="ml-auto mt-1" v-if="!viewOnly && user && !post.is_deleted">
         <div class="btn-group-vertical" role="group">
-          <action-button ref="favorite" :resource="`/proxy/posts/${mainPost.id}/bookmark`" :icon="['fa-star-o', 'fa-star']" :initial-state="mainPost.you_bookmarked" />
-          <action-button v-if="!me" ref="repost" :resource="`/proxy/posts/${mainPost.id}/repost`" icon="fa-retweet" :initial-state="mainPost.you_reposted" />
+          <action-button
+            ref="favorite"
+            :resource="`/posts/${mainPost.id}/bookmark`"
+            :icon="['fa-star-o', 'fa-star']"
+            v-model="mainPost.you_bookmarked"
+          />
+          <action-button
+            v-if="!me"
+            ref="repost"
+            :resource="`/posts/${mainPost.id}/repost`"
+            icon="fa-retweet"
+            v-model="mainPost.you_reposted"
+          />
         </div>
       </div>
     </div>
@@ -119,6 +131,7 @@
 import moment from 'moment'
 import emojione from 'emojione'
 import ActionButton from '~/components/ActionButton'
+import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
 import { mapState } from 'vuex'
 import api from '~/plugins/api'
@@ -142,60 +155,58 @@ export default {
     data: Object,
     viewOnly: Boolean,
     detail: Boolean,
-    preview: Boolean,
-    squareAvatars: {
-      default: false,
-      type: Boolean
-    }
+    preview: Boolean
   },
   data() {
     return {
-      date: null
+      date: null,
+      avatarClass: 'rounded-circle'
     }
   },
-  created() {
+  mounted() {
     setInterval(this.dateUpdate, 1000 * 30) // 30sec
     this.dateUpdate()
-  },
-  mounted() {
-    this.squareAvatars = (localStorage.getItem('square_avatars') === 'true') ? true : false
   },
   computed: {
     reactionUsers() {
       if (!this.detail) return []
-      const users = this.mainPost.bookmarked_by.concat(this.mainPost.reposted_by)
-      return users
-        // .slice(0, 10)
-        .reduce((res, user, i, users) => {
-          let exist = false
-          for (let i = 0; res.length > i; i++) {
-            if (res[i].id === user.id) {
-              exist = true
-              break
+      const users = this.mainPost.bookmarked_by.concat(
+        this.mainPost.reposted_by
+      )
+      return (
+        users
+          // .slice(0, 10)
+          .reduce((res, user) => {
+            let exist = false
+            for (let i = 0; res.length > i; i++) {
+              if (res[i].id === user.id) {
+                exist = true
+                break
+              }
             }
-          }
-          if (!exist) {
-            res.push(user)
-          }
-          return res
-        }, [])
+            if (!exist) {
+              res.push(user)
+            }
+            return res
+          }, [])
+      )
     },
     html() {
       if (!this.post.is_deleted) {
-        const $ = cheerio.load(this.mainPost.content.html, { decodeEntities: false })
+        const $ = cheerio.load(this.mainPost.content.html, {
+          decodeEntities: false
+        })
         $('a').attr('target', '_new')
-        $('span[data-mention-name]')
-          .replaceWith(function() {
-            const name = $(this).data('mention-name')
-            const text = $(this).text()
-            return `<a href="/@${name}">${text}</a>`
-          })
-        $('span[data-tag-name]')
-          .replaceWith(function() {
-            const tag = $(this).data('tag-name')
-            const text = $(this).text()
-            return `<a href="/tags/${tag}">${text}</a>`
-          })
+        $('span[data-mention-name]').replaceWith(function() {
+          const name = $(this).data('mention-name')
+          const text = $(this).text()
+          return `<a href="/@${name}">${text}</a>`
+        })
+        $('span[data-tag-name]').replaceWith(function() {
+          const tag = $(this).data('tag-name')
+          const text = $(this).text()
+          return `<a href="/tags/${tag}">${text}</a>`
+        })
         return emojione.toImage($('span').html())
       } else {
         return '[Post deleted]'
@@ -205,8 +216,7 @@ export default {
       if (!this.mainPost.content) return []
       const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
       const photos = []
-      const linkPhotos = this.mainPost
-        .content.entities.links
+      const linkPhotos = this.mainPost.content.entities.links
         .filter(link => imgExt.test(link.link))
         .map(link => {
           return {
@@ -216,15 +226,16 @@ export default {
         })
       Array.prototype.push.apply(photos, linkPhotos)
       if (this.mainPost.raw) {
-        const embedPhotos = this.mainPost.raw.filter(r => {
-          return r.type === 'io.pnut.core.oembed' &&
-            r.value.type === 'photo'
-        }).map(r => {
-          return {
-            original: r.value.url,
-            thumb: r.value.url
-          }
-        })
+        const embedPhotos = this.mainPost.raw
+          .filter(r => {
+            return r.type === 'io.pnut.core.oembed' && r.value.type === 'photo'
+          })
+          .map(r => {
+            return {
+              original: r.value.url,
+              thumb: r.value.url
+            }
+          })
         Array.prototype.push.apply(photos, embedPhotos)
       }
       return photos
@@ -254,18 +265,20 @@ export default {
       this.$refs.favorite.click()
     },
     repostToggle() {
-      if (!this.me) { this.$refs.repost.click() }
+      if (!this.me) {
+        this.$refs.repost.click()
+      }
     },
     dateUpdate() {
       const now = moment()
       const postDate = moment(this.post.created_at)
       if (now.diff(postDate, 'day') >= 1) {
-        const lastYear = now.toDate().getFullYear() - postDate.toDate().getFullYear()
+        const lastYear =
+          now.toDate().getFullYear() - postDate.toDate().getFullYear()
         const format = lastYear ? 'D MMM YY' : 'D MMM'
         this.date = moment(this.post.created_at).format(format)
       } else {
-        this.date = moment(this.post.created_at)
-          .fromNow(true)
+        this.date = moment(this.post.created_at).fromNow(true)
       }
     },
     replyModal() {
@@ -275,7 +288,8 @@ export default {
       bus.$emit('showRemoveModal', this)
     },
     remove() {
-      return api().delete(`/posts/${this.post.id}`)
+      return api()
+        .delete(`/posts/${this.post.id}`)
         .then(() => {
           this.$emit('remove')
         })
@@ -289,7 +303,8 @@ export default {
   },
   components: {
     ActionButton,
-    Thumb
+    Thumb,
+    Avatar
   }
 }
 </script>
@@ -304,14 +319,14 @@ export default {
 }
 
 footer {
-  font-size: .85rem;
+  font-size: 0.85rem;
 }
 
 .reply,
 .remove,
 .source {
   opacity: 0;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .list-group-item {
@@ -339,7 +354,7 @@ footer {
 }
 
 .deleted {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .text-gray-dark {

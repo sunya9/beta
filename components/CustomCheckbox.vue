@@ -4,31 +4,30 @@
       type="checkbox"
       :id="id"
       class="custom-control-input"
-      @change="updateValue"
-      :disabled="disabled"
+      @change="change($event.target.checked)"
+      :disabled="disabled || processing"
       :checked="checked">
     <label :for="id" class="custom-control-label">
       <slot />
     </label>
+    <i class="fa fa-spinner fa-pulse fa-fw" v-if="processing"></i>
   </div>
 </template>
 <script>
+import actionable from '~/assets/js/actionable'
+
 export default {
-  props: ['disabled', 'checked'],
-  model: {
-    prop: 'checked',
-    event: 'change'
+  mixins: [actionable],
+  props: {
+    disabled: Boolean
   },
   data() {
     return {
-      id: `checkbox-${Math.random()}`
+      id: null
     }
   },
-  methods: {
-    updateValue(e) {
-      const { checked } = e.target
-      this.$emit('change', checked)
-    }
+  mounted() {
+    this.id = `checkbox-${this._uid}`
   }
 }
 </script>

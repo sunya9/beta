@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper" class="wrapper" :style="`margin-top: ${marginTop}px`">
+  <div id="wrapper" class="wrapper mb-3" :style="`margin-top: ${marginTop}px`">
     <app-header ref="header">
       <component :is="sidebar" slot="menu" />
       <jumbotron v-if="searchPage" slot="jumbotron" class="jumbotron" />
@@ -10,7 +10,7 @@
       </div>
       <div class="row">
         <div
-          v-if="!notLoginIndex"
+          v-if="!notLoginIndex && sidebar"
           :class="{
              'col-md-4 col-lg-3': !notLoginIndex,
           }"
@@ -21,7 +21,7 @@
         </div>
         <div
           :class="{
-            'col-md-8 col-lg-9': !notLoginIndex
+            'col-md-8 col-lg-9': !notLoginIndex && sidebar
           }"
           class="col-12">
           <div>
@@ -55,6 +55,7 @@ import AboutSidebar from '~/components/sidebar/About'
 import FilesSidebar from '~/components/sidebar/Files'
 import SearchSidebar from '~/components/sidebar/Search'
 import Jumbotron from '~/components/Jumbotron'
+import $ from 'jquery'
 
 export default {
   props: ['error'],
@@ -80,7 +81,7 @@ export default {
   data() {
     return {
       marginTop: 48, // default margin size
-      bodyClass: '',
+      bodyClass: ''
     }
   },
   computed: {
@@ -96,9 +97,10 @@ export default {
         settings: 'SettingsSidebar',
         about: 'AboutSidebar',
         files: 'FilesSidebar',
-        search: 'SearchSidebar'
+        search: 'SearchSidebar',
+        messages: null
       }
-      return map[name] || 'AppSidebar'
+      return map[name] || (map[name] !== null && 'AppSidebar')
     },
     ...mapState(['user'])
   },
@@ -106,12 +108,14 @@ export default {
     // dark theme
     if (process.browser) {
       if (localStorage.getItem(`dark_theme`) === 'true') {
-        this.bodyClass = 'dark';
-        $('body').addClass('dark');
+        this.bodyClass = 'dark'
+        $('body').addClass('dark')
       }
     }
 
-    const { height } = this.$refs.header.$el.querySelector('.navbar').getBoundingClientRect()
+    const { height } = this.$refs.header.$el
+      .querySelector('.navbar')
+      .getBoundingClientRect()
     this.marginTop = height
     const router = this.$router
     // new post
@@ -154,10 +158,12 @@ export default {
 </script>
 
 <style scoped>
-.slide-enter-active, .slide-leave-active {
-  transition: all .3s ease;
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
 }
-.slide-enter, .slide-leave-to {
+.slide-enter,
+.slide-leave-to {
   transform: translateX(-100%);
   opacity: 0;
 }
