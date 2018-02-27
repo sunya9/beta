@@ -72,6 +72,7 @@ export default {
     },
     focus: null,
     replyTarget: Object,
+    replyAll: Boolean,
     noPhoto: Boolean,
     compact: Boolean
   },
@@ -130,6 +131,13 @@ export default {
       const notMe = this.user.username !== this.replyTarget.user.username
       if (notMe) {
         this.rawText = `@${this.replyTarget.user.username} `
+      }
+      if (this.replyAll) {
+        for (var i = this.replyTarget.content.entities.mentions.length -1; i >= 0; i--) {
+          if (this.replyTarget.content.entities.mentions[i].text.toLowerCase() !== this.user.username.toLowerCase()) {
+            this.rawText += `@${this.replyTarget.content.entities.mentions[i].text} `
+          }
+        }
       }
     }
   },

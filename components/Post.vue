@@ -55,6 +55,14 @@
                 </a>
               </li>
             </template>
+            <template v-if="!viewOnly && user">
+              <li class="list-inline-item reply-all">
+                <a class="text-muted" href="#" @click.stop.prevent="replyAllModal">
+                  <i class="fa fa-reply-all"></i>
+                  Reply All
+                </a>
+              </li>
+            </template>
             <template v-if="!viewOnly && me">
               <li class="list-inline-item remove">
                 <a class="text-muted" href="#" @click.stop.prevent="removeModal">
@@ -284,6 +292,9 @@ export default {
     replyModal() {
       bus.$emit('showPostModal', this.mainPost)
     },
+    replyAllModal() {
+      bus.$emit('showPostModal', this.mainPost, true)
+    },
     removeModal() {
       bus.$emit('showRemoveModal', this)
     },
@@ -323,6 +334,7 @@ footer {
 }
 
 .reply,
+.reply-all,
 .remove,
 .source {
   opacity: 0;
@@ -333,6 +345,7 @@ footer {
   &:hover,
   &:focus {
     .reply,
+    .reply-all,
     .remove,
     .source {
       opacity: 1;
