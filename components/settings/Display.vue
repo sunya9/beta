@@ -27,21 +27,20 @@ export default {
   },
   watch: {
     square(newVal) {
-      localStorage.setItem('square_avatars', newVal);
+      localStorage.setItem('square_avatars', newVal)
     },
     theme(newVal) {
-      if ((newVal && localStorage.getItem(`dark_theme`) !== 'true') || (!newVal && localStorage.getItem(`dark_theme`) === 'true')) {
-        localStorage.setItem('dark_theme', newVal);
-        window.location.reload();
+      if (
+        (newVal && localStorage.getItem(`dark_theme`) !== 'true') ||
+        (!newVal && localStorage.getItem(`dark_theme`) === 'true')
+      ) {
+        localStorage.setItem('dark_theme', newVal)
+        window.location.reload()
       }
     }
-  },
-  methods: {
-    
   },
   components: {
     CustomCheckbox
   }
 }
 </script>
-

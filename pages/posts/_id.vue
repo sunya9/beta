@@ -29,7 +29,9 @@ export default {
     const data = await postPromise
     data.data = data.data ? data.data.reverse() : []
     return {
-      id, option, data
+      id,
+      option,
+      data
     }
   },
   // validate ({ params }) {
@@ -42,17 +44,18 @@ export default {
     bus.$off('post', this.addAfter)
   },
   components: {
-    Post, Compose, List
+    Post,
+    Compose,
+    List
   },
   methods: {
-    addAfter(post) {
+    addAfter() {
       // TODO: push post to list if post target is this page's post
       // this.data.data.push(post)
     }
   },
   head() {
-    const [post] = this.data.data
-      .filter(post => post.id === this.id)
+    const [post] = this.data.data.filter(post => post.id === this.id)
     let title = post.content.text
     if (title.length > 30) {
       title = title.substr(0, 30) + '…'
@@ -71,8 +74,7 @@ export default {
 <style scoped lang="scss">
 @import '~assets/css/mixin';
 
-
 .post {
-  @include no-gutter-xs
+  @include no-gutter-xs;
 }
 </style>
