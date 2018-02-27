@@ -15,7 +15,7 @@
               type="text"
               v-model="channelUsersStr"
               class="form-control"
-              placeholder="usernames(commma or space delimited)"
+              placeholder="usernames (comma or space delimited)"
             />
           </div>
         </message-compose>

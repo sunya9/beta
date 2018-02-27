@@ -179,3 +179,15 @@ body.dark .list-group-item:hover:not(.active):not(.h5) {
 body.dark .search-form input[type='search']:focus {
   color: #262626;
 }
+
+/* messages */
+
+body.dark .balloon {
+  background-color: #202020;
+}
+body.dark .balloon.other::before {
+  border-right-color: #202020;
+}
+body.dark .balloon.me::before {
+  border-left-color: #202020;
+}
