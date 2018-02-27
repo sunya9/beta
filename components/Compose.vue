@@ -133,9 +133,12 @@ export default {
         this.rawText = `@${this.replyTarget.user.username} `
       }
       if (this.replyAll) {
+        let mentions = [this.replyTarget.user.username.toLowerCase()];
         for (var i = this.replyTarget.content.entities.mentions.length -1; i >= 0; i--) {
-          if (this.replyTarget.content.entities.mentions[i].text.toLowerCase() !== this.user.username.toLowerCase()) {
+          var mention = this.replyTarget.content.entities.mentions[i].text.toLowerCase();
+          if (mentions.indexOf(mention) == -1 && mention !== this.user.username.toLowerCase()) {
             this.rawText += `@${this.replyTarget.content.entities.mentions[i].text} `
+            mentions.push(mention)
           }
         }
       }

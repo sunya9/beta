@@ -99,6 +99,7 @@ export default {
     Mousetrap.bind('.', this.refresh)
     if (this.type === 'Post') {
       Mousetrap.bind('r', this.reply)
+      Mousetrap.bind('shift+r', this.replyAll)
       Mousetrap.bind('s', this.favorite)
       Mousetrap.bind('p', this.repost)
       Mousetrap.bind('enter', this.goPost)
@@ -143,6 +144,9 @@ export default {
     },
     reply() {
       if (this.selectItem) { this.selectItem.replyModal() }
+    },
+    replyAll() {
+      if (this.selectItem) { this.selectItem.replyAllModal() }
     },
     remove() {
       if (!this.selectItem || !this.selectItem.me) return
