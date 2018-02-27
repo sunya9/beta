@@ -17,6 +17,7 @@
       <div class="flex-column d-flex flex-sm-row align-items-sm-start">
         <div class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row">
           <div class="d-flex flex-column align-items-center align-items-sm-stretch flex-sm-row justify-content-center justify-content-sm-start">
+            <a v-if="!profile.verified" style="display:none" :href="`/@${profile.username}`" rel="me" class="u-url">profile.username</a>
             <thumb
               :original="profile.content.avatar_image.link"
               no-border
@@ -27,11 +28,9 @@
                   height: profile.content.avatar_image.height
                 }
               }">
-              <a :href="`/@${profile.username}`" :rel="(profile.verified ? '' : 'me')" v-bind:class="{ 'u-url': !profile.verified }">
-                <avatar :avatar="profile.content.avatar_image"
+              <avatar :avatar="profile.content.avatar_image"
                 class="mr-sm-3 negative u-photo"
                 :size="96" :max-size="96" :alt="profile.username" :title="profile.id" />
-              </a>
             </thumb>
             <div class="w-100">
               <h3 class="card-title mb-1" :title="profile.id">

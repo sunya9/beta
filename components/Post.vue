@@ -99,7 +99,7 @@
             <ul class="list-inline ml-3">
               <li class="list-inline-item" :key="user.id" v-for="user in reactionUsers">
                 <nuxt-link :to="`/@${user.username}`" :title="`@${user.username}`">
-                  <avatar :avatar="user.content.avater_image" />
+                  <avatar :avatar="user.content.avatar_image" />
                 </nuxt-link>
               </li>
             </ul>
