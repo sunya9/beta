@@ -3,24 +3,24 @@
     <img :src="profile.content.cover_image.link" alt="" :width="profile.content.cover_image.width" :height="profile.content.cover_image.height || 500" @load="loaded = true" :class="{
             'min-card-image-height': !loaded
           }" class="img-fluid card-img-top">
-    <div class="card-body pt-3">
+    <div class="card-body pt-3 h-card">
       <div class="flex-column d-flex flex-sm-row align-items-sm-start">
         <div class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row">
           <div class="d-flex flex-column align-items-center align-items-sm-stretch flex-sm-row justify-content-center justify-content-sm-start">
-            <a :href="profile.content.avatar_image.link">
-              <img :src="profile.content.avatar_image.link + '?w=140'" alt="" :class="'mr-sm-3 negative ' + avatarClass" width="120" height="120" :title="profile.id">
+            <a :href="`/@${profile.username}`" :rel="(profile.verified ? '' : 'me')" v-bind:class="{ 'u-url': !profile.verified }">
+              <img :src="profile.content.avatar_image.link + '?w=140'" :alt="profile.username" :class="'u-photo mr-sm-3 negative ' + avatarClass" width="120" height="120" :title="profile.id">
             </a>
             <div class="w-100">
               <h3 class="card-title mb-1" :title="profile.id">
                 <span class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline">
-                  <span>
+                  <span class="p-nickname" v-bind:class="{'p-name': !profile.name}">
                     @{{profile.username}}
                   </span>
-                  <small class="ml-sm-2 d-block d-sm-inline text-muted">{{profile.name}}</small>
+                  <small v-if="profile.name" class="ml-sm-2 d-block d-sm-inline text-muted">{{profile.name}}</small>
                 </span>
               </h3>
               <p v-if="profile.verified" class="text-center text-md-left">
-                <a :href="profile.verified.link">{{profile.verified.domain}}</a>
+                <a :href="profile.verified.link" class="u-url" rel="me">{{profile.verified.domain}}</a>
               </p>
             </div>
           </div>
@@ -34,7 +34,7 @@
           </div>
         </div>
       </div>
-      <p class="description card-text w-100 mt-3 mt-sm-0" @click="clickPostLink" v-html="html"></p>
+      <p v-if="html" class="description card-text w-100 mt-3 mt-sm-0 p-note" @click="clickPostLink" v-html="html"></p>
     </div>
     <div class="card-body d-flex justify-content-between justify-content-md-end">
       <span class="card-link" append>{{profile.counts.posts}} Posts</span>

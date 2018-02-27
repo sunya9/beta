@@ -1,23 +1,25 @@
 <template>
   <li @focus="focus" tabindex="-1" :id="`post-${post.id}`" class="list-group-item list-group-item-action" @click="$emit('click')">
     <div :class="{
-                                                deleted: post.is_deleted
+                                                deleted: post.is_deleted, 'h-entry': detail
                                               }" class="media w-100 justify-content-start">
-      <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview">
-        <img :src="mainPost.user.content.avatar_image.link + '?w=140'" alt="" :class="'d-flex mr-3 iconSize ' + avatarClass" width="64" height="64">
+      <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview" v-bind:class="{ 'p-author h-card': detail }">
+        <img :src="mainPost.user.content.avatar_image.link + '?w=140'" :alt="mainPost.user.username" class="d-flex mr-3 iconSize" v-bind:class="{'u-photo': detail, 'rounded-circle': !squareAvatars }" width="64" height="64">
       </nuxt-link>
       <div class="media-body">
         <h6 class="mt-1">
           <nuxt-link :to="`/@${mainPost.user.username}`" class="text-gray-dark">
             {{mainPost.user.username}}
-            <small class="text-muted">
+            <small v-if="mainPost.user.name" class="text-muted">
               {{mainPost.user.name}}
             </small>
           </nuxt-link>
         </h6>
         <div class="d-flex flex-wrap flex-sm-nowrap">
           <p @click="clickPostLink" v-html="html" :class="{
-                                                    'mb-0': preview
+                                                    'mb-0': preview,
+                                                    'e-content': detail,
+                                                    'p-name': detail
                                                   }">
           </p>
           <div v-if="thumbs.length" class="mb-2 d-flex mr-auto ml-auto mr-sm-2 flex-wrap flex-sm-nowrap justify-content-sm-end">
@@ -32,14 +34,14 @@
           </div>
           <ul class="list-inline">
             <li class="list-inline-item">
-              <nuxt-link ref="link" :to="permalink" class="text-muted" :title="absDate">
-                <i class="fa fa-clock-o"></i>
-                {{date}}
+              <nuxt-link ref="link" :to="permalink" class="text-muted" v-bind:class="{ 'u-url': detail }" :title="absDate">
+                <i class="fa fa-clock-o"></i> 
+                <time :class="{ 'dt-published': detail }" :datetime="absDate"> {{date}}</time>
               </nuxt-link>
             </li>
             <template v-if="!viewOnly">
-              <li class="list-inline-item" v-show="post.reply_to">
-                <nuxt-link :to="permalink" class="text-muted" :title="absDate">
+              <li class="list-inline-item" v-if="post.reply_to">
+                <nuxt-link v-bind:class="{ 'u-in-reply-to': detail }" :to="reply_permalink" class="text-muted" title="In Reply To">
                   <i class="fa fa-comments"></i>
                 </nuxt-link>
               </li>
@@ -96,7 +98,7 @@
             <ul class="list-inline ml-3">
               <li class="list-inline-item" :key="user.id" v-for="user in reactionUsers">
                 <nuxt-link :to="`/@${user.username}`" :title="`@${user.username}`">
-                  <img :src="user.content.avatar_image.link + '?w=120'" :class="avatarClass" width="24" height="24" />
+                  <img :src="user.content.avatar_image.link + '?w=140'" :class="{ 'rounded-circle': !squareAvatars }" width="24" height="24" />
                 </nuxt-link>
               </li>
             </ul>
@@ -140,12 +142,15 @@ export default {
     data: Object,
     viewOnly: Boolean,
     detail: Boolean,
-    preview: Boolean
+    preview: Boolean,
+    squareAvatars: {
+      default: false,
+      type: Boolean
+    }
   },
   data() {
     return {
-      date: null,
-      avatarClass: 'rounded-circle'
+      date: null
     }
   },
   created() {
@@ -153,7 +158,7 @@ export default {
     this.dateUpdate()
   },
   mounted() {
-    this.avatarClass = (localStorage.getItem('square_avatars') === 'true') ? '' : 'rounded-circle'
+    this.squareAvatars = (localStorage.getItem('square_avatars') === 'true') ? true : false
   },
   computed: {
     reactionUsers() {
@@ -238,6 +243,9 @@ export default {
     },
     permalink() {
       return `/@${this.mainPost.user.username}/posts/${this.mainPost.id}`
+    },
+    reply_permalink() {
+      return `/posts/${this.mainPost.reply_to}`
     },
     ...mapState(['user'])
   },
