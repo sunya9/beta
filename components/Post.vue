@@ -157,8 +157,7 @@ export default {
   },
   data() {
     return {
-      date: null,
-      avatarClass: 'rounded-circle'
+      date: null
     }
   },
   mounted() {

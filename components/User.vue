@@ -38,15 +38,6 @@ import focus from '~/assets/js/focus'
 export default {
   mixins: [focus],
   props: ['data'],
-  data() {
-    return {
-      avatarClass: 'rounded-circle'
-    }
-  },
-  mounted() {
-    this.avatarClass =
-      localStorage.getItem('square_avatars') === 'true' ? '' : 'rounded-circle'
-  },
   computed: {
     relation() {
       return this.data.follows_you ? 'Follows you' : ''
