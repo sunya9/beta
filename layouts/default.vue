@@ -77,7 +77,6 @@ import AboutSidebar from '~/components/sidebar/About'
 import FilesSidebar from '~/components/sidebar/Files'
 import SearchSidebar from '~/components/sidebar/Search'
 import Jumbotron from '~/components/Jumbotron'
-import DropdownNav from '~/components/DropdownNav'
 import $ from 'jquery'
 import Vue from 'vue'
 
@@ -94,8 +93,7 @@ export default {
     AboutSidebar,
     FilesSidebar,
     SearchSidebar,
-    Jumbotron,
-    DropdownNav
+    Jumbotron
   },
   watch: {
     '$route.fullPath'() {
