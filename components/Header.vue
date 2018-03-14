@@ -72,12 +72,6 @@
           </li>
         </ul>
       </div>
-      <div id="navbarSupportedContent" class="navbar-collapse collapse d-md-none scrollable">
-        <div class="container" :style="{
-          'max-height': collapseHeight
-        }">
-        </div>
-      </div>
     </div>
     <slot name="jumbotron" />
   </header>

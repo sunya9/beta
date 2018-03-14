@@ -14,7 +14,7 @@
              'col-md-4 col-lg-3': !notLoginIndex,
           }">
           <div class="navbar navbar-light p-0">
-            <div class="d-md-block collapse navbar-collapse" id="sidebarContent">
+            <div class="d-md-block collapse navbar-collapse">
               <transition name="slide" mode="out-in">
                 <component :is="sidebar" ref="sidebar" />
               </transition>
@@ -27,25 +27,33 @@
           }"
           class="col-12">
           <h3
-            v-if="selectedDropdownItem"
-            class="d-flex align-items-center justify-content-between"
-            data-toggle="collapse"
-            data-target="#sidebarContent"
-            aria-controls="sidebarContent"
-            aria-expanded="false"
-            aria-label="Toggle sidebar navigation"
-            >
-              <div class="d-flex align-items-center">
-                <div
-                  class="bg-primary text-center rounded-circle text-white border-white mr-1 icon">
-                  <i class="fa fa-fw" :class="selectedDropdownItem.icon"></i>
-                </div>
-                {{selectedDropdownItem.label}}
+            class="d-flex align-items-center"
+            :class="{
+              'justify-content-between': selectedDropdownItem,
+              'justify-content-end': !selectedDropdownItem
+            }"
+          >
+            <div class="d-flex align-items-center" v-if="selectedDropdownItem">
+              <div
+                class="d-block bg-primary text-center rounded-circle text-white border-white mr-1 icon">
+                <i class="fa fa-fw" :class="selectedDropdownItem.icon"></i>
               </div>
-              <div class="ml-3 d-md-none h4 mb-0">
-                <i class="fa fa-bars"></i>
-              </div>
+              {{selectedDropdownItem.label}}
+            </div>
+
+            <div class="ml-3 d-md-none h4 mb-1 mt-1" v-if="sidebar">
+              <a
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle local navigation"
+              >
+                <i class="fa fa-bars fa-lg"></i>
+              </a>
+            </div>
           </h3>
+          <component :is="sidebar" id="navbarSupportedContent" class="collapse" narrow />
           <div>
             <nuxt ref="nuxt" />
           </div>
@@ -116,6 +124,7 @@ export default {
       return this.$route.fullPath.match(/^\/search/)
     },
     dropdownItems() {
+      if(!this.sidebar) return []
       const inst = new Vue({
         ...this.sidebar,
         store: this.$store,
