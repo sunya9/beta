@@ -1,12 +1,11 @@
 <template>
   <div>
-      <h3>Mentions</h3>
-      <div>
-        <compose />
-      </div>
-      <div>
-        <list :data="data" type="Post" :option="option" />
-      </div>
+    <div>
+      <compose />
+    </div>
+    <div>
+      <list :data="data" type="Post" :option="option" />
+    </div>
   </div>
 </template>
 
@@ -28,8 +27,10 @@ export default {
     List,
     Compose
   },
-  head: {
-    title: 'Mentions'
+  head() {
+    return {
+      title: 'Mentions'
+    }
   }
 }
 </script>

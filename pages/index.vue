@@ -1,7 +1,6 @@
 <template>
   <div>
     <div v-if="user">
-      <h3>Your Stream</h3>
       <div>
         <compose />
       </div>
@@ -43,8 +42,10 @@ export default {
       this.$refs.list.refresh()
     }
   },
-  head: {
-    title: 'Your Stream'
+  head() {
+    return {
+      title: 'Your Stream'
+    }
   }
 }
 </script>
