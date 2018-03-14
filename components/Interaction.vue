@@ -54,6 +54,7 @@
 import moment from 'moment'
 import focus from '~/assets/js/focus'
 import Post from '~/components/Post'
+import Avatar from '~/components/Avatar'
 
 const convert = {
   follow: {
@@ -131,7 +132,7 @@ export default {
     }
   },
   components: {
-    Post
+    Post, Avatar
   }
 }
 </script>
