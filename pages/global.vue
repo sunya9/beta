@@ -1,12 +1,11 @@
 <template>
   <div>
-      <h3>Global</h3>
-      <div>
-        <compose />
-      </div>
-      <div>
-        <list :data="data" type="Post" :option="option" ref="list" />
-      </div>
+    <div>
+      <compose />
+    </div>
+    <div>
+      <list :data="data" type="Post" :option="option" ref="list" />
+    </div>
   </div>
 </template>
 
@@ -39,8 +38,10 @@ export default {
       this.$refs.list.refresh()
     }
   },
-  head: {
-    title: 'Global'
+  head() {
+    return {
+      title: 'Global'
+    }
   }
 }
 </script>

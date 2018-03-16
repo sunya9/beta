@@ -34,7 +34,7 @@
               ? menu.active()
               : menu.active || active(menu.url)
           }, itemClass]"
-          data-toggle="collapse" data-target="#navbarSupportedContent.show"
+          data-toggle="collapse" :data-target="narrow && '#navbarSupportedContent'"
           exact
           v-else>
           <span>
@@ -63,6 +63,9 @@
 import { mapState } from 'vuex'
 import moment from 'moment'
 export default {
+  props: {
+    narrow: Boolean
+  },
   data() {
     // Vue might recgnize process.env as strings and replace.
     // So, unable to use destructuring assignment because occurred errors.

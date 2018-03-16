@@ -9,7 +9,11 @@
           <ul class="list-inline">
             <li :key="user.id" v-if="user.content" class="list-inline-item" v-for="user in filteredUsers">
               <nuxt-link :to="`@${user.username}`">
-                <img width="32" height="32" :class="avatarClass" :src="user.content.avatar_image.link + '?w=120'">
+                <avatar
+                  :avatar="user.content.avatar_image"
+                  size="32"
+                  max-Size="64"
+                />
               </nuxt-link>
             </li>
           </ul>
@@ -50,6 +54,7 @@
 import moment from 'moment'
 import focus from '~/assets/js/focus'
 import Post from '~/components/Post'
+import Avatar from '~/components/Avatar'
 
 const convert = {
   follow: {
@@ -75,14 +80,12 @@ export default {
   props: ['data'],
   data() {
     return {
-      date: null,
-      avatarClass: 'rounded-circle'
+      date: null
     }
   },
   mounted() {
     setInterval(this.dateUpdate, 1000 * 30) // 30sec
     this.dateUpdate()
-    this.avatarClass = (localStorage.getItem('square_avatars') === 'true') ? '' : 'rounded-circle'
   },
   computed: {
     absDate() {
@@ -106,9 +109,7 @@ export default {
       }
     },
     post() {
-      return this.action.action !== 'follow'
-        ? this.action.objects[0]
-        : null
+      return this.action.action !== 'follow' ? this.action.objects[0] : null
     },
     filteredUsers() {
       return this.action.users.filter((user, i, ary) => {
@@ -121,17 +122,17 @@ export default {
       const now = moment()
       const postDate = moment(this.action.event_date)
       if (now.diff(postDate, 'day') >= 1) {
-        const lastYear = now.toDate().getFullYear() - postDate.toDate().getFullYear()
+        const lastYear =
+          now.toDate().getFullYear() - postDate.toDate().getFullYear()
         const format = lastYear ? 'D MMM YY' : 'D MMM'
         this.date = moment(this.action.event_date).format(format)
       } else {
-        this.date = moment(this.action.event_date)
-          .fromNow(true)
+        this.date = moment(this.action.event_date).fromNow(true)
       }
     }
   },
   components: {
-    Post
+    Post, Avatar
   }
 }
 </script>

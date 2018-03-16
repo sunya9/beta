@@ -1,12 +1,11 @@
 <template>
   <div>
-      <h3>Conversations</h3>
-      <div>
-        <compose />
-      </div>
-      <div>
-        <list :data="data" type="Post" :option="option" ref="list" />
-      </div>
+    <div>
+      <compose />
+    </div>
+    <div>
+      <list :data="data" type="Post" :option="option" ref="list" />
+    </div>
   </div>
 </template>
 
@@ -39,8 +38,10 @@ export default {
     List,
     Compose
   },
-  head: {
-    title: 'Conversations'
+  head() {
+    return {
+      title: 'Conversations'
+    }
   }
 }
 </script>

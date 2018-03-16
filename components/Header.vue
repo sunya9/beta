@@ -2,10 +2,6 @@
   <header>
     <div class="navbar navbar-light navbar fixed-top px-0">
       <div class="container relative">
-
-        <button v-if="$slots.menu" class="d-md-none mr-3 navbar-toggler align-self-center" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
         <nuxt-link class="mr-auto p-0 navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
           <img src="~assets/img/beta.svg" width="32" height="32" alt="β" class="d-inline-block align-center mr-2">
           <span class="d-none d-sm-inline">
@@ -14,28 +10,57 @@
         </nuxt-link>
         <search-form id="search-form" class="mr-md-4 order-3 order-md-1" />
         <ul class="order-2 navbar-nav d-flex flex-row align-items-stretch">
-          <li class="nav-item" v-if="user" id="nav-messages">
-            <nuxt-link to="/messages"
-              class="nav-link text-dark">
+          <nuxt-link
+            to="/messages"
+            tag="li"
+            class="nav-item"
+            v-if="user"
+            id="nav-messages">
+            <a class="nav-link">
               <i class="fa fa-envelope"></i>
-            </nuxt-link>
-          </li>
-          <li class="nav-item" v-if="user" id="nav-files">
-            <nuxt-link to="/files" class="nav-link text-dark">
+            </a>
+          </nuxt-link>
+          <nuxt-link
+            class="nav-item"
+            id="nav-files"
+            tag="li"
+            v-if="user"
+            to="/files"
+          >
+            <a class="nav-link">
               <i class="fa fa-database fa-lg"></i>
-            </nuxt-link>
-          </li>
+            </a>
+          </nuxt-link>
           <li class="nav-item dropdown" v-if="user">
-            <a href="#" class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a
+              href="#"
+              class="nav-link
+              text-primary"
+              id="navbarDropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false">
               {{user.username}}
               <i class="fa fa-chevron-down"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-              <nuxt-link :to="`/@${user.username}`" exact data-toggle="collapse" data-target="#navbarSupportedContent.show" class="dropdown-item">
+              <nuxt-link
+                :to="`/@${user.username}`"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent.show"
+                class="dropdown-item"
+                active-class=""
+              >
                 Profile
               </nuxt-link>
               <div class="dropdown-divider"></div>
-              <nuxt-link data-toggle="collapse" data-target="#navbarSupportedContent.show" to="/settings" class="dropdown-item">
+              <nuxt-link
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent.show"
+                to="/settings"
+                class="dropdown-item"
+                active-class=""
+              >
                 Settings
               </nuxt-link>
               <div class="dropdown-divider"></div>
@@ -46,13 +71,6 @@
             <a href="/login" class="nav-link">Log in</a>
           </li>
         </ul>
-      </div>
-      <div id="navbarSupportedContent" class="navbar-collapse collapse d-md-none scrollable">
-        <div class="container" :style="{
-              'max-height': collapseHeight
-            }">
-          <slot name="menu" />
-        </div>
       </div>
     </div>
     <slot name="jumbotron" />
@@ -83,7 +101,7 @@ export default {
 @import '~assets/css/adn_base_variables';
 
 .navbar {
-  background-color: rgba(255, 255, 255, .95);
+  background-color: rgba(255, 255, 255, 0.95);
   z-index: 1030;
   border-bottom: 1px solid $grayLighter;
 }

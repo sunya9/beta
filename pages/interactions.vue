@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="d-flex justify-content-between flex-wrap">
-      <h3 class="mb-4">Interactions</h3>
       <div class="btn-group" role="group" style="display: none">
         <label class="btn btn-primary">
           <input type="checkbox" class="sr-only" :class="active" value="reply"> Reply
@@ -38,15 +37,16 @@ export default {
     return { data }
   },
   methods: {
-    active(e) {
-    }
+    active(e) {}
   },
   components: {
     List,
     Compose
   },
-  head: {
-    title: 'Interactions'
+  head() {
+    return {
+      title: 'Interactions'
+    }
   }
 }
 </script>

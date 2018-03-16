@@ -1,12 +1,11 @@
 <template>
   <div>
-      <h3>Stars</h3>
-      <div>
-        <compose />
-      </div>
-      <div>
-        <list :data="data" type="Post" />
-      </div>
+    <div>
+      <compose />
+    </div>
+    <div>
+      <list :data="data" type="Post" />
+    </div>
   </div>
 </template>
 
@@ -25,8 +24,10 @@ export default {
     List,
     Compose
   },
-  head: {
-    title: 'Stars'
+  head() {
+    return {
+      title: 'Stars'
+    }
   }
 }
 </script>

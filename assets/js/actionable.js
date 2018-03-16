@@ -24,10 +24,10 @@ export default {
   },
   methods: {
     change(newVal) {
+      this.$emit('change', newVal)
       if (!this.resource) return
       this.promise = axios[this.method](`/proxy${this.resource}`)
       const old = this.checked
-      this.$emit('change', newVal)
       return this.promise
         .then(() => {
           this.promise = null

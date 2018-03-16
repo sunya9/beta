@@ -1,12 +1,11 @@
 <template>
   <div>
-      <h3>Trending</h3>
-      <div>
-        <compose />
-      </div>
-      <div>
-        <list :data="data" type="Post" />
-      </div>
+    <div>
+      <compose />
+    </div>
+    <div>
+      <list :data="data" type="Post" />
+    </div>
   </div>
 </template>
 
@@ -24,8 +23,10 @@ export default {
     List,
     Compose
   },
-  head: {
-    title: 'Trending'
+  head() {
+    return {
+      title: 'Trending'
+    }
   }
 }
 </script>
