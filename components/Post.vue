@@ -4,9 +4,13 @@
       deleted: post.is_deleted,
       'h-entry': detail
     }" class="media w-100 justify-content-start">
-      <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview" v-bind:class="{ 'p-author h-card': detail }">
+      <a v-if="detail" v-show=false rel="author" :href="(mainPost.user.verified ? mainPost.user.verified.link : `/@${mainPost.user.username}`)" class="p-author h-card">
         <avatar :avatar="mainPost.user.content.avatar_image"
-          class="d-flex mr-3 iconSize" v-bind:class="{'u-photo': detail}" :alt="mainPost.user.username" size="64" max-size="64" />
+          class="d-flex mr-3 iconSize u-photo" :alt="(mainPost.user.name || mainPost.user.username)" size="64" max-size="64" />
+      </a>
+      <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview">
+        <avatar :avatar="mainPost.user.content.avatar_image"
+          class="d-flex mr-3 iconSize" :alt="mainPost.user.username" size="64" max-size="64" />
       </nuxt-link>
       <div class="media-body">
         <h6 class="mt-1">
@@ -40,8 +44,8 @@
                 <time :class="{ 'dt-published': detail }" :datetime="absDate"> {{date}}</time>
               </nuxt-link>
             </li>
-            <template v-if="!viewOnly">
-              <li class="list-inline-item" v-show="post.reply_to">
+            <template v-if="!viewOnly && post.reply_to">
+              <li class="list-inline-item">
                 <nuxt-link :to="reply_permalink" class="text-muted" v-bind:class="{ 'u-in-reply-to': detail }" title="In Reply To">
                   <i class="fa fa-comments"></i>
                 </nuxt-link>
