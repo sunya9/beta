@@ -11,29 +11,28 @@ export default {
   },
   data() {
     return {
-      promise: null
+      processing: null
     }
   },
   computed: {
-    processing() {
-      return this.promise
-    },
     method() {
       return this.checked ? 'delete' : 'put'
     }
   },
   methods: {
+    // Don't use the way to watch `checked`.
+    // If you use watch, might to occur infinite loops when revert checked state.
     change(newVal) {
       this.$emit('change', newVal)
       if (!this.resource) return
-      this.promise = axios[this.method](`/proxy${this.resource}`)
+      this.processing = axios[this.method](`/proxy${this.resource}`)
       const old = this.checked
-      return this.promise
+      return this.processing
         .then(() => {
-          this.promise = null
+          this.processing = null
         })
         .catch(() => {
-          this.promise = null
+          this.processing = null
           this.$emit('change', old)
         })
     }
