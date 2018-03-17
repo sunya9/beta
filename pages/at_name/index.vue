@@ -33,7 +33,10 @@ export default {
     const data = await _api.fetch(option)
     if (data.meta.code < 400) {
       return {
-        data, profile, name, option
+        data,
+        profile,
+        name,
+        option
       }
     } else {
       error({
@@ -58,7 +61,7 @@ export default {
     bus.$off('post', this.add)
   },
   methods: {
-    add(post) {
+    add() {
       this.$refs.list.refresh()
     }
   },

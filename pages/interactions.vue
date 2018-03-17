@@ -37,7 +37,7 @@ export default {
     return { data }
   },
   methods: {
-    active(e) {}
+    // active(e) {}
   },
   components: {
     List,
