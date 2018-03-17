@@ -1,44 +1,48 @@
 import ActionButton from '~/components/ActionButton'
-import {
-  mount
-} from 'helpers/client'
+import { mount } from 'helpers/client'
 
 describe('ActionButton component', () => {
-  it('initial state equals state', () => {
-    const wrapper = mount(ActionButton, {
-      propsData: {
-        initialState: true
-      }
-    })
-    expect(wrapper.data().state).to.be.true
-  })
   describe('toggle state when clicked', () => {
     it('false to true', async () => {
       const wrapper = mount(ActionButton, {
         propsData: {
-          initialState: false,
+          checked: false,
           resource: '/test'
         }
       })
-      await wrapper.instance().click()
-      expect(wrapper.data().state).to.be.true
+
+      // avoriaz does not support v-model testing
+      // So, change event handling need to describe by myself.
+      let res
+      wrapper.vm.$on('change', checked => (res = checked))
+      wrapper.vm.change(!wrapper.vm.checked)
+      // ???
+      // wrapper.first('input').checked = true
+      // wrapper.first('input').trigger('change', true)
+      await wrapper.vm.$nextTick()
+      expect(res).to.be.true
     })
     it('true to false', async () => {
       const wrapper = mount(ActionButton, {
         propsData: {
-          initialState: true,
+          checked: true,
           resource: '/test'
         }
       })
-      await wrapper.instance().click()
-      expect(wrapper.data().state).to.be.false
+      let res
+      wrapper.vm.$on('change', checked => (res = checked))
+      wrapper.vm.change(!wrapper.vm.checked)
+      // wrapper.first('input').checked = false
+      // wrapper.first('input').trigger('change', false)
+      await wrapper.vm.$nextTick()
+      expect(res).to.be.false
     })
   })
   describe('method', () => {
     it('method is delete when state equals true', () => {
       const wrapper = mount(ActionButton, {
         propsData: {
-          initialState: true,
+          checked: true,
           resource: '/test'
         }
       })
@@ -47,7 +51,7 @@ describe('ActionButton component', () => {
     it('method is put when state equals true', () => {
       const wrapper = mount(ActionButton, {
         propsData: {
-          initialState: false
+          checked: false
         }
       })
       expect(wrapper.instance().method).to.equals('put')
@@ -61,11 +65,11 @@ describe('ActionButton component', () => {
         }
       }).instance()
       it('return first string when state false', () => {
-        instance.state = false
+        instance.checked = false
         expect(instance.computedIcon).to.equal('first')
       })
       it('return second string when state true', () => {
-        instance.state = true
+        instance.checked = true
         expect(instance.computedIcon).to.equal('second')
       })
     })
