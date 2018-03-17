@@ -14,7 +14,7 @@
               @update:compiledTextCount="updateCompiledTextLength"
               @submit="submit"
               :disabled="!!promise" />
-            <a href="#" class="open-emoji-picker text-dark" @click.stop="toggleEmojiPalette">
+            <a href="#" class="open-emoji-picker text-dark" @click.prevent.stop="toggleEmojiPalette">
               <i class="fa fa-lg fa-smile-o"></i>
             </a>
             <picker v-if="mounted" set="emojione" class="emoji-picker" @click="addEmoji" v-show="showEmojiPicker" v-on-click-outside="closeEmojiPalette" />
