@@ -21,6 +21,10 @@
       "prettier-eslint --write",
       "eslint --ext .js,.vue .",
       "git add"
+    ],
+    "*.{png,jpeg,jpg,gif,svg}": [
+      "imagemin-lint-staged",
+      "git add"
     ]
   },
   "dependencies": {
@@ -78,6 +82,7 @@
     "eslint-plugin-vue": "^4.3.0",
     "expect": "^22.0.0",
     "husky": "^0.14.3",
+    "imagemin-lint-staged": "^0.3.0",
     "karma": "^2.0.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.2.0",
