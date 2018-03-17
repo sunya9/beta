@@ -76,7 +76,7 @@ export default {
       this.busy = false
     },
     async createChannel() {
-      const destinations = this.channelUsersStr.split(/,\s+/g).map(name => {
+      const destinations = this.channelUsersStr.split(/[,\s]+/g).map(name => {
         return name.startsWith('@') ? name : `@${name}`
       })
       const option = {
