@@ -40,7 +40,7 @@ export default {
     }
   },
   mounted() {
-    const Zooming = require('zooming')
+    const Zooming = require('zooming').default
     const img = this.$el.querySelector('img')
     const option = {
       bgColor: '#000',
