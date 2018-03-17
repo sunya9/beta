@@ -41,7 +41,7 @@
                   @change="fileChange"
                   style="display: none" ref="file">
               </label>
-              <button type="submit" class="btn text-uppercase" :class="'btn-' + (disabled ? 'secondary' : 'primary')" :disabled="disabled">
+              <button type="submit" class="btn btn-primary text-uppercase" :disabled="disabled">
                 <span v-show="promise">
                   <i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
                 </span>
@@ -125,7 +125,9 @@ export default {
   },
   mounted() {
     this.mounted = true
-    if (this.focus) { this.setFocus() }
+    if (this.focus) {
+      this.setFocus()
+    }
     if (this.replyTarget) {
       const notMe = this.user.username !== this.replyTarget.user.username
       if (notMe) {
@@ -145,7 +147,8 @@ export default {
       // occur error if it not displayed like logged out
       const { textarea } = this.$refs
       switch (typeof this.focus) {
-        case 'object': { // == array
+        case 'object': {
+          // == array
           const [start, end] = this.focus
           textarea.setCaret(start, end)
           break
@@ -177,7 +180,8 @@ export default {
         option.reply_to = this.replyTarget.id
       }
 
-      this.promise = api().post('/posts', option)
+      this.promise = api()
+        .post('/posts', option)
         .then(res => {
           this.promise = null
           this.error = null
@@ -185,7 +189,8 @@ export default {
           this.$emit('post', res.data)
           this.rawText = ''
           this.photos = []
-        }).catch(e => {
+        })
+        .catch(e => {
           console.error(e)
           const { response: { data: { message } } } = e
           this.error = message
@@ -221,9 +226,13 @@ export default {
           url: image.link,
           title: this.text
         }
-        return Object.assign({}, {
-          type: 'io.pnut.core.oembed'
-        }, { value })
+        return Object.assign(
+          {},
+          {
+            type: 'io.pnut.core.oembed'
+          },
+          { value }
+        )
       })
       return raws
     },
@@ -248,7 +257,10 @@ export default {
     }
   },
   components: {
-    Post, Thumb, Picker, RichTextarea
+    Post,
+    Thumb,
+    Picker,
+    RichTextarea
   }
 }
 
@@ -266,9 +278,8 @@ function obj2FormData(obj) {
 @import '~bootstrap/scss/mixins/breakpoints';
 @import '~assets/css/mixin';
 
-
 .compose {
-  @include no-gutter-xs
+  @include no-gutter-xs;
 }
 
 @include media-breakpoint-down(xs) {
@@ -279,7 +290,7 @@ function obj2FormData(obj) {
 
 .photos-enter-active,
 .photos-leave-to {
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
 
 .photos-enter,
@@ -289,7 +300,7 @@ function obj2FormData(obj) {
 }
 
 .photos-move {
-  transition: transform .5s;
+  transition: transform 0.5s;
 }
 
 .relative {
@@ -298,8 +309,8 @@ function obj2FormData(obj) {
 
 .open-emoji-picker {
   position: absolute;
-  left: .5rem;
-  bottom: .5rem;
+  left: 0.5rem;
+  bottom: 0.5rem;
 }
 
 .textarea {
