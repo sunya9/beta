@@ -1,24 +1,26 @@
 <template>
   <li @focus="focus" tabindex="-1" :id="`post-${post.id}`" class="list-group-item list-group-item-action" @click="$emit('click')">
     <div :class="{
-      deleted: post.is_deleted
+      deleted: post.is_deleted,
+      'h-entry': detail
     }" class="media w-100 justify-content-start">
-      <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview">
+      <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview" v-bind:class="{ 'p-author h-card': detail }">
         <avatar :avatar="mainPost.user.content.avatar_image"
-          class="d-flex mr-3 iconSize" size="64" max-size="64" />
+          class="d-flex mr-3 iconSize" v-bind:class="{'u-photo': detail}" :alt="mainPost.user.username" size="64" max-size="64" />
       </nuxt-link>
       <div class="media-body">
         <h6 class="mt-1">
           <nuxt-link :to="`/@${mainPost.user.username}`" class="text-gray-dark">
             {{mainPost.user.username}}
-            <small class="text-muted">
+            <small v-if="mainPost.user.name" class="text-muted">
               {{mainPost.user.name}}
             </small>
           </nuxt-link>
         </h6>
         <div class="d-flex flex-wrap flex-sm-nowrap">
           <p @click="clickPostLink" v-html="html" :class="{
-            'mb-0': preview
+            'mb-0': preview,
+            'e-content p-name': detail
           }">
           </p>
           <div v-if="thumbs.length" class="mb-2 d-flex mr-auto ml-auto mr-sm-2 flex-wrap flex-sm-nowrap justify-content-sm-end">
@@ -33,14 +35,14 @@
           </div>
           <ul class="list-inline">
             <li class="list-inline-item">
-              <nuxt-link ref="link" :to="permalink" class="text-muted" :title="absDate">
+              <nuxt-link ref="link" :to="permalink" class="text-muted" v-bind:class="{ 'u-url': detail }" :title="absDate">
                 <i class="fa fa-clock-o"></i>
-                {{date}}
+                <time :class="{ 'dt-published': detail }" :datetime="absDate"> {{date}}</time>
               </nuxt-link>
             </li>
             <template v-if="!viewOnly">
               <li class="list-inline-item" v-show="post.reply_to">
-                <nuxt-link :to="permalink" class="text-muted" :title="absDate">
+                <nuxt-link :to="reply_permalink" class="text-muted" v-bind:class="{ 'u-in-reply-to': detail }" title="In Reply To">
                   <i class="fa fa-comments"></i>
                 </nuxt-link>
               </li>
@@ -50,6 +52,14 @@
                 <a class="text-muted" href="#" @click.stop.prevent="replyModal">
                   <i class="fa fa-reply"></i>
                   Reply
+                </a>
+              </li>
+            </template>
+            <template v-if="!viewOnly && user">
+              <li class="list-inline-item reply-all">
+                <a class="text-muted" href="#" @click.stop.prevent="replyAllModal">
+                  <i class="fa fa-reply-all"></i>
+                  Reply All
                 </a>
               </li>
             </template>
@@ -97,7 +107,7 @@
             <ul class="list-inline ml-3">
               <li class="list-inline-item" :key="user.id" v-for="user in reactionUsers">
                 <nuxt-link :to="`/@${user.username}`" :title="`@${user.username}`">
-                  <avatar :avatar="user.content.avater_image" />
+                  <avatar :avatar="user.content.avatar_image" />
                 </nuxt-link>
               </li>
             </ul>
@@ -252,6 +262,9 @@ export default {
     permalink() {
       return `/@${this.mainPost.user.username}/posts/${this.mainPost.id}`
     },
+    reply_permalink() {
+      return `/posts/${this.mainPost.reply_to}`
+    },
     ...mapState(['user'])
   },
   methods: {
@@ -277,6 +290,9 @@ export default {
     },
     replyModal() {
       bus.$emit('showPostModal', this.mainPost)
+    },
+    replyAllModal() {
+      bus.$emit('showPostModal', this.mainPost, true)
     },
     removeModal() {
       bus.$emit('showRemoveModal', this)
@@ -317,6 +333,7 @@ footer {
 }
 
 .reply,
+.reply-all,
 .remove,
 .source {
   opacity: 0;
@@ -327,6 +344,7 @@ footer {
   &:hover,
   &:focus {
     .reply,
+    .reply-all,
     .remove,
     .source {
       opacity: 1;

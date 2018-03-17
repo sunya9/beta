@@ -34,6 +34,12 @@
                   Reply
                 </dd>
                 <dt class="col-4">
+                  <kbd>Shift+r</kbd>
+                </dt>
+                <dd class="col-8">
+                  Reply All
+                </dd>
+                <dt class="col-4">
                   <kbd>p</kbd>
                 </dt>
                 <dd class="col-8">

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>#{{name}}</h3>
-    <a class="card-link" :href="'https://api.pnut.io/v0/feed/rss/users/' + name + '/posts'"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
+    <a class="card-link" :href="'https://api.pnut.io/v0/feed/rss/posts/tags/' + name"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
     <list :data="data" type="Post" :key="name" />
   </div>
 </template>
