@@ -3,8 +3,8 @@
     <div class="navbar navbar-light navbar fixed-top px-0">
       <div class="container relative">
         <nuxt-link class="mr-auto p-0 navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
-          <img src="~assets/img/beta.svg" width="32" height="32" alt="β" class="d-inline-block align-center mr-2">
-          <span class="d-none d-sm-inline">
+          <img src="~assets/img/beta.svg" width="32" height="32" alt="β" class="align-center mr-2 d-inline-block">
+          <span class="d-none d-sm-inline header-title">
             Beta
           </span>
         </nuxt-link>
@@ -157,5 +157,9 @@ export default {
 
 .relative {
   position: relative;
+}
+.header-title {
+  color: $themeSubText;
+  font-weight: 400;
 }
 </style>

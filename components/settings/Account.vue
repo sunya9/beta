@@ -601,10 +601,7 @@ export default {
   },
   methods: {
     async update() {
-      const { meta } = await api().patch('/users/me', this.submitData)
-      if (meta.code === 200) {
-
-      }
+      await api().patch('/users/me', this.submitData)
     },
     changeCover() {
       this.$refs.coverFileInput.click()
@@ -613,47 +610,48 @@ export default {
       this.$refs.avatarFileInput.click()
     },
     avatarChanged(e) {
-      if(!e.target.files.length) return
+      if (!e.target.files.length) return
       const [file] = e.target.files
       const fr = new FileReader()
-      if(file.size > 2097000) {
+      if (file.size > 2097000) {
         this.avatarMessage = 'Over 2MiB.'
         return
       }
       fr.readAsDataURL(file)
       const fd = new FormData()
       fd.append('avatar', file)
-      api().post('/proxy/users/me/avatar', fd, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Content-Length': file.size
-        }
-      })
-      .then((response) => {
-        this.avatar = response.data.content.avatar_image;
-      })
-      .catch(console.error.bind(console))
+      api()
+        .post('/proxy/users/me/avatar', fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Content-Length': file.size
+          }
+        })
+        .then(response => {
+          this.avatar = response.data.content.avatar_image
+        })
+        .catch(console.error.bind(console))
     },
     coverChanged(e) {
-      if(!e.target.files.length) return
+      if (!e.target.files.length) return
       const [file] = e.target.files
-      const fr = new FileReader()
-      if(file.size > 4194000) {
+      if (file.size > 4194000) {
         this.coverMessage = 'Over 4MiB.'
         return
       }
       const fd = new FormData()
       fd.append('cover', file)
-      api().post('/proxy/users/me/cover', fd, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Content-Length': file.size
-        }
-      })
-      .then((response) => {
-        this.cover = response.data.content.cover_image;
-      })
-      .catch(console.error.bind(console))
+      api()
+        .post('/proxy/users/me/cover', fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Content-Length': file.size
+          }
+        })
+        .then(response => {
+          this.cover = response.data.content.cover_image
+        })
+        .catch(console.error.bind(console))
     }
   },
   components: {

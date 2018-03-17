@@ -30,7 +30,7 @@ export default {
     bus.$off('post', this.add)
   },
   methods: {
-    add(post) {
+    add() {
       this.$refs.list.refresh()
     }
   },

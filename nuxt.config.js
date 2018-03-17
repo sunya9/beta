@@ -120,6 +120,10 @@ module.exports = {
       ssr: false
     },
     {
+      src: '~/plugins/vue-outside',
+      ssr: false
+    },
+    {
       src: '~/plugins/emoji',
       ssr: false
     }
@@ -178,7 +182,8 @@ module.exports = {
         }
         return position
       }
-    }
+    },
+    linkActiveClass: 'active'
   },
   cache: true,
   env: {

@@ -19,7 +19,10 @@ import User from '~/components/User'
 import Post from '~/components/Post'
 import Interaction from '~/components/Interaction'
 import api from '~/plugins/api'
-import { sendPostNotification, sendMentionNotification } from '~/assets/js/notification-wrapper'
+import {
+  sendPostNotification,
+  sendMentionNotification
+} from '~/assets/js/notification-wrapper'
 
 const INTERVAL = 1000 * 60 // 1min
 
@@ -58,7 +61,10 @@ export default {
       return this.items
     },
     mainItem() {
-      return this.type === 'Post' && this.filterItems.filter(item => item.id === this.main)[0]
+      return (
+        this.type === 'Post' &&
+        this.filterItems.filter(item => item.id === this.main)[0]
+      )
     },
     more() {
       return this.meta.more
@@ -127,12 +133,12 @@ export default {
   },
   methods: {
     isTarget(item) {
-      return this.mainItem
-        ? this.mainItem.reply_to === item.id
-        : null
+      return this.mainItem ? this.mainItem.reply_to === item.id : null
     },
     focus() {
-      if (this.selectItem && this.selectItem.$el) { this.selectItem.$el.focus() }
+      if (this.selectItem && this.selectItem.$el) {
+        this.selectItem.$el.focus()
+      }
     },
     scrollDown() {
       this.select++
@@ -143,7 +149,9 @@ export default {
       this.focus()
     },
     reply() {
-      if (this.selectItem) { this.selectItem.replyModal() }
+      if (this.selectItem) {
+        this.selectItem.replyModal()
+      }
     },
     replyAll() {
       if (this.selectItem) { this.selectItem.replyAllModal() }
@@ -153,13 +161,19 @@ export default {
       this.selectItem.removeModal()
     },
     favorite() {
-      if (this.selectItem) { this.selectItem.favoriteToggle() }
+      if (this.selectItem) {
+        this.selectItem.favoriteToggle()
+      }
     },
     repost() {
-      if (this.selectItem) { this.selectItem.repostToggle() }
+      if (this.selectItem) {
+        this.selectItem.repostToggle()
+      }
     },
     goPost() {
-      if (this.selectItem) { this.$router.push(this.selectItem.permalink) }
+      if (this.selectItem) {
+        this.$router.push(this.selectItem.permalink)
+      }
     },
     id(item) {
       if (this.type === 'Interaction') {
@@ -181,15 +195,19 @@ export default {
         this.items = newItems.concat(this.items)
         this.select += newItems.length
         if (this.type === 'Post') {
-          const posts = newItems.filter(post =>
-            this.$store.state.user.id !== post.user.id)
+          const posts = newItems.filter(
+            post => this.$store.state.user.id !== post.user.id
+          )
           if (posts.length > 0) {
             sendPostNotification(posts)
           }
           const mentions = newItems.filter(post => {
             const notMe = this.$store.state.user.id !== post.user.id
-            const includedInMention = post.content.entities && post.content.entities.mentions.some(mention =>
-              mention.id === this.$store.state.user.id)
+            const includedInMention =
+              post.content.entities &&
+              post.content.entities.mentions.some(
+                mention => mention.id === this.$store.state.user.id
+              )
             return notMe && includedInMention
           })
           if (mentions.length > 0) {
@@ -221,7 +239,12 @@ export default {
 @import '~assets/css/mixin';
 
 .list-group {
-  @include no-gutter-xs
+  @include no-gutter-xs;
+}
+
+// workaround for zooming
+.list-group /deep/ .list-group-item:hover {
+  z-index: auto;
 }
 
 .item:only-child,

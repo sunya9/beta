@@ -22,10 +22,10 @@ export default {
     }
   },
   watch: {
-    unified(newVal) {
+    unified() {
       // this.$store.commit('TOGGLE_KEY', 'unified_timeline')
     },
-    directed(newVal) {
+    directed() {
       // this.$store.commit('TOGGLE_KEY', 'hide_directed_posts')
     }
   },
@@ -34,4 +34,3 @@ export default {
   }
 }
 </script>
-
