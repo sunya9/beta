@@ -9,7 +9,7 @@
       </div>
       <div class="row">
         <div
-          v-if="!notLoginIndex && sidebar"
+          v-if="!notLoginIndex"
           :class="{
              'col-md-4 col-lg-3': !notLoginIndex,
           }">
@@ -124,7 +124,7 @@ export default {
       return this.$route.fullPath.match(/^\/search/)
     },
     dropdownItems() {
-      if(!this.sidebar) return []
+      if (!this.sidebar) return []
       const inst = new Vue({
         ...this.sidebar,
         store: this.$store,
