@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'my-4 compose': !compact}" v-if="user">
+  <div :class="{'mb-4 compose': !compact}" v-if="user">
     <div class="card" :class="{'border-0': compact}">
       <form
         class="card-body"
