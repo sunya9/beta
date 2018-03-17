@@ -31,7 +31,7 @@
               <i class="fa fa-database fa-lg"></i>
             </a>
           </nuxt-link>
-          <li class="nav-item dropdown" v-if="user">
+          <li class="nav-item dropdown" id="user-menu" v-if="user">
             <a
               href="#"
               class="nav-link
@@ -82,15 +82,6 @@ import { mapState } from 'vuex'
 import SearchForm from './SearchForm'
 
 export default {
-  data() {
-    return {
-      collapseHeight: 0
-    }
-  },
-  mounted() {
-    const { height } = this.$el.children[0].getBoundingClientRect()
-    this.collapseHeight = `calc(100vh - ${height}px)`
-  },
   computed: mapState(['user']),
   components: {
     SearchForm

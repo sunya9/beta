@@ -14,7 +14,7 @@
               @update:compiledTextCount="updateCompiledTextLength"
               @submit="submit"
               :disabled="!!promise" />
-            <a href="#" class="open-emoji-picker text-dark" @click.stop="toggleEmojiPalette">
+            <a href="#" class="open-emoji-picker text-dark" @click.prevent.stop="toggleEmojiPalette">
               <i class="fa fa-lg fa-smile-o"></i>
             </a>
             <picker v-if="mounted" set="emojione" class="emoji-picker" @click="addEmoji" v-show="showEmojiPicker" v-on-click-outside="closeEmojiPalette" />
@@ -135,11 +135,22 @@ export default {
         this.rawText = `@${this.replyTarget.user.username} `
       }
       if (this.replyAll) {
-        let mentions = [this.replyTarget.user.username.toLowerCase()];
-        for (var i = this.replyTarget.content.entities.mentions.length -1; i >= 0; i--) {
-          var mention = this.replyTarget.content.entities.mentions[i].text.toLowerCase();
-          if (mentions.indexOf(mention) == -1 && mention !== this.user.username.toLowerCase()) {
-            this.rawText += `@${this.replyTarget.content.entities.mentions[i].text} `
+        let mentions = [this.replyTarget.user.username.toLowerCase()]
+        for (
+          var i = this.replyTarget.content.entities.mentions.length - 1;
+          i >= 0;
+          i--
+        ) {
+          var mention = this.replyTarget.content.entities.mentions[
+            i
+          ].text.toLowerCase()
+          if (
+            mentions.indexOf(mention) == -1 &&
+            mention !== this.user.username.toLowerCase()
+          ) {
+            this.rawText += `@${
+              this.replyTarget.content.entities.mentions[i].text
+            } `
             mentions.push(mention)
           }
         }

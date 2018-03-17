@@ -5,15 +5,16 @@
     }"
     >
     <nuxt-link :to="`/@${message.user.username}`" class="mt-4">
-      <img :src="message.user.content.avatar_image.link"
-        alt=""
-         class="d-flex rounded-circle"
-         width="32" height="32"
-         :class="{
-           'mr-4': !me,
-           'ml-4': me
-         }"
-         >
+      <avatar :avatar="message.user.content.avatar_image"
+        class="d-flex"
+        :class="{
+          'mr-4': !me,
+          'ml-4': me
+        }"
+        :alt="message.user.username"
+        size="32"
+        max-size="32"
+      />
     </nuxt-link>
     <div class="media-body"
       >
@@ -62,6 +63,7 @@ import { mapState } from 'vuex'
 import moment from 'moment'
 import emojione from 'emojione'
 import cheerio from 'cheerio'
+import Avatar from '~/components/Avatar'
 
 export default {
   props: ['message'],
@@ -126,6 +128,9 @@ export default {
         this.date = moment(this.message.created_at).fromNow(true)
       }
     }
+  },
+  components: {
+    Avatar
   }
 }
 </script>
