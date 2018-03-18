@@ -34,8 +34,7 @@
           <li class="nav-item dropdown" id="user-menu" v-if="user">
             <a
               href="#"
-              class="nav-link
-              text-primary"
+              class="nav-link text-primary"
               id="navbarDropdownMenuLink"
               data-toggle="dropdown"
               aria-haspopup="true"
