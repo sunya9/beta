@@ -191,5 +191,28 @@ module.exports = {
     npm_package_homepage,
     last_modified: lastModified
   },
-  modules: ['@nuxtjs/pwa']
+  modules: ['@nuxtjs/pwa'],
+  workbox: {
+    dev: true,
+    runtimeCaching: [
+      {
+        urlPattern: 'https://unpkg.com/emoji-datasource-emojione*',
+        handler: 'cacheFirst',
+        method: 'GET'
+      },
+      {
+        urlPattern: '/proxy/*',
+        handler: 'staleWhileRevalidate'
+      }
+    ]
+  },
+  manifest: {
+    name: 'Beta'
+  },
+  icon: {
+    iconSrc: 'static/img/beta.png'
+  },
+  meta: {
+    theme_color: '#d36854'
+  }
 }
