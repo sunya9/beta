@@ -44,10 +44,17 @@
                 <time :class="{ 'dt-published': detail }" :datetime="absDate"> {{date}}</time>
               </nuxt-link>
             </li>
-            <template v-if="!viewOnly && post.reply_to">
+            <template v-if="post.reply_to">
               <li class="list-inline-item">
                 <nuxt-link :to="reply_permalink" class="text-muted" v-bind:class="{ 'u-in-reply-to': detail }" title="In Reply To">
                   <i class="fa fa-comments"></i>
+                </nuxt-link>
+              </li>
+            </template>
+            <template v-else-if="post.counts.replies">
+              <li class="list-inline-item">
+                <nuxt-link :to="permalink" class="text-muted" title="Thread Starter">
+                  <i class="fa fa-comments-o"></i>
                 </nuxt-link>
               </li>
             </template>
