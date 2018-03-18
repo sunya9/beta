@@ -70,6 +70,7 @@ module.exports = {
         }
       }
     },
+    extractCSS: true,
     plugins: [
       new ProvidePlugin({
         $: 'jquery',
