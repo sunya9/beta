@@ -15,7 +15,8 @@
             tag="li"
             class="nav-item"
             v-if="user"
-            id="nav-messages">
+            id="nav-messages"
+            title="Messages">
             <a class="nav-link">
               <i class="fa fa-envelope"></i>
             </a>
@@ -23,6 +24,7 @@
           <nuxt-link
             class="nav-item"
             id="nav-files"
+            title="Files"
             tag="li"
             v-if="user"
             to="/files"
