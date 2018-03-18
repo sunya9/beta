@@ -190,5 +190,6 @@ module.exports = {
   env: {
     npm_package_homepage,
     last_modified: lastModified
-  }
+  },
+  modules: ['@nuxtjs/pwa']
 }
