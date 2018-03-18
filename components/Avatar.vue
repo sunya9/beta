@@ -16,7 +16,8 @@ export default {
       type: Object,
       validator(obj) {
         return 'link' in obj
-      }
+      },
+      required: true
     },
     size: {
       type: [String, Number],
