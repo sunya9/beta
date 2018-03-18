@@ -96,7 +96,7 @@
     "passport-mocked": "^1.2.0",
     "prettier": "^1.10.2",
     "prettier-eslint-cli": "^4.7.1",
-    "puppeteer": "^0.13.0",
+    "puppeteer": "^1.2.0",
     "scmp": "^2.0.0",
     "should": "^13.1.0",
     "sinon": "^4.0.1",
