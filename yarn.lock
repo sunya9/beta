@@ -4508,7 +4508,7 @@ generate-object-property@^1.1.0:
   dependencies:
     is-property "^1.0.0"
 
-get-caller-file@^1.0.1:
+get-caller-file@^1.0.1, get-caller-file@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
 
@@ -7233,6 +7233,12 @@ mocha@^5.0.0:
     mkdirp "0.5.1"
     supports-color "4.4.0"
 
+mock-require@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/mock-require/-/mock-require-3.0.1.tgz#d5efd834c0da0cec73c7b67763d8167d32d851de"
+  dependencies:
+    get-caller-file "^1.0.2"
+
 module-deps@^4.0.8:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/module-deps/-/module-deps-4.1.1.tgz#23215833f1da13fd606ccb8087b44852dcb821fd"
@@ -8126,6 +8132,12 @@ pascalcase@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
 
+passport-mocked@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/passport-mocked/-/passport-mocked-1.2.0.tgz#7e6050f29abe4360ec56130b02b150be387d0f86"
+  dependencies:
+    passport "0.3.0"
+
 passport-oauth1@1.x.x:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/passport-oauth1/-/passport-oauth1-1.1.0.tgz#a7de988a211f9cf4687377130ea74df32730c918"
@@ -8159,6 +8171,13 @@ passport-pnut@^0.1.2:
 passport-strategy@1.x.x:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
+
+passport@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/passport/-/passport-0.3.0.tgz#14c151b0eb6795aa9335239827f548d5f94c7046"
+  dependencies:
+    passport-strategy "1.x.x"
+    pause "0.0.1"
 
 passport@^0.4.0:
   version "0.4.0"

@@ -1,5 +1,7 @@
 import request from 'supertest'
 import koaApp from '../../app'
+import mock from 'mock-require'
+mock('passport-pnut', 'passport-mocked')
 
 export const app = request()
 export class ServerHepler {
