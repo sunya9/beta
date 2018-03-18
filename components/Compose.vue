@@ -265,7 +265,7 @@ export default {
       this.$refs.file.value = ''
     },
     addEmoji(emoji) {
-      this.$refs.textarea.insertText(emoji.colons)
+      this.$refs.textarea.insertText(emoji.native)
       this.closeEmojiPalette()
     },
     showEmojiPalette() {
