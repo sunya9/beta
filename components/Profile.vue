@@ -43,6 +43,7 @@
               </h3>
               <p v-if="profile.verified" class="text-center text-md-left">
                 <a :href="profile.verified.link" class="u-url" rel="me">{{profile.verified.domain}}</a>
+                &nbsp;<i class="fa fa-check-circle-o text-success"></i>
               </p>
             </div>
           </div>
@@ -58,7 +59,7 @@
       </div>
       <p v-if="html" class="description card-text w-100 mt-3 mt-sm-0 p-note" @click="clickPostLink" v-html="html"></p>
     </div>
-    <div class="card-body d-flex justify-content-between justify-content-md-end">
+    <div class="card-body d-flex justify-content-between justify-content-md-end" id="profile-counts">
       <span class="card-link" append>{{profile.counts.posts}} Posts</span>
       <nuxt-link v-if="user" class="card-link" to="follows" append>{{profile.counts.following}} Follows</nuxt-link>
       <span v-if="!user" class="card-link" append>{{profile.counts.following}} Follows</span>
