@@ -29,12 +29,8 @@ describe('Header component', () => {
   })
 
   it('Hide messages link when not logged in', () => {
-    try {
-      const wrapper = mount(Header, { store, router })
-      expect(wrapper.contains('#nav-messages')).is.false
-    } catch (e) {
-      console.error(e)
-    }
+    const wrapper = mount(Header, { store, router })
+    expect(wrapper.contains('#nav-messages')).is.false
   })
 
   it('Show messages link when logged in', async () => {

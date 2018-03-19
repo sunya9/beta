@@ -4,7 +4,7 @@
   >
     <div class="media">
       <avatar :avatar="channel.owner.content.avatar_image"
-        :width="32" :height="32"
+        size="32"
         class="mr-2"
       />
       <div class="media-body" style="overflow: hidden">

@@ -30,7 +30,7 @@
             class="d-flex align-items-center mb-4"
             :class="{
               'justify-content-between': selectedDropdownItem,
-              'justify-content-end': !selectedDropdownItem
+              'justify-content-end  mb-md-0': !selectedDropdownItem
             }"
           >
             <div class="d-flex align-items-center" v-if="selectedDropdownItem">
