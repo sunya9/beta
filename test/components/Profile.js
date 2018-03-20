@@ -16,9 +16,7 @@ function baseProfile(...obj) {
           link: 'https://example.com/avatar.png',
           width: 128,
           height: 128
-        },
-        html:
-          '<span><span data-mention-name="foo">@foo</span> <span data-tag-name="bar">#bar</span> <a href="https://example.com">Example</a> Lorem ipsum</span>'
+        }
       },
       counts: {
         posts: 1,
@@ -70,26 +68,17 @@ describe('Profile component', () => {
     it('Hidden a shield badge when not verified domain', () => {
       expect(wrapper.contains('#profile-domain')).to.be.false
     })
-    it('Show bio when content.html exists', () => {
+    it('Show bio when content.text exists', () => {
+      wrapper.setProps({
+        profile: baseProfile({ content: { text: 'foo' } })
+      })
       expect(wrapper.contains('.description')).to.be.true
     })
-    it('Hidden bio when contant.html does not exist', () => {
+    it('Hidden bio when profile.text does not exist', () => {
       wrapper.setProps({
-        profile: baseProfile({ content: { html: '' } })
+        profile: baseProfile()
       })
       expect(wrapper.contains('.description')).to.be.false
-    })
-    it('bio convert to appropriate html', async () => {
-      const $desc = wrapper.vm.$el.querySelector('.description')
-      expect($desc.querySelector('a[href^="/@"]').textContent).to.have.string(
-        '@foo'
-      )
-      expect(
-        $desc.querySelector('a[href^="/tags"]').textContent
-      ).to.have.string('#bar')
-      expect($desc.querySelector('a[href^="http"]').textContent).to.have.string(
-        'Example'
-      )
     })
   })
   describe('counts', () => {
