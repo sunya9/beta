@@ -22,7 +22,9 @@
             <follow-button :initial-state="user.you_follow" :user-id="user.id" />
           </div>
         </div>
-        <p @click="clickPostLink" v-html="html"></p>
+        <p v-if="user.content">
+          <entity-text :content="user.content" />
+        </p>
       </div>
     </div>
   </li>
@@ -31,9 +33,8 @@
 <script>
 import FollowButton from '~/components/FollowButton'
 import Avatar from '~/components/Avatar'
-import cheerio from 'cheerio'
-import emojione from 'emojione'
 import focus from '~/assets/js/focus'
+import EntityText from '~/components/EntityText'
 
 export default {
   mixins: [focus],
@@ -42,38 +43,14 @@ export default {
     relation() {
       return this.data.follows_you ? 'Follows you' : ''
     },
-    html() {
-      if (this.user.content && this.user.content.html) {
-        const $ = cheerio.load(this.user.content.html)
-        $('a').attr('target', '_new')
-        $('span[data-mention-name]').replaceWith(function() {
-          const name = $(this).data('mention-name')
-          const text = $(this).text()
-          return `<a href="/@${name}">${text}</a>`
-        })
-        $('span[data-tag-name]').replaceWith(function() {
-          const tag = $(this).data('tag-name')
-          const text = $(this).text()
-          return `<a href="/tags/${tag}">${text}</a>`
-        })
-        return emojione.toImage($('span').html())
-      }
-    },
     user() {
       return this.data
     }
   },
-  methods: {
-    clickPostLink(e) {
-      const a = e.target
-      if (!a.href || !a.getAttribute('href').startsWith('/')) return
-      e.preventDefault()
-      this.$router.push(a.pathname)
-    }
-  },
   components: {
     FollowButton,
-    Avatar
+    Avatar,
+    EntityText
   }
 }
 </script>
