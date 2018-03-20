@@ -2,12 +2,15 @@
   <header>
     <div class="navbar navbar-light navbar fixed-top px-0">
       <div class="container relative">
-        <nuxt-link class="mr-auto p-0 navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
+        <nuxt-link class="p-0 navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
           <img src="~assets/img/beta.svg" width="32" height="32" alt="β" class="align-center mr-2 d-inline-block">
           <span class="d-none d-sm-inline header-title">
             Beta
           </span>
         </nuxt-link>
+        <span class="navbar-text mr-auto">
+          <a href="#" v-if="!online" class="badge badge-secondary" @click="showConnection">offline</a>
+        </span>
         <search-form id="search-form" class="mr-md-4 order-3 order-md-1" />
         <ul class="order-2 navbar-nav d-flex flex-row align-items-stretch">
           <nuxt-link
@@ -82,8 +85,35 @@
 import { mapState } from 'vuex'
 import SearchForm from './SearchForm'
 
+const networkEvents = ['online', 'offline']
+
 export default {
   computed: mapState(['user']),
+  data() {
+    return {
+      online: true
+    }
+  },
+  mounted() {
+    this.online = navigator.onLine
+    networkEvents.forEach(event =>
+      window.addEventListener(event, this.connectionChanged)
+    )
+  },
+  beforeDestroy() {
+    networkEvents.forEach(event =>
+      window.removeEventListener(event, this.connectionChanged)
+    )
+  },
+  methods: {
+    connectionChanged() {
+      this.online = navigator.onLine
+      if (!this.online) this.showConnection()
+    },
+    showConnection() {
+      this.$toast.show(`You are ${this.online ? 'on' : 'off'}line`).goAway(2000)
+    }
+  },
   components: {
     SearchForm
   }
