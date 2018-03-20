@@ -1,8 +1,5 @@
 <template>
   <div>
-    <h3 class="card-title mb-4">
-      Profile
-    </h3>
     <div>
       <div class="row">
         <div class="col-sm-12 col-md-3">

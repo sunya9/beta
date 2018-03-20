@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="card-title">Notifications</h3>
     <custom-checkbox v-model="notification" :disabled="disabledNotification">
       Enable notification <span :class="`text-${error.type}`" v-if="error">{{error.message}}</span>
     </custom-checkbox>
@@ -50,7 +49,8 @@ export default {
   },
   methods: {
     checkPermission() {
-      this.disabledNotification = !('Notification' in window) || Notification.permission === 'denied'
+      this.disabledNotification =
+        !('Notification' in window) || Notification.permission === 'denied'
       if (!('Notification' in window)) {
         this.error = {
           type: 'warning',
@@ -59,10 +59,13 @@ export default {
       } else if (Notification.permission === 'denied') {
         this.error = {
           type: 'danger',
-          message: 'You have to unblock notification from your browser settings.'
+          message:
+            'You have to unblock notification from your browser settings.'
         }
       }
-      this.notification = !this.disabledNotification && localStorage.getItem('notification') === 'true'
+      this.notification =
+        !this.disabledNotification &&
+        localStorage.getItem('notification') === 'true'
     }
   },
   components: {
@@ -70,4 +73,3 @@ export default {
   }
 }
 </script>
-

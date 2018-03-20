@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="card-title">Stream</h3>
     <custom-checkbox v-model="directed" :disabled="true">
       Hide posts directed at people you do not follow
     </custom-checkbox>
