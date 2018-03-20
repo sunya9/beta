@@ -76,9 +76,7 @@ export default {
   computed: {
     html() {
       if (!this.message.is_deleted) {
-        const $ = cheerio.load(this.message.content.html, {
-          decodeEntities: false
-        })
+        const $ = cheerio.load(this.message.content.html)
         $('a').attr('target', '_new')
         $('span[data-mention-name]').replaceWith(function() {
           const name = $(this).data('mention-name')

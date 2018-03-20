@@ -211,9 +211,7 @@ export default {
     },
     html() {
       if (!this.post.is_deleted) {
-        const $ = cheerio.load(this.mainPost.content.html, {
-          decodeEntities: false
-        })
+        const $ = cheerio.load(this.mainPost.content.html)
         $('a').attr('target', '_new')
         $('span[data-mention-name]').replaceWith(function() {
           const name = $(this).data('mention-name')
