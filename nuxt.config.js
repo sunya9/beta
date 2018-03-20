@@ -61,15 +61,6 @@ module.exports = {
 
   // webpack build setttings
   build: {
-    extend(config, { isDev, isClient }) {
-      if (!isDev) {
-        if (isClient) {
-          config.plugins = config.plugins.filter(
-            plugin => plugin.constructor.name !== 'UglifyJsPlugin'
-          )
-        }
-      }
-    },
     extractCSS: true,
     plugins: [
       new ProvidePlugin({
@@ -113,10 +104,6 @@ module.exports = {
     },
     {
       src: '~/plugins/mousetrap',
-      ssr: false
-    },
-    {
-      src: '~/plugins/ga',
       ssr: false
     },
     {
@@ -194,8 +181,20 @@ module.exports = {
     npm_package_homepage,
     last_modified: lastModified
   },
-  modules: ['@nuxtjs/pwa'],
+  modules: [
+    '@nuxtjs/pwa',
+    '@nuxtjs/component-cache',
+    '@nuxtjs/toast',
+    '@nuxtjs/google-analytics'
+  ],
+  'google-analytics': {
+    id: 'UA-10104011-16'
+  },
+  toast: {
+    position: 'bottom-left'
+  },
   workbox: {
+    dev: true,
     runtimeCaching: [
       {
         urlPattern: 'https://cdn.jsdelivr.net/emojione/.*',
@@ -209,15 +208,11 @@ module.exports = {
       },
       {
         urlPattern: '/proxy/*',
-        handler: 'networkFirst'
-      },
-      {
-        urlPattern: 'https://.*.cloudfront.net/avatar/.*',
-        handler: 'cacheFirst',
+        handler: 'networkFirst',
         method: 'GET'
       },
       {
-        urlPattern: 'https://.*.cloudfront.net/cover/.*',
+        urlPattern: 'https://.*.cloudfront.net/*',
         handler: 'cacheFirst',
         method: 'GET'
       }

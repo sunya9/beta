@@ -28,7 +28,10 @@
     ]
   },
   "dependencies": {
+    "@nuxtjs/component-cache": "^1.1.1",
+    "@nuxtjs/google-analytics": "^2.0.2",
     "@nuxtjs/pwa": "^2.0.8",
+    "@nuxtjs/toast": "^3.0.0",
     "async-busboy": "^0.6.2",
     "axios": "^0.17.1",
     "bootstrap": "^4.0.0",
