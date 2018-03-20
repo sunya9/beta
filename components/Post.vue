@@ -22,10 +22,15 @@
           </nuxt-link>
         </h6>
         <div class="d-flex flex-wrap flex-sm-nowrap">
-          <p @click="clickPostLink" v-html="html" :class="{
+          <p @click="clickPostLink" :class="{
             'mb-0': preview,
             'e-content p-name': detail
           }">
+            <entity-text
+              :content="mainPost.content"
+              v-if="mainPost.content">
+              [Post deleted]
+            </entity-text>
           </p>
           <div v-if="thumbs.length" class="mb-2 d-flex mr-auto ml-auto mr-sm-2 flex-wrap flex-sm-nowrap justify-content-sm-end">
             <thumb class="mx-1" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
@@ -148,15 +153,14 @@
 
 <script>
 import moment from 'moment'
-import emojione from 'emojione'
 import ActionButton from '~/components/ActionButton'
 import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
 import { mapState } from 'vuex'
 import api from '~/plugins/api'
-import cheerio from 'cheerio'
 import bus from '~/assets/js/bus'
 import focus from '~/assets/js/focus'
+import EntityText from '~/components/EntityText'
 
 moment.updateLocale('en', {
   relativeTime: {
@@ -208,25 +212,6 @@ export default {
             return res
           }, [])
       )
-    },
-    html() {
-      if (!this.post.is_deleted) {
-        const $ = cheerio.load(this.mainPost.content.html)
-        $('a').attr('target', '_new')
-        $('span[data-mention-name]').replaceWith(function() {
-          const name = $(this).data('mention-name')
-          const text = $(this).text()
-          return `<a href="/@${name}">${text}</a>`
-        })
-        $('span[data-tag-name]').replaceWith(function() {
-          const tag = $(this).data('tag-name')
-          const text = $(this).text()
-          return `<a href="/tags/${tag}">${text}</a>`
-        })
-        return emojione.toImage($('span').html())
-      } else {
-        return '[Post deleted]'
-      }
     },
     thumbs() {
       if (!this.mainPost.content) return []
@@ -323,7 +308,8 @@ export default {
   components: {
     ActionButton,
     Thumb,
-    Avatar
+    Avatar,
+    EntityText
   }
 }
 </script>

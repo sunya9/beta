@@ -40,8 +40,10 @@
           :class="{
             'order-2 me': me,
             other: !me
-          }"
-          v-html="html">
+          }">
+          <entity-text :content="message.content">
+            [Message deleted]
+          </entity-text>
         </p>
         <footer
           class="align-self-end"
@@ -61,9 +63,8 @@
 <script>
 import { mapState } from 'vuex'
 import moment from 'moment'
-import emojione from 'emojione'
-import cheerio from 'cheerio'
 import Avatar from '~/components/Avatar'
+import EntityText from '~/components/EntityText'
 
 export default {
   props: ['message'],
@@ -74,25 +75,6 @@ export default {
     }
   },
   computed: {
-    html() {
-      if (!this.message.is_deleted) {
-        const $ = cheerio.load(this.message.content.html)
-        $('a').attr('target', '_new')
-        $('span[data-mention-name]').replaceWith(function() {
-          const name = $(this).data('mention-name')
-          const text = $(this).text()
-          return `<a href="/@${name}">${text}</a>`
-        })
-        $('span[data-tag-name]').replaceWith(function() {
-          const tag = $(this).data('tag-name')
-          const text = $(this).text()
-          return `<a href="/tags/${tag}">${text}</a>`
-        })
-        return emojione.toImage($('span').html())
-      } else {
-        return '[Post deleted]'
-      }
-    },
     me() {
       return this.user && this.user.id === this.message.user.id
     },
@@ -128,7 +110,8 @@ export default {
     }
   },
   components: {
-    Avatar
+    Avatar,
+    EntityText
   }
 }
 </script>

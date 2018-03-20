@@ -62,7 +62,11 @@
           </div>
         </div>
       </div>
-      <p v-if="html" class="description card-text w-100 mt-3 mt-sm-0 p-note" @click="clickPostLink" v-html="html"></p>
+      <p v-if="profile.content"
+        class="description card-text w-100 mt-3 mt-sm-0 p-note"
+        >
+        <entity-text :content="profile.content" />
+      </p>
     </div>
     <div class="card-body d-flex justify-content-between justify-content-md-end" id="profile-counts">
       <span class="card-link" append>{{profile.counts.posts}} Posts</span>
@@ -78,9 +82,8 @@
 import FollowButton from '~/components/FollowButton'
 import Thumb from '~/components/Thumb'
 import Avatar from '~/components/Avatar'
-import cheerio from 'cheerio'
-import emojione from 'emojione'
 import { mapState } from 'vuex'
+import EntityText from '~/components/EntityText'
 
 export default {
   props: ['profile'],
@@ -100,23 +103,6 @@ export default {
     ...mapState(['user']),
     relation() {
       return this.profile.follows_you ? 'Follows you' : ''
-    },
-    html() {
-      if (this.profile.content.html) {
-        const $ = cheerio.load(this.profile.content.html)
-        $('a').attr('target', '_new')
-        $('span[data-mention-name]').replaceWith(function() {
-          const name = $(this).data('mention-name')
-          const text = $(this).text()
-          return `<a href="/@${name}">${text}</a>`
-        })
-        $('span[data-tag-name]').replaceWith(function() {
-          const tag = $(this).data('tag-name')
-          const text = $(this).text()
-          return `<a href="/tags/${tag}">${text}</a>`
-        })
-        return emojione.toImage($('span').html())
-      }
     }
   },
   methods: {
@@ -130,7 +116,8 @@ export default {
   components: {
     FollowButton,
     Thumb,
-    Avatar
+    Avatar,
+    EntityText
   }
 }
 </script>
