@@ -23,13 +23,18 @@ body {
 
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.4s;
+  transition: all 0.1s;
 }
 
+.page-enter {
+  transform: translateY(100px);
+}
+.page-leave-active {
+  transform: translateY(-100px);
+}
 .page-enter,
 .page-leave-active {
   opacity: 0;
-  transform: translateY(100px);
 }
 
 .emojione {
@@ -77,7 +82,8 @@ body.dark .dropdown-menu {
 body.dark .dropdown-item {
   color: #d5d5d5;
 }
-body.dark .dropdown-item:hover, .dropdown-item:focus {
+body.dark .dropdown-item:hover,
+.dropdown-item:focus {
   background-color: #1a1a1a;
 }
 

@@ -210,7 +210,7 @@ export default {
 
 .slide-enter-active,
 .slide-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.1s ease;
 }
 .slide-enter,
 .slide-leave-to {
