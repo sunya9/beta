@@ -40,7 +40,7 @@
                   </span>
                   <small v-if="profile.name" class="ml-sm-2 d-block d-sm-inline text-muted p-name">
                     {{profile.name}}
-                    <span v-if="profile.badge" class="ml-sm-1">
+                    <span v-if="profile.badge" class="ml-1">
                       <i class="fa fa-shield"></i>
                     </span>
                   </small>
@@ -48,7 +48,7 @@
               </h3>
               <p v-if="profile.verified" class="text-center text-md-left" id="profile-domain">
                 <a :href="profile.verified.link" class="u-url" rel="me">{{profile.verified.domain}}</a>
-                <i class="ml-sm-1 fa fa-check-circle-o text-success"></i>
+                <i class="ml-1 fa fa-check-circle-o text-success"></i>
               </p>
             </div>
           </div>
