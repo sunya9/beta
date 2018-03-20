@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <div class="card">
-      <div class="card-body">
-        <stream />
-      </div>
-    </div>
-  </div>
+  <stream />
 </template>
 
 <script>

@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <div class="card">
-      <div class="card-body">
-        <notifications />
-      </div>
-    </div>
-  </div>
+  <notifications />
 </template>
 
 <script>

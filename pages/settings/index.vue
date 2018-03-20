@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <div class="card">
-      <div class="card-body">
-        <account :account="account" />
-      </div>
-    </div>
-  </div>
+  <account :account="account" />
 </template>
 
 <script>
