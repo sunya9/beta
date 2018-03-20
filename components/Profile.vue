@@ -62,7 +62,7 @@
           </div>
         </div>
       </div>
-      <p v-if="profile.content"
+      <p v-if="profile.content.text"
         class="description card-text w-100 mt-3 mt-sm-0 p-note"
         >
         <entity-text :content="profile.content" />
