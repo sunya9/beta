@@ -95,7 +95,6 @@ module.exports = {
       '~/plugins/vue-infinite.js',
       '~/plugins/emoji.js',
       'moment',
-      'cheerio',
       '~/components/Post.vue',
       '~/components/List.vue'
     ]
@@ -126,6 +125,10 @@ module.exports = {
     },
     {
       src: '~/plugins/emoji',
+      ssr: false
+    },
+    {
+      src: '~/plugins/vue-emojify',
       ssr: false
     }
   ],
