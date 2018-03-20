@@ -28,6 +28,7 @@
           class="col-12">
           <h3
             class="d-flex align-items-center mb-4"
+            v-if="!notLoginIndex"
             :class="{
               'justify-content-between': selectedDropdownItem,
               'justify-content-end  mb-md-0': !selectedDropdownItem
