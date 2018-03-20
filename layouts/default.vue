@@ -137,7 +137,9 @@ export default {
       return this.dropdownItems.filter(item => item.url === this.$route.path)[0]
     },
     routeName() {
-      return this.$route.name.match(/^[\w@]+/)[0]
+      if (!this.$route.name) return null
+      const matcher = this.$route.name.match(/^[\w@]*/)
+      return matcher ? matcher[0] : ''
     },
     sidebar() {
       const name = this.routeName
@@ -146,7 +148,8 @@ export default {
         about: 'AboutSidebar',
         files: 'FilesSidebar',
         search: 'SearchSidebar',
-        messages: null
+        messages: null,
+        null: null
       }
       const componentName = map[name] || (map[name] !== null && 'AppSidebar')
       return this.$options.components[componentName]
