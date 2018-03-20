@@ -193,16 +193,30 @@ module.exports = {
   },
   modules: ['@nuxtjs/pwa'],
   workbox: {
-    dev: true,
     runtimeCaching: [
       {
-        urlPattern: 'https://unpkg.com/emoji-datasource-emojione*',
+        urlPattern: 'https://cdn.jsdelivr.net/emojione/.*',
+        handler: 'cacheFirst',
+        method: 'GET'
+      },
+      {
+        urlPattern: 'https://unpkg.com/emoji-datasource-emojione.*',
         handler: 'cacheFirst',
         method: 'GET'
       },
       {
         urlPattern: '/proxy/*',
-        handler: 'staleWhileRevalidate'
+        handler: 'networkFirst'
+      },
+      {
+        urlPattern: 'https://.*.cloudfront.net/avatar/.*',
+        handler: 'cacheFirst',
+        method: 'GET'
+      },
+      {
+        urlPattern: 'https://.*.cloudfront.net/cover/.*',
+        handler: 'cacheFirst',
+        method: 'GET'
       }
     ]
   },
