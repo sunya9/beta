@@ -7,7 +7,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon -w index.js -w nuxt.config.js index.js",
-    "build": "nuxt build",
+    "build": "cross-env NODE_ENV=production nuxt build",
     "start": "cross-env NODE_ENV=production node index.js",
     "precommit": "lint-staged",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
@@ -22,10 +22,7 @@
       "eslint --ext .js,.vue .",
       "git add"
     ],
-    "*.{png,jpeg,jpg,gif,svg}": [
-      "imagemin-lint-staged",
-      "git add"
-    ]
+    "*.{png,jpeg,jpg,gif,svg}": ["imagemin-lint-staged", "git add"]
   },
   "dependencies": {
     "@nuxtjs/component-cache": "^1.1.1",
