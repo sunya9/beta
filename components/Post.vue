@@ -161,6 +161,7 @@ import api from '~/plugins/api'
 import bus from '~/assets/js/bus'
 import focus from '~/assets/js/focus'
 import EntityText from '~/components/EntityText'
+import { getImageURLs } from '~/assets/js/util'
 
 moment.updateLocale('en', {
   relativeTime: {
@@ -214,32 +215,7 @@ export default {
       )
     },
     thumbs() {
-      if (!this.mainPost.content) return []
-      const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
-      const photos = []
-      const linkPhotos = this.mainPost.content.entities.links
-        .filter(link => imgExt.test(link.link))
-        .map(link => {
-          return {
-            original: link.link,
-            thumb: link.link
-          }
-        })
-      Array.prototype.push.apply(photos, linkPhotos)
-      if (this.mainPost.raw) {
-        const embedPhotos = this.mainPost.raw
-          .filter(r => {
-            return r.type === 'io.pnut.core.oembed' && r.value.type === 'photo'
-          })
-          .map(r => {
-            return {
-              original: r.value.url,
-              thumb: r.value.url
-            }
-          })
-        Array.prototype.push.apply(photos, embedPhotos)
-      }
-      return photos
+      return getImageURLs(this.mainPost)
     },
     absDate() {
       return moment(this.mainPost.created_at).format()
