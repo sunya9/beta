@@ -5,10 +5,10 @@
       <div class="col-md-8">
         <h2 class="h4">Create a channel</h2>
         <message-compose
-          create-cannel
           @submit="createChannel"
           prevent-handle
           v-model="message"
+          :disabled="!channelUsersStr"
         >
           <div class="form-group" slot="header">
             <input
