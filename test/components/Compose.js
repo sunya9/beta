@@ -100,14 +100,6 @@ describe('Compose component', () => {
     })
   })
   describe('methods', () => {
-    describe('updateCompiledText', () => {
-      it('arg equals compiledText', () => {
-        vm.updateCompiledText('foo')
-        expect(vm.compiledText).is.equal('foo')
-        vm.updateCompiledText('bar')
-        expect(vm.compiledText).is.equal('bar')
-      })
-    })
     describe('updateCompiledTextLength', () => {
       it('arg equals compiledTextLength', () => {
         vm.updateCompiledTextLength(0)
