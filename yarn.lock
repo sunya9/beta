@@ -3452,13 +3452,13 @@ email-validator@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/email-validator/-/email-validator-1.1.1.tgz#b07f3be7bac1dc099bc43e75f6ae399f552d5a80"
 
+emoji-datasource-twitter@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/emoji-datasource-twitter/-/emoji-datasource-twitter-4.0.3.tgz#df7c09d9a02f0f075ee1789cbb0346c64bdf461c"
+
 emoji-mart-vue@^2.4.5:
   version "2.4.5"
   resolved "https://registry.yarnpkg.com/emoji-mart-vue/-/emoji-mart-vue-2.4.5.tgz#6ace6b76222682ec1d0cf61d121ccc2bd880c108"
-
-emojione@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/emojione/-/emojione-3.1.2.tgz#991e30c80db4b1cf15eacb257620a7edce9c6ef4"
 
 emojis-list@^2.0.0:
   version "2.1.0"
@@ -11441,9 +11441,9 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
 
-twemoji@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/twemoji/-/twemoji-2.5.0.tgz#518807f7cdfccb200f24168465284406e7ac5b56"
+twemoji@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/twemoji/-/twemoji-2.5.1.tgz#296647c6163c7f047458871c2aebe25ea8ffe834"
 
 type-check@~0.3.2:
   version "0.3.2"

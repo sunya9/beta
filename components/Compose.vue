@@ -10,14 +10,15 @@
               ref="textarea"
               class="form-control textarea"
               v-model="rawText"
-              @update:compiledText="updateCompiledText"
               @update:compiledTextCount="updateCompiledTextLength"
               @submit="submit"
               :disabled="!!promise" />
             <a href="#" class="open-emoji-picker text-dark" @click.prevent.stop="toggleEmojiPalette">
               <i class="fa fa-lg fa-smile-o"></i>
             </a>
-            <picker v-if="mounted" set="emojione" class="emoji-picker" @click="addEmoji" v-show="showEmojiPicker" v-on-click-outside="closeEmojiPalette" />
+            <no-ssr>
+              <picker :background-image-fn="getSheet" set="twitter" class="emoji-picker" @click="addEmoji" v-show="showEmojiPicker" v-on-click-outside="closeEmojiPalette" />
+            </no-ssr>
           </div>
           <div class="form-group" v-show="photos.length">
             <transition-group tag="div" name="photos" class="d-flex flex-wrap justify-cotnent align-items-center">
@@ -63,6 +64,7 @@ import Thumb from '~/components/Thumb'
 import axios from 'axios'
 import { Picker } from '~/plugins/emoji'
 import RichTextarea from '~/components/RichTextarea'
+import emojiSource from 'emoji-datasource-twitter/img/twitter/sheets/64.png'
 
 export default {
   props: {
@@ -84,8 +86,6 @@ export default {
       error: null,
       rawText: this.initialText,
       showEmojiPicker: false,
-      mounted: false,
-      compiledText: '',
       compiledTextLength: 0
     }
   },
@@ -125,7 +125,6 @@ export default {
     ...mapState(['user'])
   },
   mounted() {
-    this.mounted = true
     if (this.focus) {
       this.setFocus()
     }
@@ -158,8 +157,8 @@ export default {
     }
   },
   methods: {
-    updateCompiledText(compiledText) {
-      this.compiledText = compiledText
+    getSheet() {
+      return emojiSource
     },
     updateCompiledTextLength(length) {
       this.compiledTextLength = length
@@ -190,7 +189,7 @@ export default {
     async submit() {
       if (this.textOverflow || this.hasNotText) return false
       const option = {
-        text: this.compiledText,
+        text: this.rawText,
         raw: []
       }
 
@@ -246,7 +245,7 @@ export default {
           version: '1.0',
           type: 'photo',
           url: image.link,
-          title: this.text
+          title: this.rawText
         }
         return Object.assign(
           {},

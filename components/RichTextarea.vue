@@ -11,9 +11,8 @@
 
 <script>
 import stringLength from 'string-length'
-import emojione from 'emojione'
 
-// raw -> emojify -> marked -> count
+// raw -> marked -> count
 
 export default {
   props: {
@@ -21,26 +20,19 @@ export default {
     disabled: Boolean
   },
   watch: {
-    compiledText(text) {
-      this.$emit('update:compiledText', text)
-    },
     compiledTextLength(length) {
       this.$emit('update:compiledTextCount', length)
     }
   },
   computed: {
-    compiledText() {
-      return emojione.shortnameToUnicode(this.value)
-    },
     compiledTextLength() {
       // http://stackoverflow.com/a/32382702
-      const stripMarked = this.compiledText.replace(/\[([^\]]+)\][^)]+\)/g, '$1')
+      const stripMarked = this.value.replace(/\[([^\]]+)\][^)]+\)/g, '$1')
       const length = stringLength(stripMarked)
       return length
     }
   },
   mounted() {
-    this.$emit('update:compiledText', this.compiledText)
     this.$emit('update:compiledTextCount', this.compiledTextLength)
   },
   methods: {
@@ -55,7 +47,8 @@ export default {
         const startPos = textarea.selectionStart
         const endPos = textarea.selectionEnd
         const scrollTop = textarea.scrollTop
-        const updateText = textarea.value.substring(0, startPos) +
+        const updateText =
+          textarea.value.substring(0, startPos) +
           text +
           textarea.value.substring(endPos, textarea.value.length)
         this.updateValue(updateText)

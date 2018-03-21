@@ -1,8 +1,8 @@
-import emojione from 'emojione'
 import Vue from 'vue'
+import twemoji from 'twemoji'
 
 Vue.directive('emojify', {
   bind(el) {
-    el.innerHTML = emojione.toImage(el.innerHTML)
+    el.innerHTML = twemoji.parse(el.innerHTML)
   }
 })

@@ -203,12 +203,7 @@ module.exports = {
     dev: true,
     runtimeCaching: [
       {
-        urlPattern: 'https://cdn.jsdelivr.net/emojione/.*',
-        handler: 'cacheFirst',
-        method: 'GET'
-      },
-      {
-        urlPattern: 'https://unpkg.com/emoji-datasource-emojione.*',
+        urlPattern: 'https://twemoji.maxcdn.com/*',
         handler: 'cacheFirst',
         method: 'GET'
       },
