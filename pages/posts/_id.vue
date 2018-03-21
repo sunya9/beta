@@ -10,6 +10,7 @@ import Compose from '~/components/Compose'
 import List from '~/components/List'
 import api from '~/plugins/api'
 import bus from '~/assets/js/bus'
+import { getImageURLs } from '~/assets/js/util'
 
 export default {
   async asyncData(ctx) {
@@ -56,17 +57,63 @@ export default {
   },
   head() {
     const [post] = this.data.data.filter(post => post.id === this.id)
-    let title = post.content.text
-    if (title.length > 30) {
-      title = title.substr(0, 30) + '…'
+    if (post.user && post.content) {
+      const name = post.user.name
+        ? `${post.user.name}(@${post.user.username})`
+        : `@${post.user.username}`
+      const fullTitle = `${name}: ${post.content.text}`
+      const title =
+        fullTitle.length > 50 ? fullTitle.substr(0, 50) + '…' : fullTitle
+      const meta = [
+        { hid: 'description', name: 'description', content: fullTitle },
+        {
+          hid: 'og:description',
+          property: 'og:description',
+          content: fullTitle
+        },
+        { hid: 'og:title', property: 'og:title', content: title }
+      ]
+      const [photo] = getImageURLs(post, true)
+      if (photo) {
+        meta.push(
+          {
+            hid: 'og:image',
+            property: 'og:image',
+            content: photo.original
+          },
+          {
+            hid: 'og:image:width',
+            property: 'og:image:width',
+            content: photo.width
+          },
+          {
+            hid: 'og:image:height',
+            property: 'og:image:height',
+            content: photo.height
+          },
+          {
+            hid: 'og:type',
+            property: 'og:type',
+            content: 'article'
+          },
+          {
+            hid: 'article:published_time',
+            property: 'article:published_time',
+            content: post.created_at
+          },
+          {
+            hid: 'article:author',
+            property: 'article:author',
+            content: post.user.username
+          }
+        )
+      }
+      return {
+        title,
+        meta
+      }
     }
-    const name = post.user.name
-      ? `${post.user.name}(@${post.user.username})`
-      : `@${post.user.username}`
-    title = `${name}: ${title}`
-    return {
-      title
-    }
+    return {}
   }
 }
 </script>

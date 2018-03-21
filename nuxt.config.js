@@ -21,7 +21,7 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: 'beta is a client for pnut.io.'
+        content: 'Beta is a client for pnut.io.'
       },
       {
         'http-equiv': 'Pragma',
@@ -30,6 +30,12 @@ module.exports = {
       {
         'http-equiv': 'Cache-Control',
         content: 'no-cache'
+      },
+      // pwa-module does not support og:site_Name
+      {
+        hid: 'og:site_name',
+        property: 'og:site_name',
+        content: 'Beta'
       }
     ],
     link: [

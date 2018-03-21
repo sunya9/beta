@@ -71,8 +71,36 @@ export default {
     List
   },
   head() {
+    const title = getTitle(this.profile)
+    const meta = [
+      {
+        hid: 'description',
+        name: 'description',
+        content: this.profile.content.text
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content: this.profile.content.text
+      },
+      {
+        hid: 'og:type',
+        property: 'og:type',
+        content: 'profile'
+      },
+      {
+        hid: 'og:title',
+        property: 'og:title',
+        content: title
+      },
+      {
+        property: 'profile:username',
+        content: this.name
+      }
+    ]
     return {
-      title: getTitle(this.profile)
+      title,
+      meta
     }
   }
 }
