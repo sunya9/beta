@@ -152,7 +152,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import ActionButton from '~/components/ActionButton'
 import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
@@ -162,33 +161,16 @@ import bus from '~/assets/js/bus'
 import focus from '~/assets/js/focus'
 import EntityText from '~/components/EntityText'
 import { getImageURLs } from '~/assets/js/util'
-
-moment.updateLocale('en', {
-  relativeTime: {
-    s: '%ds',
-    m: '1m',
-    mm: '%dm',
-    h: '1h',
-    hh: '%dh'
-  }
-})
+import listItem from '~/assets/js/list-item'
 
 export default {
-  mixins: [focus],
+  mixins: [focus, listItem],
+  dateKey: 'post.created_at',
   props: {
     data: Object,
     viewOnly: Boolean,
     detail: Boolean,
     preview: Boolean
-  },
-  data() {
-    return {
-      date: null
-    }
-  },
-  mounted() {
-    setInterval(this.dateUpdate, 1000 * 30) // 30sec
-    this.dateUpdate()
   },
   computed: {
     reactionUsers() {
@@ -217,9 +199,6 @@ export default {
     thumbs() {
       return getImageURLs(this.mainPost)
     },
-    absDate() {
-      return moment(this.mainPost.created_at).format()
-    },
     post() {
       return this.data
     },
@@ -244,18 +223,6 @@ export default {
     repostToggle() {
       if (!this.me) {
         this.$refs.repost.click()
-      }
-    },
-    dateUpdate() {
-      const now = moment()
-      const postDate = moment(this.post.created_at)
-      if (now.diff(postDate, 'day') >= 1) {
-        const lastYear =
-          now.toDate().getFullYear() - postDate.toDate().getFullYear()
-        const format = lastYear ? 'D MMM YY' : 'D MMM'
-        this.date = moment(this.post.created_at).format(format)
-      } else {
-        this.date = moment(this.post.created_at).fromNow(true)
       }
     },
     replyModal() {

@@ -62,52 +62,25 @@
 
 <script>
 import { mapState } from 'vuex'
-import moment from 'moment'
 import Avatar from '~/components/Avatar'
 import EntityText from '~/components/EntityText'
+import listItem from '~/assets/js/list-item'
 
 export default {
-  props: ['message'],
-  data() {
-    return {
-      date: null,
-      timer: null
-    }
-  },
+  mixins: [listItem],
+  dateKey: 'message.created_at',
+  props: ['data'],
   computed: {
     me() {
       return this.user && this.user.id === this.message.user.id
     },
-    absDate() {
-      return moment(this.message.created_at).format()
+    message() {
+      return this.data
     },
     ...mapState(['user'])
   },
-  created() {
-    this.dateUpdate()
-  },
-  mounted() {
-    this.timer = setInterval(this.dateUpdate, 1000 * 30) // 30sec
-  },
-  beforeDestroy() {
-    clearInterval(this.timer)
-  },
   methods: {
-    clickMessage() {},
-
-    // TODO: refactoring
-    dateUpdate() {
-      const now = moment()
-      const postDate = moment(this.message.created_at)
-      if (now.diff(postDate, 'day') >= 1) {
-        const lastYear =
-          now.toDate().getFullYear() - postDate.toDate().getFullYear()
-        const format = lastYear ? 'D MMM YY' : 'D MMM'
-        this.date = moment(this.message.created_at).format(format)
-      } else {
-        this.date = moment(this.message.created_at).fromNow(true)
-      }
-    }
+    clickMessage() {}
   },
   components: {
     Avatar,

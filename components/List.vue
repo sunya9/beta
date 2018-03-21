@@ -1,11 +1,26 @@
 <template>
-  <ul v-infinite-scroll="fetchMore" infinite-scroll-disabled="moreDisabled" infinite-scroll-distance="100" ref="list" class="list-group mb-4">
-    <component :is="type" :key="id(item)" v-for="(item, index) in filterItems" :data="item" class="item" @click="select = index" :class="{
-          'my-4': id(item) === main,
-          'list-group-item-warning': isTarget(item)
-        }" :detail="id(item) === main" @remove="items.splice(index, 1)"></component>
-    <slot></slot>
-    <li class="list-group-item" v-show="more">
+  <ul v-infinite-scroll="fetchMore" infinite-scroll-disabled="moreDisabled" infinite-scroll-distance="100" ref="list"
+    :class="{
+       'list-group mb-4': type !== 'Message',
+       'list-unstyled': type === 'Message'
+    }">
+    <component
+      :is="type"
+      :key="id(item)"
+      v-for="(item, index) in filterItems"
+      :data="item"
+      class="item"
+      @click="select = index"
+      :class="[{
+        'my-4': id(item) === main,
+        'list-group-item-warning': isTarget(item)
+      }, type.toLowerCase()]"
+      :detail="id(item) === main"
+      @remove="items.splice(index, 1)"
+      :last-update="lastUpdate"
+    />
+    <slot />
+    <li :class="{ 'list-group-item': type !== 'Message' }" v-show="more">
       <div class="text-center w-100 text-muted my-2">
         <i class="fa fa-spin fa-refresh fa-fw fa-2x"></i>
       </div>
@@ -18,18 +33,25 @@ import Mousetrap from '~/plugins/mousetrap'
 import User from '~/components/User'
 import Post from '~/components/Post'
 import Interaction from '~/components/Interaction'
+import Message from '~/components/Message'
 import api from '~/plugins/api'
 import {
   sendPostNotification,
   sendMentionNotification
 } from '~/assets/js/notification-wrapper'
 
-const INTERVAL = 1000 * 60 // 1min
+const INTERVAL = 1000 * 30 // 30sec
 
 export default {
   props: {
     data: Object,
-    type: String,
+    type: {
+      required: true,
+      type: String,
+      validator(str) {
+        return ['User', 'Post', 'Interaction', 'Message'].includes(str)
+      }
+    },
     all: Boolean,
     option: Object,
     main: String,
@@ -41,7 +63,8 @@ export default {
   components: {
     User,
     Post,
-    Interaction
+    Interaction,
+    Message
   },
   data() {
     return {
@@ -50,7 +73,8 @@ export default {
       items: this.data.data || [],
       internalSelect: -1,
       timer: null,
-      refreshing: false
+      refreshing: false,
+      lastUpdate: Date.now()
     }
   },
   computed: {
@@ -154,7 +178,9 @@ export default {
       }
     },
     replyAll() {
-      if (this.selectItem) { this.selectItem.replyAllModal() }
+      if (this.selectItem) {
+        this.selectItem.replyAllModal()
+      }
     },
     remove() {
       if (!this.selectItem || !this.selectItem.me) return
@@ -216,6 +242,7 @@ export default {
         }
       }
       this.refreshing = false
+      this.lastUpdate = Date.now()
     },
     async fetchMore() {
       this.busy = true
@@ -247,8 +274,10 @@ export default {
   z-index: auto;
 }
 
-.item:only-child,
-.item:first-child {
-  margin-top: 0 !important;
+.item:not(.message) {
+  &:only-child,
+  &:first-child {
+    margin-top: 0 !important;
+  }
 }
 </style>

@@ -57,8 +57,12 @@
         </div>
       </div>
       <div class="col-md-8 order-md-1">
-        <message-compose v-model="message" @submit="refresh" />
-        <message-list :messages.sync="messages" :meta.sync="meta" />
+        <message-compose v-model="message" @submit="() => $refs.list.refresh()" />
+        <div class="card no-gutter-xs">
+          <div class="card-body">
+            <List :data="data" type="Message" ref="list" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -66,7 +70,7 @@
 
 <script>
 import api from '~/plugins/api'
-import MessageList from '~/components/MessageList'
+import List from '~/components/List'
 import MessageCompose from '~/components/MessageCompose'
 import CustomCheckbox from '~/components/CustomCheckbox'
 import Avatar from '~/components/Avatar'
@@ -88,7 +92,7 @@ export default {
     )
     try {
       const [
-        { data: messages, meta },
+        data,
         { data: channel },
         { data: subscribers }
       ] = await Promise.all([
@@ -96,18 +100,17 @@ export default {
         channelPromise,
         subscribersPromise
       ])
-      if (meta.code >= 400) {
+      if (data.meta.code >= 400) {
         return ctx.error({
-          statusCode: meta.code,
-          message: meta.error_message,
+          statusCode: data.meta.code,
+          message: data.meta.error_message,
           home: '/messages'
         })
       }
       return {
-        messages,
+        data,
         channel,
-        subscribers,
-        meta
+        subscribers
       }
     } catch (e) {
       console.error(e)
@@ -119,13 +122,6 @@ export default {
     },
     cancelMute(bool) {
       if (bool) this.channel.you_muted = false
-    },
-    async refresh() {
-      this.message = ''
-      const { data: messages } = await api({ route: this.$route }).fetch({
-        since_id: this.messages[0].id
-      })
-      this.messages = messages.concat(this.messages)
     }
   },
   head() {
@@ -134,7 +130,7 @@ export default {
     }
   },
   components: {
-    MessageList,
+    List,
     MessageCompose,
     CustomCheckbox,
     Avatar

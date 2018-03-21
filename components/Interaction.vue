@@ -51,10 +51,10 @@
 </template>
 
 <script>
-import moment from 'moment'
 import focus from '~/assets/js/focus'
 import Post from '~/components/Post'
 import Avatar from '~/components/Avatar'
+import listItem from '~/assets/js/list-item'
 
 const convert = {
   follow: {
@@ -76,21 +76,10 @@ const convert = {
 }
 
 export default {
-  mixins: [focus],
+  mixins: [focus, listItem],
   props: ['data'],
-  data() {
-    return {
-      date: null
-    }
-  },
-  mounted() {
-    setInterval(this.dateUpdate, 1000 * 30) // 30sec
-    this.dateUpdate()
-  },
+  dateKey: 'action.event_date',
   computed: {
-    absDate() {
-      return moment(this.action.event_date).format()
-    },
     action() {
       return this.data
     },
@@ -117,22 +106,9 @@ export default {
       })
     }
   },
-  methods: {
-    dateUpdate() {
-      const now = moment()
-      const postDate = moment(this.action.event_date)
-      if (now.diff(postDate, 'day') >= 1) {
-        const lastYear =
-          now.toDate().getFullYear() - postDate.toDate().getFullYear()
-        const format = lastYear ? 'D MMM YY' : 'D MMM'
-        this.date = moment(this.action.event_date).format(format)
-      } else {
-        this.date = moment(this.action.event_date).fromNow(true)
-      }
-    }
-  },
   components: {
-    Post, Avatar
+    Post,
+    Avatar
   }
 }
 </script>
