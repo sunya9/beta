@@ -79,6 +79,6 @@ function addTypeKey(entities, value) {
 </script>
 <style scoped>
 .apply-pre {
-  white-space: pre-line;
+  white-space: pre-wrap;
 }
 </style>
