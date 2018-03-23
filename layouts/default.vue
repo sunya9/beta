@@ -56,7 +56,7 @@
           </h3>
           <component :is="sidebar" id="navbarSupportedContent" class="collapse" narrow />
           <div>
-            <nuxt ref="nuxt" />
+            <nuxt />
           </div>
         </div>
       </div>
