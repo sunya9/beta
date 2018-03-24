@@ -71,6 +71,16 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@nuxtjs/axios@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/axios/-/axios-5.1.1.tgz#2aec0bfc6cee8dc682b05402af25c0c6bc72a70c"
+  dependencies:
+    "@nuxtjs/proxy" "^1.1.4"
+    axios "^0.18.0"
+    axios-retry "^3.0.2"
+    chalk "^2.3.2"
+    debug "^3.1.0"
+
 "@nuxtjs/component-cache@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@nuxtjs/component-cache/-/component-cache-1.1.1.tgz#d94aa450e1b0df0451a2e938262234b534df9dfd"
@@ -100,6 +110,12 @@
 "@nuxtjs/meta@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@nuxtjs/meta/-/meta-2.2.1.tgz#ad7c8658ef0357cdef56856a9ff21d595102e089"
+
+"@nuxtjs/proxy@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/proxy/-/proxy-1.1.4.tgz#71056d402d57c825a098c1651138a878ee6c0d23"
+  dependencies:
+    http-proxy-middleware "^0.17.4"
 
 "@nuxtjs/pwa@^2.0.8":
   version "2.0.8"
@@ -331,6 +347,12 @@ ansi-styles@^3.1.0:
 ansi-styles@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.0.tgz#c159b8d5be0f9e5a6f346dab94f16ce022161b88"
+  dependencies:
+    color-convert "^1.9.0"
+
+ansi-styles@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.1.tgz#41fbb20243e50b12be0f04b8dedbf07520ce841d"
   dependencies:
     color-convert "^1.9.0"
 
@@ -651,6 +673,12 @@ axios-mock-adapter@^1.11.0:
   dependencies:
     deep-equal "^1.0.1"
 
+axios-retry@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/axios-retry/-/axios-retry-3.0.2.tgz#d644db74184858e4a5cf10f5ea88dd657bb4ba61"
+  dependencies:
+    is-retry-allowed "^1.1.0"
+
 axios@^0.15.3:
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.15.3.tgz#2c9d638b2e191a08ea1d6cc988eadd6ba5bdc053"
@@ -662,6 +690,13 @@ axios@^0.17.1:
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.17.1.tgz#2d8e3e5d0bdbd7327f91bc814f5c57660f81824d"
   dependencies:
     follow-redirects "^1.2.5"
+    is-buffer "^1.1.5"
+
+axios@^0.18.0:
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
+  dependencies:
+    follow-redirects "^1.3.0"
     is-buffer "^1.1.5"
 
 babel-cli@^6.26.0:
@@ -2077,6 +2112,14 @@ chalk@^2.3.0, chalk@^2.3.1:
     ansi-styles "^3.2.0"
     escape-string-regexp "^1.0.5"
     supports-color "^5.2.0"
+
+chalk@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.3.2.tgz#250dc96b07491bfd601e648d66ddf5f60c7a5c65"
+  dependencies:
+    ansi-styles "^3.2.1"
+    escape-string-regexp "^1.0.5"
+    supports-color "^5.3.0"
 
 check-error@^1.0.1:
   version "1.0.2"
@@ -4340,7 +4383,7 @@ follow-redirects@1.0.0:
   dependencies:
     debug "^2.2.0"
 
-follow-redirects@^1.2.5:
+follow-redirects@^1.2.5, follow-redirects@^1.3.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.4.1.tgz#d8120f4518190f55aac65bb6fc7b85fcd666d6aa"
   dependencies:
@@ -5150,7 +5193,16 @@ http-proxy-agent@1:
     debug "2"
     extend "3"
 
-http-proxy@^1.13.0:
+http-proxy-middleware@^0.17.4:
+  version "0.17.4"
+  resolved "https://registry.yarnpkg.com/http-proxy-middleware/-/http-proxy-middleware-0.17.4.tgz#642e8848851d66f09d4f124912846dbaeb41b833"
+  dependencies:
+    http-proxy "^1.16.2"
+    is-glob "^3.1.0"
+    lodash "^4.17.2"
+    micromatch "^2.3.11"
+
+http-proxy@^1.13.0, http-proxy@^1.16.2:
   version "1.16.2"
   resolved "https://registry.yarnpkg.com/http-proxy/-/http-proxy-1.16.2.tgz#06dff292952bf64dbe8471fa9df73066d4f37742"
   dependencies:
@@ -5801,7 +5853,7 @@ is-resolvable@^1.0.0:
   dependencies:
     tryit "^1.0.1"
 
-is-retry-allowed@^1.0.0:
+is-retry-allowed@^1.0.0, is-retry-allowed@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-retry-allowed/-/is-retry-allowed-1.1.0.tgz#11a060568b67339444033d0125a61a20d564fb34"
 
@@ -6896,7 +6948,7 @@ lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.3, lodash@^4.17.4, l
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
-lodash@^4.11.1, lodash@^4.15.0, lodash@^4.17.5:
+lodash@^4.11.1, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.5:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
@@ -11090,6 +11142,12 @@ supports-color@^4.2.1:
 supports-color@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.2.0.tgz#b0d5333b1184dd3666cbe5aa0b45c5ac7ac17a4a"
+  dependencies:
+    has-flag "^3.0.0"
+
+supports-color@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.3.0.tgz#5b24ac15db80fa927cf5227a4a33fd3c4c7676c0"
   dependencies:
     has-flag "^3.0.0"
 

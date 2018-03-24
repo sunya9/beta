@@ -191,13 +191,15 @@ module.exports = {
     '@nuxtjs/pwa',
     '@nuxtjs/component-cache',
     '@nuxtjs/toast',
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/google-analytics',
+    '@nuxtjs/axios'
   ],
   'google-analytics': {
     id: 'UA-10104011-16'
   },
   toast: {
-    position: 'bottom-left'
+    position: 'bottom-left',
+    duration: 5000
   },
   workbox: {
     dev: true,
