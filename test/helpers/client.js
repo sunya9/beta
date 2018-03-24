@@ -4,6 +4,7 @@ import NuxtLink from 'nuxt/lib/app/components/nuxt-link'
 import VueRouter from 'vue-router'
 import createStore from '~/store'
 import '../fixtures/axios-mock'
+import sinon from 'sinon'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
@@ -11,6 +12,13 @@ Vue.config.silent = true
 Vue.use(Vuex)
 Vue.use(VueRouter)
 Vue.component('nuxt-link', NuxtLink)
+
+beforeEach(() => {
+  Vue.prototype.$toast = {
+    error: sinon.stub(),
+    success: sinon.stub()
+  }
+})
 
 const router = new VueRouter()
 export { createStore, router }
