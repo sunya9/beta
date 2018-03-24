@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>
-      <cover :cover.sync="account.content.cover_image" />
-      <avatar :avatar.sync="account.content.avatar_image" />
+      <cover :cover="account.content.cover_image" />
+      <avatar :avatar="account.content.avatar_image" />
     </div>
     <form @submit.prevent="update" action="/proxy/users/me" method="post">
       <div class="form-group row">
@@ -55,7 +55,7 @@
       </div>
       <div class="form-group row">
         <div class="ml-md-auto col-md-9">
-          <input type="submit" class="btn btn-primary" value="save" />
+          <input type="submit" class="btn btn-primary" value="save" :disabled="promise" />
         </div>
       </div>
     </form>
@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import api from '~/plugins/api'
 import locales from '~/assets/js/locales'
 import timezones from '~/assets/js/timezones'
 import Cover from './Cover'
@@ -86,7 +85,7 @@ export default {
       locale: this.account.locale,
       locales,
       timezones,
-      promises: null
+      promise: null
     }
   },
   computed: {
@@ -104,11 +103,13 @@ export default {
   methods: {
     async update() {
       try {
-        await api().patch('/users/me', this.submitData)
+        this.promise = this.$axios.$patch('/proxy/users/me', this.submitData)
+        await this.promise
         this.$toast.success('Updated!')
       } catch (e) {
         this.$toast.error(e.message)
       }
+      this.promise = null
     }
   },
   components: {

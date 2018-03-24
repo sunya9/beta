@@ -7,7 +7,7 @@
     <div class="col-ms-12 col-md-9">
       <div class="form-group">
         <img
-          :src="avatar.link" ref="avatar_image" width="128" height="128"
+          :src="internalAvatar.link" ref="avatar_image" width="128" height="128"
           alt="avatar image">
       </div>
       <div class="form-group">
@@ -21,7 +21,7 @@
           type="button"
           @click="changeAvatar"
           :disabled="promise"
-          class="btn btn-secondary mr-2">
+          class="btn btn-outline-secondary">
           Change avatar
         </button>
       </div>
@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import api from '~/plugins/api'
-
 export default {
   props: {
     avatar: {
@@ -43,39 +41,40 @@ export default {
   },
   data() {
     return {
-      promise: null
+      promise: null,
+      internalAvatar: this.avatar
     }
   },
   methods: {
     changeAvatar() {
       this.$refs.avatarFileInput.click()
     },
-    avatarChanged(e) {
-      if (!e.target.files.length) return
+    async avatarChanged(e) {
+      if (!e.target.files.length) return false
       const [file] = e.target.files
-      const fr = new FileReader()
       if (file.size > 2097000) {
         this.$toast.error('Over 2MiB.')
         return
       }
-      fr.readAsDataURL(file)
       const fd = new FormData()
       fd.append('avatar', file)
-      this.promise = api()
-        .post('/proxy/users/me/avatar', fd, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'Content-Length': file.size
-          }
-        })
-        .then(response => {
-          this.$emit('update:avatar', response.data.content.avatar_image)
-          this.$toast.success('Changed!')
-        })
-        .catch(err => {
-          this.$toast.error(err.response.data.meta.error_message)
-        })
-        .then(() => (this.promise = null))
+      try {
+        this.promise = this.$axios
+          .$post('/proxy/users/me/avatar', fd, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .catch(err => {
+            throw new Error(err.response.data.meta.error_message)
+          })
+        const response = await this.promise
+        this.internalAvatar = response.data.content.avatar_image
+        this.$toast.success('Changed!')
+      } catch (err) {
+        this.$toast.error(err.message)
+      }
+      this.promise = null
     }
   }
 }
