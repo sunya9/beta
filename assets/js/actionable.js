@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 export default {
   model: {
     prop: 'checked',
@@ -25,7 +23,7 @@ export default {
     change(newVal) {
       this.$emit('change', newVal)
       if (!this.resource) return
-      this.processing = axios[this.method](`/proxy${this.resource}`)
+      this.processing = this.$axios[this.method](`${this.resource}`)
       const old = this.checked
       return this.processing
         .then(() => {

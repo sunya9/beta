@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import api from '~/plugins/api'
 import List from '~/components/List'
 import MessageCompose from '~/components/MessageCompose'
 import CustomCheckbox from '~/components/CustomCheckbox'
@@ -84,11 +83,11 @@ export default {
       message: ''
     }
   },
-  async asyncData(ctx) {
-    const messagesPromise = api(ctx).fetch()
-    const channelPromise = api(ctx).get(`/channels/${ctx.params.channel}`)
-    const subscribersPromise = api(ctx).get(
-      `/channels/${ctx.params.channel}/subscribers`
+  async asyncData({ app: { $axios, $resource }, params, error }) {
+    const messagesPromise = $resource()
+    const channelPromise = $axios.$get(`/channels/${params.channel}`)
+    const subscribersPromise = $axios.$get(
+      `/channels/${params.channel}/subscribers`
     )
     try {
       const [
@@ -101,7 +100,7 @@ export default {
         subscribersPromise
       ])
       if (data.meta.code >= 400) {
-        return ctx.error({
+        return error({
           statusCode: data.meta.code,
           message: data.meta.error_message,
           home: '/messages'

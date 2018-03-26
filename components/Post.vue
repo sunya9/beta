@@ -156,7 +156,6 @@ import ActionButton from '~/components/ActionButton'
 import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
 import { mapState } from 'vuex'
-import api from '~/plugins/api'
 import bus from '~/assets/js/bus'
 import focus from '~/assets/js/focus'
 import EntityText from '~/components/EntityText'
@@ -235,11 +234,9 @@ export default {
       bus.$emit('showRemoveModal', this)
     },
     remove() {
-      return api()
-        .delete(`/posts/${this.post.id}`)
-        .then(() => {
-          this.$emit('remove')
-        })
+      return this.$axios
+        .$delete(`/posts/${this.post.id}`)
+        .then(() => this.$emit('remove'))
     },
     clickPostLink(e) {
       const a = e.target

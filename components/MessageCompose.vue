@@ -30,8 +30,6 @@
   </div>
 </template>
 <script>
-import api from '~/plugins/api'
-
 export default {
   props: {
     disabled: Boolean,
@@ -58,7 +56,7 @@ export default {
       const option = {
         text: this.value
       }
-      this.promise = api().post(
+      this.promise = this.$axios.$post(
         `/channels/${this.$route.params.channel}/messages`,
         option
       )

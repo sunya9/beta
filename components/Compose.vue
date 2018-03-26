@@ -56,12 +56,10 @@
 </template>
 
 <script>
-import api from '~/plugins/api'
 import Post from '~/components/Post'
 import bus from '~/assets/js/bus'
 import { mapState } from 'vuex'
 import Thumb from '~/components/Thumb'
-import axios from 'axios'
 import { Picker } from '~/plugins/emoji'
 import RichTextarea from '~/components/RichTextarea'
 import emojiSource from 'emoji-datasource-twitter/img/twitter/sheets/64.png'
@@ -201,8 +199,8 @@ export default {
         option.reply_to = this.replyTarget.id
       }
 
-      this.promise = api()
-        .post('/posts', option)
+      this.promise = this.$axios
+        .$post('/posts', option)
         .then(res => {
           this.promise = null
           this.error = null
@@ -228,7 +226,7 @@ export default {
           content,
           is_public: true
         })
-        const res = await axios.post('/proxy/files', data, {
+        const res = await this.$axios.$post('/files', data, {
           headers: {
             'Content-type': 'multipart/form-data'
           }

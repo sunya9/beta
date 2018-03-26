@@ -12,13 +12,12 @@
 
 <script>
 import List from '~/components/List'
-import api from '~/plugins/api'
 
 export default {
   async asyncData(ctx) {
-    const { params } = ctx
+    const { params, app: { $resource } } = ctx
     const { name } = params
-    const data = await api(ctx).fetch()
+    const data = await $resource()
     return {
       data,
       name

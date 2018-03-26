@@ -83,11 +83,9 @@ module.exports = {
       'mousetrap',
       'jquery',
       'tether',
-      'axios',
       'vue-infinite-scroll',
       'vue-on-click-outside',
       '~/plugins/bootstrap.js',
-      '~/plugins/api.js',
       '~/plugins/mousetrap.js',
       '~/plugins/vue-infinite.js',
       '~/plugins/emoji.js',
@@ -103,7 +101,6 @@ module.exports = {
       src: '~/plugins/bootstrap',
       ssr: false
     },
-    '~/plugins/api',
     {
       src: '~/plugins/vue-infinite',
       ssr: false
@@ -123,7 +120,8 @@ module.exports = {
     {
       src: '~/plugins/vue-emojify',
       ssr: false
-    }
+    },
+    '~/plugins/axios/'
   ],
 
   // router settings
@@ -229,5 +227,9 @@ module.exports = {
   },
   meta: {
     theme_color: '#d36854'
+  },
+  axios: {
+    baseURL: 'https://api.pnut.io/v0',
+    browserBaseURL: '/proxy'
   }
 }

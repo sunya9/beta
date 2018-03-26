@@ -34,7 +34,6 @@ import User from '~/components/User'
 import Post from '~/components/Post'
 import Interaction from '~/components/Interaction'
 import Message from '~/components/Message'
-import api from '~/plugins/api'
 import {
   sendPostNotification,
   sendMentionNotification
@@ -214,9 +213,7 @@ export default {
       const option = Object.assign({}, this.defaultOption, {
         since_id: this.id(this.items[0])
       })
-      const { data: newItems } = await api({
-        route: this.$route
-      }).fetch(option)
+      const { data: newItems } = await this.$resource(option)
       if (newItems.length) {
         this.items = newItems.concat(this.items)
         this.select += newItems.length
@@ -249,9 +246,7 @@ export default {
       const option = Object.assign({}, this.defaultOption, {
         before_id: this.meta.min_id
       })
-      const { data: newItems, meta } = await api({
-        route: this.$route
-      }).fetch(option)
+      const { data: newItems, meta } = await this.$resource(option)
       this.meta = meta
 
       if (newItems.length) {

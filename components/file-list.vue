@@ -53,7 +53,6 @@
 
 <script>
 import FileRow from '~/components/file-row'
-import api from '~/plugins/api'
 import $ from 'jquery'
 
 export default {
@@ -95,9 +94,7 @@ export default {
       const option = Object.assign({}, this.option, {
         before_id: this.meta.min_id
       })
-      const { data: newItems, meta } = await api({
-        route: this.$route
-      }).fetch(option)
+      const { data: newItems, meta } = await this.$resource(option)
       this.meta = meta
 
       if (newItems.length) {
@@ -110,7 +107,7 @@ export default {
     },
     async deleteFiles() {
       const deletePromises = this.selectedFiles.map(async file => {
-        const res = await api().delete(`/files/${file.id}`)
+        const res = await this.$axios.$delete(`/files/${file.id}`)
         return res
       })
       await Promise.all(deletePromises)

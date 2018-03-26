@@ -60,7 +60,7 @@ export default {
       fd.append('avatar', file)
       try {
         this.promise = this.$axios
-          .$post('/proxy/users/me/avatar', fd, {
+          .$post('/users/me/avatar', fd, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }

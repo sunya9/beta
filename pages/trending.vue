@@ -12,11 +12,10 @@
 <script>
 import Compose from '~/components/Compose'
 import List from '~/components/List'
-import api from '~/plugins/api'
 
 export default {
-  async asyncData(ctx) {
-    const data = await api(ctx).fetch()
+  async asyncData({ app: { $resource } }) {
+    const data = await $resource()
     return { data }
   },
   components: {

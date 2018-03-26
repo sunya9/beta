@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   props: ['initialState', 'userId'],
   data() {
@@ -16,9 +14,7 @@ export default {
   },
   computed: {
     text() {
-      return this.state
-        ? 'Following'
-        : 'Follow'
+      return this.state ? 'Following' : 'Follow'
     },
     btnClass() {
       return `btn-${this.state ? 'secondary' : 'primary'}`
@@ -27,8 +23,9 @@ export default {
   methods: {
     follow() {
       const method = this.state ? 'delete' : 'put'
-      return axios[method](`/proxy/users/${this.userId}/follow`)
-        .then(() => { this.state = !this.state })
+      return this.$axios[method](`/users/${this.userId}/follow`).then(() => {
+        this.state = !this.state
+      })
     }
   }
 }

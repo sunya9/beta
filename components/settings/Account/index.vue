@@ -103,7 +103,7 @@ export default {
   methods: {
     async update() {
       try {
-        this.promise = this.$axios.$patch('/proxy/users/me', this.submitData)
+        this.promise = this.$axios.$patch('/users/me', this.submitData)
         await this.promise
         this.$toast.success('Updated!')
       } catch (e) {
