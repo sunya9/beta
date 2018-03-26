@@ -25,7 +25,8 @@ import stringLength from 'string-length'
 export default {
   props: {
     content: {
-      type: Object
+      type: Object,
+      default: () => ({})
     }
   },
   computed: {

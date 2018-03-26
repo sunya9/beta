@@ -27,8 +27,7 @@
             'e-content p-name': detail
           }">
             <entity-text
-              :content="mainPost.content"
-              v-if="mainPost.content">
+              :content="mainPost.content">
               [Post deleted]
             </entity-text>
           </p>
