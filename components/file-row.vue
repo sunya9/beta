@@ -7,21 +7,33 @@
         <a @click.stop :href="file.link" target="_new" class="">
           {{file.name}}
         </a>
-        <span class="thumb ml-auto">
-          <img v-if="file.image_info"
-            height="24"
-            :src="file.link">
-        </span>
       </div>
+    </td>
+    <td>
+      {{date}}
+    </td>
+    <td>
+      <span class="thumb ml-auto">
+        <img v-if="file.image_info"
+          height="24"
+          :src="file.link">
+      </span>
     </td>
   </tr>
 </template>
 <script>
+import moment from 'moment'
+
 export default {
   props: ['file'],
   methods: {
     toggleSelect() {
       this.file.select = !this.file.select
+    }
+  },
+  computed: {
+    date() {
+      return moment(this.file.created_at).format()
     }
   }
 }
@@ -29,7 +41,7 @@ export default {
 <style scoped>
 .buttons a {
   opacity: 0;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 tr:hover .buttons a {
   opacity: 1;
