@@ -33,6 +33,9 @@ export default {
           this.processing = null
           this.$emit('change', old)
         })
+    },
+    toggle() {
+      this.change(!this.checked)
     }
   }
 }

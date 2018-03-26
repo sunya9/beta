@@ -216,11 +216,11 @@ export default {
   },
   methods: {
     favoriteToggle() {
-      this.$refs.favorite.click()
+      this.$refs.favorite.toggle()
     },
     repostToggle() {
       if (!this.me) {
-        this.$refs.repost.click()
+        this.$refs.repost.toggle()
       }
     },
     replyModal() {
