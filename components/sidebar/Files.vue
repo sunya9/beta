@@ -5,9 +5,9 @@ export default {
   extends: Sidebar,
   data() {
     const menus = [
-      {type: 'heading', label: 'Files'},
+      { type: 'heading', label: 'Files' },
       {
-        label: 'All',
+        label: 'Your files',
         icon: 'fa-files-o',
         url: '/files'
       }

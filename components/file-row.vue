@@ -1,7 +1,6 @@
 <template>
   <tr @click="toggleSelect" :class="{ 'table-active': file.select }">
     <td class="text-center"><input type="checkbox" v-model="file.select" @click.stop></td>
-    <td>{{file.id}}</td>
     <td>
       <div class="d-flex">
         <a @click.stop :href="file.link" target="_new" class="">
@@ -33,7 +32,7 @@ export default {
   },
   computed: {
     date() {
-      return moment(this.file.created_at).format()
+      return moment(this.file.created_at).format('LLL')
     }
   }
 }

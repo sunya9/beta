@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="mb-4">Your files</h3>
     <div class="card">
       <div class="card-body">
         <file-list :data="data" />
