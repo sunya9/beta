@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper" class="wrapper mb-3">
+  <div id="wrapper" class="wrapper mb-3" :style="`margin-top: ${marginTop}px`">
     <app-header ref="header">
       <jumbotron v-if="searchPage" slot="jumbotron" class="jumbotron" />
     </app-header>
@@ -27,7 +27,7 @@
           }"
           class="col-12">
           <h3
-            class="d-flex align-items-center"
+            class="d-flex align-items-center mb-0"
             v-if="!notLoginIndex"
             :class="{
               'justify-content-between mb-4': selectedDropdownItem,
@@ -114,7 +114,8 @@ export default {
   },
   data() {
     return {
-      bodyClass: ''
+      bodyClass: '',
+      marginTop: 48
     }
   },
 
@@ -170,6 +171,11 @@ export default {
         this.bodyClass = 'dark'
       }
     }
+    const { height } = this.$refs.header.$el
+      .querySelector('.navbar')
+      .getBoundingClientRect()
+    this.marginTop = height
+
     const router = this.$router
     // new post
     Mousetrap.bind('n', () => this.$refs.postModal.showModal())

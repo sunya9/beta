@@ -3,6 +3,7 @@ import Sidebar from './Sidebar'
 
 export default {
   extends: Sidebar,
+  name: 'AppSidebar',
   data() {
     const user = this.$store.state.user
     const menus = [
