@@ -2,6 +2,14 @@
   <div class="card">
     <div class="card-body">
       <div class="row text-center">
+      <div class="col-md-12">
+          <h4>Users</h4>
+          <p class="display-4 mb-0">
+            {{counts.users.created}}
+          </p>
+          <p class="text-muted">Online: {{counts.users.present}}</p>
+          
+        </div>
         <div class="col-md-4">
           <h4>Clients</h4>
           <p class="display-4">{{counts.clients.created}}</p>
@@ -23,8 +31,8 @@
           <p class="display-4">{{counts.posts.created}}</p>
         </div>
         <div class="col-md-4">
-          <h4>Users</h4>
-          <p class="display-4">{{counts.users.created}}</p>
+          <h4>Polls</h4>
+          <p class="display-4">{{counts.polls.created}}</p>
         </div>
       </div>
     </div>
