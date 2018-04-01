@@ -10,7 +10,7 @@
               ref="textarea"
               class="form-control textarea"
               v-model="rawText"
-              @update:compiledTextCount="updateCompiledTextLength"
+              @update:compiledTextCount="debounceUpdateCompiledTextLength"
               @submit="submit"
               :disabled="!!promise" />
             <a href="#" class="open-emoji-picker text-dark" @click.prevent.stop="toggleEmojiPalette">
@@ -25,15 +25,12 @@
               <thumb :key="photo.data" v-for="(photo, i) in previewPhotos" :original="photo.data" :thumb="photo.data" removable class="mr-2" @remove="photos.splice(i, 1)" />
             </transition-group>
           </div>
-          <div v-if="error" class="alert alert-danger fade show" role="alert">
-            {{ error }}
-          </div>
           <div class="d-flex justify-content-between align-items-center">
             <strong class="text-muted">{{postCounter}}</strong>
             <div>
               <label
                 v-show="!noPhoto"
-                v-if="$store.state.user.storage"
+                v-if="$store.state.user.storage.available"
                 class="btn btn-link text-muted add-photo"
                 :disabled="promise">
                 <i class="fa fa-picture-o"></i>&nbsp; Add photo…
@@ -63,7 +60,7 @@ import Thumb from '~/components/Thumb'
 import { Picker } from '~/plugins/emoji'
 import RichTextarea from '~/components/RichTextarea'
 import emojiSource from 'emoji-datasource-twitter/img/twitter/sheets/64.png'
-
+import { debounce } from 'lodash'
 export default {
   props: {
     initialText: {
@@ -81,7 +78,6 @@ export default {
       promise: null,
       photos: [],
       previewPhotos: [],
-      error: null,
       rawText: this.initialText,
       showEmojiPicker: false,
       compiledTextLength: 0
@@ -161,6 +157,9 @@ export default {
     updateCompiledTextLength(length) {
       this.compiledTextLength = length
     },
+    debounceUpdateCompiledTextLength(...args) {
+      return debounce(this.updateCompiledTextLength, 500)(args)
+    },
     setFocus() {
       if (this.focus === false) return
       // occur error if it not displayed like logged out
@@ -185,37 +184,34 @@ export default {
       }
     },
     async submit() {
-      if (this.textOverflow || this.hasNotText) return false
+      if (this.promise || this.textOverflow || this.hasNotText) return false
       const option = {
         text: this.rawText,
         raw: []
       }
-
-      if (this.hasPhotos) {
-        const raws = await this.uploadPhotos()
-        option.raw.push(...raws)
+      try {
+        if (this.hasPhotos) {
+          const raws = await this.uploadPhotos()
+          option.raw.push(...raws)
+        }
+        if (this.replyTarget) {
+          option.reply_to = this.replyTarget.id
+        }
+      } catch (e) {
+        console.error(e)
+        this.$toast.error(e.message)
       }
-      if (this.replyTarget) {
-        option.reply_to = this.replyTarget.id
-      }
-
-      this.promise = this.$axios
-        .$post('/posts', option)
+      this.promise = this.$axios.$post('/posts', option)
+      await this.$nextTick()
+      return this.promise
         .then(res => {
           this.promise = null
-          this.error = null
           bus.$emit('post', res.data)
           this.$emit('post', res.data)
           this.rawText = ''
           this.photos = []
         })
-        .catch(e => {
-          console.error(e)
-          const { response: { data: { message } } } = e
-          this.error = message
-          this.promise = null
-        })
-      return this.promise
+        .finally(() => (this.promise = null))
     },
     async uploadPhotos() {
       const photosPromise = this.photos.map(async content => {
@@ -236,7 +232,7 @@ export default {
       this.promise = true
       const photosJson = await Promise.all(photosPromise)
       const raws = photosJson.map(res => {
-        const image = res.data.data
+        const image = res.data
         const value = {
           width: image.image_info.width,
           height: image.image_info.height,
