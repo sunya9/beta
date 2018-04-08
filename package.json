@@ -72,7 +72,7 @@
     "unicode-substring": "^1.0.0",
     "vue-infinite-scroll": "^2.0.2",
     "vue-on-click-outside": "^1.0.3",
-    "zooming": "^1.2.7"
+    "zooming": "^2.0.0"
   },
   "devDependencies": {
     "avoriaz": "^6.3.0",
