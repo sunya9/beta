@@ -7,8 +7,10 @@
     <component
       :is="type"
       :key="id(item)"
-      v-for="(item, index) in filterItems"
+      v-for="(item, index) in  items"
+      v-if="showItem(item)"
       :data="item"
+      @update:data="data => $set(items, index, data)"
       class="item"
       @click="select = index"
       :class="[{
@@ -34,12 +36,14 @@ import User from '~/components/User'
 import Post from '~/components/Post'
 import Interaction from '~/components/Interaction'
 import Message from '~/components/Message'
+import Poll from '~/components/Poll'
+
 import {
   sendPostNotification,
   sendMentionNotification
 } from '~/assets/js/notification-wrapper'
 
-const INTERVAL = 1000 * 30 // 30sec
+const INTERVAL = 1000 * 10 // 30sec
 
 export default {
   props: {
@@ -48,7 +52,7 @@ export default {
       required: true,
       type: String,
       validator(str) {
-        return ['User', 'Post', 'Interaction', 'Message'].includes(str)
+        return ['User', 'Post', 'Interaction', 'Message', 'Poll'].includes(str)
       }
     },
     all: Boolean,
@@ -63,7 +67,8 @@ export default {
     User,
     Post,
     Interaction,
-    Message
+    Message,
+    Poll
   },
   data() {
     return {
@@ -77,16 +82,10 @@ export default {
     }
   },
   computed: {
-    filterItems() {
-      if (this.type === 'Post' && !this.all) {
-        return this.items.filter(item => !item.is_deleted)
-      }
-      return this.items
-    },
     mainItem() {
       return (
         this.type === 'Post' &&
-        this.filterItems.filter(item => item.id === this.main)[0]
+        this.items.filter(item => item.id === this.main)[0]
       )
     },
     more() {
@@ -155,6 +154,12 @@ export default {
     }
   },
   methods: {
+    showItem(item) {
+      return (
+        this.type !== 'Post' ||
+        (this.type === 'Post' && !this.all && !item.is_deleted)
+      )
+    },
     isTarget(item) {
       return this.mainItem ? this.mainItem.reply_to === item.id : null
     },
