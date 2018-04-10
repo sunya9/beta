@@ -28,10 +28,19 @@
           <div class="d-flex justify-content-between align-items-center">
             <strong class="text-muted">{{postCounter}}</strong>
             <div>
+              <button class="btn add-poll mr-2"
+                type="button"
+                @click="togglePoll"
+                :class="{
+                  'btn-link': !hasPoll,
+                  'btn-outline-primary': hasPoll
+                }">
+                <i class="fa fa-bar-chart"></i>&nbsp; Add a poll..
+              </button>
               <label
                 v-show="!noPhoto"
                 v-if="$store.state.user.storage.available"
-                class="btn btn-link text-muted add-photo"
+                class="btn btn-link text-muted add-photo mr-2"
                 :disabled="promise">
                 <i class="fa fa-picture-o"></i>&nbsp; Add photo…
                 <input type="file" multiple
@@ -47,6 +56,7 @@
               </button>
             </div>
           </div>
+          <input-poll @update:poll="p => poll = p" v-if="poll" class="mt-3" />
         </form>
     </div>
   </div>
@@ -61,6 +71,8 @@ import { Picker } from '~/plugins/emoji'
 import RichTextarea from '~/components/RichTextarea'
 import emojiSource from 'emoji-datasource-twitter/img/twitter/sheets/64.png'
 import { debounce } from 'lodash'
+import InputPoll from '~/components/InputPoll'
+
 export default {
   props: {
     initialText: {
@@ -80,7 +92,8 @@ export default {
       previewPhotos: [],
       rawText: this.initialText,
       showEmojiPicker: false,
-      compiledTextLength: 0
+      compiledTextLength: 0,
+      poll: null
     }
   },
   watch: {
@@ -100,6 +113,9 @@ export default {
   },
 
   computed: {
+    hasPoll() {
+      return this.poll
+    },
     postCounter() {
       return 256 - this.compiledTextLength
     },
@@ -111,7 +127,19 @@ export default {
     },
     disabled() {
       const sending = !!this.promise
-      return this.textOverflow || this.hasNotText || sending
+      return (
+        this.textOverflow ||
+        this.hasNotText ||
+        sending ||
+        (this.poll && !this.availablePoll)
+      )
+    },
+    availablePoll() {
+      return (
+        this.poll &&
+        this.poll.options &&
+        this.poll.options.filter(option => option.text).length >= 2
+      )
     },
     hasPhotos() {
       return this.photos.length
@@ -151,6 +179,9 @@ export default {
     }
   },
   methods: {
+    togglePoll() {
+      this.poll = this.poll ? null : {}
+    },
     getSheet() {
       return emojiSource
     },
@@ -158,7 +189,7 @@ export default {
       this.compiledTextLength = length
     },
     debounceUpdateCompiledTextLength(...args) {
-      return debounce(this.updateCompiledTextLength, 500)(args)
+      return debounce(this.updateCompiledTextLength, 500)(...args)
     },
     setFocus() {
       if (this.focus === false) return
@@ -183,6 +214,12 @@ export default {
         }
       }
     },
+    async uploadPoll() {
+      return await this.$axios.$post('/polls', {
+        ...this.poll,
+        prompt: this.poll.prompt || this.rawText
+      })
+    },
     async submit() {
       if (this.promise || this.textOverflow || this.hasNotText) return false
       const option = {
@@ -197,6 +234,18 @@ export default {
         if (this.replyTarget) {
           option.reply_to = this.replyTarget.id
         }
+        if (this.hasPoll) {
+          const { data: { id: poll_id, poll_token } } = await this.uploadPoll()
+          option.raw.push({
+            type: 'io.pnut.core.poll-notice',
+            value: {
+              '+io.pnut.core.poll': {
+                poll_token,
+                poll_id
+              }
+            }
+          })
+        }
       } catch (e) {
         console.error(e)
         this.$toast.error(e.message)
@@ -210,6 +259,7 @@ export default {
           this.$emit('post', res.data)
           this.rawText = ''
           this.photos = []
+          this.poll = null
         })
         .finally(() => (this.promise = null))
     },
@@ -254,7 +304,7 @@ export default {
     fileChange(e) {
       if (!e.target.files.length) return
       this.photos.push(...Array.prototype.slice.call(e.target.files))
-      // reset file form for detecting changes(if there isn't below code, not working when is selected same file)
+      // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
       this.$refs.file.value = ''
     },
     addEmoji(emoji) {
@@ -275,7 +325,8 @@ export default {
     Post,
     Thumb,
     Picker,
-    RichTextarea
+    RichTextarea,
+    InputPoll
   }
 }
 

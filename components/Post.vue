@@ -35,6 +35,9 @@
             <thumb class="mx-1" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
           </div>
         </div>
+        <div v-if="poll" class="mb-3">
+          <poll :poll-id="poll.poll_id" />
+        </div>
         <footer v-if="!post.is_deleted && !preview">
           <div v-if="post.repost_of">
             <nuxt-link :to="`/@${post.user.username}`" class="text-muted">
@@ -154,6 +157,7 @@
 import ActionButton from '~/components/ActionButton'
 import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
+import Poll from '~/components/Poll'
 import { mapState } from 'vuex'
 import bus from '~/assets/js/bus'
 import focus from '~/assets/js/focus'
@@ -171,6 +175,14 @@ export default {
     preview: Boolean
   },
   computed: {
+    poll() {
+      if (!this.mainPost.raw) return
+      const raw = this.mainPost.raw.filter(
+        item => item.type === 'io.pnut.core.poll-notice'
+      )[0]
+      if (!raw) return
+      return raw.value
+    },
     reactionUsers() {
       if (!this.detail) return []
       const users = this.mainPost.bookmarked_by.concat(
@@ -248,7 +260,8 @@ export default {
     ActionButton,
     Thumb,
     Avatar,
-    EntityText
+    EntityText,
+    Poll
   }
 }
 </script>
