@@ -21,7 +21,9 @@ const map = {
   'search-posts': '/posts/search',
   messages: '/users/me/channels/subscribed',
   'messages-channel': ({ params }) => `/channels/${params.channel}/messages`,
-  'about-stats': '/sys/stats'
+  'about-stats': '/sys/stats',
+  newcomers: '/posts/streams/explore/newcomers',
+  polls: '/users/me/polls'
 }
 export default map
 export const getResourcePath = route => {

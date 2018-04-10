@@ -44,6 +44,11 @@ export default {
         icon: 'fa-comment'
       },
       {
+        label: 'Newcomers',
+        url: '/newcomers',
+        icon: 'fa-user-plus'
+      },
+      {
         label: 'Photos',
         url: '/photos',
         icon: 'fa-camera'
