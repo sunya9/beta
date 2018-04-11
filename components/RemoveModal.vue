@@ -11,7 +11,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Does you remove this post?</p>
+          <p>Do you want to remove this post?</p>
           <post :data="vm.post" v-if="vm" view-only />
         </div>
         <div class="modal-footer">
