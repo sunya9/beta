@@ -35,14 +35,14 @@
                   'btn-link': !hasPoll,
                   'btn-outline-primary': hasPoll
                 }">
-                <i class="fa fa-bar-chart"></i>&nbsp; Add a poll..
+                <i class="fa fa-bar-chart"></i><span class="d-none d-sm-inline ml-2">Add a poll...</span>
               </button>
               <label
                 v-show="!noPhoto"
                 v-if="$store.state.user.storage.available"
                 class="btn btn-link text-muted add-photo mr-2"
                 :disabled="promise">
-                <i class="fa fa-picture-o"></i>&nbsp; Add photo…
+                <i class="fa fa-picture-o"></i><span class="d-none d-sm-inline ml-2">Add photo…</span>
                 <input type="file" multiple
                   accept="image/*"
                   @change="fileChange"
