@@ -14,7 +14,7 @@
         <span class="navbar-text mr-auto">
           <a href="#" v-if="!online" class="badge badge-secondary" @click="showConnection">offline</a>
         </span>
-        <search-form id="search-form" class="mr-md-4 order-4 order-md-1" />
+        <search-form v-if="user" id="search-form" class="mr-md-4 order-4 order-md-1" />
         <ul class="order-2 navbar-nav d-flex flex-row align-items-stretch">
           <nuxt-link
             to="/messages"
