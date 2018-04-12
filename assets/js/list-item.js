@@ -33,7 +33,7 @@ export default {
       }
     },
     absDate() {
-      return moment(this.itemDate).format()
+      return moment(this.itemDate).format('YYYY/MM/DD HH:mm:ss')
     }
   }
 }

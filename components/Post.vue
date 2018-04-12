@@ -48,7 +48,7 @@
             <li class="list-inline-item">
               <nuxt-link ref="link" :to="permalink" class="text-muted" v-bind:class="{ 'u-url': detail }" :title="absDate">
                 <i class="fa fa-clock-o"></i>
-                <time :class="{ 'dt-published': detail }" :datetime="absDate"> {{date}}</time>
+                <time :class="{ 'dt-published': detail }" :datetime="absDate"> {{detail ? absDate : date}}</time>
               </nuxt-link>
             </li>
             <template v-if="post.reply_to">
