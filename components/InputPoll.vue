@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="form-group">
-      <input type="text" v-model="poll.prompt" placeholder="Optional prompt" class="form-control">
+      <input type="text" v-model="poll.prompt" placeholder="Optional prompt" class="form-control"
+        pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,256}"
+        title="Up to 256 unicode characters"
+      >
     </div>
     <hr>
     <div class="form-group" v-for="(choice, index) in poll.options" :key="index">
@@ -11,6 +14,8 @@
           class="form-control"
           :placeholder="`Choice ${index + 1} ${index > 1 ? '(Optional)' : ''}`"
           v-model="choice.text"
+          pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,64}"
+          title="Up to 64 unicode characters"
           >
         <div class="input-group-append">
           <button type="button" class="btn btn-link"
@@ -149,3 +154,10 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+@import '~assets/css/override';
+
+input[type='text']:invalid {
+  border-color: map-get($theme-colors, danger);
+}
+</style>
