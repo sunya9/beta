@@ -375,12 +375,12 @@ function obj2FormData(obj) {
 
 .open-emoji-picker {
   position: absolute;
-  left: 0.5rem;
-  bottom: 0.5rem;
+  right: 0.5rem;
+  top: 0.5rem;
 }
 
 .textarea {
-  padding-bottom: 2rem;
+  padding-right: 1.7rem;
   min-height: 7rem;
 }
 
