@@ -7,7 +7,7 @@
     <component
       :is="type"
       :key="id(item)"
-      v-for="(item, index) in  items"
+      v-for="(item, index) in items"
       v-if="showItem(item)"
       :data="item"
       @update:data="data => $set(items, index, data)"
@@ -155,10 +155,7 @@ export default {
   },
   methods: {
     showItem(item) {
-      return (
-        this.type !== 'Post' ||
-        (this.type === 'Post' && !this.all && !item.is_deleted)
-      )
+      return this.type !== 'Post' || this.all || !item.is_deleted
     },
     isTarget(item) {
       return this.mainItem ? this.mainItem.reply_to === item.id : null
