@@ -109,3 +109,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.btn {
+  white-space: normal;
+}
+</style>
