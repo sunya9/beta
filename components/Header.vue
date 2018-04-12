@@ -47,8 +47,14 @@
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false">
-              {{user.username}}
-              <i class="fa fa-chevron-down"></i>
+              <span>
+                <span class="d-none d-sm-inline">{{user.username}}</span>
+                <span class="d-inline d-sm-none">
+                  <avatar :avatar="{ link: `https://api.pnut.io/v0/users/@${user.username}/avatar` }"
+                    :size="16" :max-size="16" />
+                </span>
+              </span>
+              <i class="fa fa-chevron-down ml-2"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
               <nuxt-link
@@ -57,7 +63,8 @@
                 class="dropdown-item"
                 active-class=""
               >
-                Profile
+                <span class="d-none d-sm-inline">Profile</span>
+                <span class="d-inline d-sm-none">@{{user.username}}</span>
               </nuxt-link>
               <div class="dropdown-divider"></div>
               <nuxt-link
@@ -95,6 +102,7 @@
 import { mapState } from 'vuex'
 import SearchForm from './SearchForm'
 import AppSidebar from '~/components/sidebar/App'
+import Avatar from '~/components/Avatar'
 
 const networkEvents = ['online', 'offline']
 
@@ -130,7 +138,8 @@ export default {
   },
   components: {
     SearchForm,
-    AppSidebar
+    AppSidebar,
+    Avatar
   }
 }
 </script>
