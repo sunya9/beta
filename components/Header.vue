@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="navbar navbar-light navbar fixed-top px-0">
+    <nav class="navbar navbar-light navbar fixed-top px-0">
       <div class="container">
         <button class="navbar-toggler mr-2 d-md-none align-items-stretch" type="button" data-toggle="collapse" data-target="#globalNavigation" aria-controls="globalNavigation" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -86,7 +86,7 @@
           }"
           />
       </div>
-    </div>
+    </nav>
     <slot name="jumbotron" />
   </header>
 </template>
