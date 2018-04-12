@@ -90,7 +90,9 @@ export default {
       this.currentTime = Date.now()
     },
     getPercent(option) {
-      return (option.respondents / this.total || 0) * 100
+      return ((option.respondents / this.total || 0) * 100)
+        .toFixed(1)
+        .replace(/\.0+$/, '')
     },
     getStyle(option) {
       return {
