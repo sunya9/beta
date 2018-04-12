@@ -24,22 +24,25 @@ export default {
   async asyncData(ctx) {
     const { params, error, app: { $axios, $resource } } = ctx
     const { name } = params
-    const { data: profile } = await $axios.$get(`/users/@${name}`)
     const option = {
       include_directed_posts: 1
     }
-    const data = await $resource(option)
-    if (data.meta.code < 400) {
-      return {
-        data,
-        profile,
-        name,
-        option
+    try {
+      const data = await $resource(option)
+      const { data: profile, meta } = await $axios.$get(`/users/@${name}`)
+      if (meta.code < 400) {
+        return {
+          data,
+          profile,
+          name,
+          option
+        }
       }
-    } else {
+    } catch (e) {
+      const { meta } = e.response.data
       error({
-        statusCode: data.meta.code,
-        message: data.meta.error_message
+        statusCode: meta.code,
+        message: meta.error_message
       })
     }
   },
