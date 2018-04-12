@@ -99,20 +99,17 @@ export default {
         channelPromise,
         subscribersPromise
       ])
-      if (data.meta.code >= 400) {
-        return error({
-          statusCode: data.meta.code,
-          message: data.meta.error_message,
-          home: '/messages'
-        })
-      }
       return {
         data,
         channel,
         subscribers
       }
     } catch (e) {
-      console.error(e)
+      const { code, error_message } = e.response.data.meta
+      error({
+        statusCode: code,
+        message: error_message
+      })
     }
   },
   methods: {

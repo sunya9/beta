@@ -42,7 +42,10 @@ export default (context, inject) => {
       logout()
     } else {
       if (process.server) {
-        error(err.message)
+        error({
+          statusCode: code,
+          message: err.message
+        })
       } else if (process.client) {
         app.$toast.error(err.response.data.meta.error_message || err.message)
         const serverScope = err.response.headers['x-oauth-scopes'].split(',')
