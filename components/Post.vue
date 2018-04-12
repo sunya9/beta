@@ -36,7 +36,7 @@
           </div>
         </div>
         <div v-if="poll" class="mb-3">
-          <poll :poll-id="poll.poll_id" />
+          <poll :poll-id="poll.poll_id" :poll-token="poll.poll_token" />
         </div>
         <footer v-if="!post.is_deleted && !preview">
           <div v-if="post.repost_of">

@@ -47,7 +47,8 @@ import moment from 'moment'
 export default {
   props: {
     data: Object,
-    pollId: String
+    pollId: String,
+    pollToken: String
   },
   data() {
     return {
@@ -58,8 +59,10 @@ export default {
   },
   async mounted() {
     this.timer = setInterval(this.updateTime, 1000)
-    if (!this.poll && this.pollId) {
-      const { data } = await this.$axios.$get(`/polls/${this.pollId}`)
+    if (!this.poll && this.pollId && this.pollToken) {
+      const { data } = await this.$axios.$get(
+        `/polls/${this.pollId}?poll_token=${this.pollToken}`
+      )
       this.poll = data
     }
   },
@@ -101,7 +104,7 @@ export default {
     },
     async respond(position) {
       const { data } = await this.$axios.$put(
-        `/polls/${this.id}/response/${position}`
+        `/polls/${this.id}/response/${position}?poll_token=${this.pollToken}`
       )
       this.poll = data
       this.$emit('update:data', data)
