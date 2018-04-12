@@ -15,12 +15,20 @@ import List from '~/components/List'
 
 export default {
   async asyncData(ctx) {
-    const { params, app: { $resource } } = ctx
+    const { params, app: { $resource }, error } = ctx
     const { name } = params
-    const data = await $resource()
-    return {
-      data,
-      name
+    try {
+      const data = await $resource()
+      return {
+        data,
+        name
+      }
+    } catch (e) {
+      const { meta } = e.response.data
+      error({
+        statusCode: meta.code,
+        message: meta.error_message
+      })
     }
   },
   components: {
