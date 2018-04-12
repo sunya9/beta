@@ -1,5 +1,5 @@
 <template>
-  <ul v-infinite-scroll="fetchMore" infinite-scroll-disabled="moreDisabled" infinite-scroll-distance="100" ref="list"
+  <ul v-if="items.length" v-infinite-scroll="fetchMore" infinite-scroll-disabled="moreDisabled" infinite-scroll-distance="100" ref="list"
     :class="{
        'list-group mb-4': type !== 'Message',
        'list-unstyled': type === 'Message'
@@ -28,6 +28,13 @@
       </div>
     </li>
   </ul>
+  <div v-else>
+    <h1 class="text-center my-3">
+      <slot name="empty">
+      No item
+      </slot>
+    </h1>
+  </div>
 </template>
 
 <script>
