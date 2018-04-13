@@ -64,7 +64,7 @@
     "qs": "^6.5.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
-    "sass-loader": "^6.0.6",
+    "sass-loader": "^7.0.0",
     "string-length": "^2.0.0",
     "tether": "^1.4.3",
     "twemoji": "^2.5.1",
