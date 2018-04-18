@@ -7,31 +7,39 @@
         :key="index"
         class="mb-1"
       >
-          <a
-            class="btn btn-outline-primary btn-block"
-            @click="respond(option.position)"
-            v-if="!poll.you_responded && !closed">
-            {{option.text}}
-          </a>
-          <div v-else>
-            <div class="progress position-relative" style="height: 2rem">
-              <div class="progress-bar" :style="getStyle(option)">
-                <div class="position-absolute w-100" style="right: 0; left: 0;">
-                  <div class="mx-3 d-flex justify-content-between">
-                    <span>{{option.text}}</span>
-                    <span>
-                      <span><i class="fa fa-fw fa-lg" :class="{ 'fa-check': option.is_your_response }"></i></span>
+        <a
+          class="btn btn-outline-primary btn-block"
+          @click="respond(option.position)"
+          v-if="!finished">
+          {{option.text}}
+        </a>
+        <div v-else>
+          <div class="progress position-relative" style="height: 2rem" @click="toggleDisplay">
+            <div class="progress-bar" :style="getStyle(option)">
+              <div class="position-absolute w-100" style="right: 0; left: 0;">
+                <div class="mx-3 d-flex justify-content-between">
+                  <span>{{option.text}}</span>
+                  <span>
+                    <span><i class="fa fa-fw fa-lg" :class="{ 'fa-check': option.is_your_response }"></i></span>
+                    <span v-if="preferPercent">
                       {{getPercent(option)}}%
                     </span>
-                  </div>
+                    <span v-else>
+                      {{option.respondents}}
+                    </span>
+                  </span>
                 </div>
               </div>
             </div>
           </div>
+        </div>
       </li>
     </ul>
     <footer>
       <ul class="list-inline">
+        <li class="list-inline-item text-muted" v-if="finished">
+          Total: {{total}}
+        </li>
         <li class="list-inline-item text-muted">
           <i class="fa fa-clock-o"></i>&nbsp;
           <span v-if="closed">Closed at</span><span v-else>~</span> {{until}}
@@ -54,16 +62,14 @@ export default {
     return {
       currentTime: Date.now(),
       timer: null,
-      poll: this.data
+      poll: this.data,
+      preferPercent: true
     }
   },
   async mounted() {
     this.timer = setInterval(this.updateTime, 1000)
     if (!this.poll && this.pollId && this.pollToken) {
-      const { data } = await this.$axios.$get(
-        `/polls/${this.pollId}?poll_token=${this.pollToken}`
-      )
-      this.poll = data
+      await this.getPoll()
     }
   },
   beforeDestroy() {
@@ -72,6 +78,9 @@ export default {
     }
   },
   computed: {
+    finished() {
+      return this.poll.you_responded || this.closed
+    },
     until() {
       return moment(this.poll.closed_at).format('llll')
     },
@@ -89,6 +98,13 @@ export default {
     }
   },
   methods: {
+    async getPoll() {
+      const { data } = await this.$axios.$get(
+        `/polls/${this.pollId || this.poll.id}?poll_token=${this.pollToken ||
+          this.poll.poll_token}`
+      )
+      this.poll = data
+    },
     updateTime() {
       this.currentTime = Date.now()
     },
@@ -108,6 +124,10 @@ export default {
       )
       this.poll = data
       this.$emit('update:data', data)
+    },
+    async toggleDisplay() {
+      this.preferPercent = !this.preferPercent
+      this.getPoll()
     }
   }
 }
@@ -115,5 +135,8 @@ export default {
 <style scoped>
 .btn {
   white-space: normal;
+}
+.progress {
+  cursor: pointer;
 }
 </style>
