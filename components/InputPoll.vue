@@ -7,25 +7,36 @@
       >
     </div>
     <hr>
-    <div class="form-group" v-for="(choice, index) in poll.options" :key="index">
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          :placeholder="`Choice ${index + 1} ${index > 1 ? '(Optional)' : ''}`"
-          v-model="choice.text"
-          pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,64}"
-          title="Up to 64 unicode characters"
-          >
-        <div class="input-group-append">
-          <button type="button" class="btn btn-link"
-            @click="removeChoice(index)"
-            :class="{ invisible: index < 2 }">
-            <i class="fa fa-times"></i>
-          </button>
+    <draggable v-model="poll.options"
+      :options="{
+        handle: '.handle'
+      }"
+    >
+      <div class="form-group" v-for="(choice, index) in poll.options" :key="index">
+        <div class="input-group">
+          <div class="input-group-append">
+            <button type="button" class="btn handle">
+              <i class="fa fa-bars"></i>
+            </button>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            :placeholder="`Choice ${index + 1} ${index > 1 ? '(Optional)' : ''}`"
+            v-model="choice.text"
+            pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,64}"
+            title="Up to 64 unicode characters"
+            >
+          <div class="input-group-append">
+            <button type="button" class="btn btn-link"
+              @click="removeChoice(index)"
+              :class="{ invisible: index < 2 }">
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </draggable>
     <div class="form-group">
       <button class="btn btn-link" type="button" @click="addChoice"
         :disabled="reached"
@@ -35,7 +46,7 @@
       </button>
     </div>
 
-    <div class="input-group d-inline-sm">
+    <div class="input-group d-inline-sm duration">
       <div class="input-group-prepend">
         <span class="input-group-text">Duration:</span>
       </div>
@@ -73,6 +84,8 @@
   </div>
 </template>
 <script>
+import draggable from 'vuedraggable'
+
 const ONE_DAY_MINUTE = 1440
 const PER_HOUR = 60
 
@@ -169,6 +182,9 @@ export default {
     removeChoice(i) {
       this.poll.options.splice(i, 1)
     }
+  },
+  components: {
+    draggable
   }
 }
 </script>
@@ -179,8 +195,10 @@ input[type='text']:invalid {
   border-color: map-get($theme-colors, danger);
 }
 
-[class^='input-group'] + .form-control {
-  width: auto;
-  padding: 0;
+.duration {
+  [class^='input-group'] + .form-control {
+    width: auto;
+    padding: 0;
+  }
 }
 </style>
