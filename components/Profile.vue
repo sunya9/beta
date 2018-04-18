@@ -52,7 +52,7 @@
               </p>
             </div>
           </div>
-          <div v-if="user && profile.id !== user.id" class="text-center">
+          <div v-if="!me" class="text-center">
             <follow-button :initial-state="profile.you_follow" :user-id="profile.id" class="mb-2" id="profile-follow-button" />
             <div class="text-muted" id="profile-relation">
               <small>
@@ -73,7 +73,26 @@
       <nuxt-link :tag="user ? 'a' : 'span'" class="card-link" to="follows" append>{{profile.counts.following}} Follows</nuxt-link>
       <nuxt-link :tag="user ? 'a' : 'span'" class="card-link" to="followers" append>{{profile.counts.followers}} Followers</nuxt-link>
       <nuxt-link :tag="user ? 'a' : 'span'" class="card-link" to="starred" append>{{profile.counts.bookmarks}} Starred</nuxt-link>
-      <a class="card-link" :href="'https://api.pnut.io/v0/feed/rss/users/' + profile.id + '/posts'"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
+      <div class="dropdown card-link">
+        <a
+          class="dropdown-toggle"
+          id="profile-dropdown"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          href="#"
+        >
+          …
+        </a>
+        <div
+          class="dropdown-menu dropdown-menu-right"
+          aria-labelledby="profile-dropdown"
+        >
+          <nuxt-link v-if="me" to="/polls" class="dropdown-item">Your polls</nuxt-link>
+          <a class="dropdown-item" :href="'https://api.pnut.io/v0/feed/rss/users/' + profile.id + '/posts'"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
+          
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -103,6 +122,9 @@ export default {
     ...mapState(['user']),
     relation() {
       return this.profile.follows_you ? 'Follows you' : ''
+    },
+    me() {
+      return this.user && this.profile.id == this.user.id
     }
   },
   methods: {
