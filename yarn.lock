@@ -1354,6 +1354,10 @@ better-assert@~1.0.0:
   dependencies:
     callsite "1.0.0"
 
+bezier-easing@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/bezier-easing/-/bezier-easing-2.0.3.tgz#cb493fddb7f8920ecca00973344ce0518885f17e"
+
 bfj-node4@^5.2.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/bfj-node4/-/bfj-node4-5.2.1.tgz#3a6aa2730cf6911ba2afb836c2f88f015d718f3f"
@@ -11524,6 +11528,12 @@ vue-on-click-outside@^1.0.3:
 vue-router@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"
+
+vue-scrollto@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/vue-scrollto/-/vue-scrollto-2.11.0.tgz#0657f127faded60a71fbcc841f393279a49aed55"
+  dependencies:
+    bezier-easing "^2.0.3"
 
 vue-server-renderer@2.5.16:
   version "2.5.16"

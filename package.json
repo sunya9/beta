@@ -72,6 +72,7 @@
     "unicode-substring": "^1.0.0",
     "vue-infinite-scroll": "^2.0.2",
     "vue-on-click-outside": "^1.0.3",
+    "vue-scrollto": "^2.11.0",
     "vue-server-renderer": "2.5.16",
     "vue-template-compiler": "2.5.16",
     "vuedraggable": "^2.16.0",
