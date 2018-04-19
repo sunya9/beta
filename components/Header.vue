@@ -1,7 +1,7 @@
 <template>
   <header>
     <nav class="navbar navbar-light navbar fixed-top px-0">
-      <div class="container">
+      <div class="container" @click.self="scrollToTop">
         <button class="navbar-toggler mr-2 d-md-none align-items-stretch" type="button" data-toggle="collapse" data-target="#globalNavigation" aria-controls="globalNavigation" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -19,7 +19,7 @@
           <nuxt-link
             to="/messages"
             tag="li"
-            class="nav-item"
+            class="nav-item d-none d-sm-block"
             v-if="user"
             id="nav-messages"
             title="Messages">
@@ -28,7 +28,7 @@
             </a>
           </nuxt-link>
           <nuxt-link
-            class="nav-item"
+            class="nav-item d-none d-sm-block"
             id="nav-files"
             title="Files"
             tag="li"
@@ -66,6 +66,19 @@
                 <span class="d-none d-sm-inline">Profile</span>
                 <span class="d-inline d-sm-none">@{{user.username}}</span>
               </nuxt-link>
+              <div class="dropdown-divider d-sm-none"></div>
+              <nuxt-link
+                to="/messages"
+                class="dropdown-item d-sm-none"
+              >
+                Messages
+              </nuxt-link>
+              <nuxt-link
+                class="dropdown-item d-sm-none"
+                to="/files"
+              >
+                Files
+              </nuxt-link>
               <div class="dropdown-divider"></div>
               <nuxt-link
                 data-toggle="collapse"
@@ -78,6 +91,11 @@
               <div class="dropdown-divider"></div>
               <a href="/logout" class="dropdown-item">Log out</a>
             </div>
+          </li>
+          <li class="nav-item" v-if="user">
+            <a href="#" @click.prevent="showPostModal" class="nav-link">
+              <i class="fa fa-pencil"></i>
+            </a>
           </li>
           <li class="nav-item" v-if="!user">
             <a href="/login" class="nav-link">Log in</a>
@@ -103,6 +121,7 @@ import { mapState } from 'vuex'
 import SearchForm from './SearchForm'
 import AppSidebar from '~/components/sidebar/App'
 import Avatar from '~/components/Avatar'
+import bus from '~/assets/js/bus'
 
 const networkEvents = ['online', 'offline']
 
@@ -128,12 +147,18 @@ export default {
     )
   },
   methods: {
+    scrollToTop() {
+      this.$scrollTo('body')
+    },
     connectionChanged() {
       this.online = navigator.onLine
       if (!this.online) this.showConnection()
     },
     showConnection() {
       this.$toast.show(`You are ${this.online ? 'on' : 'off'}line`).goAway(2000)
+    },
+    showPostModal() {
+      bus.$emit('showPostModal')
     }
   },
   components: {
@@ -166,11 +191,13 @@ export default {
   .nav-link,
   button {
     border-right: 1px solid $grayLighter;
+    border-left: 1px solid $grayLighter;
+    margin-right: -1px;
   }
-  &:first-child {
+  &:last-child {
     .nav-link,
     button {
-      border-left: 1px solid $grayLighter;
+      margin-right: 0;
     }
   }
 }
