@@ -50,7 +50,7 @@ import {
   sendMentionNotification
 } from '~/assets/js/notification-wrapper'
 
-const INTERVAL = 1000 * 10 // 30sec
+const INTERVAL = 1000 * 30 // 30sec
 
 export default {
   props: {
