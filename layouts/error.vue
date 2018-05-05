@@ -1,5 +1,5 @@
 <template>
-  <div class="container ta-center">
+  <div class="container text-center">
     <h1>
       {{ error.statusCode }}
     </h1>
@@ -13,6 +13,7 @@
 </template>
 <script>
 export default {
-  props: ['error']
+  props: ['error'],
+  layout: 'no-sidebar'
 }
 </script>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="card-title">Display</h3>
     <custom-checkbox v-model="square">
       Square avatars
     </custom-checkbox>

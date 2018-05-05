@@ -3,6 +3,7 @@ import Sidebar from './Sidebar'
 
 export default {
   extends: Sidebar,
+  name: 'AppSidebar',
   data() {
     const user = this.$store.state.user
     const menus = [
@@ -41,6 +42,11 @@ export default {
         label: 'Missed Conversations',
         url: '/missed-conversations',
         icon: 'fa-comment'
+      },
+      {
+        label: 'Newcomers',
+        url: '/newcomers',
+        icon: 'fa-user-plus'
       },
       {
         label: 'Photos',

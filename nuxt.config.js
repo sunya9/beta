@@ -21,7 +21,7 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: 'beta is a client for pnut.io.'
+        content: 'Beta is a client for pnut.io.'
       },
       {
         'http-equiv': 'Pragma',
@@ -30,6 +30,12 @@ module.exports = {
       {
         'http-equiv': 'Cache-Control',
         content: 'no-cache'
+      },
+      // pwa-module does not support og:site_Name
+      {
+        hid: 'og:site_name',
+        property: 'og:site_name',
+        content: 'Beta'
       }
     ],
     link: [
@@ -61,15 +67,7 @@ module.exports = {
 
   // webpack build setttings
   build: {
-    extend(config, { isDev, isClient }) {
-      if (!isDev) {
-        if (isClient) {
-          config.plugins = config.plugins.filter(
-            plugin => plugin.constructor.name !== 'UglifyJsPlugin'
-          )
-        }
-      }
-    },
+    extractCSS: true,
     plugins: [
       new ProvidePlugin({
         $: 'jquery',
@@ -85,16 +83,13 @@ module.exports = {
       'mousetrap',
       'jquery',
       'tether',
-      'axios',
       'vue-infinite-scroll',
       'vue-on-click-outside',
       '~/plugins/bootstrap.js',
-      '~/plugins/api.js',
       '~/plugins/mousetrap.js',
       '~/plugins/vue-infinite.js',
       '~/plugins/emoji.js',
       'moment',
-      'cheerio',
       '~/components/Post.vue',
       '~/components/List.vue'
     ]
@@ -106,7 +101,6 @@ module.exports = {
       src: '~/plugins/bootstrap',
       ssr: false
     },
-    '~/plugins/api',
     {
       src: '~/plugins/vue-infinite',
       ssr: false
@@ -116,17 +110,22 @@ module.exports = {
       ssr: false
     },
     {
-      src: '~/plugins/ga',
-      ssr: false
-    },
-    {
       src: '~/plugins/vue-outside',
       ssr: false
     },
     {
       src: '~/plugins/emoji',
       ssr: false
-    }
+    },
+    {
+      src: '~/plugins/vue-emojify',
+      ssr: false
+    },
+    {
+      src: '~/plugins/vue-scrollto',
+      ssr: false
+    },
+    '~/plugins/axios/'
   ],
 
   // router settings
@@ -189,5 +188,52 @@ module.exports = {
   env: {
     npm_package_homepage,
     last_modified: lastModified
+  },
+  modules: [
+    '@nuxtjs/pwa',
+    '@nuxtjs/component-cache',
+    '@nuxtjs/toast',
+    '@nuxtjs/google-analytics',
+    '@nuxtjs/axios'
+  ],
+  'google-analytics': {
+    id: 'UA-10104011-16'
+  },
+  toast: {
+    position: 'bottom-left',
+    duration: 5000
+  },
+  workbox: {
+    dev: true,
+    runtimeCaching: [
+      {
+        urlPattern: 'https://twemoji.maxcdn.com/*',
+        handler: 'cacheFirst',
+        method: 'GET'
+      },
+      {
+        urlPattern: '/proxy/*',
+        handler: 'networkFirst',
+        method: 'GET'
+      },
+      {
+        urlPattern: 'https://.*.cloudfront.net/*',
+        handler: 'cacheFirst',
+        method: 'GET'
+      }
+    ]
+  },
+  manifest: {
+    name: 'Beta'
+  },
+  icon: {
+    iconSrc: 'static/img/beta.png'
+  },
+  meta: {
+    theme_color: '#d36854'
+  },
+  axios: {
+    baseURL: 'https://api.pnut.io/v0',
+    browserBaseURL: '/proxy'
   }
 }

@@ -7,7 +7,7 @@
 
 <script>
 function sizeValidator(numLike) {
-  return [0, 24, 32, 64, 96].includes(parseInt(numLike))
+  return [0, 16, 24, 32, 64, 96].includes(parseInt(numLike))
 }
 
 export default {

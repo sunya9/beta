@@ -57,16 +57,19 @@
         </div>
       </div>
       <div class="col-md-8 order-md-1">
-        <message-compose v-model="message" @submit="refresh" />
-        <message-list :messages.sync="messages" :meta.sync="meta" />
+        <message-compose v-model="message" @submit="() => $refs.list.refresh()" />
+        <div class="card no-gutter-xs">
+          <div class="card-body">
+            <List :data="data" type="Message" ref="list" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import api from '~/plugins/api'
-import MessageList from '~/components/MessageList'
+import List from '~/components/List'
 import MessageCompose from '~/components/MessageCompose'
 import CustomCheckbox from '~/components/CustomCheckbox'
 import Avatar from '~/components/Avatar'
@@ -80,15 +83,15 @@ export default {
       message: ''
     }
   },
-  async asyncData(ctx) {
-    const messagesPromise = api(ctx).fetch()
-    const channelPromise = api(ctx).get(`/channels/${ctx.params.channel}`)
-    const subscribersPromise = api(ctx).get(
-      `/channels/${ctx.params.channel}/subscribers`
+  async asyncData({ app: { $axios, $resource }, params, error }) {
+    const messagesPromise = $resource()
+    const channelPromise = $axios.$get(`/channels/${params.channel}`)
+    const subscribersPromise = $axios.$get(
+      `/channels/${params.channel}/subscribers`
     )
     try {
       const [
-        { data: messages, meta },
+        data,
         { data: channel },
         { data: subscribers }
       ] = await Promise.all([
@@ -96,21 +99,17 @@ export default {
         channelPromise,
         subscribersPromise
       ])
-      if (meta.code >= 400) {
-        return ctx.error({
-          statusCode: meta.code,
-          message: meta.error_message,
-          home: '/messages'
-        })
-      }
       return {
-        messages,
+        data,
         channel,
-        subscribers,
-        meta
+        subscribers
       }
     } catch (e) {
-      console.error(e)
+      const { code, error_message } = e.response.data.meta
+      error({
+        statusCode: code,
+        message: error_message
+      })
     }
   },
   methods: {
@@ -119,13 +118,6 @@ export default {
     },
     cancelMute(bool) {
       if (bool) this.channel.you_muted = false
-    },
-    async refresh() {
-      this.message = ''
-      const { data: messages } = await api({ route: this.$route }).fetch({
-        since_id: this.messages[0].id
-      })
-      this.messages = messages.concat(this.messages)
     }
   },
   head() {
@@ -134,7 +126,7 @@ export default {
     }
   },
   components: {
-    MessageList,
+    List,
     MessageCompose,
     CustomCheckbox,
     Avatar

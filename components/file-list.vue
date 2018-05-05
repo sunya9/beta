@@ -6,24 +6,28 @@
         Delete
       </button>
     </div>
-    <table class="table table-hover"
-      v-infinite-scroll="fetchMore"
-      infinite-scroll-disabled="moreDisabled"
-      infinite-scroll-distance="100">
-      <thead>
-        <tr>
-          <th></th>
-          <th>#</th>
-          <th>name</th>
-        </tr>
-      </thead>
-      <tbody>
-        <file-row
-          v-for="file in modifiedFiles"
-          :file="file"
-          :key="file.id" />
-      </tbody>
-    </table>
+
+    <div class="table-responsive">
+      <table class="table table-hover"
+        v-infinite-scroll="fetchMore"
+        infinite-scroll-disabled="moreDisabled"
+        infinite-scroll-distance="100">
+        <thead>
+          <tr>
+            <th></th>
+            <th>name</th>
+            <th>created at</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <file-row
+            v-for="file in modifiedFiles"
+            :file="file"
+            :key="file.id" />
+        </tbody>
+      </table>
+    </div>
 
     <div id="delete-file-modal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -53,7 +57,6 @@
 
 <script>
 import FileRow from '~/components/file-row'
-import api from '~/plugins/api'
 import $ from 'jquery'
 
 export default {
@@ -95,9 +98,7 @@ export default {
       const option = Object.assign({}, this.option, {
         before_id: this.meta.min_id
       })
-      const { data: newItems, meta } = await api({
-        route: this.$route
-      }).fetch(option)
+      const { data: newItems, meta } = await this.$resource(option)
       this.meta = meta
 
       if (newItems.length) {
@@ -110,7 +111,7 @@ export default {
     },
     async deleteFiles() {
       const deletePromises = this.selectedFiles.map(async file => {
-        const res = await api().delete(`/files/${file.id}`)
+        const res = await this.$axios.$delete(`/files/${file.id}`)
         return res
       })
       await Promise.all(deletePromises)

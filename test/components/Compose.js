@@ -100,14 +100,6 @@ describe('Compose component', () => {
     })
   })
   describe('methods', () => {
-    describe('updateCompiledText', () => {
-      it('arg equals compiledText', () => {
-        vm.updateCompiledText('foo')
-        expect(vm.compiledText).is.equal('foo')
-        vm.updateCompiledText('bar')
-        expect(vm.compiledText).is.equal('bar')
-      })
-    })
     describe('updateCompiledTextLength', () => {
       it('arg equals compiledTextLength', () => {
         vm.updateCompiledTextLength(0)
@@ -211,7 +203,6 @@ describe('Compose component', () => {
           expect(res).to.be.an.instanceof(Promise)
           await res
           expect(vm.promise).to.be.null
-          expect(vm.error).to.be.null
           expect(vm.rawText).to.be.a('string').that.is.empty
           expect(vm.photos).to.be.an('array').that.is.empty
         })
@@ -229,4 +220,15 @@ describe('Compose component', () => {
       })
     })
   })
+  // context('when unpaid users', () => {
+  //   it('add photo is hidden', () => {
+  //     console.log(vm.$el)
+  //     expect(vm.$el.querySelector('.add-photo')).is.null
+  //   })
+  // })
+  // context('when paid users', () => {
+  //   it('add photo is visible', () => {
+  //     expect(vm.$el.querySelector('.add-photo')).is.not.null
+  //   })
+  // })
 })

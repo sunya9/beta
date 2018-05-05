@@ -8,7 +8,7 @@ module.exports = config => {
       ? [`test/components/${process.env.FILES}`]
       : ['test/components/*.js'],
     preprocessors: {
-      'test/components/*.js': 'webpack'
+      'test/components/**/*.js': 'webpack'
     },
     webpack,
     webpackMiddleware: {

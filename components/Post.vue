@@ -22,14 +22,21 @@
           </nuxt-link>
         </h6>
         <div class="d-flex flex-wrap flex-sm-nowrap">
-          <p @click="clickPostLink" v-html="html" :class="{
+          <p @click="clickPostLink" :class="{
             'mb-0': preview,
             'e-content p-name': detail
           }">
+            <entity-text
+              :content="mainPost.content">
+              [Post deleted]
+            </entity-text>
           </p>
           <div v-if="thumbs.length" class="mb-2 d-flex mr-auto ml-auto mr-sm-2 flex-wrap flex-sm-nowrap justify-content-sm-end">
             <thumb class="mx-1" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
           </div>
+        </div>
+        <div v-if="poll" class="mb-3">
+          <poll :poll-id="poll.poll_id" :poll-token="poll.poll_token" />
         </div>
         <footer v-if="!post.is_deleted && !preview">
           <div v-if="post.repost_of">
@@ -41,7 +48,7 @@
             <li class="list-inline-item">
               <nuxt-link ref="link" :to="permalink" class="text-muted" v-bind:class="{ 'u-url': detail }" :title="absDate">
                 <i class="fa fa-clock-o"></i>
-                <time :class="{ 'dt-published': detail }" :datetime="absDate"> {{date}}</time>
+                <time :class="{ 'dt-published': detail }" :datetime="absDate"> {{detail ? absDate : date}}</time>
               </nuxt-link>
             </li>
             <template v-if="post.reply_to">
@@ -147,45 +154,35 @@
 </template>
 
 <script>
-import moment from 'moment'
-import emojione from 'emojione'
 import ActionButton from '~/components/ActionButton'
 import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
+import Poll from '~/components/Poll'
 import { mapState } from 'vuex'
-import api from '~/plugins/api'
-import cheerio from 'cheerio'
 import bus from '~/assets/js/bus'
 import focus from '~/assets/js/focus'
-
-moment.updateLocale('en', {
-  relativeTime: {
-    s: '%ds',
-    m: '1m',
-    mm: '%dm',
-    h: '1h',
-    hh: '%dh'
-  }
-})
+import EntityText from '~/components/EntityText'
+import { getImageURLs } from '~/assets/js/util'
+import listItem from '~/assets/js/list-item'
 
 export default {
-  mixins: [focus],
+  mixins: [focus, listItem],
+  dateKey: 'post.created_at',
   props: {
     data: Object,
     viewOnly: Boolean,
     detail: Boolean,
     preview: Boolean
   },
-  data() {
-    return {
-      date: null
-    }
-  },
-  mounted() {
-    setInterval(this.dateUpdate, 1000 * 30) // 30sec
-    this.dateUpdate()
-  },
   computed: {
+    poll() {
+      if (!this.mainPost.raw) return
+      const raw = this.mainPost.raw.filter(
+        item => item.type === 'io.pnut.core.poll-notice'
+      )[0]
+      if (!raw) return
+      return raw.value
+    },
     reactionUsers() {
       if (!this.detail) return []
       const users = this.mainPost.bookmarked_by.concat(
@@ -209,57 +206,8 @@ export default {
           }, [])
       )
     },
-    html() {
-      if (!this.post.is_deleted) {
-        const $ = cheerio.load(this.mainPost.content.html, {
-          decodeEntities: false
-        })
-        $('a').attr('target', '_new')
-        $('span[data-mention-name]').replaceWith(function() {
-          const name = $(this).data('mention-name')
-          const text = $(this).text()
-          return `<a href="/@${name}">${text}</a>`
-        })
-        $('span[data-tag-name]').replaceWith(function() {
-          const tag = $(this).data('tag-name')
-          const text = $(this).text()
-          return `<a href="/tags/${tag}">${text}</a>`
-        })
-        return emojione.toImage($('span').html())
-      } else {
-        return '[Post deleted]'
-      }
-    },
     thumbs() {
-      if (!this.mainPost.content) return []
-      const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
-      const photos = []
-      const linkPhotos = this.mainPost.content.entities.links
-        .filter(link => imgExt.test(link.link))
-        .map(link => {
-          return {
-            original: link.link,
-            thumb: link.link
-          }
-        })
-      Array.prototype.push.apply(photos, linkPhotos)
-      if (this.mainPost.raw) {
-        const embedPhotos = this.mainPost.raw
-          .filter(r => {
-            return r.type === 'io.pnut.core.oembed' && r.value.type === 'photo'
-          })
-          .map(r => {
-            return {
-              original: r.value.url,
-              thumb: r.value.url
-            }
-          })
-        Array.prototype.push.apply(photos, embedPhotos)
-      }
-      return photos
-    },
-    absDate() {
-      return moment(this.mainPost.created_at).format()
+      return getImageURLs(this.mainPost)
     },
     post() {
       return this.data
@@ -280,23 +228,11 @@ export default {
   },
   methods: {
     favoriteToggle() {
-      this.$refs.favorite.click()
+      this.$refs.favorite.toggle()
     },
     repostToggle() {
       if (!this.me) {
-        this.$refs.repost.click()
-      }
-    },
-    dateUpdate() {
-      const now = moment()
-      const postDate = moment(this.post.created_at)
-      if (now.diff(postDate, 'day') >= 1) {
-        const lastYear =
-          now.toDate().getFullYear() - postDate.toDate().getFullYear()
-        const format = lastYear ? 'D MMM YY' : 'D MMM'
-        this.date = moment(this.post.created_at).format(format)
-      } else {
-        this.date = moment(this.post.created_at).fromNow(true)
+        this.$refs.repost.toggle()
       }
     },
     replyModal() {
@@ -309,11 +245,9 @@ export default {
       bus.$emit('showRemoveModal', this)
     },
     remove() {
-      return api()
-        .delete(`/posts/${this.post.id}`)
-        .then(() => {
-          this.$emit('remove')
-        })
+      return this.$axios
+        .$delete(`/posts/${this.post.id}`)
+        .then(() => this.$emit('remove'))
     },
     clickPostLink(e) {
       const a = e.target
@@ -325,7 +259,9 @@ export default {
   components: {
     ActionButton,
     Thumb,
-    Avatar
+    Avatar,
+    EntityText,
+    Poll
   }
 }
 </script>

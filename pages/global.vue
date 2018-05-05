@@ -12,15 +12,14 @@
 <script>
 import Compose from '~/components/Compose'
 import List from '~/components/List'
-import api from '~/plugins/api'
 import bus from '~/assets/js/bus'
 
 export default {
-  async asyncData(ctx) {
+  async asyncData({ app: { $resource }, store }) {
     const option = {
-      include_directed_posts: ctx.store.state.hide_directed_posts ? 0 : 1
+      include_directed_posts: store.state.hide_directed_posts ? 0 : 1
     }
-    const data = await api(ctx).fetch(option)
+    const data = await $resource(option)
     return { data, option }
   },
   components: {

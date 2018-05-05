@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="list-group">
+    <div class="list-group pb-3">
       <template v-for="menu in menus" v-if="'hidden' in menu ? !menu.hidden : true">
         <span
           :key="menu.label"
@@ -34,7 +34,6 @@
               ? menu.active()
               : menu.active || active(menu.url)
           }, itemClass]"
-          data-toggle="collapse" :data-target="narrow && '#navbarSupportedContent'"
           exact
           v-else>
           <span>
@@ -48,7 +47,7 @@
         </nuxt-link>
       </template>
     </div>
-    <div class="py-3">
+    <div class="pb-3" v-if="$options.name === 'AppSidebar'">
       <a
         class="text-muted"
         :href="`${npm_package_homepage}/releases/tag/v${npm_package_version}`"
@@ -70,15 +69,14 @@ export default {
     // Vue might recgnize process.env as strings and replace.
     // So, unable to use destructuring assignment because occurred errors.
     return {
-      itemClass: 'list-group-item list-group-item-action border-left-0 border-bottom-0',
+      itemClass:
+        'list-group-item list-group-item-action border-left-0 border-bottom-0',
       npm_package_version: process.env.npm_package_version,
       npm_package_homepage: process.env.npm_package_homepage,
       last_modified: moment(process.env.last_modified).format('YYYY-MM-DD')
     }
   },
-  computed: mapState([
-    'user'
-  ]),
+  computed: mapState(['user']),
   methods: {
     active(url) {
       return this.$route.fullPath === url ? 'active' : ''

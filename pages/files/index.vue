@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="mb-4">Your files</h3>
     <div class="card">
       <div class="card-body">
         <file-list :data="data" />
@@ -9,12 +8,11 @@
   </div>
 </template>
 <script>
-import api from '~/plugins/api'
 import FileList from '~/components/file-list'
 
 export default {
-  async asyncData(ctx) {
-    const data = await api(ctx).fetch()
+  async asyncData({ app: { $resource } }) {
+    const data = await $resource()
     return {
       data
     }

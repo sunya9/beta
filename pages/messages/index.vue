@@ -5,10 +5,10 @@
       <div class="col-md-8">
         <h2 class="h4">Create a channel</h2>
         <message-compose
-          create-cannel
           @submit="createChannel"
           prevent-handle
           v-model="message"
+          :disabled="!channelUsersStr"
         >
           <div class="form-group" slot="header">
             <input
@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import api from '~/plugins/api'
 import MessageCompose from '~/components/MessageCompose'
 import Channel from '~/components/Channel'
 
@@ -57,20 +56,18 @@ export default {
       busy: false
     }
   },
-  async asyncData(ctx) {
+  async asyncData({ app: { $resource } }) {
     const options = {
       include_recent_message: 1,
       channel_types: 'io.pnut.core.pm'
     }
-    const { data: channels, meta } = await api(ctx).fetch(options)
+    const { data: channels, meta } = await $resource(options)
     return { channels, meta, options }
   },
   methods: {
     async fetch() {
       this.busy = true
-      const { data: channels, meta } = await api({
-        route: this.$route
-      }).fetch(this.options)
+      const { data: channels, meta } = await this.$resource(this.options)
       this.channels = channels
       this.meta = meta
       this.busy = false
@@ -83,7 +80,7 @@ export default {
         text: this.message,
         destinations
       }
-      const { data: channel } = await api().post(
+      const { data: channel } = await this.$axios.$post(
         '/channels/pm/messages',
         option
       )

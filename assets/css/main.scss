@@ -23,16 +23,23 @@ body {
 
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.4s;
+  transition: all 0.1s;
+}
+
+.page-enter {
+  transform: translateY(100px);
+}
+
+.page-leave-active {
+  transform: translateY(-100px);
 }
 
 .page-enter,
 .page-leave-active {
   opacity: 0;
-  transform: translateY(100px);
 }
 
-.emojione {
+.emoji {
   max-width: 1.5rem;
   vertical-align: -0.25rem;
 }
@@ -40,12 +47,14 @@ body {
 .btn {
   cursor: pointer;
 }
+
 .btn-primary.disabled,
 .btn-primary:disabled {
   cursor: auto;
 }
 
 /* Dark theme */
+
 body.dark,
 body.dark .jumbotron {
   background-color: #252525;
@@ -57,85 +66,70 @@ body.dark {
     background-color: #252525;
     border-bottom-color: #212121;
   }
-
   .card {
     background-color: #252525;
   }
-
   .list-group-item {
     background-color: #252525;
   }
-
   .form-control {
     background-color: #252525;
   }
-
   .dropdown-menu {
     background-color: #252525;
     color: #d5d5d5;
   }
-
   .dropdown-item {
     color: #d5d5d5;
   }
-  .dropdown-item:hover, .dropdown-item:focus {
+  .dropdown-item:hover,
+  .dropdown-item:focus {
     background-color: #1a1a1a;
   }
-
   .modal-content {
     background-color: #252525;
     color: #d5d5d5;
   }
-
   .nav-item:first-child .nav-link,
   .nav-item:first-child button {
     border-left-color: #242424;
   }
-
   .nav-item .nav-link,
   .nav-item button {
     border-right-color: #242424;
   }
-
-  #nav-files .nav-link,#nav-messages .nav-link {
+  #nav-files .nav-link,
+  #nav-messages .nav-link {
     color: #ddd;
   }
-
-  #nav-files .nav-link:hover,#nav-messages .nav-link:hover {
+  #nav-files .nav-link:hover,
+  #nav-messages .nav-link:hover {
     color: #fff;
   }
-
   .form-control {
     border-color: #181818;
     color: #94a3b1;
   }
-
   .form-control:focus {
     color: #eee;
   }
-
   .heading {
     border-bottom-color: #181818;
   }
-
   .dropdown-divider,
   .dropdown-menu {
     border-color: #242424;
   }
-
   .list-group-item-action {
     color: #616a74;
   }
-
   .list-group-item.active {
     border-color: #232222;
     color: #fff;
   }
-
   .list-group-item {
     border-top-color: #232222;
   }
-
   /* post text */
   .media-body {
     color: #bdc5cf;
@@ -143,64 +137,57 @@ body.dark {
   .text-muted {
     color: #8e9aa5 !important;
   }
-  .media-body .list-inline-item .text-muted:hover,.add-photo:hover {
+  .media-body .list-inline-item .text-muted:hover,
+  .add-photo:hover {
     color: #fff !important;
   }
-
   /* post close */
-  .close,.close:hover,.close:active {
+  .close,
+  .close:hover,
+  .close:active {
     color: #fff;
     text-shadow: 0 1px 0 #000;
   }
-
   /* usernames */
   .text-gray-dark {
     color: #ddd !important;
   }
-
   /* new post line */
   .modal-header {
     border-bottom-color: #232323;
   }
-
   /* focused post */
   .list-group-item-warning.list-group-item-action:hover,
   .list-group-item-warning.list-group-item-action:focus,
   .list-group-item-warning {
     background-color: #1d2324;
   }
-
   /* top menu toggle */
-  .navbar-light .navbar-nav .show > .nav-link,
-  .navbar-light .navbar-nav .active > .nav-link,
+  .navbar-light .navbar-nav .show>.nav-link,
+  .navbar-light .navbar-nav .active>.nav-link,
   .navbar-light .navbar-nav .nav-link.show,
   .navbar-light .navbar-nav .nav-link.active {
     color: rgb(189, 148, 139);
   }
-
   /* beta text */
   .navbar-light .navbar-brand:hover,
   .navbar-light .navbar-brand:focus {
     color: #fff;
   }
-
   /* file list table */
   .table th,
   .table td {
     border-color: #232323;
   }
-
   /* side panel hover */
   .list-group-item:hover:not(.active):not(.h5) {
     background-color: #2a2a2a !important;
     color: #ddd;
   }
-
   /* search form */
   .search-form input[type='search']:focus {
     color: #262626;
   }
-
   /* messages */
   .balloon {
     background-color: #202020;

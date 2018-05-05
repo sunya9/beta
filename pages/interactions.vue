@@ -25,15 +25,14 @@
 <script>
 import Compose from '~/components/Compose'
 import List from '~/components/List'
-import api from '~/plugins/api'
 
 export default {
   middleware: 'authenticated',
-  async asyncData(ctx) {
+  async asyncData({ app: { $resource } }) {
     const option = {
       filters: 'bookmark,repost,follow'
     }
-    const data = await api(ctx).fetch(option)
+    const data = await $resource(option)
     return { data }
   },
   methods: {

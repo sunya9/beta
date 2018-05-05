@@ -16,7 +16,6 @@
 import Compose from '~/components/Compose'
 import List from '~/components/List'
 import { mapState } from 'vuex'
-import api from '~/plugins/api'
 import bus from '~/assets/js/bus'
 
 export default {
@@ -24,9 +23,9 @@ export default {
     Compose,
     List
   },
-  async asyncData(ctx) {
-    if (ctx.store.state.user) {
-      const data = await api(ctx).fetch()
+  async asyncData({ app: { $resource }, store }) {
+    if (store.state.user) {
+      const data = await $resource()
       return { data }
     }
   },

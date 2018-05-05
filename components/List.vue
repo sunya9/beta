@@ -1,16 +1,40 @@
 <template>
-  <ul v-infinite-scroll="fetchMore" infinite-scroll-disabled="moreDisabled" infinite-scroll-distance="100" ref="list" class="list-group mb-4">
-    <component :is="type" :key="id(item)" v-for="(item, index) in filterItems" :data="item" class="item" @click="select = index" :class="{
-          'my-4': id(item) === main,
-          'list-group-item-warning': isTarget(item)
-        }" :detail="id(item) === main" @remove="items.splice(index, 1)"></component>
-    <slot></slot>
-    <li class="list-group-item" v-show="more">
+  <ul v-if="items.length" v-infinite-scroll="fetchMore" infinite-scroll-disabled="moreDisabled" infinite-scroll-distance="100" ref="list"
+    :class="{
+       'list-group mb-4': type !== 'Message',
+       'list-unstyled': type === 'Message'
+    }">
+    <component
+      :is="type"
+      :key="id(item)"
+      v-for="(item, index) in items"
+      v-if="showItem(item)"
+      :data="item"
+      @update:data="data => $set(items, index, data)"
+      class="item"
+      @click="select = index"
+      :class="[{
+        'my-4': id(item) === main,
+        'list-group-item-warning': isTarget(item)
+      }, type.toLowerCase()]"
+      :detail="id(item) === main"
+      @remove="items.splice(index, 1)"
+      :last-update="lastUpdate"
+    />
+    <slot />
+    <li :class="{ 'list-group-item': type !== 'Message' }" v-show="more">
       <div class="text-center w-100 text-muted my-2">
         <i class="fa fa-spin fa-refresh fa-fw fa-2x"></i>
       </div>
     </li>
   </ul>
+  <div v-else>
+    <h1 class="text-center my-3">
+      <slot name="empty">
+      No item
+      </slot>
+    </h1>
+  </div>
 </template>
 
 <script>
@@ -18,18 +42,26 @@ import Mousetrap from '~/plugins/mousetrap'
 import User from '~/components/User'
 import Post from '~/components/Post'
 import Interaction from '~/components/Interaction'
-import api from '~/plugins/api'
+import Message from '~/components/Message'
+import Poll from '~/components/Poll'
+
 import {
   sendPostNotification,
   sendMentionNotification
 } from '~/assets/js/notification-wrapper'
 
-const INTERVAL = 1000 * 60 // 1min
+const INTERVAL = 1000 * 10 // 30sec
 
 export default {
   props: {
     data: Object,
-    type: String,
+    type: {
+      required: true,
+      type: String,
+      validator(str) {
+        return ['User', 'Post', 'Interaction', 'Message', 'Poll'].includes(str)
+      }
+    },
     all: Boolean,
     option: Object,
     main: String,
@@ -41,7 +73,9 @@ export default {
   components: {
     User,
     Post,
-    Interaction
+    Interaction,
+    Message,
+    Poll
   },
   data() {
     return {
@@ -50,20 +84,15 @@ export default {
       items: this.data.data || [],
       internalSelect: -1,
       timer: null,
-      refreshing: false
+      refreshing: false,
+      lastUpdate: Date.now()
     }
   },
   computed: {
-    filterItems() {
-      if (this.type === 'Post' && !this.all) {
-        return this.items.filter(item => !item.is_deleted)
-      }
-      return this.items
-    },
     mainItem() {
       return (
         this.type === 'Post' &&
-        this.filterItems.filter(item => item.id === this.main)[0]
+        this.items.filter(item => item.id === this.main)[0]
       )
     },
     more() {
@@ -132,6 +161,9 @@ export default {
     }
   },
   methods: {
+    showItem(item) {
+      return this.type !== 'Post' || this.all || !item.is_deleted
+    },
     isTarget(item) {
       return this.mainItem ? this.mainItem.reply_to === item.id : null
     },
@@ -154,7 +186,9 @@ export default {
       }
     },
     replyAll() {
-      if (this.selectItem) { this.selectItem.replyAllModal() }
+      if (this.selectItem) {
+        this.selectItem.replyAllModal()
+      }
     },
     remove() {
       if (!this.selectItem || !this.selectItem.me) return
@@ -188,9 +222,7 @@ export default {
       const option = Object.assign({}, this.defaultOption, {
         since_id: this.id(this.items[0])
       })
-      const { data: newItems } = await api({
-        route: this.$route
-      }).fetch(option)
+      const { data: newItems } = await this.$resource(option)
       if (newItems.length) {
         this.items = newItems.concat(this.items)
         this.select += newItems.length
@@ -216,15 +248,14 @@ export default {
         }
       }
       this.refreshing = false
+      this.lastUpdate = Date.now()
     },
     async fetchMore() {
       this.busy = true
       const option = Object.assign({}, this.defaultOption, {
         before_id: this.meta.min_id
       })
-      const { data: newItems, meta } = await api({
-        route: this.$route
-      }).fetch(option)
+      const { data: newItems, meta } = await this.$resource(option)
       this.meta = meta
 
       if (newItems.length) {
@@ -247,8 +278,10 @@ export default {
   z-index: auto;
 }
 
-.item:only-child,
-.item:first-child {
-  margin-top: 0 !important;
+.item:not(.message) {
+  &:only-child,
+  &:first-child {
+    margin-top: 0 !important;
+  }
 }
 </style>

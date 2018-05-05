@@ -16,32 +16,33 @@
 import Profile from '~/components/Profile'
 import Compose from '~/components/Compose'
 import List from '~/components/List'
-import api from '~/plugins/api'
 import bus from '~/assets/js/bus'
 import { mapState } from 'vuex'
 import { getTitle } from '~/assets/js/util'
 
 export default {
   async asyncData(ctx) {
-    const { params, error } = ctx
+    const { params, error, app: { $axios, $resource } } = ctx
     const { name } = params
-    const _api = api(ctx)
-    const { data: profile } = await _api.get(`/users/@${name}`)
     const option = {
       include_directed_posts: 1
     }
-    const data = await _api.fetch(option)
-    if (data.meta.code < 400) {
-      return {
-        data,
-        profile,
-        name,
-        option
+    try {
+      const data = await $resource(option)
+      const { data: profile, meta } = await $axios.$get(`/users/@${name}`)
+      if (meta.code < 400) {
+        return {
+          data,
+          profile,
+          name,
+          option
+        }
       }
-    } else {
+    } catch (e) {
+      const { meta } = e.response.data
       error({
-        statusCode: data.meta.code,
-        message: data.meta.error_message
+        statusCode: meta.code,
+        message: meta.error_message
       })
     }
   },
@@ -71,8 +72,36 @@ export default {
     List
   },
   head() {
+    const title = getTitle(this.profile)
+    const meta = [
+      {
+        hid: 'description',
+        name: 'description',
+        content: this.profile.content.text
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content: this.profile.content.text
+      },
+      {
+        hid: 'og:type',
+        property: 'og:type',
+        content: 'profile'
+      },
+      {
+        hid: 'og:title',
+        property: 'og:title',
+        content: title
+      },
+      {
+        property: 'profile:username',
+        content: this.name
+      }
+    ]
     return {
-      title: getTitle(this.profile)
+      title,
+      meta
     }
   }
 }
