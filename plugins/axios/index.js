@@ -40,6 +40,8 @@ export default (context, inject) => {
       // clear session
       // don't use `redirect`
       logout()
+    } else if (code === 404) {
+      // ignore 404
     } else {
       if (process.server) {
         error({
