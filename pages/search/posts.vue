@@ -12,7 +12,7 @@ export default {
   async asyncData({ app: { $resource }, query }) {
     const options = {
       type: 'Post',
-      q: encodeURIComponent(query.q),
+      q: query.q,
       order: 'id'
     }
     const data = await $resource(options)
