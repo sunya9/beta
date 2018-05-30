@@ -1,5 +1,5 @@
 <template>
-	<button class="btn" :class="btnClass" @click="follow" :disabled="busy" v-if="!blockState">
+	<button class="btn" :class="btnClass" @click="follow" :disabled="busy" v-if="!blocking">
 		{{text}}
 	</button>
 	<button class="btn btn-danger" v-else @click="unblock" :disabled="busy">
@@ -17,52 +17,52 @@ export default {
   },
   data() {
     return {
-      state: this.profile.you_follow,
-      blockState: this.profile.you_blocked,
-      busy: false
-    }
-  },
-  watch: {
-    'profile.you_blocked'(bool) {
-      this.blockState = bool
+      busy: false,
+      following: this.profile.you_follow,
+      blocking: this.profile.you_blocked
     }
   },
   computed: {
     text() {
-      return this.state ? 'Following' : 'Follow'
+      return this.following ? 'Following' : 'Follow'
     },
     btnClass() {
-      return `btn-${this.state ? 'secondary' : 'primary'}`
+      return `btn-${this.following ? 'secondary' : 'primary'}`
     }
   },
   methods: {
     async follow() {
-      const method = this.state ? '$delete' : '$put'
-      const prev = this.state
-      this.state = !this.state
+      const method = this.profile.you_follow ? '$delete' : '$put'
+      const prev = this.profile.you_follow
+      this.updateProfile({ you_follow: !this.profile.you_follow })
       this.busy = true
       try {
         const { data: profile } = await this.$axios[method](
           `/users/${this.profile.id}/follow`
         )
-        this.$emit('update:profile', profile)
+        this.updateProfile(profile)
       } catch (e) {
         this.$toast.error(e.message)
-        this.state = prev
+        this.updateProfile({ you_follow: prev })
       }
       this.busy = false
     },
+    updateProfile(newProfile) {
+      this.following = newProfile.you_follow
+      this.blocking = newProfile.you_blocked
+      this.$emit('update:profile', { ...this.profile, ...newProfile })
+    },
     async unblock() {
-      this.blockState = false
+      this.updateProfile({ you_blocked: false })
       this.busy = true
       try {
         const { data: profile } = await this.$axios.$delete(
           `/users/${this.profile.id}/block`
         )
-        this.$emit('update:profile', profile)
+        this.updateProfile(profile)
       } catch (e) {
         this.$toast.error(e.message)
-        this.blockState = true
+        this.updateProfile({ you_blocked: true })
       }
       this.busy = false
     }
