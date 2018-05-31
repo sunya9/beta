@@ -1,31 +1,70 @@
 <template>
-  <button class="btn" :class="btnClass" @click="follow">
-    {{text}}
-  </button>
+	<button class="btn" :class="btnClass" @click="follow" :disabled="busy" v-if="!blocking">
+		{{text}}
+	</button>
+	<button class="btn btn-danger" v-else @click="unblock" :disabled="busy">
+		Unblock
+	</button>
 </template>
 
 <script>
 export default {
-  props: ['initialState', 'userId'],
+  props: {
+    profile: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
-      state: this.initialState
+      busy: false,
+      following: this.profile.you_follow,
+      blocking: this.profile.you_blocked
     }
   },
   computed: {
     text() {
-      return this.state ? 'Following' : 'Follow'
+      return this.following ? 'Following' : 'Follow'
     },
     btnClass() {
-      return `btn-${this.state ? 'secondary' : 'primary'}`
+      return `btn-${this.following ? 'secondary' : 'primary'}`
     }
   },
   methods: {
-    follow() {
-      const method = this.state ? 'delete' : 'put'
-      return this.$axios[method](`/users/${this.userId}/follow`).then(() => {
-        this.state = !this.state
-      })
+    async follow() {
+      const method = this.profile.you_follow ? '$delete' : '$put'
+      const prev = this.profile.you_follow
+      this.updateProfile({ you_follow: !this.profile.you_follow })
+      this.busy = true
+      try {
+        const { data: profile } = await this.$axios[method](
+          `/users/${this.profile.id}/follow`
+        )
+        this.updateProfile(profile)
+      } catch (e) {
+        this.$toast.error(e.message)
+        this.updateProfile({ you_follow: prev })
+      }
+      this.busy = false
+    },
+    updateProfile(newProfile) {
+      this.following = newProfile.you_follow
+      this.blocking = newProfile.you_blocked
+      this.$emit('update:profile', { ...this.profile, ...newProfile })
+    },
+    async unblock() {
+      this.updateProfile({ you_blocked: false })
+      this.busy = true
+      try {
+        const { data: profile } = await this.$axios.$delete(
+          `/users/${this.profile.id}/block`
+        )
+        this.updateProfile(profile)
+      } catch (e) {
+        this.$toast.error(e.message)
+        this.updateProfile({ you_blocked: true })
+      }
+      this.busy = false
     }
   }
 }

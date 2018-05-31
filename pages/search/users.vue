@@ -1,7 +1,7 @@
 <template>
-  <list :data="data" type="User" :key="options.q" :option="options">
-    <span slot="empty">No results for {{options.q}}</span>
-  </list>
+	<list :data="data" type="User" :key="options.q" :option="options">
+		<span slot="empty">No results for {{options.q}}</span>
+	</list>
 </template>
 <script>
 import search from '~/assets/js/search'
@@ -12,7 +12,7 @@ export default {
   async asyncData({ app: { $resource }, query }) {
     const options = {
       type: 'User',
-      q: encodeURIComponent(query.q)
+      q: query.q
     }
     const data = await $resource(options)
     return {

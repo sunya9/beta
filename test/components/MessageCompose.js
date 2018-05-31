@@ -1,10 +1,10 @@
-import { shallow } from 'helpers/client'
+import { shallowMount } from 'helpers/client'
 import MessageCompose from '~/components/MessageCompose'
 
 describe('MessageCompose component', () => {
   let wrapper, vm
   beforeEach(() => {
-    wrapper = shallow(MessageCompose)
+    wrapper = shallowMount(MessageCompose)
     vm = wrapper.vm
   })
   it('disabled submit button when empty textarea', () => {

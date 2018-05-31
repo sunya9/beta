@@ -1,7 +1,5 @@
 import User from '~/components/User'
-import {
-  shallow, createStore
-} from 'helpers/client'
+import { shallowMount, createStore } from 'helpers/client'
 
 function extendData(obj) {
   const baseData = {
@@ -28,9 +26,7 @@ describe('User', () => {
     const data = extendData({
       foo: 'bar'
     })
-    const {
-      vm
-    } = shallow(User, {
+    const { vm } = shallowMount(User, {
       store,
       propsData: {
         data
@@ -43,9 +39,7 @@ describe('User', () => {
       const data = extendData({
         follows_you: true
       })
-      const {
-        vm
-      } = shallow(User, {
+      const { vm } = shallowMount(User, {
         store,
         propsData: {
           data
@@ -57,9 +51,7 @@ describe('User', () => {
       const data = extendData({
         follows_you: false
       })
-      const {
-        vm
-      } = shallow(User, {
+      const { vm } = shallowMount(User, {
         store,
         propsData: {
           data

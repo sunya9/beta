@@ -1,9 +1,5 @@
-import {
-  mount
-} from 'helpers/client'
-import {
-  compileToFunctions
-} from 'vue-template-compiler'
+import { mount } from 'helpers/client'
+import { compileToFunctions } from 'vue-template-compiler'
 import Users from '~/components/Users'
 
 const titleComponent = compileToFunctions('<span>title</span>')
@@ -15,6 +11,6 @@ describe('Users', () => {
         default: titleComponent
       }
     })
-    expect(wrapper.find('h3')[0].text()).to.equal('title')
+    expect(wrapper.find('h3').text()).to.equal('title')
   })
 })

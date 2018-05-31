@@ -1,65 +1,48 @@
 <template>
-  <div :class="{'mb-4 compose': !compact}" v-if="user">
-    <div class="card" :class="{'border-0': compact}">
-      <form
-        class="card-body"
-        :class="{'p-0': compact}"
-        @submit.prevent="submit">
-          <div class="form-group relative">
-            <rich-textarea
-              ref="textarea"
-              class="form-control textarea"
-              v-model="rawText"
-              @update:compiledTextCount="debounceUpdateCompiledTextLength"
-              @submit="submit"
-              :disabled="!!promise" />
-            <a href="#" class="open-emoji-picker text-dark" @click.prevent.stop="toggleEmojiPalette">
-              <i class="fa fa-lg fa-smile-o"></i>
-            </a>
-            <no-ssr>
-              <picker :background-image-fn="getSheet" set="twitter" class="emoji-picker" @click="addEmoji" v-show="showEmojiPicker" v-on-click-outside="closeEmojiPalette" />
-            </no-ssr>
-          </div>
-          <div class="form-group" v-show="photos.length">
-            <transition-group tag="div" name="photos" class="d-flex flex-wrap justify-cotnent align-items-center">
-              <thumb :key="photo.data" v-for="(photo, i) in previewPhotos" :original="photo.data" :thumb="photo.data" removable class="mr-2" @remove="photos.splice(i, 1)" />
-            </transition-group>
-          </div>
-          <div class="d-flex justify-content-between align-items-center">
-            <strong class="text-muted">{{postCounter}}</strong>
-            <div>
-              <button class="btn add-poll mr-2"
-                type="button"
-                @click="togglePoll"
-                :class="{
-                  'btn-link': !hasPoll,
-                  'btn-outline-primary': hasPoll
+	<div :class="{'mb-4 compose': !compact}" v-if="user">
+		<div class="card" :class="{'border-0': compact}">
+			<form class="card-body" :class="{'p-0': compact}" @submit.prevent="submit">
+				<div class="form-group relative">
+					<rich-textarea ref="textarea" class="form-control textarea" v-model="rawText" @update:compiledTextCount="updateCompiledTextLength" @submit="submit" :disabled="!!promise" />
+					<a href="#" class="open-emoji-picker text-dark" @click.prevent.stop="toggleEmojiPalette">
+						<i class="fa fa-lg fa-smile-o"></i>
+					</a>
+					<no-ssr>
+						<picker :background-image-fn="getSheet" set="twitter" class="emoji-picker" @click="addEmoji" v-show="showEmojiPicker" v-on-click-outside="closeEmojiPalette" />
+					</no-ssr>
+				</div>
+				<div class="form-group" v-show="photos.length">
+					<transition-group tag="div" name="photos" class="d-flex flex-wrap justify-cotnent align-items-center">
+						<thumb :key="photo.data" v-for="(photo, i) in previewPhotos" :original="photo.data" :thumb="photo.data" removable class="mr-2" @remove="photos.splice(i, 1)" />
+					</transition-group>
+				</div>
+				<div class="d-flex justify-content-between align-items-center">
+					<strong class="text-muted" data-test-id="post-counter">{{postCounter}}</strong>
+					<div>
+						<button class="btn btn-link add-poll mr-3" type="button" @click="togglePoll" :class="{
+                  'text-dark': !hasPoll,
+                  'btn-primary': hasPoll
                 }">
-                <i class="fa fa-bar-chart"></i><span class="d-none d-sm-inline ml-2">Add a poll...</span>
-              </button>
-              <label
-                v-show="!noPhoto"
-                v-if="$store.state.user.storage.available"
-                class="btn btn-link text-muted add-photo mr-2"
-                :disabled="promise">
-                <i class="fa fa-picture-o"></i><span class="d-none d-sm-inline ml-2">Add photo…</span>
-                <input type="file" multiple
-                  accept="image/*"
-                  @change="fileChange"
-                  style="display: none" ref="file">
-              </label>
-              <button type="submit" class="btn btn-primary text-uppercase" :disabled="disabled">
-                <span v-show="promise">
-                  <i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
-                </span>
-                Post
-              </button>
-            </div>
-          </div>
-          <input-poll @update:poll="p => poll = p" v-if="poll" class="mt-3" />
-        </form>
-    </div>
-  </div>
+							<i class="fa fa-bar-chart"></i>
+							<span class="d-none d-sm-inline ml-2">Add a poll...</span>
+						</button>
+						<label v-show="!noPhoto" v-if="$store.state.user.storage.available" class="btn btn-link text-dark add-photo mr-3" :disabled="promise">
+							<i class="fa fa-picture-o"></i>
+							<span class="d-none d-sm-inline ml-2">Add photo…</span>
+							<input type="file" multiple accept="image/*" @change="fileChange" style="display: none" ref="file">
+						</label>
+						<button type="submit" class="ml-1 btn btn-primary text-uppercase" :disabled="disabled">
+							<span v-show="promise">
+								<i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
+							</span>
+							Post
+						</button>
+					</div>
+				</div>
+				<input-poll @update:poll="p => poll = p" v-if="poll" class="mt-3" />
+			</form>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -127,7 +110,7 @@ export default {
     },
     disabled() {
       const sending = !!this.promise
-      return (
+      return !!(
         this.textOverflow ||
         this.hasNotText ||
         sending ||
@@ -235,7 +218,9 @@ export default {
           option.reply_to = this.replyTarget.id
         }
         if (this.hasPoll) {
-          const { data: { id: poll_id, poll_token } } = await this.uploadPoll()
+          const {
+            data: { id: poll_id, poll_token }
+          } = await this.uploadPoll()
           option.raw.push({
             type: 'io.pnut.core.poll-notice',
             value: {
@@ -375,12 +360,12 @@ function obj2FormData(obj) {
 
 .open-emoji-picker {
   position: absolute;
-  left: 0.5rem;
-  bottom: 0.5rem;
+  right: 0.5rem;
+  top: 0.5rem;
 }
 
 .textarea {
-  padding-bottom: 2rem;
+  padding-right: 1.7rem;
   min-height: 7rem;
 }
 

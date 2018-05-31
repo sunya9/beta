@@ -1,16 +1,12 @@
 <template>
-  <form @submit.prevent="search" class="form-inline search-form d-inline-flex align-items-center">
-    <input type="search" class="form-control" placeholder="keyword search" v-model="text">
-    <button
-      type="submit"
-      class="btn btn-link text-dark"
-      :disabled="!text">
-      <i class="fa fa-search"></i>
-    </button>
-  </form>
+	<form @submit.prevent="search" class="form-inline search-form d-inline-flex align-items-center">
+		<input type="search" class="form-control" placeholder="keyword search" v-model="text">
+		<button type="submit" class="btn btn-link text-dark" :disabled="!text">
+			<i class="fa fa-search"></i>
+		</button>
+	</form>
 </template>
 <script>
-import qs from 'querystring'
 export default {
   data() {
     return {
@@ -28,8 +24,12 @@ export default {
       const query = {
         q: this.text
       }
-      const [, type] = this.$route.name.split('-')
-      this.$router.push(`/search/${type || 'posts'}?${qs.stringify(query)}`)
+      const [search, type] = this.$route.name.split('-')
+      const searchType = search === 'search' ? type : 'posts'
+      this.$router.push({
+        path: `/search/${searchType}`,
+        query
+      })
     }
   }
 }
