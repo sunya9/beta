@@ -28,7 +28,7 @@
         >
           <channel
             class="list-group-item list-group-item-action"
-            v-for="channel in channels"
+            v-for="channel in excludeBlockedUsers"
             :key="channel.id"
             :channel="channel"
           />
@@ -59,7 +59,8 @@ export default {
   async asyncData({ app: { $resource } }) {
     const options = {
       include_recent_message: 1,
-      channel_types: 'io.pnut.core.pm'
+      channel_types: 'io.pnut.core.pm',
+      include_limited_users: 1
     }
     const { data: channels, meta } = await $resource(options)
     return { channels, meta, options }
@@ -92,6 +93,11 @@ export default {
   computed: {
     moreDisabled() {
       return this.busy || !this.meta.more
+    },
+    excludeBlockedUsers() {
+      return this.channels.filter(
+        channel => channel.owner && channel.acl.write.user_ids[0]
+      )
     }
   },
   head() {

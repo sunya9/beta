@@ -1,45 +1,68 @@
-import Header from '~/components/FollowButton'
+import FollowButton from '~/components/FollowButton'
 import { mount } from 'helpers/client'
 
 describe('FollowButton component', () => {
-  describe('initialState is false', () => {
-    const { vm } = mount(Header, {
-      propsData: {
-        initialState: false,
-        userId: 1
-      }
+  let wrapper
+  const baseProfile = {
+    you_follow: false,
+    id: 1,
+    you_blocked: false
+  }
+
+  context('not follow', () => {
+    beforeEach(() => {
+      wrapper = mount(FollowButton, {
+        propsData: {
+          profile: {
+            ...baseProfile
+          }
+        }
+      })
     })
     it('Text is "Follow"', () => {
-      expect(vm.text).to.equal('Follow')
+      expect(wrapper.text()).to.equal('Follow')
     })
-    it('To be true when succeed in follow', done => {
-      vm
-        .follow()
-        .then(() => {
-          expect(vm.state).to.be.true
-          done()
-        })
-        .catch(done)
+    it('To be "following" when succeed in follow', () => {
+      wrapper.trigger('click')
+      expect(wrapper.text()).to.equal('Following')
     })
   })
-  describe('initialState is true', () => {
-    const { vm } = mount(Header, {
-      propsData: {
-        initialState: true,
-        userId: 1
-      }
+  context('following', () => {
+    beforeEach(() => {
+      wrapper = mount(FollowButton, {
+        propsData: {
+          profile: {
+            ...baseProfile,
+            you_follow: true
+          }
+        }
+      })
     })
     it('Text is "Following"', () => {
-      expect(vm.text).to.equal('Following')
+      expect(wrapper.text()).to.equal('Following')
     })
-    it('To be false when succeed in unfollow', done => {
-      vm
-        .follow()
-        .then(() => {
-          expect(vm.state).to.be.false
-          done()
-        })
-        .catch(done)
+    it('To be "Follow" when succeed in unfollow', () => {
+      wrapper.trigger('click')
+      expect(wrapper.text()).to.equal('Follow')
+    })
+  })
+  context('Blocked an user', () => {
+    beforeEach(() => {
+      wrapper = mount(FollowButton, {
+        propsData: {
+          profile: {
+            ...baseProfile,
+            you_blocked: true
+          }
+        }
+      })
+    })
+    it('Text is "Unblock"', () => {
+      expect(wrapper.text()).to.equal('Unblock')
+    })
+    it('Text is "Follow" when unblock', () => {
+      wrapper.trigger('click')
+      expect(wrapper.text()).to.equal('Follow')
     })
   })
 })

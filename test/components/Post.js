@@ -1,8 +1,9 @@
 import Post from '~/components/Post'
-import { mount, createStore } from 'helpers/client'
+import EntityText from '~/components/EntityText'
+import { shallowMount, createStore } from 'helpers/client'
 
 describe('Post component', () => {
-  let wrapper, vm, store
+  let wrapper, store
   const post = {
     id: 1,
     name: 'foo',
@@ -39,25 +40,41 @@ describe('Post component', () => {
   }
   beforeEach(() => {
     store = createStore()
-    try {
-      wrapper = mount(Post, {
-        propsData: {
-          data: post
-        },
-        store
-      })
-    } catch (e) {
-      console.error(e)
-    }
+    wrapper = shallowMount(Post, {
+      propsData: {
+        data: post
+      },
+      store,
+      stubs: {
+        EntityText
+      }
+    })
     store.commit('SET_USER', {
       username: 'foo',
       id: 1
     })
-    vm = wrapper.vm
   })
-  context('a post deleted', () => {
-    it('Show [Post deleted]', () => {
-      vm
+  describe('a post deleted', () => {
+    it('Show [Post deleted]', async () => {
+      // wrapper.setProps({
+      //   data: { ...post,
+      //     is_deleted: true
+      //   }
+      // })
+      wrapper = shallowMount(Post, {
+        propsData: {
+          data: {
+            ...post,
+            is_deleted: true
+          }
+        },
+        store,
+        stubs: {
+          EntityText
+        }
+      })
+      await wrapper.vm.$nextTick()
+      expect(wrapper.text()).to.contain('[Post deleted]')
     })
   })
 })

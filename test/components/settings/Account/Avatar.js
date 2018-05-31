@@ -1,5 +1,5 @@
 import Avatar from '~/components/settings/Account/Avatar'
-import { shallow } from 'helpers/client'
+import { shallowMount } from 'helpers/client'
 import sinon from 'sinon'
 
 describe('Avatar component', () => {
@@ -17,7 +17,7 @@ describe('Avatar component', () => {
     is_default: false
   }
   beforeEach(() => {
-    wrapper = shallow(Avatar, {
+    wrapper = shallowMount(Avatar, {
       propsData: {
         avatar: oldAvatar
       }

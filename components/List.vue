@@ -1,40 +1,28 @@
 <template>
-  <ul v-if="items.length" v-infinite-scroll="fetchMore" infinite-scroll-disabled="moreDisabled" infinite-scroll-distance="100" ref="list"
-    :class="{
+	<ul v-if="items.length" v-infinite-scroll="fetchMore" infinite-scroll-disabled="moreDisabled" infinite-scroll-distance="100" ref="list" :class="{
        'list-group mb-4': type !== 'Message',
        'list-unstyled': type === 'Message'
     }">
-    <component
-      :is="type"
-      :key="id(item)"
-      v-for="(item, index) in items"
-      v-if="showItem(item)"
-      :data="item"
-      @update:data="data => $set(items, index, data)"
-      class="item"
-      @click="select = index"
-      :class="[{
+		<component :is="type" :key="id(item)" v-for="(item, index) in items" v-if="showItem(item)" :data="item" @update:data="data => $set(items, index, data)" class="item" @click="select = index" :class="[{
         'my-4': id(item) === main,
         'list-group-item-warning': isTarget(item)
-      }, type.toLowerCase()]"
-      :detail="id(item) === main"
-      @remove="items.splice(index, 1)"
-      :last-update="lastUpdate"
-    />
-    <slot />
-    <li :class="{ 'list-group-item': type !== 'Message' }" v-show="more">
-      <div class="text-center w-100 text-muted my-2">
-        <i class="fa fa-spin fa-refresh fa-fw fa-2x"></i>
-      </div>
-    </li>
-  </ul>
-  <div v-else>
-    <h1 class="text-center my-3">
-      <slot name="empty">
-      No item
-      </slot>
-    </h1>
-  </div>
+      }, type.toLowerCase()]" :detail="id(item) === main" v-bind="componentOptions" @remove="items.splice(index, 1)" :last-update="lastUpdate" />
+		<slot />
+		<li :class="{ 'list-group-item': type !== 'Message' }" v-show="more">
+			<div class="text-center w-100 text-muted my-2">
+				<i class="fa fa-spin fa-refresh fa-fw fa-2x"></i>
+			</div>
+		</li>
+	</ul>
+	<div v-else>
+		<div class="text-center my-3">
+			<slot name="empty">
+				<div class="list-group-item py-4">
+					No {{type.toLowerCase()}}s
+				</div>
+			</slot>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -68,6 +56,10 @@ export default {
     autoRefresh: {
       type: Boolean,
       default: true
+    },
+    componentOptions: {
+      type: Object,
+      default: () => ({})
     }
   },
   components: {
