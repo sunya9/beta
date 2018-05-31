@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-5 pt-5">
-  <h1 class="h3 mt-4">{{title}}</h1>
+  <div>
+  <h1 class="h3">{{title}}</h1>
     <div v-if="!posted">
       <compose @post="finishPosting" no-photo :initial-text="message" :focus="true" />
     </div>
@@ -15,19 +15,20 @@ import Compose from '~/components/Compose'
 
 export default {
   middleware: 'authenticated',
-  layout: 'intent',
+  layout: 'no-sidebar',
   async asyncData({ query }) {
     const { text, url } = query
     const message = text && url ? `[${text}](${url})` : ''
     return {
-      message, url, text, posted: false
+      message,
+      url,
+      text,
+      posted: false
     }
   },
   computed: {
     title() {
-      return !this.posted
-        ? 'Share a link'
-        : 'Shared link!'
+      return !this.posted ? 'Share a link' : 'Shared link!'
     }
   },
   methods: {

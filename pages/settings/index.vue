@@ -3,12 +3,11 @@
 </template>
 
 <script>
-import api from '~/plugins/api'
 import Account from '~/components/settings/Account'
 
 export default {
-  async asyncData(ctx) {
-    const { data: account } = await api(ctx).get('/users/me')
+  async asyncData({ app: { $axios } }) {
+    const { data: account } = await $axios.$get('/users/me')
     return {
       account
     }

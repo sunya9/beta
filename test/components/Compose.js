@@ -1,5 +1,5 @@
 import Compose from '~/components/Compose'
-import { mount, createStore } from 'helpers/client'
+import { shallowMount, createStore } from 'helpers/client'
 import sinon from 'sinon'
 
 describe('Compose component', () => {
@@ -8,15 +8,22 @@ describe('Compose component', () => {
     store = createStore()
     store.commit('SET_USER', {
       username: 'foo',
-      id: 1
+      id: 1,
+      storage: {
+        available: 0
+      }
     })
-    wrapper = mount(Compose, { store })
+    wrapper = shallowMount(Compose, {
+      store
+    })
     vm = wrapper.vm
   })
   describe('computed', () => {
     describe('postCounter', () => {
       it('default postCounter is 256', () => {
-        expect(vm.postCounter).is.equal(256)
+        expect(wrapper.find('[data-test-id="post-counter"]').text()).is.equal(
+          '256'
+        )
       })
       context('when text length is 128', () => {
         it('postCounter equals 128', () => {
@@ -100,14 +107,6 @@ describe('Compose component', () => {
     })
   })
   describe('methods', () => {
-    describe('updateCompiledText', () => {
-      it('arg equals compiledText', () => {
-        vm.updateCompiledText('foo')
-        expect(vm.compiledText).is.equal('foo')
-        vm.updateCompiledText('bar')
-        expect(vm.compiledText).is.equal('bar')
-      })
-    })
     describe('updateCompiledTextLength', () => {
       it('arg equals compiledTextLength', () => {
         vm.updateCompiledTextLength(0)
@@ -211,7 +210,6 @@ describe('Compose component', () => {
           expect(res).to.be.an.instanceof(Promise)
           await res
           expect(vm.promise).to.be.null
-          expect(vm.error).to.be.null
           expect(vm.rawText).to.be.a('string').that.is.empty
           expect(vm.photos).to.be.an('array').that.is.empty
         })
@@ -229,4 +227,15 @@ describe('Compose component', () => {
       })
     })
   })
+  // context('when unpaid users', () => {
+  //   it('add photo is hidden', () => {
+  //     console.log(vm.$el)
+  //     expect(vm.$el.querySelector('.add-photo')).is.null
+  //   })
+  // })
+  // context('when paid users', () => {
+  //   it('add photo is visible', () => {
+  //     expect(vm.$el.querySelector('.add-photo')).is.not.null
+  //   })
+  // })
 })

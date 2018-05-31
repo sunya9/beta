@@ -27,11 +27,11 @@
           }"
           class="col-12">
           <h3
-            class="d-flex align-items-center mb-4"
+            class="d-flex align-items-center mb-0"
             v-if="!notLoginIndex"
             :class="{
-              'justify-content-between': selectedDropdownItem,
-              'justify-content-end  mb-md-0': !selectedDropdownItem
+              'justify-content-between mb-4': selectedDropdownItem,
+              'justify-content-end': !selectedDropdownItem
             }"
           >
             <div class="d-flex align-items-center" v-if="selectedDropdownItem">
@@ -42,21 +42,22 @@
               {{selectedDropdownItem.label}}
             </div>
 
-            <div class="ml-3 d-md-none h4 mb-1 mt-1" v-if="sidebar">
+            <div class="ml-3 d-md-none h4 mb-1 mt-1" v-if="sidebar && !isAppSidebar">
               <a
                 data-toggle="collapse"
                 data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent"
                 aria-expanded="false"
                 aria-label="Toggle local navigation"
+                href="#"
               >
                 <i class="fa fa-bars fa-lg"></i>
               </a>
             </div>
           </h3>
-          <component :is="sidebar" id="navbarSupportedContent" class="collapse" narrow />
+          <component :is="sidebar" v-if="!isAppSidebar" id="navbarSupportedContent" class="collapse" narrow />
           <div>
-            <nuxt ref="nuxt" />
+            <nuxt />
           </div>
         </div>
       </div>
@@ -113,11 +114,15 @@ export default {
   },
   data() {
     return {
-      marginTop: 48, // default margin size
-      bodyClass: ''
+      bodyClass: '',
+      marginTop: 48
     }
   },
+
   computed: {
+    isAppSidebar() {
+      return this.sidebarName === 'AppSidebar'
+    },
     notLoginIndex() {
       return !this.user && this.$route.name === 'index'
     },
@@ -143,6 +148,9 @@ export default {
       return matcher ? matcher[0] : ''
     },
     sidebar() {
+      return this.$options.components[this.sidebarName]
+    },
+    sidebarName() {
       const name = this.routeName
       const map = {
         settings: 'SettingsSidebar',
@@ -152,8 +160,7 @@ export default {
         messages: null,
         null: null
       }
-      const componentName = map[name] || (map[name] !== null && 'AppSidebar')
-      return this.$options.components[componentName]
+      return map[name] || (map[name] !== null && 'AppSidebar')
     },
     ...mapState(['user'])
   },
@@ -164,11 +171,11 @@ export default {
         this.bodyClass = 'dark'
       }
     }
-
     const { height } = this.$refs.header.$el
       .querySelector('.navbar')
       .getBoundingClientRect()
     this.marginTop = height
+
     const router = this.$router
     // new post
     Mousetrap.bind('n', () => this.$refs.postModal.showModal())

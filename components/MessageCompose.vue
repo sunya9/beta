@@ -2,14 +2,14 @@
   <div class="card mb-4 no-gutter-xs">
     <div class="card-body">
       <form @submit.prevent="submit">
-        <slot name="header"></slot>
+        <slot name="header" :disabed="promise"></slot>
         <div class="form-group">
           <textarea
             class="form-control"
             :value="value"
             @input="$emit('input', $event.target.value)"
             @keyup.ctrl.enter="submit"
-            :disabled="calcDisabled"
+            :disabled="promise"
           >
           </textarea>
         </div>
@@ -17,11 +17,7 @@
         <div class="d-flex justify-content-end">
           <button
             type="submit"
-            class="btn text-uppercase"
-            :class="{
-              'btn-secondary': calcDisabled,
-              'btn-primary': !calcDisabled
-            }"
+            class="btn text-uppercase btn-primary"
             :disabled="calcDisabled">
             <span v-show="promise">
               <i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
@@ -34,11 +30,8 @@
   </div>
 </template>
 <script>
-import api from '~/plugins/api'
-
 export default {
   props: {
-    createChannel: Boolean,
     disabled: Boolean,
     value: String,
     preventHandle: Boolean
@@ -50,7 +43,7 @@ export default {
   },
   computed: {
     calcDisabled() {
-      return this.disabled || this.promise
+      return this.disabled || this.promise || !this.value
     }
   },
   methods: {
@@ -63,7 +56,7 @@ export default {
       const option = {
         text: this.value
       }
-      this.promise = api().post(
+      this.promise = this.$axios.$post(
         `/channels/${this.$route.params.channel}/messages`,
         option
       )

@@ -5,13 +5,18 @@ export default {
   extends: Sidebar,
   data() {
     const menus = [
-      {type: 'heading', label: 'About'},
+      { type: 'heading', label: 'About' },
       {
         label: 'Beta',
         icon: 'fa-info-circle',
         url: '/about'
       },
-      {type: 'heading', label: 'Resources'},
+      {
+        label: 'Stats',
+        icon: 'fa-bar-chart',
+        url: '/about/stats'
+      },
+      { type: 'heading', label: 'Resources' },
       {
         label: 'Bookmarklet',
         icon: 'fa-bookmark',

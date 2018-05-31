@@ -1,23 +1,15 @@
 <template>
-  <span class="apply-pre" v-if="hasEntities">
-    <template v-for="(entity, i) in entities">
-      <nuxt-link v-emojify :to="`/@${entity.text}`"
-        v-if="entity.type === 'mentions'"
-        :key="`mention-${i}`">@{{entity.text}}</nuxt-link>
-      <nuxt-link v-emojify :to="`/tags/${entity.text}`"
-        v-else-if="entity.type === 'tags'"
-        :key="`tags-${i}`">#{{entity.text}}</nuxt-link>
-      <a :href="entity.link"
-        target="_new"
-        v-emojify
-        v-else-if="entity.type === 'links'"
-        :key="`links-${i}`">{{unicodeSubstring(entity.text, 0, entity.len)}}</a>
-      <span v-else v-emojify :key="`text-${i}`">{{entity.text}}</span>
-    </template>
-  </span>
-  <span v-else>
-    <slot />
-  </span>
+	<span class="apply-pre" v-if="hasEntities && !deleted">
+		<template v-for="(entity, i) in entities">
+			<nuxt-link v-emojify :to="`/@${entity.text}`" v-if="entity.type === 'mentions'" :key="`mention-${i}`">@{{entity.text}}</nuxt-link>
+			<nuxt-link v-emojify :to="`/tags/${entity.text}`" v-else-if="entity.type === 'tags'" :key="`tags-${i}`">#{{entity.text}}</nuxt-link>
+			<a :href="entity.link" target="_new" v-emojify v-else-if="entity.type === 'links'" :key="`links-${i}`">{{unicodeSubstring(entity.text, 0, entity.len)}}</a>
+			<span v-else v-emojify :key="`text-${i}`">{{entity.text}}</span>
+		</template>
+	</span>
+	<span v-else>
+		<slot />
+	</span>
 </template>
 <script>
 import unicodeSubstring from 'unicode-substring'
@@ -25,7 +17,12 @@ import stringLength from 'string-length'
 export default {
   props: {
     content: {
-      type: Object
+      type: Object,
+      default: () => ({})
+    },
+    deleted: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -79,6 +76,6 @@ function addTypeKey(entities, value) {
 </script>
 <style scoped>
 .apply-pre {
-  white-space: pre-line;
+  white-space: pre-wrap;
 }
 </style>

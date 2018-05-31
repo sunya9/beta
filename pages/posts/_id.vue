@@ -8,24 +8,18 @@
 import Post from '~/components/Post'
 import Compose from '~/components/Compose'
 import List from '~/components/List'
-import api from '~/plugins/api'
 import bus from '~/assets/js/bus'
 import { getImageURLs } from '~/assets/js/util'
 
 export default {
   async asyncData(ctx) {
-    const { params: { id } } = ctx
-    const _api = api(ctx)
+    const { params: { id }, app: { $resource } } = ctx
     const option = {
       include_directed_posts: 1,
       include_bookmarked_by: 1,
       include_reposted_by: 1
     }
-    const postPromise = _api.fetch({
-      include_directed_posts: 1,
-      include_bookmarked_by: 1,
-      include_reposted_by: 1
-    })
+    const postPromise = $resource(option)
 
     const data = await postPromise
     data.data = data.data ? data.data.reverse() : []
@@ -35,9 +29,9 @@ export default {
       data
     }
   },
-  // validate ({ params }) {
-  //   return /^\d+$/.test(params.id)
-  // },
+  validate({ params }) {
+    return /^\w+$/.test(params.name) && /\d+$/.test(params.id)
+  },
   mounted() {
     bus.$on('post', this.addAfter)
   },

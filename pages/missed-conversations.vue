@@ -12,14 +12,13 @@
 <script>
 import Compose from '~/components/Compose'
 import List from '~/components/List'
-import api from '~/plugins/api'
 
 export default {
-  async asyncData(ctx) {
+  async asyncData({ app: { $resource } }) {
     const option = {
       include_directed_posts: 1
     }
-    const data = await api(ctx).fetch(option)
+    const data = await $resource(option)
     return { data, option }
   },
   components: {

@@ -1,68 +1,60 @@
 <template>
-  <div :class="{'mb-4 compose': !compact}" v-if="user">
-    <div class="card" :class="{'border-0': compact}">
-      <form
-        class="card-body"
-        :class="{'p-0': compact}"
-        @submit.prevent="submit">
-          <div class="form-group relative">
-            <rich-textarea
-              ref="textarea"
-              class="form-control textarea"
-              v-model="rawText"
-              @update:compiledText="updateCompiledText"
-              @update:compiledTextCount="updateCompiledTextLength"
-              @submit="submit"
-              :disabled="!!promise" />
-            <a href="#" class="open-emoji-picker text-dark" @click.prevent.stop="toggleEmojiPalette">
-              <i class="fa fa-lg fa-smile-o"></i>
-            </a>
-            <picker v-if="mounted" set="emojione" class="emoji-picker" @click="addEmoji" v-show="showEmojiPicker" v-on-click-outside="closeEmojiPalette" />
-          </div>
-          <div class="form-group" v-show="photos.length">
-            <transition-group tag="div" name="photos" class="d-flex flex-wrap justify-cotnent align-items-center">
-              <thumb :key="photo.data" v-for="(photo, i) in previewPhotos" :original="photo.data" :thumb="photo.data" removable class="mr-2" @remove="photos.splice(i, 1)" />
-            </transition-group>
-          </div>
-          <div v-if="error" class="alert alert-danger fade show" role="alert">
-            {{ error }}
-          </div>
-          <div class="d-flex justify-content-between align-items-center">
-            <strong class="text-muted">{{postCounter}}</strong>
-            <div>
-              <label
-                v-show="!noPhoto"
-                v-if="$store.state.user.storage"
-                class="btn btn-link text-muted add-photo"
-                :disabled="promise">
-                <i class="fa fa-picture-o"></i>&nbsp; Add photo…
-                <input type="file" multiple
-                  accept="image/*"
-                  @change="fileChange"
-                  style="display: none" ref="file">
-              </label>
-              <button type="submit" class="btn btn-primary text-uppercase" :disabled="disabled">
-                <span v-show="promise">
-                  <i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
-                </span>
-                Post
-              </button>
-            </div>
-          </div>
-        </form>
-    </div>
-  </div>
+	<div :class="{'mb-4 compose': !compact}" v-if="user">
+		<div class="card" :class="{'border-0': compact}">
+			<form class="card-body" :class="{'p-0': compact}" @submit.prevent="submit">
+				<div class="form-group relative">
+					<rich-textarea ref="textarea" class="form-control textarea" v-model="rawText" @update:compiledTextCount="updateCompiledTextLength" @submit="submit" :disabled="!!promise" />
+					<a href="#" class="open-emoji-picker text-dark" @click.prevent.stop="toggleEmojiPalette">
+						<i class="fa fa-lg fa-smile-o"></i>
+					</a>
+					<no-ssr>
+						<picker :background-image-fn="getSheet" set="twitter" class="emoji-picker" @click="addEmoji" v-show="showEmojiPicker" v-on-click-outside="closeEmojiPalette" />
+					</no-ssr>
+				</div>
+				<div class="form-group" v-show="photos.length">
+					<transition-group tag="div" name="photos" class="d-flex flex-wrap justify-cotnent align-items-center">
+						<thumb :key="photo.data" v-for="(photo, i) in previewPhotos" :original="photo.data" :thumb="photo.data" removable class="mr-2" @remove="photos.splice(i, 1)" />
+					</transition-group>
+				</div>
+				<div class="d-flex justify-content-between align-items-center">
+					<strong class="text-muted" data-test-id="post-counter">{{postCounter}}</strong>
+					<div>
+						<button class="btn btn-link add-poll mr-3" type="button" @click="togglePoll" :class="{
+                  'text-dark': !hasPoll,
+                  'btn-primary': hasPoll
+                }">
+							<i class="fa fa-bar-chart"></i>
+							<span class="d-none d-sm-inline ml-2">Add a poll...</span>
+						</button>
+						<label v-show="!noPhoto" v-if="$store.state.user.storage.available" class="btn btn-link text-dark add-photo mr-3" :disabled="promise">
+							<i class="fa fa-picture-o"></i>
+							<span class="d-none d-sm-inline ml-2">Add photo…</span>
+							<input type="file" multiple accept="image/*" @change="fileChange" style="display: none" ref="file">
+						</label>
+						<button type="submit" class="ml-1 btn btn-primary text-uppercase" :disabled="disabled">
+							<span v-show="promise">
+								<i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
+							</span>
+							Post
+						</button>
+					</div>
+				</div>
+				<input-poll @update:poll="p => poll = p" v-if="poll" class="mt-3" />
+			</form>
+		</div>
+	</div>
 </template>
 
 <script>
-import api from '~/plugins/api'
 import Post from '~/components/Post'
 import bus from '~/assets/js/bus'
 import { mapState } from 'vuex'
 import Thumb from '~/components/Thumb'
-import axios from 'axios'
 import { Picker } from '~/plugins/emoji'
 import RichTextarea from '~/components/RichTextarea'
+import emojiSource from 'emoji-datasource-twitter/img/twitter/sheets/64.png'
+import { debounce } from 'lodash'
+import InputPoll from '~/components/InputPoll'
 
 export default {
   props: {
@@ -81,12 +73,10 @@ export default {
       promise: null,
       photos: [],
       previewPhotos: [],
-      error: null,
       rawText: this.initialText,
       showEmojiPicker: false,
-      mounted: false,
-      compiledText: '',
-      compiledTextLength: 0
+      compiledTextLength: 0,
+      poll: null
     }
   },
   watch: {
@@ -106,6 +96,9 @@ export default {
   },
 
   computed: {
+    hasPoll() {
+      return this.poll
+    },
     postCounter() {
       return 256 - this.compiledTextLength
     },
@@ -117,7 +110,19 @@ export default {
     },
     disabled() {
       const sending = !!this.promise
-      return this.textOverflow || this.hasNotText || sending
+      return !!(
+        this.textOverflow ||
+        this.hasNotText ||
+        sending ||
+        (this.poll && !this.availablePoll)
+      )
+    },
+    availablePoll() {
+      return (
+        this.poll &&
+        this.poll.options &&
+        this.poll.options.filter(option => option.text).length >= 2
+      )
     },
     hasPhotos() {
       return this.photos.length
@@ -125,7 +130,6 @@ export default {
     ...mapState(['user'])
   },
   mounted() {
-    this.mounted = true
     if (this.focus) {
       this.setFocus()
     }
@@ -158,11 +162,17 @@ export default {
     }
   },
   methods: {
-    updateCompiledText(compiledText) {
-      this.compiledText = compiledText
+    togglePoll() {
+      this.poll = this.poll ? null : {}
+    },
+    getSheet() {
+      return emojiSource
     },
     updateCompiledTextLength(length) {
       this.compiledTextLength = length
+    },
+    debounceUpdateCompiledTextLength(...args) {
+      return debounce(this.updateCompiledTextLength, 500)(...args)
     },
     setFocus() {
       if (this.focus === false) return
@@ -187,38 +197,56 @@ export default {
         }
       }
     },
+    async uploadPoll() {
+      return await this.$axios.$post('/polls', {
+        ...this.poll,
+        prompt: this.poll.prompt || this.rawText
+      })
+    },
     async submit() {
-      if (this.textOverflow || this.hasNotText) return false
+      if (this.promise || this.textOverflow || this.hasNotText) return false
       const option = {
-        text: this.compiledText,
+        text: this.rawText,
         raw: []
       }
-
-      if (this.hasPhotos) {
-        const raws = await this.uploadPhotos()
-        option.raw.push(...raws)
+      try {
+        if (this.hasPhotos) {
+          const raws = await this.uploadPhotos()
+          option.raw.push(...raws)
+        }
+        if (this.replyTarget) {
+          option.reply_to = this.replyTarget.id
+        }
+        if (this.hasPoll) {
+          const {
+            data: { id: poll_id, poll_token }
+          } = await this.uploadPoll()
+          option.raw.push({
+            type: 'io.pnut.core.poll-notice',
+            value: {
+              '+io.pnut.core.poll': {
+                poll_token,
+                poll_id
+              }
+            }
+          })
+        }
+      } catch (e) {
+        console.error(e)
+        this.$toast.error(e.message)
       }
-      if (this.replyTarget) {
-        option.reply_to = this.replyTarget.id
-      }
-
-      this.promise = api()
-        .post('/posts', option)
+      this.promise = this.$axios.$post('/posts', option)
+      await this.$nextTick()
+      return this.promise
         .then(res => {
           this.promise = null
-          this.error = null
           bus.$emit('post', res.data)
           this.$emit('post', res.data)
           this.rawText = ''
           this.photos = []
+          this.poll = null
         })
-        .catch(e => {
-          console.error(e)
-          const { response: { data: { message } } } = e
-          this.error = message
-          this.promise = null
-        })
-      return this.promise
+        .finally(() => (this.promise = null))
     },
     async uploadPhotos() {
       const photosPromise = this.photos.map(async content => {
@@ -229,7 +257,7 @@ export default {
           content,
           is_public: true
         })
-        const res = await axios.post('/proxy/files', data, {
+        const res = await this.$axios.$post('/files', data, {
           headers: {
             'Content-type': 'multipart/form-data'
           }
@@ -239,14 +267,14 @@ export default {
       this.promise = true
       const photosJson = await Promise.all(photosPromise)
       const raws = photosJson.map(res => {
-        const image = res.data.data
+        const image = res.data
         const value = {
           width: image.image_info.width,
           height: image.image_info.height,
           version: '1.0',
           type: 'photo',
           url: image.link,
-          title: this.text
+          title: this.rawText
         }
         return Object.assign(
           {},
@@ -261,7 +289,7 @@ export default {
     fileChange(e) {
       if (!e.target.files.length) return
       this.photos.push(...Array.prototype.slice.call(e.target.files))
-      // reset file form for detecting changes(if there isn't below code, not working when is selected same file)
+      // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
       this.$refs.file.value = ''
     },
     addEmoji(emoji) {
@@ -282,7 +310,8 @@ export default {
     Post,
     Thumb,
     Picker,
-    RichTextarea
+    RichTextarea,
+    InputPoll
   }
 }
 
@@ -331,12 +360,12 @@ function obj2FormData(obj) {
 
 .open-emoji-picker {
   position: absolute;
-  left: 0.5rem;
-  bottom: 0.5rem;
+  right: 0.5rem;
+  top: 0.5rem;
 }
 
 .textarea {
-  padding-bottom: 2rem;
+  padding-right: 1.7rem;
   min-height: 7rem;
 }
 

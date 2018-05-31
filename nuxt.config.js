@@ -83,11 +83,9 @@ module.exports = {
       'mousetrap',
       'jquery',
       'tether',
-      'axios',
       'vue-infinite-scroll',
       'vue-on-click-outside',
       '~/plugins/bootstrap.js',
-      '~/plugins/api.js',
       '~/plugins/mousetrap.js',
       '~/plugins/vue-infinite.js',
       '~/plugins/emoji.js',
@@ -103,7 +101,6 @@ module.exports = {
       src: '~/plugins/bootstrap',
       ssr: false
     },
-    '~/plugins/api',
     {
       src: '~/plugins/vue-infinite',
       ssr: false
@@ -123,7 +120,12 @@ module.exports = {
     {
       src: '~/plugins/vue-emojify',
       ssr: false
-    }
+    },
+    {
+      src: '~/plugins/vue-scrollto',
+      ssr: false
+    },
+    '~/plugins/axios/'
   ],
 
   // router settings
@@ -191,24 +193,21 @@ module.exports = {
     '@nuxtjs/pwa',
     '@nuxtjs/component-cache',
     '@nuxtjs/toast',
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/google-analytics',
+    '@nuxtjs/axios'
   ],
   'google-analytics': {
     id: 'UA-10104011-16'
   },
   toast: {
-    position: 'bottom-left'
+    position: 'bottom-left',
+    duration: 5000
   },
   workbox: {
     dev: true,
     runtimeCaching: [
       {
-        urlPattern: 'https://cdn.jsdelivr.net/emojione/.*',
-        handler: 'cacheFirst',
-        method: 'GET'
-      },
-      {
-        urlPattern: 'https://unpkg.com/emoji-datasource-emojione.*',
+        urlPattern: 'https://twemoji.maxcdn.com/*',
         handler: 'cacheFirst',
         method: 'GET'
       },
@@ -232,5 +231,9 @@ module.exports = {
   },
   meta: {
     theme_color: '#d36854'
+  },
+  axios: {
+    baseURL: 'https://api.pnut.io/v0',
+    browserBaseURL: '/proxy'
   }
 }

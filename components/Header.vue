@@ -1,8 +1,11 @@
 <template>
   <header>
-    <div class="navbar navbar-light navbar fixed-top px-0">
-      <div class="container relative">
-        <nuxt-link class="p-0 navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact data-toggle="collapse" data-target="#navbarSupportedContent.show">
+    <nav class="navbar navbar-light navbar fixed-top px-0">
+      <div class="container" @click.self="scrollToTop">
+        <button class="navbar-toggler mr-2 d-md-none align-items-stretch" type="button" data-toggle="collapse" data-target="#globalNavigation" aria-controls="globalNavigation" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <nuxt-link class="p-0 navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact>
           <img src="~assets/img/beta.svg" width="32" height="32" alt="β" class="align-center mr-2 d-inline-block">
           <span class="d-none d-sm-inline header-title">
             Beta
@@ -11,12 +14,12 @@
         <span class="navbar-text mr-auto">
           <a href="#" v-if="!online" class="badge badge-secondary" @click="showConnection">offline</a>
         </span>
-        <search-form id="search-form" class="mr-md-4 order-3 order-md-1" />
+        <search-form v-if="user" id="search-form" class="mr-md-4 order-4 order-md-1" />
         <ul class="order-2 navbar-nav d-flex flex-row align-items-stretch">
           <nuxt-link
             to="/messages"
             tag="li"
-            class="nav-item"
+            class="nav-item d-none d-sm-block"
             v-if="user"
             id="nav-messages"
             title="Messages">
@@ -25,7 +28,7 @@
             </a>
           </nuxt-link>
           <nuxt-link
-            class="nav-item"
+            class="nav-item d-none d-sm-block"
             id="nav-files"
             title="Files"
             tag="li"
@@ -44,23 +47,41 @@
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false">
-              {{user.username}}
-              <i class="fa fa-chevron-down"></i>
+              <span>
+                <span class="d-none d-sm-inline">{{user.username}}</span>
+                <span class="d-inline d-sm-none">
+                  <avatar :avatar="{ link: `https://api.pnut.io/v0/users/@${user.username}/avatar` }"
+                    :size="16" :max-size="16" />
+                </span>
+              </span>
+              <i class="fa fa-chevron-down ml-2"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
               <nuxt-link
                 :to="`/@${user.username}`"
                 data-toggle="collapse"
-                data-target="#navbarSupportedContent.show"
                 class="dropdown-item"
                 active-class=""
               >
-                Profile
+                <span class="d-none d-sm-inline">Profile</span>
+                <span class="d-inline d-sm-none">@{{user.username}}</span>
+              </nuxt-link>
+              <div class="dropdown-divider d-sm-none"></div>
+              <nuxt-link
+                to="/messages"
+                class="dropdown-item d-sm-none"
+              >
+                Messages
+              </nuxt-link>
+              <nuxt-link
+                class="dropdown-item d-sm-none"
+                to="/files"
+              >
+                Files
               </nuxt-link>
               <div class="dropdown-divider"></div>
               <nuxt-link
                 data-toggle="collapse"
-                data-target="#navbarSupportedContent.show"
                 to="/settings"
                 class="dropdown-item"
                 active-class=""
@@ -71,12 +92,26 @@
               <a href="/logout" class="dropdown-item">Log out</a>
             </div>
           </li>
+          <li class="nav-item" v-if="user">
+            <a href="#" @click.prevent="showPostModal" class="nav-link">
+              <i class="fa fa-pencil"></i>
+            </a>
+          </li>
           <li class="nav-item" v-if="!user">
             <a href="/login" class="nav-link">Log in</a>
           </li>
         </ul>
       </div>
-    </div>
+      <div class="container">
+        <app-sidebar
+          id="globalNavigation"
+          class="collapse scrollable d-md-none w-100"
+          :style="{
+            'max-height': collapseHeight
+          }"
+          />
+      </div>
+    </nav>
     <slot name="jumbotron" />
   </header>
 </template>
@@ -84,6 +119,9 @@
 <script>
 import { mapState } from 'vuex'
 import SearchForm from './SearchForm'
+import AppSidebar from '~/components/sidebar/App'
+import Avatar from '~/components/Avatar'
+import bus from '~/assets/js/bus'
 
 const networkEvents = ['online', 'offline']
 
@@ -91,7 +129,8 @@ export default {
   computed: mapState(['user']),
   data() {
     return {
-      online: true
+      online: true,
+      collapseHeight: 0
     }
   },
   mounted() {
@@ -99,6 +138,8 @@ export default {
     networkEvents.forEach(event =>
       window.addEventListener(event, this.connectionChanged)
     )
+    const { height } = this.$el.children[0].getBoundingClientRect()
+    this.collapseHeight = `calc(100vh - ${height}px)`
   },
   beforeDestroy() {
     networkEvents.forEach(event =>
@@ -106,16 +147,24 @@ export default {
     )
   },
   methods: {
+    scrollToTop() {
+      this.$scrollTo('body')
+    },
     connectionChanged() {
       this.online = navigator.onLine
       if (!this.online) this.showConnection()
     },
     showConnection() {
       this.$toast.show(`You are ${this.online ? 'on' : 'off'}line`).goAway(2000)
+    },
+    showPostModal() {
+      bus.$emit('showPostModal')
     }
   },
   components: {
-    SearchForm
+    SearchForm,
+    AppSidebar,
+    Avatar
   }
 }
 </script>
@@ -142,19 +191,19 @@ export default {
   .nav-link,
   button {
     border-right: 1px solid $grayLighter;
+    border-left: 1px solid $grayLighter;
+    margin-right: -1px;
   }
-  &:first-child {
+  &:last-child {
     .nav-link,
     button {
-      border-left: 1px solid $grayLighter;
+      margin-right: 0;
     }
   }
 }
 
 .navbar-toggler {
   border: none;
-  height: 100%;
-  margin-left: -1px;
   padding-left: 0;
   padding-right: 0;
 }
@@ -166,7 +215,6 @@ export default {
 .show.scrollable {
   overflow: auto;
 }
-
 .dropdown-menu {
   position: absolute;
 }
@@ -177,9 +225,6 @@ export default {
   margin-top: 0;
 }
 
-.relative {
-  position: relative;
-}
 .header-title {
   color: $themeSubText;
   font-weight: 400;

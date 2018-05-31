@@ -72,3 +72,5 @@ typings/
 dist
 
 sw.*
+
+.vscode
