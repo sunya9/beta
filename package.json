@@ -60,7 +60,7 @@
     "nuxt": "^1.4.0",
     "passport-pnut": "^0.1.2",
     "popper.js": "^1.12.9",
-    "sass-loader": "^6.0.6",
+    "sass-loader": "^7.0.0",
     "string-length": "^2.0.0",
     "tether": "^1.4.3",
     "twemoji": "^2.5.1",
