@@ -121,6 +121,10 @@ module.exports = {
       src: '~/plugins/vue-emojify',
       ssr: false
     },
+    {
+      src: '~/plugins/vue-scrollto',
+      ssr: false
+    },
     '~/plugins/axios/'
   ],
 

@@ -44,4 +44,4 @@ beforeEach(() => {
 
 const router = new VueRouter()
 export { createStore, router }
-export * from 'avoriaz'
+export * from '@vue/test-utils'

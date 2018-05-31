@@ -46,7 +46,7 @@ describe('ActionButton component', () => {
           resource: '/test'
         }
       })
-      expect(wrapper.instance().method).to.equals('delete')
+      expect(wrapper.vm.method).to.equals('delete')
     })
     it('method is put when state equals true', () => {
       const wrapper = mount(ActionButton, {
@@ -54,7 +54,7 @@ describe('ActionButton component', () => {
           checked: false
         }
       })
-      expect(wrapper.instance().method).to.equals('put')
+      expect(wrapper.vm.method).to.equals('put')
     })
   })
   describe('icon', () => {
@@ -63,7 +63,7 @@ describe('ActionButton component', () => {
         propsData: {
           icon: ['first', 'second']
         }
-      }).instance()
+      }).vm
       it('return first string when state false', () => {
         instance.checked = false
         expect(instance.computedIcon).to.equal('first')
@@ -79,7 +79,7 @@ describe('ActionButton component', () => {
           propsData: {
             icon: 'string'
           }
-        }).instance()
+        }).vm
         expect(instance.computedIcon).to.equal('string')
       })
     })

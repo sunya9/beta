@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export function getTitle({ username, name }) {
   return name ? `${name}(@${username})` : `@${username}`
 }
@@ -31,5 +33,5 @@ export function getImageURLs(post, rawOnly = false) {
       })
     Array.prototype.push.apply(photos, embedPhotos)
   }
-  return photos
+  return _.uniqBy(photos, 'original')
 }

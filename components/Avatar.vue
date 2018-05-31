@@ -1,21 +1,20 @@
 <template>
-  <img :src="src" :class="{
+	<img :src="src" :class="{
     'rounded-circle': !isSquare
-  }"
-  :width="size" :height="size" v-bind="$attrs" />
+  }" :width="size" :height="size" v-bind="$attrs" />
 </template>
 
 <script>
 function sizeValidator(numLike) {
-  return [0, 24, 32, 64, 96].includes(parseInt(numLike))
+  return [0, 16, 24, 32, 64, 96].includes(parseInt(numLike))
 }
 
 export default {
   props: {
     avatar: {
-      type: Object,
+      type: [Object, String],
       validator(obj) {
-        return 'link' in obj
+        return typeof obj === 'string' || 'link' in obj
       },
       required: true
     },
@@ -39,8 +38,11 @@ export default {
     this.isSquare = localStorage.getItem('square_avatars') === 'true'
   },
   computed: {
+    url() {
+      return typeof this.avatar === 'string' ? this.avatar : this.avatar.link
+    },
     src() {
-      let src = this.avatar.link
+      let src = this.url
       if (this.maxSize > 0) src += `?w=${this.maxSize}`
       return src
     }

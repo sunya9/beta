@@ -1,13 +1,13 @@
 <template>
   <div>
     <div>
-      <profile :profile="profile" class="mb-4" />
+      <profile :initial-profile.sync="profile" v-if="profile" class="mb-4" />
     </div>
     <div>
       <compose :initial-text="initialText" :key="`${name}-compose`" />
     </div>
     <div>
-      <list :data="data" type="Post" :key="`${name}-posts`" :option="option" ref="list" />
+      <list :data="data" v-if="!blocked" type="Post" :key="`${name}-posts`" :option="option" ref="list" />
     </div>
   </div>
 </template>
@@ -22,24 +22,32 @@ import { getTitle } from '~/assets/js/util'
 
 export default {
   async asyncData(ctx) {
-    const { params, error, app: { $axios, $resource } } = ctx
+    const {
+      params,
+      error,
+      app: { $axios, $resource }
+    } = ctx
     const { name } = params
-    const { data: profile } = await $axios.$get(`/users/@${name}`)
     const option = {
       include_directed_posts: 1
     }
-    const data = await $resource(option)
-    if (data.meta.code < 400) {
+    try {
+      const data = await $resource(option).catch(() => ({
+        meta: { code: 404 }
+      }))
+      const { data: profile } = await $axios.$get(`/users/@${name}`)
+
       return {
         data,
         profile,
         name,
         option
       }
-    } else {
+    } catch (e) {
+      const { meta } = e.response.data
       error({
-        statusCode: data.meta.code,
-        message: data.meta.error_message
+        statusCode: meta.code,
+        message: meta.error_message
       })
     }
   },
@@ -49,8 +57,19 @@ export default {
         return state.user && state.user.username === this.name
           ? ''
           : `@${this.name} `
+      },
+      blocked() {
+        return this.profile.you_blocked
       }
     })
+  },
+  watch: {
+    async blocked(after, before) {
+      if (before && !after) {
+        await this.$nextTick()
+        this.$refs.list.fetchMore()
+      }
+    }
   },
   mounted() {
     bus.$on('post', this.add)
@@ -74,12 +93,14 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: this.profile.content.text
+        content:
+          this.profile && this.profile.content && this.profile.content.text
       },
       {
         hid: 'og:description',
         property: 'og:description',
-        content: this.profile.content.text
+        content:
+          this.profile && this.profile.content && this.profile.content.text
       },
       {
         hid: 'og:type',

@@ -5,21 +5,21 @@ module.exports = {
     node: true,
     mocha: true
   },
-  extends: ['eslint:recommended', 'plugin:vue/essential'],
+  extends: ['eslint:recommended', 'plugin:vue/essential', 'prettier'],
   parserOptions: {
-    parser: 'babel-eslint',
     ecmaVersion: 2017,
-    sourceType: 'module',
-    ecmaFeatures: {
-      experimentalObjectRestSpread: true
-    }
+    sourceType: 'module'
   },
   // required to lint *.vue files
   plugins: ['chai-expect', 'chai-friendly'],
   // add your custom rules here
   rules: {
-    semi: ['error', 'never'],
-    'no-console': ['error', { allow: ['warn', 'error'] }]
+    'no-console': [
+      'error',
+      {
+        allow: ['warn', 'error']
+      }
+    ]
   },
   globals: {
     expect: true

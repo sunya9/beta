@@ -38,45 +38,49 @@ describe('Profile component', () => {
 
   beforeEach(() => {
     store = createStore()
-    store.commit('SET_USER', { username: 'foo', id: 1 })
+    store.commit('SET_USER', {
+      username: 'foo',
+      id: 1
+    })
     profile = baseProfile()
-    opts = { propsData: { profile }, store, attachToDocument: true, router }
+    opts = {
+      propsData: {
+        initialProfile: profile
+      },
+      store,
+      attachToDocument: true,
+      router
+    }
     wrapper = mount(Profile, opts)
   })
   describe('Cover', () => {
     it('Show cover image', () => {
-      expect(wrapper.first('img').getAttribute('src')).to.have.string(
-        'cover.png'
-      )
+      expect(wrapper.find('img').attributes().src).to.have.string('cover.png')
     })
     it('comptued headerHeight', () => {
       expect(wrapper.vm.headerHeight).to.be.above(0)
     })
   })
   describe('Userinfo', () => {
-    it('Show a shield badge when verified domain', () => {
-      wrapper.setProps({
-        profile: baseProfile({
-          verified: {
-            domain: 'example.com',
-            link: 'https://example.com'
-          }
-        })
-      })
-      expect(wrapper.contains('#profile-domain')).to.be.true
+    it('Show a shield badge when verified domain', async () => {
+      wrapper.vm.profile.verified = {
+        domain: 'example.com',
+        link: 'https://example.com'
+      }
+      await wrapper.vm.$nextTick()
+      expect(wrapper.find('#profile-domain').exists()).to.be.true
     })
     it('Hidden a shield badge when not verified domain', () => {
       expect(wrapper.contains('#profile-domain')).to.be.false
     })
-    it('Show bio when content.text exists', () => {
-      wrapper.setProps({
-        profile: baseProfile({ content: { text: 'foo' } })
-      })
+    it('Show bio when content.text exists', async () => {
+      wrapper.vm.profile.content.text = 'foo'
+      await wrapper.vm.$nextTick()
       expect(wrapper.contains('.description')).to.be.true
     })
     it('Hidden bio when profile.text does not exist', () => {
       wrapper.setProps({
-        profile: baseProfile()
+        initialProfile: baseProfile()
       })
       expect(wrapper.contains('.description')).to.be.false
     })
@@ -84,7 +88,7 @@ describe('Profile component', () => {
   describe('counts', () => {
     let text
     beforeEach(() => {
-      text = wrapper.first('#profile-counts').text()
+      text = wrapper.find('#profile-counts').text()
     })
     it('Posts', () => expect(text).to.have.string('1 Posts'))
     it('Follows', () => expect(text).to.have.string('2 Follows'))
@@ -97,25 +101,24 @@ describe('Profile component', () => {
     })
   })
   describe('Everyone except me', () => {
-    const others = baseProfile({ id: 2 })
-    const extendOthers = (...obj) => baseProfile(others, ...obj)
-    let $relation
+    const others = baseProfile({
+      id: 2,
+      follows_you: false
+    })
     beforeEach(() => {
-      wrapper.setProps({
-        profile: others
-      })
-      $relation = wrapper.first('#profile-relation')
+      wrapper.vm.profile = others
     })
     it('Show follow button', async () => {
       expect(wrapper.contains('#profile-follow-button')).to.be.true
     })
     it('relation is not shown when another user not follow you', () => {
+      const $relation = wrapper.find('#profile-relation')
       expect($relation.text().trim()).is.empty
     })
-    it('relation is shown when another user follows you', () => {
-      wrapper.setProps({
-        profile: extendOthers({ follows_you: true })
-      })
+    it('relation is shown when another user follows you', async () => {
+      wrapper.vm.profile.follows_you = true
+      await wrapper.vm.$nextTick()
+      const $relation = wrapper.find('#profile-relation')
       expect($relation.text().trim()).to.equal('Follows you')
     })
   })
