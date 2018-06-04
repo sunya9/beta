@@ -104,7 +104,7 @@
     "puppeteer": "^1.2.0",
     "scmp": "^2.0.0",
     "should": "^13.1.0",
-    "sinon": "^5.0.0",
+    "sinon": "^5.0.10",
     "supertest": "^3.0.0"
   },
   "homepage": "https://github.com/sunya9/beta",
