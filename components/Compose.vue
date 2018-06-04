@@ -3,12 +3,12 @@
 		<div class="card" :class="{'border-0': compact}">
 			<form class="card-body" :class="{'p-0': compact}" @submit.prevent="submit">
 				<div class="form-group relative">
-					<rich-textarea ref="textarea" class="form-control textarea" v-model="rawText" @update:compiledTextCount="updateCompiledTextLength" @submit="submit" :disabled="!!promise" />
+					<rich-textarea ref="textarea" class="form-control textarea" :initial-value="rawText" @update:prop="updateProp" @submit="submit" :disabled="!!promise" />
 					<a href="#" class="open-emoji-picker text-dark" @click.prevent.stop="toggleEmojiPalette">
 						<i class="fa fa-lg fa-smile-o"></i>
 					</a>
 					<no-ssr>
-						<picker :background-image-fn="getSheet" set="twitter" class="emoji-picker" @click="addEmoji" v-show="showEmojiPicker" v-on-click-outside="closeEmojiPalette" />
+						<picker ref="picker" :background-image-fn="getSheet" set="twitter" class="emoji-picker" @select="addEmoji" v-show="showEmojiPicker" v-on-click-outside="closeEmojiPalette" />
 					</no-ssr>
 				</div>
 				<div class="form-group" v-show="photos.length">
@@ -53,7 +53,6 @@ import Thumb from '~/components/Thumb'
 import { Picker } from '~/plugins/emoji'
 import RichTextarea from '~/components/RichTextarea'
 import emojiSource from 'emoji-datasource-twitter/img/twitter/sheets/64.png'
-import { debounce } from 'lodash'
 import InputPoll from '~/components/InputPoll'
 
 export default {
@@ -162,17 +161,15 @@ export default {
     }
   },
   methods: {
+    updateProp(payload) {
+      this.rawText = payload.value
+      this.compiledTextLength = payload.length
+    },
     togglePoll() {
       this.poll = this.poll ? null : {}
     },
     getSheet() {
       return emojiSource
-    },
-    updateCompiledTextLength(length) {
-      this.compiledTextLength = length
-    },
-    debounceUpdateCompiledTextLength(...args) {
-      return debounce(this.updateCompiledTextLength, 500)(...args)
     },
     setFocus() {
       if (this.focus === false) return
@@ -371,8 +368,8 @@ function obj2FormData(obj) {
 
 .emoji-picker {
   position: absolute;
-  left: 0;
-  top: calc(100% - 1px);
+  right: 0;
+  top: 2rem;
   z-index: 3;
 }
 
