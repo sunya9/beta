@@ -1,6 +1,8 @@
 import Compose from '~/components/Compose'
-import { shallowMount, createStore } from 'helpers/client'
+import { mount, createStore } from 'helpers/client'
+
 import sinon from 'sinon'
+import noSsr from 'nuxt/lib/app/components/no-ssr'
 
 describe('Compose component', () => {
   let store, vm, wrapper
@@ -13,108 +15,84 @@ describe('Compose component', () => {
         available: 0
       }
     })
-    wrapper = shallowMount(Compose, {
-      store
+    wrapper = mount(Compose, {
+      mocks: {
+        $store: store
+      },
+      stubs: {
+        noSsr,
+        picker: true
+      }
     })
     vm = wrapper.vm
   })
-  describe('computed', () => {
-    describe('postCounter', () => {
-      it('default postCounter is 256', () => {
-        expect(wrapper.find('[data-test-id="post-counter"]').text()).is.equal(
-          '256'
-        )
-      })
-      context('when text length is 128', () => {
-        it('postCounter equals 128', () => {
-          vm.compiledTextLength = 128
-          expect(vm.postCounter).is.equal(128)
-        })
-      })
-      context('when text length is 256', () => {
-        it('postCounter equals 0 ', () => {
-          vm.compiledTextLength = 256
-          expect(vm.postCounter).is.equal(0)
-        })
-      })
-      context('when text length is 266', () => {
-        it('postCounter equals -10', () => {
-          vm.compiledTextLength = 266
-          expect(vm.postCounter).is.equal(-10)
-        })
+  describe('postCounter', () => {
+    it('default postCounter is 256', () => {
+      const remaining = +wrapper.find('[data-test-id="post-counter"]').text()
+      expect(remaining).is.equal(256)
+    })
+    context('when text length is 128', () => {
+      it('postCounter equals 128', () => {
+        vm.compiledTextLength = 128
+        expect(vm.postCounter).is.equal(128)
       })
     })
-    describe('textOverflow', () => {
-      context('when has no text', () => {
-        it('should false', () => {
-          vm.compiledTextLength = 0
-          expect(vm.textOverflow).to.be.false
-        })
-      })
-      context('when has some text within 256 characters', () => {
-        it('should false', () => {
-          vm.compiledTextLength = 128
-          expect(vm.textOverflow).to.be.false
-        })
-      })
-      context('when has some text over 256 characters', () => {
-        it('should true', () => {
-          vm.compiledTextLength = 260
-          expect(vm.textOverflow).to.be.true
-        })
+    context('when text length is 256', () => {
+      it('postCounter equals 0 ', () => {
+        vm.compiledTextLength = 256
+        expect(vm.postCounter).is.equal(0)
       })
     })
-    describe('hasNotText', () => {
-      context('when has no text', () => {
-        it('should true', () => {
-          vm.compiledTextLength = 0
-          expect(vm.hasNotText).to.be.true
-        })
-      })
-      context('when has some text', () => {
-        it('should false', () => {
-          vm.compiledTextLength = 128
-          expect(vm.hasNotText).to.be.false
-        })
-      })
-    })
-    describe('disabled', () => {
-      context('when sending', () => {
-        it('should true', () => {
-          vm.promise = true
-          expect(vm.disabled).to.be.true
-        })
-      })
-      context('when compiledTextLength is 0', () => {
-        it('should true', () => {
-          vm.compiledTextLength = 0
-          expect(vm.disabled).to.be.true
-        })
-      })
-      context('when postCounter is negative', () => {
-        it('should true', () => {
-          vm.compiledTextLength = 260
-          expect(vm.disabled).to.be.true
-        })
-      })
-      context('when fulfill conditions', () => {
-        it('should false', () => {
-          vm.compiledTextLength = 10
-          vm.promise = null
-          expect(vm.disabled).to.be.false
-        })
+    context('when text length is 266', () => {
+      it('postCounter equals -10', () => {
+        vm.compiledTextLength = 266
+        expect(vm.postCounter).is.equal(-10)
       })
     })
   })
-  describe('methods', () => {
-    describe('updateCompiledTextLength', () => {
-      it('arg equals compiledTextLength', () => {
-        vm.updateCompiledTextLength(0)
-        expect(vm.compiledTextLength).is.equal(0)
-        vm.updateCompiledTextLength(100)
-        expect(vm.compiledTextLength).is.equal(100)
+  describe('hasNotText', () => {
+    context('when has no text', () => {
+      it('should true', () => {
+        vm.compiledTextLength = 0
+        expect(vm.hasNotText).to.be.true
       })
     })
+    context('when has some text', () => {
+      it('should false', () => {
+        vm.compiledTextLength = 128
+        expect(vm.hasNotText).to.be.false
+      })
+    })
+  })
+  describe('disabled', () => {
+    context('when sending', () => {
+      it('should true', () => {
+        vm.promise = true
+        expect(vm.disabled).to.be.true
+      })
+    })
+    context('when compiledTextLength is 0', () => {
+      it('should true', () => {
+        vm.compiledTextLength = 0
+        expect(vm.disabled).to.be.true
+      })
+    })
+    context('when postCounter is negative', () => {
+      it('should true', () => {
+        vm.compiledTextLength = 260
+        expect(vm.disabled).to.be.true
+      })
+    })
+    context('when fulfill conditions', () => {
+      it('should false', () => {
+        vm.compiledTextLength = 10
+        vm.promise = null
+        expect(vm.disabled).to.be.false
+      })
+    })
+  })
+  // FIXME
+  describe('methods', () => {
     describe('setFocus', () => {
       context('when focus prop is object', () => {
         it('can pass object', () => {
@@ -191,20 +169,24 @@ describe('Compose component', () => {
         })
       })
     })
-    describe('submit', () => {
-      context('when has not text', () => {
-        it('return false', async () => {
-          expect(await vm.submit()).to.be.false
+    describe('submit button', () => {
+      let $submitButton
+      beforeEach(() => {
+        $submitButton = wrapper.find('button[type="submit"]')
+      })
+      context('has not text', () => {
+        it('disabled ', () => {
+          expect($submitButton.attributes().disabled).to.equal('disabled')
         })
       })
-      context('when has text over 256 characters', () => {
-        it('return false', async () => {
+      context('has text over 256 characters', () => {
+        it('disabled ', () => {
           vm.compiledTextLength = 260
-          expect(await vm.submit()).to.be.false
+          expect($submitButton.attributes().disabled).to.equal('disabled')
         })
       })
-      context('when text only', () => {
-        it('return promise and reset some properties', async () => {
+      context('text only', () => {
+        it('return promise and reset some properties ', async () => {
           vm.compiledText = 'foo'
           const res = vm.submit()
           expect(res).to.be.an.instanceof(Promise)
@@ -214,28 +196,85 @@ describe('Compose component', () => {
           expect(vm.photos).to.be.an('array').that.is.empty
         })
       })
-      context('when has some photos', () => {
-        context('but has not text', () => {
-          it('return false', async () => {
-            expect(await vm.submit()).to.be.false
-          })
+      context('has some photos but has not text', () => {
+        it('disabled', () => {
+          expect($submitButton.attributes().disabled).to.equal('disabled')
         })
-        // TODO: write more tests
-        // context('with some text', () => {
-        //   it('return promise')
-        // })
+      })
+      // TODO: write more tests
+      // context('with some text', () => {
+      //   it('return promise')
+      // })
+    })
+  })
+  describe('picker button', () => {
+    it('is visible', () => {
+      expect(wrapper.find('.open-emoji-picker').isVisible()).to.be.true
+    })
+    context('clicked picker button', () => {
+      let emojiPicker
+      beforeEach(async () => {
+        wrapper.find('.open-emoji-picker').trigger('click')
+        emojiPicker = wrapper.find({
+          ref: 'picker'
+        })
+      })
+      it('emoji palette is visible', () => {
+        expect(emojiPicker.isVisible()).is.true
+      })
+    })
+    context('selected any emoji', () => {
+      let textarea
+      beforeEach(() => {
+        wrapper.vm.addEmoji = sinon.stub()
+        wrapper.vm.closeEmojiPalette = sinon.stub()
+        textarea = wrapper.find({
+          ref: 'textarea'
+        })
+        textarea.vm.insertText = sinon.stub()
+        wrapper.find('.open-emoji-picker').trigger('click')
+        wrapper
+          .find({
+            ref: 'picker'
+          })
+          .vm.$emit('select')
+      })
+      it('called addEmoji', () => {
+        expect(wrapper.vm.addEmoji.called).to.be.true
+      })
+    })
+    context('addEmoji', () => {
+      it('called insertText', async () => {
+        const textarea = wrapper.find({
+          ref: 'textarea'
+        })
+        textarea.vm.insertText = sinon.stub()
+        expect(textarea.isVisible()).to.be.true
+        wrapper.vm.addEmoji({
+          native: '🤔'
+        })
+        await textarea.vm.$nextTick()
+        expect(textarea.vm.insertText.called).to.be.true
       })
     })
   })
-  // context('when unpaid users', () => {
-  //   it('add photo is hidden', () => {
-  //     console.log(vm.$el)
-  //     expect(vm.$el.querySelector('.add-photo')).is.null
-  //   })
-  // })
-  // context('when paid users', () => {
-  //   it('add photo is visible', () => {
-  //     expect(vm.$el.querySelector('.add-photo')).is.not.null
-  //   })
-  // })
+  describe('add photo button', () => {
+    context('when unpaid a user', () => {
+      it('is hidden', () => {
+        expect(wrapper.find('.add-photo').exists()).is.false
+      })
+    })
+    context('when paid a user', () => {
+      it('is shown', () => {
+        store.commit('SET_USER', {
+          username: 'foo',
+          id: 1,
+          storage: {
+            available: 1
+          }
+        })
+        expect(wrapper.find('.add-photo').exists()).is.true
+      })
+    })
+  })
 })
