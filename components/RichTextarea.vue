@@ -1,41 +1,49 @@
 <template>
-  <textarea
-    @keydown.ctrl.enter="$emit('submit')"
-    @keydown.meta.enter="$emit('submit')"
-    :disabled="disabled"
-    @input="updateValue($event.target.value)"
-    :value="value"
-    ref="textarea">
-    </textarea>
+	<textarea @keyup.ctrl.enter="$emit('submit')" @keyup.meta.enter="$emit('submit')" :disabled="disabled" v-model="value" @keyup="debounceKeyup" @change="keyup" ref="textarea">
+	</textarea>
 </template>
 
 <script>
 import stringLength from 'string-length'
-
+import _ from 'lodash'
 // raw -> marked -> count
 
 export default {
   props: {
-    value: String,
+    initialValue: {
+      type: String,
+      default: ''
+    },
     disabled: Boolean
   },
   watch: {
-    compiledTextLength(length) {
-      this.$emit('update:compiledTextCount', length)
+    initialValue(value) {
+      this.value = value
+    }
+  },
+  data() {
+    return {
+      value: this.initialValue
     }
   },
   computed: {
-    compiledTextLength() {
+    length() {
       // http://stackoverflow.com/a/32382702
       const stripMarked = this.value.replace(/\[([^\]]+)\][^)]+\)/g, '$1')
       const length = stringLength(stripMarked)
       return length
     }
   },
-  mounted() {
-    this.$emit('update:compiledTextCount', this.compiledTextLength)
+  beforeMount() {
+    this.debounceKeyup = _.debounce(this.keyup, 200)
   },
   methods: {
+    keyup() {
+      this.$emit('update:prop', {
+        value: this.value,
+        length: this.length
+      })
+    },
     insertText(text) {
       const { textarea } = this.$refs
       if (document.selection) {
@@ -81,10 +89,6 @@ export default {
         range.select()
       }
       input.focus()
-    },
-
-    updateValue(text) {
-      this.$emit('input', text)
     }
   }
 }
