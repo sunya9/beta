@@ -63,7 +63,7 @@
     "sass-loader": "^7.0.0",
     "string-length": "^2.0.0",
     "tether": "^1.4.3",
-    "twemoji": "^2.5.1",
+    "twemoji": "^11.0.0",
     "unicode-substring": "^1.0.0",
     "vue-infinite-scroll": "^2.0.2",
     "vue-on-click-outside": "^1.0.3",
