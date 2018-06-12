@@ -1,5 +1,5 @@
 import Cover from '~/components/settings/Account/Cover'
-import { shallow } from 'helpers/client'
+import { shallowMount } from 'helpers/client'
 import sinon from 'sinon'
 
 describe('Cover component', () => {
@@ -17,7 +17,7 @@ describe('Cover component', () => {
     is_default: false
   }
   beforeEach(() => {
-    wrapper = shallow(Cover, {
+    wrapper = shallowMount(Cover, {
       propsData: {
         cover: oldCover
       }
