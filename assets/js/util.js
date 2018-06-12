@@ -35,3 +35,15 @@ export function getImageURLs(post, rawOnly = false) {
   }
   return _.uniqBy(photos, 'original')
 }
+
+export function getCrosspostLink(post) {
+  if (!post.content) return false
+  if (post.raw) {
+    for (var i = post.raw.length - 1; i >= 0; i--) {
+      if (post.raw[i].type === 'io.pnut.core.crosspost') {
+        return post.raw[i].value.canonical_url
+      }
+    }
+  }
+  return false
+}

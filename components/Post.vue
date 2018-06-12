@@ -63,14 +63,6 @@
 							</li>
 						</template>
 						<template v-if="!viewOnly && user">
-							<li class="list-inline-item reply">
-								<a class="text-muted" href="#" @click.stop.prevent="replyModal">
-									<i class="fa fa-reply"></i>
-									Reply
-								</a>
-							</li>
-						</template>
-						<template v-if="!viewOnly && user">
 							<li class="list-inline-item reply-all">
 								<a class="text-muted" href="#" @click.stop.prevent="replyAllModal">
 									<i class="fa fa-reply-all"></i>
@@ -94,6 +86,14 @@
 								</a>
 							</li>
 						</template>
+                        <template v-if="crosspost">
+                            <li class="list-inline-item crosspost-url">
+                                <a class="text-muted" :href="crosspost" target="_new">
+                                    <i class="fa fa-random"></i>
+                                    Crosspost
+                                </a>
+                            </li>
+                        </template>
 					</ul>
 				</footer>
 				<template v-if="detail">
@@ -148,7 +148,7 @@ import { mapState } from 'vuex'
 import bus from '~/assets/js/bus'
 import focus from '~/assets/js/focus'
 import EntityText from '~/components/EntityText'
-import { getImageURLs } from '~/assets/js/util'
+import { getImageURLs, getCrosspostLink } from '~/assets/js/util'
 import listItem from '~/assets/js/list-item'
 
 export default {
@@ -195,6 +195,9 @@ export default {
     thumbs() {
       return getImageURLs(this.mainPost)
     },
+    crosspost() {
+      return getCrosspostLink(this.mainPost)
+    },
     post() {
       return this.data
     },
@@ -220,9 +223,6 @@ export default {
       if (!this.me) {
         this.$refs.repost.toggle()
       }
-    },
-    replyModal() {
-      bus.$emit('showPostModal', this.mainPost)
     },
     replyAllModal() {
       bus.$emit('showPostModal', this.mainPost, true)
@@ -265,10 +265,10 @@ footer {
   font-size: 0.85rem;
 }
 
-.reply,
 .reply-all,
 .remove,
-.source {
+.source,
+.crosspost-url {
   opacity: 0;
   transition: all 0.2s ease;
 }
@@ -276,10 +276,10 @@ footer {
 .list-group-item {
   &:hover,
   &:focus {
-    .reply,
     .reply-all,
     .remove,
-    .source {
+    .source,
+    .crosspost-url {
       opacity: 1;
     }
   }
