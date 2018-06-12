@@ -86,9 +86,9 @@
 								</a>
 							</li>
 						</template>
-                        <template v-if="crosspost">
+                        <template v-if="crosspost.length">
                             <li class="list-inline-item crosspost-url">
-                                <a class="text-muted" :href="crosspost" target="_new">
+                                <a class="text-muted" :href="crosspost[0].canonical_url" target="_new">
                                     <i class="fa fa-random"></i>
                                     Crosspost
                                 </a>
