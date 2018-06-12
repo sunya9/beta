@@ -64,7 +64,7 @@ body.dark .jumbotron {
 body.dark {
   .navbar {
     background-color: #252525;
-    border-bottom-color: #212121;
+    border-bottom-color: #191919;
   }
   .card {
     background-color: #252525;
@@ -92,14 +92,16 @@ body.dark {
   }
   .nav-item:first-child .nav-link,
   .nav-item:first-child button {
-    border-left-color: #242424;
+    border-left-color: #202020;
   }
   .nav-item .nav-link,
   .nav-item button {
-    border-right-color: #242424;
+    border-right-color: #202020;
+    border-left-color: #202020;
   }
   #nav-files .nav-link,
-  #nav-messages .nav-link {
+  #nav-messages .nav-link,
+  #nav-compose .nav-link {
     color: #ddd;
   }
   #nav-files .nav-link:hover,
@@ -118,7 +120,7 @@ body.dark {
   }
   .dropdown-divider,
   .dropdown-menu {
-    border-color: #242424;
+    border-color: #202020;
   }
   .list-group-item-action {
     color: #616a74;
@@ -138,7 +140,9 @@ body.dark {
     color: #8e9aa5 !important;
   }
   .media-body .list-inline-item .text-muted:hover,
-  .add-photo:hover {
+  .text-dark.btn-link:hover,
+  a.text-dark:hover,
+  a.text-dark:focus {
     color: #fff !important;
   }
   /* post close */
