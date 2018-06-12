@@ -63,10 +63,10 @@
 							</li>
 						</template>
 						<template v-if="!viewOnly && user">
-							<li class="list-inline-item reply-all">
-								<a class="text-muted" href="#" @click.stop.prevent="replyAllModal">
+							<li class="list-inline-item reply">
+								<a class="text-muted" href="#" @click.stop.prevent="replyModal">
 									<i class="fa fa-reply-all"></i>
-									Reply All
+									Reply
 								</a>
 							</li>
 						</template>
@@ -224,8 +224,8 @@ export default {
         this.$refs.repost.toggle()
       }
     },
-    replyAllModal() {
-      bus.$emit('showPostModal', this.mainPost, true)
+    replyModal() {
+      bus.$emit('showPostModal', this.mainPost)
     },
     removeModal() {
       bus.$emit('showRemoveModal', this)
@@ -265,7 +265,7 @@ footer {
   font-size: 0.85rem;
 }
 
-.reply-all,
+.reply,
 .remove,
 .source,
 .crosspost-url {
@@ -276,7 +276,7 @@ footer {
 .list-group-item {
   &:hover,
   &:focus {
-    .reply-all,
+    .reply,
     .remove,
     .source,
     .crosspost-url {

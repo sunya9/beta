@@ -73,6 +73,7 @@ export default {
       photos: [],
       previewPhotos: [],
       rawText: this.initialText,
+      replyStartPos: 0,
       showEmojiPicker: false,
       compiledTextLength: 0,
       poll: null
@@ -137,25 +138,26 @@ export default {
       if (notMe) {
         this.rawText = `@${this.replyTarget.user.username} `
       }
-      if (this.replyAll) {
-        let mentions = [this.replyTarget.user.username.toLowerCase()]
-        for (
-          var i = this.replyTarget.content.entities.mentions.length - 1;
-          i >= 0;
-          i--
+
+      this.replyStartPos = this.rawText.length
+
+      let mentions = [this.replyTarget.user.username.toLowerCase()]
+      for (
+        var i = this.replyTarget.content.entities.mentions.length - 1;
+        i >= 0;
+        i--
+      ) {
+        var mention = this.replyTarget.content.entities.mentions[
+          i
+        ].text.toLowerCase()
+        if (
+          mentions.indexOf(mention) == -1 &&
+          mention !== this.user.username.toLowerCase()
         ) {
-          var mention = this.replyTarget.content.entities.mentions[
-            i
-          ].text.toLowerCase()
-          if (
-            mentions.indexOf(mention) == -1 &&
-            mention !== this.user.username.toLowerCase()
-          ) {
-            this.rawText += `@${
-              this.replyTarget.content.entities.mentions[i].text
-            } `
-            mentions.push(mention)
-          }
+          this.rawText += `@${
+            this.replyTarget.content.entities.mentions[i].text
+          } `
+          mentions.push(mention)
         }
       }
     }
@@ -178,8 +180,8 @@ export default {
       switch (typeof this.focus) {
         case 'object': {
           // == array
-          const [start, end] = this.focus
-          textarea.setCaret(start, end)
+          const [, end] = this.focus
+          textarea.setCaret(this.replyStartPos, end)
           break
         }
         case 'string':
@@ -189,7 +191,7 @@ export default {
         }
         case 'boolean':
         default: {
-          textarea.setCaret(this.rawText.length)
+          textarea.setCaret(this.replyStartPos, this.rawText.length)
           break
         }
       }
