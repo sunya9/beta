@@ -63,7 +63,7 @@
     "sass-loader": "^7.0.0",
     "string-length": "^2.0.0",
     "tether": "^1.4.3",
-    "twemoji": "^2.5.1",
+    "twemoji": "^11.0.0",
     "unicode-substring": "^1.0.0",
     "vue-infinite-scroll": "^2.0.2",
     "vue-on-click-outside": "^1.0.3",
@@ -104,7 +104,7 @@
     "puppeteer": "^1.2.0",
     "scmp": "^2.0.0",
     "should": "^13.1.0",
-    "sinon": "^5.0.10",
+    "sinon": "^6.0.0",
     "supertest": "^3.0.0"
   },
   "homepage": "https://github.com/sunya9/beta",
