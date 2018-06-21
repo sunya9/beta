@@ -59,7 +59,7 @@
 			<nuxt-link :tag="user ? 'a' : 'span'" class="card-link" to="followers" append>{{profile.counts.followers}} Followers</nuxt-link>
 			<nuxt-link :tag="user ? 'a' : 'span'" class="card-link" to="starred" append>{{profile.counts.bookmarks}} Starred</nuxt-link>
 			<div class="dropdown card-link">
-				<a class="dropdown-toggle" id="profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+				<a id="profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
 					<i class="fa fa-ellipsis-h"></i>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="profile-dropdown">
