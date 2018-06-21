@@ -3,7 +3,7 @@
 		<div class="card" :class="{'border-0': compact}">
 			<form class="card-body" :class="{'p-0': compact}" @submit.prevent="submit">
 				<div class="form-group relative">
-					<rich-textarea ref="textarea" class="form-control textarea" :initial-value="rawText" @update:prop="updateProp" @submit="submit" :disabled="!!promise" />
+					<textarea class="form-control textarea" @keydown.ctrl.enter="submit" @keydown.meta.enter="submit" v-model="text" ref="textarea" @submit="submit" :disabled="!!promise" />
 					<a href="#" class="open-emoji-picker text-dark" @click.prevent.stop="toggleEmojiPalette">
 						<i class="fa fa-lg fa-smile-o"></i>
 					</a>
@@ -51,11 +51,12 @@ import bus from '~/assets/js/bus'
 import { mapState } from 'vuex'
 import Thumb from '~/components/Thumb'
 import { Picker } from '~/plugins/emoji'
-import RichTextarea from '~/components/RichTextarea'
 import emojiSource from 'emoji-datasource-twitter/img/twitter/sheets/64.png'
 import InputPoll from '~/components/InputPoll'
+import textCount from '~/assets/js/text-count'
 
 export default {
+  mixins: [textCount],
   props: {
     initialText: {
       type: String,
@@ -72,9 +73,8 @@ export default {
       promise: null,
       photos: [],
       previewPhotos: [],
-      rawText: this.initialText,
+      text: this.initialText,
       showEmojiPicker: false,
-      compiledTextLength: 0,
       poll: null
     }
   },
@@ -99,13 +99,13 @@ export default {
       return this.poll
     },
     postCounter() {
-      return 256 - this.compiledTextLength
+      return 256 - this.textLength
     },
     textOverflow() {
       return this.postCounter < 0
     },
     hasNotText() {
-      return this.compiledTextLength === 0
+      return this.textLength === 0
     },
     disabled() {
       const sending = !!this.promise
@@ -128,6 +128,9 @@ export default {
     },
     ...mapState(['user'])
   },
+  created() {
+    this.text = this.initialText
+  },
   mounted() {
     if (this.focus) {
       this.setFocus()
@@ -135,7 +138,7 @@ export default {
     if (this.replyTarget) {
       const notMe = this.user.username !== this.replyTarget.user.username
       if (notMe) {
-        this.rawText = `@${this.replyTarget.user.username} `
+        this.text = `@${this.replyTarget.user.username} `
       }
       if (this.replyAll) {
         let mentions = [this.replyTarget.user.username.toLowerCase()]
@@ -151,7 +154,7 @@ export default {
             mentions.indexOf(mention) == -1 &&
             mention !== this.user.username.toLowerCase()
           ) {
-            this.rawText += `@${
+            this.text += `@${
               this.replyTarget.content.entities.mentions[i].text
             } `
             mentions.push(mention)
@@ -161,10 +164,6 @@ export default {
     }
   },
   methods: {
-    updateProp(payload) {
-      this.rawText = payload.value
-      this.compiledTextLength = payload.length
-    },
     togglePoll() {
       this.poll = this.poll ? null : {}
     },
@@ -189,7 +188,7 @@ export default {
         }
         case 'boolean':
         default: {
-          textarea.setCaret(this.rawText.length)
+          textarea.setCaret(this.text.length)
           break
         }
       }
@@ -197,13 +196,13 @@ export default {
     async uploadPoll() {
       return await this.$axios.$post('/polls', {
         ...this.poll,
-        prompt: this.poll.prompt || this.rawText
+        prompt: this.poll.prompt || this.text
       })
     },
     async submit() {
       if (this.promise || this.textOverflow || this.hasNotText) return false
       const option = {
-        text: this.rawText,
+        text: this.text,
         raw: []
       }
       try {
@@ -239,7 +238,7 @@ export default {
           this.promise = null
           bus.$emit('post', res.data)
           this.$emit('post', res.data)
-          this.rawText = ''
+          this.text = ''
           this.photos = []
           this.poll = null
         })
@@ -271,7 +270,7 @@ export default {
           version: '1.0',
           type: 'photo',
           url: image.link,
-          title: this.rawText
+          title: this.text
         }
         return Object.assign(
           {},
@@ -307,7 +306,6 @@ export default {
     Post,
     Thumb,
     Picker,
-    RichTextarea,
     InputPoll
   }
 }
