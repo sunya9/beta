@@ -164,6 +164,33 @@ export default {
     }
   },
   methods: {
+    insertText(text) {
+      const { textarea } = this.$refs
+      if (document.selection) {
+        textarea.focus()
+        const sel = document.selection.createRange()
+        sel.text = text
+        textarea.focus()
+      } else if (textarea.selectionStart || textarea.selectionStart === 0) {
+        const startPos = textarea.selectionStart
+        const endPos = textarea.selectionEnd
+        const scrollTop = textarea.scrollTop
+        const updateText =
+          textarea.value.substring(0, startPos) +
+          text +
+          textarea.value.substring(endPos, textarea.value.length)
+        this.text = updateText
+        this.$nextTick(() => {
+          textarea.focus()
+          textarea.selectionStart = startPos + text.length
+          textarea.selectionEnd = startPos + text.length
+          textarea.scrollTop = scrollTop
+        })
+      } else {
+        this.text = +text
+        textarea.focus()
+      }
+    },
     togglePoll() {
       this.poll = this.poll ? null : {}
     },
@@ -289,7 +316,7 @@ export default {
       this.$refs.file.value = ''
     },
     addEmoji(emoji) {
-      this.$refs.textarea.insertText(emoji.native)
+      this.insertText(emoji.native)
       this.closeEmojiPalette()
     },
     showEmojiPalette() {
