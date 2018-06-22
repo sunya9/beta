@@ -32,64 +32,33 @@ describe('Compose component', () => {
       expect(remaining).is.equal(256)
     })
     context('when text length is 128', () => {
-      it('postCounter equals 128', () => {
-        vm.compiledTextLength = 128
-        expect(vm.postCounter).is.equal(128)
+      it('postCounter equals 128', async () => {
+        vm.text = 'a'.repeat(128)
+        await new Promise(resolve => setTimeout(resolve, 500))
+        const remaining = +wrapper.find('[data-test-id="post-counter"]').text()
+        expect(remaining).is.equal(128)
       })
     })
     context('when text length is 256', () => {
-      it('postCounter equals 0 ', () => {
-        vm.compiledTextLength = 256
-        expect(vm.postCounter).is.equal(0)
+      it('postCounter equals 0 ', async () => {
+        vm.text = 'a'.repeat(256)
+        await new Promise(resolve => setTimeout(resolve, 500))
+        const remaining = +wrapper.find('[data-test-id="post-counter"]').text()
+        expect(remaining).is.equal(0)
       })
     })
     context('when text length is 266', () => {
-      it('postCounter equals -10', () => {
-        vm.compiledTextLength = 266
-        expect(vm.postCounter).is.equal(-10)
-      })
-    })
-  })
-  describe('hasNotText', () => {
-    context('when has no text', () => {
-      it('should true', () => {
-        vm.compiledTextLength = 0
-        expect(vm.hasNotText).to.be.true
-      })
-    })
-    context('when has some text', () => {
-      it('should false', () => {
-        vm.compiledTextLength = 128
-        expect(vm.hasNotText).to.be.false
+      it('postCounter equals -10', async () => {
+        vm.text = 'a'.repeat(266)
+        await new Promise(resolve => setTimeout(resolve, 500))
+        const remaining = +wrapper.find('[data-test-id="post-counter"]').text()
+        expect(remaining).is.equal(-10)
       })
     })
   })
   describe('disabled', () => {
-    context('when sending', () => {
-      it('should true', () => {
-        vm.promise = true
-        expect(vm.disabled).to.be.true
-      })
-    })
-    context('when compiledTextLength is 0', () => {
-      it('should true', () => {
-        vm.compiledTextLength = 0
-        expect(vm.disabled).to.be.true
-      })
-    })
-    context('when postCounter is negative', () => {
-      it('should true', () => {
-        vm.compiledTextLength = 260
-        expect(vm.disabled).to.be.true
-      })
-    })
-    context('when fulfill conditions', () => {
-      it('should false', () => {
-        vm.compiledTextLength = 10
-        vm.promise = null
-        expect(vm.disabled).to.be.false
-      })
-    })
+    // FIXME
+    // disabled textarea and submit button when posted
   })
   // FIXME
   describe('methods', () => {
@@ -185,17 +154,6 @@ describe('Compose component', () => {
           expect($submitButton.attributes().disabled).to.equal('disabled')
         })
       })
-      context('text only', () => {
-        it('return promise and reset some properties ', async () => {
-          vm.compiledText = 'foo'
-          const res = vm.submit()
-          expect(res).to.be.an.instanceof(Promise)
-          await res
-          expect(vm.promise).to.be.null
-          expect(vm.rawText).to.be.a('string').that.is.empty
-          expect(vm.photos).to.be.an('array').that.is.empty
-        })
-      })
       context('has some photos but has not text', () => {
         it('disabled', () => {
           expect($submitButton.attributes().disabled).to.equal('disabled')
@@ -224,14 +182,10 @@ describe('Compose component', () => {
       })
     })
     context('selected any emoji', () => {
-      let textarea
       beforeEach(() => {
         wrapper.vm.addEmoji = sinon.stub()
         wrapper.vm.closeEmojiPalette = sinon.stub()
-        textarea = wrapper.find({
-          ref: 'textarea'
-        })
-        textarea.vm.insertText = sinon.stub()
+        wrapper.vm.insertText = sinon.stub()
         wrapper.find('.open-emoji-picker').trigger('click')
         wrapper
           .find({
@@ -245,16 +199,12 @@ describe('Compose component', () => {
     })
     context('addEmoji', () => {
       it('called insertText', async () => {
-        const textarea = wrapper.find({
-          ref: 'textarea'
-        })
-        textarea.vm.insertText = sinon.stub()
-        expect(textarea.isVisible()).to.be.true
+        wrapper.vm.insertText = sinon.stub()
         wrapper.vm.addEmoji({
           native: '🤔'
         })
-        await textarea.vm.$nextTick()
-        expect(textarea.vm.insertText.called).to.be.true
+        await wrapper.vm.$nextTick()
+        expect(wrapper.vm.insertText.called).to.be.true
       })
     })
   })

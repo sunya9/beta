@@ -19,8 +19,8 @@
 						</small>
 					</nuxt-link>
 				</h6>
-				<div class="d-flex flex-wrap flex-sm-nowrap">
-					<p @click="clickPostLink" :class="{
+				<div class="d-flex flex-wrap flex-md-nowrap">
+					<p @click="clickPostLink" class="flex-grow-1 w-100" :class="{
             'mb-0': preview,
             'e-content p-name': detail
           }">
@@ -28,8 +28,8 @@
 							[Post deleted]
 						</entity-text>
 					</p>
-					<div v-if="thumbs.length" class="mb-2 d-flex mr-auto ml-auto mr-sm-2 flex-wrap flex-sm-nowrap justify-content-sm-end">
-						<thumb class="mx-1" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
+					<div v-if="thumbs.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
+						<thumb class="mx-1 mb-1 mb-lg-0" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
 					</div>
 				</div>
 				<div v-if="poll" class="mb-3">

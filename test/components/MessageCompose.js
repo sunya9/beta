@@ -10,16 +10,12 @@ describe('MessageCompose component', () => {
   it('disabled submit button when empty textarea', () => {
     expect(vm.calcDisabled).to.be.true
   })
-  it('disabled when `disabled` prop is true', () => {
-    wrapper.setProps({ disabled: true })
-    expect(vm.calcDisabled).to.be.true
-  })
   it('disabled when sending message', () => {
     vm.promise = true
     expect(vm.calcDisabled).to.be.true
   })
   it('enabled when textarea is fullfilled', () => {
-    wrapper.setProps({ value: 'foo' })
+    wrapper.vm.text = 'a'
     expect(vm.calcDisabled).to.be.false
   })
 })

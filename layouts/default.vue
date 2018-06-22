@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper" class="wrapper mb-3" :style="`margin-top: ${marginTop}px`">
+  <div id="wrapper" class="wrapper mb-3" :style="`margin-top: 48px`">
     <app-header ref="header">
       <jumbotron v-if="searchPage" slot="jumbotron" class="jumbotron" />
     </app-header>
@@ -114,8 +114,7 @@ export default {
   },
   data() {
     return {
-      bodyClass: '',
-      marginTop: 48
+      bodyClass: ''
     }
   },
 
@@ -171,10 +170,6 @@ export default {
         this.bodyClass = 'dark'
       }
     }
-    const { height } = this.$refs.header.$el
-      .querySelector('.navbar')
-      .getBoundingClientRect()
-    this.marginTop = height
 
     const router = this.$router
     // new post
