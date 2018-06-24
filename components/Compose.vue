@@ -191,25 +191,6 @@ export default {
         textarea.focus()
       }
     },
-    setCaret(input, start, end) {
-      if (end === undefined) {
-        end = start
-      }
-      //const input = this.$refs.textarea
-      if ('selectionStart' in input) {
-        input.selectionStart = start
-        input.selectionEnd = end
-      } else if (input.setSelectionRange) {
-        input.setSelectionRange(start, end)
-      } else if (input.createTextRange) {
-        const range = input.createTextRange()
-        range.collapse(true)
-        range.moveEnd('character', end)
-        range.moveStart('character', start)
-        range.select()
-      }
-      input.focus()
-    },
     togglePoll() {
       this.poll = this.poll ? null : {}
     },
@@ -220,24 +201,22 @@ export default {
       if (this.focus === false) return
       // occur error if it not displayed like logged out
       const { textarea } = this.$refs
-      switch (typeof this.focus) {
-        case 'object': {
-          // == array
-          const [, end] = this.focus
-          this.setCaret(textarea, this.replyStartPos, end)
-          break
-        }
-        case 'string':
-        case 'number': {
-          this.setCaret(textarea, +this.focus)
-          break
-        }
-        case 'boolean':
-        default: {
-          this.setCaret(textarea, this.replyStartPos, this.text.length)
-          break
-        }
+      if (this.text.length === undefined) {
+        this.text.length = this.replyStartPos
       }
+      if ('selectionStart' in textarea) {
+        textarea.selectionStart = this.replyStartPos
+        textarea.selectionEnd = this.text.length
+      } else if (textarea.setSelectionRange) {
+        textarea.setSelectionRange(this.replyStartPos, this.text.length)
+      } else if (textarea.createTextRange) {
+        const range = textarea.createTextRange()
+        range.collapse(true)
+        range.moveEnd('character', this.text.length)
+        range.moveStart('character', this.replyStartPos)
+        range.select()
+      }
+      textarea.focus()
     },
     async uploadPoll() {
       return await this.$axios.$post('/polls', {
