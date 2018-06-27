@@ -267,7 +267,7 @@ export default {
           this.photos = []
           this.poll = null
         })
-        .finally(() => (this.promise = null))
+        .finally(() => ((this.promise = null), this.$toast.success('Posted!')))
     },
     async uploadPhotos() {
       const photosPromise = this.photos.map(async content => {
