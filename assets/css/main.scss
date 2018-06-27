@@ -62,6 +62,9 @@ body.dark .jumbotron {
 }
 
 body.dark {
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #b6b3b9;
+  }
   .navbar {
     background-color: #252525;
     border-bottom-color: #191919;
@@ -135,9 +138,6 @@ body.dark {
   /* post text */
   .media-body {
     color: #bdc5cf;
-  }
-  .text-muted {
-    color: #8e9aa5 !important;
   }
   .media-body .list-inline-item .text-muted:hover,
   .text-dark.btn-link:hover,
