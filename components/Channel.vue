@@ -8,7 +8,7 @@
           <span v-if="opponent.name">
             {{opponent.name}}
             <small class="text-muted">
-              @{{opponent.username}}<span v-if="subscribers.length">, </span>
+              @{{opponent.username}}<span v-if="subscribers.length" class="text-muted">, </span>
             </small>
           </span>
           <span v-else>
