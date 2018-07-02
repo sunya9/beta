@@ -22,7 +22,7 @@
           </div>
           <div>
             <compose
-              :reply-target="reply, replyAll"
+              :reply-target="reply"
               ref="compose"
               @post="dismiss"
               compact
@@ -45,8 +45,7 @@ export default {
   data() {
     return {
       show: false,
-      reply: null,
-      replyAll: false
+      reply: null
     }
   },
   mounted() {
@@ -71,17 +70,18 @@ export default {
       this.show = false
       Mousetrap.unpause()
     },
-    showModal(post, replyAll) {
+    showModal(post) {
       if (!$(this.$el).hasClass('show')) {
         Mousetrap.pause()
         this.show = true
-        this.replyAll = replyAll || false
         this.reply = post || null
         $(this.$el).modal('show')
       }
     },
     dismiss() {
-      if ($(this.$el).hasClass('show')) { $(this.$el).modal('hide') }
+      if ($(this.$el).hasClass('show')) {
+        $(this.$el).modal('hide')
+      }
     }
   },
   components: {

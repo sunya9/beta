@@ -92,7 +92,7 @@
               <a href="/logout" class="dropdown-item">Log out</a>
             </div>
           </li>
-          <li class="nav-item" v-if="user">
+          <li id="nav-compose" class="nav-item d-none d-sm-block" v-if="user">
             <a href="#" @click.prevent="showPostModal" class="nav-link">
               <i class="fa fa-pencil"></i>
             </a>

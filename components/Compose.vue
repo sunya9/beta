@@ -74,6 +74,7 @@ export default {
       photos: [],
       previewPhotos: [],
       text: this.initialText,
+      replyStartPos: 0,
       showEmojiPicker: false,
       poll: null
     }
@@ -140,25 +141,24 @@ export default {
       if (notMe) {
         this.text = `@${this.replyTarget.user.username} `
       }
-      if (this.replyAll) {
-        let mentions = [this.replyTarget.user.username.toLowerCase()]
-        for (
-          var i = this.replyTarget.content.entities.mentions.length - 1;
-          i >= 0;
-          i--
+
+      this.replyStartPos = this.text.length
+
+      let mentions = [this.replyTarget.user.username.toLowerCase()]
+      for (
+        var i = this.replyTarget.content.entities.mentions.length - 1;
+        i >= 0;
+        i--
+      ) {
+        var mention = this.replyTarget.content.entities.mentions[
+          i
+        ].text.toLowerCase()
+        if (
+          mentions.indexOf(mention) == -1 &&
+          mention !== this.user.username.toLowerCase()
         ) {
-          var mention = this.replyTarget.content.entities.mentions[
-            i
-          ].text.toLowerCase()
-          if (
-            mentions.indexOf(mention) == -1 &&
-            mention !== this.user.username.toLowerCase()
-          ) {
-            this.text += `@${
-              this.replyTarget.content.entities.mentions[i].text
-            } `
-            mentions.push(mention)
-          }
+          this.text += `@${this.replyTarget.content.entities.mentions[i].text} `
+          mentions.push(mention)
         }
       }
     }
@@ -201,24 +201,22 @@ export default {
       if (this.focus === false) return
       // occur error if it not displayed like logged out
       const { textarea } = this.$refs
-      switch (typeof this.focus) {
-        case 'object': {
-          // == array
-          const [start, end] = this.focus
-          textarea.setCaret(start, end)
-          break
-        }
-        case 'string':
-        case 'number': {
-          textarea.setCaret(+this.focus)
-          break
-        }
-        case 'boolean':
-        default: {
-          textarea.setCaret(this.text.length)
-          break
-        }
+      if (this.text.length === undefined) {
+        this.text.length = this.replyStartPos
       }
+      if ('selectionStart' in textarea) {
+        textarea.selectionStart = this.replyStartPos
+        textarea.selectionEnd = this.text.length
+      } else if (textarea.setSelectionRange) {
+        textarea.setSelectionRange(this.replyStartPos, this.text.length)
+      } else if (textarea.createTextRange) {
+        const range = textarea.createTextRange()
+        range.collapse(true)
+        range.moveEnd('character', this.text.length)
+        range.moveStart('character', this.replyStartPos)
+        range.select()
+      }
+      textarea.focus()
     },
     async uploadPoll() {
       return await this.$axios.$post('/polls', {
@@ -269,7 +267,7 @@ export default {
           this.photos = []
           this.poll = null
         })
-        .finally(() => (this.promise = null))
+        .finally(() => ((this.promise = null), this.$toast.success('Posted!')))
     },
     async uploadPhotos() {
       const photosPromise = this.photos.map(async content => {

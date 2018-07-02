@@ -35,3 +35,21 @@ export function getImageURLs(post, rawOnly = false) {
   }
   return _.uniqBy(photos, 'original')
 }
+
+export function getCrosspostLink(post) {
+  if (!post.content) return false
+  const links = []
+  if (post.raw) {
+    const canonicalLinks = post.raw
+      .filter(r => {
+        return r.type === 'io.pnut.core.crosspost'
+      })
+      .map(r => {
+        return {
+          ...r.value
+        }
+      })
+    Array.prototype.push.apply(links, canonicalLinks)
+  }
+  return links
+}

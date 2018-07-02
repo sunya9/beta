@@ -62,9 +62,12 @@ body.dark .jumbotron {
 }
 
 body.dark {
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #b6b3b9;
+  }
   .navbar {
     background-color: #252525;
-    border-bottom-color: #212121;
+    border-bottom-color: #191919;
   }
   .card {
     background-color: #252525;
@@ -92,14 +95,16 @@ body.dark {
   }
   .nav-item:first-child .nav-link,
   .nav-item:first-child button {
-    border-left-color: #242424;
+    border-left-color: #202020;
   }
   .nav-item .nav-link,
   .nav-item button {
-    border-right-color: #242424;
+    border-right-color: #202020;
+    border-left-color: #202020;
   }
   #nav-files .nav-link,
-  #nav-messages .nav-link {
+  #nav-messages .nav-link,
+  #nav-compose .nav-link {
     color: #ddd;
   }
   #nav-files .nav-link:hover,
@@ -118,7 +123,7 @@ body.dark {
   }
   .dropdown-divider,
   .dropdown-menu {
-    border-color: #242424;
+    border-color: #202020;
   }
   .list-group-item-action {
     color: #616a74;
@@ -134,11 +139,10 @@ body.dark {
   .media-body {
     color: #bdc5cf;
   }
-  .text-muted {
-    color: #8e9aa5 !important;
-  }
   .media-body .list-inline-item .text-muted:hover,
-  .add-photo:hover {
+  .text-dark.btn-link:hover,
+  a.text-dark:hover,
+  a.text-dark:focus {
     color: #fff !important;
   }
   /* post close */
@@ -156,11 +160,17 @@ body.dark {
   .modal-header {
     border-bottom-color: #232323;
   }
-  /* focused post */
+  /* root post */
   .list-group-item-warning.list-group-item-action:hover,
   .list-group-item-warning.list-group-item-action:focus,
   .list-group-item-warning {
-    background-color: #1d2324;
+    background-color: #212121;
+  }
+  /* focused post */
+  .my-4,
+  .my-4.list-group-item-action:focus,
+  .my-4.list-group-item-action:hover {
+    background-color: #1e2627;
   }
   /* top menu toggle */
   .navbar-light .navbar-nav .show>.nav-link,

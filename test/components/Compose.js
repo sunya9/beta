@@ -70,14 +70,6 @@ describe('Compose component', () => {
           })
           expect(vm.$props.focus).to.be.deep.equal([0, 10])
         })
-        it('can call setCaret', () => {
-          wrapper.setProps({
-            focus: [0, 10]
-          })
-          vm.$refs.textarea.setCaret = sinon.stub()
-          vm.setFocus()
-          expect(vm.$refs.textarea.setCaret.called).to.be.true
-        })
       })
       context('when focus prop is string or number', () => {
         it('can pass string or number', () => {
@@ -90,20 +82,6 @@ describe('Compose component', () => {
           })
           expect(vm.$props.focus).to.be.equal('1')
         })
-        it('can call setCaret', () => {
-          wrapper.setProps({
-            focus: 1
-          })
-          vm.$refs.textarea.setCaret = sinon.stub()
-          vm.setFocus()
-          expect(vm.$refs.textarea.setCaret.called).to.be.true
-          wrapper.setProps({
-            focus: '1'
-          })
-          vm.$refs.textarea.setCaret = sinon.stub()
-          vm.setFocus()
-          expect(vm.$refs.textarea.setCaret.called).to.be.true
-        })
       })
       context('when focus prop is boolean', () => {
         it('can pass boolean', () => {
@@ -115,26 +93,6 @@ describe('Compose component', () => {
             focus: false
           })
           expect(vm.$props.focus).to.be.false
-        })
-        context('when boolean is true', () => {
-          it('can call setCaret', () => {
-            wrapper.setProps({
-              focus: true
-            })
-            vm.$refs.textarea.setCaret = sinon.stub()
-            vm.setFocus()
-            expect(vm.$refs.textarea.setCaret.called).to.be.true
-          })
-        })
-        context('when boolean is false', () => {
-          it('cannot call setCaret', () => {
-            wrapper.setProps({
-              focus: false
-            })
-            vm.$refs.textarea.setCaret = sinon.stub()
-            vm.setFocus()
-            expect(vm.$refs.textarea.setCaret.notCalled).to.be.true
-          })
         })
       })
     })
