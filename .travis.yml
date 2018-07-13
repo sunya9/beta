@@ -6,9 +6,12 @@ addons:
       - google-chrome
     packages:
       - google-chrome-stable
+    update: true
 language: node_js
 node_js: '10'
+
 cache: yarn
+
 services:
   - docker
 notifications:
@@ -23,10 +26,22 @@ before_install:
   - yarn global add greenkeeper-lockfile
 
 before_script: greenkeeper-lockfile-update
+script: yarn test
 after_script: greenkeeper-lockfile-upload
 
-after_success:
-  - >
-    if [ "$TRAVIS_BRANCH" == "master" ]; then
-    curl -H "Content-Type: application/json" --data '{"build": true}' -X POST $DOCKER_HUB_URL;
-    fi
+# create version tag
+before_deploy:
+  - git config --local user.name "sunya9"
+  - git config --local user.email "mugen.xyz@gmail.com"
+  - VERSION=`$TRAVIS_PULL_REQUEST_BRANCH | awk -F- '{print $2}'` # release-x.x.x => x.x.x
+  - yarn version --new-version $VERSION
+
+deploy:
+  provider: releases
+  api_key:
+    secure: T9OeyzMIoCkqBSB7nzmuiFbEwrw9W6myTTDZdowTy3W+T3wCcpHoqKzB5GfCH8YY+FS1D/Q5W8SJ0lbdTf9GTnIhidYTM2f/x5SHFTOzALEX3IXWORXSpo8QlflHLXQpqT1oIyYkIf9ONHclpXHai4l7FT1IMcaF9ibx4StqtHgEp6Ewx5o+CkIOsLk60a3auo2JMFIjNufSIXKZscxRrYKxfeEDEVDsjhZac7jVwps/sDVrOOhtrgAH4UWrrX3S6ODhkgGHH7Ck8k+6DGqVK4c62JyfSUgHEnGvQWQr635J/dI8jeDD5eVoyjy7EHbs4Qeefln8EJ3X9e6V/hHLDDil3euRUnLMYAgauvj1ql+hh9+Sl4vRIu6wOCkH0yq+L4d3KNTJRY9hFGRowoeSINnM8dIOIzRsykdILYyUXG4FQbgaO1QeuGkuvWAeDFmxmEnNbDXoCu+2hzItuFqIFUpcP7jmx0l2yvuNge7qnknGSTPK+Rk5VhJsHP0c2oUAe2KQsFZFSmhx69E1ibyFGt0j8eOMKv8Xj7ewxAJGYam5TZAJccfA56TjV879cPdUcNms3nAzrRLwQXoUo015WtDN4BcL8XgewLSA889o3zNWYN/wZzKqXadSFN7YuFVWSbGM5TTZXrr8gDHr1IkKvAyApSQskpE9mHeRAap2KAs=
+  on:
+    branch: /^(?i:release)-.*$/
+
+after_deploy:
+  - "curl -H 'Content-Type: application/json' --data '{\'build\': true}' -X POST $DOCKER_HUB_URL;"
