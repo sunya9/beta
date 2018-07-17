@@ -41,7 +41,7 @@
     "emoji-mart-vue": "^2.4.5",
     "es6-promise": "^4.2.2",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^6.0.0",
+    "eslint-plugin-node": "^7.0.0",
     "font-awesome": "^4.7.0",
     "form-data": "^2.3.1",
     "imports-loader": "^0.8.0",
