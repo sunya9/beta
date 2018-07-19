@@ -32,31 +32,36 @@ export default {
         url: '/stars',
         hidden: !user
       },
-      { type: 'heading', label: 'Explore' },
+      { type: 'heading', label: 'Explore', hidden: !user },
       {
         label: 'Conversations',
         url: '/conversations',
-        icon: 'fa-comments'
+        icon: 'fa-comments',
+        hidden: !user
       },
       {
         label: 'Missed Conversations',
         url: '/missed-conversations',
-        icon: 'fa-comment'
+        icon: 'fa-comment',
+        hidden: !user
       },
       {
         label: 'Newcomers',
         url: '/newcomers',
-        icon: 'fa-user-plus'
+        icon: 'fa-user-plus',
+        hidden: !user
       },
       {
         label: 'Photos',
         url: '/photos',
-        icon: 'fa-camera'
+        icon: 'fa-camera',
+        hidden: !user
       },
       {
         label: 'Trending',
         url: '/trending',
-        icon: 'fa-line-chart'
+        icon: 'fa-line-chart',
+        hidden: !user
       },
       {
         label: 'Global',
