@@ -105,14 +105,14 @@ export default {
     textOverflow() {
       return this.postCounter < 0
     },
-    hasNotText() {
+    hasNoText() {
       return this.textLength === 0
     },
     disabled() {
       const sending = !!this.promise
       return !!(
         this.textOverflow ||
-        this.hasNotText ||
+        this.hasNoText ||
         sending ||
         (this.poll && !this.availablePoll)
       )
@@ -225,7 +225,7 @@ export default {
       })
     },
     async submit() {
-      if (this.promise || this.textOverflow || this.hasNotText) return false
+      if (this.promise || this.textOverflow || this.hasNoText) return false
       const option = {
         text: this.text,
         raw: []
