@@ -41,10 +41,13 @@
             'order-2 me': me,
             other: !me
           }">
-          <entity-text :content="message.content">
+          <entity-text :content="message.content" :spoilers=spoilers>
             [Message deleted]
           </entity-text>
         </p>
+        <div v-if="thumbs.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
+          <thumb class="mx-1 mb-1 mb-lg-0" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
+        </div>
         <footer
           class="align-self-end"
           :class="{
@@ -63,8 +66,10 @@
 <script>
 import { mapState } from 'vuex'
 import Avatar from '~/components/Avatar'
+import Thumb from '~/components/Thumb'
 import EntityText from '~/components/EntityText'
 import listItem from '~/assets/js/list-item'
+import { getImageURLs, getSpoilers } from '~/assets/js/util'
 
 export default {
   mixins: [listItem],
@@ -77,6 +82,12 @@ export default {
     message() {
       return this.data
     },
+    thumbs() {
+      return getImageURLs(this.data)
+    },
+    spoilers() {
+      return getSpoilers(this.data)
+    },
     ...mapState(['user'])
   },
   methods: {
@@ -84,7 +95,8 @@ export default {
   },
   components: {
     Avatar,
-    EntityText
+    EntityText,
+    Thumb
   }
 }
 </script>

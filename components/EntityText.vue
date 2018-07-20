@@ -3,7 +3,7 @@
     <template v-if="hasSpoilers && !showSpoiler">
       <button class="btn btn-link show-spoiler mr-3 btn-primary" type="button" @click="toggleSpoiler">
         <span class="d-none d-sm-inline ml-2">Show Spoiler:
-          <template v-for="(spoiler, i) in validSpoilers">
+          <template v-for="(spoiler, i) in spoilers">
             <span v-emojify :key="`text-${i}`">{{spoiler.topic}}</span>
           </template>
         </span>
@@ -81,14 +81,6 @@ export default {
     },
     hasSpoilers() {
       return this.spoilers.length > 0
-    },
-    validSpoilers() {
-      // todo: escape spoiler.topic
-      return this.spoilers.filter(
-        spoiler =>
-          spoiler.topic &&
-          (!spoiler.expired_at || new Date(spoiler.expired_at) > new Date())
-      )
     }
   },
   methods: {

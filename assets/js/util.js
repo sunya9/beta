@@ -37,7 +37,7 @@ export function getImageURLs(post, rawOnly = false) {
 }
 
 export function getCrosspostLink(post) {
-  if (!post.content) return false
+  if (!post.content) return []
   const links = []
   if (post.raw) {
     const canonicalLinks = post.raw
@@ -55,16 +55,20 @@ export function getCrosspostLink(post) {
 }
 
 export function getSpoilers(post) {
-  if (!post.content) return false
+  if (!post.content) return []
   const spoilers = []
   if (post.raw) {
     const spoiler = post.raw
       .filter(r => {
-        return r.type === 'shawn.spoiler'
+        return (
+          r.type === 'shawn.spoiler' &&
+          r.value.topic &&
+          (!r.value.expired_at || new Date(r.value.expired_at) > new Date())
+        )
       })
       .map(r => {
         return {
-          ...r.value
+          topic: r.value.topic.replace(/</g, '&lt;').replace(/>/g, '&gt;')
         }
       })
     Array.prototype.push.apply(spoilers, spoiler)
