@@ -53,3 +53,21 @@ export function getCrosspostLink(post) {
   }
   return links
 }
+
+export function getSpoilers(post) {
+  if (!post.content) return false
+  const spoilers = []
+  if (post.raw) {
+    const spoiler = post.raw
+      .filter(r => {
+        return r.type === 'shawn.spoiler'
+      })
+      .map(r => {
+        return {
+          ...r.value
+        }
+      })
+    Array.prototype.push.apply(spoilers, spoiler)
+  }
+  return spoilers
+}

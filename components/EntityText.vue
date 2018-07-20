@@ -1,6 +1,15 @@
 <template>
 	<span class="apply-pre" v-if="hasEntities && !deleted">
-		<template v-for="(entity, i) in entities">
+    <template v-if="hasSpoilers && !showSpoiler">
+      <button class="btn btn-link show-spoiler mr-3 btn-primary" type="button" @click="toggleSpoiler">
+        <span class="d-none d-sm-inline ml-2">Show Spoiler:
+          <template v-for="(spoiler, i) in validSpoilers">
+            <span v-emojify :key="`text-${i}`">{{spoiler.topic}}</span>
+          </template>
+        </span>
+      </button>
+    </template>
+		<template v-else v-for="(entity, i) in entities">
 			<nuxt-link v-emojify :to="`/@${entity.text}`" v-if="entity.type === 'mentions'" :key="`mention-${i}`">@{{entity.text}}</nuxt-link>
 			<nuxt-link v-emojify :to="`/tags/${entity.text}`" v-else-if="entity.type === 'tags'" :key="`tags-${i}`">#{{entity.text}}</nuxt-link>
 			<a :href="entity.link" target="_new" v-emojify v-else-if="entity.type === 'links'" :key="`links-${i}`">{{unicodeSubstring(entity.text, 0, entity.len)}}</a>
@@ -23,6 +32,15 @@ export default {
     deleted: {
       type: Boolean,
       default: false
+    },
+    spoilers: {
+      type: Array,
+      default: () => ({})
+    }
+  },
+  data() {
+    return {
+      showSpoiler: false
     }
   },
   computed: {
@@ -60,10 +78,24 @@ export default {
           return res
         }, [])
         .filter(entity => !(entity.type === 'text' && entity.text === ''))
+    },
+    hasSpoilers() {
+      return this.spoilers.length > 0
+    },
+    validSpoilers() {
+      // todo: escape spoiler.topic
+      return this.spoilers.filter(
+        spoiler =>
+          spoiler.topic &&
+          (!spoiler.expired_at || new Date(spoiler.expired_at) > new Date())
+      )
     }
   },
   methods: {
-    unicodeSubstring
+    unicodeSubstring,
+    toggleSpoiler() {
+      this.showSpoiler = true
+    }
   }
 }
 

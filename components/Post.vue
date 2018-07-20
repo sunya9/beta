@@ -24,7 +24,7 @@
             'mb-0': preview,
             'e-content p-name': detail
           }">
-						<entity-text :content="mainPost.content" :deleted="post.is_deleted">
+						<entity-text :content="mainPost.content" :spoilers=spoilers :deleted="post.is_deleted">
 							[Post deleted]
 						</entity-text>
 					</p>
@@ -148,7 +148,7 @@ import { mapState } from 'vuex'
 import bus from '~/assets/js/bus'
 import focus from '~/assets/js/focus'
 import EntityText from '~/components/EntityText'
-import { getImageURLs, getCrosspostLink } from '~/assets/js/util'
+import { getImageURLs, getCrosspostLink, getSpoilers } from '~/assets/js/util'
 import listItem from '~/assets/js/list-item'
 
 export default {
@@ -197,6 +197,9 @@ export default {
     },
     crosspost() {
       return getCrosspostLink(this.mainPost)
+    },
+    spoilers() {
+      return getSpoilers(this.mainPost)
     },
     post() {
       return this.data
