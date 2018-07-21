@@ -75,7 +75,7 @@ export default {
   computed: {
     calcDisabled() {
       const requireTargetValue = this.createChannelMode && !this.channelUsersStr
-      return requireTargetValue || this.promise || !this.text
+      return requireTargetValue || this.promise || !this.text || this.remain < 0
     },
     remain() {
       return 2048 - this.textLength

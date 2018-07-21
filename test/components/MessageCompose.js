@@ -66,13 +66,13 @@ describe('MessageCompose component', () => {
       expect(remaining).is.equal(2048)
     })
     context('when text length is 128', () => {
-      it('remain equals 128', async () => {
+      it('remain equals 1920', async () => {
         vm.text = 'a'.repeat(128)
         await new Promise(resolve => setTimeout(resolve, 500))
         const remaining = +wrapper
           .find('[data-test-id="message-counter"]')
           .text()
-        expect(remaining).is.equal(128)
+        expect(remaining).is.equal(1920)
       })
     })
     context('when text length is 2048', () => {
