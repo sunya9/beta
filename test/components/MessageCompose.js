@@ -45,7 +45,7 @@ describe('MessageCompose component', () => {
       })
       context('has text over 2048 characters', () => {
         it('disabled ', () => {
-          vm.text = 'a'.repeat(2058)
+          vm.compiledTextLength = 'a'.repeat(2058)
           expect($submitButton.attributes().disabled).to.equal('disabled')
         })
       })
