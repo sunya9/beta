@@ -69,25 +69,23 @@ export function getSpoilers(post) {
 }
 
 export function getLongpost(post) {
-  if (!post.content || !post.raw) return false
-  var longpost = post.raw.find(r => {
-    return r.type === 'nl.chimpnut.blog.post' && r.value.body
-  })
-  if (longpost) {
-    longpost.value.body = longpost.value.body
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-    if (
-      longpost.value.title &&
-      longpost.value.title !=
-        longpost.value.body.substr(0, longpost.value.title.length)
-    ) {
-      longpost.value.title = longpost.value.title
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-    } else {
-      longpost.value.title = false
-    }
-    return longpost.value
-  }
+  if (!post.content) return []
+  if (!post.raw) return []
+  const longposts = []
+  const longpost = post.raw
+    .filter(r => {
+      return r.type === 'nl.chimpnut.blog.post' && r.value.body
+    })
+    .map(r => {
+      return {
+        body: r.value.body.replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+        title:
+          r.value.title &&
+          r.value.title != r.value.body.substr(0, r.value.title.length)
+            ? r.value.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            : false
+      }
+    })
+  Array.prototype.push.apply(longposts, longpost)
+  return longpost[0]
 }
