@@ -219,6 +219,7 @@ export default {
       textarea.focus()
     },
     async uploadPoll() {
+      this.poll.options = this.poll.options.filter(option => option.text)
       return await this.$axios.$post('/polls', {
         ...this.poll,
         prompt: this.poll.prompt || this.text
@@ -255,6 +256,7 @@ export default {
       } catch (e) {
         console.error(e)
         this.$toast.error(e.message)
+        return
       }
       this.promise = this.$axios.$post('/posts', option)
       await this.$nextTick()
