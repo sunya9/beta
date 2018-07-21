@@ -35,7 +35,7 @@ export default {
     },
     spoilers: {
       type: Array,
-      default: () => ({})
+      default: () => []
     }
   },
   data() {

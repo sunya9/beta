@@ -26,13 +26,13 @@
 									</span>
 									<small v-if="profile.name" class="ml-sm-2 d-block d-sm-inline text-muted p-name">
 										{{profile.name}}
-										<span v-if="profile.badge" class="ml-1">
-											<i class="fa fa-shield"></i>
-										</span>
-                    <span v-if="profile.type != 'human'">
-
-                    </span>
 									</small>
+                  <small v-if="profile.badge" class="ml-sm-2 d-block d-sm-inline text-muted ml-1">
+                    <i class="fa fa-shield"></i>
+                  </small>
+                  <small v-if="profile.type != 'human'" class="ml-sm-2 d-block d-sm-inline text-muted ml-1">
+                     ({{profile.type}})
+                  </small>
 									<mute-button :profile.sync="profile" class="ml-2" v-if="profile.you_muted" />
 								</span>
 							</h3>
