@@ -15,7 +15,7 @@
           </transition-group>
         </div>
 				<div class="d-flex justify-content-between align-items-center">
-					<span>{{remain}}</span>
+					<span data-test-id="message-counter">{{remain}}</span>
           <div>
             <label v-show="!noPhoto" v-if="$store.state.user.storage.available" class="btn btn-link text-dark add-photo mr-3" :disabled="promise">
               <i class="fa fa-picture-o"></i>
@@ -128,6 +128,7 @@ export default {
       )
       this.channelUsersStr = ''
       this.text = ''
+      this.photos = []
       this.$router.push(`/messages/${channel.channel_id}`)
     },
     async uploadPhotos() {
