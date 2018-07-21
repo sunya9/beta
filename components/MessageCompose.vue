@@ -36,6 +36,7 @@
 </template>
 <script>
 import textCount from '~/assets/js/text-count'
+import { mapState } from 'vuex'
 import Thumb from '~/components/Thumb'
 
 export default {
@@ -81,7 +82,8 @@ export default {
     },
     hasPhotos() {
       return this.photos.length
-    }
+    },
+    ...mapState(['user'])
   },
   methods: {
     async submit() {
