@@ -12,7 +12,7 @@
 					</no-ssr>
 				</div>
 				<div class="form-group" v-show="photos.length">
-					<transition-group tag="div" name="photos" class="d-flex flex-wrap justify-cotnent align-items-center">
+					<transition-group tag="div" name="photos" class="d-flex flex-wrap justify-content align-items-center">
 						<thumb :key="photo.data" v-for="(photo, i) in previewPhotos" :original="photo.data" :thumb="photo.data" removable class="mr-2" @remove="photos.splice(i, 1)" />
 					</transition-group>
 				</div>
