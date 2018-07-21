@@ -24,7 +24,7 @@
             'mb-0': preview,
             'e-content p-name': detail
           }">
-						<entity-text :content="mainPost.content" :spoilers=spoilers :deleted="post.is_deleted">
+						<entity-text :content="mainPost.content" :spoilers=spoilers :longpost=longpost :deleted="post.is_deleted">
 							[Post deleted]
 						</entity-text>
 					</p>
@@ -86,9 +86,9 @@
 								</a>
 							</li>
 						</template>
-            <template v-if="crosspost.length">
+            <template v-if="crosspost">
                 <li class="list-inline-item crosspost-url">
-                    <a class="text-muted" :href="crosspost[0].canonical_url" target="_new">
+                    <a class="text-muted" :href="crosspost" target="_new">
                         <i class="fa fa-random"></i>
                         Crosspost
                     </a>
@@ -148,7 +148,12 @@ import { mapState } from 'vuex'
 import bus from '~/assets/js/bus'
 import focus from '~/assets/js/focus'
 import EntityText from '~/components/EntityText'
-import { getImageURLs, getCrosspostLink, getSpoilers } from '~/assets/js/util'
+import {
+  getImageURLs,
+  getCrosspostLink,
+  getSpoilers,
+  getLongpost
+} from '~/assets/js/util'
 import listItem from '~/assets/js/list-item'
 
 export default {
@@ -200,6 +205,9 @@ export default {
     },
     spoilers() {
       return getSpoilers(this.mainPost)
+    },
+    longpost() {
+      return getLongpost(this.mainPost)
     },
     post() {
       return this.data
