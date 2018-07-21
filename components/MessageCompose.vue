@@ -9,14 +9,26 @@
 					<textarea class="form-control" v-model="text" @keydown.ctrl.enter="submit" @keydown.meta.enter="submit" :disabled="promise">
 					</textarea>
 				</div>
+        <div class="form-group" v-show="photos.length">
+          <transition-group tag="div" name="photos" class="d-flex flex-wrap justify-content align-items-center">
+            <thumb :key="photo.data" v-for="(photo, i) in previewPhotos" :original="photo.data" :thumb="photo.data" removable class="mr-2" @remove="photos.splice(i, 1)" />
+          </transition-group>
+        </div>
 				<div class="d-flex justify-content-between align-items-center">
 					<span>{{remain}}</span>
-					<button type="submit" class="btn text-uppercase btn-primary" :disabled="calcDisabled">
-						<span v-show="promise">
-							<i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
-						</span>
-						Send
-					</button>
+          <div>
+            <label v-show="!noPhoto" v-if="$store.state.user.storage.available" class="btn btn-link text-dark add-photo mr-3" :disabled="promise">
+              <i class="fa fa-picture-o"></i>
+              <span class="d-none d-sm-inline ml-2">Add photo…</span>
+              <input type="file" multiple accept="image/*" @change="fileChange" style="display: none" ref="file">
+            </label>
+  					<button type="submit" class="btn text-uppercase btn-primary" :disabled="calcDisabled">
+  						<span v-show="promise">
+  							<i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
+  						</span>
+  						Send
+  					</button>
+          </div>
 				</div>
 			</form>
 		</div>
@@ -24,6 +36,7 @@
 </template>
 <script>
 import textCount from '~/assets/js/text-count'
+import Thumb from '~/components/Thumb'
 
 export default {
   mixins: [textCount],
@@ -31,13 +44,31 @@ export default {
     createChannelMode: {
       type: Boolean,
       default: false
-    }
+    },
+    noPhoto: Boolean
   },
   data() {
     return {
       promise: null,
       channelUsersStr: '',
-      text: ''
+      text: '',
+      photos: [],
+      previewPhotos: []
+    }
+  },
+  watch: {
+    async photos() {
+      const promisePhotos = this.photos.map(file => {
+        return new Promise(resolve => {
+          const fr = new FileReader()
+          fr.readAsDataURL(file)
+          fr.onload = e => {
+            file.data = e.target.result
+            resolve(file)
+          }
+        })
+      })
+      this.previewPhotos = await Promise.all(promisePhotos)
     }
   },
   computed: {
@@ -47,15 +78,23 @@ export default {
     },
     remain() {
       return 2048 - this.textLength
+    },
+    hasPhotos() {
+      return this.photos.length
     }
   },
   methods: {
     async submit() {
       if (this.createChannelMode) return this.createChannel()
       const option = {
-        text: this.text
+        text: this.text,
+        raw: []
       }
       try {
+        if (this.hasPhotos) {
+          const raws = await this.uploadPhotos()
+          option.raw.push(...raws)
+        }
         this.promise = this.$axios.$post(
           `/channels/${this.$route.params.channel}/messages`,
           option
@@ -65,6 +104,8 @@ export default {
           this.$emit('submit')
         }
         this.text = ''
+        this.$toast.success('Posted!')
+        this.photos = []
       } catch (e) {
         console.error(e)
         this.$toast.error(e.message)
@@ -86,8 +127,62 @@ export default {
       this.channelUsersStr = ''
       this.text = ''
       this.$router.push(`/messages/${channel.channel_id}`)
+    },
+    async uploadPhotos() {
+      const photosPromise = this.photos.map(async content => {
+        const data = obj2FormData({
+          type: 'net.unsweets.beta',
+          name: content.name,
+          kind: 'image',
+          content,
+          is_public: false
+        })
+        const res = await this.$axios.$post('/files', data, {
+          headers: {
+            'Content-type': 'multipart/form-data'
+          }
+        })
+        return res
+      })
+      this.promise = true
+      const photosJson = await Promise.all(photosPromise)
+      const raws = photosJson.map(res => {
+        const image = res.data
+        const value = {
+          width: image.image_info.width,
+          height: image.image_info.height,
+          version: '1.0',
+          type: 'photo',
+          url: image.link,
+          title: this.text
+        }
+        return Object.assign(
+          {},
+          {
+            type: 'io.pnut.core.oembed'
+          },
+          { value }
+        )
+      })
+      return raws
+    },
+    fileChange(e) {
+      if (!e.target.files.length) return
+      this.photos.push(...Array.prototype.slice.call(e.target.files))
+      // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
+      this.$refs.file.value = ''
     }
+  },
+  components: {
+    Thumb
   }
+}
+
+function obj2FormData(obj) {
+  return Object.keys(obj).reduce((fd, key) => {
+    fd.append(key, obj[key])
+    return fd
+  }, new FormData())
 }
 </script>
 
