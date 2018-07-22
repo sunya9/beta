@@ -24,7 +24,7 @@
                   'btn-primary': hasPoll
                 }">
 							<i class="fa fa-bar-chart"></i>
-							<span class="d-none d-sm-inline ml-2">Add a poll...</span>
+							<span class="d-none d-sm-inline ml-2">Add a poll…</span>
 						</button>
 						<label v-show="!noPhoto" v-if="$store.state.user.storage.available" class="btn btn-link text-dark add-photo mr-3" :disabled="promise">
 							<i class="fa fa-picture-o"></i>
