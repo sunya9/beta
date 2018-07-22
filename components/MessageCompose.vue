@@ -19,10 +19,17 @@
           <div>
             <label v-show="!noPhoto" v-if="$store.state.user.storage.available" class="btn btn-link text-dark add-photo mr-3" :disabled="promise">
               <i class="fa fa-picture-o"></i>
-              <span class="d-none d-sm-inline ml-2">Add photo…</span>
+              <span class="d-none d-sm-inline ml-2">Photo</span>
               <input type="file" multiple accept="image/*" @change="fileChange" style="display: none" ref="file">
             </label>
-  					<button type="submit" class="btn text-uppercase btn-primary" :disabled="calcDisabled">
+            <button class="btn btn-link add-spoiler mr-3" type="button" @click="toggleSpoiler" :class="{
+                  'text-dark': !hasSpoiler,
+                  'btn-primary': hasSpoiler
+                }">
+              <i class="fa fa-bell-o"></i>
+              <span class="d-none d-sm-inline ml-2">Spoiler</span>
+            </button>
+  					<button type="submit" class="ml-1 btn text-uppercase btn-primary" :disabled="calcDisabled">
   						<span v-show="promise">
   							<i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
   						</span>
@@ -30,6 +37,7 @@
   					</button>
           </div>
 				</div>
+        <input-spoiler @update:spoiler="p => spoiler = p" v-if="spoiler" class="mt-3" />
 			</form>
 		</div>
 	</div>
@@ -38,6 +46,7 @@
 import textCount from '~/assets/js/text-count'
 import { mapState } from 'vuex'
 import Thumb from '~/components/Thumb'
+import InputSpoiler from '~/components/InputSpoiler'
 
 export default {
   mixins: [textCount],
@@ -54,7 +63,8 @@ export default {
       channelUsersStr: '',
       text: '',
       photos: [],
-      previewPhotos: []
+      previewPhotos: [],
+      spoiler: null
     }
   },
   watch: {
@@ -75,7 +85,13 @@ export default {
   computed: {
     calcDisabled() {
       const requireTargetValue = this.createChannelMode && !this.channelUsersStr
-      return requireTargetValue || this.promise || !this.text || this.remain < 0
+      return (
+        requireTargetValue ||
+        this.promise ||
+        !this.text ||
+        this.remain < 0 ||
+        (this.spoiler && !this.availableSpoiler)
+      )
     },
     remain() {
       return 2048 - this.textLength
@@ -83,9 +99,23 @@ export default {
     hasPhotos() {
       return this.photos.length
     },
+    hasSpoiler() {
+      return this.spoiler
+    },
+    availableSpoiler() {
+      return (
+        this.spoiler &&
+        this.spoiler.topic &&
+        this.spoiler.topic.length > 0 &&
+        this.spoiler.topic.length <= 128
+      )
+    },
     ...mapState(['user'])
   },
   methods: {
+    toggleSpoiler() {
+      this.spoiler = this.spoiler ? null : {}
+    },
     async submit() {
       if (this.createChannelMode) return this.createChannel()
       const option = {
@@ -96,6 +126,14 @@ export default {
         if (this.hasPhotos) {
           const raws = await this.uploadPhotos()
           option.raw.push(...raws)
+        }
+        if (this.spoiler) {
+          option.raw.push({
+            type: 'shawn.spoiler',
+            value: {
+              topic: this.spoiler.topic
+            }
+          })
         }
         this.promise = this.$axios.$post(
           `/channels/${this.$route.params.channel}/messages`,
@@ -108,6 +146,7 @@ export default {
         this.text = ''
         this.$toast.success('Posted!')
         this.photos = []
+        this.spoiler = null
       } catch (e) {
         console.error(e)
         this.$toast.error(e.message)
@@ -177,7 +216,8 @@ export default {
     }
   },
   components: {
-    Thumb
+    Thumb,
+    InputSpoiler
   }
 }
 
@@ -192,5 +232,9 @@ function obj2FormData(obj) {
 <style scoped>
 textarea {
   min-height: 5rem;
+}
+.add-photo {
+  cursor: pointer;
+  margin-bottom: 0;
 }
 </style>

@@ -1,11 +1,9 @@
 <template>
 	<span class="apply-pre" v-if="hasEntities && !deleted">
-    <template v-if="spoilers.length && !showSpoiler">
+    <template v-if="spoiler && !showSpoiler">
       <button class="btn btn-link mr-3 btn-primary" type="button" @click="toggleSpoiler">
-        <span class="d-none d-sm-inline ml-2">Show Spoiler:
-          <template v-for="(spoiler, i) in spoilers">
-            <span v-emojify :key="`text-${i}`">{{spoiler.topic}}</span>
-          </template>
+        <span class="d-sm-inline ml-2">Show Spoiler:
+          <span v-emojify>{{spoiler.topic}}</span>
         </span>
       </button>
     </template>
@@ -23,7 +21,7 @@
       </template>
 		</template>
     <template v-else>
-      <span v-if="longpost.title" v-emojify>{{longpost.title}}</span>
+      <h5 v-if="longpost.title" v-emojify>{{longpost.title}}</h5>
       <span v-emojify>{{longpost.body}}</span>
       <div style="margin-top:.8em">
         <button class="btn btn-link mr-3 btn-primary" type="button" @click="toggleLongpost">
@@ -49,10 +47,7 @@ export default {
       type: Boolean,
       default: false
     },
-    spoilers: {
-      type: Array,
-      default: () => []
-    },
+    spoiler: Object,
     longpost: Object
   },
   data() {

@@ -42,7 +42,7 @@
             'order-2 me': me,
             other: !me
           }">
-          <entity-text :content="message.content" :spoilers=spoilers>
+          <entity-text :content="message.content" :spoiler=spoiler>
             [Message deleted]
           </entity-text>
           <div v-if="thumbs.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end" style="margin-top:.8em">
@@ -85,7 +85,7 @@ import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
 import EntityText from '~/components/EntityText'
 import listItem from '~/assets/js/list-item'
-import { getImageURLs, getSpoilers } from '~/assets/js/util'
+import { getImageURLs, getSpoiler } from '~/assets/js/util'
 import bus from '~/assets/js/bus'
 
 export default {
@@ -105,8 +105,8 @@ export default {
     thumbs() {
       return getImageURLs(this.data)
     },
-    spoilers() {
-      return getSpoilers(this.data)
+    spoiler() {
+      return getSpoiler(this.data)
     },
     ...mapState(['user'])
   },

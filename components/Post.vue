@@ -24,7 +24,7 @@
             'mb-0': preview,
             'e-content p-name': detail
           }">
-						<entity-text :content="mainPost.content" :spoilers=spoilers :longpost=longpost :deleted="post.is_deleted">
+						<entity-text :content="mainPost.content" :spoiler=spoiler :longpost=longpost :deleted="post.is_deleted">
 							[Post deleted]
 						</entity-text>
 					</p>
@@ -151,7 +151,7 @@ import EntityText from '~/components/EntityText'
 import {
   getImageURLs,
   getCrosspostLink,
-  getSpoilers,
+  getSpoiler,
   getLongpost
 } from '~/assets/js/util'
 import listItem from '~/assets/js/list-item'
@@ -203,8 +203,8 @@ export default {
     crosspost() {
       return getCrosspostLink(this.mainPost)
     },
-    spoilers() {
-      return getSpoilers(this.mainPost)
+    spoiler() {
+      return getSpoiler(this.mainPost)
     },
     longpost() {
       return getLongpost(this.mainPost)

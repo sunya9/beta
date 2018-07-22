@@ -208,4 +208,13 @@ body.dark {
   .balloon.me::before {
     border-left-color: #202020;
   }
+  /* poll input */
+  .handle {
+    background-color: #181818;
+  }
+  .input-group-text {
+    color: rgb(74, 74, 74);
+    background-color: #181818;
+    border-color: #181818;
+  }
 }

@@ -46,32 +46,28 @@ export function getCrosspostLink(post) {
   }
 }
 
-export function getSpoilers(post) {
-  if (!post.content) return []
-  const spoilers = []
-  if (post.raw) {
-    const spoiler = post.raw
-      .filter(r => {
-        return (
-          r.type === 'shawn.spoiler' &&
-          r.value.topic &&
-          (!r.value.expired_at || new Date(r.value.expired_at) > new Date())
-        )
-      })
-      .map(r => {
-        return {
-          topic: r.value.topic
-        }
-      })
-    Array.prototype.push.apply(spoilers, spoiler)
-  }
-  return spoilers
+export function getSpoiler(post) {
+  if (!post.content) return {}
+  if (!post.raw) return {}
+  const spoiler = post.raw
+    .filter(r => {
+      return (
+        r.type === 'shawn.spoiler' &&
+        r.value.topic &&
+        (!r.value.expired_at || new Date(r.value.expired_at) > new Date())
+      )
+    })
+    .map(r => {
+      return {
+        topic: r.value.topic
+      }
+    })
+  return spoiler[0]
 }
 
 export function getLongpost(post) {
-  if (!post.content) return []
-  if (!post.raw) return []
-  const longposts = []
+  if (!post.content) return {}
+  if (!post.raw) return {}
   const longpost = post.raw
     .filter(r => {
       return r.type === 'nl.chimpnut.blog.post' && r.value.body
@@ -86,6 +82,5 @@ export function getLongpost(post) {
             : false
       }
     })
-  Array.prototype.push.apply(longposts, longpost)
   return longpost[0]
 }
