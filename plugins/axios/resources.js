@@ -9,6 +9,7 @@ const map = {
   trending: '/posts/streams/explore/trending',
   global: '/posts/streams/global',
   'posts-id': ({ params }) => `/posts/${params.id}/thread`,
+  'posts-id-revisions': ({ params }) => `/posts/${params.id}/revisions`,
   'tags-name': ({ params }) => `/posts/tag/${encodeURIComponent(params.name)}`,
   '@name': ({ params }) => `/users/@${params.name}/posts`,
   '@name-follows': ({ params }) => `/users/@${params.name}/following`,
