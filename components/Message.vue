@@ -31,10 +31,11 @@
       </h6>
       <div class="d-flex flex-row"
       :class="{
-        'ml-5 justify-content-end': me,
-        'mr-5': !me
+        'justify-content-end': me,
+        'ml-5': me && !displayFullView,
+        'mr-5': !me && !displayFullView
       }">
-        <p
+        <div
           @click="clickMessage"
           class="balloon py-2 px-3 mb-0"
           :class="{
@@ -44,9 +45,9 @@
           <entity-text :content="message.content" :spoilers=spoilers>
             [Message deleted]
           </entity-text>
-        </p>
-        <div v-if="thumbs.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
-          <thumb class="mx-1 mb-1 mb-lg-0" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
+          <div v-if="thumbs.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end" style="margin-top:.8em">
+            <thumb class="mx-1 mb-1 mb-lg-0" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
+          </div>
         </div>
         <footer
           class="align-self-end"
@@ -57,6 +58,21 @@
           <span class="text-muted text-nowrap" :title="absDate">
             {{date}}
           </span>
+          <div class="dropdown card-link">
+            <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#" class="text-dark btn-link">
+              <i class="fa fa-ellipsis-h"></i>
+            </a>
+            <div :class="{'dropdown-menu dropdown-menu-left': me, 'dropdown-menu dropdown-menu-right': !me}">
+              <a v-if="me && !message.is_deleted" class="dropdown-item" href="#" @click.stop.prevent="removeModal">
+                <i class="fa fa-trash"></i>
+                Remove
+              </a>
+              <a class="dropdown-item" :href="message.source.link" target="_new">
+                <i class="fa fa-send"></i>
+                via {{message.source.name}}
+              </a>
+            </div>
+          </div>
         </footer>
       </div>
     </div>
@@ -70,11 +86,15 @@ import Thumb from '~/components/Thumb'
 import EntityText from '~/components/EntityText'
 import listItem from '~/assets/js/list-item'
 import { getImageURLs, getSpoilers } from '~/assets/js/util'
+import bus from '~/assets/js/bus'
 
 export default {
   mixins: [listItem],
   dateKey: 'message.created_at',
-  props: ['data'],
+  props: {
+    displayFullView: Boolean,
+    data: Object
+  },
   computed: {
     me() {
       return this.user && this.user.id === this.message.user.id
@@ -91,7 +111,17 @@ export default {
     ...mapState(['user'])
   },
   methods: {
-    clickMessage() {}
+    clickMessage() {},
+    removeModal() {
+      bus.$emit('showMessageRemoveModal', this)
+    },
+    remove() {
+      return this.$axios
+        .$delete(
+          `/channels/${this.message.channel_id}/messages/${this.message.id}`
+        )
+        .then(() => this.$emit('remove'))
+    }
   },
   components: {
     Avatar,

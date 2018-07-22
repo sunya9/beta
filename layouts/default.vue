@@ -67,6 +67,7 @@
     </div>
     <div>
       <remove-modal ref="removeModal" />
+      <message-remove-modal ref="mesageRemoveModal" />
     </div>
     <div>
       <help-modal ref="helpModal" />
@@ -79,6 +80,7 @@ import Splash from '~/components/Splash'
 import { mapState } from 'vuex'
 import PostModal from '~/components/PostModal'
 import RemoveModal from '~/components/RemoveModal'
+import MessageRemoveModal from '~/components/MessageRemoveModal'
 import HelpModal from '~/components/HelpModal'
 import Mousetrap from 'mousetrap'
 import AppSidebar from '~/components/sidebar/App'
@@ -97,6 +99,7 @@ export default {
     Splash,
     PostModal,
     RemoveModal,
+    MessageRemoveModal,
     HelpModal,
     AppSidebar,
     SettingsSidebar,

@@ -60,7 +60,7 @@ export function getSpoilers(post) {
       })
       .map(r => {
         return {
-          topic: r.value.topic.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          topic: r.value.topic
         }
       })
     Array.prototype.push.apply(spoilers, spoiler)
@@ -78,11 +78,11 @@ export function getLongpost(post) {
     })
     .map(r => {
       return {
-        body: r.value.body.replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+        body: r.value.body,
         title:
           r.value.title &&
           r.value.title != r.value.body.substr(0, r.value.title.length)
-            ? r.value.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            ? r.value.title
             : false
       }
     })
