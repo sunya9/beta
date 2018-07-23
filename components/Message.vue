@@ -120,7 +120,10 @@ export default {
         .$delete(
           `/channels/${this.message.channel_id}/messages/${this.message.id}`
         )
-        .then(() => this.$emit('remove'))
+        .then(() => {
+          this.$emit('remove')
+          this.$toast.success('Deleted Message!')
+        })
     }
   },
   components: {

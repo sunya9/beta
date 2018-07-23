@@ -259,9 +259,10 @@ export default {
       bus.$emit('showRemoveModal', this)
     },
     remove() {
-      return this.$axios
-        .$delete(`/posts/${this.post.id}`)
-        .then(() => this.$emit('remove'))
+      return this.$axios.$delete(`/posts/${this.post.id}`).then(() => {
+        this.$toast.success('Deleted Post!')
+        this.$emit('remove')
+      })
     },
     clickPostLink(e) {
       const a = e.target

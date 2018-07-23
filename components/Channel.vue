@@ -19,10 +19,13 @@
           </span>
         </h5>
         <p v-if="channel.recent_message" class="mb-0 text-truncate">
-          <span v-if="!channel.recent_message.is_deleted">
+          <span v-if="!channel.recent_message.is_deleted && spoiler">
+            {{spoiler.topic}}
+          </span>
+          <span v-else-if="!channel.recent_message.is_deleted">
             {{channel.recent_message.content.text}}
           </span>
-          <span v-else class="text-muted">[Post deleted]</span>
+          <span v-else class="text-muted">[Message deleted]</span>
         </p>
       </div>
       <span class="align-self-center">
@@ -35,6 +38,7 @@
 <script>
 import Avatar from '~/components/Avatar'
 import { mapState } from 'vuex'
+import { getSpoiler } from '~/assets/js/util'
 
 export default {
   props: {
@@ -110,6 +114,9 @@ export default {
       }
 
       return subscribers
+    },
+    spoiler() {
+      return getSpoiler(this.channel.recent_message)
     }
   },
   components: {
