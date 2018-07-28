@@ -44,13 +44,21 @@ body {
   vertical-align: -0.25rem;
 }
 
-.btn {
+.btn,
+.custom-control-label {
   cursor: pointer;
 }
 
 .btn-primary.disabled,
 .btn-primary:disabled {
   cursor: auto;
+}
+
+.unread-channel {
+  background-color: #fff1ec !important;
+}
+.unread-channel-arrow {
+  color: #b33720;
 }
 
 /* Dark theme */
@@ -92,6 +100,9 @@ body.dark {
   .modal-content {
     background-color: #252525;
     color: #d5d5d5;
+  }
+  .modal-footer {
+    border-top-color: #0b0b0b;
   }
   .nav-item:first-child .nav-link,
   .nav-item:first-child button {
@@ -208,6 +219,10 @@ body.dark {
   .balloon.me::before {
     border-left-color: #202020;
   }
+  .unread-channel {
+    background-color: #2a2523 !important;
+  }
+  
   /* poll input */
   .handle {
     background-color: #181818;

@@ -68,6 +68,8 @@
     <div>
       <remove-modal ref="removeModal" />
       <message-remove-modal ref="mesageRemoveModal" />
+      <channel-edit-modal ref="channelEditModal" />
+      <channel-member-edit-modal ref="channelMemberEditModal" />
     </div>
     <div>
       <help-modal ref="helpModal" />
@@ -81,6 +83,8 @@ import { mapState } from 'vuex'
 import PostModal from '~/components/PostModal'
 import RemoveModal from '~/components/RemoveModal'
 import MessageRemoveModal from '~/components/MessageRemoveModal'
+import ChannelEditModal from '~/components/ChannelEditModal'
+import ChannelMemberEditModal from '~/components/ChannelMemberEditModal'
 import HelpModal from '~/components/HelpModal'
 import Mousetrap from 'mousetrap'
 import AppSidebar from '~/components/sidebar/App'
@@ -100,6 +104,8 @@ export default {
     PostModal,
     RemoveModal,
     MessageRemoveModal,
+    ChannelEditModal,
+    ChannelMemberEditModal,
     HelpModal,
     AppSidebar,
     SettingsSidebar,

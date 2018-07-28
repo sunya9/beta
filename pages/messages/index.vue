@@ -7,7 +7,7 @@
 				<message-compose create-channel-mode />
 				<h2 class="h4">Recent messages</h2>
 				<div class="list-group" v-infinite-scroll="fetch" infinite-scroll-disabled="moreDisabled" infinite-scroll-distance="100">
-					<channel class="list-group-item list-group-item-action" v-for="channel in excludeBlockedUsers" :key="channel.id" :channel="channel" />
+					<channel class="list-group-item list-group-item-action" v-for="channel in channels" :key="channel.id" :channel="channel" />
 					<div class="list-group-item" v-show="meta.more">
 						<div class="text-center w-100 text-muted my-2">
 							<i class="fa fa-spin fa-refresh fa-fw fa-2x"></i>
@@ -33,8 +33,9 @@ export default {
   async asyncData({ app: { $resource } }) {
     const options = {
       include_recent_message: 1,
-      channel_types: 'io.pnut.core.pm',
-      include_limited_users: 1
+      channel_types: 'io.pnut.core.pm,io.pnut.core.chat',
+      include_limited_users: 1,
+      include_channel_raw: 1
     }
     const { data: channels, meta } = await $resource(options)
     return { channels, meta, options }
@@ -51,11 +52,6 @@ export default {
   computed: {
     moreDisabled() {
       return this.busy || !this.meta.more
-    },
-    excludeBlockedUsers() {
-      return this.channels.filter(
-        channel => channel.owner && channel.acl.write.user_ids[0]
-      )
     }
   },
   head() {

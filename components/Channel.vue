@@ -1,34 +1,44 @@
 <template>
-  <nuxt-link :to="`/messages/${channel.id}`">
+  <nuxt-link :to="`/messages/${channel.id}`" :class="{'unread-channel': channel.has_unread}">
     <div class="media">
-      <avatar :avatar="{ link: opponent.avatar_image }" size="32" class="mr-2" />
+      <avatar v-if="is_pm" :avatar="{ link: opponent.avatar_image }" size="32" class="mr-2" />
       <div class="media-body" style="overflow: hidden">
         <h5>
           <i v-show="channel.you_muted" class="fa fa-bell-slash-o" style="float:right"></i>
-          <span v-if="opponent.name">
-            {{opponent.name}}
+          <template v-if="is_pm">
+            <span v-if="opponent.name">
+              {{opponent.name}}
+              <small class="text-muted">
+                @{{opponent.username}}<span v-if="members.length" class="text-muted">, </span>
+              </small>
+            </span>
+            <span v-else>
+              @{{opponent.username}}<small v-if="members.length" class="text-muted">, </small>
+            </span>
+            <span v-if="members.length" v-for="user in members" :key="user.id" class="text-muted">
+              <small><span v-if="user.id !== members[0].id">, </span>@{{user.username}}</small>
+            </span>
+          </template>
+          <template v-else>
+            <i v-if="channel.acl.read.public" class="fa fa-globe fa-fw" aria-hidden="true"></i>
+            <i v-else class="fa fa-users fa-fw" aria-hidden="true"></i>
+            {{chat.name}}
             <small class="text-muted">
-              @{{opponent.username}}<span v-if="subscribers.length" class="text-muted">, </span>
+              {{chat.description}}
             </small>
-          </span>
-          <span v-else>
-            @{{opponent.username}}<small v-if="subscribers.length" class="text-muted">, </small>
-          </span>
-          <span v-if="subscribers.length" v-for="user in subscribers" :key="user.id" class="text-muted">
-            <small><span v-if="user.id !== subscribers[0].id">, </span>@{{user.username}}</small>
-          </span>
+          </template>
         </h5>
         <p v-if="channel.recent_message" class="mb-0 text-truncate">
-          <span v-if="!channel.recent_message.is_deleted && spoiler">
+          <span v-if="!channel.recent_message.is_deleted && spoiler && !me">
             {{spoiler.topic}}
           </span>
           <span v-else-if="!channel.recent_message.is_deleted">
-            {{channel.recent_message.content.text}}
+            <span v-if="!is_pm">@{{opponent.username}}: </span>{{channel.recent_message.content.text}}
           </span>
           <span v-else class="text-muted">[Message deleted]</span>
         </p>
       </div>
-      <span class="align-self-center">
+      <span class="align-self-center" :class="{'unread-channel-arrow': channel.has_unread}">
         <i class="fa fa-chevron-right"></i>
       </span>
     </div>
@@ -84,7 +94,7 @@ export default {
       }
       return res
     },
-    subscribers() {
+    members() {
       // don't include self or most recent messager
       const {
         username,
@@ -101,7 +111,7 @@ export default {
         avatar_image
       }
 
-      const subscribers = this.channel.acl.write.user_ids.filter(user => {
+      const members = this.channel.acl.write.user_ids.filter(user => {
         return (
           user.id !== this.user.id &&
           (!this.channel.recent_message ||
@@ -110,13 +120,21 @@ export default {
       })
 
       if (this.channel.owner.id !== this.user.id) {
-        subscribers.push(owner)
+        members.push(owner)
       }
 
-      return subscribers
+      return members
     },
     spoiler() {
       return getSpoiler(this.channel.recent_message)
+    },
+    is_pm() {
+      return this.channel.type === 'io.pnut.core.pm'
+    },
+    chat() {
+      return this.channel.raw.filter(r => {
+        return r.type === 'io.pnut.core.chat-settings'
+      })[0].value
     }
   },
   components: {

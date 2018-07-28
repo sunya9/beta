@@ -63,7 +63,7 @@
               <i class="fa fa-ellipsis-h"></i>
             </a>
             <div :class="{'dropdown-menu dropdown-menu-left': me, 'dropdown-menu dropdown-menu-right': !me}">
-              <a v-if="me && !message.is_deleted" class="dropdown-item" href="#" @click.stop.prevent="removeModal">
+              <a v-if="!message.is_deleted && me" class="dropdown-item" href="#" @click.stop.prevent="removeModal">
                 <i class="fa fa-trash"></i>
                 Remove
               </a>
