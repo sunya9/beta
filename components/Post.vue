@@ -43,7 +43,7 @@
                     </div>
                     <ul class="list-inline">
                         <li class="list-inline-item">
-                            <nuxt-link ref="link" :to="permalink" class="text-muted" v-bind:class="{ 'u-url': detail }" :title="absDate">
+                            <nuxt-link ref="link" :to="permalink" class="text-muted" :class="{ 'u-url': detail }" :title="absDate">
                                 <i class="fa fa-clock-o"></i>
                                 <time :class="{ 'dt-published': detail }" :datetime="absDate"> {{detail ? absDate : date}}</time>
                             </nuxt-link>
@@ -64,7 +64,7 @@
                         </template>
                         <template v-if="post.reply_to">
                             <li class="list-inline-item">
-                                <nuxt-link :to="reply_permalink" class="text-muted" v-bind:class="{ 'u-in-reply-to': detail }" title="In Reply To">
+                                <nuxt-link :to="reply_permalink" class="text-muted" :class="{ 'u-in-reply-to': detail }" title="In Reply To">
                                     <i class="fa fa-comments"></i>
                                 </nuxt-link>
                             </li>

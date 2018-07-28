@@ -3,8 +3,19 @@
 		<h1 class="h3">Messages</h1>
 		<div class="row">
 			<div class="col-md-8">
-				<h2 class="h4">Create a channel</h2>
-				<message-compose create-channel-mode />
+				<h2 class="h4">
+          <button type="button" class="btn btn-link" style="font-size:1.5rem" @click="toggleWhich">
+            <i class="fa" :class="{'fa-toggle-on': (which == 'Private Message'),'fa-toggle-off': (which != 'Private Message')}" aria-hidden="true"></i> Create a {{which}}
+          </button>
+        </h2>
+        <transition name="fade" mode="out-in">
+          <div v-if="which == 'Private Message'" key="pm">
+            <message-compose create-channel-mode />
+          </div>
+          <div v-else>
+  				  <channel-compose key="channel" />
+          </div>
+        </transition>
 				<h2 class="h4">Recent messages</h2>
 				<div>
           <list :data="data" type="Channel" :option="option" ref="list" />
@@ -16,11 +27,18 @@
 
 <script>
 import MessageCompose from '~/components/MessageCompose'
+import ChannelCompose from '~/components/ChannelCompose'
+
 import List from '~/components/List'
 import bus from '~/assets/js/bus'
 
 export default {
   middleware: 'authenticated',
+  data() {
+    return {
+      which: 'Private Message'
+    }
+  },
   async asyncData({ app: { $resource } }) {
     const option = {
       include_recent_message: 1,
@@ -33,7 +51,8 @@ export default {
   },
   components: {
     List,
-    MessageCompose
+    MessageCompose,
+    ChannelCompose
   },
   mounted() {
     bus.$on('channel', this.add)
@@ -44,6 +63,10 @@ export default {
   methods: {
     add() {
       this.$refs.list.refresh()
+    },
+    toggleWhich() {
+      this.which =
+        this.which == 'Private Message' ? 'Chat Room' : 'Private Message'
     }
   },
   head() {
@@ -53,3 +76,14 @@ export default {
   }
 }
 </script>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter, .fade-leave-to
+/* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>

@@ -17,13 +17,20 @@
                 <i class="fa fa-pencil-square-o"></i>
                 <span class="d-none d-sm-inline ml-2">Edit</span>
               </button></h2>
-						<div class="form-group">
+						<div class="form-group" v-if="user">
 							<custom-checkbox v-model="channel.you_subscribed" @change="cancelMute" :resource="`/channels/${channel.id}/subscribe`">
 								Subscribed
 							</custom-checkbox>
 							<custom-checkbox v-model="channel.you_muted" @change="cancelSubscribe" :resource="`/channels/${channel.id}/mute`">
 								Muted
 							</custom-checkbox>
+              <!--<custom-checkbox v-model="channel.has_unread" @change="markAsRead" :checked="!channel.has_unread" :disabled="!channel.has_unread">
+                {{channel.has_unread ? 'Mark as read' : 'All read'}}
+              </custom-checkbox>-->
+              <button class="btn btn-link mr-2" :disabled="!channel.has_unread" type="button" @click.stop.prevent="markAsRead">
+                <i class="fa" :class="{'fa-envelope-open': channel.has_unread, 'fa-envelope-open-o': !channel.has_unread}" aria-hidden="true"></i>
+                <span class="d-none d-sm-inline ml-2">{{channel.has_unread ? 'Mark as read' : 'All read'}}</span>
+              </button>
 						</div>
             <template v-if="!isPM && chat.categories">
               Categories
@@ -190,6 +197,24 @@ export default {
         const { data: response } = await this.promise
         this.$toast.success('Updated!')
         this.channel = response
+      } catch (e) {
+        this.$toast.error(e.message)
+      }
+      this.promise = null
+    },
+    async markAsRead() {
+      if (!this.channel.has_unread) return false
+      const marker = [
+        {
+          name: 'channel:' + this.channel.id,
+          id: this.channel.recent_message_id
+        }
+      ]
+      try {
+        this.promise = this.$axios.$post('/markers', marker)
+        await this.promise
+        this.$toast.success('Marked channel as read!')
+        this.channel.has_unread = false
       } catch (e) {
         this.$toast.error(e.message)
       }

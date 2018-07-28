@@ -15,14 +15,13 @@
             <div class="form-group">
               <div class="form-group">
                 <h5>Name</h5>
-                <input type="text" v-model="chat.name" placeholder="Name" class="form-control"
-                  maxlength="128"
+                <input type="text" v-model="chat.name" placeholder="Name" class="form-control" maxlength="128"
                   title="Up to 128 characters"
                 >
               </div>
               <div class="form-group">
                 <h5>Description</h5>
-                <textarea class="form-control" v-model="chat.description" placeholder="Room Description" maxlength="128">
+                <textarea class="form-control" v-model="chat.description" placeholder="Room description" title="Up to 256 characters" maxlength="256">
                 </textarea>
               </div>
               <div class="form-group">
@@ -42,7 +41,8 @@
             class="btn btn-primary"
             @click="ok"
             tabindex="2"
-            data-dismiss="modal">Update</button>
+            data-dismiss="modal"
+            :disabled="calcDisabled">Update</button>
         </div>
       </div>
     </div>
@@ -110,6 +110,7 @@ export default {
   },
   computed: {
     chat() {
+      if (!this.channel) return false
       const found = this.channel.raw.find(r => {
         return r.type === 'io.pnut.core.chat-settings'
       }).value
@@ -118,8 +119,14 @@ export default {
       }
       return found
     },
-    reachedCategoryMax() {
-      return this.chat.categories.length >= 3
+    calcDisabled() {
+      return (
+        !this.chat ||
+        this.chat.name.length == 0 ||
+        this.chat.name.length > 128 ||
+        this.chat.description.length > 256 ||
+        this.chat.categories.length > 3
+      )
     }
   }
 }
