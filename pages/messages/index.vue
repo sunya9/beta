@@ -6,14 +6,9 @@
 				<h2 class="h4">Create a channel</h2>
 				<message-compose create-channel-mode />
 				<h2 class="h4">Recent messages</h2>
-				<div class="list-group" v-infinite-scroll="fetch" infinite-scroll-disabled="moreDisabled" infinite-scroll-distance="100">
-					<channel class="list-group-item list-group-item-action" v-for="channel in channels" :key="channel.id" :channel="channel" />
-					<div class="list-group-item" v-show="meta.more">
-						<div class="text-center w-100 text-muted my-2">
-							<i class="fa fa-spin fa-refresh fa-fw fa-2x"></i>
-						</div>
-					</div>
-				</div>
+				<div>
+          <list :data="data" type="Channel" :option="option" ref="list" />
+        </div>
 			</div>
 		</div>
 	</div>
@@ -21,47 +16,40 @@
 
 <script>
 import MessageCompose from '~/components/MessageCompose'
-import Channel from '~/components/Channel'
+import List from '~/components/List'
+import bus from '~/assets/js/bus'
 
 export default {
   middleware: 'authenticated',
-  data() {
-    return {
-      busy: false
-    }
-  },
   async asyncData({ app: { $resource } }) {
-    const options = {
+    const option = {
       include_recent_message: 1,
       channel_types: 'io.pnut.core.pm,io.pnut.core.chat',
       include_limited_users: 1,
       include_channel_raw: 1
     }
-    const { data: channels, meta } = await $resource(options)
-    return { channels, meta, options }
+    const data = await $resource(option)
+    return { data, option }
+  },
+  components: {
+    List,
+    MessageCompose
+  },
+  mounted() {
+    bus.$on('channel', this.add)
+  },
+  beforeDestroy() {
+    bus.$off('channel', this.add)
   },
   methods: {
-    async fetch() {
-      this.busy = true
-      const { data: channels, meta } = await this.$resource(this.options)
-      this.channels = channels
-      this.meta = meta
-      this.busy = false
-    }
-  },
-  computed: {
-    moreDisabled() {
-      return this.busy || !this.meta.more
+    add() {
+      this.$refs.list.refresh()
     }
   },
   head() {
     return {
       title: 'Messages'
     }
-  },
-  components: {
-    MessageCompose,
-    Channel
   }
 }
 </script>
