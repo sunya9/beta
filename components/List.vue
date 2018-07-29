@@ -3,7 +3,7 @@
        'list-group mb-4': type !== 'Message',
        'list-unstyled': type === 'Message'
     }">
-		<component :is="type" :key="id(item)" v-for="(item, index) in items" v-if="showItem(item)" :data="item" @update:data="data => $set(items, index, data)" class="item" @click="select = index" :class="[{
+		<component :is="type" :key="id(item)" v-for="(item, index) in items" v-if="showItem(item)" :data="item" :isModerator="isModerator" :channel_type="channel_type" @update:data="data => $set(items, index, data)" class="item" @click="select = index" :class="[{
         'my-4': id(item) === main,
         'list-group-item-warning': isTarget(item),
         'list-group-item': type == 'Channel',
@@ -70,7 +70,9 @@ export default {
     componentOptions: {
       type: Object,
       default: () => ({})
-    }
+    },
+    isModerator: Boolean,
+    channel_type: String
   },
   components: {
     User,

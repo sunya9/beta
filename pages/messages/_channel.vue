@@ -1,19 +1,19 @@
 <template>
 	<div>
-		<h1 class="h3 mb-4">
+		<h1 class="h3">
 			<nuxt-link to="/messages">
 				<i class="fa fa-chevron-left"></i>
 				{{$metaInfo.title}}
 			</nuxt-link>
-      <small v-if="!isPM" class="text-muted">
-        {{chat.description}}
-      </small>
 		</h1>
+    <p v-if="!isPM" class="text-muted">
+      {{chat.description}}
+    </p>
 		<div class="row">
 			<div class="col-md-4 order-md-2">
 				<div class="row flex-">
 					<div class="col-sm col-md-12">
-						<h2 class="h3">Room info <button v-if="!isPM && isModerator" class="btn btn-link mr-2 text-dark" type="button" @click.stop.prevent="channelEditModal">
+						<h2 class="h3">Room info <button v-if="!isPM && isModerator" class="btn btn-link mr-2" type="button" @click.stop.prevent="channelEditModal">
                 <i class="fa fa-pencil-square-o"></i>
                 <span class="d-none d-sm-inline ml-2">Edit</span>
               </button></h2>
@@ -28,7 +28,7 @@
                 {{channel.has_unread ? 'Mark as read' : 'All read'}}
               </custom-checkbox>-->
               <button class="btn btn-link mr-2" :disabled="!channel.has_unread" type="button" @click.stop.prevent="markAsRead">
-                <i class="fa" :class="{'fa-envelope-open': channel.has_unread, 'fa-envelope-open-o': !channel.has_unread}" aria-hidden="true"></i>
+                <i class="fa" :class="{'fa-envelope-open': channel.has_unread, 'fa-envelope-open-o': !channel.has_unread}"></i>
                 <span class="d-none d-sm-inline ml-2">{{channel.has_unread ? 'Mark as read' : 'All read'}}</span>
               </button>
 						</div>
@@ -42,30 +42,28 @@
             </template>
             <h2 class="h3">
               <span v-if="isPM || !channel.acl.read.public">Members</span>
-              <span v-else-if="!isPM"><i class="fa fa-globe" aria-hidden="true"></i> Public</span>
-              <button v-if="!isPM && isModerator" class="btn btn-link mr-2 text-dark" type="button" @click.stop.prevent="memberEditModal">
+              <span v-else-if="!isPM"><i class="fa fa-globe"></i> Public</span>
+              <button v-if="!isPM && isModerator" class="btn btn-link mr-2" type="button" @click.stop.prevent="memberEditModal">
                 <i class="fa fa-pencil-square-o"></i>
                 <span class="d-none d-sm-inline ml-2">Edit</span>
               </button>
             </h2>
 					</div>
 					<div class="col-sm col-md-12">
-            <template v-if="!isPM">
-              <span class="mb-2">Owner</span>
-  						<ul class="list-unstyled" :class="{'pm-ul': isPM}">
-                <li :key="channel.owner.id" class="mb-2">
-                  <nuxt-link class="d-flex flex-row align-items-center flex-nowrap" :to="`/@${channel.owner.username}`">
-                    <avatar :avatar="channel.owner.content.avatar_image.link" size="24" max-size="24" class="mr-2" />
-                    <div class="d-flex align-items-baseline flex-wrap">
-                      @{{channel.owner.username}}
-                      <small class="ml-1 text-muted">
-                        {{channel.owner.name}}
-                      </small>
-                    </div>
-                  </nuxt-link>
-                </li>
-              </ul>
-            </template>
+            <span v-if="!isPM" class="mb-2">Owner</span>
+						<ul class="list-unstyled" :class="{'pm-ul': isPM}">
+              <li :key="channel.owner.id" class="mb-2">
+                <nuxt-link class="d-flex flex-row align-items-center flex-nowrap" :to="`/@${channel.owner.username}`">
+                  <avatar :avatar="channel.owner.content.avatar_image.link" size="24" max-size="24" class="mr-2" />
+                  <div class="d-flex align-items-baseline flex-wrap">
+                    @{{channel.owner.username}}
+                    <small class="ml-1 text-muted">
+                      {{channel.owner.name}}
+                    </small>
+                  </div>
+                </nuxt-link>
+              </li>
+            </ul>
             <template v-if="!isPM && channel.acl.full.user_ids.length">
               <span class="mb-2">Moderators</span>
               <ul class="list-unstyled">
@@ -121,7 +119,7 @@
 				<message-compose v-if="canPost" v-model="message" @submit="() => $refs.list.refresh()" />
 				<div class="card no-gutter-xs">
 					<div class="card-body">
-						<List :data="data" type="Message" ref="list" />
+						<List :data="data" type="Message" :isModerator="isModerator" :channel_type="channel.type" ref="list" />
 					</div>
 				</div>
 			</div>
@@ -172,6 +170,9 @@ export default {
       })
     }
   },
+  mounted() {
+    this.markAsRead()
+  },
   methods: {
     cancelSubscribe(bool) {
       if (bool) this.channel.you_subscribed = false
@@ -213,7 +214,7 @@ export default {
       try {
         this.promise = this.$axios.$post('/markers', marker)
         await this.promise
-        this.$toast.success('Marked channel as read!')
+        this.$toast.success('Marked as read!')
         this.channel.has_unread = false
       } catch (e) {
         this.$toast.error(e.message)

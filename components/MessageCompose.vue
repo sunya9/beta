@@ -3,7 +3,16 @@
 		<div class="card-body">
 			<form @submit.prevent="submit">
 				<div class="form-group" v-if="createChannelMode">
-					<input type="text" v-model="channelUsersStr" class="form-control" placeholder="usernames (comma or space delimited)" />
+          <div :class="{'d-flex justify-content-between align-items-center': calcPmLookup}">
+  					<input type="text" v-model="channelUsersStr" class="form-control" placeholder="usernames (comma or space delimited)" @input="resetPmSearch" />
+            <button v-if="calcPmLookup" type="button" class="ml-3 btn text-uppercase btn-primary" :disabled="pmLookupStatus" @click="findExistingPm">
+              <span v-show="promise">
+                <i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
+              </span>
+              <i class="fa fa-search"></i>
+              {{pmLookupStatus ? pmLookupStatus : 'Find Existing'}}
+            </button>
+          </div>
 				</div>
 				<div class="form-group">
 					<textarea class="form-control" v-model="text" @keydown.ctrl.enter="submit" @keydown.meta.enter="submit" :disabled="promise">
@@ -30,7 +39,7 @@
               <span class="d-none d-sm-inline ml-2">Spoiler</span>
             </button>
   					<button type="submit" class="ml-1 btn text-uppercase btn-primary" :disabled="calcDisabled">
-  						<span v-show="promise">
+  						<span v-show="promise && !calcPmLookup">
   							<i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
   						</span>
   						Send
@@ -64,7 +73,8 @@ export default {
       text: '',
       photos: [],
       previewPhotos: [],
-      spoiler: null
+      spoiler: null,
+      pmLookupStatus: null
     }
   },
   watch: {
@@ -93,6 +103,9 @@ export default {
         (this.spoiler && !this.availableSpoiler)
       )
     },
+    calcPmLookup() {
+      return this.createChannelMode && this.channelUsersStr && !this.text
+    },
     remain() {
       return 2048 - this.textLength
     },
@@ -116,6 +129,29 @@ export default {
     toggleSpoiler() {
       this.spoiler = this.spoiler ? null : {}
     },
+    resetPmSearch() {
+      this.pmLookupStatus = null
+    },
+    async findExistingPm() {
+      this.pmLookupStatus = 'Searching'
+      try {
+        const destinations = this.channelUsersStr.split(/[,\s]+/g).map(name => {
+          return name.startsWith('@') ? name : `@${name}`
+        })
+        this.promise = this.$axios.$get(
+          '/users/me/channels/existing_pm?ids=' + destinations.join(',')
+        )
+        const { data: channel } = await this.promise
+        if (channel) {
+          this.$router.push(`/messages/${channel.id}`)
+        } else {
+          this.pmLookupStatus = 'Not Found'
+        }
+      } catch (e) {
+        this.pmLookupStatus = 'Not Found'
+      }
+      this.promise = null
+    },
     async submit() {
       if (this.createChannelMode) return this.createChannel()
       const option = {
@@ -136,7 +172,7 @@ export default {
           })
         }
         this.promise = this.$axios.$post(
-          `/channels/${this.$route.params.channel}/messages`,
+          `/channels/${this.$route.params.channel}/messages?update_marker=1`,
           option
         )
         const { meta } = await this.promise
@@ -162,7 +198,7 @@ export default {
         destinations
       }
       const { data: channel } = await this.$axios.$post(
-        '/channels/pm/messages',
+        '/channels/pm/messages?update_marker=1',
         option
       )
       this.channelUsersStr = ''

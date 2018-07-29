@@ -63,7 +63,7 @@
               <i class="fa fa-ellipsis-h"></i>
             </a>
             <div :class="{'dropdown-menu dropdown-menu-left': me, 'dropdown-menu dropdown-menu-right': !me}">
-              <a v-if="!message.is_deleted && me" class="dropdown-item" href="#" @click.stop.prevent="removeModal">
+              <a v-if="canDelete" class="dropdown-item" href="#" @click.stop.prevent="removeModal">
                 <i class="fa fa-trash"></i>
                 Remove
               </a>
@@ -93,11 +93,20 @@ export default {
   dateKey: 'message.created_at',
   props: {
     displayFullView: Boolean,
-    data: Object
+    data: Object,
+    isModerator: Boolean,
+    channel_type: String
   },
   computed: {
     me() {
       return this.user && this.user.id === this.message.user.id
+    },
+    canDelete() {
+      return (
+        !this.message.is_deleted &&
+        (this.me ||
+          (this.channel_type !== 'io.pnut.core.pm' && this.isModerator))
+      )
     },
     message() {
       return this.data

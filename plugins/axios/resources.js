@@ -21,6 +21,7 @@ const map = {
   'search-users': '/users/search',
   'search-posts': '/posts/search',
   messages: '/users/me/channels/subscribed',
+  'messages-public': '/channels/search',
   'messages-channel': ({ params }) => `/channels/${params.channel}/messages`,
   'about-stats': '/sys/stats',
   newcomers: '/posts/streams/explore/newcomers',
