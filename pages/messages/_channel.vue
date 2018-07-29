@@ -119,7 +119,7 @@
 				<message-compose v-if="canPost" v-model="message" @submit="() => $refs.list.refresh()" />
 				<div class="card no-gutter-xs">
 					<div class="card-body">
-						<List :data="data" type="Message" :isModerator="isModerator" :channel_type="channel.type" ref="list" />
+						<List :data="data" type="Message" :isModerator="isModerator" :channelType="channel.type" :lastReadMessageId="data.meta.marker.id" ref="list" />
 					</div>
 				</div>
 			</div>
@@ -171,7 +171,9 @@ export default {
     }
   },
   mounted() {
-    this.markAsRead()
+    setTimeout(() => {
+      this.markAsRead()
+    }, 1000)
   },
   methods: {
     cancelSubscribe(bool) {

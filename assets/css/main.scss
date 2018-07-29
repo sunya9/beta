@@ -61,6 +61,18 @@ body {
   color: #b33720;
 }
 
+.matching-hr div {
+  text-align: center;
+  margin-top: -19px;
+  margin-bottom: 1rem;
+  line-height: 7px;
+}
+.matching-hr span {
+  background-color: #fff;
+  cursor: default;
+  padding:0 10px;
+}
+
 /* Dark theme */
 
 body.dark,
@@ -77,12 +89,8 @@ body.dark {
     background-color: #252525;
     border-bottom-color: #191919;
   }
-  .card {
-    background-color: #252525;
-  }
-  .list-group-item {
-    background-color: #252525;
-  }
+  .card,
+  .list-group-item,
   .form-control {
     background-color: #252525;
   }
@@ -221,6 +229,10 @@ body.dark {
   }
   .unread-channel {
     background-color: #2a2523 !important;
+  }
+  .matching-hr span {
+    background-color: #252525;
+    border-color: rgba(0, 0, 0, .3);
   }
   
   /* poll input */

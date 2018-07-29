@@ -3,11 +3,10 @@
        'list-group mb-4': type !== 'Message',
        'list-unstyled': type === 'Message'
     }">
-		<component :is="type" :key="id(item)" v-for="(item, index) in items" v-if="showItem(item)" :data="item" :isModerator="isModerator" :channel_type="channel_type" @update:data="data => $set(items, index, data)" class="item" @click="select = index" :class="[{
+		<component :is="type" :key="id(item)" v-for="(item, index) in items" v-if="showItem(item)" :data="item" :isModerator="isModerator" :channelType="channelType" :lastReadMessageId="lastReadMessageId" @update:data="data => $set(items, index, data)" class="item" @click="select = index" :class="[{
         'my-4': id(item) === main,
         'list-group-item-warning': isTarget(item),
-        'list-group-item': type == 'Channel',
-        'list-group-item-action': type == 'Channel'
+        'list-group-item list-group-item-action': type == 'Channel',
       }, type.toLowerCase()]" :detail="id(item) === main" v-bind="componentOptions" @remove="items.splice(index, 1)" :last-update="lastUpdate" />
 		<slot />
 		<li :class="{ 'list-group-item': type !== 'Message' }" v-show="more">
@@ -72,7 +71,8 @@ export default {
       default: () => ({})
     },
     isModerator: Boolean,
-    channel_type: String
+    channelType: String,
+    lastReadMessageId: String
   },
   components: {
     User,

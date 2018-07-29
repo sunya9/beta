@@ -25,7 +25,7 @@
             'e-content p-name': detail
           }">
                         <entity-text :content="mainPost.content" :spoiler=spoiler :longpost=longpost :deleted="post.is_deleted">
-                            [Post deleted]
+                            <em>[Post deleted]</em>
                         </entity-text>
                     </p>
                     <div v-if="thumbs.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
