@@ -236,8 +236,8 @@ export default {
       return (
         this.user &&
         (this.user.id === this.channel.owner.id ||
-          this.channel.acl.full.user_ids.find(id => {
-            id == this.user.id
+          !!this.channel.acl.full.user_ids.find(u => {
+            return u.id === this.user.id
           }))
       )
     },

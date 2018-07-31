@@ -4,7 +4,7 @@
     <div v-if="firstUnreadMessage" class="matching-hr">
       <hr />
       <div>
-        <span class="text-muted">Read</span>
+        <span class="text-muted">Previously read</span>
       </div>
     </div>
     <div class="media mb-4"

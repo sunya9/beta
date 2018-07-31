@@ -42,15 +42,15 @@
                         <input type="text" placeholder="Username"
                           pattern="(\w+){0,20}"
                           title="Username"
-                          v-bind:disabled="vm.channel.acl[user.acl].immutable"
+                          :disabled="vm.channel.acl[user.acl].immutable || (!is_owner && users[index].acl == 'full')"
                           v-model="users[index].username"
                         >
-                        <select v-bind:disabled="vm.channel.acl[user.acl].immutable || (!is_owner && users[index].acl == 'full')" v-model="users[index].acl">
+                        <select :disabled="vm.channel.acl[user.acl].immutable || (!is_owner && users[index].acl == 'full')" v-model="users[index].acl">
                           <option v-if="!anyUserRead">read</option>
                           <option v-if="!anyUserWrite">write</option>
                           <option v-if="users[index].acl == 'full' || is_owner" value="full">moderate</option>
                         </select>
-                        <button type="button" class="btn btn-link"
+                        <button v-if="!vm.channel.acl[user.acl].immutable && (is_owner || users[index].acl != 'full')" type="button" class="btn btn-link"
                           @click="removeUser(index)">
                           <i class="fa fa-times"></i>
                         </button>
