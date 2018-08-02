@@ -3,7 +3,7 @@
 	  <h1 class="h3">
       Messages &middot; 
       <nuxt-link to="/messages/public">
-        Public
+        Public Rooms
       </nuxt-link>
     </h1>
 		<div class="row">

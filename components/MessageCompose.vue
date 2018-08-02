@@ -198,7 +198,7 @@ export default {
         destinations
       }
       const { data: channel } = await this.$axios.$post(
-        '/channels/pm/messages?update_marker=1',
+        '/channels/pm/messages',
         option
       )
       this.channelUsersStr = ''
