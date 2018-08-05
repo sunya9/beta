@@ -3,16 +3,17 @@
        'list-group mb-4': type !== 'Message',
        'list-unstyled': type === 'Message'
     }">
-		<component :is="type" :key="id(item)" v-for="(item, index) in items" v-if="showItem(item)" :data="item" @update:data="data => $set(items, index, data)" class="item" @click="select = index" :class="[{
+		<component :is="type" :key="id(item)" v-for="(item, index) in items" v-if="showItem(item)" :data="item" :isModerator="isModerator" :channelType="channelType" :lastReadMessageId="lastReadMessageId" @update:data="data => $set(items, index, data)" class="item" @click="select = index" :class="[{
         'my-4': id(item) === main,
-        'list-group-item-warning': isTarget(item)
+        'list-group-item-warning': isTarget(item),
+        'list-group-item list-group-item-action': type == 'Channel',
       }, type.toLowerCase()]" :detail="id(item) === main" v-bind="componentOptions" @remove="items.splice(index, 1)" :last-update="lastUpdate" />
 		<slot />
 		<li :class="{ 'list-group-item': type !== 'Message' }" v-show="more">
 			<div class="text-center w-100 text-muted my-2">
 				<i class="fa fa-spin fa-refresh fa-fw fa-2x"></i>
 			</div>
-		</li>
+		</li> 
 	</ul>
 	<div v-else>
 		<div class="text-center my-3">
@@ -32,6 +33,7 @@ import Post from '~/components/Post'
 import Interaction from '~/components/Interaction'
 import Message from '~/components/Message'
 import Poll from '~/components/Poll'
+import Channel from '~/components/Channel'
 
 import {
   sendPostNotification,
@@ -47,7 +49,14 @@ export default {
       required: true,
       type: String,
       validator(str) {
-        return ['User', 'Post', 'Interaction', 'Message', 'Poll'].includes(str)
+        return [
+          'User',
+          'Post',
+          'Interaction',
+          'Message',
+          'Poll',
+          'Channel'
+        ].includes(str)
       }
     },
     all: Boolean,
@@ -60,13 +69,17 @@ export default {
     componentOptions: {
       type: Object,
       default: () => ({})
-    }
+    },
+    isModerator: Boolean,
+    channelType: String,
+    lastReadMessageId: String
   },
   components: {
     User,
     Post,
     Interaction,
     Message,
+    Channel,
     Poll
   },
   data() {

@@ -26,10 +26,13 @@
 									</span>
 									<small v-if="profile.name" class="ml-sm-2 d-block d-sm-inline text-muted p-name">
 										{{profile.name}}
-										<span v-if="profile.badge" class="ml-1">
-											<i class="fa fa-shield"></i>
-										</span>
 									</small>
+                  <small v-if="profile.badge" class="ml-sm-2 d-block d-sm-inline text-muted ml-1">
+                    <i class="fa fa-shield"></i>
+                  </small>
+                  <small v-if="profile.type != 'human'" class="ml-sm-2 d-block d-sm-inline text-muted ml-1">
+                     ({{profile.type}})
+                  </small>
 									<mute-button :profile.sync="profile" class="ml-2" v-if="profile.you_muted" />
 								</span>
 							</h3>
@@ -64,10 +67,10 @@
 				</a>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="profile-dropdown">
 					<nuxt-link v-if="me" to="/polls" class="dropdown-item">Your polls</nuxt-link>
-					<base-block-button v-if="!me" :profile.sync="profile">
+					<base-block-button v-if="user && !me" :profile.sync="profile">
 						<a slot-scope="{ toggleBlock }" class="dropdown-item" href="#" @click.prevent="toggleBlock">{{blockText}}</a>
 					</base-block-button>
-					<base-mute-button :profile.sync="profile" v-if="!me && !profile.you_blocked">
+					<base-mute-button :profile.sync="profile" v-if="user && !me && !profile.you_blocked">
 						<a slot-scope="{ toggleMute }" class="dropdown-item" href="#" @click.prevent="toggleMute">{{muteText}}</a>
 					</base-mute-button>
 					<div class="dropdown-divider"></div>
