@@ -44,13 +44,33 @@ body {
   vertical-align: -0.25rem;
 }
 
-.btn {
+.btn,
+.custom-control-label {
   cursor: pointer;
 }
 
 .btn-primary.disabled,
 .btn-primary:disabled {
   cursor: auto;
+}
+
+.unread-channel {
+  background-color: #fff1ec !important;
+}
+.unread-channel-arrow {
+  color: #b33720;
+}
+
+.matching-hr div {
+  text-align: center;
+  margin-top: -19px;
+  margin-bottom: 1rem;
+  line-height: 7px;
+}
+.matching-hr span {
+  background-color: #fff;
+  cursor: default;
+  padding:0 10px;
 }
 
 /* Dark theme */
@@ -69,12 +89,8 @@ body.dark {
     background-color: #252525;
     border-bottom-color: #191919;
   }
-  .card {
-    background-color: #252525;
-  }
-  .list-group-item {
-    background-color: #252525;
-  }
+  .card,
+  .list-group-item,
   .form-control {
     background-color: #252525;
   }
@@ -92,6 +108,9 @@ body.dark {
   .modal-content {
     background-color: #252525;
     color: #d5d5d5;
+  }
+  .modal-footer {
+    border-top-color: #0b0b0b;
   }
   .nav-item:first-child .nav-link,
   .nav-item:first-child button {
@@ -207,5 +226,22 @@ body.dark {
   }
   .balloon.me::before {
     border-left-color: #202020;
+  }
+  .unread-channel {
+    background-color: #2a2523 !important;
+  }
+  .matching-hr span {
+    background-color: #252525;
+    border-color: rgba(0, 0, 0, .3);
+  }
+  
+  /* poll input */
+  .handle {
+    background-color: #181818;
+  }
+  .input-group-text {
+    color: rgb(74, 74, 74);
+    background-color: #181818;
+    border-color: #181818;
   }
 }

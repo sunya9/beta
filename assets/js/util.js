@@ -37,19 +37,50 @@ export function getImageURLs(post, rawOnly = false) {
 }
 
 export function getCrosspostLink(post) {
-  if (!post.content) return false
-  const links = []
-  if (post.raw) {
-    const canonicalLinks = post.raw
-      .filter(r => {
-        return r.type === 'io.pnut.core.crosspost'
-      })
-      .map(r => {
-        return {
-          ...r.value
-        }
-      })
-    Array.prototype.push.apply(links, canonicalLinks)
+  if (!post.content || !post.raw) return false
+  const canonical_link = post.raw.find(r => {
+    return r.type === 'io.pnut.core.crosspost'
+  })
+  if (canonical_link) {
+    return canonical_link.value.canonical_url
   }
-  return links
+}
+
+export function getSpoiler(post) {
+  if (!post.content) return {}
+  if (!post.raw) return {}
+  const spoiler = post.raw
+    .filter(r => {
+      return (
+        r.type === 'shawn.spoiler' &&
+        r.value.topic &&
+        (!r.value.expired_at || new Date(r.value.expired_at) > new Date())
+      )
+    })
+    .map(r => {
+      return {
+        topic: r.value.topic
+      }
+    })
+  return spoiler[0]
+}
+
+export function getLongpost(post) {
+  if (!post.content) return {}
+  if (!post.raw) return {}
+  const longpost = post.raw
+    .filter(r => {
+      return r.type === 'nl.chimpnut.blog.post' && r.value.body
+    })
+    .map(r => {
+      return {
+        body: r.value.body,
+        title:
+          r.value.title &&
+          r.value.title != r.value.body.substr(0, r.value.title.length)
+            ? r.value.title
+            : false
+      }
+    })
+  return longpost[0]
 }

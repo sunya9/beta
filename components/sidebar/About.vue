@@ -4,6 +4,7 @@ import Sidebar from './Sidebar'
 export default {
   extends: Sidebar,
   data() {
+    const user = this.$store.state.user
     const menus = [
       { type: 'heading', label: 'About' },
       {
@@ -14,7 +15,8 @@ export default {
       {
         label: 'Stats',
         icon: 'fa-bar-chart',
-        url: '/about/stats'
+        url: '/about/stats',
+        hidden: !user
       },
       { type: 'heading', label: 'Resources' },
       {

@@ -25,6 +25,7 @@ export default (context, inject) => {
       params: {
         include_post_raw: 1,
         include_directed_posts: 0,
+        include_message_raw: 1,
         ...options
       }
     })

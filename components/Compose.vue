@@ -12,25 +12,39 @@
 					</no-ssr>
 				</div>
 				<div class="form-group" v-show="photos.length">
-					<transition-group tag="div" name="photos" class="d-flex flex-wrap justify-cotnent align-items-center">
+					<transition-group tag="div" name="photos" class="d-flex flex-wrap justify-content align-items-center">
 						<thumb :key="photo.data" v-for="(photo, i) in previewPhotos" :original="photo.data" :thumb="photo.data" removable class="mr-2" @remove="photos.splice(i, 1)" />
 					</transition-group>
 				</div>
 				<div class="d-flex justify-content-between align-items-center">
 					<strong class="text-muted" data-test-id="post-counter">{{postCounter}}</strong>
 					<div>
-						<button class="btn btn-link add-poll mr-3" type="button" @click="togglePoll" :class="{
+            <label v-show="!noPhoto" v-if="$store.state.user.storage.available" class="btn btn-link text-dark add-photo mr-2" :disabled="promise">
+              <i class="fa fa-picture-o"></i>
+              <span class="d-none d-sm-inline ml-2">Photo</span>
+              <input type="file" multiple accept="image/*" @change="fileChange" style="display: none" ref="file">
+            </label>
+						<button class="btn btn-link add-poll mr-2" type="button" @click="togglePoll" :class="{
                   'text-dark': !hasPoll,
                   'btn-primary': hasPoll
                 }">
 							<i class="fa fa-bar-chart"></i>
-							<span class="d-none d-sm-inline ml-2">Add a poll...</span>
+							<span class="d-none d-sm-inline ml-2">Poll</span>
 						</button>
-						<label v-show="!noPhoto" v-if="$store.state.user.storage.available" class="btn btn-link text-dark add-photo mr-3" :disabled="promise">
-							<i class="fa fa-picture-o"></i>
-							<span class="d-none d-sm-inline ml-2">Add photo…</span>
-							<input type="file" multiple accept="image/*" @change="fileChange" style="display: none" ref="file">
-						</label>
+            <button class="btn btn-link add-spoiler mr-2" type="button" @click="toggleSpoiler" :class="{
+                  'text-dark': !hasSpoiler,
+                  'btn-primary': hasSpoiler
+                }">
+              <i class="fa fa-bell-o"></i>
+              <span class="d-none d-sm-inline ml-2">Spoiler</span>
+            </button>
+            <button class="btn btn-link add-longpost mr-2" type="button" @click="toggleLongpost" :class="{
+                  'text-dark': !hasLongpost,
+                  'btn-primary': hasLongpost
+                }">
+              <i class="fa fa-plus"></i>
+              <span class="d-none d-sm-inline ml-2">Long</span>
+            </button>
 						<button type="submit" class="ml-1 btn btn-primary text-uppercase" :disabled="disabled">
 							<span v-show="promise">
 								<i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
@@ -40,6 +54,8 @@
 					</div>
 				</div>
 				<input-poll @update:poll="p => poll = p" v-if="poll" class="mt-3" />
+        <input-spoiler @update:spoiler="p => spoiler = p" v-if="spoiler" class="mt-3" />
+        <input-longpost @update:longpost="p => longpost = p" v-if="longpost" class="mt-3" />
 			</form>
 		</div>
 	</div>
@@ -53,6 +69,8 @@ import Thumb from '~/components/Thumb'
 import { Picker } from '~/plugins/emoji'
 import emojiSource from 'emoji-datasource-twitter/img/twitter/sheets/64.png'
 import InputPoll from '~/components/InputPoll'
+import InputSpoiler from '~/components/InputSpoiler'
+import InputLongpost from '~/components/InputLongpost'
 import textCount from '~/assets/js/text-count'
 
 export default {
@@ -76,7 +94,9 @@ export default {
       text: this.initialText,
       replyStartPos: 0,
       showEmojiPicker: false,
-      poll: null
+      poll: null,
+      spoiler: null,
+      longpost: null
     }
   },
   watch: {
@@ -99,22 +119,30 @@ export default {
     hasPoll() {
       return this.poll
     },
+    hasSpoiler() {
+      return this.spoiler
+    },
+    hasLongpost() {
+      return this.longpost
+    },
     postCounter() {
       return 256 - this.textLength
     },
     textOverflow() {
       return this.postCounter < 0
     },
-    hasNotText() {
+    hasNoText() {
       return this.textLength === 0
     },
     disabled() {
       const sending = !!this.promise
       return !!(
         this.textOverflow ||
-        this.hasNotText ||
+        this.hasNoText ||
         sending ||
-        (this.poll && !this.availablePoll)
+        (this.poll && !this.availablePoll) ||
+        (this.spoiler && !this.availableSpoiler) ||
+        (this.longpost && !this.availableLongpost)
       )
     },
     availablePoll() {
@@ -122,6 +150,23 @@ export default {
         this.poll &&
         this.poll.options &&
         this.poll.options.filter(option => option.text).length >= 2
+      )
+    },
+    availableSpoiler() {
+      return (
+        this.spoiler &&
+        this.spoiler.topic &&
+        this.spoiler.topic.length > 0 &&
+        this.spoiler.topic.length <= 128
+      )
+    },
+    availableLongpost() {
+      return (
+        this.longpost &&
+        this.longpost.body &&
+        this.longpost.body.length > 0 &&
+        this.longpost.body.length <= 6144 &&
+        (!this.longpost.title || this.longpost.title.length < 128)
       )
     },
     hasPhotos() {
@@ -194,6 +239,12 @@ export default {
     togglePoll() {
       this.poll = this.poll ? null : {}
     },
+    toggleSpoiler() {
+      this.spoiler = this.spoiler ? null : {}
+    },
+    toggleLongpost() {
+      this.longpost = this.longpost ? null : {}
+    },
     getSheet() {
       return emojiSource
     },
@@ -219,13 +270,14 @@ export default {
       textarea.focus()
     },
     async uploadPoll() {
+      this.poll.options = this.poll.options.filter(option => option.text)
       return await this.$axios.$post('/polls', {
         ...this.poll,
         prompt: this.poll.prompt || this.text
       })
     },
     async submit() {
-      if (this.promise || this.textOverflow || this.hasNotText) return false
+      if (this.promise || this.textOverflow || this.hasNoText) return false
       const option = {
         text: this.text,
         raw: []
@@ -237,6 +289,20 @@ export default {
         }
         if (this.replyTarget) {
           option.reply_to = this.replyTarget.id
+        }
+        if (this.spoiler) {
+          option.raw.push({
+            type: 'shawn.spoiler',
+            value: {
+              topic: this.spoiler.topic
+            }
+          })
+        }
+        if (this.longpost) {
+          option.raw.push({
+            type: 'nl.chimpnut.blog.post',
+            value: this.longpost
+          })
         }
         if (this.hasPoll) {
           const {
@@ -255,6 +321,7 @@ export default {
       } catch (e) {
         console.error(e)
         this.$toast.error(e.message)
+        return
       }
       this.promise = this.$axios.$post('/posts', option)
       await this.$nextTick()
@@ -266,6 +333,8 @@ export default {
           this.text = ''
           this.photos = []
           this.poll = null
+          this.spoiler = null
+          this.longpost = null
         })
         .finally(() => ((this.promise = null), this.$toast.success('Posted!')))
     },
@@ -331,7 +400,9 @@ export default {
     Post,
     Thumb,
     Picker,
-    InputPoll
+    InputPoll,
+    InputSpoiler,
+    InputLongpost
   }
 }
 

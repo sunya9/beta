@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h5>Poll</h5>
     <div class="form-group">
       <input type="text" v-model="poll.prompt" placeholder="Optional prompt" class="form-control"
         pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,256}"
@@ -200,5 +201,9 @@ input[type='text']:invalid {
     width: auto;
     padding: 0;
   }
+}
+
+.handle {
+  cursor: default;
 }
 </style>
