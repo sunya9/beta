@@ -1,6 +1,6 @@
 {
   "name": "beta",
-  "version": "1.9.3",
+  "version": "1.10.0",
   "description": "pnut.io client",
   "author": "sunya9 <mugen.xyz@gmail.com> (https://unsweets.net)",
   "private": true,
@@ -68,8 +68,6 @@
     "vue-infinite-scroll": "^2.0.2",
     "vue-on-click-outside": "^1.0.3",
     "vue-scrollto": "^2.11.0",
-    "vue-server-renderer": "2.5.17",
-    "vue-template-compiler": "2.5.17",
     "vue-server-renderer": "2.5.17",
     "vue-template-compiler": "2.5.16",
     "vuedraggable": "^2.16.0",
