@@ -84,3 +84,19 @@ export function getLongpost(post) {
     })
   return longpost[0]
 }
+
+export function getAudio(post) {
+  if (!post.content) return {}
+  if (!post.raw) return {}
+  const audio = post.raw
+    .filter(r => {
+      return r.type === 'io.pnut.core.oembed' && r.value.type == 'audio'
+    })
+    .map(r => {
+      return {
+        url: r.value.url,
+        title: r.value.title
+      }
+    })
+  return audio
+}

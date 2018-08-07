@@ -31,6 +31,9 @@
                     <div v-if="thumbs.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
                         <thumb class="mx-1 mb-1 mb-lg-0" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
                     </div>
+                    <div v-if="clips.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
+                        <sound :url="t.url" :title="t.title" :key="i" v-for="(t, i) in clips" />
+                    </div>
                 </div>
                 <div v-if="poll" class="mb-3">
                     <poll :poll-id="poll.poll_id" :poll-token="poll.poll_token" />
@@ -157,6 +160,7 @@
 import ActionButton from '~/components/ActionButton'
 import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
+import Sound from '~/components/Sound'
 import Poll from '~/components/Poll'
 import { mapState } from 'vuex'
 import bus from '~/assets/js/bus'
@@ -166,7 +170,8 @@ import {
   getImageURLs,
   getCrosspostLink,
   getSpoiler,
-  getLongpost
+  getLongpost,
+  getAudio
 } from '~/assets/js/util'
 import listItem from '~/assets/js/list-item'
 
@@ -213,6 +218,9 @@ export default {
     },
     thumbs() {
       return getImageURLs(this.mainPost)
+    },
+    clips() {
+      return getAudio(this.mainPost)
     },
     crosspost() {
       return getCrosspostLink(this.mainPost)
@@ -274,6 +282,7 @@ export default {
   components: {
     ActionButton,
     Thumb,
+    Sound,
     Avatar,
     EntityText,
     Poll
