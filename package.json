@@ -28,6 +28,7 @@
     ]
   },
   "dependencies": {
+    "@nuxtjs/auth": "^4.5.1",
     "@nuxtjs/axios": "^5.1.1",
     "@nuxtjs/component-cache": "^1.1.1",
     "@nuxtjs/google-analytics": "^2.0.2",
