@@ -16,7 +16,19 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
-"@nuxtjs/axios@^5.1.1":
+"@nuxtjs/auth@^4.5.1":
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/auth/-/auth-4.5.1.tgz#e827d85769543a38f0094df7db18cd66400e4e8f"
+  dependencies:
+    "@nuxtjs/axios" "^5.3.1"
+    boom "^7.2.0"
+    consola "^1.3.0"
+    cookie "^0.3.1"
+    dotprop "^1.0.2"
+    js-cookie "^2.2.0"
+    lodash "^4.17.10"
+
+"@nuxtjs/axios@^5.1.1", "@nuxtjs/axios@^5.3.1":
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/@nuxtjs/axios/-/axios-5.3.1.tgz#9f9e6c817dae44c16955af659f6d5ac2a8085148"
   dependencies:
@@ -1254,6 +1266,12 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
+boom@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/boom/-/boom-7.2.0.tgz#2bff24a55565767fde869ec808317eb10c48e966"
+  dependencies:
+    hoek "5.x.x"
+
 bootstrap@^4.0.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.1.tgz#3aec85000fa619085da8d2e4983dfd67cf2114cb"
@@ -2011,6 +2029,15 @@ consola@^1.1.4:
     lodash "^4.17.5"
     std-env "^1.1.0"
 
+consola@^1.3.0:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/consola/-/consola-1.4.2.tgz#e61963325abbfded8c4b010da5896aad0b4c92fb"
+  dependencies:
+    chalk "^2.3.2"
+    figures "^2.0.0"
+    lodash "^4.17.5"
+    std-env "^1.1.0"
+
 console-browserify@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-browserify/-/console-browserify-1.1.0.tgz#f0241c45730a9fc6323b206dbf38edc741d0bb10"
@@ -2730,6 +2757,10 @@ dot-prop@^4.1.0:
 dotenv@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.0.0.tgz#24e37c041741c5f4b25324958ebbc34bca965935"
+
+dotprop@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/dotprop/-/dotprop-1.0.2.tgz#0559e898156f3dddb6be62794e5d6ef30eceb705"
 
 download@^4.0.0, download@^4.1.2:
   version "4.4.3"
@@ -4270,6 +4301,10 @@ hoek@2.x.x:
   version "2.16.3"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-2.16.3.tgz#20bb7403d3cea398e91dc4710a8ff1b8274a25ed"
 
+hoek@5.x.x:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/hoek/-/hoek-5.0.4.tgz#0f7fa270a1cafeb364a4b2ddfaa33f864e4157da"
+
 home-or-tmp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/home-or-tmp/-/home-or-tmp-2.0.0.tgz#e36c3f2d2cae7d746a857e38d18d5f32a7882db8"
@@ -5224,6 +5259,10 @@ jquery@^3.3.0:
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.4.5"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.5.tgz#e293cd3c7c82f070d700fc7a1ca0a2e69f101f92"
+
+js-cookie@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.0.tgz#1b2c279a6eece380a12168b92485265b35b1effb"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
