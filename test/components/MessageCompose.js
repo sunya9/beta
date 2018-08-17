@@ -1,19 +1,12 @@
 import MessageCompose from '~/components/MessageCompose'
-import { mount, createStore } from 'helpers/client'
+import { mount, authedUserCreateStore } from 'helpers/client'
 
 import noSsr from 'nuxt/lib/app/components/no-ssr'
 
 describe('MessageCompose component', () => {
   let store, vm, wrapper
   beforeEach(() => {
-    store = createStore()
-    store.commit('SET_USER', {
-      username: 'foo',
-      id: 1,
-      storage: {
-        available: 0
-      }
-    })
+    store = authedUserCreateStore()
     wrapper = mount(MessageCompose, {
       mocks: {
         $store: store
@@ -93,25 +86,6 @@ describe('MessageCompose component', () => {
           .find('[data-test-id="message-counter"]')
           .text()
         expect(remaining).is.equal(-10)
-      })
-    })
-  })
-  describe('add photo button', () => {
-    context('when unpaid a user', () => {
-      it('is hidden', () => {
-        expect(wrapper.find('.add-photo').exists()).is.false
-      })
-    })
-    context('when paid a user', () => {
-      it('is shown', () => {
-        store.commit('SET_USER', {
-          username: 'foo',
-          id: 1,
-          storage: {
-            available: 1
-          }
-        })
-        expect(wrapper.find('.add-photo').exists()).is.true
       })
     })
   })
