@@ -6,9 +6,9 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon -w index.js -w nuxt.config.js index.js",
+    "dev": "nuxt",
     "build": "cross-env NODE_ENV=production nuxt build",
-    "start": "cross-env NODE_ENV=production node index.js",
+    "start": "cross-env NODE_ENV=production nuxt start",
     "precommit": "lint-staged",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint:fix": "eslint --ext .js,.vue --fix .",
