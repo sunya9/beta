@@ -4,10 +4,14 @@ export default () =>
   new Vuex.Store({
     getters: {
       user({ auth }) {
-        return auth && auth.user && auth.user.data && auth.user.data.user
+        return getData(auth, 'user')
       },
       storage({ auth }) {
-        return auth && auth.user && auth.user.data && auth.user.data.storage
+        return getData(auth, 'storage')
       }
     }
   })
+
+function getData(auth, key) {
+  return auth && auth.user && auth.user.data && auth.user.data[key]
+}
