@@ -19,7 +19,7 @@
 				<div class="d-flex justify-content-between align-items-center">
 					<strong class="text-muted" data-test-id="post-counter">{{postCounter}}</strong>
 					<div>
-            <label v-show="!noPhoto" v-if="$store.state.user.storage.available" class="btn btn-link text-dark add-photo mr-2" :disabled="promise">
+            <label v-show="!noPhoto" v-if="storage.available" class="btn btn-link text-dark add-photo mr-2" :disabled="promise">
               <i class="fa fa-picture-o"></i>
               <span class="d-none d-sm-inline ml-2">Photo</span>
               <input type="file" multiple accept="image/*" @change="fileChange" style="display: none" ref="file">
@@ -64,7 +64,7 @@
 <script>
 import Post from '~/components/Post'
 import bus from '~/assets/js/bus'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import Thumb from '~/components/Thumb'
 import { Picker } from '~/plugins/emoji'
 import emojiSource from 'emoji-datasource-twitter/img/twitter/sheets/64.png'
@@ -172,7 +172,7 @@ export default {
     hasPhotos() {
       return this.photos.length
     },
-    ...mapState(['user'])
+    ...mapGetters(['user', 'storage'])
   },
   created() {
     this.text = this.initialText

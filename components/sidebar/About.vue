@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 export default {
   extends: Sidebar,
   data() {
-    const user = this.$store.state.user
+    const { user } = this.$store.getters
     const menus = [
       { type: 'heading', label: 'About' },
       {

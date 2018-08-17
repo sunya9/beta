@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
 import EntityText from '~/components/EntityText'
@@ -129,7 +129,7 @@ export default {
     spoiler() {
       return getSpoiler(this.data)
     },
-    ...mapState(['user'])
+    ...mapGetters(['user'])
   },
   methods: {
     clickMessage() {},

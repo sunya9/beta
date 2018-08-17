@@ -79,7 +79,7 @@
 <script>
 import AppHeader from '~/components/Header'
 import Splash from '~/components/Splash'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import PostModal from '~/components/PostModal'
 import RemoveModal from '~/components/RemoveModal'
 import MessageRemoveModal from '~/components/MessageRemoveModal'
@@ -170,7 +170,7 @@ export default {
       }
       return map[name] || (map[name] !== null && 'AppSidebar')
     },
-    ...mapState(['user'])
+    ...mapGetters(['user'])
   },
   mounted() {
     // dark theme

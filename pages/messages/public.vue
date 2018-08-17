@@ -20,7 +20,7 @@ import List from '~/components/List'
 import bus from '~/assets/js/bus'
 
 export default {
-  middleware: 'authenticated',
+  middleware: ['auth'],
   async asyncData({ app: { $resource } }) {
     const option = {
       include_recent_message: 1,

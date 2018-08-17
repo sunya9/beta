@@ -1,6 +1,6 @@
 import Post from '~/components/Post'
 import EntityText from '~/components/EntityText'
-import { shallowMount, createStore } from 'helpers/client'
+import { shallowMount, authedUserCreateStore } from 'helpers/client'
 
 describe('Post component', () => {
   let wrapper, store
@@ -39,7 +39,7 @@ describe('Post component', () => {
     you_reposted: false
   }
   beforeEach(() => {
-    store = createStore()
+    store = authedUserCreateStore()
     wrapper = shallowMount(Post, {
       propsData: {
         data: post
@@ -48,10 +48,6 @@ describe('Post component', () => {
       stubs: {
         EntityText
       }
-    })
-    store.commit('SET_USER', {
-      username: 'foo',
-      id: 1
     })
   })
   describe('a post deleted', () => {

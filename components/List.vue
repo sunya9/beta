@@ -34,6 +34,7 @@ import Interaction from '~/components/Interaction'
 import Message from '~/components/Message'
 import Poll from '~/components/Poll'
 import Channel from '~/components/Channel'
+import { mapGetters } from 'vuex'
 
 import {
   sendPostNotification,
@@ -94,6 +95,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['user']),
     mainItem() {
       return (
         this.type === 'Post' &&
@@ -232,18 +234,16 @@ export default {
         this.items = newItems.concat(this.items)
         this.select += newItems.length
         if (this.type === 'Post') {
-          const posts = newItems.filter(
-            post => this.$store.state.user.id !== post.user.id
-          )
+          const posts = newItems.filter(post => this.user.id !== post.user.id)
           if (posts.length > 0) {
             sendPostNotification(posts)
           }
           const mentions = newItems.filter(post => {
-            const notMe = this.$store.state.user.id !== post.user.id
+            const notMe = this.user.id !== post.user.id
             const includedInMention =
               post.content.entities &&
               post.content.entities.mentions.some(
-                mention => mention.id === this.$store.state.user.id
+                mention => mention.id === this.user.id
               )
             return notMe && includedInMention
           })

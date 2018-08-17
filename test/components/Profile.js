@@ -1,4 +1,4 @@
-import { mount, createStore, router } from 'helpers/client'
+import { mount, authedUserCreateStore, router } from 'helpers/client'
 import Profile from '~/components/Profile'
 import deepAssign from 'deep-assign'
 
@@ -37,11 +37,7 @@ describe('Profile component', () => {
   let wrapper
 
   beforeEach(() => {
-    store = createStore()
-    store.commit('SET_USER', {
-      username: 'foo',
-      id: 1
-    })
+    store = authedUserCreateStore()
     profile = baseProfile()
     opts = {
       propsData: {

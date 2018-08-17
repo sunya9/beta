@@ -132,7 +132,7 @@ import List from '~/components/List'
 import MessageCompose from '~/components/MessageCompose'
 import CustomCheckbox from '~/components/CustomCheckbox'
 import Avatar from '~/components/Avatar'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import bus from '~/assets/js/bus'
 
 export default {
@@ -231,7 +231,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['user']),
+    ...mapGetters(['user']),
     isModerator() {
       return (
         this.user &&
