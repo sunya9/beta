@@ -47,7 +47,7 @@
 
 <script>
 import Avatar from '~/components/Avatar'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import { getSpoiler } from '~/assets/js/util'
 
 export default {
@@ -55,7 +55,7 @@ export default {
     data: Object
   },
   computed: {
-    ...mapState(['user']),
+    ...mapGetters(['user']),
     opponent() {
       if (this.data.recent_message && this.data.recent_message.user) {
         const {

@@ -89,7 +89,7 @@
                 Settings
               </nuxt-link>
               <div class="dropdown-divider"></div>
-              <a href="/logout" class="dropdown-item">Log out</a>
+              <button type="button" @click="$auth.logout()" class="dropdown-item">Log out</button>
             </div>
           </li>
           <li id="nav-compose" class="nav-item d-none d-sm-block" v-if="user">
@@ -98,7 +98,7 @@
             </a>
           </li>
           <li class="nav-item" v-if="!user">
-            <a href="/login" class="nav-link">Log in</a>
+            <a href="#" @click="$auth.loginWith('pnut')" class="nav-link">Log in</a>
           </li>
         </ul>
       </div>
@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import SearchForm from './SearchForm'
 import AppSidebar from '~/components/sidebar/App'
 import Avatar from '~/components/Avatar'
@@ -126,7 +126,7 @@ import bus from '~/assets/js/bus'
 const networkEvents = ['online', 'offline']
 
 export default {
-  computed: mapState(['user']),
+  computed: mapGetters(['user']),
   data() {
     return {
       online: true,

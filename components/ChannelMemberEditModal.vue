@@ -79,7 +79,7 @@
 import bus from '~/assets/js/bus'
 import $ from 'jquery'
 import Mousetrap from '~/plugins/mousetrap'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import CustomCheckbox from '~/components/CustomCheckbox'
 
 export default {
@@ -227,7 +227,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['user']),
+    ...mapGetters(['user']),
     chat() {
       return this.vm.channel.raw.find(r => {
         return r.type === 'io.pnut.core.chat-settings'
