@@ -42,6 +42,26 @@ beforeEach(() => {
   }
 })
 
+const authedUserCreateStore = () => {
+  const store = createStore()
+  store.replaceState({
+    auth: {
+      user: {
+        data: {
+          user: {
+            username: 'foo',
+            id: 1
+          },
+          storage: {
+            available: 1
+          }
+        }
+      }
+    }
+  })
+  return store
+}
+
 const router = new VueRouter()
-export { createStore, router }
+export { createStore, router, authedUserCreateStore }
 export * from '@vue/test-utils'
