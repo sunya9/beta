@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import moment from 'moment'
 export default {
   props: {
@@ -76,7 +76,7 @@ export default {
       last_modified: moment(process.env.last_modified).format('YYYY-MM-DD')
     }
   },
-  computed: mapState(['user']),
+  computed: mapGetters(['user']),
   methods: {
     active(url) {
       return this.$route.fullPath === url ? 'active' : ''

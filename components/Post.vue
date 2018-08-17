@@ -158,7 +158,7 @@ import ActionButton from '~/components/ActionButton'
 import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
 import Poll from '~/components/Poll'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import bus from '~/assets/js/bus'
 import focus from '~/assets/js/focus'
 import EntityText from '~/components/EntityText'
@@ -241,7 +241,7 @@ export default {
     revisions_permalink() {
       return `/posts/${this.mainPost.id}/revisions`
     },
-    ...mapState(['user'])
+    ...mapGetters(['user'])
   },
   methods: {
     favoriteToggle() {

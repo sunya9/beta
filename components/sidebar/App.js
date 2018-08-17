@@ -5,9 +5,13 @@ export default {
   extends: Sidebar,
   name: 'AppSidebar',
   data() {
-    const user = this.$store.state.user
+    const { user } = this.$store.getters
     const menus = [
-      { type: 'heading', label: 'Beta', hidden: !user },
+      {
+        type: 'heading',
+        label: 'Beta',
+        hidden: !user
+      },
       {
         label: 'Your Stream',
         icon: 'fa-home',
@@ -32,7 +36,11 @@ export default {
         url: '/stars',
         hidden: !user
       },
-      { type: 'heading', label: 'Explore', hidden: !user },
+      {
+        type: 'heading',
+        label: 'Explore',
+        hidden: !user
+      },
       {
         label: 'Conversations',
         url: '/conversations',
@@ -68,7 +76,10 @@ export default {
         url: '/global',
         icon: 'fa-globe'
       },
-      { type: 'heading', label: 'Other' },
+      {
+        type: 'heading',
+        label: 'Other'
+      },
       {
         label: 'About',
         url: '/about',

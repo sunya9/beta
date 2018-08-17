@@ -15,7 +15,7 @@
 <script>
 import Compose from '~/components/Compose'
 import List from '~/components/List'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import bus from '~/assets/js/bus'
 
 export default {
@@ -24,7 +24,7 @@ export default {
     List
   },
   async asyncData({ app: { $resource }, store }) {
-    if (store.state.user) {
+    if (store.getters.user) {
       const data = await $resource()
       return { data }
     }
@@ -35,7 +35,7 @@ export default {
   beforeDestroy() {
     bus.$off('post', this.add)
   },
-  computed: mapState(['user']),
+  computed: mapGetters(['user']),
   methods: {
     add() {
       this.$refs.list.refresh()
@@ -43,7 +43,7 @@ export default {
   },
   head() {
     return {
-      title: 'Your Stream'
+      title: this.$store.getters.user ? 'Your Stream' : null
     }
   }
 }

@@ -86,7 +86,7 @@
 import FollowButton from '~/components/FollowButton'
 import Thumb from '~/components/Thumb'
 import Avatar from '~/components/Avatar'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import EntityText from '~/components/EntityText'
 import BaseMuteButton from '~/components/BaseMuteButton'
 import BaseBlockButton from '~/components/BaseBlockButton'
@@ -121,7 +121,7 @@ export default {
     this.headerHeight = this.profile.content.cover_image.height * ratio
   },
   computed: {
-    ...mapState(['user']),
+    ...mapGetters(['user']),
     relation() {
       return this.profile.follows_you ? 'Follows you' : ''
     },
