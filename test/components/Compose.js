@@ -1,5 +1,5 @@
 import Compose from '~/components/Compose'
-import { mount, createStore } from 'helpers/client'
+import { mount, authedUserCreateStore } from 'helpers/client'
 
 import sinon from 'sinon'
 import noSsr from 'nuxt/lib/app/components/no-ssr'
@@ -7,14 +7,7 @@ import noSsr from 'nuxt/lib/app/components/no-ssr'
 describe('Compose component', () => {
   let store, vm, wrapper
   beforeEach(() => {
-    store = createStore()
-    store.commit('SET_USER', {
-      username: 'foo',
-      id: 1,
-      storage: {
-        available: 0
-      }
-    })
+    store = authedUserCreateStore()
     wrapper = mount(Compose, {
       mocks: {
         $store: store
@@ -163,25 +156,6 @@ describe('Compose component', () => {
         })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.insertText.called).to.be.true
-      })
-    })
-  })
-  describe('add photo button', () => {
-    context('when unpaid a user', () => {
-      it('is hidden', () => {
-        expect(wrapper.find('.add-photo').exists()).is.false
-      })
-    })
-    context('when paid a user', () => {
-      it('is shown', () => {
-        store.commit('SET_USER', {
-          username: 'foo',
-          id: 1,
-          storage: {
-            available: 1
-          }
-        })
-        expect(wrapper.find('.add-photo').exists()).is.true
       })
     })
   })
