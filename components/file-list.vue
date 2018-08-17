@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div
+    v-infinite-scroll="fetchMore"
+    infinite-scroll-disabled="moreDisabled"
+    infinite-scroll-distance="100">
     <div class="d-flex mb-2">
       <button class="ml-auto btn btn-danger" @click="showModal" :disabled="!isSelected">
         <i class="fa fa-trash"></i>
@@ -8,10 +11,7 @@
     </div>
 
     <div class="table-responsive">
-      <table class="table table-hover"
-        v-infinite-scroll="fetchMore"
-        infinite-scroll-disabled="moreDisabled"
-        infinite-scroll-distance="100">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th></th>
