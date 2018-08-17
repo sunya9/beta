@@ -14,7 +14,7 @@
 import Compose from '~/components/Compose'
 
 export default {
-  middleware: 'authenticated',
+  middleware: ['auth'],
   layout: 'no-sidebar',
   async asyncData({ query }) {
     const { text, url } = query
