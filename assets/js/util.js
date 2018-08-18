@@ -92,7 +92,7 @@ export function getAudio(post) {
   if (!post.raw) return {}
   const audio = post.raw
     .filter(r => {
-      return r.type === 'io.pnut.core.oembed' && r.value.type == 'audio'
+      return r.type === 'io.pnut.core.oembed' && r.value.type === 'audio'
     })
     .map(r => {
       return {
