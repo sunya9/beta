@@ -4,10 +4,10 @@ export function getTitle({ username, name }) {
   return name ? `${name}(@${username})` : `@${username}`
 }
 
-export function getOembedURLs(post, rawOnly = false) {
+export function getImageURLs(post, rawOnly = false) {
   if (!post.content) return []
   const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
-  const oembeds = { photos: [], audio: [] }
+  const photos = []
   if (!rawOnly) {
     const linkPhotos = post.content.entities.links
       .filter(link => imgExt.test(link.link))
@@ -17,7 +17,7 @@ export function getOembedURLs(post, rawOnly = false) {
           thumb: link.link
         }
       })
-    Array.prototype.push.apply(oembeds.photos, linkPhotos)
+    Array.prototype.push.apply(photos, linkPhotos)
   }
   if (post.raw) {
     const embedPhotos = post.raw
@@ -33,25 +33,9 @@ export function getOembedURLs(post, rawOnly = false) {
           height: r.value.height
         }
       })
-    Array.prototype.push.apply(oembeds.photos, embedPhotos)
-
-    const audio = _.uniqBy(
-      post.raw
-        .filter(r => {
-          return r.type === 'io.pnut.core.oembed' && r.value.type == 'audio'
-        })
-        .map(r => {
-          return {
-            url: r.value.url,
-            title: r.value.title
-          }
-        }),
-      'url'
-    )
-    Array.prototype.push.apply(oembeds.audio, audio)
+    Array.prototype.push.apply(photos, embedPhotos)
   }
-  oembeds.photos = _.uniqBy(oembeds.photos, 'original')
-  return oembeds
+  return _.uniqBy(photos, 'original')
 }
 
 export function getCrosspostLink(post) {
@@ -101,4 +85,20 @@ export function getLongpost(post) {
       }
     })
   return longpost[0]
+}
+
+export function getAudio(post) {
+  if (!post.content) return {}
+  if (!post.raw) return {}
+  const audio = post.raw
+    .filter(r => {
+      return r.type === 'io.pnut.core.oembed' && r.value.type == 'audio'
+    })
+    .map(r => {
+      return {
+        url: r.value.url,
+        title: r.value.title
+      }
+    })
+  return audio
 }
