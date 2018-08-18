@@ -9,7 +9,7 @@ import Post from '~/components/Post'
 import Compose from '~/components/Compose'
 import List from '~/components/List'
 import bus from '~/assets/js/bus'
-import { getImageURLs } from '~/assets/js/util'
+import { getOembedURLs } from '~/assets/js/util'
 
 export default {
   async asyncData(ctx) {
@@ -70,7 +70,9 @@ export default {
         },
         { hid: 'og:title', property: 'og:title', content: title }
       ]
-      const [photo] = getImageURLs(post, true)
+      const {
+        photos: [photo]
+      } = getOembedURLs(post, true)
       if (photo) {
         meta.push(
           {

@@ -4,10 +4,10 @@ export function getTitle({ username, name }) {
   return name ? `${name}(@${username})` : `@${username}`
 }
 
-export function getImageURLs(post, rawOnly = false) {
+export function getOembedURLs(post, rawOnly = false) {
   if (!post.content) return []
   const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
-  const photos = []
+  const oembeds = { photos: [], audio: [] }
   if (!rawOnly) {
     const linkPhotos = post.content.entities.links
       .filter(link => imgExt.test(link.link))
@@ -17,7 +17,7 @@ export function getImageURLs(post, rawOnly = false) {
           thumb: link.link
         }
       })
-    Array.prototype.push.apply(photos, linkPhotos)
+    Array.prototype.push.apply(oembeds.photos, linkPhotos)
   }
   if (post.raw) {
     const embedPhotos = post.raw
@@ -28,12 +28,30 @@ export function getImageURLs(post, rawOnly = false) {
         return {
           ...r.value,
           original: r.value.url,
-          thumb: r.value.url
+          thumb: r.value.thumbnail_url || r.value.url,
+          width: r.value.width,
+          height: r.value.height
         }
       })
-    Array.prototype.push.apply(photos, embedPhotos)
+    Array.prototype.push.apply(oembeds.photos, embedPhotos)
+
+    const audio = _.uniqBy(
+      post.raw
+        .filter(r => {
+          return r.type === 'io.pnut.core.oembed' && r.value.type == 'audio'
+        })
+        .map(r => {
+          return {
+            url: r.value.url,
+            title: r.value.title
+          }
+        }),
+      'url'
+    )
+    Array.prototype.push.apply(oembeds.audio, audio)
   }
-  return _.uniqBy(photos, 'original')
+  oembeds.photos = _.uniqBy(oembeds.photos, 'original')
+  return oembeds
 }
 
 export function getCrosspostLink(post) {
@@ -83,20 +101,4 @@ export function getLongpost(post) {
       }
     })
   return longpost[0]
-}
-
-export function getAudio(post) {
-  if (!post.content) return {}
-  if (!post.raw) return {}
-  const audio = post.raw
-    .filter(r => {
-      return r.type === 'io.pnut.core.oembed' && r.value.type == 'audio'
-    })
-    .map(r => {
-      return {
-        url: r.value.url,
-        title: r.value.title
-      }
-    })
-  return audio
 }

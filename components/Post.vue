@@ -28,11 +28,11 @@
                             <em>[Post deleted]</em>
                         </entity-text>
                     </p>
-                    <div v-if="thumbs.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
-                        <thumb class="mx-1 mb-1 mb-lg-0" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
+                    <div v-if="oembeds.photos.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
+                        <thumb class="mx-1 mb-1 mb-lg-0" :original="t.original" :thumb="t.thumb" :originalWidth="t.width" :originalHeight="t.height" :key="i" v-for="(t, i) in oembeds.photos" />
                     </div>
-                    <div v-if="clips.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
-                        <sound :url="t.url" :title="t.title" :key="i" v-for="(t, i) in clips" />
+                    <div v-if="oembeds.audio.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
+                        <sound :url="t.url" :title="t.title" :key="i" v-for="(t, i) in oembeds.audio" />
                     </div>
                 </div>
                 <div v-if="poll" class="mb-3">
@@ -167,11 +167,10 @@ import bus from '~/assets/js/bus'
 import focus from '~/assets/js/focus'
 import EntityText from '~/components/EntityText'
 import {
-  getImageURLs,
+  getOembedURLs,
   getCrosspostLink,
   getSpoiler,
-  getLongpost,
-  getAudio
+  getLongpost
 } from '~/assets/js/util'
 import listItem from '~/assets/js/list-item'
 
@@ -216,11 +215,8 @@ export default {
           }, [])
       )
     },
-    thumbs() {
-      return getImageURLs(this.mainPost)
-    },
-    clips() {
-      return getAudio(this.mainPost)
+    oembeds() {
+      return getOembedURLs(this.mainPost)
     },
     crosspost() {
       return getCrosspostLink(this.mainPost)
