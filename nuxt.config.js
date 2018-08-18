@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const { ProvidePlugin, EnvironmentPlugin } = require('webpack')
 const { homepage: npm_package_homepage } = require('./package')
 const fs = require('fs')
@@ -9,7 +11,7 @@ module.exports = {
    */
   head: {
     title: 'Beta',
-    titleTemplate: '%s - Beta',
+    titleTemplate: partial => (partial ? `${partial} - Beta` : 'Beta'),
     meta: [
       {
         charset: 'utf-8'
@@ -194,7 +196,8 @@ module.exports = {
     '@nuxtjs/component-cache',
     '@nuxtjs/toast',
     '@nuxtjs/google-analytics',
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   'google-analytics': {
     id: 'UA-10104011-16'
@@ -233,7 +236,31 @@ module.exports = {
     theme_color: '#d36854'
   },
   axios: {
-    baseURL: 'https://api.pnut.io/v0',
-    browserBaseURL: '/proxy'
+    baseURL: 'https://api.pnut.io/v0'
+  },
+  auth: {
+    strategies: {
+      pnut: {
+        _scheme: 'oauth2',
+        authorization_endpoint: 'https://pnut.io/oauth/authenticate',
+        token_endpoint: 'https://api.pnut.io/v0/oauth/access_token',
+        userinfo_endpoint: 'https://api.pnut.io/v0/token',
+        scope: [
+          'stream',
+          'messages:io.pnut.core.pm',
+          'messages:io.pnut.core.chat',
+          'write_post',
+          'follow',
+          'update_profile',
+          'files',
+          'polls'
+        ],
+        client_id: process.env.CLIENT_ID
+      }
+    },
+    redirect: {
+      callback: '/callback',
+      login: '/'
+    }
   }
 }

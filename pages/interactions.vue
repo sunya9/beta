@@ -27,7 +27,7 @@ import Compose from '~/components/Compose'
 import List from '~/components/List'
 
 export default {
-  middleware: 'authenticated',
+  middleware: ['auth'],
   async asyncData({ app: { $resource } }) {
     const option = {
       filters: 'bookmark,repost,follow'

@@ -7,7 +7,7 @@
 </template>
 <script>
 export default {
-  middleware: 'authenticated',
+  middleware: ['auth'],
   head() {
     return {
       title: 'Account settings'

@@ -37,7 +37,7 @@ import List from '~/components/List'
 import bus from '~/assets/js/bus'
 
 export default {
-  middleware: 'authenticated',
+  middleware: ['auth'],
   data() {
     return {
       which: 'private message'

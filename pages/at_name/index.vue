@@ -17,7 +17,7 @@ import Profile from '~/components/Profile'
 import Compose from '~/components/Compose'
 import List from '~/components/List'
 import bus from '~/assets/js/bus'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import { getTitle } from '~/assets/js/util'
 
 export default {
@@ -52,16 +52,15 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      initialText(state) {
-        return state.user && state.user.username === this.name
-          ? ''
-          : `@${this.name} `
-      },
-      blocked() {
-        return this.profile.you_blocked
-      }
-    })
+    ...mapGetters(['user']),
+    initialText() {
+      return this.user && this.user.username === this.name
+        ? ''
+        : `@${this.name} `
+    },
+    blocked() {
+      return this.profile.you_blocked
+    }
   },
   watch: {
     async blocked(after, before) {
