@@ -84,3 +84,11 @@ export function getLongpost(post) {
     })
   return longpost[0]
 }
+
+export const underMessages = {
+  computed: {
+    underMessages() {
+      return this.$route.name.startsWith('messages')
+    }
+  }
+}
