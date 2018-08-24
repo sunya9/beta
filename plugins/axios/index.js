@@ -3,8 +3,12 @@ import { getResourcePath } from './resources'
 export default (context, inject) => {
   const { $axios, error, app } = context
   let resourcePath
-  const $resource = (options = {}) => {
-    return $axios.$get(resourcePath, {
+  const $resource = (url = '', options = {}) => {
+    if (typeof url === 'object') {
+      options = url
+      url = ''
+    }
+    return $axios.$get(url || resourcePath, {
       params: {
         include_post_raw: 1,
         include_directed_posts: 0,
