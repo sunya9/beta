@@ -68,6 +68,7 @@
     <div>
       <remove-modal ref="removeModal" />
       <message-remove-modal ref="mesageRemoveModal" />
+      <message-modal ref="messageModal" />
       <channel-edit-modal ref="channelEditModal" />
       <channel-member-edit-modal ref="channelMemberEditModal" />
     </div>
@@ -85,6 +86,7 @@ import RemoveModal from '~/components/RemoveModal'
 import MessageRemoveModal from '~/components/MessageRemoveModal'
 import ChannelEditModal from '~/components/ChannelEditModal'
 import ChannelMemberEditModal from '~/components/ChannelMemberEditModal'
+import MessageModal from '~/components/MessageModal'
 import HelpModal from '~/components/HelpModal'
 import Mousetrap from 'mousetrap'
 import AppSidebar from '~/components/sidebar/App'
@@ -95,8 +97,10 @@ import SearchSidebar from '~/components/sidebar/Search'
 import Jumbotron from '~/components/Jumbotron'
 import $ from 'jquery'
 import Vue from 'vue'
+import { underMessages } from '~/assets/js/util'
 
 export default {
+  mixins: [underMessages],
   props: ['error'],
   components: {
     AppHeader,
@@ -106,6 +110,7 @@ export default {
     MessageRemoveModal,
     ChannelEditModal,
     ChannelMemberEditModal,
+    MessageModal,
     HelpModal,
     AppSidebar,
     SettingsSidebar,
@@ -182,7 +187,15 @@ export default {
 
     const router = this.$router
     // new post
-    Mousetrap.bind('n', () => this.$refs.postModal.showModal())
+    Mousetrap.bind('n', () => {
+      if (this.underMessages) return
+      this.$refs.postModal.showModal()
+    })
+    Mousetrap.bind(['p', 'c'], ({ key }) => {
+      if (!this.underMessages) return
+      this.$refs.messageModal.showModal(key === 'p')
+    })
+
     Mousetrap.bind('?', () => this.$refs.helpModal.showModal())
     // main
     Mousetrap.bind('g h', () => router.push('/'))
@@ -199,6 +212,7 @@ export default {
   beforeDestroy() {
     Mousetrap.unbind('n')
     Mousetrap.unbind('?')
+    Mousetrap.unbind(['p', 'c'])
 
     Mousetrap.unbind('g m')
     Mousetrap.unbind('g i')
