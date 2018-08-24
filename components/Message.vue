@@ -1,5 +1,7 @@
 <template>
   <li
+    tabindex="-1"
+    class="message"
     >
     <div v-if="firstUnreadMessage" class="matching-hr">
       <hr />
@@ -7,7 +9,7 @@
         <span class="text-muted">Previously read</span>
       </div>
     </div>
-    <div class="media mb-4"
+    <div class="media mb-2"
     :class="{
       'flex-row-reverse': me
     }">
@@ -44,20 +46,41 @@
         }">
           <div
             @click="clickMessage"
-            class="balloon py-2 px-3 mb-0"
             :class="{
-              'order-2 me': me,
-              other: !me
+              'order-2': me,
             }">
-            <entity-text :content="message.content" :spoiler=spoiler>
-              <em>[Message deleted{{message.deleted_by ? ' by moderator' : ''}}]</em>
-            </entity-text>
-            <div v-if="thumbs.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end" style="margin-top:.8em">
-              <thumb class="mx-1 mb-1 mb-lg-0" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
+            <div class="py-2 px-3 mb-1 balloon"
+              :class="{
+                me: me,
+                other: !me
+              }"
+            >
+              <entity-text :content="message.content" :spoiler=spoiler>
+                <em>[Message deleted{{message.deleted_by ? ' by moderator' : ''}}]</em>
+              </entity-text>
+              <div v-if="thumbs.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end" style="margin-top:.8em">
+                <thumb class="mx-1 mb-1 mb-lg-0" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
+              </div>
             </div>
+            <footer>
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <a class="text-muted" v-if="canDelete" href="#" @click.stop.prevent="removeModal">
+                    <i class="fa fa-trash"></i>
+                    Remove
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a class="text-muted" :href="message.source.link" target="_new">
+                    <i class="fa fa-send"></i>
+                    via {{message.source.name}}
+                  </a>
+                </li>
+              </ul>
+            </footer>
           </div>
-          <footer
-            class="align-self-end"
+          <div
+            class="align-self-end date-pos"
             :class="{
               'order-1 mr-2': me,
               'ml-2': !me
@@ -65,22 +88,7 @@
             <span class="text-muted text-nowrap" :title="absDate">
               {{date}}
             </span>
-            <div class="dropdown card-link">
-              <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#" class="text-dark btn-link">
-                <i class="fa fa-ellipsis-h"></i>
-              </a>
-              <div :class="{'dropdown-menu dropdown-menu-left': me, 'dropdown-menu dropdown-menu-right': !me}">
-                <a v-if="canDelete" class="dropdown-item" href="#" @click.stop.prevent="removeModal">
-                  <i class="fa fa-trash"></i>
-                  Remove
-                </a>
-                <a class="dropdown-item" :href="message.source.link" target="_new">
-                  <i class="fa fa-send"></i>
-                  via {{message.source.name}}
-                </a>
-              </div>
-            </div>
-          </footer>
+          </div>
         </div>
       </div>
     </div>
@@ -158,11 +166,36 @@ export default {
 <style lang="scss" scoped>
 @import '~assets/css/adn_base_variables';
 
+.message {
+  footer {
+    transition: opacity 0.2s linear;
+    visibility: hidden;
+    opacity: 0;
+  }
+  &:focus,
+  &:hover {
+    & footer {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
 .balloon {
+  $focus-bg-color: $warningBackground;
   position: relative;
   background: $grayLighter;
   border-radius: 2px;
   word-break: break-word;
+  .message:focus & {
+    background: $focus-bg-color;
+    &.other::before {
+      border-right-color: $focus-bg-color;
+    }
+    &.me::before {
+      border-left-color: $focus-bg-color;
+    }
+  }
   &.me,
   &.other {
     &::after,
@@ -187,5 +220,9 @@ export default {
     left: -20px;
     border-right-color: $grayLighter;
   }
+}
+.date-pos {
+  position: relative;
+  top: -1.8rem;
 }
 </style>
