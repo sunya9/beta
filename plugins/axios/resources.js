@@ -20,7 +20,7 @@ const map = {
   'files-id': ({ params }) => `/files/${params.id}`,
   'search-users': '/users/search',
   'search-posts': '/posts/search',
-  messages: '/users/me/channels/subscribed',
+  messages: '/channels/search',
   'messages-public': '/users/me/channels/subscribed',
   'messages-public-all': '/channels/search',
   'messages-channel': ({ params }) => `/channels/${params.channel}/messages`,
