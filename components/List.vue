@@ -73,7 +73,11 @@ export default {
     },
     isModerator: Boolean,
     channelType: String,
-    lastReadMessageId: String
+    lastReadMessageId: String,
+    resource: {
+      type: String,
+      default: ''
+    }
   },
   components: {
     User,
@@ -229,7 +233,7 @@ export default {
       const option = Object.assign({}, this.defaultOption, {
         since_id: this.id(this.items[0])
       })
-      const { data: newItems } = await this.$resource(option)
+      const { data: newItems } = await this.$resource(this.resouce, option)
       if (newItems.length) {
         this.items = newItems.concat(this.items)
         this.select += newItems.length
@@ -260,7 +264,10 @@ export default {
       const option = Object.assign({}, this.defaultOption, {
         before_id: this.meta.min_id
       })
-      const { data: newItems, meta } = await this.$resource(option)
+      const { data: newItems, meta } = await this.$resource(
+        this.resouce,
+        option
+      )
       this.meta = meta
 
       if (newItems.length) {
