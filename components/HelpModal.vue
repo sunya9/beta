@@ -14,138 +14,15 @@
           <div class="row flex-wrap">
             <div class="col-lg-4">
               <h6>Actions</h6>
-              <dl class="row">
-                <dt class="col-4">
-                  <kbd>n</kbd>
-                </dt>
-                <dd class="col-8">
-                  New Post
-                </dd>
-                <dt class="col-4">
-                  <kbd>s</kbd>
-                </dt>
-                <dd class="col-8">
-                  Star
-                </dd>
-                <dt class="col-4">
-                  <kbd>r</kbd>
-                </dt>
-                <dd class="col-8">
-                  Reply
-                </dd>
-                <dt class="col-4">
-                  <kbd>Shift+r</kbd>
-                </dt>
-                <dd class="col-8">
-                  Reply All
-                </dd>
-                <dt class="col-4">
-                  <kbd>p</kbd>
-                </dt>
-                <dd class="col-8">
-                  Repost
-                </dd>
-                <dt class="col-4">
-                  <kbd>Del</kbd>
-                </dt>
-                <dd class="col-8">
-                  Delete my post
-                </dd>
-                <dt class="col-4">
-                  <kbd>Enter</kbd>
-                </dt>
-                <dd class="col-8">
-                  Go to detail page
-                </dd>
-                <dt class="col-4">
-                  <kbd><kbd>Ctrl</kbd>+<kbd>Enter</kbd></kbd>
-                </dt>
-                <dd class="col-8">
-                  Send post
-                </dd>
-              </dl>
+              <key-sets :key-sets="actions" />
             </div>
             <div class="col-lg-4">
               <h6>Navigation</h6>
-              <dl class="row">
-                <dt class="col-4">
-                  <kbd>j</kbd>
-                </dt>
-                <dd class="col-8">
-                  Next post
-                </dd>
-                <dt class="col-4">
-                  <kbd>k</kbd>
-                </dt>
-                <dd class="col-8">
-                  Previous post
-                </dd>
-                <dt class="col-4">
-                  <kbd>.</kbd>
-                </dt>
-                <dd class="col-8">
-                  Load new posts
-                </dd>
-                <dt class="col-4">
-                  <kbd>?</kbd>
-                </dt>
-                <dd class="col-8">
-                  This help
-                </dd>
-              </dl>
+              <key-sets :key-sets="$options.navigation" />
             </div>
             <div class="col-lg-4">
               <h6>Streams</h6>
-              <dl class="row">
-                <dt class="col-4">
-                  <kbd>g</kbd>&nbsp;<kbd>h</kbd>
-                </dt>
-                <dd class="col-8">
-                  Home
-                </dd>
-                <dt class="col-4">
-                  <kbd>g</kbd>&nbsp;<kbd>m</kbd>
-                </dt>
-                <dd class="col-8">
-                  Mentions
-                </dd>
-                <dt class="col-4">
-                  <kbd>g</kbd>&nbsp;<kbd>i</kbd>
-                </dt>
-                <dd class="col-8">
-                  Interactions
-                </dd>
-                <dt class="col-4">
-                  <kbd>g</kbd>&nbsp;<kbd>s</kbd>
-                </dt>
-                <dd class="col-8">
-                  Stars
-                </dd>
-                <dt class="col-4">
-                  <kbd>g</kbd>&nbsp;<kbd>c</kbd>
-                </dt>
-                <dd class="col-8">
-                  Conversations
-                </dd>
-                <dt class="col-4">
-                  <kbd>g</kbd>&nbsp;<kbd>p</kbd>
-                </dt>
-                <dd class="col-8">
-                  Photos
-                </dd>
-                <dt class="col-4">
-                  <kbd>g</kbd>&nbsp;<kbd>t</kbd>
-                </dt>
-                <dd class="col-8">
-                  Trending
-                </dd>
-                <dt class="col-4">
-                  <kbd>g</kbd>&nbsp;<kbd>g</kbd>
-                </dt>
-                <dd class="col-8">
-                  Global
-                </dd>
-              </dl>
+              <key-sets :key-sets="$options.streams" />
             </div>
           </div>
         </div>
@@ -158,14 +35,57 @@
 import $ from 'jquery'
 import Mousetrap from 'mousetrap'
 import bus from '~/assets/js/bus'
+import KeySets from './KeySets'
+import { underMessages } from '~/assets/js/util'
 
 export default {
+  mixins: [underMessages],
+  streamActions: [
+    { key: 'n', label: 'New post' },
+    { key: 's', label: 'Start' },
+    { key: 'r', label: 'Reply' },
+    { key: 'Shift+r', label: 'Reply All' },
+    { key: 'p', label: 'Repost' },
+    { key: 'Del', label: 'Delete my post' },
+    { key: 'Enter', label: 'Go to detail page' },
+    { key: 'Ctrl+Enter', label: 'Send post' }
+  ],
+  messageActions: [
+    { key: 'p', label: 'Create private message' },
+    { key: 'c', label: 'Create chat room' },
+    { key: 'n', label: 'New message' },
+    { key: 'Enter', label: 'Go to chat page' },
+    { key: 'Ctrl+Enter', label: 'Send post' }
+  ],
+  navigation: [
+    { key: 'j', label: 'Next item' },
+    { key: 'k', label: 'Previous item' },
+    { key: '.', label: 'Load new items' },
+    { key: 'Shift+/', label: 'This help' }
+  ],
+  streams: [
+    { key: ['g', 'h'], label: 'Home' },
+    { key: ['g', 'm'], label: 'Mentions' },
+    { key: ['g', 'i'], label: 'Interactions' },
+    { key: ['g', 's'], label: 'Stars' },
+    { key: ['g', 'c'], label: 'Conversations' },
+    { key: ['g', 'p'], label: 'Photos' },
+    { key: ['g', 't'], label: 'Trending' },
+    { key: ['g', 'g'], label: 'Global' }
+  ],
   mounted() {
     $(this.$el).on('hidden.bs.modal', this.hidden)
     bus.$on('showHelpModal', this.showModal)
   },
   beforeDestroy() {
     bus.$off('showHelpModal', this.showModal)
+  },
+  computed: {
+    actions() {
+      return this.underMessages
+        ? this.$options.messageActions
+        : this.$options.streamActions
+    }
   },
   methods: {
     showModal() {
@@ -177,6 +97,9 @@ export default {
     hidden() {
       Mousetrap.unpause()
     }
+  },
+  components: {
+    KeySets
   }
 }
 </script>
