@@ -191,9 +191,14 @@ export default {
       if (this.underMessages) return
       this.$refs.postModal.showModal()
     })
-    Mousetrap.bind(['p', 'c'], ({ key }) => {
+    Mousetrap.bind('m', () => {
       if (!this.underMessages) return
-      this.$refs.messageModal.showModal(key === 'p')
+      this.$refs.messageModal.showModal(true)
+    })
+
+    Mousetrap.bind('c', () => {
+      if (!this.underMessages) return
+      this.$refs.messageModal.showModal(false)
     })
 
     Mousetrap.bind('?', () => this.$refs.helpModal.showModal())
@@ -212,7 +217,7 @@ export default {
   beforeDestroy() {
     Mousetrap.unbind('n')
     Mousetrap.unbind('?')
-    Mousetrap.unbind(['p', 'c'])
+    Mousetrap.unbind(['m', 'c'])
 
     Mousetrap.unbind('g m')
     Mousetrap.unbind('g i')
