@@ -149,6 +149,8 @@ export default {
       Mousetrap.bind('s', this.favorite)
       Mousetrap.bind('p', this.repost)
       Mousetrap.bind('enter', this.goPost)
+    }
+    if (['Post', 'Message'].includes(this.type)) {
       Mousetrap.bind('del', this.remove)
     }
     if (this.isAutoRefresh) {
@@ -165,6 +167,8 @@ export default {
       Mousetrap.unbind('r')
       Mousetrap.unbind('p')
       Mousetrap.unbind('enter')
+    }
+    if (['Post', 'Message'].includes(this.type)) {
       Mousetrap.unbind('del')
     }
     if (this.timer) {
