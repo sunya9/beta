@@ -15,7 +15,7 @@
           </div>
 				</div>
 				<div class="form-group">
-					<textarea class="form-control" v-model="text" @keydown.ctrl.enter="submit" @keydown.meta.enter="submit" :disabled="promise">
+					<textarea class="form-control" v-model="text" @keydown.ctrl.enter="submit" @keydown.meta.enter="submit" :disabled="promise" ref="textarea">
 					</textarea>
 				</div>
         <div class="form-group" v-show="photos.length">
@@ -56,6 +56,7 @@ import textCount from '~/assets/js/text-count'
 import { mapGetters } from 'vuex'
 import Thumb from '~/components/Thumb'
 import InputSpoiler from '~/components/InputSpoiler'
+import Mousetrap from '~/plugins/mousetrap'
 
 export default {
   mixins: [textCount],
@@ -125,6 +126,15 @@ export default {
     },
     ...mapGetters(['storage'])
   },
+  mounted() {
+    Mousetrap.bind('n', e => {
+      this.$refs.textarea.focus()
+      e.preventDefault()
+    })
+  },
+  beforeDestroy() {
+    Mousetrap.unbind('n')
+  },
   methods: {
     toggleSpoiler() {
       this.spoiler = this.spoiler ? null : {}
@@ -144,6 +154,7 @@ export default {
         const { data: channel } = await this.promise
         if (channel) {
           this.$router.push(`/messages/${channel.id}`)
+          this.$emit('foundChannel')
         } else {
           this.pmLookupStatus = 'Not Found'
         }
@@ -205,6 +216,7 @@ export default {
       this.text = ''
       this.photos = []
       this.$router.push(`/messages/${channel.channel_id}`)
+      this.$emit('submit')
     },
     async uploadPhotos() {
       const photosPromise = this.photos.map(async content => {
