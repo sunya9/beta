@@ -13,7 +13,10 @@ import { getImageURLs } from '~/assets/js/util'
 
 export default {
   async asyncData(ctx) {
-    const { params: { id }, app: { $resource } } = ctx
+    const {
+      params: { id },
+      app: { $resource }
+    } = ctx
     const option = {
       include_directed_posts: 1,
       include_bookmarked_by: 1,

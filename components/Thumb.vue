@@ -8,7 +8,7 @@
     <div>
       <a :href="original">
         <slot>
-          <img :src="thumb" alt="" class="thumb">
+          <img :src="thumb" :data-original="original" :data-original-width="originalWidth" :data-original-height="originalHeight" alt="" class="thumb">
         </slot>
       </a>
       <a @click.prevent="remove"
@@ -24,6 +24,8 @@ export default {
   props: {
     original: String,
     thumb: String,
+    originalWidth: Number,
+    originalHeight: Number,
     removable: Boolean,
     noBorder: Boolean,
     width: {
@@ -52,7 +54,7 @@ export default {
       onClose() {
         img.classList.remove('show')
       },
-      ...this.zoomnigOptions
+      ...this.zoomingOptions
     }
     const { customSize = {} } = this.zoomingOptions
     const root = document.documentElement
@@ -103,9 +105,5 @@ export default {
   border-radius: 50%;
   cursor: pointer;
   border: 1px solid #aaa;
-}
-.thumb {
-  max-height: 96px;
-  max-width: 96px;
 }
 </style>

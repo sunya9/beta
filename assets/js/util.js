@@ -28,7 +28,9 @@ export function getImageURLs(post, rawOnly = false) {
         return {
           ...r.value,
           original: r.value.url,
-          thumb: r.value.url
+          thumb: r.value.thumbnail_url || r.value.url,
+          width: r.value.width,
+          height: r.value.height
         }
       })
     Array.prototype.push.apply(photos, embedPhotos)
@@ -83,6 +85,22 @@ export function getLongpost(post) {
       }
     })
   return longpost[0]
+}
+
+export function getAudio(post) {
+  if (!post.content) return {}
+  if (!post.raw) return {}
+  const audio = post.raw
+    .filter(r => {
+      return r.type === 'io.pnut.core.oembed' && r.value.type === 'audio'
+    })
+    .map(r => {
+      return {
+        url: r.value.url,
+        title: r.value.title
+      }
+    })
+  return audio
 }
 
 export const underMessages = {

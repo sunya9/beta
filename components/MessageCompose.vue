@@ -239,12 +239,11 @@ export default {
       const raws = photosJson.map(res => {
         const image = res.data
         const value = {
-          width: image.image_info.width,
-          height: image.image_info.height,
-          version: '1.0',
-          type: 'photo',
-          url: image.link,
-          title: this.text
+          '+io.pnut.core.file': {
+            file_id: image.id,
+            file_token: image.file_token,
+            format: 'oembed'
+          }
         }
         return Object.assign(
           {},

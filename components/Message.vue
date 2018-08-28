@@ -59,7 +59,10 @@
                 <em>[Message deleted{{message.deleted_by ? ' by moderator' : ''}}]</em>
               </entity-text>
               <div v-if="thumbs.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end" style="margin-top:.8em">
-                <thumb class="mx-1 mb-1 mb-lg-0" :original="t.original" :thumb="t.thumb" :key="i" v-for="(t, i) in thumbs" />
+                <thumb class="mx-1 mb-1 mb-lg-0" :original="t.original" :thumb="t.thumb" :originalWidth="t.width" :originalHeight="t.height" :key="i" v-for="(t, i) in thumbs" />
+              </div>
+              <div v-if="clips.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
+                <sound :url="t.url" :title="t.title" :key="i" v-for="(t, i) in clips" />
               </div>
             </div>
             <footer>
@@ -101,7 +104,7 @@ import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
 import EntityText from '~/components/EntityText'
 import listItem from '~/assets/js/list-item'
-import { getImageURLs, getSpoiler } from '~/assets/js/util'
+import { getImageURLs, getAudio, getSpoiler } from '~/assets/js/util'
 import bus from '~/assets/js/bus'
 
 export default {
@@ -133,6 +136,9 @@ export default {
     },
     thumbs() {
       return getImageURLs(this.data)
+    },
+    clips() {
+      return getAudio(this.data)
     },
     spoiler() {
       return getSpoiler(this.data)
