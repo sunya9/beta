@@ -12,7 +12,9 @@
         </div>
         <div class="modal-body">
           <p>Do you want to remove this message?</p>
-          <message :data="vm.message" :displayFullView="true" v-if="vm" view-only />
+          <ul class="list-unstyled">
+            <message :data="vm.message" :display-full-view="true" v-if="vm" view-only />
+          </ul>
         </div>
         <div class="modal-footer">
           <button type="button" tabindex="1" class="btn btn-secondary" data-dismiss="modal" ref="cancelButton">Cancel</button>
