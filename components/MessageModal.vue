@@ -50,6 +50,8 @@
             <message-compose
               class="border-0"
               create-channel-mode
+              @submit="dismiss"
+              @foundChannel="dismiss"
             />
           </div>
           <div
@@ -60,6 +62,7 @@
           >
             <channel-compose
               class="border-0"
+              @submit="dismiss"
             />
           </div>
         </div>
@@ -82,8 +85,7 @@ export default {
     }
   },
   mounted() {
-    $(this.$el).on('hide.bs.modal', this.hide)
-    $(this.$el).on('hidden.bs.modal', this.hidden)
+    $(this.$el).on('hidden.bs.modal', () => this.hidden())
     $(this.$el).on('shown.bs.modal', () => this.setFocus())
     bus.$on('showPostModal', this.showModal)
   },
@@ -97,7 +99,7 @@ export default {
       Mousetrap.unpause()
     },
     setFocus() {
-      $(this.$el)
+      $('.tab-pane.active', this.$el)
         .find('textarea, input')
         .first()
         .focus()
@@ -106,8 +108,8 @@ export default {
       if (!$(this.$el).hasClass('show')) {
         Mousetrap.pause()
         this.show = true
-        $(this.$el).modal('show')
         await this.$nextTick()
+        $(this.$el).modal('show')
         $(`#create-${isPrivate ? 'private' : 'public'}-room-tab-label`).tab(
           'show'
         )
