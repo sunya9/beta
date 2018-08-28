@@ -102,3 +102,11 @@ export function getAudio(post) {
     })
   return audio
 }
+
+export const underMessages = {
+  computed: {
+    underMessages() {
+      return this.$route.name.startsWith('messages')
+    }
+  }
+}

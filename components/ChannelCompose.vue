@@ -81,6 +81,7 @@ export default {
           categories: []
         }
         this.$router.push(`/messages/${response.id}`)
+        this.$emit('submit')
       } catch (e) {
         this.$toast.error(e.message)
       }

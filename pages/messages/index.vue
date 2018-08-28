@@ -1,33 +1,23 @@
 <template>
-	<div>
-	  <h1 class="h3">
-      Messages &middot; 
-      <nuxt-link to="/messages/public">
-        Public Rooms
-      </nuxt-link>
-    </h1>
-		<div class="row">
-			<div class="col-md-8">
-				<h2 class="h4">
-          <button type="button" class="btn btn-link" style="font-size:1.5rem" @click="toggleWhich">
-            <i class="fa" :class="{'fa-toggle-on': (which == 'private message'),'fa-toggle-off': (which != 'private message')}"></i> Create a {{which}}
-          </button>
-        </h2>
-        <transition name="fade" mode="out-in">
-          <div v-if="which == 'private message'" key="pm">
-            <message-compose create-channel-mode />
-          </div>
-          <div v-else>
-  				  <channel-compose key="channel" />
-          </div>
-        </transition>
-				<h2 class="h4">Recent messages</h2>
-				<div>
-          <list :data="data" type="Channel" :option="option" ref="list" />
-        </div>
-			</div>
-		</div>
-	</div>
+	<div class="row">
+    <div class="col-md-8">
+      <h2 class="h4">Create a {{isPrivate ? 'private message' : 'chat room'}}</h2>
+      <div>
+        <message-compose create-channel-mode v-if="isPrivate" />
+        <channel-compose v-else />
+      </div>
+      <h2 class="h4">{{isPrivate ? 'Messages' :  'Chat rooms'}}</h2>
+      <ul class="nav nav-pills my-3" v-if="isPublic">
+        <li class="nav-item">
+          <nuxt-link class="nav-link" to="/messages?public" exact>Subscribed</nuxt-link>
+        </li>
+        <li class="nav-item">
+          <nuxt-link class="nav-link" to="/messages?public&amp;all">All</nuxt-link>
+        </li>
+      </ul>
+      <list :data="data" type="Channel" :key="JSON.stringify({ resource, option })" :option="option" ref="list" :resource="resource" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -38,20 +28,48 @@ import bus from '~/assets/js/bus'
 
 export default {
   middleware: ['auth'],
-  data() {
-    return {
-      which: 'private message'
-    }
-  },
-  async asyncData({ app: { $resource } }) {
-    const option = {
+  watchQuery: ['public', 'all'],
+  async asyncData({ app: { $resource }, query }) {
+    const isPrivate = !('public' in query)
+    const all = 'all' in query
+    const commonOption = {
       include_recent_message: 1,
-      channel_types: 'io.pnut.core.pm,io.pnut.core.chat',
       include_limited_users: 1,
       include_channel_raw: 1
     }
-    const data = await $resource(option)
-    return { data, option }
+    const privateMessages = {
+      resource: '/users/me/channels/subscribed',
+      option: {
+        ...commonOption,
+        channel_types: 'io.pnut.core.pm',
+        is_private: 1
+      }
+    }
+    const subscribedChatRoom = {
+      resource: '/users/me/channels/subscribed',
+      option: {
+        ...commonOption,
+        channel_types: 'io.pnut.core.chat',
+        is_public: 1
+      }
+    }
+    const allChatRoom = {
+      resource: '/channels/search',
+      option: {
+        ...commonOption,
+        channel_types: 'io.pnut.core.chat',
+        is_public: 1,
+        include_inactive: 1
+      }
+    }
+    const { option, resource } = isPrivate
+      ? privateMessages
+      : all
+        ? allChatRoom
+        : subscribedChatRoom
+
+    const data = await $resource(resource, option)
+    return { data, option, isPrivate, resource }
   },
   components: {
     List,
@@ -64,18 +82,19 @@ export default {
   beforeDestroy() {
     bus.$off('channel', this.add)
   },
+  computed: {
+    isPublic() {
+      return !this.isPrivate
+    }
+  },
   methods: {
     add() {
       this.$refs.list.refresh()
-    },
-    toggleWhich() {
-      this.which =
-        this.which == 'private message' ? 'chat room' : 'private message'
     }
   },
   head() {
     return {
-      title: 'Messages'
+      title: this.isPrivate ? 'Messages' : 'Public Rooms'
     }
   }
 }

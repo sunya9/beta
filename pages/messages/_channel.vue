@@ -1,22 +1,19 @@
 <template>
 	<div>
-		<h1 class="h3">
-			<nuxt-link to="/messages">
-				<i class="fa fa-chevron-left"></i>
-				{{$metaInfo.title}}
-			</nuxt-link>
-		</h1>
-    <p v-if="!isPM" class="text-muted">
-      {{chat.description}}
-    </p>
-		<div class="row">
+		<div class="row" :key="$route.fullPath">
 			<div class="col-md-4 order-md-2">
-				<div class="row flex-">
+        <h1>
+          {{$metaInfo.title}}
+          <button v-if="!isPM && isModerator" class="btn btn-link mr-2" type="button" @click.stop.prevent="channelEditModal">
+            <i class="fa fa-pencil-square-o"></i>
+            <span class="d-none d-sm-inline ml-2">Edit</span>
+          </button>
+        </h1>
+				<div class="row">
 					<div class="col-sm col-md-12">
-						<h2 class="h3">Room info <button v-if="!isPM && isModerator" class="btn btn-link mr-2" type="button" @click.stop.prevent="channelEditModal">
-                <i class="fa fa-pencil-square-o"></i>
-                <span class="d-none d-sm-inline ml-2">Edit</span>
-              </button></h2>
+            <p v-if="!isPM" class="text-muted">
+              {{chat.description}}
+            </p>
 						<div class="form-group" v-if="user">
 							<custom-checkbox v-model="channel.you_subscribed" @change="cancelMute" :resource="`/channels/${channel.id}/subscribe`">
 								Subscribed
@@ -24,13 +21,9 @@
 							<custom-checkbox v-model="channel.you_muted" @change="cancelSubscribe" :resource="`/channels/${channel.id}/mute`">
 								Muted
 							</custom-checkbox>
-              <!--<custom-checkbox v-model="channel.has_unread" @change="markAsRead" :checked="!channel.has_unread" :disabled="!channel.has_unread">
-                {{channel.has_unread ? 'Mark as read' : 'All read'}}
-              </custom-checkbox>-->
-              <button class="btn btn-link mr-2" :disabled="!channel.has_unread" type="button" @click.stop.prevent="markAsRead">
-                <i class="fa" :class="{'fa-envelope-open': channel.has_unread, 'fa-envelope-open-o': !channel.has_unread}"></i>
-                <span class="d-none d-sm-inline ml-2">{{channel.has_unread ? 'Mark as read' : 'All read'}}</span>
-              </button>
+              <custom-checkbox @change="markAsRead" :checked="!channel.has_unread" :disabled="!channel.has_unread">
+                Mark as read
+              </custom-checkbox>
 						</div>
             <template v-if="!isPM && chat.categories">
               Categories
@@ -40,6 +33,8 @@
                 </template>
               </ul>
             </template>
+					</div>
+					<div class="col-sm col-md-12">
             <h2 class="h3">
               <span v-if="isPM || !channel.acl.read.public">Members</span>
               <span v-else-if="!isPM"><i class="fa fa-globe"></i> Public</span>
@@ -48,8 +43,6 @@
                 <span class="d-none d-sm-inline ml-2">Edit</span>
               </button>
             </h2>
-					</div>
-					<div class="col-sm col-md-12">
             <span v-if="!isPM" class="mb-2">Owner</span>
 						<ul class="list-unstyled" :class="{'pm-ul': isPM}">
               <li :key="channel.owner.id" class="mb-2">
@@ -119,7 +112,7 @@
 				<message-compose v-if="canPost" v-model="message" @submit="() => $refs.list.refresh()" />
 				<div class="card no-gutter-xs">
 					<div class="card-body">
-						<List :data="data" type="Message" :isModerator="isModerator" :channelType="channel.type" :lastReadMessageId="data.meta.marker.id" ref="list" />
+						<List :data="data" type="Message" :is-moderator="isModerator" :channel-type="channel.type" :last-read-message-id="data.meta.marker.id" ref="list" />
 					</div>
 				</div>
 			</div>
@@ -175,6 +168,14 @@ export default {
       this.markAsRead()
     }, 1000)
   },
+  watch: {
+    '$route.fullPath': {
+      handler() {
+        this.$emit('updateNav', this.isPM)
+      },
+      immediate: true
+    }
+  },
   methods: {
     cancelSubscribe(bool) {
       if (bool) this.channel.you_subscribed = false
@@ -213,6 +214,7 @@ export default {
           id: this.channel.recent_message_id
         }
       ]
+      // this.channel.has_unread
       try {
         this.promise = this.$axios.$post('/markers', marker)
         await this.promise
