@@ -51,9 +51,10 @@ export default {
     { key: 'Ctrl+Enter', label: 'Send post' }
   ],
   messageActions: [
-    { key: 'p', label: 'Create private message' },
-    { key: 'c', label: 'Create chat room' },
+    { key: 'm', label: 'Create a private message' },
+    { key: 'c', label: 'Create a chat room' },
     { key: 'n', label: 'New message' },
+    { key: 'Del', label: 'Delete a message' },
     { key: 'Enter', label: 'Go to chat page' },
     { key: 'Ctrl+Enter', label: 'Send post' }
   ],
