@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="row">
+		<div class="row" :key="$route.fullPath">
 			<div class="col-md-4 order-md-2">
         <h1>
           {{$metaInfo.title}}
@@ -167,7 +167,14 @@ export default {
     setTimeout(() => {
       this.markAsRead()
     }, 1000)
-    this.$emit('updateNav', this.isPM)
+  },
+  watch: {
+    '$route.fullPath': {
+      handler() {
+        this.$emit('updateNav', this.isPM)
+      },
+      immediate: true
+    }
   },
   methods: {
     cancelSubscribe(bool) {
