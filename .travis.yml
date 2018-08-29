@@ -29,13 +29,6 @@ before_script: greenkeeper-lockfile-update
 script: yarn test
 after_script: greenkeeper-lockfile-upload
 
-# create version tag
-before_deploy:
-  - git config --local user.name "sunya9"
-  - git config --local user.email "mugen.xyz@gmail.com"
-  - VERSION=`$TRAVIS_PULL_REQUEST_BRANCH | awk -F- '{print $2}'` # release-x.x.x => x.x.x
-  - yarn version --new-version $VERSION
-
 deploy:
   provider: releases
   api_key:
