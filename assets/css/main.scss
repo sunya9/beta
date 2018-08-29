@@ -122,7 +122,6 @@ body.dark {
   .modal-footer {
     border-top-color: #0b0b0b;
   }
-  .nav-item:first-child .nav-link,
   .nav-item:first-child button {
     border-left-color: #202020;
   }
@@ -243,6 +242,23 @@ body.dark {
   .matching-hr span {
     background-color: #252525;
     border-color: rgba(0, 0, 0, .3);
+  }
+  .nav-tabs {
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .nav-tabs .nav-link {
+    border: 1px solid transparent;
+  }
+  .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
+    border-color: #1d1d1d #1d1d1d #1a1a1a;
+  }
+  .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #fff;
+    background-color: #242424;
+    border-color: #1a1a1a #1a1a1a #242424;
+  }
+  .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color: #242424;
   }
   
   /* poll input */

@@ -10,7 +10,7 @@
           </li>
           <li class="nav-item">
             <nuxt-link to="/messages?public" class="nav-link" :class="{ active: isPM === false }">
-              Public Rooms
+              Chat Rooms
             </nuxt-link>
           </li>
         </ul>
