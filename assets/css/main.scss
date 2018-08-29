@@ -260,6 +260,9 @@ body.dark {
   .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     background-color: #242424;
   }
+  .message:focus .balloon[data-v-7e490608] {
+    color: #000;
+  }
   
   /* poll input */
   .handle {
