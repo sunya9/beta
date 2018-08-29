@@ -87,11 +87,11 @@ export default {
   mounted() {
     $(this.$el).on('hidden.bs.modal', () => this.hidden())
     $(this.$el).on('shown.bs.modal', () => this.setFocus())
-    bus.$on('showPostModal', this.showModal)
+    bus.$on('showMessageModal', this.showModal)
   },
   computed: {},
   beforeDestroy() {
-    bus.$off('showPostModal', this.showModal)
+    bus.$off('showMessageModal', this.showModal)
   },
   methods: {
     hidden() {
