@@ -94,7 +94,7 @@ export default {
   },
   head() {
     return {
-      title: this.isPrivate ? 'Messages' : 'Public Rooms'
+      title: this.isPrivate ? 'Messages' : 'Chat Rooms'
     }
   }
 }
