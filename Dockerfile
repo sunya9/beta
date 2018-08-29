@@ -10,6 +10,7 @@ RUN yarn
 
 COPY . /usr/src/app
 
+ENV CLIENT_ID pJ2VRJzLBwBitL6ZJoiXOLeamCxRs8Bw
 RUN yarn run build
 EXPOSE 3000
 
