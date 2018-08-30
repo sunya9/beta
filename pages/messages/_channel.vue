@@ -2,7 +2,7 @@
 	<div>
 		<div class="row" :key="$route.fullPath">
 			<div class="col-md-4 order-md-2">
-        <h1>
+        <h1 v-emojify>
           {{$metaInfo.title}}
           <button v-if="!isPM && isModerator" class="btn btn-link mr-2" type="button" @click.stop.prevent="channelEditModal">
             <i class="fa fa-pencil-square-o"></i>
