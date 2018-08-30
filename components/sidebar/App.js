@@ -86,7 +86,7 @@ export default {
         icon: 'fa-info-circle'
       },
       {
-        label: 'Beta on Github',
+        label: 'Beta on GitHub',
         url: 'https://github.com/sunya9/beta',
         normal: true,
         icon: 'fa-github'
