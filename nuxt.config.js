@@ -215,11 +215,6 @@ module.exports = {
         method: 'GET'
       },
       {
-        urlPattern: '/proxy/*',
-        handler: 'networkFirst',
-        method: 'GET'
-      },
-      {
         urlPattern: 'https://.*.cloudfront.net/*',
         handler: 'cacheFirst',
         method: 'GET'
