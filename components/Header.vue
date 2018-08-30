@@ -102,10 +102,10 @@
           </li>
         </ul>
       </div>
-      <div class="container">
+      <div class="container d-md-none">
         <app-sidebar
           id="globalNavigation"
-          class="collapse scrollable d-md-none w-100"
+          class="collapse scrollable w-100"
           :style="{
             'max-height': collapseHeight
           }"
