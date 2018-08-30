@@ -22,7 +22,7 @@
           <template v-else>
             <i v-if="data.acl.read.public" class="fa fa-globe fa-fw" aria-hidden="true"></i>
             <i v-else class="fa fa-users fa-fw" aria-hidden="true"></i>
-            {{chat.name}}
+            <span v-emojify>{{chat.name}}</span>
             <small class="text-muted">
               {{chat.description}}
             </small>
