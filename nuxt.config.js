@@ -207,7 +207,7 @@ module.exports = {
     duration: 5000
   },
   workbox: {
-    dev: true,
+    dev: process.env.NODE_ENV !== 'production',
     runtimeCaching: [
       {
         urlPattern: 'https://twemoji.maxcdn.com/*',
