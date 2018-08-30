@@ -262,5 +262,10 @@ module.exports = {
       callback: '/callback',
       login: '/'
     }
+  },
+  render: {
+    http2: {
+      push: true
+    }
   }
 }
