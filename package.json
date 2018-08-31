@@ -10,7 +10,7 @@
     "build": "cross-env NODE_ENV=production nuxt build",
     "start": "cross-env NODE_ENV=production nuxt start",
     "precommit": "lint-staged",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "eslint --ext .js,.vue .",
     "lint:fix": "eslint --ext .js,.vue --fix .",
     "test": "npm run test:karma",
     "test:karma": "karma start --single-run"
