@@ -12,7 +12,10 @@
         </div>
         <div class="col-md-4">
           <h4>Clients</h4>
-          <p class="display-4">{{counts.clients.created}}</p>
+          <p class="display-4 mb-0">
+            {{counts.clients.created}}
+          </p>
+          <p class="text-muted">Public: {{counts.clients.public}}</p>
         </div>
         <div class="col-md-4">
           <h4>Days</h4>

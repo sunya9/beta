@@ -82,7 +82,7 @@
                         <template v-if="!viewOnly && user">
                             <li class="list-inline-item reply">
                                 <a class="text-muted" href="#" @click.stop.prevent="replyModal">
-                                    <i class="fa fa-reply-all"></i>
+                                    <i class="fa fa-reply"></i>
                                     Reply
                                 </a>
                             </li>
