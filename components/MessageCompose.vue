@@ -1,55 +1,104 @@
 <template>
-	<div class="card mb-4 compose">
-		<div class="card-body">
-			<form @submit.prevent="submit">
-				<div class="form-group" v-if="createChannelMode">
+  <div class="card mb-4 compose">
+    <div class="card-body">
+      <form @submit.prevent="submit">
+        <div
+          v-if="createChannelMode"
+          class="form-group">
           <div :class="{'d-flex justify-content-between align-items-center': calcPmLookup}">
-  					<input type="text" v-model="channelUsersStr" class="form-control" placeholder="usernames (comma or space delimited)" @input="resetPmSearch" />
-            <button v-if="calcPmLookup" type="button" class="ml-3 btn text-uppercase btn-primary" :disabled="pmLookupStatus" @click="findExistingPm">
+            <input
+              v-model="channelUsersStr"
+              type="text"
+              class="form-control"
+              placeholder="usernames (comma or space delimited)"
+              @input="resetPmSearch" >
+            <button
+              v-if="calcPmLookup"
+              :disabled="pmLookupStatus"
+              type="button"
+              class="ml-3 btn text-uppercase btn-primary"
+              @click="findExistingPm">
               <span v-show="promise">
-                <i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
+                <i class="fa fa-refresh fa-spin fa-fw"/>&nbsp;
               </span>
-              <i class="fa fa-search"></i>
-              {{pmLookupStatus ? pmLookupStatus : 'Find Existing'}}
+              <i class="fa fa-search"/>
+              {{ pmLookupStatus ? pmLookupStatus : 'Find Existing' }}
             </button>
           </div>
-				</div>
-				<div class="form-group">
-					<textarea class="form-control" v-model="text" @keydown.ctrl.enter="submit" @keydown.meta.enter="submit" :disabled="promise" ref="textarea">
-					</textarea>
-				</div>
-        <div class="form-group" v-show="photos.length">
-          <transition-group tag="div" name="photos" class="d-flex flex-wrap justify-content align-items-center">
-            <thumb :key="photo.data" v-for="(photo, i) in previewPhotos" :original="photo.data" :thumb="photo.data" removable class="mr-2" @remove="photos.splice(i, 1)" />
+        </div>
+        <div class="form-group">
+          <textarea
+            ref="textarea"
+            v-model="text"
+            :disabled="promise"
+            class="form-control"
+            @keydown.ctrl.enter="submit"
+            @keydown.meta.enter="submit"/>
+        </div>
+        <div
+          v-show="photos.length"
+          class="form-group">
+          <transition-group
+            tag="div"
+            name="photos"
+            class="d-flex flex-wrap justify-content align-items-center">
+            <thumb
+              v-for="(photo, i) in previewPhotos"
+              :key="photo.data"
+              :original="photo.data"
+              :thumb="photo.data"
+              removable
+              class="mr-2"
+              @remove="photos.splice(i, 1)" />
           </transition-group>
         </div>
-				<div class="d-flex justify-content-between align-items-center">
-					<span data-test-id="message-counter">{{remain}}</span>
+        <div class="d-flex justify-content-between align-items-center">
+          <span data-test-id="message-counter">{{ remain }}</span>
           <div>
-            <label v-show="!noPhoto" v-if="storage.available" class="btn btn-link text-dark add-photo mr-3" :disabled="promise">
-              <i class="fa fa-picture-o"></i>
+            <label
+              v-show="!noPhoto"
+              v-if="storage.available"
+              :disabled="promise"
+              class="btn btn-link text-dark add-photo mr-3">
+              <i class="fa fa-picture-o"/>
               <span class="d-none d-sm-inline ml-2">Photo</span>
-              <input type="file" multiple accept="image/*" @change="fileChange" style="display: none" ref="file">
+              <input
+                ref="file"
+                type="file"
+                multiple
+                accept="image/*"
+                style="display: none"
+                @change="fileChange">
             </label>
-            <button class="btn btn-link add-spoiler mr-3" type="button" @click="toggleSpoiler" :class="{
-                  'text-dark': !hasSpoiler,
-                  'btn-primary': hasSpoiler
-                }">
-              <i class="fa fa-bell-o"></i>
+            <button
+              :class="{
+                'text-dark': !hasSpoiler,
+                'btn-primary': hasSpoiler
+              }"
+              class="btn btn-link add-spoiler mr-3"
+              type="button"
+              @click="toggleSpoiler">
+              <i class="fa fa-bell-o"/>
               <span class="d-none d-sm-inline ml-2">Spoiler</span>
             </button>
-  					<button type="submit" class="ml-1 btn text-uppercase btn-primary" :disabled="calcDisabled">
-  						<span v-show="promise && !calcPmLookup">
-  							<i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
-  						</span>
-  						Send
-  					</button>
+            <button
+              :disabled="calcDisabled"
+              type="submit"
+              class="ml-1 btn text-uppercase btn-primary">
+              <span v-show="promise && !calcPmLookup">
+                <i class="fa fa-refresh fa-spin fa-fw"/>&nbsp;
+              </span>
+              Send
+            </button>
           </div>
-				</div>
-        <input-spoiler @update:spoiler="p => spoiler = p" v-if="spoiler" class="mt-3" />
-			</form>
-		</div>
-	</div>
+        </div>
+        <input-spoiler
+          v-if="spoiler"
+          class="mt-3"
+          @update:spoiler="p => spoiler = p" />
+      </form>
+    </div>
+  </div>
 </template>
 <script>
 import textCount from '~/assets/js/text-count'
@@ -59,13 +108,20 @@ import InputSpoiler from '~/components/InputSpoiler'
 import Mousetrap from '~/plugins/mousetrap'
 
 export default {
+  components: {
+    Thumb,
+    InputSpoiler
+  },
   mixins: [textCount],
   props: {
     createChannelMode: {
       type: Boolean,
       default: false
     },
-    noPhoto: Boolean
+    noPhoto: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -76,21 +132,6 @@ export default {
       previewPhotos: [],
       spoiler: null,
       pmLookupStatus: null
-    }
-  },
-  watch: {
-    async photos() {
-      const promisePhotos = this.photos.map(file => {
-        return new Promise(resolve => {
-          const fr = new FileReader()
-          fr.readAsDataURL(file)
-          fr.onload = e => {
-            file.data = e.target.result
-            resolve(file)
-          }
-        })
-      })
-      this.previewPhotos = await Promise.all(promisePhotos)
     }
   },
   computed: {
@@ -125,6 +166,21 @@ export default {
       )
     },
     ...mapGetters(['storage'])
+  },
+  watch: {
+    async photos() {
+      const promisePhotos = this.photos.map(file => {
+        return new Promise(resolve => {
+          const fr = new FileReader()
+          fr.readAsDataURL(file)
+          fr.onload = e => {
+            file.data = e.target.result
+            resolve(file)
+          }
+        })
+      })
+      this.previewPhotos = await Promise.all(promisePhotos)
+    }
   },
   mounted() {
     Mousetrap.bind('n', e => {
@@ -261,10 +317,6 @@ export default {
       // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
       this.$refs.file.value = ''
     }
-  },
-  components: {
-    Thumb,
-    InputSpoiler
   }
 }
 

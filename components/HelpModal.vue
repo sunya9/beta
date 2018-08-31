@@ -1,12 +1,23 @@
 <template>
-  <div id="help-modal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+  <div
+    id="help-modal"
+    class="modal fade"
+    role="dialog"
+    tabindex="-1"
+    aria-hidden="true">
+    <div
+      class="modal-dialog modal-lg"
+      role="document">
       <div class="modal-content" >
         <div class="modal-header">
           <h5 class="modal-title">
             Keyboard shortcuts
           </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -39,6 +50,9 @@ import KeySets from './KeySets'
 import { underMessages } from '~/assets/js/util'
 
 export default {
+  components: {
+    KeySets
+  },
   mixins: [underMessages],
   streamActions: [
     { key: 'n', label: 'New post' },
@@ -74,19 +88,19 @@ export default {
     { key: ['g', 't'], label: 'Trending' },
     { key: ['g', 'g'], label: 'Global' }
   ],
-  mounted() {
-    $(this.$el).on('hidden.bs.modal', this.hidden)
-    bus.$on('showHelpModal', this.showModal)
-  },
-  beforeDestroy() {
-    bus.$off('showHelpModal', this.showModal)
-  },
   computed: {
     actions() {
       return this.underMessages
         ? this.$options.messageActions
         : this.$options.streamActions
     }
+  },
+  mounted() {
+    $(this.$el).on('hidden.bs.modal', this.hidden)
+    bus.$on('showHelpModal', this.showModal)
+  },
+  beforeDestroy() {
+    bus.$off('showHelpModal', this.showModal)
   },
   methods: {
     showModal() {
@@ -98,9 +112,6 @@ export default {
     hidden() {
       Mousetrap.unpause()
     }
-  },
-  components: {
-    KeySets
   }
 }
 </script>

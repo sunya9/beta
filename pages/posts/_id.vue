@@ -1,6 +1,13 @@
 <template>
   <div>
-    <list :main="id" all :data="data" :option="option" type="Post" :key="`post-${id}`" :auto-refresh="false" />
+    <list
+      :main="id"
+      :data="data"
+      :option="option"
+      :key="`post-${id}`"
+      :auto-refresh="false"
+      all
+      type="Post" />
   </div>
 </template>
 
@@ -35,16 +42,16 @@ export default {
   validate({ params }) {
     return /^\w+$/.test(params.name) && /\d+$/.test(params.id)
   },
+  components: {
+    Post,
+    Compose,
+    List
+  },
   mounted() {
     bus.$on('post', this.addAfter)
   },
   beforeDestroy() {
     bus.$off('post', this.addAfter)
-  },
-  components: {
-    Post,
-    Compose,
-    List
   },
   methods: {
     addAfter() {

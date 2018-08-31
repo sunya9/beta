@@ -1,38 +1,72 @@
 <template>
-	<span class="apply-pre" v-if="hasEntities && !deleted">
+  <span
+    v-if="hasEntities && !deleted"
+    class="apply-pre">
     <template v-if="spoiler && !showSpoiler">
-      <button class="btn btn-link mr-3 btn-primary" type="button" @click="toggleSpoiler">
+      <button
+        class="btn btn-link mr-3 btn-primary"
+        type="button"
+        @click="toggleSpoiler">
         <span class="d-sm-inline ml-2">Show Spoiler:
-          <span v-emojify>{{spoiler.topic}}</span>
+          <span v-emojify>{{ spoiler.topic }}</span>
         </span>
       </button>
     </template>
-		<template v-else-if="!longpost || !showLongpost">
+    <template v-else-if="!longpost || !showLongpost">
       <template v-for="(entity, i) in entities">
-  			<nuxt-link v-emojify :to="`/@${entity.text}`" v-if="entity.type === 'mentions'" :key="`mention-${i}`">@{{entity.text}}</nuxt-link>
-  			<nuxt-link v-emojify :to="`/tags/${entity.text}`" v-else-if="entity.type === 'tags'" :key="`tags-${i}`">#{{entity.text}}</nuxt-link>
-  			<a :href="entity.link" target="_new" v-emojify v-else-if="entity.type === 'links'" :key="`links-${i}`">{{unicodeSubstring(entity.text, 0, entity.len)}}</a>
-  			<span v-else v-emojify :key="`text-${i}`">{{entity.text}}</span>
+        <nuxt-link
+          v-emojify
+          v-if="entity.type === 'mentions'"
+          :to="`/@${entity.text}`"
+          :key="`mention-${i}`">@{{ entity.text }}</nuxt-link>
+        <nuxt-link
+          v-emojify
+          v-else-if="entity.type === 'tags'"
+          :to="`/tags/${entity.text}`"
+          :key="`tags-${i}`">#{{ entity.text }}</nuxt-link>
+        <a
+          v-emojify
+          v-else-if="entity.type === 'links'"
+          :href="entity.link"
+          :key="`links-${i}`"
+          target="_new">{{ unicodeSubstring(entity.text, 0, entity.len) }}</a>
+        <span
+          v-emojify
+          v-else
+          :key="`text-${i}`">{{ entity.text }}</span>
       </template>
       <template v-if="longpost">
-        <button class="btn btn-link mr-3 btn-primary" style="margin-top:.8em;display:block" type="button" @click="toggleLongpost">
-          <i class="fa fa-plus" aria-hidden="true"></i> Expand Post
+        <button
+          class="btn btn-link mr-3 btn-primary"
+          style="margin-top:.8em;display:block"
+          type="button"
+          @click="toggleLongpost">
+          <i
+            class="fa fa-plus"
+            aria-hidden="true"/> Expand Post
         </button>
       </template>
-		</template>
+    </template>
     <template v-else>
-      <h5 v-if="longpost.title" v-emojify>{{longpost.title}}</h5>
-      <span v-emojify>{{longpost.body}}</span>
+      <h5
+        v-emojify
+        v-if="longpost.title">{{ longpost.title }}</h5>
+      <span v-emojify>{{ longpost.body }}</span>
       <div style="margin-top:.8em">
-        <button class="btn btn-link mr-3 btn-primary" type="button" @click="toggleLongpost">
-          <i class="fa fa-minus" aria-hidden="true"></i> Collapse Post
+        <button
+          class="btn btn-link mr-3 btn-primary"
+          type="button"
+          @click="toggleLongpost">
+          <i
+            class="fa fa-minus"
+            aria-hidden="true"/> Collapse Post
         </button>
       </div>
     </template>
-	</span>
-	<span v-else>
-		<slot />
-	</span>
+  </span>
+  <span v-else>
+    <slot />
+  </span>
 </template>
 <script>
 import unicodeSubstring from 'unicode-substring'
@@ -47,8 +81,14 @@ export default {
       type: Boolean,
       default: false
     },
-    spoiler: Object,
-    longpost: Object
+    spoiler: {
+      type: Object,
+      default: null
+    },
+    longpost: {
+      type: Object,
+      default: null
+    }
   },
   data() {
     return {

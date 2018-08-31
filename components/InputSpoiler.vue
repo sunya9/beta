@@ -2,7 +2,11 @@
   <div>
     <div class="form-group">
       <h5>Spoiler Alert</h5>
-      <input type="text" v-model="spoiler.topic" placeholder="Topic" class="form-control"
+      <input
+        v-model="spoiler.topic"
+        type="text"
+        placeholder="Topic"
+        class="form-control"
         pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,128}"
         title="Up to 128 characters"
       >

@@ -1,21 +1,36 @@
 <template>
-	<div class="row">
+  <div class="row">
     <div class="col-md-8">
-      <h2 class="h4">Create a {{isPrivate ? 'private message' : 'chat room'}}</h2>
+      <h2 class="h4">Create a {{ isPrivate ? 'private message' : 'chat room' }}</h2>
       <div>
-        <message-compose create-channel-mode v-if="isPrivate" />
+        <message-compose
+          v-if="isPrivate"
+          create-channel-mode />
         <channel-compose v-else />
       </div>
-      <h2 class="h4">{{isPrivate ? 'Messages' :  'Chat rooms'}}</h2>
-      <ul class="nav nav-pills my-3" v-if="isPublic">
+      <h2 class="h4">{{ isPrivate ? 'Messages' : 'Chat rooms' }}</h2>
+      <ul
+        v-if="isPublic"
+        class="nav nav-pills my-3">
         <li class="nav-item">
-          <nuxt-link class="nav-link" to="/messages?public" exact>Subscribed</nuxt-link>
+          <nuxt-link
+            class="nav-link"
+            to="/messages?public"
+            exact>Subscribed</nuxt-link>
         </li>
         <li class="nav-item">
-          <nuxt-link class="nav-link" to="/messages?public&amp;all">All</nuxt-link>
+          <nuxt-link
+            class="nav-link"
+            to="/messages?public&amp;all">All</nuxt-link>
         </li>
       </ul>
-      <list :data="data" type="Channel" :key="JSON.stringify({ resource, option })" :option="option" ref="list" :resource="resource" />
+      <list
+        ref="list"
+        :data="data"
+        :key="JSON.stringify({ resource, option })"
+        :option="option"
+        :resource="resource"
+        type="Channel" />
     </div>
   </div>
 </template>
@@ -76,16 +91,16 @@ export default {
     MessageCompose,
     ChannelCompose
   },
+  computed: {
+    isPublic() {
+      return !this.isPrivate
+    }
+  },
   mounted() {
     bus.$on('channel', this.add)
   },
   beforeDestroy() {
     bus.$off('channel', this.add)
-  },
-  computed: {
-    isPublic() {
-      return !this.isPrivate
-    }
   },
   methods: {
     add() {

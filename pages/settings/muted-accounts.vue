@@ -1,7 +1,10 @@
 <template>
-	<div>
-		<list :data="data" type="User" :component-options="options" />
-	</div>
+  <div>
+    <list
+      :data="data"
+      :component-options="options"
+      type="User" />
+  </div>
 </template>
 <script>
 import List from '~/components/List'
@@ -13,6 +16,9 @@ export default {
       data
     }
   },
+  components: {
+    List
+  },
   data() {
     return {
       options: {
@@ -20,9 +26,6 @@ export default {
         showUnmuteButton: true
       }
     }
-  },
-  components: {
-    List
   },
   head() {
     return {

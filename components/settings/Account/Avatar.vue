@@ -7,21 +7,24 @@
     <div class="col-ms-12 col-md-9">
       <div class="form-group">
         <img
-          :src="internalAvatar.link" ref="avatar_image" width="128" height="128"
+          ref="avatar_image"
+          :src="internalAvatar.link"
+          width="128"
+          height="128"
           alt="avatar image">
       </div>
       <div class="form-group">
         <input
+          ref="avatarFileInput"
           type="file"
-          @change="avatarChanged"
           accept="image/*"
           style="display: none"
-          ref="avatarFileInput">
+          @change="avatarChanged">
         <button
-          type="button"
-          @click="changeAvatar"
           :disabled="promise"
-          class="btn btn-outline-secondary">
+          type="button"
+          class="btn btn-outline-secondary"
+          @click="changeAvatar">
           Change avatar
         </button>
       </div>

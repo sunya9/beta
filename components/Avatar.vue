@@ -1,7 +1,12 @@
 <template>
-	<img :src="src" :class="{
-    'rounded-circle': !isSquare
-  }" :width="size" :height="size" v-bind="$attrs" />
+  <img
+    :src="src"
+    :class="{
+      'rounded-circle': !isSquare
+    }"
+    :width="size"
+    :height="size"
+    v-bind="$attrs" >
 </template>
 
 <script>
@@ -34,9 +39,6 @@ export default {
       isSquare: false
     }
   },
-  mounted() {
-    this.isSquare = localStorage.getItem('square_avatars') === 'true'
-  },
   computed: {
     url() {
       return typeof this.avatar === 'string' ? this.avatar : this.avatar.link
@@ -46,6 +48,9 @@ export default {
       if (this.maxSize > 0) src += `?w=${this.maxSize}`
       return src
     }
+  },
+  mounted() {
+    this.isSquare = localStorage.getItem('square_avatars') === 'true'
   }
 }
 </script>

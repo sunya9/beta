@@ -1,13 +1,24 @@
 <template>
   <div>
     <div>
-      <profile :initial-profile.sync="profile" v-if="profile" class="mb-4" />
+      <profile
+        v-if="profile"
+        :initial-profile.sync="profile"
+        class="mb-4" />
     </div>
     <div>
-      <compose :initial-text="initialText" :key="`${name}-compose`" />
+      <compose
+        :initial-text="initialText"
+        :key="`${name}-compose`" />
     </div>
     <div>
-      <list :data="data" v-if="!blocked" type="Post" :key="`${name}-posts`" :option="option" ref="list" />
+      <list
+        v-if="!blocked"
+        ref="list"
+        :data="data"
+        :key="`${name}-posts`"
+        :option="option"
+        type="Post" />
     </div>
   </div>
 </template>
@@ -21,6 +32,11 @@ import { mapGetters } from 'vuex'
 import { getTitle } from '~/assets/js/util'
 
 export default {
+  components: {
+    Profile,
+    Compose,
+    List
+  },
   async asyncData(ctx) {
     const {
       params,
@@ -80,11 +96,6 @@ export default {
     add() {
       this.$refs.list.refresh()
     }
-  },
-  components: {
-    Profile,
-    Compose,
-    List
   },
   head() {
     const title = getTitle(this.profile)

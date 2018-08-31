@@ -1,17 +1,32 @@
 <template>
-  <div id="message-modal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content" v-if="show">
+  <div
+    id="message-modal"
+    class="modal fade"
+    role="dialog"
+    tabindex="-1"
+    aria-hidden="true">
+    <div
+      class="modal-dialog"
+      role="document">
+      <div
+        v-if="show"
+        class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
             Create a room
           </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <ul class="nav nav-tabs" role="tablist">
+          <ul
+            class="nav nav-tabs"
+            role="tablist">
             <li class="nav-item">
               <a
                 id="create-private-room-tab-label"
@@ -42,8 +57,8 @@
         </div>
         <div class="tab-content">
           <div
-            class="tab-pane fade show active"
             id="create-private-room-tab"
+            class="tab-pane fade show active"
             role="tabpanel"
             aria-labelledby="create-private-room-tab-label"
           >
@@ -55,8 +70,8 @@
             />
           </div>
           <div
-            class="tab-pane fade"
             id="create-public-room-tab"
+            class="tab-pane fade"
             role="tabpanel"
             aria-labelledby="create-public-room-tab-label"
           >
@@ -79,17 +94,21 @@ import MessageCompose from '~/components/MessageCompose'
 import ChannelCompose from '~/components/ChannelCompose'
 
 export default {
+  components: {
+    MessageCompose,
+    ChannelCompose
+  },
   data() {
     return {
       show: false
     }
   },
+  computed: {},
   mounted() {
     $(this.$el).on('hidden.bs.modal', () => this.hidden())
     $(this.$el).on('shown.bs.modal', () => this.setFocus())
     bus.$on('showMessageModal', this.showModal)
   },
-  computed: {},
   beforeDestroy() {
     bus.$off('showMessageModal', this.showModal)
   },
@@ -120,10 +139,6 @@ export default {
         $(this.$el).modal('hide')
       }
     }
-  },
-  components: {
-    MessageCompose,
-    ChannelCompose
   }
 }
 </script>

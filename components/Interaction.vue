@@ -1,46 +1,68 @@
 <template>
-  <li @focus="focus" tabindex="-1" class="list-group-item list-group-item-action" @click="$emit('click')">
+  <li
+    tabindex="-1"
+    class="list-group-item list-group-item-action"
+    @focus="focus"
+    @click="$emit('click')">
     <div class="media pt-2 w-100">
       <div class="d-inline-block mr-4 text-muted">
-        <i :class="icon" class="fa fa-fw fa-2x"></i>
+        <i
+          :class="icon"
+          class="fa fa-fw fa-2x"/>
       </div>
       <div class="media-body">
         <h6 class="text-gray-dark">
           <ul class="list-inline">
-            <li :key="user.id" v-if="user.content" class="list-inline-item" v-for="user in filteredUsers">
+            <li
+              v-for="user in filteredUsers"
+              v-if="user.content"
+              :key="user.id"
+              class="list-inline-item">
               <nuxt-link :to="`@${user.username}`">
                 <avatar
                   :avatar="user.content.avatar_image"
                   size="32"
-                  max-Size="64"
+                  max-size="64"
                 />
               </nuxt-link>
             </li>
           </ul>
         </h6>
         <div class="my-3">
-          <nuxt-link v-if="post" :to="`@${action.objects[0].user.username}/posts/${action.objects[0].id}`">
+          <nuxt-link
+            v-if="post"
+            :to="`@${action.objects[0].user.username}/posts/${action.objects[0].id}`">
             This post
           </nuxt-link>
-          {{actionBy}}
+          {{ actionBy }}
           <ul class="list-inline d-inline">
-            <li class="list-inline-item" :key="user.id" v-for="(user, i) in filteredUsers">
+            <li
+              v-for="(user, i) in filteredUsers"
+              :key="user.id"
+              class="list-inline-item">
               <nuxt-link :to="`@${user.username}`">
-                @{{user.username}}
+                @{{ user.username }}
                 <span v-if="i < filteredUsers.length - 1">, </span>
               </nuxt-link>
             </li>
           </ul>.
           <ul class="list-group">
-            <post class="mt-3" :data="post" view-only preview v-if="post" />
+            <post
+              v-if="post"
+              :data="post"
+              class="mt-3"
+              view-only
+              preview />
           </ul>
         </div>
         <footer>
           <ul class="list-inline">
             <li class="list-inline-item">
-              <span class="text-muted" :title="absDate">
-                <i class="fa fa-clock-o"></i>
-                {{date}}
+              <span
+                :title="absDate"
+                class="text-muted">
+                <i class="fa fa-clock-o"/>
+                {{ date }}
               </span>
             </li>
           </ul>
@@ -76,8 +98,17 @@ const convert = {
 }
 
 export default {
+  components: {
+    Post,
+    Avatar
+  },
   mixins: [focus, listItem],
-  props: ['data'],
+  props: {
+    data: {
+      type: Object,
+      default: () => ({})
+    }
+  },
   dateKey: 'action.event_date',
   computed: {
     action() {
@@ -105,10 +136,6 @@ export default {
         return !ary.slice(0, i).some(user2 => user.id === user2.id)
       })
     }
-  },
-  components: {
-    Post,
-    Avatar
   }
 }
 </script>

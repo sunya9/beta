@@ -1,6 +1,8 @@
 <template>
   <div>
-    <list :data="data" type="User" />
+    <list
+      :data="data"
+      type="User" />
   </div>
 </template>
 <script>

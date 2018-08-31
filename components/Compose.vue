@@ -1,64 +1,136 @@
 <template>
-	<div :class="{'mb-4 compose': !compact}" v-if="user">
-		<div class="card" :class="{'border-0': compact}">
-			<form class="card-body" :class="{'p-0': compact}" @submit.prevent="submit">
-				<div class="form-group relative">
-					<textarea class="form-control textarea" @keydown.ctrl.enter="submit" @keydown.meta.enter="submit" v-model="text" ref="textarea" @submit="submit" :disabled="!!promise" />
-					<a href="#" class="open-emoji-picker text-dark" @click.prevent.stop="toggleEmojiPalette">
-						<i class="fa fa-lg fa-smile-o"></i>
-					</a>
-					<no-ssr>
-						<picker ref="picker" :background-image-fn="getSheet" set="twitter" class="emoji-picker" @select="addEmoji" v-show="showEmojiPicker" v-on-click-outside="closeEmojiPalette" />
-					</no-ssr>
-				</div>
-				<div class="form-group" v-show="photos.length">
-					<transition-group tag="div" name="photos" class="d-flex flex-wrap justify-content align-items-center">
-						<thumb :key="photo.data" v-for="(photo, i) in previewPhotos" :original="photo.data" :thumb="photo.data" removable class="mr-2" @remove="photos.splice(i, 1)" />
-					</transition-group>
-				</div>
-				<div class="d-flex justify-content-between align-items-center">
-					<strong class="text-muted" data-test-id="post-counter">{{postCounter}}</strong>
-					<div>
-            <label v-show="!noPhoto" v-if="storage.available" class="btn btn-link text-dark add-photo mr-2" :disabled="promise">
-              <i class="fa fa-picture-o"></i>
+  <div
+    v-if="user"
+    :class="{'mb-4 compose': !compact}">
+    <div
+      :class="{'border-0': compact}"
+      class="card">
+      <form
+        :class="{'p-0': compact}"
+        class="card-body"
+        @submit.prevent="submit">
+        <div class="form-group relative">
+          <textarea
+            ref="textarea"
+            v-model="text"
+            :disabled="!!promise"
+            class="form-control textarea"
+            @keydown.ctrl.enter="submit"
+            @keydown.meta.enter="submit"
+            @submit="submit" />
+          <a
+            href="#"
+            class="open-emoji-picker text-dark"
+            @click.prevent.stop="toggleEmojiPalette">
+            <i class="fa fa-lg fa-smile-o"/>
+          </a>
+          <no-ssr>
+            <picker
+              v-on-click-outside="closeEmojiPalette"
+              v-show="showEmojiPicker"
+              ref="picker"
+              :background-image-fn="getSheet"
+              set="twitter"
+              class="emoji-picker"
+              @select="addEmoji" />
+          </no-ssr>
+        </div>
+        <div
+          v-show="photos.length"
+          class="form-group">
+          <transition-group
+            tag="div"
+            name="photos"
+            class="d-flex flex-wrap justify-content align-items-center">
+            <thumb
+              v-for="(photo, i) in previewPhotos"
+              :key="photo.data"
+              :original="photo.data"
+              :thumb="photo.data"
+              removable
+              class="mr-2"
+              @remove="photos.splice(i, 1)" />
+          </transition-group>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <strong
+            class="text-muted"
+            data-test-id="post-counter">{{ postCounter }}</strong>
+          <div>
+            <label
+              v-show="!noPhoto"
+              v-if="storage.available"
+              :disabled="promise"
+              class="btn btn-link text-dark add-photo mr-2">
+              <i class="fa fa-picture-o"/>
               <span class="d-none d-sm-inline ml-2">Photo</span>
-              <input type="file" multiple accept="image/*" @change="fileChange" style="display: none" ref="file">
+              <input
+                ref="file"
+                type="file"
+                multiple
+                accept="image/*"
+                style="display: none"
+                @change="fileChange">
             </label>
-						<button class="btn btn-link add-poll mr-2" type="button" @click="togglePoll" :class="{
-                  'text-dark': !hasPoll,
-                  'btn-primary': hasPoll
-                }">
-							<i class="fa fa-bar-chart"></i>
-							<span class="d-none d-sm-inline ml-2">Poll</span>
-						</button>
-            <button class="btn btn-link add-spoiler mr-2" type="button" @click="toggleSpoiler" :class="{
-                  'text-dark': !hasSpoiler,
-                  'btn-primary': hasSpoiler
-                }">
-              <i class="fa fa-bell-o"></i>
+            <button
+              :class="{
+                'text-dark': !hasPoll,
+                'btn-primary': hasPoll
+              }"
+              class="btn btn-link add-poll mr-2"
+              type="button"
+              @click="togglePoll">
+              <i class="fa fa-bar-chart"/>
+              <span class="d-none d-sm-inline ml-2">Poll</span>
+            </button>
+            <button
+              :class="{
+                'text-dark': !hasSpoiler,
+                'btn-primary': hasSpoiler
+              }"
+              class="btn btn-link add-spoiler mr-2"
+              type="button"
+              @click="toggleSpoiler">
+              <i class="fa fa-bell-o"/>
               <span class="d-none d-sm-inline ml-2">Spoiler</span>
             </button>
-            <button class="btn btn-link add-longpost mr-2" type="button" @click="toggleLongpost" :class="{
-                  'text-dark': !hasLongpost,
-                  'btn-primary': hasLongpost
-                }">
-              <i class="fa fa-plus"></i>
+            <button
+              :class="{
+                'text-dark': !hasLongpost,
+                'btn-primary': hasLongpost
+              }"
+              class="btn btn-link add-longpost mr-2"
+              type="button"
+              @click="toggleLongpost">
+              <i class="fa fa-plus"/>
               <span class="d-none d-sm-inline ml-2">Long</span>
             </button>
-						<button type="submit" class="ml-1 btn btn-primary text-uppercase" :disabled="disabled">
-							<span v-show="promise">
-								<i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
-							</span>
-							Post
-						</button>
-					</div>
-				</div>
-				<input-poll @update:poll="p => poll = p" v-if="poll" class="mt-3" />
-        <input-spoiler @update:spoiler="p => spoiler = p" v-if="spoiler" class="mt-3" />
-        <input-longpost @update:longpost="p => longpost = p" v-if="longpost" class="mt-3" />
-			</form>
-		</div>
-	</div>
+            <button
+              :disabled="disabled"
+              type="submit"
+              class="ml-1 btn btn-primary text-uppercase">
+              <span v-show="promise">
+                <i class="fa fa-refresh fa-spin fa-fw"/>&nbsp;
+              </span>
+              Post
+            </button>
+          </div>
+        </div>
+        <input-poll
+          v-if="poll"
+          class="mt-3"
+          @update:poll="p => poll = p" />
+        <input-spoiler
+          v-if="spoiler"
+          class="mt-3"
+          @update:spoiler="p => spoiler = p" />
+        <input-longpost
+          v-if="longpost"
+          class="mt-3"
+          @update:longpost="p => longpost = p" />
+      </form>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -74,17 +146,40 @@ import InputLongpost from '~/components/InputLongpost'
 import textCount from '~/assets/js/text-count'
 
 export default {
+  components: {
+    Post,
+    Thumb,
+    Picker,
+    InputPoll,
+    InputSpoiler,
+    InputLongpost
+  },
   mixins: [textCount],
   props: {
     initialText: {
       type: String,
       default: ''
     },
-    focus: null,
-    replyTarget: Object,
-    replyAll: Boolean,
-    noPhoto: Boolean,
-    compact: Boolean
+    focus: {
+      type: null,
+      default: null
+    },
+    replyTarget: {
+      type: Object,
+      default: null
+    },
+    replyAll: {
+      type: Boolean,
+      default: false
+    },
+    noPhoto: {
+      type: Boolean,
+      default: false
+    },
+    compact: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -99,22 +194,6 @@ export default {
       longpost: null
     }
   },
-  watch: {
-    async photos() {
-      const promisePhotos = this.photos.map(file => {
-        return new Promise(resolve => {
-          const fr = new FileReader()
-          fr.readAsDataURL(file)
-          fr.onload = e => {
-            file.data = e.target.result
-            resolve(file)
-          }
-        })
-      })
-      this.previewPhotos = await Promise.all(promisePhotos)
-    }
-  },
-
   computed: {
     hasPoll() {
       return this.poll
@@ -174,6 +253,22 @@ export default {
     },
     ...mapGetters(['user', 'storage'])
   },
+  watch: {
+    async photos() {
+      const promisePhotos = this.photos.map(file => {
+        return new Promise(resolve => {
+          const fr = new FileReader()
+          fr.readAsDataURL(file)
+          fr.onload = e => {
+            file.data = e.target.result
+            resolve(file)
+          }
+        })
+      })
+      this.previewPhotos = await Promise.all(promisePhotos)
+    }
+  },
+
   created() {
     this.text = this.initialText
   },
@@ -394,14 +489,6 @@ export default {
     closeEmojiPalette() {
       this.showEmojiPicker = false
     }
-  },
-  components: {
-    Post,
-    Thumb,
-    Picker,
-    InputPoll,
-    InputSpoiler,
-    InputLongpost
   }
 }
 

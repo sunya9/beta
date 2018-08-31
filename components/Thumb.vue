@@ -1,19 +1,28 @@
 <template>
-  <div class="root d-flex justify-content-center align-items-center"
+  <div
     :class="{
       'img-thumbnail': !noBorder
     }"
     :style="style"
-    >
+    class="root d-flex justify-content-center align-items-center"
+  >
     <div>
       <a :href="original">
         <slot>
-          <img :src="thumb" :data-original="original" :data-original-width="originalWidth" :data-original-height="originalHeight" alt="" class="thumb">
+          <img
+            :src="thumb"
+            :data-original="original"
+            :data-original-width="originalWidth"
+            :data-original-height="originalHeight"
+            alt=""
+            class="thumb">
         </slot>
       </a>
-      <a @click.prevent="remove"
-        v-if="removable" class="remove">
-        <i class="fa fa-times"></i>
+      <a
+        v-if="removable"
+        class="remove"
+        @click.prevent="remove">
+        <i class="fa fa-times"/>
       </a>
     </div>
   </div>
@@ -22,12 +31,30 @@
 <script>
 export default {
   props: {
-    original: String,
-    thumb: String,
-    originalWidth: Number,
-    originalHeight: Number,
-    removable: Boolean,
-    noBorder: Boolean,
+    original: {
+      type: String,
+      default: ''
+    },
+    thumb: {
+      type: String,
+      default: ''
+    },
+    originalWidth: {
+      type: Number,
+      default: 0
+    },
+    originalHeight: {
+      type: Number,
+      default: 0
+    },
+    removable: {
+      type: Boolean,
+      default: false
+    },
+    noBorder: {
+      type: Boolean,
+      default: false
+    },
     width: {
       type: Number,
       default: 96
@@ -39,6 +66,20 @@ export default {
     zoomingOptions: {
       type: Object,
       default: () => ({})
+    }
+  },
+  computed: {
+    normalizeOriginal() {
+      return this.original.replace(/^https?:/, '')
+    },
+    normalizeThumb() {
+      return this.thumb.replace(/^https?:/, '')
+    },
+    style() {
+      const style = {}
+      if (this.height > 0) style['max-height'] = `${this.height}px`
+      if (this.width > 0) style['max-width'] = `${this.width}px`
+      return style
     }
   },
   mounted() {
@@ -66,20 +107,6 @@ export default {
     }
     const zooming = new Zooming(option)
     zooming.listen(img)
-  },
-  computed: {
-    normalizeOriginal() {
-      return this.original.replace(/^https?:/, '')
-    },
-    normalizeThumb() {
-      return this.thumb.replace(/^https?:/, '')
-    },
-    style() {
-      const style = {}
-      if (this.height > 0) style['max-height'] = `${this.height}px`
-      if (this.width > 0) style['max-width'] = `${this.width}px`
-      return style
-    }
   },
   methods: {
     remove() {

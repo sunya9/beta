@@ -2,12 +2,16 @@
   <div class="d-flex justify-content-center align-items-center">
     <div>
       <slot>
-        <strong>{{title}}</strong>
-        <audio controls :src="url">Your browser does not support the <code>audio</code> element.</audio>
+        <strong>{{ title }}</strong>
+        <audio
+          :src="url"
+          controls>Your browser does not support the <code>audio</code> element.</audio>
       </slot>
-      <a @click.prevent="remove"
-        v-if="removable" class="remove">
-        <i class="fa fa-times"></i>
+      <a
+        v-if="removable"
+        class="remove"
+        @click.prevent="remove">
+        <i class="fa fa-times"/>
       </a>
     </div>
   </div>
@@ -16,9 +20,18 @@
 <script>
 export default {
   props: {
-    url: String,
-    title: String,
-    removable: Boolean
+    url: {
+      type: String,
+      default: ''
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    removable: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     remove() {

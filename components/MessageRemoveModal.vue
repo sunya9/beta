@@ -1,28 +1,48 @@
 <template>
-  <div id="remove-modal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+  <div
+    id="remove-modal"
+    class="modal fade"
+    role="dialog"
+    tabindex="-1"
+    aria-hidden="true">
+    <div
+      class="modal-dialog"
+      role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
             Remove message?
           </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <p>Do you want to remove this message?</p>
           <ul class="list-unstyled">
-            <message :data="vm.message" :display-full-view="true" v-if="vm" view-only />
+            <message
+              v-if="vm"
+              :data="vm.message"
+              :display-full-view="true"
+              view-only />
           </ul>
         </div>
         <div class="modal-footer">
-          <button type="button" tabindex="1" class="btn btn-secondary" data-dismiss="modal" ref="cancelButton">Cancel</button>
+          <button
+            ref="cancelButton"
+            type="button"
+            tabindex="1"
+            class="btn btn-secondary"
+            data-dismiss="modal">Cancel</button>
           <button
             class="btn btn-primary"
-            @click="ok"
             tabindex="2"
-            data-dismiss="modal">OK</button>
+            data-dismiss="modal"
+            @click="ok">OK</button>
         </div>
       </div>
     </div>
@@ -36,6 +56,9 @@ import Message from '~/components/Message'
 import Mousetrap from '~/plugins/mousetrap'
 
 export default {
+  components: {
+    Message
+  },
   data() {
     return {
       vm: null
@@ -72,9 +95,6 @@ export default {
         $(this.$el).modal('hide')
       }
     }
-  },
-  components: {
-    Message
   }
 }
 </script>

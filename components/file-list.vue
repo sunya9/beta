@@ -4,8 +4,11 @@
     infinite-scroll-disabled="moreDisabled"
     infinite-scroll-distance="100">
     <div class="d-flex mb-2">
-      <button class="ml-auto btn btn-danger" @click="showModal" :disabled="!isSelected">
-        <i class="fa fa-trash"></i>
+      <button
+        :disabled="!isSelected"
+        class="ml-auto btn btn-danger"
+        @click="showModal">
+        <i class="fa fa-trash"/>
         Delete
       </button>
     </div>
@@ -14,10 +17,10 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th></th>
+            <th/>
             <th>name</th>
             <th>created at</th>
-            <th></th>
+            <th/>
           </tr>
         </thead>
         <tbody>
@@ -29,14 +32,25 @@
       </table>
     </div>
 
-    <div id="delete-file-modal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+    <div
+      id="delete-file-modal"
+      class="modal fade"
+      role="dialog"
+      tabindex="-1"
+      aria-hidden="true">
+      <div
+        class="modal-dialog"
+        role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">
               Are you sure?
             </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -46,8 +60,15 @@
             </p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="deleteFiles">OK</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal">Cancel</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-dismiss="modal"
+              @click="deleteFiles">OK</button>
           </div>
         </div>
       </div>
@@ -60,9 +81,14 @@ import FileRow from '~/components/file-row'
 import $ from 'jquery'
 
 export default {
-  props: ['data'],
   components: {
     FileRow
+  },
+  props: {
+    data: {
+      type: Object,
+      default: () => ({})
+    }
   },
   data() {
     return {
@@ -71,9 +97,6 @@ export default {
       files: this.data.data,
       modal: null
     }
-  },
-  mounted() {
-    this.modal = $('#delete-file-modal')
   },
   computed: {
     isSelected() {
@@ -91,6 +114,9 @@ export default {
         return file
       })
     }
+  },
+  mounted() {
+    this.modal = $('#delete-file-modal')
   },
   methods: {
     async fetchMore() {

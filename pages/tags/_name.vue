@@ -1,8 +1,15 @@
 <template>
   <div>
-    <h3 v-emojify>#{{name}}</h3>
-    <a class="card-link" :href="'https://api.pnut.io/v0/feed/rss/posts/tags/' + name"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
-    <list :data="data" type="Post" :key="name" />
+    <h3 v-emojify>#{{ name }}</h3>
+    <a
+      :href="'https://api.pnut.io/v0/feed/rss/posts/tags/' + name"
+      class="card-link"><i
+        class="fa fa-rss-square"
+        aria-hidden="true"/> RSS</a>
+    <list
+      :data="data"
+      :key="name"
+      type="Post" />
   </div>
 </template>
 

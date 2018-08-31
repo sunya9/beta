@@ -1,22 +1,34 @@
 <template>
-  <div id="wrapper" class="wrapper mb-3" :style="`margin-top: 48px`">
+  <div
+    id="wrapper"
+    :style="`margin-top: 48px`"
+    class="wrapper mb-3">
     <app-header ref="header">
-      <jumbotron v-if="searchPage" slot="jumbotron" class="jumbotron" />
+      <jumbotron
+        v-if="searchPage"
+        slot="jumbotron"
+        class="jumbotron" />
     </app-header>
     <main class="container main">
       <div>
-        <splash v-if="!user" class="mb-5" />
+        <splash
+          v-if="!user"
+          class="mb-5" />
       </div>
       <div class="row">
         <div
           v-if="!notLoginIndex"
           :class="{
-             'col-md-4 col-lg-3': !notLoginIndex,
-          }">
+            'col-md-4 col-lg-3': !notLoginIndex,
+        }">
           <div class="navbar navbar-light p-0">
             <div class="d-md-block collapse navbar-collapse">
-              <transition name="slide" mode="out-in">
-                <component :is="sidebar" ref="sidebar" />
+              <transition
+                name="slide"
+                mode="out-in">
+                <component
+                  ref="sidebar"
+                  :is="sidebar" />
               </transition>
             </div>
           </div>
@@ -27,22 +39,28 @@
           }"
           class="col-12">
           <h3
-            class="d-flex align-items-center mb-0"
             v-if="!notLoginIndex"
             :class="{
               'justify-content-between mb-4': selectedDropdownItem,
               'justify-content-end': !selectedDropdownItem
             }"
+            class="d-flex align-items-center mb-0"
           >
-            <div class="d-flex align-items-center" v-if="selectedDropdownItem">
+            <div
+              v-if="selectedDropdownItem"
+              class="d-flex align-items-center">
               <div
                 class="d-block bg-primary text-center rounded-circle text-white border-white mr-1 icon">
-                <i class="fa fa-fw" :class="selectedDropdownItem.icon"></i>
+                <i
+                  :class="selectedDropdownItem.icon"
+                  class="fa fa-fw"/>
               </div>
-              {{selectedDropdownItem.label}}
+              {{ selectedDropdownItem.label }}
             </div>
 
-            <div class="ml-3 d-md-none h4 mb-1 mt-1" v-if="sidebar && !isAppSidebar">
+            <div
+              v-if="sidebar && !isAppSidebar"
+              class="ml-3 d-md-none h4 mb-1 mt-1">
               <a
                 data-toggle="collapse"
                 data-target="#navbarSupportedContent"
@@ -51,11 +69,16 @@
                 aria-label="Toggle local navigation"
                 href="#"
               >
-                <i class="fa fa-bars fa-lg"></i>
+                <i class="fa fa-bars fa-lg"/>
               </a>
             </div>
           </h3>
-          <component :is="sidebar" v-if="!isAppSidebar" id="navbarSupportedContent" class="collapse" narrow />
+          <component
+            v-if="!isAppSidebar"
+            id="navbarSupportedContent"
+            :is="sidebar"
+            class="collapse"
+            narrow />
           <div>
             <nuxt />
           </div>
@@ -100,8 +123,6 @@ import Vue from 'vue'
 import { underMessages } from '~/assets/js/util'
 
 export default {
-  mixins: [underMessages],
-  props: ['error'],
   components: {
     AppHeader,
     Splash,
@@ -119,11 +140,11 @@ export default {
     SearchSidebar,
     Jumbotron
   },
-  watch: {
-    '$route.fullPath'() {
-      this.$refs.removeModal.dismiss()
-      this.$refs.postModal.dismiss()
-      $('#sidebarContent').collapse('hide')
+  mixins: [underMessages],
+  props: {
+    error: {
+      type: null,
+      default: null
     }
   },
   data() {
@@ -131,7 +152,6 @@ export default {
       bodyClass: ''
     }
   },
-
   computed: {
     isAppSidebar() {
       return this.sidebarName === 'AppSidebar'
@@ -177,6 +197,14 @@ export default {
     },
     ...mapGetters(['user'])
   },
+  watch: {
+    '$route.fullPath'() {
+      this.$refs.removeModal.dismiss()
+      this.$refs.postModal.dismiss()
+      $('#sidebarContent').collapse('hide')
+    }
+  },
+
   mounted() {
     // dark theme
     if (process.browser) {

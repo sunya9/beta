@@ -1,26 +1,45 @@
 <template>
-  <div id="remove-modal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+  <div
+    id="remove-modal"
+    class="modal fade"
+    role="dialog"
+    tabindex="-1"
+    aria-hidden="true">
+    <div
+      class="modal-dialog"
+      role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
             Remove post?
           </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <p>Do you want to remove this post?</p>
-          <post :data="vm.post" v-if="vm" view-only />
+          <post
+            v-if="vm"
+            :data="vm.post"
+            view-only />
         </div>
         <div class="modal-footer">
-          <button type="button" tabindex="1" class="btn btn-secondary" data-dismiss="modal" ref="cancelButton">Cancel</button>
+          <button
+            ref="cancelButton"
+            type="button"
+            tabindex="1"
+            class="btn btn-secondary"
+            data-dismiss="modal">Cancel</button>
           <button
             class="btn btn-primary"
-            @click="ok"
             tabindex="2"
-            data-dismiss="modal">OK</button>
+            data-dismiss="modal"
+            @click="ok">OK</button>
         </div>
       </div>
     </div>
@@ -34,6 +53,9 @@ import Post from '~/components/Post'
 import Mousetrap from '~/plugins/mousetrap'
 
 export default {
+  components: {
+    Post
+  },
   data() {
     return {
       vm: null
@@ -66,11 +88,10 @@ export default {
       this.vm = null
     },
     dismiss() {
-      if ($(this.$el).hasClass('show')) { $(this.$el).modal('hide') }
+      if ($(this.$el).hasClass('show')) {
+        $(this.$el).modal('hide')
+      }
     }
-  },
-  components: {
-    Post
   }
 }
 </script>

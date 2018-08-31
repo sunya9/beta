@@ -2,11 +2,13 @@
   <div>
     <h3>
       <nuxt-link to=".">
-        @{{name}}
+        @{{ name }}
       </nuxt-link>
       's Starred
     </h3>
-    <list :data="data" type="Post" />
+    <list
+      :data="data"
+      type="Post" />
   </div>
 </template>
 
@@ -15,7 +17,11 @@ import List from '~/components/List'
 
 export default {
   async asyncData(ctx) {
-    const { params, app: { $resource }, error } = ctx
+    const {
+      params,
+      app: { $resource },
+      error
+    } = ctx
     const { name } = params
     try {
       const data = await $resource()

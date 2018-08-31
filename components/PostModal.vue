@@ -1,12 +1,25 @@
 <template>
-  <div id="reply-modal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content" v-if="show">
+  <div
+    id="reply-modal"
+    class="modal fade"
+    role="dialog"
+    tabindex="-1"
+    aria-hidden="true">
+    <div
+      class="modal-dialog"
+      role="document">
+      <div
+        v-if="show"
+        class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
-            {{title}}
+            {{ title }}
           </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -14,19 +27,19 @@
           <div>
             <ul class="list-group">
               <post
-                view-only
-                :data="reply"
                 v-if="reply"
+                :data="reply"
+                view-only
                 class="post px-0" />
             </ul>
           </div>
           <div>
             <compose
-              :reply-target="reply"
               ref="compose"
-              @post="dismiss"
+              :reply-target="reply"
               compact
-               />
+              @post="dismiss"
+            />
           </div>
         </div>
       </div>
@@ -42,17 +55,15 @@ import bus from '~/assets/js/bus'
 import Mousetrap from 'mousetrap'
 
 export default {
+  components: {
+    Post,
+    Compose
+  },
   data() {
     return {
       show: false,
       reply: null
     }
-  },
-  mounted() {
-    $(this.$el).on('hide.bs.modal', this.hide)
-    $(this.$el).on('hidden.bs.modal', this.hidden)
-    $(this.$el).on('shown.bs.modal', () => this.$refs.compose.setFocus())
-    bus.$on('showPostModal', this.showModal)
   },
   computed: {
     title() {
@@ -60,6 +71,12 @@ export default {
         ? `Reply to @${this.reply.user.username}`
         : 'Compose new post'
     }
+  },
+  mounted() {
+    $(this.$el).on('hide.bs.modal', this.hide)
+    $(this.$el).on('hidden.bs.modal', this.hidden)
+    $(this.$el).on('shown.bs.modal', () => this.$refs.compose.setFocus())
+    bus.$on('showPostModal', this.showModal)
   },
   beforeDestroy() {
     bus.$off('showPostModal', this.showModal)
@@ -83,10 +100,6 @@ export default {
         $(this.$el).modal('hide')
       }
     }
-  },
-  components: {
-    Post,
-    Compose
   }
 }
 </script>

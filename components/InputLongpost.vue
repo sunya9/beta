@@ -4,15 +4,22 @@
       <h5>Long Post <small>(tags and usernames ignored)</small></h5>
 
       <div class="form-group">
-        <input type="text" v-model="longpost.title" placeholder="Optional Title" class="form-control"
+        <input
+          v-model="longpost.title"
+          type="text"
+          placeholder="Optional Title"
+          class="form-control"
           pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,128}"
           title="Up to 128 characters"
         >
       </div>
 
       <div class="form-group">
-        <textarea class="form-control" v-model="longpost.body" placeholder="Body (~6000 characters)" maxlength="6144">
-        </textarea>
+        <textarea
+          v-model="longpost.body"
+          class="form-control"
+          placeholder="Body (~6000 characters)"
+          maxlength="6144"/>
       </div>
     </div>
   </div>

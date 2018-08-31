@@ -1,62 +1,93 @@
 <template>
   <header>
     <nav class="navbar navbar-light navbar fixed-top px-0">
-      <div class="container" @click.self="scrollToTop">
-        <button class="navbar-toggler mr-2 d-md-none align-items-stretch" type="button" data-toggle="collapse" data-target="#globalNavigation" aria-controls="globalNavigation" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+      <div
+        class="container"
+        @click.self="scrollToTop">
+        <button
+          class="navbar-toggler mr-2 d-md-none align-items-stretch"
+          type="button"
+          data-toggle="collapse"
+          data-target="#globalNavigation"
+          aria-controls="globalNavigation"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"/>
         </button>
-        <nuxt-link class="p-0 navbar-brand text-uppercase d-inline-flex align-items-center" to="/" exact>
-          <img src="~assets/img/beta.svg" width="32" height="32" alt="β" class="align-center mr-2 d-inline-block">
+        <nuxt-link
+          class="p-0 navbar-brand text-uppercase d-inline-flex align-items-center"
+          to="/"
+          exact>
+          <img
+            src="~assets/img/beta.svg"
+            width="32"
+            height="32"
+            alt="β"
+            class="align-center mr-2 d-inline-block">
           <span class="d-none d-sm-inline header-title">
             Beta
           </span>
         </nuxt-link>
         <span class="navbar-text mr-auto">
-          <a href="#" v-if="!online" class="badge badge-secondary" @click="showConnection">offline</a>
+          <a
+            v-if="!online"
+            href="#"
+            class="badge badge-secondary"
+            @click="showConnection">offline</a>
         </span>
-        <search-form v-if="user" id="search-form" class="mr-md-4 order-4 order-md-1" />
+        <search-form
+          v-if="user"
+          id="search-form"
+          class="mr-md-4 order-4 order-md-1" />
         <ul class="order-2 navbar-nav d-flex flex-row align-items-stretch">
           <nuxt-link
+            v-if="user"
+            id="nav-messages"
             to="/messages"
             tag="li"
             class="nav-item d-none d-sm-block"
-            v-if="user"
-            id="nav-messages"
             title="Messages">
             <a class="nav-link">
-              <i class="fa fa-envelope"></i>
+              <i class="fa fa-envelope"/>
             </a>
           </nuxt-link>
           <nuxt-link
-            class="nav-item d-none d-sm-block"
+            v-if="user"
             id="nav-files"
+            class="nav-item d-none d-sm-block"
             title="Files"
             tag="li"
-            v-if="user"
             to="/files"
           >
             <a class="nav-link">
-              <i class="fa fa-database fa-lg"></i>
+              <i class="fa fa-database fa-lg"/>
             </a>
           </nuxt-link>
-          <li class="nav-item dropdown" id="user-menu" v-if="user">
+          <li
+            v-if="user"
+            id="user-menu"
+            class="nav-item dropdown">
             <a
+              id="navbarDropdownMenuLink"
               href="#"
               class="nav-link text-primary"
-              id="navbarDropdownMenuLink"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false">
               <span>
-                <span class="d-none d-sm-inline">{{user.username}}</span>
+                <span class="d-none d-sm-inline">{{ user.username }}</span>
                 <span class="d-inline d-sm-none">
-                  <avatar :avatar="{ link: `https://api.pnut.io/v0/users/@${user.username}/avatar` }"
-                    :size="16" :max-size="16" />
+                  <avatar
+                    :avatar="{ link: `https://api.pnut.io/v0/users/@${user.username}/avatar` }"
+                    :size="16"
+                    :max-size="16" />
                 </span>
               </span>
-              <i class="fa fa-chevron-down ml-2"></i>
+              <i class="fa fa-chevron-down ml-2"/>
             </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+            <div
+              class="dropdown-menu dropdown-menu-right"
+              aria-labelledby="navbarDropdownMenuLink">
               <nuxt-link
                 :to="`/@${user.username}`"
                 data-toggle="collapse"
@@ -64,9 +95,9 @@
                 active-class=""
               >
                 <span class="d-none d-sm-inline">Profile</span>
-                <span class="d-inline d-sm-none">@{{user.username}}</span>
+                <span class="d-inline d-sm-none">@{{ user.username }}</span>
               </nuxt-link>
-              <div class="dropdown-divider d-sm-none"></div>
+              <div class="dropdown-divider d-sm-none"/>
               <nuxt-link
                 to="/messages"
                 class="dropdown-item d-sm-none"
@@ -79,7 +110,7 @@
               >
                 Files
               </nuxt-link>
-              <div class="dropdown-divider"></div>
+              <div class="dropdown-divider"/>
               <nuxt-link
                 data-toggle="collapse"
                 to="/settings"
@@ -88,28 +119,42 @@
               >
                 Settings
               </nuxt-link>
-              <div class="dropdown-divider"></div>
-              <a href="#" @click="$auth.logout()" class="dropdown-item">Log out</a>
+              <div class="dropdown-divider"/>
+              <a
+                href="#"
+                class="dropdown-item"
+                @click="$auth.logout()">Log out</a>
             </div>
           </li>
-          <li id="nav-compose" class="nav-item d-sm-block" v-if="user">
-            <a href="#" @click.prevent="showPostModal" class="nav-link">
-              <i class="fa fa-pencil"></i>
+          <li
+            v-if="user"
+            id="nav-compose"
+            class="nav-item d-sm-block">
+            <a
+              href="#"
+              class="nav-link"
+              @click.prevent="showPostModal">
+              <i class="fa fa-pencil"/>
             </a>
           </li>
-          <li class="nav-item" v-if="!user">
-            <a href="#" @click="$auth.loginWith('pnut')" class="nav-link">Log in</a>
+          <li
+            v-if="!user"
+            class="nav-item">
+            <a
+              href="#"
+              class="nav-link"
+              @click="$auth.loginWith('pnut')">Log in</a>
           </li>
         </ul>
       </div>
       <div class="container d-md-none">
         <app-sidebar
           id="globalNavigation"
-          class="collapse scrollable w-100"
           :style="{
             'max-height': collapseHeight
           }"
-          />
+          class="collapse scrollable w-100"
+        />
       </div>
     </nav>
     <slot name="jumbotron" />
@@ -126,13 +171,18 @@ import bus from '~/assets/js/bus'
 const networkEvents = ['online', 'offline']
 
 export default {
-  computed: mapGetters(['user']),
+  components: {
+    SearchForm,
+    AppSidebar,
+    Avatar
+  },
   data() {
     return {
       online: true,
       collapseHeight: 0
     }
   },
+  computed: mapGetters(['user']),
   mounted() {
     this.online = navigator.onLine
     networkEvents.forEach(event =>
@@ -160,11 +210,6 @@ export default {
     showPostModal() {
       bus.$emit('showPostModal')
     }
-  },
-  components: {
-    SearchForm,
-    AppSidebar,
-    Avatar
   }
 }
 </script>
