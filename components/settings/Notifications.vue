@@ -1,12 +1,20 @@
 <template>
   <div>
-    <custom-checkbox v-model="notification" :disabled="disabledNotification">
-      Enable notification <span :class="`text-${error.type}`" v-if="error">{{error.message}}</span>
+    <custom-checkbox
+      v-model="notification"
+      :disabled="disabledNotification">
+      Enable notification <span
+        v-if="error"
+        :class="`text-${error.type}`">{{ error.message }}</span>
     </custom-checkbox>
-    <custom-checkbox v-model="types.posts" :disabled="!notification">
+    <custom-checkbox
+      v-model="types.posts"
+      :disabled="!notification">
       New posts
     </custom-checkbox>
-    <custom-checkbox v-model="types.mentions" :disabled="!notification">
+    <custom-checkbox
+      v-model="types.mentions"
+      :disabled="!notification">
       New mentions
     </custom-checkbox>
   </div>
@@ -16,6 +24,9 @@
 import CustomCheckbox from '../CustomCheckbox'
 
 export default {
+  components: {
+    CustomCheckbox
+  },
   data() {
     return {
       notification: false,
@@ -26,12 +37,6 @@ export default {
       disabledNotification: false,
       error: null
     }
-  },
-  mounted() {
-    this.checkPermission()
-    Object.keys(this.types).forEach(key => {
-      this.types[key] = localStorage.getItem(`notification:${key}`) === 'true'
-    })
   },
   watch: {
     notification(newVal) {
@@ -46,6 +51,12 @@ export default {
     'types.mentions'(newVal) {
       localStorage.setItem('notification:mentions', newVal)
     }
+  },
+  mounted() {
+    this.checkPermission()
+    Object.keys(this.types).forEach(key => {
+      this.types[key] = localStorage.getItem(`notification:${key}`) === 'true'
+    })
   },
   methods: {
     checkPermission() {
@@ -67,9 +78,6 @@ export default {
         !this.disabledNotification &&
         localStorage.getItem('notification') === 'true'
     }
-  },
-  components: {
-    CustomCheckbox
   }
 }
 </script>

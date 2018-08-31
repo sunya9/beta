@@ -2,94 +2,131 @@
   <li
     tabindex="-1"
     class="message"
-    >
-    <div v-if="firstUnreadMessage" class="matching-hr">
-      <hr />
+  >
+    <div
+      v-if="firstUnreadMessage"
+      class="matching-hr">
+      <hr >
       <div>
         <span class="text-muted">Previously read</span>
       </div>
     </div>
-    <div class="media mb-2"
-    :class="{
-      'flex-row-reverse': me
-    }">
-      <nuxt-link :to="`/@${message.user.username}`" class="mt-4">
-        <avatar :avatar="message.user.content.avatar_image"
-          class="d-flex"
+    <div
+      :class="{
+        'flex-row-reverse': me
+      }"
+      class="media mb-2">
+      <nuxt-link
+        :to="`/@${message.user.username}`"
+        class="mt-4">
+        <avatar
+          :avatar="message.user.content.avatar_image"
           :class="{
             'mr-4': !me,
             'ml-4': me
           }"
           :alt="message.user.username"
+          class="d-flex"
           size="32"
           max-size="32"
         />
       </nuxt-link>
-      <div class="media-body"
-        >
-        <h6 class="mb-2"
-        :class="{
-          'text-right': me
-        }">
+      <div
+        class="media-body"
+      >
+        <h6
+          :class="{
+            'text-right': me
+          }"
+          class="mb-2">
           <nuxt-link :to="`/@${message.user.username}`">
-            {{message.user.username}}
+            {{ message.user.username }}
             <small class="text-muted">
-              {{message.user.name}}
+              {{ message.user.name }}
             </small>
           </nuxt-link>
         </h6>
-        <div class="d-flex flex-row"
-        :class="{
-          'justify-content-end': me,
-          'ml-5': me && !displayFullView,
-          'mr-5': !me && !displayFullView
-        }">
+        <div
+          :class="{
+            'justify-content-end': me,
+            'ml-5': me && !displayFullView,
+            'mr-5': !me && !displayFullView
+          }"
+          class="d-flex flex-row">
           <div
-            @click="clickMessage"
             :class="{
               'order-2': me,
-            }">
-            <div class="py-2 px-3 mb-1 balloon"
+            }"
+            @click="clickMessage">
+            <div
               :class="{
                 me: me,
                 other: !me
               }"
+              class="py-2 px-3 mb-1 balloon"
             >
-              <entity-text :content="message.content" :spoiler=spoiler>
-                <em>[Message deleted{{message.deleted_by ? ' by moderator' : ''}}]</em>
+              <entity-text
+                :content="message.content"
+                :spoiler="spoiler">
+                <em>[Message deleted{{ message.deleted_by ? ' by moderator' : '' }}]</em>
               </entity-text>
-              <div v-if="thumbs.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end" style="margin-top:.8em">
-                <thumb class="mx-1 mb-1 mb-lg-0" :original="t.original" :thumb="t.thumb" :originalWidth="t.width" :originalHeight="t.height" :key="i" v-for="(t, i) in thumbs" />
+              <div
+                v-if="thumbs.length"
+                class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
+                style="margin-top:.8em">
+                <thumb
+                  v-for="(t, i) in thumbs"
+                  :original="t.original"
+                  :thumb="t.thumb"
+                  :original-width="t.width"
+                  :original-height="t.height"
+                  :key="i"
+                  class="mx-1 mb-1 mb-lg-0" />
               </div>
-              <div v-if="clips.length" class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
-                <sound :url="t.url" :title="t.title" :key="i" v-for="(t, i) in clips" />
+              <div
+                v-if="clips.length"
+                class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
+                <sound
+                  v-for="(t, i) in clips"
+                  :url="t.url"
+                  :title="t.title"
+                  :key="i" />
               </div>
             </div>
             <footer>
               <ul class="list-inline">
                 <li class="list-inline-item">
-                  <a class="text-muted" v-if="canDelete" href="#" @click.stop.prevent="removeModal">
-                    <i class="fa fa-trash"></i>
+                  <a
+                    v-if="canDelete"
+                    class="text-muted"
+                    href="#"
+                    @click.stop.prevent="removeModal">
+                    <i class="fa fa-trash"/>
                     Remove
                   </a>
                 </li>
                 <li class="list-inline-item">
-                  <a class="text-muted" :href="message.source.link" target="_new">
-                    <i class="fa fa-send"></i>
-                    via {{message.source.name}}
+                  <a
+                    :href="message.source.link"
+                    class="text-muted"
+                    target="_new">
+                    <i class="fa fa-send"/>
+                    via {{ message.source.name }}
                   </a>
                 </li>
               </ul>
             </footer>
           </div>
           <div
-            class="align-self-end date-pos"
             :class="{
               'order-1 mr-2': me,
               'ml-2': !me
-            }">
-            <span class="text-muted text-nowrap" :title="absDate">
-              {{date}}
+            }"
+            class="align-self-end date-pos">
+            <span
+              :title="absDate"
+              class="text-muted text-nowrap">
+              {{ date }}
             </span>
           </div>
         </div>
@@ -108,14 +145,34 @@ import { getImageURLs, getAudio, getSpoiler } from '~/assets/js/util'
 import bus from '~/assets/js/bus'
 
 export default {
+  components: {
+    Avatar,
+    EntityText,
+    Thumb
+  },
   mixins: [listItem],
   dateKey: 'message.created_at',
   props: {
-    displayFullView: Boolean,
-    data: Object,
-    isModerator: Boolean,
-    channelType: String,
-    lastReadMessageId: String
+    displayFullView: {
+      type: Boolean,
+      default: false
+    },
+    data: {
+      type: Object,
+      default: () => ({})
+    },
+    isModerator: {
+      type: Boolean,
+      default: false
+    },
+    channelType: {
+      type: String,
+      default: ''
+    },
+    lastReadMessageId: {
+      type: String,
+      default: ''
+    }
   },
   computed: {
     me() {
@@ -160,11 +217,6 @@ export default {
           this.$toast.success('Deleted Message!')
         })
     }
-  },
-  components: {
-    Avatar,
-    EntityText,
-    Thumb
   }
 }
 </script>

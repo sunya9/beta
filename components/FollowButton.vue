@@ -1,10 +1,19 @@
 <template>
-	<button class="btn" :class="btnClass" @click="follow" :disabled="busy" v-if="!blocking">
-		{{text}}
-	</button>
-	<button class="btn btn-danger" v-else @click="unblock" :disabled="busy">
-		Unblock
-	</button>
+  <button
+    v-if="!blocking"
+    :class="btnClass"
+    :disabled="busy"
+    class="btn"
+    @click="follow">
+    {{ text }}
+  </button>
+  <button
+    v-else
+    :disabled="busy"
+    class="btn btn-danger"
+    @click="unblock">
+    Unblock
+  </button>
 </template>
 
 <script>

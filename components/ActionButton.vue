@@ -1,15 +1,20 @@
 <template>
   <div class="btn-group-toggle">
     <label
-      class="btn btn-link btn-lg my-0 py-1 mx-0 px-0 rounded-0"
       :class="{
         disabled: processing,
         'text-primary': checked,
         'text-secondary': !checked
       }"
+      class="btn btn-link btn-lg my-0 py-1 mx-0 px-0 rounded-0"
     >
-      <input type="checkbox" :checked="checked" @change="change($event.target.checked)">
-      <i :class="computedIcon" class="fa fa-lg fa-fw"></i>
+      <input
+        :checked="checked"
+        type="checkbox"
+        @change="change($event.target.checked)">
+      <i
+        :class="computedIcon"
+        class="fa fa-lg fa-fw"/>
     </label>
   </div>
 </template>
@@ -20,7 +25,10 @@ import actionable from '~/assets/js/actionable'
 export default {
   mixins: [actionable],
   props: {
-    icon: [Object, String, Array]
+    icon: {
+      type: [Object, String, Array],
+      default: ''
+    }
   },
   computed: {
     computedIcon() {

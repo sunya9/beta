@@ -4,30 +4,46 @@
       <form @submit.prevent="submit">
         <div class="form-group">
           <div class="form-group">
-            <input type="text" v-model="chat.name" placeholder="Name" class="form-control"
+            <input
+              v-model="chat.name"
+              :disabled="promise"
+              type="text"
+              placeholder="Name"
+              class="form-control"
               maxlength="128"
               title="Up to 128 characters"
-              :disabled="promise"
             >
           </div>
           <div class="form-group">
-            <textarea class="form-control" v-model="chat.description" placeholder="Room description" maxlength="256" title="Up to 256 characters" :disabled="promise">
-            </textarea>
+            <textarea
+              v-model="chat.description"
+              :disabled="promise"
+              class="form-control"
+              placeholder="Room description"
+              maxlength="256"
+              title="Up to 256 characters"/>
           </div>
           <div class="form-group">
-            <select class="form-control" v-model="chat.categories" multiple :disabled="promise">
+            <select
+              v-model="chat.categories"
+              :disabled="promise"
+              class="form-control"
+              multiple>
               <template v-for="i in ['general','fun','lifestyle','profession','language','community','tech','event']">
-                <option :key="i">{{i}}</option>
+                <option :key="i">{{ i }}</option>
               </template>
             </select>
           </div>
         </div>
         <div class="d-flex justify-content-between align-items-center">
-          <div></div>
+          <div/>
           <div>
-            <button type="submit" class="ml-1 btn text-uppercase btn-primary" :disabled="calcDisabled">
+            <button
+              :disabled="calcDisabled"
+              type="submit"
+              class="ml-1 btn text-uppercase btn-primary">
               <span v-show="promise">
-                <i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
+                <i class="fa fa-refresh fa-spin fa-fw"/>&nbsp;
               </span>
               Create
             </button>

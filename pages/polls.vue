@@ -1,10 +1,14 @@
 <template>
-	<div>
-		<h3 class="d-flex align-items-center mb-4">
-			Your polls
-		</h3>
-		<list :data="data" type="Poll" :option="option" ref="list" />
-	</div>
+  <div>
+    <h3 class="d-flex align-items-center mb-4">
+      Your polls
+    </h3>
+    <list
+      ref="list"
+      :data="data"
+      :option="option"
+      type="Poll" />
+  </div>
 </template>
 <script>
 import Compose from '~/components/Compose'

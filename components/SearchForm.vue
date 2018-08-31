@@ -1,10 +1,19 @@
 <template>
-	<form @submit.prevent="search" class="form-inline search-form d-inline-flex align-items-center">
-		<input type="search" class="form-control" placeholder="keyword search" v-model="text">
-		<button type="submit" class="btn btn-link text-dark" :disabled="!text">
-			<i class="fa fa-search"></i>
-		</button>
-	</form>
+  <form
+    class="form-inline search-form d-inline-flex align-items-center"
+    @submit.prevent="search">
+    <input
+      v-model="text"
+      type="search"
+      class="form-control"
+      placeholder="keyword search">
+    <button
+      :disabled="!text"
+      type="submit"
+      class="btn btn-link text-dark">
+      <i class="fa fa-search"/>
+    </button>
+  </form>
 </template>
 <script>
 export default {

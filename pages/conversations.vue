@@ -4,7 +4,11 @@
       <compose />
     </div>
     <div>
-      <list :data="data" type="Post" :option="option" ref="list" />
+      <list
+        ref="list"
+        :data="data"
+        :option="option"
+        type="Post" />
     </div>
   </div>
 </template>
@@ -22,6 +26,10 @@ export default {
     const data = await $resource(option)
     return { data, option }
   },
+  components: {
+    List,
+    Compose
+  },
   mounted() {
     bus.$on('post', this.add)
   },
@@ -32,10 +40,6 @@ export default {
     add() {
       this.$refs.list.refresh()
     }
-  },
-  components: {
-    List,
-    Compose
   },
   head() {
     return {

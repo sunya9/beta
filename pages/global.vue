@@ -4,7 +4,11 @@
       <compose />
     </div>
     <div>
-      <list :data="data" type="Post" :option="option" ref="list" />
+      <list
+        ref="list"
+        :data="data"
+        :option="option"
+        type="Post" />
     </div>
   </div>
 </template>

@@ -6,21 +6,26 @@
     </div>
     <div class="col-sm-12 col-md-9">
       <div class="form-group">
-        <img :src="internalCover.link" ref="cover_image" :width="internalCover.width" :height="internalCover.height"
-          alt="cover image" class="img-thumbnail">
+        <img
+          ref="cover_image"
+          :src="internalCover.link"
+          :width="internalCover.width"
+          :height="internalCover.height"
+          alt="cover image"
+          class="img-thumbnail">
       </div>
       <div class="form-group">
         <input
+          ref="coverFileInput"
           type="file"
           accept="image/*"
-          @change="coverChanged"
           style="display: none"
-          ref="coverFileInput">
+          @change="coverChanged">
         <button
-          type="button"
-          @click="changeCover"
           :disabled="promise"
-          class="btn btn-outline-secondary">
+          type="button"
+          class="btn btn-outline-secondary"
+          @click="changeCover">
           Change cover
         </button>
       </div>

@@ -6,14 +6,22 @@
     <p class="lead">
       {{ error.message }}
     </p>
-    <nuxt-link class="btn btn-primary" :to="error.home || '/'" v-if="error.statusCode">
+    <nuxt-link
+      v-if="error.statusCode"
+      :to="error.home || '/'"
+      class="btn btn-primary">
       Top
     </nuxt-link>
   </div>
 </template>
 <script>
 export default {
-  props: ['error'],
+  props: {
+    error: {
+      type: null,
+      default: null
+    }
+  },
   layout: 'no-sidebar'
 }
 </script>

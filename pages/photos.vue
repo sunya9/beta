@@ -4,7 +4,10 @@
       <compose />
     </div>
     <div>
-      <list :data="data" type="Post" ref="list" />
+      <list
+        ref="list"
+        :data="data"
+        type="Post" />
     </div>
   </div>
 </template>
@@ -19,6 +22,10 @@ export default {
     const data = await $resource()
     return { data }
   },
+  components: {
+    List,
+    Compose
+  },
   mounted() {
     bus.$on('post', this.add)
   },
@@ -29,10 +36,6 @@ export default {
     add() {
       this.$refs.list.refresh()
     }
-  },
-  components: {
-    List,
-    Compose
   },
   head() {
     return {

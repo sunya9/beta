@@ -1,11 +1,18 @@
 <template>
   <div>
-  <h1 class="h3">{{title}}</h1>
+    <h1 class="h3">{{ title }}</h1>
     <div v-if="!posted">
-      <compose @post="finishPosting" no-photo :initial-text="message" :focus="true" />
+      <compose
+        :initial-text="message"
+        :focus="true"
+        no-photo
+        @post="finishPosting" />
     </div>
     <div v-else>
-      <button class="btn btn-primary my-2" @click="close" autofocus>Close</button>
+      <button
+        class="btn btn-primary my-2"
+        autofocus
+        @click="close">Close</button>
     </div>
   </div>
 </template>
@@ -26,6 +33,9 @@ export default {
       posted: false
     }
   },
+  components: {
+    Compose
+  },
   computed: {
     title() {
       return !this.posted ? 'Share a link' : 'Shared link!'
@@ -38,9 +48,6 @@ export default {
     close() {
       window.close()
     }
-  },
-  components: {
-    Compose
   },
   head() {
     return {

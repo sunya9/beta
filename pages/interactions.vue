@@ -1,23 +1,44 @@
 <template>
   <div>
     <div class="d-flex justify-content-between flex-wrap">
-      <div class="btn-group" role="group" style="display: none">
+      <div
+        class="btn-group"
+        role="group"
+        style="display: none">
         <label class="btn btn-primary">
-          <input type="checkbox" class="sr-only" :class="active" value="reply"> Reply
+          <input
+            :class="active"
+            type="checkbox"
+            class="sr-only"
+            value="reply"> Reply
         </label>
         <label class="btn btn-primary">
-          <input type="checkbox" class="sr-only" :class="active" value="repost"> Repost
+          <input
+            :class="active"
+            type="checkbox"
+            class="sr-only"
+            value="repost"> Repost
         </label>
         <label class="btn btn-primary">
-          <input type="checkbox" class="sr-only" :class="active" value="bookmark"> Star
+          <input
+            :class="active"
+            type="checkbox"
+            class="sr-only"
+            value="bookmark"> Star
         </label>
         <label class="btn btn-primary">
-          <input type="checkbox" class="sr-only" :class="active" value="follow"> Follow
+          <input
+            :class="active"
+            type="checkbox"
+            class="sr-only"
+            value="follow"> Follow
         </label>
       </div>
     </div>
     <div>
-      <list :data="data" type="Interaction" />
+      <list
+        :data="data"
+        type="Interaction" />
     </div>
   </div>
 </template>
@@ -35,12 +56,12 @@ export default {
     const data = await $resource(option)
     return { data }
   },
-  methods: {
-    active() {}
-  },
   components: {
     List,
     Compose
+  },
+  methods: {
+    active() {}
   },
   head() {
     return {

@@ -5,7 +5,10 @@
         <compose />
       </div>
       <div>
-        <list :data="data" type="Post" ref="list" />
+        <list
+          ref="list"
+          :data="data"
+          type="Post" />
       </div>
     </div>
   </div>
@@ -29,13 +32,13 @@ export default {
       return { data }
     }
   },
+  computed: mapGetters(['user']),
   mounted() {
     bus.$on('post', this.add)
   },
   beforeDestroy() {
     bus.$off('post', this.add)
   },
-  computed: mapGetters(['user']),
   methods: {
     add() {
       this.$refs.list.refresh()

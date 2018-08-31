@@ -1,58 +1,68 @@
 <template>
   <div>
     <div class="list-group pb-3">
-      <template v-for="menu in menus" v-if="'hidden' in menu ? !menu.hidden : true">
+      <template
+        v-for="menu in menus"
+        v-if="'hidden' in menu ? !menu.hidden : true">
         <span
+          v-if="menu.type === 'heading'"
           :key="menu.label"
-          class="heading list-group-item pt-4 pl-0 border-left-0 border-top-0 h5 text-uppercase"
-          v-if="menu.type === 'heading'">
-          {{menu.label}}
+          class="heading list-group-item pt-4 pl-0 border-left-0 border-top-0 h5 text-uppercase">
+          {{ menu.label }}
         </span>
         <a
+          v-else-if="menu.normal && menu.url"
           :key="menu.label"
           :class="itemClass"
-          :href="menu.url"
-          v-else-if="menu.normal && menu.url">
-          <i class="fa fa-fw" :class="menu.icon"></i>&nbsp;
-          {{menu.label}} <i class="fa fa-external-link"></i>
+          :href="menu.url">
+          <i
+            :class="menu.icon"
+            class="fa fa-fw"/>&nbsp;
+          {{ menu.label }} <i class="fa fa-external-link"/>
         </a>
         <a
+          v-else-if="menu.click && menu.click"
           :key="menu.label"
-          href="#"
           :class="itemClass"
-          @click.prevent="menu.click"
-          v-else-if="menu.click && menu.click">
-          <i class="fa fa-fw" :class="menu.icon"></i>&nbsp;
-          {{menu.label}}
+          href="#"
+          @click.prevent="menu.click">
+          <i
+            :class="menu.icon"
+            class="fa fa-fw"/>&nbsp;
+          {{ menu.label }}
         </a>
         <nuxt-link
+          v-else
           :key="menu.label"
           :to="menu.url"
-          class="d-inline-flex justify-content-between flex-nowrap text-overflow"
           :class="[{
             active: menu.active && typeof menu.active === 'function'
               ? menu.active()
               : menu.active || active(menu.url)
           }, itemClass]"
-          exact
-          v-else>
+          class="d-inline-flex justify-content-between flex-nowrap text-overflow"
+          exact>
           <span>
-            <i class="fa fa-fw" :class="menu.icon"></i>&nbsp;
-            {{menu.label}}
+            <i
+              :class="menu.icon"
+              class="fa fa-fw"/>&nbsp;
+            {{ menu.label }}
             <!-- <span class="badge badge-important pull-right">{{ badge }}</span>-->
           </span>
           <span v-show="active(menu.url)">
-            <i class="fa fa-chevron-right"></i>
+            <i class="fa fa-chevron-right"/>
           </span>
         </nuxt-link>
       </template>
     </div>
-    <div class="pb-3" v-if="$options.name === 'AppSidebar'">
+    <div
+      v-if="$options.name === 'AppSidebar'"
+      class="pb-3">
       <a
-        class="text-muted"
         :href="`${npm_package_homepage}/releases/tag/v${npm_package_version}`"
+        class="text-muted"
         target="_new">
-        <small>{{npm_package_version}} last modified: {{last_modified}}</small>
+        <small>{{ npm_package_version }} last modified: {{ last_modified }}</small>
       </a>
     </div>
   </div>
@@ -63,7 +73,10 @@ import { mapGetters } from 'vuex'
 import moment from 'moment'
 export default {
   props: {
-    narrow: Boolean
+    narrow: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     // Vue might recgnize process.env as strings and replace.

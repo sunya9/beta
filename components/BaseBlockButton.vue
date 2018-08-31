@@ -1,7 +1,7 @@
 <template>
-	<span>
-		<slot :toggle-block="toggleBlock" />
-	</span>
+  <span>
+    <slot :toggle-block="toggleBlock" />
+  </span>
 </template>
 <script>
 export default {

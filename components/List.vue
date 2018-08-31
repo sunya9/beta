@@ -1,29 +1,53 @@
 <template>
-	<ul v-if="items.length" v-infinite-scroll="fetchMore" infinite-scroll-disabled="moreDisabled" infinite-scroll-distance="100" ref="list" :class="{
-       'list-group mb-4': type !== 'Message',
-       'list-unstyled': type === 'Message'
-    }">
-		<component :is="type" :key="id(item)" v-for="(item, index) in items" v-if="showItem(item)" :data="item" :isModerator="isModerator" :channelType="channelType" :lastReadMessageId="lastReadMessageId" @update:data="data => $set(items, index, data)" class="item" @click="select = index" :class="[{
+  <ul
+    v-infinite-scroll="fetchMore"
+    v-if="items.length"
+    ref="list"
+    :class="{
+      'list-group mb-4': type !== 'Message',
+      'list-unstyled': type === 'Message'
+    }"
+    infinite-scroll-disabled="moreDisabled"
+    infinite-scroll-distance="100">
+    <component
+      v-for="(item, index) in items"
+      v-if="showItem(item)"
+      :is="type"
+      :key="id(item)"
+      :data="item"
+      :is-moderator="isModerator"
+      :channel-type="channelType"
+      :last-read-message-id="lastReadMessageId"
+      :class="[{
         'my-4': id(item) === main,
         'list-group-item-warning': isTarget(item),
         'list-group-item list-group-item-action': type == 'Channel',
-      }, type.toLowerCase()]" :detail="id(item) === main" v-bind="componentOptions" @remove="items.splice(index, 1)" :last-update="lastUpdate" />
-		<slot />
-		<li :class="{ 'list-group-item': type !== 'Message' }" v-show="more">
-			<div class="text-center w-100 text-muted my-2">
-				<i class="fa fa-spin fa-refresh fa-fw fa-2x"></i>
-			</div>
-		</li> 
-	</ul>
-	<div v-else>
-		<div class="text-center my-3">
-			<slot name="empty">
-				<div class="list-group-item py-4">
-					No {{type.toLowerCase()}}s
-				</div>
-			</slot>
-		</div>
-	</div>
+      }, type.toLowerCase()]"
+      :detail="id(item) === main"
+      v-bind="componentOptions"
+      :last-update="lastUpdate"
+      class="item"
+      @update:data="data => $set(items, index, data)"
+      @click="select = index"
+      @remove="items.splice(index, 1)" />
+    <slot />
+    <li
+      v-show="more"
+      :class="{ 'list-group-item': type !== 'Message' }">
+      <div class="text-center w-100 text-muted my-2">
+        <i class="fa fa-spin fa-refresh fa-fw fa-2x"/>
+      </div>
+    </li>
+  </ul>
+  <div v-else>
+    <div class="text-center my-3">
+      <slot name="empty">
+        <div class="list-group-item py-4">
+          No {{ type.toLowerCase() }}s
+        </div>
+      </slot>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -44,8 +68,19 @@ import {
 const INTERVAL = 1000 * 30 // 30sec
 
 export default {
+  components: {
+    User,
+    Post,
+    Interaction,
+    Message,
+    Channel,
+    Poll
+  },
   props: {
-    data: Object,
+    data: {
+      type: Object,
+      default: () => ({})
+    },
     type: {
       required: true,
       type: String,
@@ -60,9 +95,18 @@ export default {
         ].includes(str)
       }
     },
-    all: Boolean,
-    option: Object,
-    main: String,
+    all: {
+      type: Boolean,
+      default: false
+    },
+    option: {
+      type: Object,
+      default: () => ({})
+    },
+    main: {
+      type: String,
+      default: ''
+    },
     autoRefresh: {
       type: Boolean,
       default: true
@@ -71,21 +115,22 @@ export default {
       type: Object,
       default: () => ({})
     },
-    isModerator: Boolean,
-    channelType: String,
-    lastReadMessageId: String,
+    isModerator: {
+      type: Boolean,
+      default: false
+    },
+    channelType: {
+      type: String,
+      default: ''
+    },
+    lastReadMessageId: {
+      type: String,
+      default: ''
+    },
     resource: {
       type: String,
       default: ''
     }
-  },
-  components: {
-    User,
-    Post,
-    Interaction,
-    Message,
-    Channel,
-    Poll
   },
   data() {
     return {

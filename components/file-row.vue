@@ -1,21 +1,31 @@
 <template>
-  <tr @click="toggleSelect" :class="{ 'table-active': file.select }">
-    <td class="text-center"><input type="checkbox" v-model="file.select" @click.stop></td>
+  <tr
+    :class="{ 'table-active': file.select }"
+    @click="toggleSelect">
+    <td class="text-center"><input
+      v-model="file.select"
+      type="checkbox"
+      @click.stop></td>
     <td>
       <div class="d-flex">
-        <a @click.stop :href="file.link" target="_new" class="">
-          {{file.name}}
+        <a
+          :href="file.link"
+          target="_new"
+          class=""
+          @click.stop>
+          {{ file.name }}
         </a>
       </div>
     </td>
     <td>
-      {{date}}
+      {{ date }}
     </td>
     <td>
       <span class="thumb ml-auto">
-        <img v-if="file.image_info"
-          height="24"
-          :src="file.link">
+        <img
+          v-if="file.image_info"
+          :src="file.link"
+          height="24">
       </span>
     </td>
   </tr>
@@ -24,15 +34,20 @@
 import moment from 'moment'
 
 export default {
-  props: ['file'],
-  methods: {
-    toggleSelect() {
-      this.file.select = !this.file.select
+  props: {
+    file: {
+      type: Object,
+      default: () => ({})
     }
   },
   computed: {
     date() {
       return moment(this.file.created_at).format('LLL')
+    }
+  },
+  methods: {
+    toggleSelect() {
+      this.file.select = !this.file.select
     }
   }
 }

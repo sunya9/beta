@@ -1,45 +1,79 @@
 <template>
-  <nuxt-link :to="`/messages/${data.id}`" :class="{'unread-channel': data.has_unread}">
+  <nuxt-link
+    :to="`/messages/${data.id}`"
+    :class="{'unread-channel': data.has_unread}">
     <div class="media">
-      <avatar v-if="is_pm" :avatar="{ link: opponent.avatar_image }" size="32" class="mr-2" />
-      <div class="media-body" style="overflow: hidden">
+      <avatar
+        v-if="is_pm"
+        :avatar="{ link: opponent.avatar_image }"
+        size="32"
+        class="mr-2" />
+      <div
+        class="media-body"
+        style="overflow: hidden">
         <h5>
-          <i v-show="data.you_muted" class="fa fa-bell-slash-o" style="float:right"></i>
+          <i
+            v-show="data.you_muted"
+            class="fa fa-bell-slash-o"
+            style="float:right"/>
           <template v-if="is_pm">
             <span v-if="opponent.name">
-              {{opponent.name}}
+              {{ opponent.name }}
               <small class="text-muted">
-                @{{opponent.username}}<span v-if="members.length" class="text-muted">, </span>
+                @{{ opponent.username }}<span
+                  v-if="members.length"
+                  class="text-muted">, </span>
               </small>
             </span>
             <span v-else>
-              @{{opponent.username}}<small v-if="members.length" class="text-muted">, </small>
+              @{{ opponent.username }}<small
+                v-if="members.length"
+                class="text-muted">, </small>
             </span>
-            <span v-if="members.length" v-for="user in members" :key="user.id" class="text-muted">
-              <small><span v-if="user.id !== members[0].id">, </span>@{{user.username}}</small>
+            <span
+              v-if="members.length"
+            >
+              <span
+                v-for="user in members"
+                :key="user.id"
+                class="text-muted">
+                <small><span v-if="user.id !== members[0].id">, </span>@{{ user.username }}</small>
+              </span>
             </span>
           </template>
           <template v-else>
-            <i v-if="data.acl.read.public" class="fa fa-globe fa-fw" aria-hidden="true"></i>
-            <i v-else class="fa fa-users fa-fw" aria-hidden="true"></i>
-            <span v-emojify>{{chat.name}}</span>
+            <i
+              v-if="data.acl.read.public"
+              class="fa fa-globe fa-fw"
+              aria-hidden="true"/>
+            <i
+              v-else
+              class="fa fa-users fa-fw"
+              aria-hidden="true"/>
+            <span v-emojify>{{ chat.name }}</span>
             <small class="text-muted">
-              {{chat.description}}
+              {{ chat.description }}
             </small>
           </template>
         </h5>
-        <p v-if="data.recent_message" class="mb-0 text-truncate">
+        <p
+          v-if="data.recent_message"
+          class="mb-0 text-truncate">
           <span v-if="!data.recent_message.is_deleted && spoiler && !me">
-            {{spoiler.topic}}
+            {{ spoiler.topic }}
           </span>
           <span v-else-if="!data.recent_message.is_deleted">
-            <span v-if="!is_pm">@{{opponent.username}}: </span>{{data.recent_message.content.text}}
+            <span v-if="!is_pm">@{{ opponent.username }}: </span>{{ data.recent_message.content.text }}
           </span>
-          <span v-else class="text-muted">[Message deleted]</span>
+          <span
+            v-else
+            class="text-muted">[Message deleted]</span>
         </p>
       </div>
-      <span class="align-self-center" :class="{'unread-channel-arrow': data.has_unread}">
-        <i class="fa fa-chevron-right"></i>
+      <span
+        :class="{'unread-channel-arrow': data.has_unread}"
+        class="align-self-center">
+        <i class="fa fa-chevron-right"/>
       </span>
     </div>
   </nuxt-link>
@@ -51,8 +85,14 @@ import { mapGetters } from 'vuex'
 import { getSpoiler } from '~/assets/js/util'
 
 export default {
+  components: {
+    Avatar
+  },
   props: {
-    data: Object
+    data: {
+      type: Object,
+      default: () => ({})
+    }
   },
   computed: {
     ...mapGetters(['user']),
@@ -136,9 +176,6 @@ export default {
         return r.type === 'io.pnut.core.chat-settings'
       })[0].value
     }
-  },
-  components: {
-    Avatar
   }
 }
 </script>

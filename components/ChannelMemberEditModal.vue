@@ -1,12 +1,23 @@
 <template>
-  <div id="channel-member-edit-modal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+  <div
+    id="channel-member-edit-modal"
+    class="modal fade"
+    role="dialog"
+    tabindex="-1"
+    aria-hidden="true">
+    <div
+      class="modal-dialog"
+      role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
             Edit members
           </h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -15,13 +26,19 @@
             <div class="form-group">
               <div class="form-group">
                 <h5>Access</h5>
-                <custom-checkbox v-model="anyUserWrite" v-bind:disabled="vm.channel.acl.write.immutable">
+                <custom-checkbox
+                  v-model="anyUserWrite"
+                  :disabled="vm.channel.acl.write.immutable">
                   Any user can write
                 </custom-checkbox>
-                <custom-checkbox v-model="anyUserRead" v-bind:disabled="vm.channel.acl.read.immutable || anyUserWrite || publicRead">
+                <custom-checkbox
+                  v-model="anyUserRead"
+                  :disabled="vm.channel.acl.read.immutable || anyUserWrite || publicRead">
                   Any user can read
                 </custom-checkbox>
-                <custom-checkbox v-model="publicRead" v-bind:disabled="vm.channel.acl.read.immutable">
+                <custom-checkbox
+                  v-model="publicRead"
+                  :disabled="vm.channel.acl.read.immutable">
                   Publicly readable
                 </custom-checkbox>
               </div>
@@ -29,30 +46,47 @@
                 <div class="row flex-">
                   <div class="col-sm col-md-12">
                     <h5>Members</h5>
-                    <div v-if="!anyUserWrite || is_owner" class="form-group">
-                      <button class="btn btn-link" type="button" @click="addUser"
+                    <div
+                      v-if="!anyUserWrite || is_owner"
+                      class="form-group">
+                      <button
                         :disabled="disabledAdd"
+                        class="btn btn-link"
+                        type="button"
+                        @click="addUser"
                       >
-                        <i class="fa fa-plus"></i>&nbsp;
-                          Add
+                        <i class="fa fa-plus"/>&nbsp;
+                        Add
                       </button>
                     </div>
                     <ul class="list-unstyled">
-                      <li v-for="(user, index) in users" :key="index" class="mb-2">
-                        <input type="text" placeholder="Username"
-                          pattern="(\w+){0,20}"
-                          title="Username"
+                      <li
+                        v-for="(user, index) in users"
+                        :key="index"
+                        class="mb-2">
+                        <input
                           :disabled="vm.channel.acl[user.acl].immutable || (!is_owner && users[index].acl == 'full')"
                           v-model="users[index].username"
+                          type="text"
+                          placeholder="Username"
+                          pattern="(\w+){0,20}"
+                          title="Username"
                         >
-                        <select :disabled="vm.channel.acl[user.acl].immutable || (!is_owner && users[index].acl == 'full')" v-model="users[index].acl">
+                        <select
+                          :disabled="vm.channel.acl[user.acl].immutable || (!is_owner && users[index].acl == 'full')"
+                          v-model="users[index].acl">
                           <option v-if="!anyUserRead">read</option>
                           <option v-if="!anyUserWrite">write</option>
-                          <option v-if="users[index].acl == 'full' || is_owner" value="full">moderate</option>
+                          <option
+                            v-if="users[index].acl == 'full' || is_owner"
+                            value="full">moderate</option>
                         </select>
-                        <button v-if="!vm.channel.acl[user.acl].immutable && (is_owner || users[index].acl != 'full')" type="button" class="btn btn-link"
+                        <button
+                          v-if="!vm.channel.acl[user.acl].immutable && (is_owner || users[index].acl != 'full')"
+                          type="button"
+                          class="btn btn-link"
                           @click="removeUser(index)">
-                          <i class="fa fa-times"></i>
+                          <i class="fa fa-times"/>
                         </button>
                       </li>
                     </ul>
@@ -63,12 +97,17 @@
           </template>
         </div>
         <div class="modal-footer">
-          <button type="button" tabindex="1" class="btn btn-secondary" data-dismiss="modal" ref="cancelButton">Cancel</button>
+          <button
+            ref="cancelButton"
+            type="button"
+            tabindex="1"
+            class="btn btn-secondary"
+            data-dismiss="modal">Cancel</button>
           <button
             class="btn btn-primary"
-            @click="ok"
             tabindex="2"
-            data-dismiss="modal">Update</button>
+            data-dismiss="modal"
+            @click="ok">Update</button>
         </div>
       </div>
     </div>
@@ -83,6 +122,9 @@ import { mapGetters } from 'vuex'
 import CustomCheckbox from '~/components/CustomCheckbox'
 
 export default {
+  components: {
+    CustomCheckbox
+  },
   data() {
     return {
       vm: null,
@@ -93,10 +135,24 @@ export default {
       publicRead: null
     }
   },
-  mounted() {
-    bus.$on('showChannelMemberEditModal', this.showModal)
-    $(this.$el).on('hidden.bs.modal', this.hidden)
-    $(this.$el).on('shown.bs.modal', this.shown)
+  computed: {
+    ...mapGetters(['user']),
+    chat() {
+      return this.vm.channel.raw.find(r => {
+        return r.type === 'io.pnut.core.chat-settings'
+      }).value
+    },
+    is_owner() {
+      return this.user && this.user.id === this.vm.channel.owner.id
+    },
+    disabledAdd() {
+      return (
+        this.users.length + 1 >= 200 ||
+        this.users.find(user => {
+          return user.username == ''
+        })
+      )
+    }
   },
   watch: {
     anyUserWrite(can) {
@@ -120,6 +176,11 @@ export default {
         this.verifyACL()
       }
     }
+  },
+  mounted() {
+    bus.$on('showChannelMemberEditModal', this.showModal)
+    $(this.$el).on('hidden.bs.modal', this.hidden)
+    $(this.$el).on('shown.bs.modal', this.shown)
   },
   beforeDestroy() {
     bus.$off('showChannelMemberEditModal', this.showModal)
@@ -225,28 +286,6 @@ export default {
         return user
       })
     }
-  },
-  computed: {
-    ...mapGetters(['user']),
-    chat() {
-      return this.vm.channel.raw.find(r => {
-        return r.type === 'io.pnut.core.chat-settings'
-      }).value
-    },
-    is_owner() {
-      return this.user && this.user.id === this.vm.channel.owner.id
-    },
-    disabledAdd() {
-      return (
-        this.users.length + 1 >= 200 ||
-        this.users.find(user => {
-          return user.username == ''
-        })
-      )
-    }
-  },
-  components: {
-    CustomCheckbox
   }
 }
 </script>

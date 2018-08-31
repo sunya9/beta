@@ -1,12 +1,23 @@
 <template>
-  <div id="channel-edit-modal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+  <div
+    id="channel-edit-modal"
+    class="modal fade"
+    role="dialog"
+    tabindex="-1"
+    aria-hidden="true">
+    <div
+      class="modal-dialog"
+      role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
             Edit room info
           </h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -15,20 +26,32 @@
             <div class="form-group">
               <div class="form-group">
                 <h5>Name</h5>
-                <input type="text" v-model="chat.name" placeholder="Name" class="form-control" maxlength="128"
+                <input
+                  v-model="chat.name"
+                  type="text"
+                  placeholder="Name"
+                  class="form-control"
+                  maxlength="128"
                   title="Up to 128 characters"
                 >
               </div>
               <div class="form-group">
                 <h5>Description</h5>
-                <textarea class="form-control" v-model="chat.description" placeholder="Room description" title="Up to 256 characters" maxlength="256">
-                </textarea>
+                <textarea
+                  v-model="chat.description"
+                  class="form-control"
+                  placeholder="Room description"
+                  title="Up to 256 characters"
+                  maxlength="256"/>
               </div>
               <div class="form-group">
                 <h5>Categories</h5>
-                <select class="form-control" v-model="chat.categories" multiple>
+                <select
+                  v-model="chat.categories"
+                  class="form-control"
+                  multiple>
                   <template v-for="i in ['general','fun','lifestyle','profession','language','community','tech','event']">
-                    <option :key="i">{{i}}</option>
+                    <option :key="i">{{ i }}</option>
                   </template>
                 </select>
               </div>
@@ -36,13 +59,18 @@
           </template>
         </div>
         <div class="modal-footer">
-          <button type="button" tabindex="1" class="btn btn-secondary" data-dismiss="modal" ref="cancelButton">Cancel</button>
           <button
+            ref="cancelButton"
+            type="button"
+            tabindex="1"
+            class="btn btn-secondary"
+            data-dismiss="modal">Cancel</button>
+          <button
+            :disabled="calcDisabled"
             class="btn btn-primary"
-            @click="ok"
             tabindex="2"
             data-dismiss="modal"
-            :disabled="calcDisabled">Update</button>
+            @click="ok">Update</button>
         </div>
       </div>
     </div>
@@ -59,6 +87,27 @@ export default {
     return {
       vm: null,
       channel: null
+    }
+  },
+  computed: {
+    chat() {
+      if (!this.channel) return false
+      const found = this.channel.raw.find(r => {
+        return r.type === 'io.pnut.core.chat-settings'
+      }).value
+      if (!found.categories) {
+        found.categories = []
+      }
+      return found
+    },
+    calcDisabled() {
+      return (
+        !this.chat ||
+        this.chat.name.length == 0 ||
+        this.chat.name.length > 128 ||
+        this.chat.description.length > 256 ||
+        this.chat.categories.length > 3
+      )
     }
   },
   mounted() {
@@ -106,27 +155,6 @@ export default {
       if ($(this.$el).hasClass('show')) {
         $(this.$el).modal('hide')
       }
-    }
-  },
-  computed: {
-    chat() {
-      if (!this.channel) return false
-      const found = this.channel.raw.find(r => {
-        return r.type === 'io.pnut.core.chat-settings'
-      }).value
-      if (!found.categories) {
-        found.categories = []
-      }
-      return found
-    },
-    calcDisabled() {
-      return (
-        !this.chat ||
-        this.chat.name.length == 0 ||
-        this.chat.name.length > 128 ||
-        this.chat.description.length > 256 ||
-        this.chat.categories.length > 3
-      )
     }
   }
 }

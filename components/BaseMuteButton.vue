@@ -1,7 +1,7 @@
 <template>
-	<span>
-		<slot :toggle-mute="toggleMute" />
-	</span>
+  <span>
+    <slot :toggle-mute="toggleMute" />
+  </span>
 </template>
 <script>
 export default {

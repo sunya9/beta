@@ -1,6 +1,8 @@
 <template>
   <div>
-    <custom-checkbox v-model="directed" :disabled="true">
+    <custom-checkbox
+      v-model="directed"
+      :disabled="true">
       Hide posts directed at people you do not follow
     </custom-checkbox>
     <!--<custom-checkbox v-model="unified" :disabled="true">
@@ -13,6 +15,9 @@
 import CustomCheckbox from '../CustomCheckbox'
 
 export default {
+  components: {
+    CustomCheckbox
+  },
   data() {
     return {
       unified: this.$store.state.unified_timeline,
@@ -27,9 +32,6 @@ export default {
     directed() {
       // this.$store.commit('TOGGLE_KEY', 'hide_directed_posts')
     }
-  },
-  components: {
-    CustomCheckbox
   }
 }
 </script>

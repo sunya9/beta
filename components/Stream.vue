@@ -1,12 +1,16 @@
 <template>
   <div>
-    <h3 class="mt-1" v-show="title">{{title}}</h3>
+    <h3
+      v-show="title"
+      class="mt-1">{{ title }}</h3>
     <div class="my-4">
       <compose />
     </div>
-    <post :post="post" :key="post.id" v-for="post in stream" />
-    <ul class="list-group my-4">
-    </ul>
+    <post
+      v-for="post in stream"
+      :post="post"
+      :key="post.id" />
+    <ul class="list-group my-4"/>
   </div>
 </template>
 
@@ -17,12 +21,21 @@ import Compose from '~/components/Compose.vue'
 import Post from '~/components/Post.vue'
 
 export default {
-  props: ['stream', 'title'],
-  computed: mapGetters(['user']),
   components: {
     Compose,
     Post
     // List
-  }
+  },
+  props: {
+    stream: {
+      type: Array,
+      default: () => []
+    },
+    title: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: mapGetters(['user'])
 }
 </script>

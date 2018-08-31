@@ -13,16 +13,15 @@
 import CustomCheckbox from '../CustomCheckbox'
 
 export default {
+  components: {
+    CustomCheckbox
+  },
   data() {
     return {
       square: false,
       theme: false,
       error: null
     }
-  },
-  mounted() {
-    this.square = localStorage.getItem(`square_avatars`) === 'true'
-    this.theme = localStorage.getItem(`dark_theme`) === 'true'
   },
   watch: {
     square(newVal) {
@@ -38,8 +37,9 @@ export default {
       }
     }
   },
-  components: {
-    CustomCheckbox
+  mounted() {
+    this.square = localStorage.getItem(`square_avatars`) === 'true'
+    this.theme = localStorage.getItem(`dark_theme`) === 'true'
   }
 }
 </script>

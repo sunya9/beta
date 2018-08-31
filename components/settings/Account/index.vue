@@ -4,58 +4,96 @@
       <cover :cover="account.content.cover_image" />
       <avatar :avatar="account.content.avatar_image" />
     </div>
-    <form @submit.prevent="update" action="/proxy/users/me" method="post">
+    <form
+      action="/proxy/users/me"
+      method="post"
+      @submit.prevent="update">
       <div class="form-group row">
-        <label class="col-form-label col-sm-12 col-md-3" for="name">
+        <label
+          class="col-form-label col-sm-12 col-md-3"
+          for="name">
           Name
         </label>
         <div class="col-sm-12 col-md-9">
-          <input type="text" id="name" name="name" v-model="name" class="form-control">
+          <input
+            id="name"
+            v-model="name"
+            type="text"
+            name="name"
+            class="form-control">
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-form-label col-sm-12 col-md-3" for="description">
+        <label
+          class="col-form-label col-sm-12 col-md-3"
+          for="description">
           Description
         </label>
         <div class="col-sm-12 col-md-9">
-          <textarea v-model="description" name="content[text]" cols="30" rows="7" id="description" class="form-control"></textarea>
+          <textarea
+            id="description"
+            v-model="description"
+            name="content[text]"
+            cols="30"
+            rows="7"
+            class="form-control"/>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-form-label col-sm-12 col-md-3" for="timezone">
+        <label
+          class="col-form-label col-sm-12 col-md-3"
+          for="timezone">
           Timezone
         </label>
         <div class="col-sm-12 col-md-9">
-          <select v-model="timezone" name="timezone" cols="30" rows="7" id="timezone" class="form-control">
+          <select
+            id="timezone"
+            v-model="timezone"
+            name="timezone"
+            cols="30"
+            rows="7"
+            class="form-control">
             <option
               v-for="t in timezones"
               :key="t"
               :value="t"
             >
-              {{t}}
+              {{ t }}
             </option>
           </select>
         </div>
       </div>
 
       <div class="form-group row">
-        <label class="col-form-label col-sm-12 col-md-3" for="locale">
+        <label
+          class="col-form-label col-sm-12 col-md-3"
+          for="locale">
           Language
         </label>
         <div class="col-sm-12 col-md-9">
-          <select v-model="locale" name="locale" cols="30" rows="7" id="locale" class="form-control">
+          <select
+            id="locale"
+            v-model="locale"
+            name="locale"
+            cols="30"
+            rows="7"
+            class="form-control">
             <option
               v-for="l in locales"
               :key="l.value"
               :value="l.value">
-              {{l.label}}
+              {{ l.label }}
             </option>
           </select>
         </div>
       </div>
       <div class="form-group row">
         <div class="ml-md-auto col-md-9">
-          <input type="submit" class="btn btn-primary" value="save" :disabled="promise" />
+          <input
+            :disabled="promise"
+            type="submit"
+            class="btn btn-primary"
+            value="save" >
         </div>
       </div>
     </form>
@@ -69,6 +107,10 @@ import Cover from './Cover'
 import Avatar from './Avatar'
 
 export default {
+  components: {
+    Cover,
+    Avatar
+  },
   props: {
     account: {
       type: Object,
@@ -111,10 +153,6 @@ export default {
       }
       this.promise = null
     }
-  },
-  components: {
-    Cover,
-    Avatar
   }
 }
 </script>
