@@ -207,16 +207,11 @@ module.exports = {
     duration: 5000
   },
   workbox: {
-    dev: true,
+    dev: process.env.NODE_ENV !== 'production',
     runtimeCaching: [
       {
         urlPattern: 'https://twemoji.maxcdn.com/*',
         handler: 'cacheFirst',
-        method: 'GET'
-      },
-      {
-        urlPattern: '/proxy/*',
-        handler: 'networkFirst',
         method: 'GET'
       },
       {
@@ -261,6 +256,11 @@ module.exports = {
     redirect: {
       callback: '/callback',
       login: '/'
+    }
+  },
+  render: {
+    http2: {
+      push: true
     }
   }
 }

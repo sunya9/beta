@@ -89,10 +89,10 @@
                 Settings
               </nuxt-link>
               <div class="dropdown-divider"></div>
-              <button type="button" @click="$auth.logout()" class="dropdown-item">Log out</button>
+              <a href="#" @click="$auth.logout()" class="dropdown-item">Log out</a>
             </div>
           </li>
-          <li id="nav-compose" class="nav-item d-none d-sm-block" v-if="user">
+          <li id="nav-compose" class="nav-item d-sm-block" v-if="user">
             <a href="#" @click.prevent="showPostModal" class="nav-link">
               <i class="fa fa-pencil"></i>
             </a>
@@ -102,10 +102,10 @@
           </li>
         </ul>
       </div>
-      <div class="container">
+      <div class="container d-md-none">
         <app-sidebar
           id="globalNavigation"
-          class="collapse scrollable d-md-none w-100"
+          class="collapse scrollable w-100"
           :style="{
             'max-height': collapseHeight
           }"

@@ -1,5 +1,5 @@
 <template>
-	<div class="card mb-4 no-gutter-xs">
+	<div class="card mb-4 compose">
 		<div class="card-body">
 			<form @submit.prevent="submit">
 				<div class="form-group" v-if="createChannelMode">
@@ -276,7 +276,12 @@ function obj2FormData(obj) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '~assets/css/mixin';
+
+.compose {
+  @include no-gutter-xs;
+}
 textarea {
   min-height: 5rem;
 }
