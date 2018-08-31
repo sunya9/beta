@@ -5,7 +5,7 @@ module.exports = {
     node: true,
     mocha: true
   },
-  extends: ['eslint:recommended', 'plugin:vue/essential', 'prettier'],
+  extends: ['eslint:recommended', 'plugin:vue/recommended', 'prettier'],
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: 'module'
@@ -19,7 +19,8 @@ module.exports = {
       {
         allow: ['warn', 'error']
       }
-    ]
+    ],
+    'no-trailing-spaces': 'error'
   },
   globals: {
     expect: true
