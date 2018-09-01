@@ -1,1 +1,5 @@
-module.exports = process.browser ? require('emoji-mart-vue') : {}
+// TODO: Fix dirty codeq
+module.exports =
+  process.browser || process.env.NODE_ENV === 'test'
+    ? require('emoji-mart-vue')
+    : {}
