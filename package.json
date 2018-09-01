@@ -12,8 +12,7 @@
     "precommit": "lint-staged",
     "lint": "eslint --ext .js,.vue .",
     "lint:fix": "eslint --ext .js,.vue --fix .",
-    "test": "npm run test:karma",
-    "test:karma": "karma start --single-run"
+    "test": "jest"
   },
   "lint-staged": {
     "*.@(js|vue)": [
@@ -72,10 +71,13 @@
     "eslint-config-prettier": "^3.0.0",
     "eslint-plugin-chai-expect": "^1.1.1",
     "eslint-plugin-chai-friendly": "^0.4.0",
+    "eslint-plugin-jest": "^21.22.0",
     "eslint-plugin-vue": "^4.3.0",
     "expect": "^23.0.0",
     "husky": "^0.14.3",
     "imagemin-lint-staged": "^0.3.0",
+    "jest": "^23.5.0",
+    "jest-localstorage-mock": "^2.2.0",
     "karma": "^3.0.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.2.0",
@@ -92,7 +94,8 @@
     "scmp": "^2.0.0",
     "should": "^13.1.0",
     "sinon": "^6.0.0",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "vue-jest": "^2.6.0"
   },
   "homepage": "https://github.com/sunya9/beta",
   "bugs": "https://github.com/sunya9/beta/issues",
@@ -103,5 +106,26 @@
   "engines": {
     "node": ">= 8.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      ".*\\.(vue)$": "vue-jest",
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    },
+    "moduleNameMapper": {
+      "^[@~]/(.*)$": "<rootDir>/$1",
+      "^helper$": "<rootDir>/__tests__/helper",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__tests__/fixtures/file.js"
+    },
+    "setupFiles": ["jest-localstorage-mock", "<rootDir>/__tests__/setup"],
+    "testRegex": "(/__tests__/(components|pages)/.*|(\\.|/)(test|spec))\\.jsx?$",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(nuxt)/)"
+    ]
+  }
 }
