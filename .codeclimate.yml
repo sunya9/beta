@@ -8,3 +8,6 @@ ratings:
   paths:
     - '**.js'
     - '**.vue'
+
+exclude_patterns:
+  - '__tests__/'
