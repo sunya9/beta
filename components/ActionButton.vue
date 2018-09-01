@@ -26,7 +26,7 @@ export default {
   mixins: [actionable],
   props: {
     icon: {
-      type: [Object, String, Array],
+      type: [String, Array],
       default: ''
     }
   },
