@@ -2,6 +2,10 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/sunya9/beta.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/sunya9/beta.svg?branch=master)](https://travis-ci.org/sunya9/beta)
+[![dependencies Status](https://david-dm.org/sunya9/beta/status.svg)](https://david-dm.org/sunya9/beta)
+[![devDependencies Status](https://david-dm.org/sunya9/beta/dev-status.svg)](https://david-dm.org/sunya9/beta?type=dev)
+[![Maintainability](https://api.codeclimate.com/v1/badges/fdb75749d11567b69c97/maintainability)](https://codeclimate.com/github/sunya9/beta/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/fdb75749d11567b69c97/test_coverage)](https://codeclimate.com/github/sunya9/beta/test_coverage)
 
 pnut.io client.
 
