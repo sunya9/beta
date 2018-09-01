@@ -1,6 +1,5 @@
 import index from '~/components/settings/Account'
-import { shallowMount } from 'helpers/client'
-import sinon from 'sinon'
+import { shallowMount } from 'helper'
 
 describe('settings/Account/index component', () => {
   let wrapper, $toast
@@ -15,28 +14,34 @@ describe('settings/Account/index component', () => {
           timezone: '',
           locale: ''
         }
+      },
+      stubs: {
+        avatar: true,
+        cover: true
       }
     })
     $toast = wrapper.vm.$toast
   })
-  context('success', () => {
-    it('show success toast', async () => {
+  describe('success', () => {
+    test('show success toast', async () => {
       wrapper.vm.$axios = {
-        $patch: sinon.stub()
+        $patch: jest.fn()
       }
       await wrapper.vm.update()
-      expect($toast.success.called).to.be.true
-      expect($toast.error.called).to.be.false
+      expect($toast.success).toHaveBeenCalled()
+      expect($toast.error).not.toHaveBeenCalled()
     })
   })
-  context('error', () => {
-    it('show error toast', async () => {
+  describe('error', () => {
+    test('show error toast', async () => {
       wrapper.vm.$axios = {
-        $patch: sinon.stub().throws()
+        $patch: jest.fn(() => {
+          throw new Error()
+        })
       }
       await wrapper.vm.update()
-      expect($toast.success.called).to.be.false
-      expect($toast.error.called).to.be.true
+      expect($toast.success).not.toHaveBeenCalled()
+      expect($toast.error).toHaveBeenCalled()
     })
   })
 })

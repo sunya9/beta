@@ -2,16 +2,20 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    node: true,
-    mocha: true
+    node: true
   },
-  extends: ['eslint:recommended', 'plugin:vue/recommended', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:vue/recommended',
+    'plugin:jest/recommended',
+    'prettier'
+  ],
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: 'module'
   },
-  // required to lint *.vue files
-  plugins: ['chai-expect', 'chai-friendly'],
+
+  plugins: ['vue', 'jest'],
   // add your custom rules here
   rules: {
     'no-console': [
@@ -21,8 +25,5 @@ module.exports = {
       }
     ],
     'no-trailing-spaces': 'error'
-  },
-  globals: {
-    expect: true
   }
 }
