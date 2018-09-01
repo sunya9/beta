@@ -1,5 +1,5 @@
 import FollowButton from '~/components/FollowButton'
-import { mount } from 'helpers/client'
+import { mount } from 'helper'
 
 describe('FollowButton component', () => {
   let wrapper
@@ -9,7 +9,7 @@ describe('FollowButton component', () => {
     you_blocked: false
   }
 
-  context('not follow', () => {
+  describe('not follow', () => {
     beforeEach(() => {
       wrapper = mount(FollowButton, {
         propsData: {
@@ -19,15 +19,15 @@ describe('FollowButton component', () => {
         }
       })
     })
-    it('Text is "Follow"', () => {
-      expect(wrapper.text()).to.equal('Follow')
+    test('Text is "Follow"', () => {
+      expect(wrapper.text()).toBe('Follow')
     })
-    it('To be "following" when succeed in follow', () => {
+    test('To be "following" when succeed in follow', () => {
       wrapper.trigger('click')
-      expect(wrapper.text()).to.equal('Following')
+      expect(wrapper.text()).toBe('Following')
     })
   })
-  context('following', () => {
+  describe('following', () => {
     beforeEach(() => {
       wrapper = mount(FollowButton, {
         propsData: {
@@ -38,15 +38,15 @@ describe('FollowButton component', () => {
         }
       })
     })
-    it('Text is "Following"', () => {
-      expect(wrapper.text()).to.equal('Following')
+    test('Text is "Following"', () => {
+      expect(wrapper.text()).toBe('Following')
     })
-    it('To be "Follow" when succeed in unfollow', () => {
+    test('To be "Follow" when succeed in unfollow', () => {
       wrapper.trigger('click')
-      expect(wrapper.text()).to.equal('Follow')
+      expect(wrapper.text()).toBe('Follow')
     })
   })
-  context('Blocked an user', () => {
+  describe('Blocked an user', () => {
     beforeEach(() => {
       wrapper = mount(FollowButton, {
         propsData: {
@@ -57,12 +57,12 @@ describe('FollowButton component', () => {
         }
       })
     })
-    it('Text is "Unblock"', () => {
-      expect(wrapper.text()).to.equal('Unblock')
+    test('Text is "Unblock"', () => {
+      expect(wrapper.text()).toBe('Unblock')
     })
-    it('Text is "Follow" when unblock', () => {
+    test('Text is "Follow" when unblock', () => {
       wrapper.trigger('click')
-      expect(wrapper.text()).to.equal('Follow')
+      expect(wrapper.text()).toBe('Follow')
     })
   })
 })
