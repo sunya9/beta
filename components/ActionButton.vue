@@ -27,7 +27,9 @@ export default {
   props: {
     icon: {
       type: [String, Array],
-      default: ''
+      default: '',
+      validator: val =>
+        typeof val === 'string' || (typeof val === 'object' && val.length === 2)
     }
   },
   computed: {
