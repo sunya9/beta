@@ -1,36 +1,41 @@
 import _ from 'lodash'
 
+const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
+
 export function getTitle({ username, name }) {
   return name ? `${name}(@${username})` : `@${username}`
 }
 
+function getImagesFromLinks(entityLinks) {
+  return entityLinks.filter(link => imgExt.test(link.link)).map(link => {
+    return {
+      original: link.link,
+      thumb: link.link
+    }
+  })
+}
+
+function getImagesFromRaws(raws) {
+  return raws.filter(r => isOembedType(r, 'photo')).map(r => {
+    return {
+      ...r.value,
+      original: r.value.url,
+      thumb: r.value.thumbnail_url || r.value.url,
+      width: r.value.width,
+      height: r.value.height
+    }
+  })
+}
+
 export function getImageURLs(post, rawOnly = false) {
   if (!post.content) return []
-  const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
   const photos = []
   if (post.raw) {
-    const embedPhotos = post.raw
-      .filter(r => isOembedType(r, 'photo'))
-      .map(r => {
-        return {
-          ...r.value,
-          original: r.value.url,
-          thumb: r.value.thumbnail_url || r.value.url,
-          width: r.value.width,
-          height: r.value.height
-        }
-      })
+    const embedPhotos = getImagesFromRaws(post.raw)
     Array.prototype.push.apply(photos, embedPhotos)
   }
   if (!rawOnly) {
-    const linkPhotos = post.content.entities.links
-      .filter(link => imgExt.test(link.link))
-      .map(link => {
-        return {
-          original: link.link,
-          thumb: link.link
-        }
-      })
+    const linkPhotos = getImagesFromLinks(post.content.entities.links)
     Array.prototype.push.apply(photos, linkPhotos)
   }
   return _.uniqBy(photos, 'original')
@@ -114,6 +119,6 @@ export function getRSSLink(href) {
   }
 }
 
-export function isOembedType(raw, type) {
+function isOembedType(raw, type) {
   return raw.type === 'io.pnut.core.oembed' && raw.value.type === type
 }
