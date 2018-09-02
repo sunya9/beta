@@ -7,15 +7,15 @@ export default {
     menus() {
       const { q } = this.$route.query
       return [
-        {type: 'heading', label: 'Search'},
+        { type: 'heading', label: 'Search' },
         {
           label: 'Posts',
-          icon: 'fa-list',
+          icon: 'list',
           url: `/search/posts?q=${encodeURIComponent(q)}`
         },
         {
           label: 'Users',
-          icon: 'fa-users',
+          icon: 'users',
           url: `/search/users?q=${encodeURIComponent(q)}`
         }
       ]

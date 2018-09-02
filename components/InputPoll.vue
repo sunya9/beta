@@ -27,7 +27,7 @@
             <button
               type="button"
               class="btn handle">
-              <i class="fa fa-bars"/>
+              <font-awesome-icon icon="bars"/>
             </button>
           </div>
           <input
@@ -44,7 +44,7 @@
               type="button"
               class="btn btn-link"
               @click="removeChoice(index)">
-              <i class="fa fa-times"/>
+              <font-awesome-icon icon="times"/>
             </button>
           </div>
         </div>
@@ -57,8 +57,11 @@
         type="button"
         @click="addChoice"
       >
-        <i class="fa fa-plus"/>&nbsp;
-        Add a choice
+        <font-awesome-icon
+          icon="plus"
+          class="mr-2"
+        />
+        <span>Add a choice</span>
       </button>
     </div>
 

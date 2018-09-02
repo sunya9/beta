@@ -42,10 +42,16 @@
               :disabled="calcDisabled"
               type="submit"
               class="ml-1 btn text-uppercase btn-primary">
-              <span v-show="promise">
-                <i class="fa fa-refresh fa-spin fa-fw"/>&nbsp;
+              <font-awesome-icon
+                v-show="promise"
+                spin
+                fixed-icon
+                icon="sync"
+                class="mr-1"
+              />
+              <span>
+                Create
               </span>
-              Create
             </button>
           </div>
         </div>

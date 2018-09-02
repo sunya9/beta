@@ -41,8 +41,8 @@
           style="margin-top:.8em;display:block"
           type="button"
           @click="toggleLongpost">
-          <i
-            class="fa fa-plus"
+          <font-awesome-icon
+            icon="plus"
             aria-hidden="true"/> Expand Post
         </button>
       </template>
@@ -57,8 +57,8 @@
           class="btn btn-link mr-3 btn-primary"
           type="button"
           @click="toggleLongpost">
-          <i
-            class="fa fa-minus"
+          <font-awesome-icon
+            icon="minus"
             aria-hidden="true"/> Collapse Post
         </button>
       </div>

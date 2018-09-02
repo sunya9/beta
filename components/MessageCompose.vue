@@ -19,9 +19,17 @@
               class="ml-3 btn text-uppercase btn-primary"
               @click="findExistingPm">
               <span v-show="promise">
-                <i class="fa fa-refresh fa-spin fa-fw"/>&nbsp;
+                <font-awesome-icon
+                  class="mr-2"
+                  icon="sync"
+                  spin
+                  fixed-width
+                />
               </span>
-              <i class="fa fa-search"/>
+              <font-awesome-icon
+                icon="search"
+                class="mr-2"
+              />
               {{ pmLookupStatus ? pmLookupStatus : 'Find Existing' }}
             </button>
           </div>
@@ -60,7 +68,7 @@
               v-if="storage.available"
               :disabled="promise"
               class="btn btn-link text-dark add-photo mr-3">
-              <i class="fa fa-picture-o"/>
+              <font-awesome-icon :icon="['far', 'image']"/>
               <span class="d-none d-sm-inline ml-2">Photo</span>
               <input
                 ref="file"
@@ -78,7 +86,9 @@
               class="btn btn-link add-spoiler mr-3"
               type="button"
               @click="toggleSpoiler">
-              <i class="fa fa-bell-o"/>
+              <font-awesome-icon
+                :icon="['far', 'bell']
+                "/>
               <span class="d-none d-sm-inline ml-2">Spoiler</span>
             </button>
             <button
@@ -86,9 +96,16 @@
               type="submit"
               class="ml-1 btn text-uppercase btn-primary">
               <span v-show="promise && !calcPmLookup">
-                <i class="fa fa-refresh fa-spin fa-fw"/>&nbsp;
+                <font-awesome-icon
+                  icon="sync"
+                  spin
+                  fixed-width
+                  class="mr-2"
+                />
               </span>
-              Send
+              <span>
+                Send
+              </span>
             </button>
           </div>
         </div>

@@ -9,19 +9,19 @@ export default {
       { type: 'heading', label: 'About' },
       {
         label: 'Beta',
-        icon: 'fa-info-circle',
+        icon: 'info-circle',
         url: '/about'
       },
       {
         label: 'Stats',
-        icon: 'fa-bar-chart',
+        icon: 'chart-bar',
         url: '/about/stats',
         hidden: !user
       },
       { type: 'heading', label: 'Resources' },
       {
         label: 'Bookmarklet',
-        icon: 'fa-bookmark',
+        icon: 'bookmark',
         url: '/about/bookmarklet'
       }
     ]

@@ -58,7 +58,8 @@ module.exports = {
     {
       src: '~assets/css/main.scss',
       lang: 'scss'
-    }
+    },
+    '@fortawesome/fontawesome-svg-core/styles.css'
   ],
   /*
    ** Customize the progress-bar color
@@ -93,7 +94,8 @@ module.exports = {
       '~/plugins/emoji.js',
       'moment',
       '~/components/Post.vue',
-      '~/components/List.vue'
+      '~/components/List.vue',
+      '~/plugins/font-awesome'
     ]
   },
 
@@ -127,7 +129,8 @@ module.exports = {
       src: '~/plugins/vue-scrollto',
       ssr: false
     },
-    '~/plugins/axios/'
+    '~/plugins/axios/',
+    '~/plugins/font-awesome'
   ],
 
   // router settings

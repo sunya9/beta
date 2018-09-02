@@ -51,9 +51,10 @@
               class="d-flex align-items-center">
               <div
                 class="d-block bg-primary text-center rounded-circle text-white border-white mr-1 icon">
-                <i
-                  :class="selectedDropdownItem.icon"
-                  class="fa fa-fw"/>
+                <font-awesome-icon
+                  :icon="selectedDropdownItem.icon"
+                  fixed-width
+                />
               </div>
               {{ selectedDropdownItem.label }}
             </div>
@@ -69,7 +70,10 @@
                 aria-label="Toggle local navigation"
                 href="#"
               >
-                <i class="fa fa-bars fa-lg"/>
+                <font-awesome-icon
+                  icon="bars"
+                  size="lg"
+                />
               </a>
             </div>
           </h3>
@@ -293,8 +297,8 @@ export default {
   vertical-align: middle;
   overflow: hidden;
   border: 3px double white;
-  > i {
-    vertical-align: -0.1rem;
+  > svg {
+    vertical-align: -0.25rem;
   }
 }
 </style>

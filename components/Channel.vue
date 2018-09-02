@@ -12,9 +12,9 @@
         class="media-body"
         style="overflow: hidden">
         <h5>
-          <i
+          <font-awesome-icon
             v-show="data.you_muted"
-            class="fa fa-bell-slash-o"
+            :icon="['far', 'bell-slash']"
             style="float:right"/>
           <template v-if="is_pm">
             <span v-if="opponent.name">
@@ -42,13 +42,15 @@
             </span>
           </template>
           <template v-else>
-            <i
+            <font-awesome-icon
               v-if="data.acl.read.public"
-              class="fa fa-globe fa-fw"
+              icon="globe"
+              fixed-width
               aria-hidden="true"/>
-            <i
+            <font-awesome-icon
               v-else
-              class="fa fa-users fa-fw"
+              icon="users"
+              fixed-width
               aria-hidden="true"/>
             <span v-emojify>{{ chat.name }}</span>
             <small class="text-muted">
@@ -73,7 +75,7 @@
       <span
         :class="{'unread-channel-arrow': data.has_unread}"
         class="align-self-center">
-        <i class="fa fa-chevron-right"/>
+        <font-awesome-icon icon="chevron-right"/>
       </span>
     </div>
   </nuxt-link>

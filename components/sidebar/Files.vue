@@ -8,7 +8,7 @@ export default {
       { type: 'heading', label: 'Files' },
       {
         label: 'Your files',
-        icon: 'fa-files-o',
+        icon: ['far', 'copy'],
         url: '/files'
       }
     ]

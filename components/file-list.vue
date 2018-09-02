@@ -8,7 +8,7 @@
         :disabled="!isSelected"
         class="ml-auto btn btn-danger"
         @click="showModal">
-        <i class="fa fa-trash"/>
+        <font-awesome-icon icon="trash"/>
         Delete
       </button>
     </div>

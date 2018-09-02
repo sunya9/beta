@@ -22,7 +22,10 @@
             href="#"
             class="open-emoji-picker text-dark"
             @click.prevent.stop="toggleEmojiPalette">
-            <i class="fa fa-lg fa-smile-o"/>
+            <font-awesome-icon
+              :icon="['far', 'smile']"
+              size="lg"
+            />
           </a>
           <no-ssr>
             <picker
@@ -62,7 +65,7 @@
               v-if="storage.available"
               :disabled="promise"
               class="btn btn-link text-dark add-photo mr-2">
-              <i class="fa fa-picture-o"/>
+              <font-awesome-icon :icon="['far', 'image']"/>
               <span class="d-none d-sm-inline ml-2">Photo</span>
               <input
                 ref="file"
@@ -80,7 +83,7 @@
               class="btn btn-link add-poll mr-2"
               type="button"
               @click="togglePoll">
-              <i class="fa fa-bar-chart"/>
+              <font-awesome-icon icon="chart-bar" />
               <span class="d-none d-sm-inline ml-2">Poll</span>
             </button>
             <button
@@ -91,7 +94,7 @@
               class="btn btn-link add-spoiler mr-2"
               type="button"
               @click="toggleSpoiler">
-              <i class="fa fa-bell-o"/>
+              <font-awesome-icon :icon="['far', 'bell']"/>
               <span class="d-none d-sm-inline ml-2">Spoiler</span>
             </button>
             <button
@@ -102,7 +105,7 @@
               class="btn btn-link add-longpost mr-2"
               type="button"
               @click="toggleLongpost">
-              <i class="fa fa-plus"/>
+              <font-awesome-icon icon="plus"/>
               <span class="d-none d-sm-inline ml-2">Long</span>
             </button>
             <button
@@ -110,9 +113,16 @@
               type="submit"
               class="ml-1 btn btn-primary text-uppercase">
               <span v-show="promise">
-                <i class="fa fa-refresh fa-spin fa-fw"/>&nbsp;
+                <font-awesome-icon
+                  icon="sync"
+                  spin
+                  fixed-width
+                  class="mr-2"
+                />
               </span>
-              Post
+              <span>
+                Post
+              </span>
             </button>
           </div>
         </div>

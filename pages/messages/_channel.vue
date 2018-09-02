@@ -11,8 +11,10 @@
             class="btn btn-link mr-2"
             type="button"
             @click.stop.prevent="channelEditModal">
-            <i class="fa fa-pencil-square-o"/>
-            <span class="d-none d-sm-inline ml-2">Edit</span>
+            <font-awesome-icon
+              :icon="['far', 'edit']"
+              class="mr-2" />
+            <span class="d-none d-sm-inline">Edit</span>
           </button>
         </h1>
         <div class="row">
@@ -56,13 +58,19 @@
           <div class="col-sm col-md-12">
             <h2 class="h3">
               <span v-if="isPM || !channel.acl.read.public">Members</span>
-              <span v-else-if="!isPM"><i class="fa fa-globe"/> Public</span>
+              <span v-else-if="!isPM">
+                <font-awesome-icon
+                  icon="globe"
+                  class="mr-2"
+                />
+                <span>Public</span>
+              </span>
               <button
                 v-if="!isPM && isModerator"
                 class="btn btn-link mr-2"
                 type="button"
                 @click.stop.prevent="memberEditModal">
-                <i class="fa fa-pencil-square-o"/>
+                <font-awesome-icon :icon="['far', 'edit']"/>
                 <span class="d-none d-sm-inline ml-2">Edit</span>
               </button>
             </h2>

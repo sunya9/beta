@@ -11,7 +11,7 @@
       :disabled="!text"
       type="submit"
       class="btn btn-link text-dark">
-      <i class="fa fa-search"/>
+      <font-awesome-icon icon="search"/>
     </button>
   </form>
 </template>

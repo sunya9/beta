@@ -55,8 +55,11 @@
                         type="button"
                         @click="addUser"
                       >
-                        <i class="fa fa-plus"/>&nbsp;
-                        Add
+                        <font-awesome-icon
+                          icon="plus"
+                          class="mr-1"
+                        />
+                        <span>Add</span>
                       </button>
                     </div>
                     <ul class="list-unstyled">
@@ -86,7 +89,7 @@
                           type="button"
                           class="btn btn-link"
                           @click="removeUser(index)">
-                          <i class="fa fa-times"/>
+                          <font-awesome-icon icon="times" />
                         </button>
                       </li>
                     </ul>

@@ -48,7 +48,7 @@
             class="nav-item d-none d-sm-block"
             title="Messages">
             <a class="nav-link">
-              <i class="fa fa-envelope"/>
+              <font-awesome-icon icon="envelope"/>
             </a>
           </nuxt-link>
           <nuxt-link
@@ -60,7 +60,10 @@
             to="/files"
           >
             <a class="nav-link">
-              <i class="fa fa-database fa-lg"/>
+              <font-awesome-icon
+                size="lg"
+                icon="database"
+              />
             </a>
           </nuxt-link>
           <li
@@ -83,7 +86,10 @@
                     :max-size="16" />
                 </span>
               </span>
-              <i class="fa fa-chevron-down ml-2"/>
+              <font-awesome-icon
+                class="ml-2"
+                icon="chevron-down"
+              />
             </a>
             <div
               class="dropdown-menu dropdown-menu-right"
@@ -134,7 +140,7 @@
               href="#"
               class="nav-link"
               @click.prevent="showPostModal">
-              <i class="fa fa-pencil"/>
+              <font-awesome-icon icon="pencil-alt"/>
             </a>
           </li>
           <li

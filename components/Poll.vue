@@ -29,9 +29,14 @@
                 <div class="mx-3 d-flex justify-content-between">
                   <span>{{ option.text }}</span>
                   <span>
-                    <span><i
-                      :class="{ 'fa-check': option.is_your_response }"
-                      class="fa fa-fw fa-lg"/></span>
+                    <span>
+                      <font-awesome-icon
+                        v-if="option.is_your_response"
+                        icon="check"
+                        fixed-width
+                        size="lg"
+                      />
+                    </span>
                     <span v-if="preferPercent">
                       {{ getPercent(option) }}%
                     </span>
@@ -54,7 +59,10 @@
           Total: {{ total }}
         </li>
         <li class="list-inline-item text-muted">
-          <i class="fa fa-clock-o"/>&nbsp;
+          <font-awesome-icon
+            :icon="['far', 'clock']"
+            class="mr-2"
+          />
           <span v-if="closed">Closed at</span><span v-else>~</span> {{ until }}
         </li>
       </ul>
