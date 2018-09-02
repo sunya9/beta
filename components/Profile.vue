@@ -63,7 +63,7 @@
                   <small
                     v-if="profile.badge"
                     class="ml-sm-2 d-block d-sm-inline text-muted ml-1">
-                    <i class="fa fa-shield"/>
+                    <font-awesome-icon icon="shield-alt"/>
                   </small>
                   <small
                     v-if="profile.type != 'human'"
@@ -84,7 +84,10 @@
                   :href="profile.verified.link"
                   class="u-url"
                   rel="me">{{ profile.verified.domain }}</a>
-                <i class="ml-1 fa fa-check-circle-o text-success"/>
+                <font-awesome-icon
+                  :icon="['far', 'check-circle']"
+                  class="ml-1 text-success"
+                />
               </p>
             </div>
           </div>
@@ -139,7 +142,7 @@
           aria-haspopup="true"
           aria-expanded="false"
           href="#">
-          <i class="fa fa-ellipsis-h"/>
+          <font-awesome-icon icon="ellipsis-h"/>
         </a>
         <div
           class="dropdown-menu dropdown-menu-right"
@@ -170,9 +173,12 @@
           <a
             :href="'https://api.pnut.io/v0/feed/rss/users/' + profile.id + '/posts'"
             class="dropdown-item">
-            <i
-              class="fa fa-rss-square"
-              aria-hidden="true"/> RSS</a>
+            <font-awesome-icon
+              icon="rss-square"
+              class="mr-2"
+              aria-hidden="true"/>
+            <span>RSS</span>
+          </a>
         </div>
       </div>
     </div>

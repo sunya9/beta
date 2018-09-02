@@ -7,9 +7,10 @@
       slot-scope="{ toggleMute }"
       href="#"
       @click="toggleMute">
-      <i
+      <font-awesome-icon
         :class="color"
-        class="fa fa-eye-slash"/>
+        icon="eye-slash"
+      />
     </a>
   </base-mute-button>
 </template>

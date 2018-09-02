@@ -22,7 +22,7 @@
         v-if="removable"
         class="remove"
         @click.prevent="remove">
-        <i class="fa fa-times"/>
+        <font-awesome-icon icon="times"/>
       </a>
     </div>
   </div>

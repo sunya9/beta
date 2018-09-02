@@ -15,21 +15,31 @@
           :key="menu.label"
           :class="itemClass"
           :href="menu.url">
-          <i
-            :class="menu.icon"
-            class="fa fa-fw"/>&nbsp;
-          {{ menu.label }} <i class="fa fa-external-link"/>
+          <span>
+            <font-awesome-icon
+              :icon="menu.icon"
+              fixed-width
+              class="mr-2"
+            />
+            <span>{{ menu.label }}</span>
+            <font-awesome-icon
+              icon="external-link-alt"
+              class="ml-2"
+            />
+          </span>
         </a>
         <a
-          v-else-if="menu.click && menu.click"
+          v-else-if="menu.click"
           :key="menu.label"
           :class="itemClass"
           href="#"
           @click.prevent="menu.click">
-          <i
-            :class="menu.icon"
-            class="fa fa-fw"/>&nbsp;
-          {{ menu.label }}
+          <font-awesome-icon
+            :icon="menu.icon"
+            fixed-width
+            class="mr-2"
+          />
+          <span>{{ menu.label }}</span>
         </a>
         <nuxt-link
           v-else
@@ -43,14 +53,16 @@
           class="d-inline-flex justify-content-between flex-nowrap text-overflow"
           exact>
           <span>
-            <i
-              :class="menu.icon"
-              class="fa fa-fw"/>&nbsp;
-            {{ menu.label }}
+            <font-awesome-icon
+              :icon="menu.icon"
+              fixed-width
+              class="mr-2"
+            />
+            <span>{{ menu.label }}</span>
             <!-- <span class="badge badge-important pull-right">{{ badge }}</span>-->
           </span>
           <span v-show="active(menu.url)">
-            <i class="fa fa-chevron-right"/>
+            <font-awesome-icon icon="chevron-right"/>
           </span>
         </nuxt-link>
       </template>

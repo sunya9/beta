@@ -97,7 +97,11 @@
             <nuxt-link
               :to="`/@${post.user.username}`"
               class="text-muted">
-              <i class="fa fa-retweet"/>&nbsp; Reposted by @{{ post.user.username }}
+              <font-awesome-icon
+                icon="retweet"
+                class="mr-1"
+              />
+              <span>Reposted by @{{ post.user.username }}</span>
             </nuxt-link>
           </div>
           <ul class="list-inline">
@@ -108,16 +112,22 @@
                 :class="{ 'u-url': detail }"
                 :title="absDate"
                 class="text-muted">
-                <i class="fa fa-clock-o"/>
+                <font-awesome-icon
+                  :icon="['far', 'clock']"
+                  class="mr-1"
+                />
                 <time
                   :class="{ 'dt-published': detail }"
-                  :datetime="absDate"> {{ detail ? absDate : date }}</time>
+                  :datetime="absDate">{{ detail ? absDate : date }}</time>
               </nuxt-link>
             </li>
             <template v-if="mainPost.is_revised">
               <li class="list-inline-item revised">
                 <template v-if="mainPost.revision">
-                  <i class="fa fa-pencil-square-o"/>
+                  <font-awesome-icon
+                    :icon="['far', 'edit']"
+                    class="mr-1"
+                  />
                   Original
                 </template>
                 <template v-else>
@@ -125,8 +135,11 @@
                     :to="revisions_permalink"
                     class="text-muted"
                     title="Revised Post">
-                    <i class="fa fa-pencil-square"/>
-                    Revised
+                    <font-awesome-icon
+                      icon="edit"
+                      class="mr-1"
+                    />
+                    <span>Revised</span>
                   </nuxt-link>
                 </template>
               </li>
@@ -138,7 +151,10 @@
                   :class="{ 'u-in-reply-to': detail }"
                   class="text-muted"
                   title="In Reply To">
-                  <i class="fa fa-comments"/>
+                  <font-awesome-icon
+                    icon="comments"
+                    class="mr-1"
+                  />
                 </nuxt-link>
               </li>
             </template>
@@ -148,7 +164,7 @@
                   :to="permalink"
                   class="text-muted"
                   title="Thread Starter">
-                  <i class="fa fa-comments-o"/>
+                  <font-awesome-icon :icon="['far', 'comments']"/>
                 </nuxt-link>
               </li>
             </template>
@@ -158,8 +174,11 @@
                   class="text-muted"
                   href="#"
                   @click.stop.prevent="replyModal">
-                  <i class="fa fa-reply"/>
-                  Reply
+                  <font-awesome-icon
+                    icon="reply"
+                    class="mr-1"
+                  />
+                  <span>Reply</span>
                 </a>
               </li>
             </template>
@@ -169,8 +188,11 @@
                   class="text-muted"
                   href="#"
                   @click.stop.prevent="removeModal">
-                  <i class="fa fa-trash"/>
-                  Remove
+                  <font-awesome-icon
+                    icon="trash"
+                    class="mr-1"
+                  />
+                  <span>Remove</span>
                 </a>
               </li>
             </template>
@@ -180,8 +202,11 @@
                   :href="post.source.link"
                   class="text-muted"
                   target="_new">
-                  <i class="fa fa-send"/>
-                  via {{ mainPost.source.name }}
+                  <font-awesome-icon
+                    icon="paper-plane"
+                    class="mr-1"
+                  />
+                  <span>via {{ mainPost.source.name }}</span>
                 </a>
               </li>
             </template>
@@ -191,8 +216,11 @@
                   :href="crosspost"
                   class="text-muted"
                   target="_new">
-                  <i class="fa fa-random"/>
-                  Crosspost
+                  <font-awesome-icon
+                    icon="random"
+                    class="mr-1"
+                  />
+                  <span>Crosspost</span>
                 </a>
               </li>
             </template>
@@ -245,14 +273,14 @@
           <action-button
             ref="favorite"
             :resource="`/posts/${mainPost.id}/bookmark`"
-            :icon="['fa-star-o', 'fa-star']"
+            :icon="[['far', 'star'], ['fas', 'star']]"
             v-model="mainPost.you_bookmarked" />
           <action-button
             v-if="!me"
             ref="repost"
             :resource="`/posts/${mainPost.id}/repost`"
             v-model="mainPost.you_reposted"
-            icon="fa-retweet" />
+            icon="retweet" />
         </div>
       </div>
     </div>

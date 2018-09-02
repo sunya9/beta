@@ -8,7 +8,7 @@
         class="btn btn-primary btn-lg"
         @click="$auth.loginWith('pnut')">
         Login with pnut.io
-        <i class="fa fa-chevron-right"/>
+        <font-awesome-icon icon="chevron-right"/>
       </button>
     </p>
   </div>

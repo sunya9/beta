@@ -12,9 +12,12 @@
       class="custom-control-label">
       <slot />
     </label>
-    <i
+    <font-awesome-icon
       v-if="processing"
-      class="fa fa-spinner fa-pulse fa-fw"/>
+      pulse
+      fixed-width
+      icon="spinner"
+    />
   </div>
 </template>
 <script>

@@ -14,25 +14,25 @@ export default {
       },
       {
         label: 'Your Stream',
-        icon: 'fa-home',
+        icon: 'home',
         url: '/',
         hidden: !user
       },
       {
         label: 'Mentions',
-        icon: 'fa-hand-o-right',
+        icon: ['far', 'hand-point-right'],
         url: '/mentions',
         hidden: !user
       },
       {
         label: 'Interactions',
-        icon: 'fa-exchange',
+        icon: 'exchange-alt',
         url: '/interactions',
         hidden: !user
       },
       {
         label: 'Stars',
-        icon: 'fa-star',
+        icon: 'star',
         url: '/stars',
         hidden: !user
       },
@@ -44,37 +44,37 @@ export default {
       {
         label: 'Conversations',
         url: '/conversations',
-        icon: 'fa-comments',
+        icon: 'comments',
         hidden: !user
       },
       {
         label: 'Missed Conversations',
         url: '/missed-conversations',
-        icon: 'fa-comment',
+        icon: 'comment',
         hidden: !user
       },
       {
         label: 'Newcomers',
         url: '/newcomers',
-        icon: 'fa-user-plus',
+        icon: 'user-plus',
         hidden: !user
       },
       {
         label: 'Photos',
         url: '/photos',
-        icon: 'fa-camera',
+        icon: 'camera',
         hidden: !user
       },
       {
         label: 'Trending',
         url: '/trending',
-        icon: 'fa-line-chart',
+        icon: 'chart-line',
         hidden: !user
       },
       {
         label: 'Global',
         url: '/global',
-        icon: 'fa-globe'
+        icon: 'globe'
       },
       {
         type: 'heading',
@@ -83,19 +83,19 @@ export default {
       {
         label: 'About',
         url: '/about',
-        icon: 'fa-info-circle'
+        icon: 'info-circle'
       },
       {
         label: 'Beta on GitHub',
         url: 'https://github.com/sunya9/beta',
         normal: true,
-        icon: 'fa-github'
+        icon: ['fab', 'github']
       },
       {
         label: 'Keyboard shortcuts',
         click: this.showHelpModal,
         normal: true,
-        icon: 'fa-keyboard-o'
+        icon: ['far', 'keyboard']
       }
     ]
     return {

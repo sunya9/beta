@@ -8,34 +8,34 @@ export default {
       { type: 'heading', label: 'User' },
       {
         label: 'Profile',
-        icon: 'fa-user',
+        icon: 'user',
         url: '/settings'
       },
       {
         label: 'Blocked accounts',
-        icon: 'fa-user-times',
+        icon: 'user-times',
         url: '/settings/blocked-accounts'
       },
       {
         label: 'Muted accounts',
-        icon: 'fa-eye-slash',
+        icon: 'eye-slash',
         url: '/settings/muted-accounts'
       },
       {
         label: 'Account',
-        icon: 'fa-cog',
+        icon: 'user-cog',
         normal: true,
         url: 'https://pnut.io/account'
       },
       { type: 'heading', label: 'App' },
       {
         label: 'Display',
-        icon: 'fa-paint-brush',
+        icon: 'paint-brush',
         url: '/settings/display'
       },
       {
         label: 'Notifications',
-        icon: 'fa-bell',
+        icon: 'bell',
         url: '/settings/notifications'
       }
     ]

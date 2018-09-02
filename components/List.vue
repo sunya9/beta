@@ -35,7 +35,12 @@
       v-show="more"
       :class="{ 'list-group-item': type !== 'Message' }">
       <div class="text-center w-100 text-muted my-2">
-        <i class="fa fa-spin fa-refresh fa-fw fa-2x"/>
+        <font-awesome-icon
+          spin
+          fixed-width
+          size="2x"
+          icon="sync"
+        />
       </div>
     </li>
   </ul>

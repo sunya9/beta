@@ -101,7 +101,7 @@
                     class="text-muted"
                     href="#"
                     @click.stop.prevent="removeModal">
-                    <i class="fa fa-trash"/>
+                    <font-awesome-icon icon="trash"/>
                     Remove
                   </a>
                 </li>
@@ -110,7 +110,7 @@
                     :href="message.source.link"
                     class="text-muted"
                     target="_new">
-                    <i class="fa fa-send"/>
+                    <font-awesome-icon icon="paper-plane" />
                     via {{ message.source.name }}
                   </a>
                 </li>

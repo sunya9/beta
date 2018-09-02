@@ -12,9 +12,11 @@
         :checked="checked"
         type="checkbox"
         @change="change($event.target.checked)">
-      <i
-        :class="computedIcon"
-        class="fa fa-lg fa-fw"/>
+      <font-awesome-icon
+        :icon="computedIcon"
+        size="lg"
+        fixed-width
+      />
     </label>
   </div>
 </template>

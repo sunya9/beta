@@ -6,9 +6,11 @@
     @click="$emit('click')">
     <div class="media pt-2 w-100">
       <div class="d-inline-block mr-4 text-muted">
-        <i
-          :class="icon"
-          class="fa fa-fw fa-2x"/>
+        <font-awesome-icon
+          :icon="icon"
+          fixed-width
+          size="2x"
+        />
       </div>
       <div class="media-body">
         <h6 class="text-gray-dark">
@@ -61,7 +63,7 @@
               <span
                 :title="absDate"
                 class="text-muted">
-                <i class="fa fa-clock-o"/>
+                <font-awesome-icon :icon="['far', 'clock']" />
                 {{ date }}
               </span>
             </li>
@@ -81,19 +83,19 @@ import listItem from '~/assets/js/list-item'
 const convert = {
   follow: {
     text: 'Followed',
-    icon: 'fa-user-plus'
+    icon: 'user-plus'
   },
   bookmark: {
     text: 'starred',
-    icon: 'fa-star'
+    icon: 'star'
   },
   reply: {
     text: 'replied to',
-    icon: 'fa-reply'
+    icon: 'reply'
   },
   repost: {
     text: 'reposted',
-    icon: 'fa-retweet'
+    icon: 'retweet'
   }
 }
 
