@@ -12,8 +12,8 @@
     "precommit": "lint-staged",
     "lint": "eslint --ext .js,.vue .",
     "lint:fix": "eslint --ext .js,.vue --fix .",
-    "test": "run-p test:jest lint",
-    "test:jest": "jest",
+    "test": "jest",
+    "test:all": "run-p 'test --coverage' lint",
     "test:reporter": "codeclimate-test-reporter < coverage/lcov.info"
   },
   "lint-staged": {
