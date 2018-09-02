@@ -101,8 +101,8 @@
 </template>
 
 <script>
-import locales from '~/assets/js/locales'
-import timezones from '~/assets/js/timezones'
+import locales from '~/assets/json/locales'
+import timezones from '~/assets/json/timezones'
 import Cover from './Cover'
 import Avatar from './Avatar'
 
