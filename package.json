@@ -13,7 +13,8 @@
     "lint": "eslint --ext .js,.vue .",
     "lint:fix": "eslint --ext .js,.vue --fix .",
     "test": "run-p test:jest lint",
-    "test:jest": "jest"
+    "test:jest": "jest --coverage",
+    "test:reporter": "codeclimate-test-reporter < coverage/lcov.info"
   },
   "lint-staged": {
     "*.@(js|vue)": [
@@ -60,6 +61,7 @@
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.16",
     "axios-mock-adapter": "^1.11.0",
+    "codeclimate-test-reporter": "^0.5.0",
     "eslint": "^5.1.0",
     "eslint-config-prettier": "^3.0.0",
     "eslint-plugin-jest": "^21.22.0",
