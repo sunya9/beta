@@ -8,17 +8,6 @@ export function getImageURLs(post, rawOnly = false) {
   if (!post.content) return []
   const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
   const photos = []
-  if (!rawOnly) {
-    const linkPhotos = post.content.entities.links
-      .filter(link => imgExt.test(link.link))
-      .map(link => {
-        return {
-          original: link.link,
-          thumb: link.link
-        }
-      })
-    Array.prototype.push.apply(photos, linkPhotos)
-  }
   if (post.raw) {
     const embedPhotos = post.raw
       .filter(r => {
@@ -34,6 +23,17 @@ export function getImageURLs(post, rawOnly = false) {
         }
       })
     Array.prototype.push.apply(photos, embedPhotos)
+  }
+  if (!rawOnly) {
+    const linkPhotos = post.content.entities.links
+      .filter(link => imgExt.test(link.link))
+      .map(link => {
+        return {
+          original: link.link,
+          thumb: link.link
+        }
+      })
+    Array.prototype.push.apply(photos, linkPhotos)
   }
   return _.uniqBy(photos, 'original')
 }
