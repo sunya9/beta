@@ -10,9 +10,7 @@ export function getImageURLs(post, rawOnly = false) {
   const photos = []
   if (post.raw) {
     const embedPhotos = post.raw
-      .filter(r => {
-        return r.type === 'io.pnut.core.oembed' && r.value.type === 'photo'
-      })
+      .filter(r => isOembedType(r, 'photo'))
       .map(r => {
         return {
           ...r.value,
@@ -90,16 +88,12 @@ export function getLongpost(post) {
 export function getAudio(post) {
   if (!post.content) return {}
   if (!post.raw) return {}
-  const audio = post.raw
-    .filter(r => {
-      return r.type === 'io.pnut.core.oembed' && r.value.type === 'audio'
-    })
-    .map(r => {
-      return {
-        url: r.value.url,
-        title: r.value.title
-      }
-    })
+  const audio = post.raw.filter(r => isOembedType(r, 'audio')).map(r => {
+    return {
+      url: r.value.url,
+      title: r.value.title
+    }
+  })
   return audio
 }
 
@@ -118,4 +112,8 @@ export function getRSSLink(href) {
     type: 'application/rss+xml',
     href
   }
+}
+
+export function isOembedType(raw, type) {
+  return raw.type === 'io.pnut.core.oembed' && raw.value.type === type
 }

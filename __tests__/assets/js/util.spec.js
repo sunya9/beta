@@ -86,4 +86,50 @@ describe('util', () => {
       ])
     })
   })
+  test('getAudio', () => {
+    const post = {
+      content: {},
+      raw: [
+        {
+          type: 'io.pnut.core.oembed',
+          value: {
+            type: 'audio',
+            url: 'test.mp3',
+            title: 'test'
+          }
+        }
+      ]
+    }
+    expect(util.getAudio(post)).toMatchObject([
+      {
+        url: 'test.mp3',
+        title: 'test'
+      }
+    ])
+  })
+  test('isOembedType', () => {
+    const photoRaw = {
+      type: 'io.pnut.core.oembed',
+      value: {
+        type: 'photo'
+      }
+    }
+    const audioRaw = {
+      type: 'io.pnut.core.oembed',
+      value: {
+        type: 'audio'
+      }
+    }
+    const notOembed = {
+      type: 'lorem.ipsum',
+      value: {
+        type: 'foo'
+      }
+    }
+    expect(util.isOembedType(photoRaw, 'photo')).toBe(true)
+    expect(util.isOembedType(photoRaw, 'audio')).toBe(false)
+    expect(util.isOembedType(audioRaw, 'audio')).toBe(true)
+    expect(util.isOembedType(audioRaw, 'photo')).toBe(false)
+    expect(util.isOembedType(notOembed, 'foo')).toBe(false)
+  })
 })
