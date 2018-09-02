@@ -8,6 +8,10 @@ cache: yarn
 services:
   - docker
 
+env:
+  global:
+    - CODECLIMATE_REPO_TOKEN=06f5b199c1d9bb6f814adf03807ad1df9b6184d4a268daba4672f4f95418ac7e
+
 notifications:
   email: false
   slack:
@@ -18,7 +22,9 @@ before_install:
 
 before_script: greenkeeper-lockfile-update
 script: yarn test
-after_script: greenkeeper-lockfile-upload
+after_script:
+  - greenkeeper-lockfile-upload
+  - yarn run test:reporter
 
 deploy:
   provider: releases
