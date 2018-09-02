@@ -15,6 +15,7 @@
 
 <script>
 import List from '~/components/List'
+import { getRSSLink } from '~/assets/js/util'
 
 export default {
   async asyncData({ app: { $resource }, params }) {
@@ -29,8 +30,12 @@ export default {
     List
   },
   head() {
+    const link = [
+      getRSSLink(`https://api.pnut.io/v0/feed/rss/posts/tags/${this.name}`)
+    ]
     return {
-      title: `#${this.name}`
+      title: `#${this.name}`,
+      link
     }
   }
 }
