@@ -149,44 +149,6 @@ module.exports = {
         component: resolve(__dirname, 'pages/posts/_id.vue')
       })
     },
-    scrollBehavior(to, from, savedPosition) {
-      // default + alpha
-      if (savedPosition) {
-        return savedPosition
-      } else {
-        let position = {}
-        if (to.matched.length < 2) {
-          position = {
-            x: 0,
-            y: 0
-          }
-        } else if (
-          to.matched.some(r => r.components.default.options.scrollToTop)
-        ) {
-          position = {
-            x: 0,
-            y: 0
-          }
-        }
-        if (to.hash) {
-          position = {
-            selector: to.hash
-          }
-        }
-
-        // go to post page first time
-        if (to.params.id) {
-          const el = document.querySelector(`#post-${to.params.id}`)
-          if (el) {
-            position = {
-              x: 0,
-              y: window.pageYOffset + el.getBoundingClientRect().top - 100
-            }
-          }
-        }
-        return position
-      }
-    },
     linkActiveClass: 'active'
   },
   cache: true,

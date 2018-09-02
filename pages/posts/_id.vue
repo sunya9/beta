@@ -47,8 +47,15 @@ export default {
     Compose,
     List
   },
-  mounted() {
+  async mounted() {
     bus.$on('post', this.addAfter)
+    await this.$nextTick()
+    const el = document.querySelector(`#post-${this.$route.params.id}`)
+    if (!el) return
+    window.scrollTo(
+      0,
+      window.pageYOffset + el.getBoundingClientRect().top - 200
+    )
   },
   beforeDestroy() {
     bus.$off('post', this.addAfter)
