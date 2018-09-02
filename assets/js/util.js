@@ -110,3 +110,12 @@ export const underMessages = {
     }
   }
 }
+
+export function getRSSLink(href) {
+  return {
+    hid: 'rss',
+    rel: 'alternate',
+    type: 'application/rss+xml',
+    href
+  }
+}
