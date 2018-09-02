@@ -6,24 +6,24 @@ describe('ActionButton', () => {
     test('pass string', () => {
       const wrapper = shallowMount(ActionButton, {
         propsData: {
-          icon: 'foo'
+          icon: 'user'
         }
       })
-      expect(wrapper.contains('.foo')).toBe(true)
+      expect(wrapper.contains('.fa-user')).toBe(true)
     })
     test('pass array', () => {
       const wrapper = shallowMount(ActionButton, {
         propsData: {
-          icon: ['foo', 'bar']
+          icon: ['user', 'users']
         }
       })
-      expect(wrapper.contains('.foo')).toBe(true)
-      expect(wrapper.contains('.bar')).toBe(false)
+      expect(wrapper.contains('.fa-user')).toBe(true)
+      expect(wrapper.contains('.fa-users')).toBe(false)
       wrapper.setProps({
         checked: true
       })
-      expect(wrapper.contains('.foo')).toBe(false)
-      expect(wrapper.contains('.bar')).toBe(true)
+      expect(wrapper.contains('.fa-user')).toBe(false)
+      expect(wrapper.contains('.fa-users')).toBe(true)
     })
   })
 })
