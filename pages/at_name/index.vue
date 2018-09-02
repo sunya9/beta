@@ -29,7 +29,7 @@ import Compose from '~/components/Compose'
 import List from '~/components/List'
 import bus from '~/assets/js/bus'
 import { mapGetters } from 'vuex'
-import { getTitle } from '~/assets/js/util'
+import { getTitle, getRSSLink } from '~/assets/js/util'
 
 export default {
   components: {
@@ -127,9 +127,13 @@ export default {
         content: this.name
       }
     ]
+    const link = [
+      getRSSLink(`https://api.pnut.io/v0/feed/rss/users/${this.name}/posts`)
+    ]
     return {
       title,
-      meta
+      meta,
+      link
     }
   }
 }
