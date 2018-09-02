@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import axios from 'axios'
 import './axios-mock'
+import '~/plugins/font-awesome'
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
