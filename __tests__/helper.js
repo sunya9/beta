@@ -55,7 +55,6 @@ const baseMountOpts = (...overrides) =>
     ...overrides
   )
 
-const router = new VueRouter()
-export { createStore, router, authedUserCreateStore, baseMountOpts }
+export { createStore, VueRouter, authedUserCreateStore, baseMountOpts }
 
 export * from '@vue/test-utils'
