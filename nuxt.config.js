@@ -70,6 +70,10 @@ module.exports = {
 
   // webpack build setttings
   build: {
+    extend(config) {
+      config.resolve.alias['bootstrap.native$'] =
+        'bootstrap.native/dist/bootstrap-native-v4.js'
+    },
     extractCSS: true,
     plugins: [
       new ProvidePlugin({
@@ -130,7 +134,11 @@ module.exports = {
       ssr: false
     },
     '~/plugins/axios/',
-    '~/plugins/font-awesome'
+    '~/plugins/font-awesome',
+    '~/plugins/base-components',
+    {
+      src: '~/plugins/modal'
+    }
   ],
 
   // router settings
