@@ -142,7 +142,6 @@ import Thumb from '~/components/Thumb'
 import EntityText from '~/components/EntityText'
 import listItem from '~/assets/js/list-item'
 import { getImageURLs, getAudio, getSpoiler } from '~/assets/js/util'
-import bus from '~/assets/js/bus'
 
 export default {
   components: {
@@ -205,7 +204,7 @@ export default {
   methods: {
     clickMessage() {},
     removeModal() {
-      bus.$emit('showMessageRemoveModal', this)
+      this.$modal.show('message-remove-modal', this)
     },
     remove() {
       return this.$axios

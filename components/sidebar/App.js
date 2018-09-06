@@ -1,4 +1,3 @@
-import bus from '~/assets/js/bus'
 import Sidebar from './Sidebar'
 
 function createMenus({ user, self }) {
@@ -89,7 +88,7 @@ function createMenus({ user, self }) {
     },
     {
       label: 'Keyboard shortcuts',
-      click: self.showHelpModal,
+      click: () => self.$modal.show('#help-modal'),
       normal: true,
       hidden: !user,
       icon: ['far', 'keyboard']
@@ -108,11 +107,6 @@ export default {
     })
     return {
       menus
-    }
-  },
-  methods: {
-    showHelpModal() {
-      bus.$emit('showHelpModal')
     }
   }
 }
