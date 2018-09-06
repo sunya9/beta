@@ -89,19 +89,13 @@
         </div>
       </div>
     </main>
-    <div>
-      <post-modal ref="postModal" />
-    </div>
-    <div>
-      <remove-modal ref="removeModal" />
-      <message-remove-modal ref="mesageRemoveModal" />
-      <message-modal ref="messageModal" />
-      <channel-edit-modal ref="channelEditModal" />
-      <channel-member-edit-modal ref="channelMemberEditModal" />
-    </div>
-    <div>
-      <help-modal ref="helpModal" />
-    </div>
+    <post-modal />
+    <remove-modal />
+    <message-remove-modal />
+    <message-modal />
+    <channel-edit-modal />
+    <channel-member-edit-modal />
+    <help-modal />
   </div>
 </template>
 <script>
@@ -122,7 +116,6 @@ import AboutSidebar from '~/components/sidebar/About'
 import FilesSidebar from '~/components/sidebar/Files'
 import SearchSidebar from '~/components/sidebar/Search'
 import Jumbotron from '~/components/Jumbotron'
-import $ from 'jquery'
 import Vue from 'vue'
 import { underMessages } from '~/assets/js/util'
 
@@ -201,16 +194,12 @@ export default {
     },
     ...mapGetters(['user'])
   },
-  watch: {
-    '$route.fullPath'() {
-      this.$refs.removeModal.dismiss()
-      this.$refs.postModal.dismiss()
-      $('#sidebarContent').collapse('hide')
-    }
-  },
-
   mounted() {
-    // dark theme
+    // const { Collapse } = require('bootstrap.native')
+    // const collapse = new Collapse('#navbarSupportedContent')
+    // const unwatch = this.$watch('$route.fullPath', () => collapse.hide())
+    // this.$on('hook:beforeDestroy', unwatch)
+    // // dark theme
     if (process.browser) {
       if (localStorage.getItem(`dark_theme`) === 'true') {
         this.bodyClass = 'dark'
@@ -221,19 +210,19 @@ export default {
     // new post
     Mousetrap.bind('n', () => {
       if (this.underMessages) return
-      this.$refs.postModal.showModal()
+      this.$modal.show('post-modal')
     })
     Mousetrap.bind('m', () => {
       if (!this.underMessages) return
-      this.$refs.messageModal.showModal(true)
+      this.$modal.show('message-modal', true)
     })
 
     Mousetrap.bind('c', () => {
       if (!this.underMessages) return
-      this.$refs.messageModal.showModal(false)
+      this.$modal.show('message-modal', false)
     })
 
-    Mousetrap.bind('?', () => this.$refs.helpModal.showModal())
+    Mousetrap.bind('?', () => this.$modal.show('help-modal'))
     // main
     Mousetrap.bind('g h', () => router.push('/'))
     Mousetrap.bind('g m', () => router.push('/mentions'))
