@@ -123,13 +123,14 @@ import { mapGetters } from 'vuex'
 import Thumb from '~/components/Thumb'
 import InputSpoiler from '~/components/InputSpoiler'
 import Mousetrap from '~/plugins/mousetrap'
+import resettable from '~/assets/js/resettable'
 
 export default {
   components: {
     Thumb,
     InputSpoiler
   },
-  mixins: [textCount],
+  mixins: [textCount, resettable],
   props: {
     createChannelMode: {
       type: Boolean,
