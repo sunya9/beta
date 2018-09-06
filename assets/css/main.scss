@@ -14,6 +14,10 @@ body {
   color: $white;
 }
 
+.mb-0-only-child:only-child {
+  margin-bottom: 0 !important;
+}
+
 // buggy
 .dropdown-item {
   padding-top: 0.8rem;
