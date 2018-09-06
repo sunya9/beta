@@ -60,7 +60,10 @@
   </div>
 </template>
 <script>
+import resettable from '~/assets/js/resettable'
+
 export default {
+  mixins: [resettable],
   data() {
     return {
       promise: null,
