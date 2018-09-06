@@ -96,7 +96,6 @@
               aria-labelledby="navbarDropdownMenuLink">
               <nuxt-link
                 :to="`/@${user.username}`"
-                data-toggle="collapse"
                 class="dropdown-item"
                 active-class=""
               >
@@ -118,7 +117,6 @@
               </nuxt-link>
               <div class="dropdown-divider"/>
               <nuxt-link
-                data-toggle="collapse"
                 to="/settings"
                 class="dropdown-item"
                 active-class=""
@@ -139,7 +137,8 @@
             <a
               href="#"
               class="nav-link"
-              @click.prevent="showPostModal">
+              @click.prevent="$modal.show('post-modal')"
+            >
               <font-awesome-icon icon="pencil-alt"/>
             </a>
           </li>
@@ -172,7 +171,6 @@ import { mapGetters } from 'vuex'
 import SearchForm from './SearchForm'
 import AppSidebar from '~/components/sidebar/App'
 import Avatar from '~/components/Avatar'
-import bus from '~/assets/js/bus'
 
 const networkEvents = ['online', 'offline']
 
@@ -212,9 +210,6 @@ export default {
     },
     showConnection() {
       this.$toast.show(`You are ${this.online ? 'on' : 'off'}line`).goAway(2000)
-    },
-    showPostModal() {
-      bus.$emit('showPostModal')
     }
   }
 }
