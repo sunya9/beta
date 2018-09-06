@@ -1,57 +1,37 @@
 <template>
-  <div
+  <base-modal
     id="help-modal"
-    class="modal fade"
-    role="dialog"
-    tabindex="-1"
-    aria-hidden="true">
-    <div
-      class="modal-dialog modal-lg"
-      role="document">
-      <div class="modal-content" >
-        <div class="modal-header">
-          <h5 class="modal-title">
-            Keyboard shortcuts
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row flex-wrap">
-            <div class="col-lg-4">
-              <h6>Actions</h6>
-              <key-sets :key-sets="actions" />
-            </div>
-            <div class="col-lg-4">
-              <h6>Navigation</h6>
-              <key-sets :key-sets="$options.navigation" />
-            </div>
-            <div class="col-lg-4">
-              <h6>Streams</h6>
-              <key-sets :key-sets="$options.streams" />
-            </div>
-          </div>
-        </div>
+    title="Keyboard shortcuts"
+    suppress-warnings
+    size="lg"
+    hide-footer
+  >
+    <div class="row flex-wrap">
+      <div class="col-lg-4">
+        <h6>Actions</h6>
+        <key-sets :key-sets="actions" />
+      </div>
+      <div class="col-lg-4">
+        <h6>Navigation</h6>
+        <key-sets :key-sets="$options.navigation" />
+      </div>
+      <div class="col-lg-4">
+        <h6>Streams</h6>
+        <key-sets :key-sets="$options.streams" />
       </div>
     </div>
-  </div>
+  </base-modal>
 </template>
 
 <script>
-import $ from 'jquery'
-import Mousetrap from 'mousetrap'
-import bus from '~/assets/js/bus'
 import KeySets from './KeySets'
 import { underMessages } from '~/assets/js/util'
+import BaseModal from '~/components/BaseModal'
 
 export default {
   components: {
-    KeySets
+    KeySets,
+    BaseModal
   },
   mixins: [underMessages],
   streamActions: [
@@ -94,26 +74,6 @@ export default {
         ? this.$options.messageActions
         : this.$options.streamActions
     }
-  },
-  mounted() {
-    $(this.$el).on('hidden.bs.modal', this.hidden)
-    bus.$on('showHelpModal', this.showModal)
-  },
-  beforeDestroy() {
-    bus.$off('showHelpModal', this.showModal)
-  },
-  methods: {
-    showModal() {
-      if (!$(this.$el).hasClass('show')) {
-        Mousetrap.pause()
-        $(this.$el).modal('show')
-      }
-    },
-    hidden() {
-      Mousetrap.unpause()
-    }
   }
 }
 </script>
-<style scoped>
-</style>
