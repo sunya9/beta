@@ -173,7 +173,8 @@
                 <a
                   class="text-muted"
                   href="#"
-                  @click.stop.prevent="replyModal">
+                  @click.prevent="$modal.show('post-modal', mainPost)"
+                >
                   <font-awesome-icon
                     icon="reply"
                     class="mr-1"
@@ -294,7 +295,6 @@ import Thumb from '~/components/Thumb'
 import Sound from '~/components/Sound'
 import Poll from '~/components/Poll'
 import { mapGetters } from 'vuex'
-import bus from '~/assets/js/bus'
 import focus from '~/assets/js/focus'
 import EntityText from '~/components/EntityText'
 import {
@@ -411,11 +411,8 @@ export default {
         this.$refs.repost.toggle()
       }
     },
-    replyModal() {
-      bus.$emit('showPostModal', this.mainPost)
-    },
     removeModal() {
-      bus.$emit('showRemoveModal', this)
+      this.$modal.show('remove-modal', this)
     },
     remove() {
       return this.$axios.$delete(`/posts/${this.post.id}`).then(() => {

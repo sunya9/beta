@@ -4,13 +4,13 @@
       :key="$route.fullPath"
       class="row">
       <div class="col-md-4 order-md-2">
-        <h1 v-emojify>
-          {{ $metaInfo.title }}
+        <h1>
+          <span v-emojify>{{ $metaInfo.title }}</span>
           <button
             v-if="!isPM && isModerator"
             class="btn btn-link mr-2"
             type="button"
-            @click.stop.prevent="channelEditModal">
+            @click="channelEditModal">
             <font-awesome-icon
               :icon="['far', 'edit']"
               class="mr-2" />
@@ -207,7 +207,6 @@ import MessageCompose from '~/components/MessageCompose'
 import CustomCheckbox from '~/components/CustomCheckbox'
 import Avatar from '~/components/Avatar'
 import { mapGetters } from 'vuex'
-import bus from '~/assets/js/bus'
 
 export default {
   validate({ params: { channel } }) {
@@ -294,11 +293,11 @@ export default {
       if (bool) this.channel.you_muted = false
     },
     memberEditModal() {
-      bus.$emit('showChannelMemberEditModal', this)
+      this.$modal.show('channel-member-edit-modal', this)
     },
     editMembers() {},
     channelEditModal() {
-      bus.$emit('showChannelEditModal', this)
+      this.$modal.show('channel-edit-modal', this)
     },
     async update(updatedChannel) {
       try {
