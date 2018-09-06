@@ -32,56 +32,27 @@
       </table>
     </div>
 
-    <div
+    <base-modal
       id="delete-file-modal"
-      class="modal fade"
-      role="dialog"
-      tabindex="-1"
-      aria-hidden="true">
-      <div
-        class="modal-dialog"
-        role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">
-              Are you sure?
-            </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>
-              It cannot be undone.
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal">Cancel</button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              data-dismiss="modal"
-              @click="deleteFiles">OK</button>
-          </div>
-        </div>
-      </div>
-    </div>
+      :ok-cb="deleteFiles"
+      auto-focus="cancel"
+      title="Are you sure?"
+      suprress-warnings
+    >
+      <p>
+        It cannot be undone.
+      </p>
+    </base-modal>
   </div>
 </template>
 
 <script>
 import FileRow from '~/components/file-row'
-import $ from 'jquery'
+import BaseModal from '~/components/BaseModal'
 
 export default {
   components: {
+    BaseModal,
     FileRow
   },
   props: {
@@ -115,9 +86,6 @@ export default {
       })
     }
   },
-  mounted() {
-    this.modal = $('#delete-file-modal')
-  },
   methods: {
     async fetchMore() {
       this.busy = true
@@ -133,7 +101,7 @@ export default {
       this.busy = false
     },
     showModal() {
-      this.modal.modal('show')
+      this.$modal.show('delete-file-modal')
     },
     async deleteFiles() {
       const deletePromises = this.selectedFiles.map(async file => {

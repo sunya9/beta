@@ -1,143 +1,130 @@
 <template>
-  <div
+  <base-modal
     id="message-modal"
-    class="modal fade"
-    role="dialog"
-    tabindex="-1"
-    aria-hidden="true">
-    <div
-      class="modal-dialog"
-      role="document">
+    title="Create a room"
+    suppress-warnings
+    hide-footer
+    @shown="shown"
+    @show="show"
+    @hidden="hidden"
+  >
+    <ul
+      class="nav nav-tabs"
+      role="tablist">
+      <li class="nav-item">
+        <a
+          id="create-private-room-tab-label"
+          data-toggle="tab"
+          role="tab"
+          aria-controls="create-private-room-tab"
+          aria-selected="true"
+          href="#create-private-room-tab"
+          class="nav-link active"
+        >
+          private
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          id="create-public-room-tab-label"
+          data-toggle="tab"
+          role="tab"
+          aria-controls="create-public-room-tab"
+          aria-selected="false"
+          href="#create-public-room-tab"
+          class="nav-link"
+        >
+          public
+        </a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
       <div
-        v-if="show"
-        class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">
-            Create a room
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <ul
-            class="nav nav-tabs"
-            role="tablist">
-            <li class="nav-item">
-              <a
-                id="create-private-room-tab-label"
-                data-toggle="tab"
-                role="tab"
-                aria-controls="create-private-room-tab"
-                aria-selected="true"
-                href="#create-private-room-tab"
-                class="nav-link active"
-              >
-                private
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                id="create-public-room-tab-label"
-                data-toggle="tab"
-                role="tab"
-                aria-controls="create-public-room-tab"
-                aria-selected="false"
-                href="#create-public-room-tab"
-                class="nav-link"
-              >
-                public
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="tab-content">
-          <div
-            id="create-private-room-tab"
-            class="tab-pane fade show active"
-            role="tabpanel"
-            aria-labelledby="create-private-room-tab-label"
-          >
-            <message-compose
-              class="border-0"
-              create-channel-mode
-              @submit="dismiss"
-              @foundChannel="dismiss"
-            />
-          </div>
-          <div
-            id="create-public-room-tab"
-            class="tab-pane fade"
-            role="tabpanel"
-            aria-labelledby="create-public-room-tab-label"
-          >
-            <channel-compose
-              class="border-0"
-              @submit="dismiss"
-            />
-          </div>
-        </div>
+        id="create-private-room-tab"
+        class="tab-pane active"
+        role="tabpanel"
+        aria-labelledby="create-private-room-tab-label"
+      >
+        <message-compose
+          ref="messageCompose"
+          class="border-0 mb-0-only-child"
+          create-channel-mode
+          @submit="hideRequest"
+          @foundChannel="hideRequest"
+        />
+      </div>
+      <div
+        id="create-public-room-tab"
+        class="tab-pane"
+        role="tabpanel"
+        aria-labelledby="create-public-room-tab-label"
+      >
+        <channel-compose
+          ref="channelCompose"
+          class="border-0 mb-0-only-child"
+          @submit="hideRequest"
+        />
       </div>
     </div>
-  </div>
+  </base-modal>
 </template>
 
 <script>
-import $ from 'jquery'
-import bus from '~/assets/js/bus'
-import Mousetrap from 'mousetrap'
 import MessageCompose from '~/components/MessageCompose'
 import ChannelCompose from '~/components/ChannelCompose'
+import BaseModal from '~/components/BaseModal'
 
 export default {
   components: {
+    BaseModal,
     MessageCompose,
     ChannelCompose
   },
   data() {
     return {
-      show: false
+      tabMap: {},
+      isPrivate: false
     }
   },
-  computed: {},
-  mounted() {
-    $(this.$el).on('hidden.bs.modal', () => this.hidden())
-    $(this.$el).on('shown.bs.modal', () => this.setFocus())
-    bus.$on('showMessageModal', this.showModal)
+  computed: {
+    id() {
+      return `create-${this.isPrivate ? 'private' : 'public'}-room-tab`
+    }
   },
-  beforeDestroy() {
-    bus.$off('showMessageModal', this.showModal)
+  mounted() {
+    const { Tab } = require('bootstrap.native')
+    const targets = this.$el.querySelectorAll('[data-toggle="tab"]')
+    this.tabMap = Array.from(targets).reduce((obj, target) => {
+      obj[target.hash.slice(1)] = new Tab(target)
+      target.addEventListener('shown.bs.tab', this.shown, false)
+      this.$on('hook:beforeDestroy', () =>
+        target.removeEventListener('shown.bs.tab', this.shown)
+      )
+      return obj
+    }, {})
   },
   methods: {
+    shown() {
+      const pane = this.$el.querySelector('.tab-pane.active')
+      if (!pane) return
+      const input = pane.querySelector('textarea, input')
+      if (!input) return
+      input.focus()
+    },
+    show(isPrivate) {
+      this.isPrivate = isPrivate
+      // already shown
+      if (this.$el.querySelector(`#${this.id}.active`)) return
+      this.tabMap[this.id].show()
+    },
     hidden() {
-      this.show = false
-      Mousetrap.unpause()
+      this.$refs.channelCompose.reset()
+      this.$refs.messageCompose.reset()
     },
-    setFocus() {
-      $('.tab-pane.active', this.$el)
-        .find('textarea, input')
-        .first()
-        .focus()
-    },
-    async showModal(isPrivate) {
-      if (!$(this.$el).hasClass('show')) {
-        Mousetrap.pause()
-        this.show = true
-        await this.$nextTick()
-        $(this.$el).modal('show')
-        $(`#create-${isPrivate ? 'private' : 'public'}-room-tab-label`).tab(
-          'show'
-        )
-      }
-    },
-    dismiss() {
-      if ($(this.$el).hasClass('show')) {
-        $(this.$el).modal('hide')
-      }
+    hideRequest() {
+      if (!this.$refs.modal) return
+      this.$refs.modal.ok()
     }
   }
 }

@@ -1,68 +1,50 @@
 <template>
-  <div
-    id="reply-modal"
-    class="modal fade"
-    role="dialog"
-    tabindex="-1"
-    aria-hidden="true">
+  <base-modal
+    id="post-modal"
+    :title="title"
+    suppress-warnings
+    hide-footer
+    @show="show"
+    @shown="shown"
+    @hidden="hidden"
+  >
     <div
-      class="modal-dialog"
-      role="document">
-      <div
-        v-if="show"
-        class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">
-            {{ title }}
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div>
-            <ul class="list-group">
-              <post
-                v-if="reply"
-                :data="reply"
-                view-only
-                class="post px-0" />
-            </ul>
-          </div>
-          <div>
-            <compose
-              ref="compose"
-              :reply-target="reply"
-              compact
-              @post="dismiss"
-            />
-          </div>
-        </div>
-      </div>
+      slot-scope="{ ok }"
+    >
+      <ul
+        v-if="reply"
+        class="list-group"
+      >
+        <post
+          :data="reply"
+          view-only
+          class="post px-0" />
+      </ul>
+      <compose
+        ref="compose"
+        :reply-target="reply"
+        compact
+        @post="ok()"
+      />
     </div>
-  </div>
+  </base-modal>
 </template>
 
 <script>
 import Post from '~/components/Post'
 import Compose from '~/components/Compose'
-import $ from 'jquery'
-import bus from '~/assets/js/bus'
-import Mousetrap from 'mousetrap'
+import BaseModal from '~/components/BaseModal'
 
 export default {
   components: {
     Post,
-    Compose
+    Compose,
+    BaseModal
   },
   data() {
     return {
-      show: false,
-      reply: null
+      reply: null,
+      key: Date.now()
     }
   },
   computed: {
@@ -72,33 +54,16 @@ export default {
         : 'Compose new post'
     }
   },
-  mounted() {
-    $(this.$el).on('hide.bs.modal', this.hide)
-    $(this.$el).on('hidden.bs.modal', this.hidden)
-    $(this.$el).on('shown.bs.modal', () => this.$refs.compose.setFocus())
-    bus.$on('showPostModal', this.showModal)
-  },
-  beforeDestroy() {
-    bus.$off('showPostModal', this.showModal)
-  },
   methods: {
     hidden() {
+      this.$refs.compose.reset()
       this.reply = null
-      this.show = false
-      Mousetrap.unpause()
     },
-    showModal(post) {
-      if (!$(this.$el).hasClass('show')) {
-        Mousetrap.pause()
-        this.show = true
-        this.reply = post || null
-        $(this.$el).modal('show')
-      }
+    async show(post) {
+      this.reply = post
     },
-    dismiss() {
-      if ($(this.$el).hasClass('show')) {
-        $(this.$el).modal('hide')
-      }
+    shown() {
+      this.$refs.compose.setFocus(true)
     }
   }
 }
