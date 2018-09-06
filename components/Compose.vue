@@ -154,6 +154,7 @@ import InputPoll from '~/components/InputPoll'
 import InputSpoiler from '~/components/InputSpoiler'
 import InputLongpost from '~/components/InputLongpost'
 import textCount from '~/assets/js/text-count'
+import resettable from '~/assets/js/resettable'
 
 export default {
   components: {
@@ -164,7 +165,7 @@ export default {
     InputSpoiler,
     InputLongpost
   },
-  mixins: [textCount],
+  mixins: [textCount, resettable],
   props: {
     initialText: {
       type: String,
@@ -353,8 +354,8 @@ export default {
     getSheet() {
       return emojiSource
     },
-    setFocus() {
-      if (this.focus === false) return
+    setFocus(force = false) {
+      if (this.focus === false && !force) return
       // occur error if it not displayed like logged out
       const { textarea } = this.$refs
       if (this.text.length === undefined) {
