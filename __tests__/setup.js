@@ -4,9 +4,11 @@ import VueRouter from 'vue-router'
 import axios from 'axios'
 import './axios-mock'
 import '~/plugins/font-awesome'
+import Modal from '~/plugins/modal/modal'
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
+Vue.use(Modal)
 
 Vue.directive('emojify', {
   bind: () => {},
