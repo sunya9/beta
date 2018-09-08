@@ -23,7 +23,10 @@
         </ul>
       </div>
     </div>
-    <nuxt-child @updateNav="isPM = $event" />
+    <nuxt-child
+      :key="$route.params.channel"
+      @updateNav="isPM = $event"
+    />
   </div>
 </template>
 <script>
