@@ -53,7 +53,7 @@
                 type="button"
                 tabindex="1"
                 class="btn btn-secondary"
-                @click="cancelCb() || hideRequest()"
+                @click="hideRequest(cancelCb())"
               >
                 Cancel
               </button>
@@ -62,7 +62,7 @@
                 :disabled="okDisabled"
                 class="btn btn-primary"
                 tabindex="2"
-                @click="okCb() || ok()">{{ okText }}</button>
+                @click="ok(okCb())">{{ okText }}</button>
             </slot>
           </div>
         </div>
@@ -71,7 +71,7 @@
   </promise-modal>
 </template>
 <script>
-import Mousetrap from 'mousetrap'
+import Mousetrap from '~/plugins/mousetrap'
 
 export default {
   props: {
@@ -89,11 +89,11 @@ export default {
     },
     okCb: {
       type: Function,
-      default: () => {}
+      default: () => () => {}
     },
     cancelCb: {
       type: Function,
-      default: () => {}
+      default: () => () => {}
     },
     autoFocus: {
       type: String,
@@ -126,7 +126,6 @@ export default {
     }
   },
   mounted() {
-    // console.log('mounted')
     const { Modal } = require('bootstrap.native')
     this.modal = new Modal(this.$refs.modal)
     this.$refs.modal.addEventListener('shown.bs.modal', this.shown)
