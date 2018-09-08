@@ -64,7 +64,7 @@
     "zooming": "^2.0.0"
   },
   "devDependencies": {
-    "@vue/test-utils": "^1.0.0-beta.16",
+    "@vue/test-utils": "^1.0.0-beta.24",
     "axios-mock-adapter": "^1.11.0",
     "codeclimate-test-reporter": "^0.5.0",
     "eslint": "^5.1.0",
