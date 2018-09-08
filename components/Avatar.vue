@@ -41,7 +41,12 @@ export default {
   },
   computed: {
     url() {
-      return typeof this.avatar === 'string' ? this.avatar : this.avatar.link
+      return typeof this.avatar === 'string'
+        ? /^(@\w+|\d+)$/.test(this.avatar)
+          ? `https://api.pnut.io/v0/users/${this.avatar}/avatar`
+          : this.avatar
+        : this.avatar.link
+      // ''
     },
     src() {
       let src = this.url
