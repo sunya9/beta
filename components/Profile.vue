@@ -270,9 +270,6 @@ export default {
   min-height: 200px;
 }
 
-.description {
-  white-space: pre-wrap;
-}
 .card-img-top {
   transition: all 0.5s ease;
   opacity: 0;
