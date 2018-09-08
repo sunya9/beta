@@ -10,7 +10,11 @@ export default () =>
         return getData(auth, 'user')
       },
       storage({ auth }) {
-        return getData(auth, 'storage')
+        return (
+          getData(auth, 'storage') || {
+            available: 0
+          }
+        )
       }
     }
   })
