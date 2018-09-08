@@ -64,11 +64,10 @@
               class="ml-3 d-md-none h4 mb-1 mt-1">
               <a
                 data-toggle="collapse"
-                data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent"
                 aria-expanded="false"
                 aria-label="Toggle local navigation"
-                href="#"
+                data-target="#navbarSupportedContent"
               >
                 <font-awesome-icon
                   icon="bars"
@@ -77,12 +76,15 @@
               </a>
             </div>
           </h3>
-          <component
-            v-if="!isAppSidebar"
+          <div
             id="navbarSupportedContent"
-            :is="sidebar"
             class="collapse"
-            narrow />
+          >
+            <component
+              v-if="!isAppSidebar"
+              :is="sidebar"
+              narrow />
+          </div>
           <div>
             <nuxt />
           </div>
@@ -195,10 +197,6 @@ export default {
     ...mapGetters(['user'])
   },
   mounted() {
-    // const { Collapse } = require('bootstrap.native')
-    // const collapse = new Collapse('#navbarSupportedContent')
-    // const unwatch = this.$watch('$route.fullPath', () => collapse.hide())
-    // this.$on('hook:beforeDestroy', unwatch)
     // // dark theme
     if (process.browser) {
       if (localStorage.getItem(`dark_theme`) === 'true') {
