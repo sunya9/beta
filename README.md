@@ -38,10 +38,3 @@ For detailed explanation on how things work, checkout the [Nuxt.js docs](https:/
 Set up a client in the pnut.io developer area.
 
 Set environment variables referenced in [example.env](example.env).
-
-## Contribution
-1. Fork it!
-2. Create a branch (git checkout -b new-feature)
-3. Commit your changes (git commit -am "Add a feature")
-4. Push to the branch (git push origin new-feature)
-5. Create a new Pull Request
