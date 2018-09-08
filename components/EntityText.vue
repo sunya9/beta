@@ -163,7 +163,11 @@ export default {
     }
   },
   mounted() {
-    require('bootstrap.native')
+    // ensure to initialize
+    const { Popover } = require('bootstrap.native')
+    Array.from(this.$el.querySelectorAll('[data-toggle="popover"]')).forEach(
+      target => new Popover(target)
+    )
   },
   methods: {
     unicodeSubstring,
