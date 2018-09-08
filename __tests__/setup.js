@@ -49,3 +49,10 @@ Vue.use({
     Vue.prototype.$axios = axios
   }
 })
+
+jest.mock('~/plugins/mousetrap', () => ({
+  bind() {},
+  unbind() {},
+  pause() {},
+  unpause() {}
+}))
