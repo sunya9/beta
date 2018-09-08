@@ -16,8 +16,8 @@ describe('settings/Account/index component', () => {
         }
       },
       stubs: {
-        avatar: true,
-        cover: true
+        avatar: '<div />',
+        cover: '<div />'
       }
     })
     $toast = wrapper.vm.$toast
