@@ -1,10 +1,10 @@
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import ActionButton from '~/components/ActionButton'
 
 describe('ActionButton', () => {
   describe('icon props', () => {
     test('pass string', () => {
-      const wrapper = shallowMount(ActionButton, {
+      const wrapper = mount(ActionButton, {
         propsData: {
           icon: 'user'
         }
@@ -12,7 +12,7 @@ describe('ActionButton', () => {
       expect(wrapper.contains('.fa-user')).toBe(true)
     })
     test('pass array', () => {
-      const wrapper = shallowMount(ActionButton, {
+      const wrapper = mount(ActionButton, {
         propsData: {
           icon: ['user', 'users']
         }
