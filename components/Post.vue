@@ -411,8 +411,11 @@ export default {
         this.$refs.repost.toggle()
       }
     },
-    removeModal() {
-      this.$modal.show('remove-modal', this)
+    async removeModal() {
+      try {
+        await this.$modal.show('remove-modal', this.post)
+        this.remove()
+      } catch (e) {}
     },
     remove() {
       return this.$axios.$delete(`/posts/${this.post.id}`).then(() => {

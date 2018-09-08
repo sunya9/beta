@@ -1,20 +1,18 @@
 <template>
   <base-modal
     id="remove-modal"
-    :ok-cb="ok"
     title="Remove post?"
-    suppress-warnings
     auto-focus="cancel"
     @show="show"
     @hidden="hidden"
   >
     <p>Do you want to remove this post?</p>
     <ul
-      v-if="vm"
+      v-if="post"
       class="list-group"
     >
       <post
-        :data="vm.post"
+        :data="post"
         view-only />
     </ul>
   </base-modal>
@@ -31,18 +29,15 @@ export default {
   },
   data() {
     return {
-      vm: null
+      post: null
     }
   },
   methods: {
-    show(vm) {
-      this.vm = vm
-    },
-    ok() {
-      this.vm.remove()
+    show(post) {
+      this.post = post
     },
     hidden() {
-      this.vm = null
+      this.post = null
     }
   }
 }
