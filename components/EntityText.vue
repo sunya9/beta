@@ -1,7 +1,6 @@
 <template>
   <span
-    v-if="hasEntities && !deleted"
-    class="apply-pre">
+    v-if="hasEntities && !deleted">
     <template v-if="spoiler && !showSpoiler">
       <button
         class="btn btn-link mr-3 btn-primary"
@@ -13,28 +12,49 @@
       </button>
     </template>
     <template v-else-if="!longpost || !showLongpost">
-      <template v-for="(entity, i) in entities">
-        <nuxt-link
-          v-emojify
-          v-if="entity.type === 'mentions'"
-          :to="`/@${entity.text}`"
-          :key="`mention-${i}`">@{{ entity.text }}</nuxt-link>
-        <nuxt-link
-          v-emojify
-          v-else-if="entity.type === 'tags'"
-          :to="`/tags/${entity.text}`"
-          :key="`tags-${i}`">#{{ entity.text }}</nuxt-link>
-        <a
-          v-emojify
-          v-else-if="entity.type === 'links'"
-          :href="entity.link"
-          :key="`links-${i}`"
-          target="_new">{{ unicodeSubstring(entity.text, 0, entity.len) }}</a>
-        <span
-          v-emojify
-          v-else
-          :key="`text-${i}`">{{ entity.text }}</span>
-      </template>
+      <span class="apply-pre">
+        <template v-for="(entity, i) in entities">
+          <nuxt-link
+            v-emojify
+            v-if="entity.type === 'mentions'"
+            :to="`/@${entity.text}`"
+            :key="`mention-${i}`">@{{ entity.text }}</nuxt-link>
+          <nuxt-link
+            v-emojify
+            v-else-if="entity.type === 'tags'"
+            :to="`/tags/${entity.text}`"
+            :key="`tags-${i}`">#{{ entity.text }}</nuxt-link>
+          <template v-else-if="entity.type === 'links'">
+            <nuxt-link-mod
+              v-emojify
+              :to="entity.replace ? entity.replace.link : entity.link"
+              :key="`links-${i}`"
+              target="_new">{{ replaceLinkText(entity) }}</nuxt-link-mod>
+            <span
+              v-if="entity.amended_len"
+              :key="`links-${i}-domain`"
+            > {{ entity.replace ? `[${entity.replace.domain}]` : unicodeSubstring(entity.text, entity.len, entity.amended_len ) }}</span>
+            <a
+              v-if="entity.replace"
+              :key="`links-${i}-replaced-icon`"
+              :data-content="`<a href='${entity.link}' target='_new'>${entity.link}</a>`"
+              data-toggle="popover"
+              data-trigger="click"
+              href="#"
+              class="mx-1"
+              @click.prevent
+            >
+              <font-awesome-icon
+                icon="info-circle"
+              />
+            </a>
+          </template>
+          <span
+            v-emojify
+            v-else
+            :key="`text-${i}`">{{ entity.text }}</span>
+        </template>
+      </span>
       <template v-if="longpost">
         <button
           class="btn btn-link mr-3 btn-primary"
@@ -71,7 +91,12 @@
 <script>
 import unicodeSubstring from 'unicode-substring'
 import stringLength from 'string-length'
+import NuxtLinkMod from '~/components/NuxtLinkMod'
+
 export default {
+  components: {
+    NuxtLinkMod
+  },
   props: {
     content: {
       type: Object,
@@ -122,7 +147,7 @@ export default {
         .reduce((res, cur, i, ary) => {
           if (i === 0) return res
           const prev = ary[i - 1]
-          const pos = prev.pos + prev.len
+          const pos = prev.pos + (prev.amended_len || prev.len)
           const len = cur.pos
           const text = unicodeSubstring(orig, pos, len)
           res.push({
@@ -137,6 +162,9 @@ export default {
         .filter(entity => !(entity.type === 'text' && entity.text === ''))
     }
   },
+  mounted() {
+    require('bootstrap.native')
+  },
   methods: {
     unicodeSubstring,
     toggleSpoiler() {
@@ -144,6 +172,13 @@ export default {
     },
     toggleLongpost() {
       this.showLongpost = !this.showLongpost
+    },
+    replaceLinkText(entity) {
+      const text = unicodeSubstring(entity.text, 0, entity.len)
+      const isURLLiteral = entity.link === entity.text
+      // Unsubstituted link
+      if (!entity.replace || !isURLLiteral) return text
+      return entity.replace.link
     }
   }
 }
@@ -151,35 +186,32 @@ export default {
 function addTypeKey(entities, value) {
   return entities.map(entity => {
     entity.type = value
-    if (value !== 'links') return entity
-    return modifyURL(entity)
+    if (value === 'links') entity.replace = modifyURL(entity)
+    return entity
   })
 }
 
 const ReplaceUrls = [
   {
     test: /^https?:\/\/patter.chat\/room\/(\d+)/,
-    replace: 'https://beta.pnut.io/messages/$1'
+    replace: 'https://beta.pnut.io/messages/$1',
+    domain: 'beta.pnut.io'
   }
 ]
 
 function modifyURL(entity) {
   const itemToReplace = ReplaceUrls.find(({ test }) => test.test(entity.link))
-  if (!itemToReplace) return entity
-  const { test, replace } = itemToReplace
+  if (!itemToReplace) return null
+  const { test, replace, domain } = itemToReplace
   const link = entity.link.replace(test, replace)
-  const text = entity.text.replace(test, replace)
-  const len = test.test(entity.text) ? link.length : entity.len
   return {
-    ...entity,
     link,
-    text,
-    len
+    domain
   }
 }
 </script>
 <style scoped>
-.apply-pre {
+.apply-pre >>> * {
   white-space: pre-wrap;
 }
 </style>
