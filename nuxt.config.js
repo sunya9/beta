@@ -135,7 +135,6 @@ module.exports = {
     },
     '~/plugins/axios/',
     '~/plugins/font-awesome',
-    '~/plugins/base-components',
     {
       src: '~/plugins/modal'
     }
