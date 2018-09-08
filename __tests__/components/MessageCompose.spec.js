@@ -1,11 +1,6 @@
 import MessageCompose from '~/components/MessageCompose'
 import { mount, authedUserCreateStore, baseMountOpts } from 'helper'
 
-jest.mock('~/plugins/mousetrap', () => ({
-  bind() {},
-  unbind() {}
-}))
-
 describe('MessageCompose component', () => {
   let vm, wrapper
   beforeEach(() => {
