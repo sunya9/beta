@@ -12,5 +12,13 @@ module.exports = {
   },
   setupFiles: ['jest-localstorage-mock', '<rootDir>/__tests__/setup'],
   testRegex: '(/__tests__/(components|pages)/.*|(\\.|/)(test|spec))\\.jsx?$',
-  transformIgnorePatterns: ['node_modules/(?!(nuxt)/)']
+  transformIgnorePatterns: ['node_modules/(?!(nuxt)/)'],
+  collectCoverageFrom: [
+    'assets/js/**/*',
+    'components/**/*',
+    'store/**/*',
+    'assets/js/**/*',
+    'layouts/js/**/*',
+    'pages/js/**/*'
+  ]
 }
