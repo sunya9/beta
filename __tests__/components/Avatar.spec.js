@@ -22,6 +22,16 @@ describe('Avatar', () => {
       const wrapper = shallowMount(Avatar, opts)
       expect(wrapper.contains('img[src="foo.png"]')).toBe(true)
     })
+    test('When pass the username, show icon using API', () => {
+      const wrapper = shallowMount(Avatar, {
+        propsData: {
+          avatar: '@test_user'
+        }
+      })
+      expect(wrapper.find('img').attributes().src).toBe(
+        'https://api.pnut.io/v0/users/@test_user/avatar'
+      )
+    })
   })
   test('Add w param when max-size is larger than 0', () => {
     opts.propsData.maxSize = 16
