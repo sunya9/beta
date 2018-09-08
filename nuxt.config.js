@@ -223,7 +223,8 @@ module.exports = {
           'polls'
         ],
         client_id: process.env.CLIENT_ID
-      }
+      },
+      local: false
     },
     redirect: {
       callback: '/callback',
