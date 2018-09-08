@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const { ProvidePlugin, EnvironmentPlugin } = require('webpack')
+const { EnvironmentPlugin } = require('webpack')
 const { homepage: npm_package_homepage } = require('./package')
 const fs = require('fs')
 const lastModified = fs.statSync('./package.json').mtime
@@ -75,21 +75,9 @@ module.exports = {
         'bootstrap.native/dist/bootstrap-native-v4.js'
     },
     extractCSS: true,
-    plugins: [
-      new ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery',
-        Popper: ['popper.js', 'default'],
-        Util: 'exports-loader?Util!bootstrap/js/dist/util',
-        Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown'
-      }),
-      new EnvironmentPlugin(['npm_package_version'])
-    ],
+    plugins: [new EnvironmentPlugin(['npm_package_version'])],
     vendor: [
       'mousetrap',
-      'jquery',
-      'tether',
       'vue-infinite-scroll',
       'vue-on-click-outside',
       '~/plugins/bootstrap.js',
