@@ -87,7 +87,8 @@ module.exports = {
       'moment',
       '~/components/Post.vue',
       '~/components/List.vue',
-      '~/plugins/font-awesome'
+      '~/plugins/font-awesome',
+      'bootstrap.native'
     ]
   },
 
