@@ -103,10 +103,14 @@ export default {
     // text and entities to html
     entities() {
       const { text: orig, entities } = this.content
-      const { links, mentions, tags } = entities
-      addTypeKey(links, 'links')
-      addTypeKey(mentions, 'mentions')
-      addTypeKey(tags, 'tags')
+      const {
+        links: originalLinks,
+        mentions: originalMentions,
+        tags: originalTags
+      } = entities
+      const links = addTypeKey(originalLinks, 'links')
+      const mentions = addTypeKey(originalMentions, 'mentions')
+      const tags = addTypeKey(originalTags, 'tags')
       return [{ text: '', type: 'text', pos: 0, len: 0 }]
         .concat(links, mentions, tags, {
           text: '',
@@ -147,8 +151,31 @@ export default {
 function addTypeKey(entities, value) {
   return entities.map(entity => {
     entity.type = value
-    return entity
+    if (value !== 'links') return entity
+    return modifyURL(entity)
   })
+}
+
+const ReplaceUrls = [
+  {
+    test: /^https?:\/\/patter.chat\/room\/(\d+)/,
+    replace: 'https://beta.pnut.io/messages/$1'
+  }
+]
+
+function modifyURL(entity) {
+  const itemToReplace = ReplaceUrls.find(({ test }) => test.test(entity.link))
+  if (!itemToReplace) return entity
+  const { test, replace } = itemToReplace
+  const link = entity.link.replace(test, replace)
+  const text = entity.text.replace(test, replace)
+  const len = test.test(entity.text) ? link.length : entity.len
+  return {
+    ...entity,
+    link,
+    text,
+    len
+  }
 }
 </script>
 <style scoped>
