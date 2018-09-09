@@ -3,19 +3,22 @@
     id="channel-edit-modal"
     :ok-disabled="calcDisabled"
     :ok-cb="ok"
+    form="channel-edit-form"
     title="Edit room info"
-    auto-focus="cancel"
     suppress-warnings
     ok-text="Update"
     @show="show"
   >
-    <div
-      v-if="vm"
+    <form
+      v-if="chat"
+      id="channel-edit-form"
       class="form-group"
+      @submit.prevent="ok"
     >
       <div class="form-group">
         <h5>Name</h5>
         <input
+          ref="nameInput"
           v-model="chat.name"
           type="text"
           placeholder="Name"
@@ -39,39 +42,43 @@
           v-model="chat.categories"
           class="form-control"
           multiple>
-          <template v-for="i in ['general','fun','lifestyle','profession','language','community','tech','event']">
-            <option :key="i">{{ i }}</option>
+          <template>
+            <option
+              v-for="category in $options.categories"
+              :key="category"
+            >{{ category }}</option>
           </template>
         </select>
       </div>
-    </div>
+    </form>
   </base-modal>
 </template>
 
 <script>
 import BaseModal from '~/components/BaseModal'
+import { findChatRaw } from '~/assets/js/util'
+import { cloneDeep } from 'lodash'
 
 export default {
+  categories: [
+    'general',
+    'fun',
+    'lifestyle',
+    'profession',
+    'language',
+    'community',
+    'tech',
+    'event'
+  ],
   components: {
     BaseModal
   },
   data() {
     return {
-      vm: null,
-      channel: null
+      chat: null
     }
   },
   computed: {
-    chat() {
-      if (!this.channel) return false
-      const found = this.channel.raw.find(r => {
-        return r.type === 'io.pnut.core.chat-settings'
-      }).value
-      if (!found.categories) {
-        found.categories = []
-      }
-      return found
-    },
     calcDisabled() {
       return (
         !this.chat ||
@@ -83,29 +90,21 @@ export default {
     }
   },
   methods: {
-    show(vm) {
-      this.vm = vm
-      this.channel = JSON.parse(JSON.stringify(this.vm.channel))
+    shown() {
+      this.$refs.nameInput.focus()
+    },
+    show(channel) {
+      const chatRaw = findChatRaw(channel)
+      if (!chatRaw) return
+      const chat = chatRaw.value
+      if (!chat) if (!chat.categories) chat.categories = []
+      this.chat = cloneDeep(chat)
     },
     ok() {
-      delete this.channel.acl
-      const raw = this.channel.raw.filter(r => {
-        return r.type !== 'io.pnut.core.chat-settings'
-      })
-      if (!this.chat.categories.length) {
-        delete this.chat.categories
-      }
-      const chatSettings = {
-        type: 'io.pnut.core.chat-settings',
-        value: this.chat
-      }
-      raw.push(chatSettings)
-      this.channel.raw = raw
-      this.vm.update(this.channel)
+      return this.chat
     },
     hidden() {
-      this.vm = null
-      this.channel = null
+      this.chat = null
     }
   }
 }
