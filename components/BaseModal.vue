@@ -50,6 +50,7 @@
             >
               <button
                 ref="cancel"
+                :form="form"
                 type="button"
                 tabindex="1"
                 class="btn btn-secondary"
@@ -59,6 +60,7 @@
               </button>
               <button
                 ref="ok"
+                :form="form"
                 :disabled="okDisabled"
                 class="btn btn-primary"
                 tabindex="2"
@@ -112,6 +114,10 @@ export default {
       type: String,
       default: '',
       validator: str => ['', 'lg', 'sm'].includes(str)
+    },
+    form: {
+      type: String,
+      default: ''
     }
   },
   data() {
