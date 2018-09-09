@@ -84,7 +84,7 @@
 <script>
 import Avatar from '~/components/Avatar'
 import { mapGetters } from 'vuex'
-import { getSpoiler } from '~/assets/js/util'
+import { getSpoiler, findChatRaw } from '~/assets/js/util'
 
 export default {
   components: {
@@ -174,9 +174,7 @@ export default {
       return this.data.type === 'io.pnut.core.pm'
     },
     chat() {
-      return this.data.raw.filter(r => {
-        return r.type === 'io.pnut.core.chat-settings'
-      })[0].value
+      return findChatRaw(this.data).value
     }
   }
 }
