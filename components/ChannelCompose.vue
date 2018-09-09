@@ -78,7 +78,7 @@ export default {
     calcDisabled() {
       return (
         this.promise ||
-        this.chat.name.length == 0 ||
+        this.chat.name.length === 0 ||
         this.chat.name.length > 128 ||
         this.chat.description.length > 256 ||
         this.chat.categories.length > 3

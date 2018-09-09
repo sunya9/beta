@@ -66,7 +66,7 @@
                     <font-awesome-icon icon="shield-alt"/>
                   </small>
                   <small
-                    v-if="profile.type != 'human'"
+                    v-if="profile.type !== 'human'"
                     class="ml-sm-2 d-block d-sm-inline text-muted ml-1">
                     ({{ profile.type }})
                   </small>
@@ -224,7 +224,7 @@ export default {
       return this.profile.follows_you ? 'Follows you' : ''
     },
     me() {
-      return this.user && this.profile.id == this.user.id
+      return this.user && this.profile.id === this.user.id
     },
     atname() {
       return `@${this.profile.username}`

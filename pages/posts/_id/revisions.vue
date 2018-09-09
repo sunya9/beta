@@ -67,7 +67,7 @@ export default {
         : `@${post.user.username}`
       const fullTitle = `${name}: ${post.content.text}`
       const title =
-        fullTitle.length > 50 ? fullTitle.substr(0, 50) + '…' : fullTitle
+        fullTitle.length > 50 ? `${fullTitle.substr(0, 50)}…` : fullTitle
       const meta = [
         { hid: 'description', name: 'description', content: fullTitle },
         {

@@ -75,7 +75,7 @@ export default {
     calcDisabled() {
       return (
         !this.chat ||
-        this.chat.name.length == 0 ||
+        this.chat.name.length === 0 ||
         this.chat.name.length > 128 ||
         this.chat.description.length > 256 ||
         this.chat.categories.length > 3
@@ -92,7 +92,7 @@ export default {
       const raw = this.channel.raw.filter(r => {
         return r.type !== 'io.pnut.core.chat-settings'
       })
-      if (this.chat.categories.length == 0) {
+      if (!this.chat.categories.length) {
         delete this.chat.categories
       }
       const chatSettings = {

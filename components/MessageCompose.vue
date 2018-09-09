@@ -223,7 +223,7 @@ export default {
           return name.startsWith('@') ? name : `@${name}`
         })
         this.promise = this.$axios.$get(
-          '/users/me/channels/existing_pm?ids=' + destinations.join(',')
+          `/users/me/channels/existing_pm?ids=${destinations.join(',')}`
         )
         const { data: channel } = await this.promise
         if (channel) {

@@ -42,7 +42,7 @@ Vue.use({
       'put',
       'patch'
     ]) {
-      axios['$' + method] = function() {
+      axios[`$${method}`] = function() {
         return this[method].apply(this, arguments).then(res => res && res.data)
       }
     }

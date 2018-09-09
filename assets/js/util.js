@@ -82,7 +82,7 @@ export function getLongpost(post) {
         body: r.value.body,
         title:
           r.value.title &&
-          r.value.title != r.value.body.substr(0, r.value.title.length)
+          r.value.title !== r.value.body.substr(0, r.value.title.length)
             ? r.value.title
             : false
       }
