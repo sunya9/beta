@@ -122,3 +122,10 @@ export function getRSSLink(href) {
 function isOembedType(raw, type) {
   return raw.type === 'io.pnut.core.oembed' && raw.value.type === type
 }
+
+export function findChatRaw(channel, andValue = false) {
+  const chatRaw = channel.raw.find(r => r.type === 'io.pnut.core.chat-settings')
+  if (!chatRaw) return
+  if (!andValue) return chatRaw
+  return chatRaw.value
+}

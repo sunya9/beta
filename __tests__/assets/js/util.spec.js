@@ -107,4 +107,16 @@ describe('util', () => {
       }
     ])
   })
+  test('findChatRaw', () => {
+    const value = true
+    const chatRaw = {
+      type: 'io.pnut.core.chat-settings',
+      value
+    }
+    const channel = {
+      raw: [chatRaw]
+    }
+    expect(util.findChatRaw(channel)).toEqual(chatRaw)
+    expect(util.findChatRaw(channel, true)).toBe(value)
+  })
 })
