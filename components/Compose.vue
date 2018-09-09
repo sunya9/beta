@@ -222,7 +222,7 @@ export default {
       return this.postCounter < 0
     },
     hasNoText() {
-      return this.textLength === 0
+      return !this.textLength
     },
     disabled() {
       const sending = !!this.promise
@@ -305,7 +305,7 @@ export default {
           i
         ].text.toLowerCase()
         if (
-          mentions.indexOf(mention) == -1 &&
+          mentions.indexOf(mention) === -1 &&
           mention !== this.user.username.toLowerCase()
         ) {
           this.text += `@${this.replyTarget.content.entities.mentions[i].text} `

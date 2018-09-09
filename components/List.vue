@@ -21,7 +21,7 @@
       :class="[{
         'my-4': id(item) === main,
         'list-group-item-warning': isTarget(item),
-        'list-group-item list-group-item-action': type == 'Channel',
+        'list-group-item list-group-item-action': type === 'Channel',
       }, type.toLowerCase()]"
       :detail="id(item) === main"
       v-bind="componentOptions"
