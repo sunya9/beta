@@ -30,6 +30,8 @@ module.exports = {
       {
         allowEmptyCatch: true
       }
-    ]
+    ],
+    eqeqeq: 'error',
+    'prefer-template': 'error'
   }
 }
