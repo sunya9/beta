@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h3 v-emojify>#{{ name }}</h3>
+    <emojify
+      :text="`#${name}`"
+      element="h3"
+    />
     <a
       :href="'https://api.pnut.io/v0/feed/rss/posts/tags/' + name"
       class="card-link">

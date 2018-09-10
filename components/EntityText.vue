@@ -7,7 +7,7 @@
         type="button"
         @click="toggleSpoiler">
         <span class="d-sm-inline ml-2">Show Spoiler:
-          <span v-emojify>{{ spoiler.topic }}</span>
+          <span>{{ spoiler.topic }}</span>
         </span>
       </button>
     </template>
@@ -15,21 +15,25 @@
       <span class="apply-pre">
         <template v-for="(entity, i) in entities">
           <nuxt-link
-            v-emojify
             v-if="entity.type === 'mentions'"
             :to="`/@${entity.text}`"
-            :key="`mention-${i}`">@{{ entity.text }}</nuxt-link>
-          <nuxt-link
-            v-emojify
+            :key="`mention-${i}`"
+          >@{{ entity.text }}</nuxt-link>
+          <emojify
             v-else-if="entity.type === 'tags'"
             :to="`/tags/${entity.text}`"
-            :key="`tags-${i}`">#{{ entity.text }}</nuxt-link>
+            :text="`#${entity.text}`"
+            :key="`tags-${i}`"
+            element="nuxt-link"
+          />
           <template v-else-if="entity.type === 'links'">
-            <nuxt-link-mod
-              v-emojify
+            <emojify
               :to="entity.replace ? entity.replace.link : entity.link"
               :key="`links-${i}`"
-              target="_new">{{ replaceLinkText(entity) }}</nuxt-link-mod>
+              :element="$options.components.NuxtLinkMod"
+              :text="replaceLinkText(entity)"
+              target="_new"
+            />
             <span
               v-if="entity.amended_len"
               :key="`links-${i}-domain`"
@@ -49,15 +53,16 @@
               />
             </a>
           </template>
-          <span
-            v-emojify
+          <emojify
             v-else
-            :key="`text-${i}`">{{ entity.text }}</span>
+            :text="entity.text"
+            :key="`text-${i}`"/>
         </template>
       </span>
       <template v-if="longpost">
         <button
           class="btn btn-link mr-3 btn-primary"
+          data-test-collapse-button
           style="margin-top:.8em;display:block"
           type="button"
           @click="toggleLongpost">
@@ -68,10 +73,15 @@
       </template>
     </template>
     <template v-else>
-      <h5
-        v-emojify
-        v-if="longpost.title">{{ longpost.title }}</h5>
-      <span v-emojify>{{ longpost.body }}</span>
+      <emojify
+        v-if="longpost.title"
+        :text="longpost.title"
+        element="h5"
+      />
+      <emojify
+        :text="longpost.body"
+        element="p"
+      />
       <div style="margin-top:.8em">
         <button
           class="btn btn-link mr-3 btn-primary"

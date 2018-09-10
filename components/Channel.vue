@@ -52,7 +52,7 @@
               icon="users"
               fixed-width
               aria-hidden="true"/>
-            <span v-emojify>{{ chat.name }}</span>
+            <emojify :text="chat.name" />
             <small class="text-muted">
               {{ chat.description }}
             </small>
