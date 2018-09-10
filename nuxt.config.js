@@ -114,10 +114,7 @@ module.exports = {
       src: '~/plugins/emoji',
       ssr: false
     },
-    {
-      src: '~/plugins/vue-emojify',
-      ssr: false
-    },
+    '~/plugins/vue-emojify',
     {
       src: '~/plugins/vue-scrollto',
       ssr: false
