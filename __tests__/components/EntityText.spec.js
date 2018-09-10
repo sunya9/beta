@@ -28,4 +28,41 @@ describe('EntityText component', () => {
       true
     )
   })
+  describe('has long post', () => {
+    let wrapper
+    const title = 'long post title'
+    const body = 'long post body'
+    beforeEach(() => {
+      wrapper = shallowMount(EntityText, {
+        propsData: {
+          content: {
+            entities: {
+              links: [],
+              tags: [],
+              mentions: []
+            },
+            text: 'body'
+          },
+          longpost: {
+            title,
+            body
+          }
+        }
+      })
+    })
+    it('Show Expand/Collapse button', () => {
+      const collapseText = 'Collapse Post'
+      const expandText = 'Expand Post'
+      expect(wrapper.text()).toContain(expandText)
+      expect(wrapper.text()).not.toContain(collapseText)
+      wrapper.find('button[data-test-collapse-button]').trigger('click')
+      expect(wrapper.text()).not.toContain(expandText)
+      expect(wrapper.text()).toContain(collapseText)
+    })
+    it('Show longpost content', () => {
+      wrapper.find('button[data-test-collapse-button]').trigger('click')
+      expect(wrapper.text()).toContain(title)
+      expect(wrapper.text()).toContain(body)
+    })
+  })
 })
