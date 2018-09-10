@@ -1,8 +1,7 @@
 <template>
   <div>
     <h1>
-      <!-- disabled v-emojify temporarily -->
-      <span>{{ $metaInfo.title }}</span>
+      <emojify :text="$metaInfo.title" />
       <button
         v-if="chat && isModerator"
         class="btn btn-link mr-2"
