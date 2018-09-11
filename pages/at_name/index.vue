@@ -128,7 +128,7 @@ export default {
       }
     ]
     const link = [
-      getRSSLink(`https://api.pnut.io/v0/feed/rss/users/${this.name}/posts`)
+      getRSSLink(`https://api.pnut.io/v0/feed/rss/users/@${this.name}/posts`)
     ]
     return {
       title,
