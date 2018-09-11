@@ -24,7 +24,7 @@
         ref="compose"
         :reply-target="reply"
         compact
-        @post="ok()"
+        @post="ok"
       />
     </div>
   </base-modal>
