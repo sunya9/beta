@@ -7,7 +7,7 @@
         type="button"
         @click="toggleSpoiler">
         <span class="d-sm-inline ml-2">Show Spoiler:
-          <span>{{ spoiler.topic }}</span>
+          <emojify :text="spoiler.topic" />
         </span>
       </button>
     </template>
@@ -56,7 +56,7 @@
           <emojify
             v-else
             :text="entity.text"
-            :key="`text-${i}`"/>
+            :key="`text-${i}`" />
         </template>
       </span>
       <template v-if="longpost">
