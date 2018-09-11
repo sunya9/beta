@@ -52,8 +52,7 @@ export function getCrosspostLink(post) {
 }
 
 export function getSpoiler(post) {
-  if (!post.content) return {}
-  if (!post.raw) return {}
+  if (!post.content || !post.raw) return null
   const spoiler = post.raw
     .filter(r => {
       return (
