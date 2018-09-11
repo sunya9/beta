@@ -135,7 +135,10 @@
         class="card-link"
         to="starred"
         append>{{ profile.counts.bookmarks }} Starred</nuxt-link>
-      <div class="dropdown card-link">
+      <div
+        ref="dropdown"
+        class="dropdown card-link"
+      >
         <a
           id="profile-dropdown"
           data-toggle="dropdown"
@@ -146,7 +149,9 @@
         </a>
         <div
           class="dropdown-menu dropdown-menu-right"
-          aria-labelledby="profile-dropdown">
+          aria-labelledby="profile-dropdown"
+          aria-expanded="false"
+        >
           <nuxt-link
             v-if="me"
             to="/polls"
@@ -251,6 +256,8 @@ export default {
     // 2 === side border width
     const ratio = (width - 2) / this.profile.content.cover_image.width
     this.headerHeight = this.profile.content.cover_image.height * ratio
+    const { Dropdown } = require('bootstrap.native')
+    new Dropdown(this.$refs.dropdown)
   }
 }
 </script>
