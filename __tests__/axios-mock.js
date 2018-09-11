@@ -3,6 +3,13 @@ import MockAdapter from 'axios-mock-adapter'
 
 const mock = new MockAdapter(axios)
 
+mock.onAny(/\/200/).reply(200, {
+  meta: {
+    more: false
+  },
+  data: []
+})
+
 mock.onPut(/\/users\/\d+\/follow/).reply(200, {
   data: {
     you_follow: true
