@@ -1,4 +1,4 @@
-import Emojify from './vue-emojify'
+import Emojify from './Emojify'
 import Vue from 'vue'
 
 Vue.component('emojify', Emojify)
