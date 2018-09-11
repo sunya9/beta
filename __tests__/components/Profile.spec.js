@@ -118,4 +118,31 @@ describe('Profile component', () => {
       expect($relation.text().trim()).toBe('Follows you')
     })
   })
+  describe('more dropdown', () => {
+    test('Show dropdown when three dots is clicked', async () => {
+      const dropdownBody = wrapper.find('[aria-labelledby="profile-dropdown"]')
+      expect(dropdownBody.is('[aria-expanded="false"]')).toBe(true)
+      wrapper.find('#profile-dropdown').trigger('click')
+      expect(dropdownBody.is('[aria-expanded="true"]')).toBe(true)
+    })
+    test('Not show Block/Mute link in not my profile', () => {
+      wrapper.find('#profile-dropdown').trigger('click')
+      const text = wrapper.text()
+      expect(text).not.toContain('Block')
+      expect(text).not.toContain('Mute')
+    })
+    test('Show Block/Mute link in myself profile', () => {
+      const others = baseProfile({
+        id: 2
+      })
+      vm.profile = others
+      wrapper.find('#profile-dropdown').trigger('click')
+      const text = wrapper.text()
+      expect(text).toContain('Block')
+      expect(text).toContain('Mute')
+    })
+    test('Show RSS link any user', () => {
+      expect(wrapper.text()).toContain('RSS')
+    })
+  })
 })
