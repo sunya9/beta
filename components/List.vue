@@ -285,9 +285,9 @@ export default {
       if (this.refreshing) return
       this.refreshing = true
       const option = Object.assign({}, this.defaultOption, {
-        since_id: this.id(this.items[0])
+        since_id: this.items.length && this.id(this.items[0])
       })
-      const { data: newItems } = await this.$resource(this.resouce, option)
+      const { data: newItems } = await this.$resource(this.resource, option)
       if (newItems.length) {
         this.items = newItems.concat(this.items)
         this.select += newItems.length
@@ -319,7 +319,7 @@ export default {
         before_id: this.meta.min_id
       })
       const { data: newItems, meta } = await this.$resource(
-        this.resouce,
+        this.resource,
         option
       )
       this.meta = meta
