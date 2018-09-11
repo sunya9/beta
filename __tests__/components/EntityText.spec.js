@@ -1,11 +1,11 @@
-import { shallowMount } from 'helper'
+import { mount } from 'helper'
 import EntityText from '~/components/EntityText'
 
 // TODO: write tests
 describe('EntityText component', () => {
   it('Replace patter links with own domain', () => {
     const patterLink = 'https://patter.chat/room/0'
-    const wrapper = shallowMount(EntityText, {
+    const wrapper = mount(EntityText, {
       propsData: {
         content: {
           entities: {
@@ -33,7 +33,7 @@ describe('EntityText component', () => {
     const title = 'long post title'
     const body = 'long post body'
     beforeEach(() => {
-      wrapper = shallowMount(EntityText, {
+      wrapper = mount(EntityText, {
         propsData: {
           content: {
             entities: {

@@ -5,6 +5,7 @@ import axios from 'axios'
 import './axios-mock'
 import '~/plugins/font-awesome'
 import Modal from '~/plugins/modal/modal'
+import '~/plugins/emojify'
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
