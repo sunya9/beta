@@ -277,6 +277,38 @@ export default {
         })
       })
       this.previewPhotos = await Promise.all(promisePhotos)
+    },
+    replyTarget: {
+      handler(replyTarget) {
+        if (!replyTarget) return
+        const notMe = this.user.username !== this.replyTarget.user.username
+        if (notMe) {
+          this.text = `@${this.replyTarget.user.username} `
+        }
+
+        this.replyStartPos = this.text.length
+
+        let mentions = [this.replyTarget.user.username.toLowerCase()]
+        for (
+          var i = this.replyTarget.content.entities.mentions.length - 1;
+          i >= 0;
+          i--
+        ) {
+          var mention = this.replyTarget.content.entities.mentions[
+            i
+          ].text.toLowerCase()
+          if (
+            mentions.indexOf(mention) === -1 &&
+            mention !== this.user.username.toLowerCase()
+          ) {
+            this.text += `@${
+              this.replyTarget.content.entities.mentions[i].text
+            } `
+            mentions.push(mention)
+          }
+        }
+      },
+      immediate: true
     }
   },
 
@@ -286,32 +318,6 @@ export default {
   mounted() {
     if (this.focus) {
       this.setFocus()
-    }
-    if (this.replyTarget) {
-      const notMe = this.user.username !== this.replyTarget.user.username
-      if (notMe) {
-        this.text = `@${this.replyTarget.user.username} `
-      }
-
-      this.replyStartPos = this.text.length
-
-      let mentions = [this.replyTarget.user.username.toLowerCase()]
-      for (
-        var i = this.replyTarget.content.entities.mentions.length - 1;
-        i >= 0;
-        i--
-      ) {
-        var mention = this.replyTarget.content.entities.mentions[
-          i
-        ].text.toLowerCase()
-        if (
-          mentions.indexOf(mention) === -1 &&
-          mention !== this.user.username.toLowerCase()
-        ) {
-          this.text += `@${this.replyTarget.content.entities.mentions[i].text} `
-          mentions.push(mention)
-        }
-      }
     }
   },
   methods: {
