@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import originalCreateStore from '~/store'
 import { merge } from 'lodash'
 import { RouterLinkStub as NuxtLink } from '@vue/test-utils'
+import axiosMock from './axios-mock'
 
 beforeEach(() => {
   Vue.prototype.$toast = {
@@ -55,6 +56,12 @@ const baseMountOpts = (...overrides) =>
     ...overrides
   )
 
-export { createStore, VueRouter, authedUserCreateStore, baseMountOpts }
+export {
+  createStore,
+  VueRouter,
+  authedUserCreateStore,
+  baseMountOpts,
+  axiosMock
+}
 
 export * from '@vue/test-utils'

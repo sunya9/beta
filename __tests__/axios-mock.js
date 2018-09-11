@@ -26,3 +26,5 @@ mock.onPost(/\/proxy\/users\/me\/avatar/).reply(200, {
     }
   }
 })
+
+export default mock
