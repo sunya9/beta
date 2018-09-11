@@ -35,8 +35,8 @@
           </div>
           <div class="modal-body">
             <slot
-              @ok="ok"
-              @canchel="hideRequest"
+              :ok="ok"
+              :canchel="hideRequest"
             />
           </div>
           <div
