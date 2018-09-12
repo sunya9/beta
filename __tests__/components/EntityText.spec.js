@@ -1,54 +1,34 @@
-import { mount } from 'helper'
+import { mount, fixtures, baseMountOpts } from 'helper'
 import EntityText from '~/components/EntityText'
 
 // TODO: write tests
 describe('EntityText component', () => {
   it('Replace patter links with own domain', () => {
-    const patterLink = 'https://patter.chat/room/0'
-    const wrapper = mount(EntityText, {
-      propsData: {
-        content: {
-          entities: {
-            links: [
-              {
-                text: patterLink,
-                len: patterLink.length,
-                link: patterLink,
-                pos: 0
-              }
-            ],
-            tags: [],
-            mentions: []
-          },
-          text: patterLink
+    const wrapper = mount(
+      EntityText,
+      baseMountOpts({
+        propsData: {
+          content: fixtures('post', 'hasPatterLink').content
         }
-      }
-    })
+      })
+    )
     expect(wrapper.text().includes('https://beta.pnut.io/messages/0')).toBe(
       true
     )
   })
   describe('has long post', () => {
     let wrapper
-    const title = 'long post title'
-    const body = 'long post body'
     beforeEach(() => {
-      wrapper = mount(EntityText, {
-        propsData: {
-          content: {
-            entities: {
-              links: [],
-              tags: [],
-              mentions: []
-            },
-            text: 'body'
-          },
-          longpost: {
-            title,
-            body
+      wrapper = mount(
+        EntityText,
+        baseMountOpts({
+          propsData: {
+            // FIXME: longpost does not entitytext domain
+            content: fixtures('post'),
+            longpost: fixtures('post', 'hasLongpost')
           }
-        }
-      })
+        })
+      )
     })
     it('Show Expand/Collapse button', () => {
       const collapseText = 'Collapse Post'
@@ -61,8 +41,8 @@ describe('EntityText component', () => {
     })
     it('Show longpost content', () => {
       wrapper.find('button[data-test-collapse-button]').trigger('click')
-      expect(wrapper.text()).toContain(title)
-      expect(wrapper.text()).toContain(body)
+      expect(wrapper.text()).toContain('title')
+      expect(wrapper.text()).toContain('body')
     })
   })
 })
