@@ -11,10 +11,6 @@ Vue.use(Vuex)
 Vue.use(VueRouter)
 Vue.use(Modal)
 
-Vue.directive('emojify', {
-  bind: () => {},
-  unbind: () => {}
-})
 Vue.directive('on-click-outside', {
   bind: () => {},
   unbind: () => {}
