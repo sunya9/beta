@@ -1,50 +1,21 @@
 import {
   mount,
   authedUserCreateStore,
-  RouterLinkStub as NuxtLink
+  RouterLinkStub as NuxtLink,
+  fixtures
 } from 'helper'
 import Profile from '~/components/Profile'
 
-function baseProfile(...obj) {
-  return Object.assign(
-    {
-      id: 1,
-      content: {
-        cover_image: {
-          link: 'https://example.com/cover.png',
-          width: 960,
-          height: 640
-        },
-        avatar_image: {
-          link: 'https://example.com/avatar.png',
-          width: 128,
-          height: 128
-        }
-      },
-      counts: {
-        posts: 1,
-        following: 2,
-        followers: 3,
-        bookmarks: 4
-      },
-      follows_you: false
-    },
-    ...obj
-  )
-}
-
 describe('Profile component', () => {
-  let profile, opts, $store, wrapper, vm
+  let opts
 
   beforeEach(() => {
-    $store = authedUserCreateStore()
-    profile = baseProfile()
     opts = {
       propsData: {
-        initialProfile: profile
+        initialProfile: fixtures('profile')
       },
       mocks: {
-        $store
+        $store: authedUserCreateStore()
       },
       attachToDocument: true,
       stubs: {
@@ -52,58 +23,52 @@ describe('Profile component', () => {
         NuxtLink
       }
     }
-    wrapper = mount(Profile, opts)
-    vm = wrapper.vm
   })
   describe('Cover', () => {
     test('Show cover image', () => {
+      const wrapper = mount(Profile, opts)
       expect(wrapper.find('img').attributes().src).toContain('cover.png')
     })
   })
   describe('Userinfo', () => {
     test('Show a shield badge when verified domain', async () => {
-      wrapper.vm.$set(wrapper.vm.profile, 'verified', {
-        domain: 'example.com',
-        link: 'https://example.com'
-      })
+      opts.propsData.initialProfile = fixtures('profile', 'hasVerifiedDomain')
+      const wrapper = mount(Profile, opts)
       expect(wrapper.contains('#profile-domain')).toBe(true)
     })
     test('Hidden a shield badge when not verified domain', () => {
+      const wrapper = mount(Profile, opts)
       expect(wrapper.contains('#profile-domain')).toBe(false)
     })
     test('Show bio when content.text exists', async () => {
-      vm.$set(vm.profile.content, 'text', 'foo')
+      opts.propsData.initialProfile = fixtures('profile', 'hasBio')
+      const wrapper = mount(Profile, opts)
       expect(wrapper.contains('.description')).toBe(true)
     })
     test('Hidden bio when profile.text does not exist', () => {
-      wrapper.setProps({
-        initialProfile: baseProfile()
-      })
+      const wrapper = mount(Profile, opts)
       expect(wrapper.contains('.description')).toBe(false)
     })
   })
-  describe('counts', () => {
-    let text
-    beforeEach(() => {
-      text = wrapper.find('#profile-counts').text()
-    })
-    test('Posts', () => expect(text).toContain('1 Posts'))
-    test('Follows', () => expect(text).toContain('2 Follows'))
-    test('Followers', () => expect(text).toContain('3 Followers'))
-    test('Stars', () => expect(text).toContain('4 Starred'))
+  test('counts', () => {
+    const wrapper = mount(Profile, opts)
+    const text = wrapper.find('#profile-counts').text()
+    expect(text).toContain('1 Posts')
+    expect(text).toContain('2 Follows')
+    expect(text).toContain('3 Followers')
+    expect(text).toContain('4 Starred')
   })
   describe('Me', () => {
     test('Not shown follow button', () => {
+      const wrapper = mount(Profile, opts)
       expect(wrapper.contains('#profile-follow-button')).toBe(false)
     })
   })
   describe('Everyone except me', () => {
-    const others = baseProfile({
-      id: 2,
-      follows_you: false
-    })
+    let wrapper
     beforeEach(() => {
-      vm.profile = others
+      opts.propsData.initialProfile = fixtures('profile', 'notMe')
+      wrapper = mount(Profile, opts)
     })
     test('Show follow button', async () => {
       expect(wrapper.contains('#profile-follow-button')).toBe(true)
@@ -113,35 +78,36 @@ describe('Profile component', () => {
       expect($relation.text().trim()).toBe('')
     })
     test('relation is shown when another user follows you', async () => {
-      vm.profile.follows_you = true
+      opts.propsData.initialProfile = fixtures('profile', 'followsYou')
+      wrapper = mount(Profile, opts)
       const $relation = wrapper.find('#profile-relation')
       expect($relation.text().trim()).toBe('Follows you')
     })
   })
   describe('more dropdown', () => {
     test('Show dropdown when three dots is clicked', async () => {
+      const wrapper = mount(Profile, opts)
       const dropdownBody = wrapper.find('[aria-labelledby="profile-dropdown"]')
       expect(dropdownBody.is('[aria-expanded="false"]')).toBe(true)
       wrapper.find('#profile-dropdown').trigger('click')
       expect(dropdownBody.is('[aria-expanded="true"]')).toBe(true)
     })
     test('Not show Block/Mute link in not my profile', () => {
-      wrapper.find('#profile-dropdown').trigger('click')
-      const text = wrapper.text()
-      expect(text).not.toContain('Block')
-      expect(text).not.toContain('Mute')
-    })
-    test('Show Block/Mute link in myself profile', () => {
-      const others = baseProfile({
-        id: 2
-      })
-      vm.profile = others
-      wrapper.find('#profile-dropdown').trigger('click')
+      opts.propsData.initialProfile = fixtures('profile', 'notMe')
+      const wrapper = mount(Profile, opts)
       const text = wrapper.text()
       expect(text).toContain('Block')
       expect(text).toContain('Mute')
     })
+    test('Show Block/Mute link in myself profile', () => {
+      opts.propsData.initialProfile = fixtures('profile')
+      const wrapper = mount(Profile, opts)
+      const text = wrapper.text()
+      expect(text).not.toContain('Block')
+      expect(text).not.toContain('Mute')
+    })
     test('Show RSS link any user', () => {
+      const wrapper = mount(Profile, opts)
       expect(wrapper.text()).toContain('RSS')
     })
   })
