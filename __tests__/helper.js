@@ -2,9 +2,17 @@ import Vue from 'vue'
 
 import VueRouter from 'vue-router'
 import originalCreateStore from '~/store'
-import { merge } from 'lodash'
+import { merge, cloneDeep } from 'lodash'
 import { RouterLinkStub as NuxtLink } from '@vue/test-utils'
 import axiosMock from './axios-mock'
+import path from 'path'
+
+function fixtures(filepath, overrides) {
+  const defExport = require(path.resolve(__dirname, 'fixtures', filepath))
+  return overrides
+    ? merge({}, defExport.default, defExport[overrides])
+    : cloneDeep(defExport.default)
+}
 
 beforeEach(() => {
   Vue.prototype.$toast = {
@@ -33,7 +41,7 @@ const authedUserCreateStore = () => {
         data: {
           user: {
             username: 'foo',
-            id: 1
+            id: '1'
           },
           storage: {
             available: 1
@@ -61,7 +69,8 @@ export {
   VueRouter,
   authedUserCreateStore,
   baseMountOpts,
-  axiosMock
+  axiosMock,
+  fixtures
 }
 
 export * from '@vue/test-utils'
