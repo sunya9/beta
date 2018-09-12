@@ -63,4 +63,9 @@ describe('Avatar', () => {
     await wrapper.vm.$nextTick()
     expect(wrapper.find('img').classes()).not.toContain('rounded-circle')
   })
+  test('set srcset', () => {
+    opts.propsData.size = 32
+    const wrapper = shallowMount(Avatar, opts)
+    expect(wrapper.attributes().srcset).toBe('foo.png?w=64 2x')
+  })
 })

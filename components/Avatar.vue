@@ -6,6 +6,7 @@
     }"
     :width="size"
     :height="size"
+    :srcset="srcset"
     v-bind="$attrs" >
 </template>
 
@@ -52,6 +53,9 @@ export default {
       let src = this.url
       if (this.maxSize > 0) src += `?w=${this.maxSize}`
       return src
+    },
+    srcset() {
+      return `${this.url}?w=${(this.size || this.maxSize) * 2} 2x`
     }
   },
   mounted() {
