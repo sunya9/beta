@@ -11,6 +11,10 @@ beforeEach(() => {
     error: jest.fn(),
     success: jest.fn()
   }
+  Vue.prototype.$auth = {
+    loginWith: jest.fn(),
+    logout: jest.fn()
+  }
 })
 
 function createStore() {
