@@ -1,18 +1,10 @@
 import Vue from 'vue'
-
 import VueRouter from 'vue-router'
 import originalCreateStore from '~/store'
-import { merge, cloneDeep } from 'lodash'
+import { merge } from 'lodash'
 import { RouterLinkStub as NuxtLink } from '@vue/test-utils'
 import axiosMock from './axios-mock'
-import path from 'path'
-
-function fixtures(filepath, overrides) {
-  const defExport = require(path.resolve(__dirname, 'fixtures', filepath))
-  return overrides
-    ? merge({}, defExport.default, defExport[overrides])
-    : cloneDeep(defExport.default)
-}
+import fixtures from './fixtures'
 
 beforeEach(() => {
   Vue.prototype.$toast = {
