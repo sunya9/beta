@@ -12,7 +12,7 @@ describe('Profile component', () => {
   beforeEach(() => {
     opts = {
       propsData: {
-        initialProfile: fixtures('profile')
+        initialProfile: fixtures('user')
       },
       mocks: {
         $store: authedUserCreateStore()
@@ -32,7 +32,7 @@ describe('Profile component', () => {
   })
   describe('Userinfo', () => {
     test('Show a shield badge when verified domain', async () => {
-      opts.propsData.initialProfile = fixtures('profile', 'hasVerifiedDomain')
+      opts.propsData.initialProfile = fixtures('user', 'hasVerifiedDomain')
       const wrapper = mount(Profile, opts)
       expect(wrapper.contains('#profile-domain')).toBe(true)
     })
@@ -41,7 +41,7 @@ describe('Profile component', () => {
       expect(wrapper.contains('#profile-domain')).toBe(false)
     })
     test('Show bio when content.text exists', async () => {
-      opts.propsData.initialProfile = fixtures('profile', 'hasBio')
+      opts.propsData.initialProfile = fixtures('user', 'hasBio')
       const wrapper = mount(Profile, opts)
       expect(wrapper.contains('.description')).toBe(true)
     })
@@ -67,7 +67,7 @@ describe('Profile component', () => {
   describe('Everyone except me', () => {
     let wrapper
     beforeEach(() => {
-      opts.propsData.initialProfile = fixtures('profile', 'notMe')
+      opts.propsData.initialProfile = fixtures('user', 'notMe')
       wrapper = mount(Profile, opts)
     })
     test('Show follow button', async () => {
@@ -78,7 +78,7 @@ describe('Profile component', () => {
       expect($relation.text().trim()).toBe('')
     })
     test('relation is shown when another user follows you', async () => {
-      opts.propsData.initialProfile = fixtures('profile', 'followsYou')
+      opts.propsData.initialProfile = fixtures('user', 'followsYou')
       wrapper = mount(Profile, opts)
       const $relation = wrapper.find('#profile-relation')
       expect($relation.text().trim()).toBe('Follows you')
@@ -93,14 +93,14 @@ describe('Profile component', () => {
       expect(dropdownBody.is('[aria-expanded="true"]')).toBe(true)
     })
     test('Not show Block/Mute link in not my profile', () => {
-      opts.propsData.initialProfile = fixtures('profile', 'notMe')
+      opts.propsData.initialProfile = fixtures('user', 'notMe')
       const wrapper = mount(Profile, opts)
       const text = wrapper.text()
       expect(text).toContain('Block')
       expect(text).toContain('Mute')
     })
     test('Show Block/Mute link in myself profile', () => {
-      opts.propsData.initialProfile = fixtures('profile')
+      opts.propsData.initialProfile = fixtures('user')
       const wrapper = mount(Profile, opts)
       const text = wrapper.text()
       expect(text).not.toContain('Block')

@@ -3,7 +3,7 @@ import { shallowMount, fixtures } from 'helper'
 
 describe('Avatar component', () => {
   let wrapper, $input, $toast, $image
-  const oldAvatar = fixtures('profile').content.avatar_image
+  const oldAvatar = fixtures('user').content.avatar_image
   beforeEach(() => {
     wrapper = shallowMount(Avatar, {
       propsData: {
@@ -43,10 +43,7 @@ describe('Avatar component', () => {
     await wrapper.vm.avatarChanged({
       target: {
         files: [
-          new File(
-            [],
-            fixtures('profile', 'newAvatar').content.avatar_image.link
-          )
+          new File([], fixtures('user', 'newAvatar').content.avatar_image.link)
         ]
       }
     })

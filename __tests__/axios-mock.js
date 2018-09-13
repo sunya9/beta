@@ -27,7 +27,7 @@ mock.onAny(/\/posts/).reply(200)
 mock.onAny(/\/test/).reply(200)
 mock.onPost(/\/users\/me\/avatar/).reply(200, {
   meta: {},
-  data: fixtures('profile', 'newAvatar')
+  data: fixtures('user', 'newAvatar')
 })
 
 export default mock
