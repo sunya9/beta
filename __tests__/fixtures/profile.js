@@ -10,7 +10,8 @@ export default {
     avatar_image: {
       link: 'https://example.com/avatar.png',
       width: 128,
-      height: 128
+      height: 128,
+      is_default: false
     }
   },
   counts: {
@@ -41,5 +42,16 @@ export const followsYou = {
 export const hasBio = {
   content: {
     text: 'bio'
+  }
+}
+
+export const newAvatar = {
+  content: {
+    avatar_image: {
+      is_default: false,
+      width: 100,
+      height: 100,
+      link: 'http://example.com/new.png'
+    }
   }
 }
