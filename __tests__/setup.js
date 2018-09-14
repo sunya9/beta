@@ -6,6 +6,7 @@ import './axios-mock'
 import '~/plugins/font-awesome'
 import Modal from '~/plugins/modal/modal'
 import '~/plugins/emojify'
+import { config, RouterLinkStub } from '@vue/test-utils'
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
@@ -16,15 +17,17 @@ Vue.directive('on-click-outside', {
   unbind: () => {}
 })
 
-Vue.component('no-ssr', {
+config.stubs['no-ssr'] = {
   functional: true,
   render: (h, context) => h('div', context.data, context.children)
-})
+}
 
 // emoji picker
-Vue.component('picker', {
+config.stubs['picker'] = {
   render: h => h('div')
-})
+}
+
+config.stubs['nuxt-link'] = RouterLinkStub
 
 Vue.use({
   install(Vue) {
