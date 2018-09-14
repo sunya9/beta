@@ -21,7 +21,7 @@
             :data="data"
             :is-moderator="isModerator"
             :channel-type="channel.type"
-            :last-read-message-id="data.meta.marker.id"
+            :last-read-message-id="data.meta.marker && data.meta.marker.id"
             type="Message" />
         </div>
       </div>
