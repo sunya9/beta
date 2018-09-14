@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
 import originalCreateStore from '~/store'
 import { merge } from 'lodash'
 import { RouterLinkStub as NuxtLink } from '@vue/test-utils'
@@ -62,7 +61,6 @@ const baseMountOpts = (...overrides) =>
 
 export {
   createStore,
-  VueRouter,
   authedUserCreateStore,
   baseMountOpts,
   axiosMock,
