@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import VueRouter from 'vue-router'
 import axios from 'axios'
 import './axios-mock'
 import '~/plugins/font-awesome'
@@ -9,7 +8,6 @@ import '~/plugins/emojify'
 import { config, RouterLinkStub } from '@vue/test-utils'
 
 Vue.use(Vuex)
-Vue.use(VueRouter)
 Vue.use(Modal)
 
 Vue.directive('on-click-outside', {
