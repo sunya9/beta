@@ -4,9 +4,10 @@ import {
   shallowMount,
   createStore,
   RouterLinkStub as NuxtLink,
-  VueRouter,
   createLocalVue
 } from 'helper'
+import Vuex from 'vuex'
+
 import AppSidebar from '~/components/sidebar/App'
 
 const menus = [
@@ -28,20 +29,20 @@ function getTrimmedText(wrapper) {
 }
 
 describe('App sidebar component', () => {
-  let $store, localVue, router
+  let localVue
   beforeEach(() => {
     localVue = createLocalVue()
-    localVue.use(VueRouter)
+    localVue.use(Vuex)
   })
   test('Show all menus when logged in', () => {
-    $store = authedUserCreateStore()
-    router = new VueRouter()
     const wrapper = shallowMount(AppSidebar, {
+      store: authedUserCreateStore(),
       mocks: {
-        $store
+        $route: {
+          fullPath: ''
+        }
       },
       localVue,
-      router,
       stubs: {
         NuxtLink
       }
@@ -57,14 +58,14 @@ describe('App sidebar component', () => {
   })
 
   test('Hide some menus when not logged in', () => {
-    $store = createStore()
-    router = new VueRouter()
     const wrapper = shallowMount(AppSidebar, {
-      mocks: {
-        $store
-      },
+      store: createStore(),
       localVue,
-      router,
+      mocks: {
+        $route: {
+          fullPath: ''
+        }
+      },
       stubs: {
         NuxtLink
       }
@@ -96,14 +97,14 @@ describe('App sidebar component', () => {
     )
   })
   test('Show help modal when click keyboard shortcuts', async () => {
-    $store = authedUserCreateStore()
-    router = new VueRouter()
     const wrapper = mount(AppSidebar, {
-      mocks: {
-        $store
-      },
+      store: authedUserCreateStore(),
       localVue,
-      router,
+      mocks: {
+        $route: {
+          fullPath: ''
+        }
+      },
       stubs: {
         NuxtLink
       }
