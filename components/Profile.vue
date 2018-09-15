@@ -152,6 +152,25 @@
           aria-labelledby="profile-dropdown"
           aria-expanded="false"
         >
+          <template v-if="!me && user && !profile.you_blocked">
+            <a
+              :class="{ 'disabled text-center': messagePromise }"
+              href="#"
+              class="dropdown-item"
+              @click.prevent.stop="sendMessage"
+            >
+              <span v-if="!messagePromise">
+                Send a Message
+              </span>
+              <font-awesome-icon
+                v-else
+                icon="circle-notch"
+                fixed-width
+                spin
+              />
+            </a>
+            <div class="dropdown-divider"/>
+          </template>
           <nuxt-link
             v-if="me"
             to="/polls"
@@ -187,6 +206,7 @@
         </div>
       </div>
     </div>
+    <create-pm-modal />
   </div>
 </template>
 
@@ -199,9 +219,11 @@ import EntityText from '~/components/EntityText'
 import BaseMuteButton from '~/components/BaseMuteButton'
 import BaseBlockButton from '~/components/BaseBlockButton'
 import MuteButton from '~/components/MuteButton'
+import createPmModal from '~/components/CreatePmModal'
 
 export default {
   components: {
+    createPmModal,
     FollowButton,
     Thumb,
     Avatar,
@@ -220,7 +242,9 @@ export default {
     return {
       headerHeight: 0,
       loaded: false,
-      profile: this.initialProfile
+      profile: this.initialProfile,
+      messagePromise: null,
+      dropdown: null
     }
   },
   computed: {
@@ -257,7 +281,28 @@ export default {
     const ratio = (width - 2) / this.profile.content.cover_image.width
     this.headerHeight = this.profile.content.cover_image.height * ratio
     const { Dropdown } = require('bootstrap.native')
-    new Dropdown(this.$refs.dropdown)
+    this.dropdown = new Dropdown(this.$refs.dropdown)
+  },
+  methods: {
+    async sendMessage() {
+      try {
+        this.messagePromise = this.$axios.$get(
+          `/users/me/channels/existing_pm?ids=@${this.profile.username}`
+        )
+        const { data } = await this.messagePromise
+        // found
+        this.$router.push(`/messages/${data.id}`)
+      } catch (e) {
+        // not found and transition to /messages
+        this.$modal.show('create-pm-modal', {
+          isPrivate: true,
+          target: this.profile.username
+        })
+        // this.$router.push(`/messages?pm=${this.profile.username}`)
+      }
+      this.dropdown.toggle()
+      this.messagePromise = null
+    }
   }
 }
 </script>
