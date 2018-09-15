@@ -19,6 +19,7 @@ import List from '~/components/List'
 import bus from '~/assets/js/bus'
 
 export default {
+  middleware: ['auth'],
   async asyncData({ app: { $resource }, store }) {
     const option = {
       include_directed_posts: store.state.hide_directed_posts ? 0 : 1
