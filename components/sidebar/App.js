@@ -69,7 +69,8 @@ function createMenus({ user, self }) {
     {
       label: 'Global',
       url: '/global',
-      icon: 'globe'
+      icon: 'globe',
+      hidden: !user
     },
     {
       type: 'heading',
