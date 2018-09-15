@@ -13,7 +13,7 @@
               placeholder="usernames (comma or space delimited)"
               @input="resetPmSearch" >
             <button
-              v-if="calcPmLookup"
+              v-if="calcPmLookup && !targetUser"
               :disabled="pmLookupStatus"
               type="button"
               class="ml-3 btn text-uppercase btn-primary"
@@ -139,6 +139,10 @@ export default {
     noPhoto: {
       type: Boolean,
       default: false
+    },
+    targetUser: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -198,6 +202,9 @@ export default {
         })
       })
       this.previewPhotos = await Promise.all(promisePhotos)
+    },
+    targetUser(user) {
+      this.channelUsersStr = user
     }
   },
   mounted() {
