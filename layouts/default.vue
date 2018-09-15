@@ -212,12 +212,16 @@ export default {
     })
     Mousetrap.bind('m', () => {
       if (!this.underMessages) return
-      this.$modal.show('message-modal', true)
+      this.$modal.show('message-modal', {
+        isPrivate: true
+      })
     })
 
     Mousetrap.bind('c', () => {
       if (!this.underMessages) return
-      this.$modal.show('message-modal', false)
+      this.$modal.show('message-modal', {
+        isPrivate: false
+      })
     })
 
     Mousetrap.bind('?', () => this.$modal.show('help-modal'))
