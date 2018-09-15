@@ -157,6 +157,7 @@
               :class="{ 'disabled text-center': messagePromise }"
               href="#"
               class="dropdown-item"
+              data-test-send-message
               @click.prevent.stop="sendMessage"
             >
               <span v-if="!messagePromise">
@@ -298,7 +299,6 @@ export default {
           isPrivate: true,
           target: this.profile.username
         })
-        // this.$router.push(`/messages?pm=${this.profile.username}`)
       }
       this.dropdown.toggle()
       this.messagePromise = null
