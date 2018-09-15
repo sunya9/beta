@@ -37,7 +37,7 @@
       :ok-cb="deleteFiles"
       auto-focus="cancel"
       title="Are you sure?"
-      suprress-warnings
+      suppress-warnings
     >
       <p>
         It cannot be undone.

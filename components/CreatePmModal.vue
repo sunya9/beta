@@ -3,7 +3,7 @@
     id="create-pm-modal"
     ref="modal"
     hide-footer
-    suprress-warnings
+    suppress-warnings
     title="Send a private message"
     @show="show"
     @shown="shown"
