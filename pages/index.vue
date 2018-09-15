@@ -1,16 +1,14 @@
 <template>
   <div>
-    <div v-if="user">
-      <div>
-        <compose />
-      </div>
-      <div>
-        <list
-          ref="list"
-          :data="data"
-          type="Post" />
-      </div>
-    </div>
+    <compose v-if="user" />
+    <splash
+      v-else
+      class="mb-5" />
+    <list
+      ref="list"
+      :data="data"
+      :resource="resource"
+      type="Post" />
   </div>
 </template>
 
@@ -20,19 +18,27 @@ import Compose from '~/components/Compose'
 import List from '~/components/List'
 import { mapGetters } from 'vuex'
 import bus from '~/assets/js/bus'
+import { getResourcePath } from '~/plugins/axios/resources'
+import Splash from '~/components/Splash'
+
+const globalPath = getResourcePath('global')
 
 export default {
   components: {
     Compose,
-    List
+    List,
+    Splash
   },
   async asyncData({ app: { $resource }, store }) {
-    if (store.getters.user) {
-      const data = await $resource()
-      return { data }
+    const data = await $resource(!store.getters.user ? globalPath : '')
+    return { data }
+  },
+  computed: {
+    ...mapGetters(['user']),
+    resource() {
+      return !this.user ? getResourcePath('global') : ''
     }
   },
-  computed: mapGetters(['user']),
   mounted() {
     bus.$on('post', this.add)
   },
