@@ -75,7 +75,7 @@ describe('App sidebar component', () => {
       expect.arrayContaining(['Other'])
     )
 
-    const links = wrapper.findAll('a')
+    const links = wrapper.findAll('.list-group a')
     const texts = links.wrappers.map(getTrimmedText)
     expect(texts).not.toEqual(
       expect.arrayContaining([
@@ -92,9 +92,7 @@ describe('App sidebar component', () => {
         'Keyboard shortcuts'
       ])
     )
-    expect(texts).toEqual(
-      expect.arrayContaining(['Global', 'About', 'Beta on GitHub'])
-    )
+    expect(texts).toEqual(expect.arrayContaining(['About', 'Beta on GitHub']))
   })
   test('Show help modal when click keyboard shortcuts', async () => {
     const wrapper = mount(AppSidebar, {
@@ -117,8 +115,9 @@ describe('App sidebar component', () => {
       .wrappers.find(wrapper =>
         /Keyboard shortcuts/.test(wrapper.text().trim())
       )
+    const fn = jest.fn()
+    wrapper.vm.$modal.show = fn
     keyboardLink.trigger('click')
-    // why???
-    // expect(wrapper.vm.showHelpModal).toHaveBeenCalled()
+    expect(fn).toHaveBeenCalled()
   })
 })
