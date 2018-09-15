@@ -31,7 +31,8 @@ export const hasVerifiedDomain = {
 }
 
 export const notMe = {
-  id: '2'
+  id: '2',
+  username: 'bob'
 }
 
 export const followsYou = {
@@ -54,4 +55,13 @@ export const newAvatar = {
       link: 'http://example.com/new.png'
     }
   }
+}
+
+export const blocked = {
+  you_blocked: true
+}
+
+export const carol = {
+  id: 3,
+  username: 'carol'
 }
