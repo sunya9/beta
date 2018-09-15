@@ -32,6 +32,6 @@ const map = {
 }
 export default map
 export const getResourcePath = route => {
-  const val = map[route.name]
+  const val = route.name ? map[route.name] : map[route]
   return typeof val === 'function' ? val(route) : val
 }
