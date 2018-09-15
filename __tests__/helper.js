@@ -48,6 +48,9 @@ const authedUserCreateStore = () => {
   return store
 }
 
+const sleep = milliseconds =>
+  new Promise(resolve => setTimeout(resolve, milliseconds))
+
 const baseMountOpts = (...overrides) =>
   merge(
     {},
@@ -64,7 +67,8 @@ export {
   authedUserCreateStore,
   baseMountOpts,
   axiosMock,
-  fixtures
+  fixtures,
+  sleep
 }
 
 export * from '@vue/test-utils'
