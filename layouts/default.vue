@@ -10,11 +10,6 @@
         class="jumbotron" />
     </app-header>
     <main class="container main">
-      <div>
-        <splash
-          v-if="!user"
-          class="mb-5" />
-      </div>
       <div class="row">
         <div
           v-if="!notLoginIndex"
@@ -102,7 +97,6 @@
 </template>
 <script>
 import AppHeader from '~/components/Header'
-import Splash from '~/components/Splash'
 import { mapGetters } from 'vuex'
 import PostModal from '~/components/PostModal'
 import RemoveModal from '~/components/RemoveModal'
@@ -124,7 +118,6 @@ import { underMessages } from '~/assets/js/util'
 export default {
   components: {
     AppHeader,
-    Splash,
     PostModal,
     RemoveModal,
     MessageRemoveModal,
