@@ -30,7 +30,7 @@ export default (context, inject) => {
         message: err.message
       })
     } else {
-      app.$toast.error(err.response.data.meta.error_message || err.message)
+      // app.$toast.error(err.response.data.meta.error_message || err.message)
     }
   })
 }
