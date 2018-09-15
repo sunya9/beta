@@ -112,7 +112,7 @@ export default {
       if (!input) return
       input.focus()
     },
-    show(isPrivate) {
+    show({ isPrivate = true }) {
       this.isPrivate = isPrivate
       // already shown
       if (this.$el.querySelector(`#${this.id}.active`)) return
