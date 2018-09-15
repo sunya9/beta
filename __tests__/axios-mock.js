@@ -30,4 +30,21 @@ mock.onPost(/\/users\/me\/avatar/).reply(200, {
   data: fixtures('user', 'newAvatar')
 })
 
+mock.onGet(/\/messages\/\d+/).reply(200, {
+  meta: {},
+  data: fixtures('channel')
+})
+
+mock.onGet(/\/users\/me\/channels\/existing_pm\?ids=@bob/).reply(200, {
+  meta: {},
+  data: fixtures('channel')
+})
+
+mock.onGet(/\/users\/me\/channels\/existing_pm\?ids=@carol/).reply(404, {
+  meta: {
+    code: 404
+  },
+  data: {}
+})
+
 export default mock
