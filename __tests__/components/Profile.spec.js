@@ -1,10 +1,16 @@
 import {
   mount,
+  createStore,
   authedUserCreateStore,
   RouterLinkStub as NuxtLink,
-  fixtures
+  shallowMount,
+  fixtures,
+  createLocalVue,
+  sleep
 } from 'helper'
 import Profile from '~/components/Profile'
+import VueRouter from 'vue-router'
+import CreatePmModal from '~/components/CreatePmModal'
 
 describe('Profile component', () => {
   let opts
@@ -20,7 +26,8 @@ describe('Profile component', () => {
       attachToDocument: true,
       stubs: {
         Thumb: true,
-        NuxtLink
+        NuxtLink,
+        CreatePmModal: CreatePmModal
       }
     }
   })
@@ -109,6 +116,53 @@ describe('Profile component', () => {
     test('Show RSS link any user', () => {
       const wrapper = mount(Profile, opts)
       expect(wrapper.text()).toContain('RSS')
+    })
+  })
+  describe('Send a message button', () => {
+    test('Show the button when logged in', () => {
+      opts.propsData.initialProfile = fixtures('user', 'notMe')
+      const wrapper = shallowMount(Profile, opts)
+      expect(wrapper.find('[data-test-send-message]').exists()).toBe(true)
+    })
+    test('Hidden the button when logged out or block or myself', () => {
+      const selector = '[data-test-send-message]'
+      const myselfWrapper = shallowMount(Profile, opts)
+      expect(myselfWrapper.find(selector).exists()).toBe(false)
+      opts.propsData.initialProfile = fixtures('user', 'notMe', 'blocked')
+      const blockedWrapper = shallowMount(Profile, opts)
+      expect(blockedWrapper.find(selector).exists()).toBe(false)
+      opts.propsData.initialProfile = fixtures('user')
+      opts.mocks.$store = createStore()
+      const loggedoutWrapper = shallowMount(Profile, opts)
+      expect(loggedoutWrapper.find(selector).exists()).toBe(false)
+    })
+    test('Transition page when pm exists', async () => {
+      const localVue = new createLocalVue()
+      localVue.use(VueRouter)
+      const router = new VueRouter({
+        routes: [
+          {
+            path: '/messages/:channel',
+            name: 'messages-channel'
+          }
+        ]
+      })
+      opts.propsData.initialProfile = fixtures('user', 'notMe')
+      opts.router = router
+      opts.localVue = localVue
+      const wrapper = shallowMount(Profile, opts)
+      wrapper.find('[data-test-send-message]').trigger('click')
+      await sleep(0)
+      expect(wrapper.vm.$route.fullPath).toBe('/messages/1')
+    })
+    test('Show modal when pm not exist', async () => {
+      opts.propsData.initialProfile = fixtures('user', 'carol')
+      const wrapper = mount(Profile, opts)
+      const fn = jest.fn()
+      wrapper.vm.$modal.show = fn
+      wrapper.find('[data-test-send-message]').trigger('click')
+      await sleep(0)
+      expect(fn).toHaveBeenCalled()
     })
   })
 })
