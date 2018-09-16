@@ -54,4 +54,8 @@ mock.onPost(/\/channels\/\d+\/messages/).reply(201, {
   data: fixtures('channel')
 })
 
+mock.onGet('/polls/1?poll_token=poll_token').reply(200, {
+  data: fixtures('poll')
+})
+
 export default mock
