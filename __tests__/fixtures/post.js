@@ -1,10 +1,31 @@
+import fixtures from './'
+
 export default {
-  entities: {
-    links: [],
-    tags: [],
-    mentions: []
+  id: '1',
+  content: {
+    entities: {
+      links: [],
+      tags: [],
+      mentions: []
+    },
+    text: 'body'
   },
-  text: 'body'
+  is_deleted: false,
+  user: fixtures('user'),
+  created_at: new Date(),
+  counts: {
+    bookmarks: 1,
+    replies: 2,
+    reposts: 3,
+    threads: 4
+  },
+  source: {
+    name: 'beta',
+    link: 'https://beta.pnut.io',
+    id: 'lorem'
+  },
+  you_bookmarked: false,
+  you_reposted: false
 }
 const patterLink = 'https://patter.chat/room/0'
 
@@ -29,4 +50,30 @@ export const hasPatterLink = {
 export const hasLongpost = {
   title: 'title',
   body: 'body'
+}
+
+// TODO: content should be deleted
+export const deleted = {
+  is_deleted: true
+}
+
+const betaLink = 'Beta [beta.pnut.io]'
+
+export const hasMarkdownLink = {
+  content: {
+    entities: {
+      links: [
+        {
+          text: betaLink,
+          len: 4, // "Beta".length
+          link: 'https://beta.pnut.io',
+          pos: 0,
+          amended_len: betaLink.length
+        }
+      ],
+      tags: [],
+      mentions: []
+    },
+    text: betaLink
+  }
 }
