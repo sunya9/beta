@@ -69,6 +69,7 @@
     "eslint-config-prettier": "^3.0.0",
     "eslint-plugin-jest": "^21.22.0",
     "eslint-plugin-vue": "^4.3.0",
+    "flush-promises": "^1.0.0",
     "husky": "^0.14.3",
     "imagemin-lint-staged": "^0.3.0",
     "jest": "^23.5.0",
