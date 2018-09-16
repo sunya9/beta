@@ -122,9 +122,10 @@
               </button>
               <div class="dropdown-menu dropdown-menu-right">
                 <a
+                  data-test-id="broadcast"
                   class="dropdown-item"
                   href="#"
-                  @click="broadcast"
+                  @click.prevent="broadcast"
                 >
                   Broadcast
                 </a>
@@ -270,8 +271,10 @@ export default {
       ]
       option.raw.push(...raw)
       option.text = `${unicodeSubstring(this.text, 0, 255)}…`
-      this.promise = await this.$axios.$post('/posts', option)
+      const res = await this.$axios.$post('/posts', option)
+      this.promise = true
       await this.submit(option)
+      return res
     },
     toggleSpoiler() {
       this.spoiler = this.spoiler ? null : {}
