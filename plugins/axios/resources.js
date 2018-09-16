@@ -27,6 +27,7 @@ const map = {
   'about-stats': '/sys/stats',
   newcomers: '/posts/streams/explore/newcomers',
   polls: '/users/me/polls',
+  'polls-id': ({ params }) => `/polls/${params.id}`,
   'settings-blocked-accounts': '/users/me/blocked',
   'settings-muted-accounts': '/users/me/muted'
 }
