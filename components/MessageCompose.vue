@@ -1,7 +1,7 @@
 <template>
   <div class="card mb-4 compose">
     <div class="card-body">
-      <form @submit.prevent="submit">
+      <form @submit.prevent="submit()">
         <div
           v-if="createChannelMode"
           class="form-group">
@@ -40,8 +40,8 @@
             v-model="text"
             :disabled="promise"
             class="form-control"
-            @keydown.ctrl.enter="submit"
-            @keydown.meta.enter="submit"/>
+            @keydown.ctrl.enter="submit()"
+            @keydown.meta.enter="submit()"/>
         </div>
         <div
           v-show="photos.length"
@@ -91,22 +91,45 @@
                 "/>
               <span class="d-none d-sm-inline ml-2">Spoiler</span>
             </button>
-            <button
-              :disabled="calcDisabled"
-              type="submit"
-              class="ml-1 btn text-uppercase btn-primary">
-              <span v-show="promise && !calcPmLookup">
-                <font-awesome-icon
-                  icon="sync"
-                  spin
-                  fixed-width
-                  class="mr-2"
-                />
-              </span>
-              <span>
-                Send
-              </span>
-            </button>
+            <span :class="{ 'btn-group': canBroadcast }">
+              <button
+                :disabled="calcDisabled"
+                type="submit"
+                class="ml-1 btn text-uppercase btn-primary">
+                <span v-show="promise && !calcPmLookup">
+                  <font-awesome-icon
+                    icon="sync"
+                    spin
+                    fixed-width
+                    class="mr-2"
+                  />
+                </span>
+                <span>
+                  Send
+                </span>
+              </button>
+              <button
+                v-if="canBroadcast"
+                ref="dropdown"
+                :disabled="calcDisabled"
+                type="button"
+                class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  @click="broadcast"
+                >
+                  Broadcast
+                </a>
+              </div>
+            </span>
           </div>
         </div>
         <input-spoiler
@@ -124,6 +147,7 @@ import Thumb from '~/components/Thumb'
 import InputSpoiler from '~/components/InputSpoiler'
 import Mousetrap from '~/plugins/mousetrap'
 import resettable from '~/assets/js/resettable'
+import unicodeSubstring from 'unicode-substring'
 
 export default {
   components: {
@@ -143,6 +167,10 @@ export default {
     targetUser: {
       type: String,
       default: ''
+    },
+    channel: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -157,6 +185,9 @@ export default {
     }
   },
   computed: {
+    canBroadcast() {
+      return this.channel && this.channel.acl.read.public
+    },
     calcDisabled() {
       const requireTargetValue = this.createChannelMode && !this.channelUsersStr
       return (
@@ -212,11 +243,36 @@ export default {
       this.$refs.textarea.focus()
       e.preventDefault()
     })
+    const { Dropdown } = require('bootstrap.native')
+    if (!this.$refs.dropdown) return
+    new Dropdown(this.$refs.dropdown)
   },
   beforeDestroy() {
     Mousetrap.unbind('n')
   },
   methods: {
+    async broadcast() {
+      const option = await this.createGeneralPost()
+      const raw = [
+        {
+          type: 'io.pnut.core.crosspost',
+          value: {
+            // TODO: use rel="canonical" value in the future
+            canonical_url: location.href
+          }
+        },
+        {
+          type: 'io.pnut.core.channel.invite',
+          value: {
+            channel_id: this.channel.id
+          }
+        }
+      ]
+      option.raw.push(...raw)
+      option.text = `${unicodeSubstring(this.text, 0, 255)}…`
+      this.promise = await this.$axios.$post('/posts', option)
+      await this.submit(option)
+    },
     toggleSpoiler() {
       this.spoiler = this.spoiler ? null : {}
     },
@@ -244,25 +300,30 @@ export default {
       }
       this.promise = null
     },
-    async submit() {
-      if (this.createChannelMode) return this.createChannel()
+    async createGeneralPost() {
       const option = {
         text: this.text,
         raw: []
       }
+      if (this.hasPhotos) {
+        const raws = await this.uploadPhotos()
+        option.raw.push(...raws)
+      }
+      if (this.spoiler) {
+        option.raw.push({
+          type: 'shawn.spoiler',
+          value: {
+            topic: this.spoiler.topic
+          }
+        })
+      }
+      return option
+    },
+    async submit(preparedOption = null) {
+      if (this.createChannelMode) return this.createChannel()
       try {
-        if (this.hasPhotos) {
-          const raws = await this.uploadPhotos()
-          option.raw.push(...raws)
-        }
-        if (this.spoiler) {
-          option.raw.push({
-            type: 'shawn.spoiler',
-            value: {
-              topic: this.spoiler.topic
-            }
-          })
-        }
+        const option = preparedOption || (await this.createGeneralPost())
+        option.text = this.text
         this.promise = this.$axios.$post(
           `/channels/${this.$route.params.channel}/messages?update_marker=1`,
           option
