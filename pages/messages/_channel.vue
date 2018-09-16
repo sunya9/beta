@@ -13,6 +13,7 @@
       <message-compose
         v-if="canPost"
         v-model="message"
+        :channel="channel"
         @submit="() => $refs.list.refresh()" />
       <div class="card no-gutter-xs">
         <div class="card-body">
