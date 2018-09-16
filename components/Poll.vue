@@ -11,6 +11,7 @@
       >
         <a
           v-if="!finished"
+          :class="{ disabled: !votable }"
           class="btn btn-outline-primary btn-block"
           @click="respond(option.position)">
           {{ option.text }}
@@ -59,11 +60,16 @@
           Total: {{ total }}
         </li>
         <li class="list-inline-item text-muted">
-          <font-awesome-icon
-            :icon="['far', 'clock']"
-            class="mr-2"
-          />
-          <span v-if="closed">Closed at</span><span v-else>~</span> {{ until }}
+          <nuxt-link
+            :to="`/polls/${poll.id}`"
+            class="text-muted"
+          >
+            <font-awesome-icon
+              :icon="['far', 'clock']"
+              class="mr-2"
+            />
+            <span v-if="closed">Closed at</span><span v-else>~</span> {{ until }}
+          </nuxt-link>
         </li>
       </ul>
     </footer>
@@ -97,6 +103,9 @@ export default {
     }
   },
   computed: {
+    votable() {
+      return this.$store.getters.user && !this.closed
+    },
     finished() {
       return this.poll.you_responded || this.closed
     },
