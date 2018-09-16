@@ -92,6 +92,14 @@
             :poll-id="poll.poll_id"
             :poll-token="poll.poll_token" />
         </div>
+        <p v-if="channelInvite">
+          <nuxt-link
+            :to="`/messages/${channelInvite.channel_id}`"
+            class="btn btn-outline-primary"
+          >
+            Go to the channel {{ channelInvite.channel_id }}
+          </nuxt-link>
+        </p>
         <footer v-if="!post.is_deleted && !preview">
           <div v-if="post.repost_of">
             <nuxt-link
@@ -302,7 +310,8 @@ import {
   getAudio,
   getCrosspostLink,
   getSpoiler,
-  getLongpost
+  getLongpost,
+  getChannelInvite
 } from '~/assets/js/util'
 import listItem from '~/assets/js/list-item'
 
@@ -381,6 +390,9 @@ export default {
     },
     longpost() {
       return getLongpost(this.mainPost)
+    },
+    channelInvite() {
+      return getChannelInvite(this.mainPost)
     },
     post() {
       return this.data
