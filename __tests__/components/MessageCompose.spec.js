@@ -1,5 +1,6 @@
 import MessageCompose from '~/components/MessageCompose'
-import { mount, authedUserCreateStore, baseMountOpts } from 'helper'
+import { mount, authedUserCreateStore, baseMountOpts, fixtures } from 'helper'
+import flushPromises from 'flush-promises'
 
 describe('MessageCompose component', () => {
   let vm, wrapper
@@ -84,5 +85,41 @@ describe('MessageCompose component', () => {
         expect(remaining).toBe(-10)
       })
     })
+  })
+  // TODO: Write a more detailed test
+  test('Can broadcast when channel is publicly and I have a write permission', async () => {
+    const wrapper = mount(
+      MessageCompose,
+      baseMountOpts({
+        propsData: {
+          channel: fixtures('channel', 'writable', 'publicly')
+        },
+        mocks: {
+          $store: authedUserCreateStore(),
+          $route: {
+            params: {
+              channel: 1
+            }
+          }
+        }
+      })
+    )
+    wrapper
+      .find({
+        ref: 'textarea'
+      })
+      .setValue('foo')
+    expect(
+      wrapper
+        .find({
+          ref: 'dropdown'
+        })
+        .exists()
+    ).toBe(true)
+    const spy = jest.spyOn(wrapper.vm, 'broadcast')
+    wrapper.find('[data-test-id="broadcast"]').trigger('click')
+    await flushPromises()
+    expect(spy).toHaveBeenCalled()
+    expect(wrapper.emitted().submit).toBeTruthy()
   })
 })
