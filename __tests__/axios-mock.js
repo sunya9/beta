@@ -47,4 +47,11 @@ mock.onGet(/\/users\/me\/channels\/existing_pm\?ids=@carol/).reply(404, {
   data: {}
 })
 
+mock.onPost(/\/channels\/\d+\/messages/).reply(201, {
+  meta: {
+    code: 201
+  },
+  data: fixtures('channel')
+})
+
 export default mock
