@@ -92,7 +92,7 @@
             </div>
           </div>
           <div
-            v-if="!me"
+            v-if="user && !me"
             class="text-center">
             <follow-button
               id="profile-follow-button"
