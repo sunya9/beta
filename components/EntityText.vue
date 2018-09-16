@@ -37,7 +37,7 @@
             <span
               v-if="entity.amended_len"
               :key="`links-${i}-domain`"
-            > {{ entity.replace ? `[${entity.replace.domain}]` : unicodeSubstring(entity.text, entity.len, entity.amended_len ) }}</span>
+            >{{ entity.replace ? ` [${entity.replace.domain}]` : unicodeSubstring(entity.text, entity.len, entity.amended_len) }}</span>
             <a
               v-if="entity.replace"
               :key="`links-${i}-replaced-icon`"
