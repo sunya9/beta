@@ -101,6 +101,15 @@ export function getAudio(post) {
   return audio
 }
 
+export function getChannelInvite(post) {
+  if (!post || !post.raw.length) return
+  const channelRaw = post.raw.find(
+    raw => raw.type === 'io.pnut.core.channel.invite'
+  )
+  if (!channelRaw) return
+  return channelRaw.value
+}
+
 export const underMessages = {
   computed: {
     underMessages() {
