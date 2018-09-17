@@ -37,6 +37,7 @@ import { mapGetters } from 'vuex'
 import ChatPanel from '~/components/ChatPanel.js'
 import ChannelPanel from '~/components/ChannelPanel'
 import markAsRead from '~/assets/js/mark-as-read'
+import { getRSSLink } from '~/assets/js/util'
 
 export default {
   validate({ params: { channel } }) {
@@ -106,6 +107,17 @@ export default {
   },
   mounted() {
     setTimeout(() => this.markAsRead(), 1000)
+  },
+  head() {
+    if (this.channel && !this.channel.acl.read.public) return {}
+    const link = [
+      getRSSLink(
+        `https://api.pnut.io/v0/feed/rss/channels/${this.channel.id}/messages`
+      )
+    ]
+    return {
+      link
+    }
   }
 }
 </script>
