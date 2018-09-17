@@ -1,32 +1,21 @@
 import User from '~/components/User'
-import { shallowMount, baseMountOpts } from 'helper'
-
-function extendData(obj) {
-  const baseData = {
-    content: {
-      avatar_image: {
-        link: 'image_url'
-      },
-      html: '<span>Hello</span>'
-    },
-    name: 'foo',
-    username: 'bar',
-    you_follow: false,
-    id: 1
-  }
-  return Object.assign({}, baseData, obj)
-}
+import {
+  fixtures,
+  shallowMount,
+  baseMountOpts,
+  authedUserCreateStore
+} from 'helper'
 
 describe('User', () => {
   test('data prop equals user property', () => {
-    const data = extendData({
-      foo: 'bar'
-    })
     const { vm } = shallowMount(
       User,
       baseMountOpts({
         propsData: {
-          data
+          data: fixtures('user')
+        },
+        mocks: {
+          $store: authedUserCreateStore()
         }
       })
     )
@@ -34,32 +23,78 @@ describe('User', () => {
   })
   describe('relation', () => {
     test('text is "Follows you" when follows you', () => {
-      const data = extendData({
-        follows_you: true
-      })
-      const { vm } = shallowMount(
+      const wrapper = shallowMount(
         User,
         baseMountOpts({
           propsData: {
-            data
+            data: fixtures('user', 'followsYou')
+          },
+          mocks: {
+            $store: authedUserCreateStore()
           }
         })
       )
-      expect(vm.relation).toBe('Follows you')
+      expect(wrapper.find('[data-test-id="relation"]').text()).toBe(
+        'Follows you'
+      )
     })
-    test('text is empty when follows you', () => {
-      const data = extendData({
-        follows_you: false
-      })
-      const { vm } = shallowMount(
+    test('Hidden when follows you', () => {
+      const wrapper = shallowMount(
         User,
         baseMountOpts({
           propsData: {
-            data
+            data: fixtures('user', 'notMe')
+          },
+          mocks: {
+            $store: authedUserCreateStore()
           }
         })
       )
-      expect(vm.relation).toBe('')
+      expect(wrapper.find('[data-test-id="relation"]').text()).toBe('')
+    })
+    test('Hidden when myself', () => {
+      const wrapper = shallowMount(
+        User,
+        baseMountOpts({
+          propsData: {
+            data: fixtures('user')
+          },
+          mocks: {
+            $store: authedUserCreateStore()
+          }
+        })
+      )
+      expect(wrapper.contains('[data-test-id="relation"]')).toBe(false)
+    })
+  })
+  describe('Follow button', () => {
+    test('Hidden when myself', () => {
+      const wrapper = shallowMount(
+        User,
+        baseMountOpts({
+          propsData: {
+            data: fixtures('user')
+          },
+          mocks: {
+            $store: authedUserCreateStore()
+          }
+        })
+      )
+      expect(wrapper.contains('[data-test-id="follow-button"]')).toBe(false)
+    })
+    test('Show when others', () => {
+      const wrapper = shallowMount(
+        User,
+        baseMountOpts({
+          propsData: {
+            data: fixtures('user', 'notMe')
+          },
+          mocks: {
+            $store: authedUserCreateStore()
+          }
+        })
+      )
+      expect(wrapper.contains('[data-test-id="follow-button"]')).toBe(true)
     })
   })
 })
