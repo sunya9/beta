@@ -20,6 +20,15 @@
           class="text-muted">
           {{ chat.description }}
         </p>
+        <p v-if="channel && channel.acl.read.public">
+          <a :href="`https://api.pnut.io/v0/feed/rss/channels/${channel.id}/messages`">
+            <font-awesome-icon
+              icon="rss-square"
+              size="lg"
+            />
+            RSS
+          </a>
+        </p>
         <div
           v-if="user"
           class="form-group">
