@@ -18,12 +18,17 @@
               {{ user.username }}
             </nuxt-link>
             <span class="ml-1 text-muted">{{ user.name }}</span>
-            <span class="ml-1 badge badge-secondary text-uppercase">{{ relation }}</span>
+            <span
+              v-if="!myself"
+              data-test-id="relation"
+              class="ml-1 badge badge-secondary text-uppercase"
+            >{{ relation }}</span>
           </h6>
           <div>
             <follow-button
-              v-if="!disableFollowButton"
-              :profile.sync="user" />
+              v-if="!disableFollowButton && !myself"
+              :profile.sync="user"
+              data-test-id="follow-button" />
             <mute-button
               v-if="showUnmuteButton"
               :profile.sync="user"
@@ -44,6 +49,7 @@ import Avatar from '~/components/Avatar'
 import focus from '~/assets/js/focus'
 import EntityText from '~/components/EntityText'
 import MuteButton from '~/components/MuteButton'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -75,6 +81,12 @@ export default {
   computed: {
     relation() {
       return this.data.follows_you ? 'Follows you' : ''
+    },
+    ...mapGetters({
+      me: 'user'
+    }),
+    myself() {
+      return this.me && this.user && this.user.id === this.me.id
     }
   }
 }
