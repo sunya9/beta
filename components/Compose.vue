@@ -149,7 +149,7 @@ import bus from '~/assets/js/bus'
 import { mapGetters } from 'vuex'
 import Thumb from '~/components/Thumb'
 import { Picker } from '~/plugins/emoji'
-import emojiSource from 'emoji-datasource-twitter/img/twitter/sheets/64.png'
+import emojiSource from 'emoji-datasource-twitter/img/twitter/sheets-128/64.png'
 import InputPoll from '~/components/InputPoll'
 import InputSpoiler from '~/components/InputSpoiler'
 import InputLongpost from '~/components/InputLongpost'
@@ -497,11 +497,13 @@ export default {
       this.insertText(emoji.native)
       this.closeEmojiPalette()
     },
-    showEmojiPalette() {
-      this.showEmojiPicker = true
-    },
-    toggleEmojiPalette() {
+    async toggleEmojiPalette() {
       this.showEmojiPicker = !this.showEmojiPicker
+      if (!this.showEmojiPicker) return
+      await this.$nextTick()
+      const input = this.$refs.picker.$el.querySelector('input')
+      if (!input) return
+      input.focus()
     },
     closeEmojiPalette() {
       this.showEmojiPicker = false
