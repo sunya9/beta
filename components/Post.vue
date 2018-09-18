@@ -40,11 +40,12 @@
             :to="`/@${mainPost.user.username}`"
             class="text-gray-dark">
             {{ mainPost.user.username }}
-            <small
+            <emojify
               v-if="mainPost.user.name"
-              class="text-muted">
-              {{ mainPost.user.name }}
-            </small>
+              :text="mainPost.user.name"
+              element="small"
+              class="text-muted"
+            />
           </nuxt-link>
         </h6>
         <div class="d-flex flex-wrap flex-md-nowrap">

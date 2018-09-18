@@ -55,11 +55,12 @@
                     class="p-nickname">
                     @{{ profile.username }}
                   </span>
-                  <small
+                  <emojify
                     v-if="profile.name"
-                    class="ml-sm-2 d-block d-sm-inline text-muted p-name">
-                    {{ profile.name }}
-                  </small>
+                    :text="profile.name"
+                    element="small"
+                    class="ml-sm-2 d-block d-sm-inline text-muted p-name"
+                  />
                   <small
                     v-if="profile.badge"
                     class="ml-sm-2 d-block d-sm-inline text-muted ml-1">

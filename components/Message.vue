@@ -41,9 +41,11 @@
           class="mb-2">
           <nuxt-link :to="`/@${message.user.username}`">
             {{ message.user.username }}
-            <small class="text-muted">
-              {{ message.user.name }}
-            </small>
+            <emojify
+              :text="message.user.name"
+              element="small"
+              class="text-muted"
+            />
           </nuxt-link>
         </h6>
         <div
