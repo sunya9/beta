@@ -3,10 +3,15 @@
     :key="$route.fullPath"
     class="row">
     <div class="col-md-4 order-md-2">
-      <component
-        :initial-channel.sync="channel"
-        :is="panel"
+      <chat-panel
+        v-if="chat"
+        :chat="chat"
         :is-moderator="isModerator"
+        :initial-channel.sync="channel"
+      />
+      <pm-panel
+        v-else
+        :initial-channel.sync="channel"
       />
     </div>
     <div class="col-md-8 order-md-1">
@@ -34,10 +39,10 @@
 import List from '~/components/List'
 import MessageCompose from '~/components/MessageCompose'
 import { mapGetters } from 'vuex'
-import ChatPanel from '~/components/ChatPanel.js'
-import ChannelPanel from '~/components/ChannelPanel'
+import ChatPanel from '~/components/ChatPanel'
+import PmPanel from '~/components/PmPanel'
 import markAsRead from '~/assets/js/mark-as-read'
-import { getRSSLink } from '~/assets/js/util'
+import { getRSSLink, findChatRaw } from '~/assets/js/util'
 
 export default {
   validate({ params: { channel } }) {
@@ -45,7 +50,9 @@ export default {
   },
   components: {
     List,
-    MessageCompose
+    MessageCompose,
+    ChatPanel,
+    PmPanel
   },
   mixins: [markAsRead],
   data() {
@@ -79,8 +86,8 @@ export default {
     }
   },
   computed: {
-    panel() {
-      return this.isPM ? ChannelPanel : ChatPanel
+    chat() {
+      return findChatRaw(this.channel, true)
     },
     ...mapGetters(['user']),
     isModerator() {
