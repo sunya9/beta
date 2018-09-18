@@ -274,6 +274,10 @@ export default {
         this.$emit('update:initialProfile', profile)
       },
       deep: true
+    },
+    loaded(bool) {
+      if (!bool) return
+      this.headerHeight = 0
     }
   },
   mounted() {
