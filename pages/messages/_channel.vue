@@ -15,7 +15,7 @@
         v-model="message"
         :channel="channel"
         @submit="() => $refs.list.refresh()" />
-      <div class="card no-gutter-xs">
+      <div class="card">
         <div class="card-body">
           <List
             ref="list"
@@ -121,3 +121,9 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+@import '~assets/css/mixin';
+.card {
+  @include no-gutter-xs;
+}
+</style>
