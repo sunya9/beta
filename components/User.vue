@@ -17,7 +17,10 @@
             <nuxt-link :to="`/@${user.username}`">
               {{ user.username }}
             </nuxt-link>
-            <span class="ml-1 text-muted">{{ user.name }}</span>
+            <emojify
+              :text="user.name"
+              class="ml-1 text-muted"
+            />
             <span
               v-if="!myself"
               data-test-id="relation"
