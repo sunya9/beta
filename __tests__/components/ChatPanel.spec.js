@@ -1,11 +1,12 @@
 import { shallowMount, fixtures, createStore } from 'helper'
-import ChannelPanel from '~/components/ChannelPanel'
+import ChatPanel from '~/components/ChatPanel'
 
-describe('ChannelPanel component', () => {
+describe('ChatPanel component', () => {
   test('Show RSS Link when publicly channel', () => {
-    const wrapper = shallowMount(ChannelPanel, {
+    const wrapper = shallowMount(ChatPanel, {
       propsData: {
-        initialChannel: fixtures('channel', 'publicly')
+        initialChannel: fixtures('channel', 'publicly', 'chat'),
+        chat: fixtures('channel', 'chat').raw[0]
       },
       mocks: {
         $metaInfo: {},

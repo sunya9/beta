@@ -32,3 +32,16 @@ export const writable = {
     }
   }
 }
+
+export const chat = {
+  raw: [
+    {
+      type: 'io.pnut.core.chat-settings',
+      value: {
+        name: 'name',
+        description: 'description',
+        categories: ['general']
+      }
+    }
+  ]
+}
