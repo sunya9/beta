@@ -30,11 +30,11 @@
           <div>
             <follow-button
               v-if="!disableFollowButton && !myself"
-              :profile.sync="user"
+              :profile.sync="internalUser"
               data-test-id="follow-button" />
             <mute-button
               v-if="showUnmuteButton"
-              :profile.sync="user"
+              :profile.sync="internalUser"
               class="h5 mb-0" />
           </div>
         </div>
@@ -63,9 +63,9 @@ export default {
   },
   mixins: [focus],
   props: {
-    data: {
+    user: {
       type: Object,
-      default: () => ({})
+      required: true
     },
     disableFollowButton: {
       type: Boolean,
@@ -78,12 +78,12 @@ export default {
   },
   data() {
     return {
-      user: this.data
+      internalUser: this.user
     }
   },
   computed: {
     relation() {
-      return this.data.follows_you ? 'Follows you' : ''
+      return this.user.follows_you ? 'Follows you' : ''
     },
     ...mapGetters({
       me: 'user'

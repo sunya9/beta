@@ -328,9 +328,9 @@ export default {
   mixins: [focus, listItem],
   dateKey: 'post.created_at',
   props: {
-    data: {
+    post: {
       type: Object,
-      default: () => ({})
+      required: true
     },
     viewOnly: {
       type: Boolean,
@@ -394,9 +394,6 @@ export default {
     },
     channelInvite() {
       return getChannelInvite(this.mainPost)
-    },
-    post() {
-      return this.data
     },
     me() {
       return this.user && this.user.id === this.post.user.id

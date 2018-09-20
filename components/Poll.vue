@@ -81,7 +81,7 @@ import moment from 'moment'
 
 export default {
   props: {
-    data: {
+    poll: {
       type: Object,
       default: null
     },
@@ -98,7 +98,6 @@ export default {
     return {
       currentTime: Date.now(),
       timer: null,
-      poll: this.data,
       preferPercent: true
     }
   },
@@ -142,7 +141,7 @@ export default {
         `/polls/${this.pollId || this.poll.id}?poll_token=${this.pollToken ||
           this.poll.poll_token}`
       )
-      this.poll = data
+      this.$emit('update:poll', data)
     },
     updateTime() {
       this.currentTime = Date.now()
@@ -161,8 +160,7 @@ export default {
       const { data } = await this.$axios.$put(
         `/polls/${this.id}/response/${position}?poll_token=${this.pollToken}`
       )
-      this.poll = data
-      this.$emit('update:data', data)
+      this.$emit('update:poll', data)
     },
     async toggleDisplay() {
       this.preferPercent = !this.preferPercent

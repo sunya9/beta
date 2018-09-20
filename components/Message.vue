@@ -158,9 +158,9 @@ export default {
       type: Boolean,
       default: false
     },
-    data: {
+    message: {
       type: Object,
-      default: () => ({})
+      required: true
     },
     isModerator: {
       type: Boolean,
@@ -189,17 +189,14 @@ export default {
     firstUnreadMessage() {
       return this.message.id === this.lastReadMessageId
     },
-    message() {
-      return this.data
-    },
     thumbs() {
-      return getImageURLs(this.data)
+      return getImageURLs(this.message)
     },
     clips() {
-      return getAudio(this.data)
+      return getAudio(this.message)
     },
     spoiler() {
-      return getSpoiler(this.data)
+      return getSpoiler(this.message)
     },
     ...mapGetters(['user'])
   },

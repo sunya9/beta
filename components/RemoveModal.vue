@@ -12,7 +12,7 @@
       class="list-group"
     >
       <post
-        :data="post"
+        :post="post"
         view-only />
     </ul>
   </base-modal>
