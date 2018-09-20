@@ -73,10 +73,6 @@ export default {
       type: Object,
       default: () => ({})
     },
-    type: {
-      type: String,
-      default: ''
-    },
     idField: {
       type: String,
       default: 'id'
