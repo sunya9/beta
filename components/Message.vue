@@ -205,15 +205,12 @@ export default {
     removeModal() {
       this.$modal.show('message-remove-modal', this)
     },
-    remove() {
-      return this.$axios
-        .$delete(
-          `/channels/${this.message.channel_id}/messages/${this.message.id}`
-        )
-        .then(() => {
-          this.$emit('remove')
-          this.$toast.success('Deleted Message!')
-        })
+    async remove() {
+      const { data: message } = await this.$axios.$delete(
+        `/channels/${this.message.channel_id}/messages/${this.message.id}`
+      )
+      this.$toast.success('Deleted Message!')
+      this.$emit('update:message', message)
     }
   }
 }

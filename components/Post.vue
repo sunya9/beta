@@ -427,11 +427,10 @@ export default {
         this.remove()
       } catch (e) {}
     },
-    remove() {
-      return this.$axios.$delete(`/posts/${this.post.id}`).then(() => {
-        this.$toast.success('Deleted Post!')
-        this.$emit('remove')
-      })
+    async remove() {
+      const { data: post } = await this.$axios.$delete(`/posts/${this.post.id}`)
+      this.$toast.success('Deleted Post!')
+      this.$emit('update:post', post)
     },
     clickPostLink(e) {
       const a = e.target
