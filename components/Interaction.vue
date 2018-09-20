@@ -33,7 +33,7 @@
         <div class="my-3">
           <nuxt-link
             v-if="post"
-            :to="`@${action.objects[0].user.username}/posts/${action.objects[0].id}`">
+            :to="`@${interaction.objects[0].user.username}/posts/${interaction.objects[0].id}`">
             This post
           </nuxt-link>
           {{ actionBy }}
@@ -51,7 +51,7 @@
           <ul class="list-group">
             <post
               v-if="post"
-              :data="post"
+              :post="post"
               class="mt-3"
               view-only
               preview />
@@ -106,24 +106,21 @@ export default {
   },
   mixins: [focus, listItem],
   props: {
-    data: {
+    interaction: {
       type: Object,
-      default: () => ({})
+      required: true
     }
   },
-  dateKey: 'action.event_date',
+  dateKey: 'interaction.event_date',
   computed: {
-    action() {
-      return this.data
-    },
     actionBy() {
-      return `${convert[this.action.action].text} by`
+      return `${convert[this.interaction.action].text} by`
     },
     icon() {
-      return convert[this.action.action].icon
+      return convert[this.interaction.action].icon
     },
     html() {
-      switch (this.action.action) {
+      switch (this.interaction.action) {
         case 'bookmark':
         case 'reply':
         case 'repost':
@@ -131,10 +128,12 @@ export default {
       }
     },
     post() {
-      return this.action.action !== 'follow' ? this.action.objects[0] : null
+      return this.interaction.action !== 'follow'
+        ? this.interaction.objects[0]
+        : null
     },
     filteredUsers() {
-      return this.action.users.filter((user, i, ary) => {
+      return this.interaction.users.filter((user, i, ary) => {
         return !ary.slice(0, i).some(user2 => user.id === user2.id)
       })
     }

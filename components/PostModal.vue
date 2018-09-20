@@ -16,7 +16,7 @@
         class="list-group"
       >
         <post
-          :data="reply"
+          :post="reply"
           view-only
           class="post px-0" />
       </ul>

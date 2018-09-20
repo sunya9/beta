@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
-    :to="`/messages/${data.id}`"
-    :class="{'unread-channel': data.has_unread}">
+    :to="`/messages/${channel.id}`"
+    :class="{'unread-channel': channel.has_unread}">
     <div class="media">
       <avatar
         v-if="is_pm"
@@ -13,7 +13,7 @@
         style="overflow: hidden">
         <h5>
           <font-awesome-icon
-            v-show="data.you_muted"
+            v-show="channel.you_muted"
             :icon="['far', 'bell-slash']"
             style="float:right"/>
           <template v-if="is_pm">
@@ -43,7 +43,7 @@
           </template>
           <template v-else>
             <font-awesome-icon
-              v-if="data.acl.read.public"
+              v-if="channel.acl.read.public"
               icon="globe"
               fixed-width
               aria-hidden="true"/>
@@ -59,13 +59,13 @@
           </template>
         </h5>
         <p
-          v-if="data.recent_message"
+          v-if="channel.recent_message"
           class="mb-0 text-truncate">
-          <span v-if="!data.recent_message.is_deleted && spoiler && !me">
+          <span v-if="!channel.recent_message.is_deleted && spoiler && !me">
             {{ spoiler.topic }}
           </span>
-          <span v-else-if="!data.recent_message.is_deleted">
-            <span v-if="!is_pm">@{{ opponent.username }}: </span>{{ data.recent_message.content.text }}
+          <span v-else-if="!channel.recent_message.is_deleted">
+            <span v-if="!is_pm">@{{ opponent.username }}: </span>{{ channel.recent_message.content.text }}
           </span>
           <span
             v-else
@@ -73,7 +73,7 @@
         </p>
       </div>
       <span
-        :class="{'unread-channel-arrow': data.has_unread}"
+        :class="{'unread-channel-arrow': channel.has_unread}"
         class="align-self-center">
         <font-awesome-icon icon="chevron-right"/>
       </span>
@@ -91,7 +91,7 @@ export default {
     Avatar
   },
   props: {
-    data: {
+    channel: {
       type: Object,
       default: () => ({})
     }
@@ -99,7 +99,7 @@ export default {
   computed: {
     ...mapGetters(['user']),
     opponent() {
-      if (this.data.recent_message && this.data.recent_message.user) {
+      if (this.channel.recent_message && this.channel.recent_message.user) {
         const {
           username,
           name,
@@ -107,7 +107,7 @@ export default {
           content: {
             avatar_image: { link: avatar_image }
           }
-        } = this.data.recent_message.user
+        } = this.channel.recent_message.user
         const res = {
           username,
           name,
@@ -115,8 +115,8 @@ export default {
           avatar_image
         }
         return res
-      } else if (this.data.owner.id === this.user.id) {
-        return this.data.acl.write.user_ids[0]
+      } else if (this.channel.owner.id === this.user.id) {
+        return this.channel.acl.write.user_ids[0]
       }
 
       const {
@@ -126,7 +126,7 @@ export default {
         content: {
           avatar_image: { link: avatar_image }
         }
-      } = this.data.owner
+      } = this.channel.owner
 
       const res = {
         username,
@@ -145,7 +145,7 @@ export default {
         content: {
           avatar_image: { link: avatar_image }
         }
-      } = this.data.owner
+      } = this.channel.owner
       const owner = {
         username,
         name,
@@ -153,28 +153,28 @@ export default {
         avatar_image
       }
 
-      const members = this.data.acl.write.user_ids.filter(user => {
+      const members = this.channel.acl.write.user_ids.filter(user => {
         return (
           user.id !== this.user.id &&
-          (!this.data.recent_message ||
-            user.id !== this.data.recent_message.user.id)
+          (!this.channel.recent_message ||
+            user.id !== this.channel.recent_message.user.id)
         )
       })
 
-      if (this.data.owner.id !== this.user.id) {
+      if (this.channel.owner.id !== this.user.id) {
         members.push(owner)
       }
 
       return members
     },
     spoiler() {
-      return getSpoiler(this.data.recent_message)
+      return getSpoiler(this.channel.recent_message)
     },
     is_pm() {
-      return this.data.type === 'io.pnut.core.pm'
+      return this.channel.type === 'io.pnut.core.pm'
     },
     chat() {
-      return findChatRaw(this.data).value
+      return findChatRaw(this.channel).value
     }
   }
 }
