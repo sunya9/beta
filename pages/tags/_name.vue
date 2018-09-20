@@ -14,15 +14,15 @@
       />
       <span>RSS</span>
     </a>
-    <list
+    <post-list
       :data="data"
       :key="name"
-      type="Post" />
+    />
   </div>
 </template>
 
 <script>
-import List from '~/components/List'
+import PostList from '~/components/PostList'
 import { getRSSLink } from '~/assets/js/util'
 
 export default {
@@ -35,7 +35,7 @@ export default {
     }
   },
   components: {
-    List
+    PostList
   },
   head() {
     const link = [

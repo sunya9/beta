@@ -3,26 +3,23 @@
     <h3 class="d-flex align-items-center mb-4">
       Your polls
     </h3>
-    <list
-      ref="list"
+    <poll-list
       :data="data"
-      :option="option"
-      type="Poll" />
+    />
   </div>
 </template>
 <script>
 import Compose from '~/components/Compose'
-import List from '~/components/List'
+import PollList from '~/components/PollList'
 
 export default {
   middleware: ['auth'],
   async asyncData({ app: { $resource } }) {
-    const option = {}
-    const data = await $resource(option)
-    return { data, option }
+    const data = await $resource()
+    return { data }
   },
   components: {
-    List,
+    PollList,
     Compose
   },
   head() {

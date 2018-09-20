@@ -1,13 +1,13 @@
 <template>
   <div>
-    <list
+    <user-list
       :data="data"
       :component-options="options"
-      type="User" />
+    />
   </div>
 </template>
 <script>
-import List from '~/components/List'
+import UserList from '~/components/UserList'
 
 export default {
   async asyncData({ app: { $resource } }) {
@@ -17,7 +17,7 @@ export default {
     }
   },
   components: {
-    List
+    UserList
   },
   data() {
     return {

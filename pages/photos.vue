@@ -1,21 +1,17 @@
 <template>
   <div>
-    <div>
-      <compose />
-    </div>
-    <div>
-      <list
-        ref="list"
-        :data="data"
-        type="Post" />
-    </div>
+    <compose />
+    <post-list
+      :data="data"
+      :refresh-date="date"
+    />
   </div>
 </template>
 
 <script>
 import Compose from '~/components/Compose'
-import List from '~/components/List'
-import bus from '~/assets/js/bus'
+import PostList from '~/components/PostList'
+import refreshAfterAdded from '~/assets/js/refresh-after-added'
 
 export default {
   async asyncData({ app: { $resource } }) {
@@ -23,20 +19,10 @@ export default {
     return { data }
   },
   components: {
-    List,
+    PostList,
     Compose
   },
-  mounted() {
-    bus.$on('post', this.add)
-  },
-  beforeDestroy() {
-    bus.$off('post', this.add)
-  },
-  methods: {
-    add() {
-      this.$refs.list.refresh()
-    }
-  },
+  mixins: [refreshAfterAdded],
   head() {
     return {
       title: 'Photos'
