@@ -4,9 +4,10 @@
     <splash
       v-else
       class="mb-5" />
-    <list
+    <post-list
       ref="list"
       :data="data"
+      :refresh-date="date"
       :resource="resource"
       type="Post" />
   </div>
@@ -15,20 +16,21 @@
 
 <script>
 import Compose from '~/components/Compose'
-import List from '~/components/List'
+import PostList from '~/components/PostList'
 import { mapGetters } from 'vuex'
-import bus from '~/assets/js/bus'
 import { getResourcePath } from '~/plugins/axios/resources'
 import Splash from '~/components/Splash'
+import refreshAfterAdded from '~/assets/js/refresh-after-added'
 
 const globalPath = getResourcePath('global')
 
 export default {
   components: {
     Compose,
-    List,
+    PostList,
     Splash
   },
+  mixins: [refreshAfterAdded],
   async asyncData({ app: { $resource }, store }) {
     const data = await $resource(!store.getters.user ? globalPath : '')
     return { data }
@@ -37,17 +39,6 @@ export default {
     ...mapGetters(['user']),
     resource() {
       return !this.user ? getResourcePath('global') : ''
-    }
-  },
-  mounted() {
-    bus.$on('post', this.add)
-  },
-  beforeDestroy() {
-    bus.$off('post', this.add)
-  },
-  methods: {
-    add() {
-      this.$refs.list.refresh()
     }
   },
   head() {

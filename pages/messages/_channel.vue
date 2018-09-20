@@ -22,13 +22,13 @@
         @submit="() => $refs.list.refresh()" />
       <div class="card">
         <div class="card-body">
-          <List
+          <message-list
             ref="list"
             :data="data"
             :is-moderator="isModerator"
             :channel-type="channel.type"
             :last-read-message-id="data.meta.marker && data.meta.marker.id"
-            type="Message" />
+          />
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import List from '~/components/List'
+import MessageList from '~/components/MessageList'
 import MessageCompose from '~/components/MessageCompose'
 import { mapGetters } from 'vuex'
 import ChatPanel from '~/components/ChatPanel'
@@ -49,7 +49,7 @@ export default {
     return /^\d+$/.test(channel)
   },
   components: {
-    List,
+    MessageList,
     MessageCompose,
     ChatPanel,
     PmPanel

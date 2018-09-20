@@ -1,16 +1,16 @@
 <template>
-  <list
+  <poll-list
     :data="data"
-    :auto-refresh="false"
     :options="options"
-    type="Poll" />
+    disable-auto-refresh
+  />
 </template>
 <script>
-import List from '~/components/List'
+import PollList from '~/components/PollList'
 
 export default {
   components: {
-    List
+    PollList
   },
   async asyncData({ app: { $resource } }) {
     const options = {}

@@ -1,22 +1,23 @@
 <template>
   <div>
-    <list
+    <post-list
       :main="id"
       :data="data"
       :option="option"
       :key="`post-${id}`"
-      :auto-refresh="false"
+      :refresh-date="date"
+      disable-auto-refresh
       all
-      type="Post" />
+    />
   </div>
 </template>
 
 <script>
 import Post from '~/components/Post'
 import Compose from '~/components/Compose'
-import List from '~/components/List'
-import bus from '~/assets/js/bus'
+import PostList from '~/components/PostList'
 import { getImageURLs } from '~/assets/js/util'
+import refreshAfterAdded from '~/assets/js/refresh-after-added'
 
 export default {
   async asyncData(ctx) {
@@ -45,20 +46,9 @@ export default {
   components: {
     Post,
     Compose,
-    List
+    PostList
   },
-  mounted() {
-    bus.$on('post', this.addAfter)
-  },
-  beforeDestroy() {
-    bus.$off('post', this.addAfter)
-  },
-  methods: {
-    addAfter() {
-      // TODO: push post to list if post target is this page's post
-      // this.data.data.push(post)
-    }
-  },
+  mixins: [refreshAfterAdded],
   head() {
     const [post] = this.data.data.filter(post => post.id === this.id)
     if (post.user && post.content) {

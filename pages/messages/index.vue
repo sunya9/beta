@@ -24,13 +24,14 @@
             to="/messages?public&amp;all">All</nuxt-link>
         </li>
       </ul>
-      <list
+      <channel-list
         ref="list"
         :data="data"
         :key="JSON.stringify({ resource, option })"
         :option="option"
         :resource="resource"
-        type="Channel" />
+        :refresh-date="date"
+      />
     </div>
   </div>
 </template>
@@ -38,8 +39,8 @@
 <script>
 import MessageCompose from '~/components/MessageCompose'
 import ChannelCompose from '~/components/ChannelCompose'
-import List from '~/components/List'
-import bus from '~/assets/js/bus'
+import ChannelList from '~/components/ChannelList'
+import refreshAfterAdded from '~/assets/js/refresh-after-added'
 
 export default {
   middleware: ['auth'],
@@ -87,24 +88,14 @@ export default {
     return { data, option, isPrivate, resource }
   },
   components: {
-    List,
+    ChannelList,
     MessageCompose,
     ChannelCompose
   },
+  mixins: [refreshAfterAdded],
   computed: {
     isPublic() {
       return !this.isPrivate
-    }
-  },
-  mounted() {
-    bus.$on('channel', this.add)
-  },
-  beforeDestroy() {
-    bus.$off('channel', this.add)
-  },
-  methods: {
-    add() {
-      this.$refs.list.refresh()
     }
   },
   head() {

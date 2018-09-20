@@ -6,14 +6,14 @@
       </nuxt-link>
       's Starred
     </h3>
-    <list
+    <post-list
       :data="data"
-      type="Post" />
+    />
   </div>
 </template>
 
 <script>
-import List from '~/components/List'
+import PostList from '~/components/PostList'
 
 export default {
   async asyncData(ctx) {
@@ -38,7 +38,7 @@ export default {
     }
   },
   components: {
-    List
+    PostList
   },
   head() {
     return {

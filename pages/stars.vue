@@ -4,16 +4,16 @@
       <compose />
     </div>
     <div>
-      <list
+      <post-list
         :data="data"
-        type="Post" />
+      />
     </div>
   </div>
 </template>
 
 <script>
 import Compose from '~/components/Compose'
-import List from '~/components/List'
+import PostList from '~/components/PostList'
 
 export default {
   middleware: ['auth'],
@@ -22,7 +22,7 @@ export default {
     return { data }
   },
   components: {
-    List,
+    PostList,
     Compose
   },
   head() {

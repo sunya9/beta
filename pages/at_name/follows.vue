@@ -6,14 +6,14 @@
       </nuxt-link>
       's following
     </h3>
-    <list
+    <user-list
       :data="data"
-      type="User" />
+    />
   </div>
 </template>
 
 <script>
-import List from '~/components/List'
+import UserList from '~/components/UserList'
 
 export default {
   async asyncData(ctx) {
@@ -38,7 +38,7 @@ export default {
     }
   },
   components: {
-    List
+    UserList
   },
   head() {
     return {
