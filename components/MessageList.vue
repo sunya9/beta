@@ -6,10 +6,11 @@
     <message
       slot-scope="{ item, index }"
       :key="item.id"
-      :message="item"
+      :message.sync="item"
       :is-moderator="isModerator"
       :last-read-message-id="lastReadMessageId"
       :channel-type="channelType"
+      @update:message="$set($attrs.data.data, index, $event)"
     />
   </base-list>
 </template>

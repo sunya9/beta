@@ -8,14 +8,15 @@
   >
     <post
       v-if="showItem(item)"
-      slot-scope="{ item, index }"
+      slot-scope="{ item, index, items }"
       :key="item.id"
-      :post="item"
+      :post.sync="item"
       :class="{
         'my-4': item.id === main,
         'list-group-item-warning': isTarget(item)
       }"
       :detail="item.id === main"
+      @update:post="$set($attrs.data.data, index, $event)"
 
     />
   </base-list>
