@@ -8,9 +8,10 @@
   >
     <post
       v-if="showItem(item)"
-      slot-scope="{ item, index, items }"
+      slot-scope="{ item, index, lastUpdate }"
       :key="item.id"
       :post.sync="item"
+      :last-update="lastUpdate"
       :class="{
         'my-4': item.id === main,
         'list-group-item-warning': isTarget(item)

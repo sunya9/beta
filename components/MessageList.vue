@@ -4,9 +4,10 @@
     default-classes="list-unstyled"
   >
     <message
-      slot-scope="{ item, index }"
+      slot-scope="{ item, index, lastUpdate }"
       :key="item.id"
       :message.sync="item"
+      :last-update="lastUpdate"
       :is-moderator="isModerator"
       :last-read-message-id="lastReadMessageId"
       :channel-type="channelType"
