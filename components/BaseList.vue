@@ -3,20 +3,29 @@
     v-infinite-scroll="fetchMore"
     v-if="items.length"
     ref="list"
-    :class="defaultClasses"
+    :class="listClass"
     infinite-scroll-disabled="moreDisabled"
     infinite-scroll-distance="100"
   >
-    <slot
+    <component
       v-for="(item, index) in items"
-      :item="item"
-      :index="index"
-      :last-update="lastUpdate"
-      @click="select = index"
-    />
+      :key="item[idField]"
+      :class="listItemClass"
+      :is="listElement"
+      v-bind="listItemProps(item)"
+      class="item"
+      tabindex="-1"
+      @click="setSelect(index)"
+    >
+      <slot
+        :item="item"
+        :index="index"
+        :last-update="lastUpdate"
+      />
+    </component>
     <li
       v-show="more"
-      :class="{ 'list-group-item': defaultClasses !== 'list-unstyled' }">
+      :class="{ 'list-group-item': listClass !== 'list-unstyled' }">
       <div class="text-center w-100 text-muted my-2">
         <font-awesome-icon
           spin
@@ -52,9 +61,21 @@ export default {
       type: Function,
       default: () => () => null
     },
-    defaultClasses: {
+    listClass: {
       type: String,
       default: 'list-group mb-4'
+    },
+    listItemClass: {
+      type: String,
+      default: 'list-group-item list-group-item-action'
+    },
+    listElement: {
+      type: [String, Object, Function],
+      default: 'li'
+    },
+    listItemProps: {
+      type: Function,
+      default: () => ({})
     },
     disableAutoRefresh: {
       type: Boolean,
@@ -141,12 +162,23 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
-    focus() {
-      if (!this.selectItem || !this.selectItem.$el) return
-      this.selectItem.$el.focus()
+    async focus(e) {
+      const element = e ? e.target : this.$el.children[this.select]
+      if (!element) return
+      const { top, bottom, height } = element.getBoundingClientRect()
+      if (top < 100) {
+        document.documentElement.scrollTop -= 100 - top
+      } else if (window.innerHeight < bottom + height) {
+        document.documentElement.scrollTop += height
+      }
+      element.focus()
+    },
+    setSelect(index) {
+      this.select = index
     },
     scrollDown() {
       this.select++
+      if (this.select < 0) return
       this.focus()
     },
     scrollUp() {

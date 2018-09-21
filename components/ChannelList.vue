@@ -1,10 +1,14 @@
 <template>
-  <base-list v-bind="$attrs">
+  <base-list
+    v-bind="$attrs"
+    :list-item-props="channel => listItemProps(channel)"
+    list-element="nuxt-link"
+  >
     <channel
       slot-scope="{ item, index }"
       :channel="item"
       :key="item.id"
-      class="list-group-item list-group-item-action"
+      element="nuxt-link"
     />
   </base-list>
 </template>
@@ -15,6 +19,14 @@ export default {
   components: {
     BaseList,
     Channel
+  },
+  methods: {
+    listItemProps(channel) {
+      return {
+        to: `/messages/${channel.id}`,
+        class: { 'unread-channel': channel.has_unread }
+      }
+    }
   }
 }
 </script>
