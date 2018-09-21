@@ -1,84 +1,80 @@
 <template>
-  <nuxt-link
-    :to="`/messages/${channel.id}`"
-    :class="{'unread-channel': channel.has_unread}">
-    <div class="media">
-      <avatar
-        v-if="is_pm"
-        :avatar="{ link: opponent.avatar_image }"
-        size="32"
-        class="mr-2" />
-      <div
-        class="media-body"
-        style="overflow: hidden">
-        <h5>
-          <font-awesome-icon
-            v-show="channel.you_muted"
-            :icon="['far', 'bell-slash']"
-            style="float:right"/>
-          <template v-if="is_pm">
-            <span v-if="opponent.name">
-              {{ opponent.name }}
-              <small class="text-muted">
-                @{{ opponent.username }}<span
-                  v-if="members.length"
-                  class="text-muted">, </span>
-              </small>
-            </span>
-            <span v-else>
-              @{{ opponent.username }}<small
-                v-if="members.length"
-                class="text-muted">, </small>
-            </span>
-            <span
-              v-if="members.length"
-            >
-              <span
-                v-for="user in members"
-                :key="user.id"
-                class="text-muted">
-                <small><span v-if="user.id !== members[0].id">, </span>@{{ user.username }}</small>
-              </span>
-            </span>
-          </template>
-          <template v-else>
-            <font-awesome-icon
-              v-if="channel.acl.read.public"
-              icon="globe"
-              fixed-width
-              aria-hidden="true"/>
-            <font-awesome-icon
-              v-else
-              icon="users"
-              fixed-width
-              aria-hidden="true"/>
-            <emojify :text="chat.name" />
+  <div class="media">
+    <avatar
+      v-if="is_pm"
+      :avatar="{ link: opponent.avatar_image }"
+      size="32"
+      class="mr-2" />
+    <div
+      class="media-body"
+      style="overflow: hidden">
+      <h5>
+        <font-awesome-icon
+          v-show="channel.you_muted"
+          :icon="['far', 'bell-slash']"
+          style="float:right"/>
+        <template v-if="is_pm">
+          <span v-if="opponent.name">
+            {{ opponent.name }}
             <small class="text-muted">
-              {{ chat.description }}
+              @{{ opponent.username }}<span
+                v-if="members.length"
+                class="text-muted">, </span>
             </small>
-          </template>
-        </h5>
-        <p
-          v-if="channel.recent_message"
-          class="mb-0 text-truncate">
-          <span v-if="!channel.recent_message.is_deleted && spoiler && !me">
-            {{ spoiler.topic }}
           </span>
-          <span v-else-if="!channel.recent_message.is_deleted">
-            <span v-if="!is_pm">@{{ opponent.username }}: </span>{{ channel.recent_message.content.text }}
+          <span v-else>
+            @{{ opponent.username }}<small
+              v-if="members.length"
+              class="text-muted">, </small>
           </span>
           <span
+            v-if="members.length"
+          >
+            <span
+              v-for="user in members"
+              :key="user.id"
+              class="text-muted">
+              <small><span v-if="user.id !== members[0].id">, </span>@{{ user.username }}</small>
+            </span>
+          </span>
+        </template>
+        <template v-else>
+          <font-awesome-icon
+            v-if="channel.acl.read.public"
+            icon="globe"
+            fixed-width
+            aria-hidden="true"/>
+          <font-awesome-icon
             v-else
-            class="text-muted">[Message deleted]</span>
-        </p>
-      </div>
-      <span
-        :class="{'unread-channel-arrow': channel.has_unread}"
-        class="align-self-center">
-        <font-awesome-icon icon="chevron-right"/>
-      </span>
+            icon="users"
+            fixed-width
+            aria-hidden="true"/>
+          <emojify :text="chat.name" />
+          <small class="text-muted">
+            {{ chat.description }}
+          </small>
+        </template>
+      </h5>
+      <p
+        v-if="channel.recent_message"
+        class="mb-0 text-truncate">
+        <span v-if="!channel.recent_message.is_deleted && spoiler && !me">
+          {{ spoiler.topic }}
+        </span>
+        <span v-else-if="!channel.recent_message.is_deleted">
+          <span v-if="!is_pm">@{{ opponent.username }}: </span>{{ channel.recent_message.content.text }}
+        </span>
+        <span
+          v-else
+          class="text-muted">[Message deleted]</span>
+      </p>
     </div>
-  </nuxt-link>
+    <span
+      :class="{'unread-channel-arrow': channel.has_unread}"
+      class="align-self-center">
+      <font-awesome-icon icon="chevron-right"/>
+    </span>
+  </div>
 </template>
 
 <script>

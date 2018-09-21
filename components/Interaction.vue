@@ -1,81 +1,74 @@
 <template>
-  <li
-    tabindex="-1"
-    class="list-group-item list-group-item-action"
-    @focus="focus"
-    @click="$emit('click')">
-    <div class="media pt-2 w-100">
-      <div class="d-inline-block mr-4 text-muted">
-        <font-awesome-icon
-          :icon="icon"
-          fixed-width
-          size="2x"
-        />
-      </div>
-      <div class="media-body">
-        <h6 class="text-gray-dark">
-          <ul class="list-inline">
-            <li
-              v-for="user in filteredUsers"
-              v-if="user.content"
-              :key="user.id"
-              class="list-inline-item">
-              <nuxt-link :to="`@${user.username}`">
-                <avatar
-                  :avatar="user.content.avatar_image"
-                  size="32"
-                  max-size="64"
-                />
-              </nuxt-link>
-            </li>
-          </ul>
-        </h6>
-        <div class="my-3">
-          <nuxt-link
-            v-if="post"
-            :to="`@${interaction.objects[0].user.username}/posts/${interaction.objects[0].id}`">
-            This post
-          </nuxt-link>
-          {{ actionBy }}
-          <ul class="list-inline d-inline">
-            <li
-              v-for="(user, i) in filteredUsers"
-              :key="user.id"
-              class="list-inline-item">
-              <nuxt-link :to="`@${user.username}`">
-                @{{ user.username }}
-                <span v-if="i < filteredUsers.length - 1">, </span>
-              </nuxt-link>
-            </li>
-          </ul>.
-          <ul class="list-group">
-            <post
-              v-if="post"
-              :post="post"
-              class="mt-3"
-              view-only
-              preview />
-          </ul>
-        </div>
-        <footer>
-          <ul class="list-inline">
-            <li class="list-inline-item">
-              <span
-                :title="absDate"
-                class="text-muted">
-                <font-awesome-icon :icon="['far', 'clock']" />
-                {{ date }}
-              </span>
-            </li>
-          </ul>
-        </footer>
-      </div>
+  <div class="media pt-2 w-100">
+    <div class="d-inline-block mr-4 text-muted">
+      <font-awesome-icon
+        :icon="icon"
+        fixed-width
+        size="2x"
+      />
     </div>
-  </li>
+    <div class="media-body">
+      <h6 class="text-gray-dark">
+        <ul class="list-inline">
+          <li
+            v-for="user in filteredUsers"
+            v-if="user.content"
+            :key="user.id"
+            class="list-inline-item">
+            <nuxt-link :to="`@${user.username}`">
+              <avatar
+                :avatar="user.content.avatar_image"
+                size="32"
+                max-size="64"
+              />
+            </nuxt-link>
+          </li>
+        </ul>
+      </h6>
+      <div class="my-3">
+        <nuxt-link
+          v-if="post"
+          :to="`@${interaction.objects[0].user.username}/posts/${interaction.objects[0].id}`">
+          This post
+        </nuxt-link>
+        {{ actionBy }}
+        <ul class="list-inline d-inline">
+          <li
+            v-for="(user, i) in filteredUsers"
+            :key="user.id"
+            class="list-inline-item">
+            <nuxt-link :to="`@${user.username}`">
+              @{{ user.username }}
+              <span v-if="i < filteredUsers.length - 1">, </span>
+            </nuxt-link>
+          </li>
+        </ul>.
+        <ul class="list-group">
+          <post
+            v-if="post"
+            :post="post"
+            class="mt-3"
+            view-only
+            preview />
+        </ul>
+      </div>
+      <footer>
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <span
+              :title="absDate"
+              class="text-muted">
+              <font-awesome-icon :icon="['far', 'clock']" />
+              {{ date }}
+            </span>
+          </li>
+        </ul>
+      </footer>
+    </div>
+  </div>
 </template>
 
 <script>
-import focus from '~/assets/js/focus'
 import Post from '~/components/Post'
 import Avatar from '~/components/Avatar'
 import listItem from '~/assets/js/list-item'
@@ -104,7 +97,7 @@ export default {
     Post,
     Avatar
   },
-  mixins: [focus, listItem],
+  mixins: [listItem],
   props: {
     interaction: {
       type: Object,

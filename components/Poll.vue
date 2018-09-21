@@ -1,7 +1,5 @@
 <template>
-  <div
-    v-if="poll"
-    class="list-group-item list-group-item-action">
+  <div v-if="poll">
     <p>{{ poll.prompt }}</p>
     <ul class="list-unstyled mb-3">
       <li
