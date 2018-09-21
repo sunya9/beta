@@ -13,6 +13,7 @@ export default (context, inject) => {
         include_post_raw: 1,
         include_directed_posts: 0,
         include_message_raw: 1,
+        include_deleted: 0,
         ...options
       }
     })
