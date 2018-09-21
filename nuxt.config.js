@@ -86,7 +86,8 @@ module.exports = {
       '~/plugins/emoji.js',
       'moment',
       '~/components/Post.vue',
-      '~/components/List.vue',
+      '~/components/BaseList.vue',
+      '~/components/PostList.vue',
       '~/plugins/font-awesome',
       'bootstrap.native'
     ]
