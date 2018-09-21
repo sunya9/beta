@@ -1,8 +1,5 @@
 <template>
-  <li
-    tabindex="-1"
-    class="message"
-  >
+  <div>
     <div
       v-if="firstUnreadMessage"
       class="matching-hr">
@@ -134,7 +131,7 @@
         </div>
       </div>
     </div>
-  </li>
+  </div>
 </template>
 
 <script>
