@@ -1,7 +1,8 @@
 <template>
   <base-list
     v-bind="$attrs"
-    default-classes="list-unstyled"
+    list-class="list-unstyled"
+    list-item-class="message"
   >
     <message
       slot-scope="{ item, index, lastUpdate }"

@@ -1,13 +1,9 @@
 <template>
   <base-list
     v-bind="$attrs"
-    :option="{
-      include_deleted: false
-    }"
     :data-added-hook="added"
   >
     <post
-      v-if="showItem(item)"
       slot-scope="{ item, index, lastUpdate }"
       :key="item.id"
       :post.sync="item"
@@ -18,7 +14,6 @@
       }"
       :detail="item.id === main"
       @update:post="$set($attrs.data.data, index, $event)"
-
     />
   </base-list>
 </template>
