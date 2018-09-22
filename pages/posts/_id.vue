@@ -28,7 +28,8 @@ export default {
     const option = {
       include_directed_posts: 1,
       include_bookmarked_by: 1,
-      include_reposted_by: 1
+      include_reposted_by: 1,
+      include_deleted: 1
     }
     const postPromise = $resource(option)
 

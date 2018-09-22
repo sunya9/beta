@@ -25,6 +25,7 @@
           <message-list
             ref="list"
             :data="data"
+            :option="option"
             :is-moderator="isModerator"
             :channel-type="channel.type"
             :last-read-message-id="data.meta.marker && data.meta.marker.id"
@@ -61,7 +62,10 @@ export default {
     }
   },
   async asyncData({ app: { $axios, $resource }, params, error }) {
-    const messagesPromise = $resource()
+    const option = {
+      include_deleted: 1
+    }
+    const messagesPromise = $resource(option)
     const channelPromise = $axios.$get(`/channels/${params.channel}`, {
       params: {
         include_limited_users: 1,
@@ -75,7 +79,8 @@ export default {
       ])
       return {
         data,
-        channel
+        channel,
+        option
       }
     } catch (e) {
       const { code, error_message } = e.response.data.meta
