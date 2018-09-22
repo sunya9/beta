@@ -43,14 +43,15 @@
             </nuxt-link>
           </li>
         </ul>.
-        <ul class="list-group">
-          <post
-            v-if="post"
-            :post="post"
-            class="mt-3"
-            view-only
-            preview />
-        </ul>
+        <div class="card mt-3">
+          <div class="card-body">
+            <post
+              v-if="post"
+              :post="post"
+              view-only
+              preview />
+          </div>
+        </div>
       </div>
       <footer>
         <ul class="list-inline">
