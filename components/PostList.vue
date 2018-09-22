@@ -35,10 +35,6 @@ export default {
     Post
   },
   props: {
-    all: {
-      type: Boolean,
-      default: false
-    },
     main: {
       type: String,
       default: ''
@@ -70,9 +66,6 @@ export default {
     remove() {
       if (!this.selectItem || !this.selectItem.me) return
       this.selectItem.removeModal()
-    },
-    showItem(item) {
-      return this.all || !item.is_deleted
     },
     isTarget(item) {
       return this.mainItem && this.mainItem.reply_to === item.id
