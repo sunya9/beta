@@ -2,16 +2,18 @@
   <base-list
     v-bind="$attrs"
     :data-added-hook="added"
+    :list-item-class="(item) => [
+      'list-group-item list-group-item-action',
+      {
+        'my-4': item.id === main,
+        'list-group-item-warning': isTarget(item)
+    }]"
   >
     <post
       slot-scope="{ item, index, lastUpdate }"
       :key="item.id"
       :post.sync="item"
       :last-update="lastUpdate"
-      :class="{
-        'my-4': item.id === main,
-        'list-group-item-warning': isTarget(item)
-      }"
       :detail="item.id === main"
       @update:post="$set($attrs.data.data, index, $event)"
     />
