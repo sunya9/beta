@@ -82,10 +82,13 @@
       </div>
       <div
         v-if="poll"
-        class="mb-3">
-        <poll
-          :poll-id="poll.poll_id"
-          :poll-token="poll.poll_token" />
+        class="card mb-3">
+        <div class="card-body">
+          <poll
+            :poll="poll"
+            :poll-id="poll.poll_id"
+            :poll-token="poll.poll_token" />
+        </div>
       </div>
       <p v-if="channelInvite">
         <nuxt-link
@@ -447,15 +450,14 @@ footer {
   font-size: 0.85rem;
 }
 
-.reply,
-.remove,
-.source,
-.crosspost-url {
-  opacity: 0;
-  transition: all 0.2s ease;
-}
-
-.list-group-item {
+.media {
+  .reply,
+  .remove,
+  .source,
+  .crosspost-url {
+    opacity: 0;
+    transition: all 0.2s ease;
+  }
   &:hover,
   &:focus {
     .reply,
