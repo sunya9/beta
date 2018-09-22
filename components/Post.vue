@@ -350,7 +350,7 @@ export default {
       return raw.value
     },
     reactionUsers() {
-      if (!this.detail) return []
+      if (!this.detail || this.post.is_deleted) return []
       const users = this.mainPost.bookmarked_by.concat(
         this.mainPost.reposted_by
       )
