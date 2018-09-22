@@ -10,7 +10,7 @@
     <component
       v-for="(item, index) in items"
       :key="item[idField]"
-      :class="listItemClass"
+      :class="typeof listItemClass === 'function' ? listItemClass(item) : listItemClass"
       :is="listElement"
       v-bind="listItemProps(item)"
       class="item"
@@ -66,7 +66,7 @@ export default {
       default: 'list-group mb-4'
     },
     listItemClass: {
-      type: String,
+      type: [String, Function],
       default: 'list-group-item list-group-item-action'
     },
     listElement: {
