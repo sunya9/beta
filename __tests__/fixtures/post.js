@@ -77,3 +77,14 @@ export const hasMarkdownLink = {
     text: betaLink
   }
 }
+
+export const replyTo = {
+  reply_to: '1',
+  id: '2',
+  user: fixtures('user', 'notMe')
+}
+
+export const main = {
+  bookmarked_by: [],
+  reposted_by: []
+}
