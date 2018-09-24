@@ -1,39 +1,85 @@
-import { shallowMount, createStore } from 'helper'
+import {
+  shallowMount,
+  createStore,
+  authedUserCreateStore,
+  fixtures,
+  mount
+} from 'helper'
 import Poll from '~/components/Poll'
 
 describe('Poll component', () => {
-  let wrapper
+  let wrapper, opts
   beforeEach(() => {
-    wrapper = shallowMount(Poll, {
+    opts = {
       propsData: {
         pollId: '1',
-        pollToken: 'poll_token'
+        pollToken: 'poll_token',
+        poll: fixtures('poll')
       },
       mocks: {
         $store: createStore()
       }
-    })
+    }
   })
-  test('Poll is not be shown when does not be passed id', () => {
-    wrapper.setProps({
-      pollId: null
-    })
-    expect(wrapper.find('.list-group-item').exists()).not.toBe(true)
-  })
-  test('Poll is shown when passed correct id', async () => {
-    await wrapper.vm.$nextTick()
-    expect(wrapper.find('.list-group-item').exists()).toBe(true)
+  test('Poll is shown when passed correct id', () => {
+    wrapper = shallowMount(Poll, opts)
+    expect(wrapper.isEmpty()).toBe(false)
     const text = wrapper.text()
     Array(5)
       .fill()
       .forEach((_, i) => expect(text).toContain(`option ${i + 1}`))
   })
-  test('Disabled vote butons when logged out', async () => {
-    await wrapper.vm.$nextTick()
-    expect(wrapper.contains('.list-group-item a.disabled')).toBe(true)
+  describe('Voting is held', () => {
+    test('Show tilde', () => {
+      wrapper = shallowMount(Poll, opts)
+      expect(wrapper.text()).toContain('~')
+    })
+    test('Disable vote butons when logged out', () => {
+      wrapper = shallowMount(Poll, opts)
+      expect(wrapper.contains('a.disabled')).toBe(true)
+    })
+    test('Enable vote butons when logged in', () => {
+      opts.mocks.$store = authedUserCreateStore()
+      wrapper = shallowMount(Poll, opts)
+      expect(wrapper.contains('a.disabled')).toBe(false)
+    })
   })
-  test('enabled vote butons when logged in', async () => {
-    await wrapper.vm.$nextTick()
-    expect(wrapper.contains('.list-group-item a.disabled')).not.toBe(false)
+  describe('Voting is over', () => {
+    test('Show closed at', () => {
+      opts.propsData.poll = fixtures('poll', 'closed')
+      wrapper = shallowMount(Poll, opts)
+      expect(wrapper.text()).toContain('Closed at')
+    })
+    test('Show the result when poll has been closed', () => {
+      opts.propsData.poll = fixtures('poll', 'closed')
+      wrapper = shallowMount(Poll, opts)
+      expect(wrapper.contains('.progress')).toBe(true)
+    })
+    test('Show the result and checkmark when you respond', () => {
+      opts.propsData.poll = fixtures('poll', 'detail', 'responded')
+      wrapper = mount(Poll, opts)
+      expect(wrapper.contains('.fa-check')).toBe(true)
+    })
+    test('Calc percentage and toggle display', () => {
+      opts.propsData.poll = fixtures('poll', 'detail', 'responded')
+      wrapper = shallowMount(Poll, opts)
+      expect(wrapper.text()).toContain('100%')
+      expect(wrapper.text()).toContain('0%')
+      const progresses = wrapper.findAll('.progress')
+      progresses.at(0).trigger('click')
+      expect(progresses.at(0).text()).toContain('1')
+      expect(progresses.at(1).text()).toContain('0')
+      expect(progresses.at(2).text()).toContain('0')
+      expect(progresses.at(3).text()).toContain('0')
+      expect(progresses.at(4).text()).toContain('0')
+      progresses.at(0).trigger('click')
+      expect(wrapper.text()).toContain('100%')
+      expect(wrapper.text()).toContain('0%')
+    })
+    test('Show total', () => {
+      opts.propsData.poll = fixtures('poll', 'detail', 'responded')
+      wrapper = shallowMount(Poll, opts)
+      expect(wrapper.text()).toContain('Total: 1')
+    })
   })
 })
