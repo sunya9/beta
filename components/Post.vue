@@ -4,7 +4,8 @@
       deleted: post.is_deleted,
       'h-entry': detail
     }"
-    class="media w-100 justify-content-start">
+    class="media w-100 justify-content-start"
+  >
     <a
       v-if="detail"
       v-show="false"
@@ -49,7 +50,7 @@
             'e-content p-name': detail
           }"
           class="flex-grow-1 w-100"
-          @click="clickPostLink">
+        >
           <entity-text
             :content="mainPost.content"
             :spoiler="spoiler"
@@ -179,7 +180,7 @@
               <a
                 class="text-muted"
                 href="#"
-                @click.prevent="$modal.show('post-modal', mainPost)"
+                @click.prevent="replyModal"
               >
                 <font-awesome-icon
                   icon="reply"
@@ -408,15 +409,23 @@ export default {
     ...mapGetters(['user'])
   },
   methods: {
+    replyModal() {
+      if (this.mainPost.is_deleted) return
+      this.$modal.show('post-modal', this.mainPost)
+    },
+    goPost() {
+      this.$router.push(this.permalink)
+    },
     favoriteToggle() {
+      if (this.mainPost.is_deleted) return
       this.$refs.favorite.toggle()
     },
     repostToggle() {
-      if (!this.me) {
-        this.$refs.repost.toggle()
-      }
+      if (this.me || this.mainPost.is_deleted) return
+      this.$refs.repost.toggle()
     },
     async removeModal() {
+      if (!this.me || this.mainPost.is_deleted) return
       try {
         await this.$modal.show('remove-modal', this.post)
         this.remove()
@@ -426,12 +435,6 @@ export default {
       const { data: post } = await this.$axios.$delete(`/posts/${this.post.id}`)
       this.$toast.success('Deleted Post!')
       this.$emit('update:post', post)
-    },
-    clickPostLink(e) {
-      const a = e.target
-      if (!a.href || !a.getAttribute('href').startsWith('/')) return
-      e.preventDefault()
-      this.$router.push(a.pathname)
     }
   }
 }
