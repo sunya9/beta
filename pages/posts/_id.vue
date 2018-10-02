@@ -7,6 +7,7 @@
       :key="`post-${id}`"
       :refresh-date="date"
       disable-auto-refresh
+      all
     />
   </div>
 </template>
