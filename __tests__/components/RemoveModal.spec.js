@@ -25,7 +25,7 @@ describe('Remove modal component', () => {
     })
     test('Shown the post', () => {
       wrapper.vm.post = {}
-      expect(wrapper.find('.list-group').exists()).toBe(true)
+      expect(wrapper.find('post-stub').exists()).toBe(true)
     })
   })
 
