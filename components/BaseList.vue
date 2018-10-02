@@ -1,8 +1,8 @@
 <template>
   <ul
+    v-on-click-outside="updateActiveElement"
     v-infinite-scroll="fetchMore"
     v-if="items.length"
-    ref="list"
     :class="listClass"
     infinite-scroll-disabled="moreDisabled"
     infinite-scroll-distance="100"
@@ -20,6 +20,7 @@
       <slot
         :item="item"
         :index="index"
+        :selected="isSelected(index)"
         :last-update="lastUpdate"
       />
     </component>
@@ -50,12 +51,18 @@
   </div>
 </template>
 <script>
-import Mousetrap from '~/plugins/mousetrap'
 import { mapGetters } from 'vuex'
+import keyBinding from '~/assets/js/key-binding'
 
 const INTERVAL = 1000 * 30 // 30sec
 
 export default {
+  mixins: [keyBinding],
+  keyMaps: {
+    j: 'scrollDown',
+    k: 'scrollUp',
+    '.': 'refresh'
+  },
   props: {
     dataAddedHook: {
       type: Function,
@@ -111,7 +118,7 @@ export default {
       lastUpdate: Date.now(),
       meta: this.data.meta,
       refreshing: false,
-      timer: null
+      activeElement: null
     }
   },
   computed: {
@@ -123,15 +130,10 @@ export default {
       set(v) {
         if (!(this.items.length - 1 < v) && !(v < 0)) {
           this.internalSelect = v
+          this.$emit('select', this.internalSelect)
         }
       }
     },
-
-    selectItem() {
-      if (this.select < 0) return null
-      return this.$refs.list.children[this.select].__vue__
-    },
-
     moreDisabled() {
       return this.busy || !this.more
     },
@@ -146,25 +148,25 @@ export default {
     }
   },
   mounted() {
-    Mousetrap.bind('j', this.scrollDown)
-    Mousetrap.bind('k', this.scrollUp)
-    Mousetrap.bind('.', this.refresh)
-    if (!this.disableAutoRefresh) {
-      if (this.timer) clearInterval(this.timer)
-      this.timer = setInterval(this.refresh, INTERVAL)
-    }
-  },
-  beforeDestroy() {
-    Mousetrap.unbind('j')
-    Mousetrap.unbind('k')
-    Mousetrap.unbind('.')
-    if (!this.timer) return
-    clearInterval(this.timer)
+    if (this.disableAutoRefresh) return
+    const timer = setInterval(this.refresh, INTERVAL)
+    this.$once('hook:beforeDestroy', () => clearInterval(timer))
   },
   methods: {
+    updateActiveElement() {
+      this.activeElement = document.activeElement
+    },
+    isSelected(index) {
+      if (!this.$el || !this.$el.children[this.select]) return
+      return (
+        index === this.select &&
+        this.$el.children[this.select].contains(this.activeElement)
+      )
+    },
     async focus(e) {
       const element = e ? e.target : this.$el.children[this.select]
       if (!element) return
+      this.activeElement = this.$el.children[this.select]
       const { top, bottom, height } = element.getBoundingClientRect()
       if (top < 100) {
         document.documentElement.scrollTop -= 100 - top
@@ -175,6 +177,8 @@ export default {
     },
     setSelect(index) {
       this.select = index
+      if (this.select < 0) return
+      this.activeElement = this.$el.children[this.select]
     },
     scrollDown() {
       this.select++

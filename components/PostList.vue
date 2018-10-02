@@ -1,5 +1,6 @@
 <template>
   <base-list
+    ref="list"
     v-bind="$attrs"
     :data-added-hook="added"
     :list-item-class="(item) => [
@@ -8,11 +9,14 @@
         'my-4': item.id === main,
         'list-group-item-warning': isTarget(item)
     }]"
+    tabindex="-1"
+    @select="select = $event"
   >
     <post
-      slot-scope="{ item, index, lastUpdate }"
+      slot-scope="{ item, index, lastUpdate, selected }"
       :key="item.id"
-      :post.sync="item"
+      :selected="selected"
+      :post="item"
       :last-update="lastUpdate"
       :detail="item.id === main"
       @update:post="$set($attrs.data.data, index, $event)"
@@ -22,22 +26,34 @@
 <script>
 import BaseList from '~/components/BaseList'
 import Post from '~/components/Post'
-import Mousetrap from '~/plugins/mousetrap'
 import {
   sendPostNotification,
   sendMentionNotification
 } from '~/assets/js/notification-wrapper'
 import { mapGetters } from 'vuex'
+import keyBinding, { forList } from '~/assets/js/key-binding'
 
 export default {
+  keyMaps: {
+    r: 'replyModal',
+    s: 'favoriteToggle',
+    p: 'repostToggle',
+    enter: 'goPost',
+    del: 'removeModal'
+  },
   components: {
     BaseList,
     Post
   },
+  mixins: [keyBinding, forList],
   props: {
     main: {
       type: String,
       default: ''
+    },
+    all: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -46,49 +62,9 @@ export default {
       return this.$attrs.data.data.find(item => item.id === this.main)
     }
   },
-  mounted() {
-    Mousetrap.bind('r', this.reply)
-    Mousetrap.bind('shift+r', this.replyAll)
-    Mousetrap.bind('s', this.favorite)
-    Mousetrap.bind('p', this.repost)
-    Mousetrap.bind('enter', this.goPost)
-    Mousetrap.bind('del', this.remove)
-  },
-  beforeDestroy() {
-    Mousetrap.unbind('r')
-    Mousetrap.unbind('shift+r')
-    Mousetrap.unbind('s')
-    Mousetrap.unbind('p')
-    Mousetrap.unbind('enter')
-    Mousetrap.unbind('del')
-  },
   methods: {
-    remove() {
-      if (!this.selectItem || !this.selectItem.me) return
-      this.selectItem.removeModal()
-    },
     isTarget(item) {
       return this.mainItem && this.mainItem.reply_to === item.id
-    },
-    reply() {
-      if (!this.selectItem) return
-      this.selectItem.replyModal()
-    },
-    replyAll() {
-      if (!this.selectItem) return
-      this.selectItem.replyAllModal()
-    },
-    favorite() {
-      if (!this.selectItem) return
-      this.selectItem.favoriteToggle()
-    },
-    repost() {
-      if (!this.selectItem) return
-      this.selectItem.repostToggle()
-    },
-    goPost() {
-      if (!this.selectItem) return
-      this.$router.push(this.selectItem.permalink)
     },
     added(newItems) {
       const posts = newItems.filter(
