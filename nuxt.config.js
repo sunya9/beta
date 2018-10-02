@@ -75,22 +75,7 @@ module.exports = {
         'bootstrap.native/dist/bootstrap-native-v4.js'
     },
     extractCSS: true,
-    plugins: [new EnvironmentPlugin(['npm_package_version'])],
-    vendor: [
-      'mousetrap',
-      'vue-infinite-scroll',
-      'vue-on-click-outside',
-      '~/plugins/bootstrap.js',
-      '~/plugins/mousetrap.js',
-      '~/plugins/vue-infinite.js',
-      '~/plugins/emoji.js',
-      'moment',
-      '~/components/Post.vue',
-      '~/components/BaseList.vue',
-      '~/components/PostList.vue',
-      '~/plugins/font-awesome',
-      'bootstrap.native'
-    ]
+    plugins: [new EnvironmentPlugin(['npm_package_version'])]
   },
 
   // plugin settings
