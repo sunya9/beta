@@ -110,14 +110,6 @@ export function getChannelInvite(post) {
   return channelRaw.value
 }
 
-export const underMessages = {
-  computed: {
-    underMessages() {
-      return this.$route.name.startsWith('messages')
-    }
-  }
-}
-
 export function getRSSLink(href) {
   return {
     hid: 'rss',
