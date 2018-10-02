@@ -9,23 +9,23 @@
         RSS
       </a>
     </p>
-    <list
+    <post-list
       :data="data"
       :key="options.q"
       :option="options"
-      type="Post">
+    >
       <span slot="empty">No results for {{ options.q }}</span>
-    </list>
+    </post-list>
   </div>
 </template>
 <script>
 import search from '~/assets/js/search'
-import List from '~/components/List'
+import PostList from '~/components/PostList'
 import { getRSSLink } from '~/assets/js/util'
 
 export default {
   components: {
-    List
+    PostList
   },
   mixins: [search],
   async asyncData({ app: { $resource }, query }) {

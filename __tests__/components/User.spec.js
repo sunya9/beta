@@ -7,27 +7,13 @@ import {
 } from 'helper'
 
 describe('User', () => {
-  test('data prop equals user property', () => {
-    const { vm } = shallowMount(
-      User,
-      baseMountOpts({
-        propsData: {
-          data: fixtures('user')
-        },
-        mocks: {
-          $store: authedUserCreateStore()
-        }
-      })
-    )
-    expect(vm.$props.data).toBe(vm.user)
-  })
   describe('relation', () => {
     test('text is "Follows you" when follows you', () => {
       const wrapper = shallowMount(
         User,
         baseMountOpts({
           propsData: {
-            data: fixtures('user', 'followsYou')
+            user: fixtures('user', 'followsYou')
           },
           mocks: {
             $store: authedUserCreateStore()
@@ -43,7 +29,7 @@ describe('User', () => {
         User,
         baseMountOpts({
           propsData: {
-            data: fixtures('user', 'notMe')
+            user: fixtures('user', 'notMe')
           },
           mocks: {
             $store: authedUserCreateStore()
@@ -57,7 +43,7 @@ describe('User', () => {
         User,
         baseMountOpts({
           propsData: {
-            data: fixtures('user')
+            user: fixtures('user')
           },
           mocks: {
             $store: authedUserCreateStore()
@@ -73,7 +59,7 @@ describe('User', () => {
         User,
         baseMountOpts({
           propsData: {
-            data: fixtures('user')
+            user: fixtures('user')
           },
           mocks: {
             $store: authedUserCreateStore()
@@ -87,7 +73,7 @@ describe('User', () => {
         User,
         baseMountOpts({
           propsData: {
-            data: fixtures('user', 'notMe')
+            user: fixtures('user', 'notMe')
           },
           mocks: {
             $store: authedUserCreateStore()

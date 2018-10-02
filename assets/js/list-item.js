@@ -12,7 +12,14 @@ moment.updateLocale('en', {
 
 export default {
   props: {
-    lastUpdate: Number
+    lastUpdate: {
+      type: Number,
+      default: null
+    },
+    selected: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     itemDate() {

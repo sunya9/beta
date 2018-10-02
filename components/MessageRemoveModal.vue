@@ -12,7 +12,7 @@
     <ul class="list-unstyled">
       <message
         v-if="vm"
-        :data="vm.message"
+        :message="vm.message"
         :display-full-view="true"
         view-only />
     </ul>

@@ -36,16 +36,16 @@
       </div>
     </div>
     <div>
-      <list
+      <interaction-list
         :data="data"
-        type="Interaction" />
+      />
     </div>
   </div>
 </template>
 
 <script>
 import Compose from '~/components/Compose'
-import List from '~/components/List'
+import InteractionList from '~/components/InteractionList'
 
 export default {
   middleware: ['auth'],
@@ -57,7 +57,7 @@ export default {
     return { data }
   },
   components: {
-    List,
+    InteractionList,
     Compose
   },
   methods: {

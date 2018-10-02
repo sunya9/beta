@@ -1,20 +1,18 @@
 <template>
   <div>
-    <div>
-      <compose />
-    </div>
-    <div>
-      <list
-        :data="data"
-        :option="option"
-        type="Post" />
-    </div>
+    <compose />
+    <post-list
+      :data="data"
+      :option="option"
+      :refresh-date="date"
+    />
   </div>
 </template>
 
 <script>
 import Compose from '~/components/Compose'
-import List from '~/components/List'
+import PostList from '~/components/PostList'
+import refreshAfterAdded from '~/assets/js/refresh-after-added'
 
 export default {
   middleware: ['auth'],
@@ -27,9 +25,10 @@ export default {
     return { data, option }
   },
   components: {
-    List,
+    PostList,
     Compose
   },
+  mixins: [refreshAfterAdded],
   head() {
     return {
       title: 'Mentions'

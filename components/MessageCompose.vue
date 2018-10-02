@@ -146,7 +146,6 @@ import textCount from '~/assets/js/text-count'
 import { mapGetters } from 'vuex'
 import Thumb from '~/components/Thumb'
 import InputSpoiler from '~/components/InputSpoiler'
-import Mousetrap from '~/plugins/mousetrap'
 import resettable from '~/assets/js/resettable'
 import unicodeSubstring from 'unicode-substring'
 
@@ -240,7 +239,7 @@ export default {
     }
   },
   mounted() {
-    Mousetrap.bind('n', e => {
+    this.$mousetrap.bind('n', e => {
       this.$refs.textarea.focus()
       e.preventDefault()
     })
@@ -249,7 +248,7 @@ export default {
     new Dropdown(this.$refs.dropdown)
   },
   beforeDestroy() {
-    Mousetrap.unbind('n')
+    this.$mousetrap.unbind('n')
   },
   methods: {
     async broadcast() {

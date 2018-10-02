@@ -1,19 +1,19 @@
 <template>
-  <list
+  <user-list
     :data="data"
     :key="options.q"
     :option="options"
-    type="User">
+  >
     <span slot="empty">No results for {{ options.q }}</span>
-  </list>
+  </user-list>
 </template>
 <script>
 import search from '~/assets/js/search'
-import List from '~/components/List'
+import UserList from '~/components/UserList'
 
 export default {
   components: {
-    List
+    UserList
   },
   mixins: [search],
   async asyncData({ app: { $resource }, query }) {

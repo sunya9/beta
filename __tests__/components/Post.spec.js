@@ -20,7 +20,7 @@ describe('Post component', () => {
           $store: authedUserCreateStore()
         },
         propsData: {
-          data: fixtures('post')
+          post: fixtures('post')
         }
       })
     )
@@ -28,7 +28,7 @@ describe('Post component', () => {
   describe('a post deleted', () => {
     test('Show [Post deleted]', async () => {
       wrapper.setProps({
-        data: fixtures('post', 'deleted')
+        post: fixtures('post', 'deleted')
       })
       await wrapper.vm.$nextTick()
       expect(wrapper.text()).toContain('[Post deleted]')

@@ -1,21 +1,16 @@
 <template>
   <div>
-    <div>
-      <compose />
-    </div>
-    <div>
-      <list
-        ref="list"
-        :data="data"
-        :option="option"
-        :auto-refresh="false"
-        type="Post" />
-    </div>
+    <compose />
+    <post-list
+      :data="data"
+      :option="option"
+      disable-auto-refresh
+    />
   </div>
 </template>
 <script>
 import Compose from '~/components/Compose'
-import List from '~/components/List'
+import PostList from '~/components/PostList'
 
 export default {
   async asyncData({ app: { $resource } }) {
@@ -26,7 +21,7 @@ export default {
     return { data, option }
   },
   components: {
-    List,
+    PostList,
     Compose
   },
   head() {

@@ -1,19 +1,13 @@
 <template>
   <div>
-    <div>
-      <compose />
-    </div>
-    <div>
-      <list
-        :data="data"
-        type="Post" />
-    </div>
+    <compose />
+    <post-list :data="data" />
   </div>
 </template>
 
 <script>
 import Compose from '~/components/Compose'
-import List from '~/components/List'
+import PostList from '~/components/PostList'
 
 export default {
   async asyncData({ app: { $resource } }) {
@@ -21,7 +15,7 @@ export default {
     return { data }
   },
   components: {
-    List,
+    PostList,
     Compose
   },
   head() {

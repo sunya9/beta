@@ -7,14 +7,10 @@
     @hidden="hidden"
   >
     <p>Do you want to remove this post?</p>
-    <ul
+    <post
       v-if="post"
-      class="list-group"
-    >
-      <post
-        :data="post"
-        view-only />
-    </ul>
+      :post="post"
+      view-only />
   </base-modal>
 </template>
 

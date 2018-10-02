@@ -1,81 +1,75 @@
 <template>
-  <li
-    tabindex="-1"
-    class="list-group-item list-group-item-action"
-    @focus="focus"
-    @click="$emit('click')">
-    <div class="media pt-2 w-100">
-      <div class="d-inline-block mr-4 text-muted">
-        <font-awesome-icon
-          :icon="icon"
-          fixed-width
-          size="2x"
-        />
-      </div>
-      <div class="media-body">
-        <h6 class="text-gray-dark">
-          <ul class="list-inline">
-            <li
-              v-for="user in filteredUsers"
-              v-if="user.content"
-              :key="user.id"
-              class="list-inline-item">
-              <nuxt-link :to="`@${user.username}`">
-                <avatar
-                  :avatar="user.content.avatar_image"
-                  size="32"
-                  max-size="64"
-                />
-              </nuxt-link>
-            </li>
-          </ul>
-        </h6>
-        <div class="my-3">
-          <nuxt-link
-            v-if="post"
-            :to="`@${action.objects[0].user.username}/posts/${action.objects[0].id}`">
-            This post
-          </nuxt-link>
-          {{ actionBy }}
-          <ul class="list-inline d-inline">
-            <li
-              v-for="(user, i) in filteredUsers"
-              :key="user.id"
-              class="list-inline-item">
-              <nuxt-link :to="`@${user.username}`">
-                @{{ user.username }}
-                <span v-if="i < filteredUsers.length - 1">, </span>
-              </nuxt-link>
-            </li>
-          </ul>.
-          <ul class="list-group">
+  <div class="media pt-2 w-100">
+    <div class="d-inline-block mr-4 text-muted">
+      <font-awesome-icon
+        :icon="icon"
+        fixed-width
+        size="2x"
+      />
+    </div>
+    <div class="media-body">
+      <h6 class="text-gray-dark">
+        <ul class="list-inline">
+          <li
+            v-for="user in filteredUsers"
+            v-if="user.content"
+            :key="user.id"
+            class="list-inline-item">
+            <nuxt-link :to="`@${user.username}`">
+              <avatar
+                :avatar="user.content.avatar_image"
+                size="32"
+                max-size="64"
+              />
+            </nuxt-link>
+          </li>
+        </ul>
+      </h6>
+      <div class="my-3">
+        <nuxt-link
+          v-if="post"
+          :to="`@${interaction.objects[0].user.username}/posts/${interaction.objects[0].id}`">
+          This post
+        </nuxt-link>
+        {{ actionBy }}
+        <ul class="list-inline d-inline">
+          <li
+            v-for="(user, i) in filteredUsers"
+            :key="user.id"
+            class="list-inline-item">
+            <nuxt-link :to="`@${user.username}`">
+              @{{ user.username }}
+              <span v-if="i < filteredUsers.length - 1">, </span>
+            </nuxt-link>
+          </li>
+        </ul>.
+        <div class="card mt-3">
+          <div class="card-body">
             <post
               v-if="post"
-              :data="post"
-              class="mt-3"
+              :post="post"
               view-only
               preview />
-          </ul>
+          </div>
         </div>
-        <footer>
-          <ul class="list-inline">
-            <li class="list-inline-item">
-              <span
-                :title="absDate"
-                class="text-muted">
-                <font-awesome-icon :icon="['far', 'clock']" />
-                {{ date }}
-              </span>
-            </li>
-          </ul>
-        </footer>
       </div>
+      <footer>
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <span
+              :title="absDate"
+              class="text-muted">
+              <font-awesome-icon :icon="['far', 'clock']" />
+              {{ date }}
+            </span>
+          </li>
+        </ul>
+      </footer>
     </div>
-  </li>
+  </div>
 </template>
 
 <script>
-import focus from '~/assets/js/focus'
 import Post from '~/components/Post'
 import Avatar from '~/components/Avatar'
 import listItem from '~/assets/js/list-item'
@@ -104,26 +98,23 @@ export default {
     Post,
     Avatar
   },
-  mixins: [focus, listItem],
+  mixins: [listItem],
   props: {
-    data: {
+    interaction: {
       type: Object,
-      default: () => ({})
+      required: true
     }
   },
-  dateKey: 'action.event_date',
+  dateKey: 'interaction.event_date',
   computed: {
-    action() {
-      return this.data
-    },
     actionBy() {
-      return `${convert[this.action.action].text} by`
+      return `${convert[this.interaction.action].text} by`
     },
     icon() {
-      return convert[this.action.action].icon
+      return convert[this.interaction.action].icon
     },
     html() {
-      switch (this.action.action) {
+      switch (this.interaction.action) {
         case 'bookmark':
         case 'reply':
         case 'repost':
@@ -131,10 +122,12 @@ export default {
       }
     },
     post() {
-      return this.action.action !== 'follow' ? this.action.objects[0] : null
+      return this.interaction.action !== 'follow'
+        ? this.interaction.objects[0]
+        : null
     },
     filteredUsers() {
-      return this.action.users.filter((user, i, ary) => {
+      return this.interaction.users.filter((user, i, ary) => {
         return !ary.slice(0, i).some(user2 => user.id === user2.id)
       })
     }

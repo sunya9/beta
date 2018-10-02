@@ -1,11 +1,9 @@
 <template>
-  <div
-    v-if="poll"
-    class="list-group-item list-group-item-action">
-    <p>{{ poll.prompt }}</p>
+  <div v-if="internalPoll">
+    <p>{{ internalPoll.prompt }}</p>
     <ul class="list-unstyled mb-3">
       <li
-        v-for="(option, index) in poll.options"
+        v-for="(option, index) in internalPoll.options"
         :key="index"
         class="mb-1"
       >
@@ -61,7 +59,7 @@
         </li>
         <li class="list-inline-item text-muted">
           <nuxt-link
-            :to="`/polls/${poll.id}`"
+            :to="`/polls/${internalPoll.id}`"
             class="text-muted"
           >
             <font-awesome-icon
@@ -78,10 +76,10 @@
 
 <script>
 import moment from 'moment'
-
+import { cloneDeep } from 'lodash'
 export default {
   props: {
-    data: {
+    poll: {
       type: Object,
       default: null
     },
@@ -98,8 +96,8 @@ export default {
     return {
       currentTime: Date.now(),
       timer: null,
-      poll: this.data,
-      preferPercent: true
+      preferPercent: true,
+      internalPoll: cloneDeep(this.poll)
     }
   },
   computed: {
@@ -107,29 +105,27 @@ export default {
       return this.$store.getters.user && !this.closed
     },
     finished() {
-      return this.poll.you_responded || this.closed
+      return this.internalPoll.you_responded || this.closed
     },
     until() {
-      return moment(this.poll.closed_at).format('llll')
+      return moment(this.internalPoll.closed_at).format('llll')
     },
     closed() {
-      return new Date(this.poll.closed_at).getTime() < this.currentTime
+      return new Date(this.internalPoll.closed_at).getTime() < this.currentTime
     },
     total() {
-      return this.poll.options.reduce(
+      return this.internalPoll.options.reduce(
         (sum, option) => sum + (option.respondents || 0),
         0
       )
     },
     id() {
-      return this.poll.id || this.poll.poll_id
+      return this.internalPoll.id || this.internalPoll.poll_id
     }
   },
   async mounted() {
     this.timer = setInterval(this.updateTime, 1000)
-    if (!this.poll && this.pollId && this.pollToken) {
-      await this.getPoll()
-    }
+    await this.getPoll()
   },
   beforeDestroy() {
     if (this.timer) {
@@ -139,10 +135,10 @@ export default {
   methods: {
     async getPoll() {
       const { data } = await this.$axios.$get(
-        `/polls/${this.pollId || this.poll.id}?poll_token=${this.pollToken ||
-          this.poll.poll_token}`
+        `/polls/${this.pollId || this.internalPoll.id}?poll_token=${this
+          .pollToken || this.internalPoll.poll_token}`
       )
-      this.poll = data
+      this.internalPoll = data
     },
     updateTime() {
       this.currentTime = Date.now()
@@ -159,10 +155,10 @@ export default {
     },
     async respond(position) {
       const { data } = await this.$axios.$put(
-        `/polls/${this.id}/response/${position}?poll_token=${this.pollToken}`
+        `/polls/${this.id}/response/${position}?poll_token=${this.pollToken ||
+          this.internalPoll.poll_token}`
       )
-      this.poll = data
-      this.$emit('update:data', data)
+      this.internalPoll = data
     },
     async toggleDisplay() {
       this.preferPercent = !this.preferPercent

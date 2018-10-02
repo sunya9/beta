@@ -1,8 +1,5 @@
 <template>
-  <li
-    tabindex="-1"
-    class="message"
-  >
+  <div>
     <div
       v-if="firstUnreadMessage"
       class="matching-hr">
@@ -134,7 +131,7 @@
         </div>
       </div>
     </div>
-  </li>
+  </div>
 </template>
 
 <script>
@@ -158,9 +155,9 @@ export default {
       type: Boolean,
       default: false
     },
-    data: {
+    message: {
       type: Object,
-      default: () => ({})
+      required: true
     },
     isModerator: {
       type: Boolean,
@@ -189,17 +186,14 @@ export default {
     firstUnreadMessage() {
       return this.message.id === this.lastReadMessageId
     },
-    message() {
-      return this.data
-    },
     thumbs() {
-      return getImageURLs(this.data)
+      return getImageURLs(this.message)
     },
     clips() {
-      return getAudio(this.data)
+      return getAudio(this.message)
     },
     spoiler() {
-      return getSpoiler(this.data)
+      return getSpoiler(this.message)
     },
     ...mapGetters(['user'])
   },
@@ -208,15 +202,12 @@ export default {
     removeModal() {
       this.$modal.show('message-remove-modal', this)
     },
-    remove() {
-      return this.$axios
-        .$delete(
-          `/channels/${this.message.channel_id}/messages/${this.message.id}`
-        )
-        .then(() => {
-          this.$emit('remove')
-          this.$toast.success('Deleted Message!')
-        })
+    async remove() {
+      const { data: message } = await this.$axios.$delete(
+        `/channels/${this.message.channel_id}/messages/${this.message.id}`
+      )
+      this.$toast.success('Deleted Message!')
+      this.$emit('update:message', message)
     }
   }
 }

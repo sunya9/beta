@@ -11,15 +11,12 @@
     <div
       slot-scope="{ ok }"
     >
-      <ul
+      <post
         v-if="reply"
-        class="list-group"
-      >
-        <post
-          :data="reply"
-          view-only
-          class="post px-0" />
-      </ul>
+        :post="reply"
+        class="my-3"
+        view-only
+      />
       <compose
         ref="compose"
         :reply-target="reply"
@@ -68,10 +65,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.post {
-  border: none;
-  background: transparent;
-}
-</style>

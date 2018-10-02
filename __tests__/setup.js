@@ -10,9 +10,12 @@ import { config, RouterLinkStub } from '@vue/test-utils'
 Vue.use(Vuex)
 Vue.use(Modal)
 
-Vue.directive('on-click-outside', {
-  bind: () => {},
-  unbind: () => {}
+// dummy directives
+Array('on-click-outside', 'infinite-scroll', 'shortkey').forEach(directive => {
+  Vue.directive(directive, {
+    bind: () => {},
+    unbind: () => {}
+  })
 })
 
 config.stubs['no-ssr'] = {
@@ -26,6 +29,13 @@ config.stubs['picker'] = {
 }
 
 config.stubs['nuxt-link'] = RouterLinkStub
+
+config.mocks['$mousetrap'] = {
+  bind() {},
+  unbind() {},
+  pause() {},
+  unpause() {}
+}
 
 Vue.use({
   install(Vue) {
@@ -60,10 +70,3 @@ Vue.use({
     }
   }
 })
-
-jest.mock('~/plugins/mousetrap', () => ({
-  bind() {},
-  unbind() {},
-  pause() {},
-  unpause() {}
-}))

@@ -98,7 +98,7 @@ export default {
     this.tabMap = Array.from(targets).reduce((obj, target) => {
       obj[target.hash.slice(1)] = new Tab(target)
       target.addEventListener('shown.bs.tab', this.shown, false)
-      this.$on('hook:beforeDestroy', () =>
+      this.$once('hook:beforeDestroy', () =>
         target.removeEventListener('shown.bs.tab', this.shown)
       )
       return obj

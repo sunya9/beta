@@ -12,13 +12,14 @@
         :key="`${name}-compose`" />
     </div>
     <div>
-      <list
+      <post-list
         v-if="!blocked"
         ref="list"
         :data="data"
         :key="`${name}-posts`"
         :option="option"
-        type="Post" />
+        :refresh-date="date"
+      />
     </div>
   </div>
 </template>
@@ -26,17 +27,18 @@
 <script>
 import Profile from '~/components/Profile'
 import Compose from '~/components/Compose'
-import List from '~/components/List'
-import bus from '~/assets/js/bus'
+import PostList from '~/components/PostList'
 import { mapGetters } from 'vuex'
 import { getTitle, getRSSLink } from '~/assets/js/util'
+import refreshAfterAdded from '~/assets/js/refresh-after-added'
 
 export default {
   components: {
     Profile,
     Compose,
-    List
+    PostList
   },
+  mixins: [refreshAfterAdded],
   async asyncData(ctx) {
     const {
       params,
@@ -84,17 +86,6 @@ export default {
         await this.$nextTick()
         this.$refs.list.fetchMore()
       }
-    }
-  },
-  mounted() {
-    bus.$on('post', this.add)
-  },
-  beforeDestroy() {
-    bus.$off('post', this.add)
-  },
-  methods: {
-    add() {
-      this.$refs.list.refresh()
     }
   },
   head() {
