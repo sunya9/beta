@@ -9,7 +9,9 @@
     <div class="row flex-wrap">
       <div class="col-lg-4">
         <h6>Actions</h6>
-        <key-sets :key-sets="actions" />
+        <no-ssr>
+          <key-sets :key-sets="actions" />
+        </no-ssr>
       </div>
       <div class="col-lg-4">
         <h6>Navigation</h6>
@@ -25,7 +27,6 @@
 
 <script>
 import KeySets from './KeySets'
-import { underMessages } from '~/assets/js/util'
 import BaseModal from '~/components/BaseModal'
 
 export default {
@@ -33,7 +34,6 @@ export default {
     KeySets,
     BaseModal
   },
-  mixins: [underMessages],
   streamActions: [
     { key: 'n', label: 'New post' },
     { key: 's', label: 'Start' },
@@ -70,7 +70,8 @@ export default {
   ],
   computed: {
     actions() {
-      return this.underMessages
+      if (process.server) return
+      return this.$route.name.startsWith('messages')
         ? this.$options.messageActions
         : this.$options.streamActions
     }

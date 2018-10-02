@@ -73,8 +73,6 @@
   </promise-modal>
 </template>
 <script>
-import Mousetrap from '~/plugins/mousetrap'
-
 export default {
   props: {
     suppressWarnings: {
@@ -145,7 +143,7 @@ export default {
     show(arg) {
       this.modal.show()
       this.$emit('show', arg)
-      Mousetrap.pause()
+      this.$mousetrap.pause()
     },
     shown() {
       if (this.autoFocus) this.$refs[this.autoFocus].focus()
@@ -158,7 +156,7 @@ export default {
       this.modal.hide()
     },
     hidden() {
-      Mousetrap.unpause()
+      this.$mousetrap.unpause()
       if (!this.hideRequest()) this.$emit('hidden')
     }
   }

@@ -105,7 +105,6 @@ import ChannelEditModal from '~/components/ChannelEditModal'
 import ChannelMemberEditModal from '~/components/ChannelMemberEditModal'
 import MessageModal from '~/components/MessageModal'
 import HelpModal from '~/components/HelpModal'
-import Mousetrap from 'mousetrap'
 import AppSidebar from '~/components/sidebar/App'
 import SettingsSidebar from '~/components/sidebar/Settings'
 import AboutSidebar from '~/components/sidebar/About'
@@ -113,9 +112,56 @@ import FilesSidebar from '~/components/sidebar/Files'
 import SearchSidebar from '~/components/sidebar/Search'
 import Jumbotron from '~/components/Jumbotron'
 import Vue from 'vue'
-import { underMessages } from '~/assets/js/util'
 
 export default {
+  commonShortcuts: {
+    '?'() {
+      this.$modal.show('help-modal')
+    },
+    'g h'() {
+      this.$router.push('/')
+    },
+    'g m'() {
+      this.$router.push('/mentions')
+    },
+    'g i'() {
+      this.$router.push('/interactions')
+    },
+    'g s'() {
+      this.$router.push('/stars')
+    },
+
+    // explore
+    'g c'() {
+      this.$router.push('/conversations')
+    },
+    'g p'() {
+      this.$router.push('/photos')
+    },
+    'g t'() {
+      this.$router.push('/trending')
+    },
+    'g g'() {
+      this.$router.push('/global')
+    }
+  },
+  streamsShortcuts: {
+    n() {
+      this.$modal.show('post-modal')
+    }
+  },
+  messagesShortcuts: {
+    m() {
+      this.$modal.show('message-modal', {
+        isPrivate: true
+      })
+    },
+    c() {
+      this.$modal.show('message-modal', {
+        isPrivate: false
+      })
+    }
+  },
   components: {
     AppHeader,
     PostModal,
@@ -132,7 +178,6 @@ export default {
     SearchSidebar,
     Jumbotron
   },
-  mixins: [underMessages],
   props: {
     error: {
       type: null,
@@ -189,6 +234,16 @@ export default {
     },
     ...mapGetters(['user'])
   },
+  watch: {
+    $route: {
+      handler() {
+        if (process.server) return
+        this.$mousetrap.reset()
+        this.keyboardBind()
+      }
+      // immediate: true
+    }
+  },
   mounted() {
     // // dark theme
     if (process.browser) {
@@ -196,60 +251,36 @@ export default {
         this.bodyClass = 'dark'
       }
     }
-
-    const router = this.$router
-    // new post
-    Mousetrap.bind('n', () => {
-      if (this.underMessages) return
-      this.$modal.show('post-modal')
-    })
-    Mousetrap.bind('m', () => {
-      if (!this.underMessages) return
-      this.$modal.show('message-modal', {
-        isPrivate: true
-      })
-    })
-
-    Mousetrap.bind('c', () => {
-      if (!this.underMessages) return
-      this.$modal.show('message-modal', {
-        isPrivate: false
-      })
-    })
-
-    Mousetrap.bind('?', () => this.$modal.show('help-modal'))
-    // main
-    Mousetrap.bind('g h', () => router.push('/'))
-    Mousetrap.bind('g m', () => router.push('/mentions'))
-    Mousetrap.bind('g i', () => router.push('/interactions'))
-    Mousetrap.bind('g s', () => router.push('/stars'))
-
-    // explore
-    Mousetrap.bind('g c', () => router.push('/conversations'))
-    Mousetrap.bind('g p', () => router.push('/photos'))
-    Mousetrap.bind('g t', () => router.push('/trending'))
-    Mousetrap.bind('g g', () => router.push('/global'))
+    this.keyboardBind()
   },
   beforeDestroy() {
-    Mousetrap.unbind('n')
-    Mousetrap.unbind('?')
-    Mousetrap.unbind(['m', 'c'])
-
-    Mousetrap.unbind('g m')
-    Mousetrap.unbind('g i')
-    Mousetrap.unbind('g s')
-
-    // explore
-    Mousetrap.unbind('g c')
-    Mousetrap.unbind('g p')
-    Mousetrap.unbind('g t')
-    Mousetrap.unbind('g g')
+    this.keyboardBind(true)
   },
   head() {
     return {
       bodyAttrs: {
         class: this.bodyClass
       }
+    }
+  },
+  methods: {
+    keyboardBind(unbind = false) {
+      this.$mousetrap.reset()
+      if (unbind) return
+      const context = this.$route.name.startsWith('messages')
+        ? 'messages'
+        : 'streams'
+      this.keyboardBinding()
+      this.keyboardBinding(context)
+    },
+    keyboardBinding(context) {
+      const contextKey = `${context || 'common'}Shortcuts`
+      Object.keys(this.$options[contextKey]).forEach(shortcutKey => {
+        this.$mousetrap.bind(
+          shortcutKey,
+          this.$options[contextKey][shortcutKey].bind(this)
+        )
+      })
     }
   }
 }
