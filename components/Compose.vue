@@ -149,7 +149,6 @@ import bus from '~/assets/js/bus'
 import { mapGetters } from 'vuex'
 import Thumb from '~/components/Thumb'
 import { Picker } from '~/plugins/emoji'
-import emojiSource from 'emoji-datasource-twitter/img/twitter/sheets-128/64.png'
 import InputPoll from '~/components/InputPoll'
 import InputSpoiler from '~/components/InputSpoiler'
 import InputLongpost from '~/components/InputLongpost'
@@ -358,7 +357,7 @@ export default {
       this.longpost = this.longpost ? null : {}
     },
     getSheet() {
-      return emojiSource
+      return require('emoji-datasource-twitter/img/twitter/sheets-128/64.png')
     },
     setFocus(force = false) {
       if (this.focus === false && !force) return
