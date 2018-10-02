@@ -15,6 +15,10 @@ export default {
     lastUpdate: {
       type: Number,
       default: null
+    },
+    selected: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

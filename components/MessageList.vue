@@ -3,6 +3,7 @@
     v-bind="$attrs"
     list-class="list-unstyled"
     list-item-class="message"
+    @select="select = $event"
   >
     <message
       slot-scope="{ item, index, lastUpdate }"
@@ -18,14 +19,18 @@
 </template>
 <script>
 import BaseList from '~/components/BaseList'
-import Mousetrap from '~/plugins/mousetrap'
 import Message from '~/components/Message'
+import keyBinding, { forList } from '~/assets/js/key-binding'
 
 export default {
+  keyMaps: {
+    del: 'removeModal'
+  },
   components: {
     BaseList,
     Message
   },
+  mixins: [keyBinding, forList],
   props: {
     isModerator: {
       type: Boolean,
@@ -38,18 +43,6 @@ export default {
     channelType: {
       type: String,
       default: ''
-    }
-  },
-  mounted() {
-    Mousetrap.bind('del', this.remove)
-  },
-  beforeDestroy() {
-    Mousetrap.unbind('del')
-  },
-  methods: {
-    remove() {
-      if (!this.selectItem || !this.selectItem.me) return
-      this.selectItem.removeModal()
     }
   }
 }
