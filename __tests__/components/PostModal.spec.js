@@ -2,27 +2,10 @@ import PostModal from '~/components/PostModal'
 import {
   mount,
   authedUserCreateStore,
-  RouterLinkStub as NuxtLink
+  RouterLinkStub as NuxtLink,
+  fixtures
 } from 'helper'
 
-const post = {
-  content: {
-    entities: {
-      links: [],
-      tags: [],
-      mentions: []
-    },
-    text: 'foo'
-  },
-  user: {
-    id: 123,
-    username: 'bar',
-    content: {
-      avatar_image: ''
-    }
-  },
-  counts: {}
-}
 describe('PostModal component', () => {
   let wrapper
   beforeEach(() => {
@@ -32,13 +15,14 @@ describe('PostModal component', () => {
       },
       stubs: {
         Compose: true,
-        NuxtLink
+        NuxtLink,
+        post: true
       }
     })
   })
   test('show post when receive post argument', async () => {
-    wrapper.vm.show(post)
+    wrapper.vm.show(fixtures('post'))
     await wrapper.vm.$nextTick()
-    expect(wrapper.find('.post').text()).toContain('foo')
+    expect(wrapper.contains('post-stub')).toBe(true)
   })
 })
