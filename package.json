@@ -9,7 +9,6 @@
     "dev": "nuxt",
     "build": "cross-env NODE_ENV=production nuxt build",
     "start": "cross-env NODE_ENV=production nuxt start",
-    "precommit": "lint-staged",
     "lint": "eslint --ext .js,.vue .",
     "lint:fix": "eslint --ext .js,.vue --fix .",
     "test": "jest",
@@ -83,6 +82,11 @@
   },
   "resolutions": {
     "babel-core": "7.0.0-bridge.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "homepage": "https://github.com/sunya9/beta",
   "bugs": "https://github.com/sunya9/beta/issues",
