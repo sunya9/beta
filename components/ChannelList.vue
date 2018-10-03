@@ -2,6 +2,7 @@
   <base-list
     v-bind="$attrs"
     :list-item-props="channel => listItemProps(channel)"
+    :list-item-class="channel => listItemClass(channel)"
     list-element="nuxt-link"
   >
     <channel
@@ -23,9 +24,16 @@ export default {
   methods: {
     listItemProps(channel) {
       return {
-        to: `/messages/${channel.id}`,
-        class: { 'unread-channel': channel.has_unread }
+        to: `/messages/${channel.id}`
       }
+    },
+    listItemClass(channel) {
+      return [
+        'list-group-item list-group-item-action',
+        {
+          'unread-channel': channel.has_unread
+        }
+      ]
     }
   }
 }
