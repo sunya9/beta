@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-md-8">
+      <div
+        v-if="$auth.loggedIn"
+        class="col-md-8">
         <ul class="nav nav-tabs mb-4">
           <li class="nav-item">
             <nuxt-link
