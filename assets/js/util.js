@@ -129,3 +129,14 @@ export function findChatRaw(channel, andValue = false) {
   if (!andValue) return chatRaw
   return chatRaw.value
 }
+
+export const deletedUser = {
+  id: '',
+  name: '',
+  username: 'Deleted user',
+  content: {
+    avatar_image: {
+      link: ''
+    }
+  }
+}
