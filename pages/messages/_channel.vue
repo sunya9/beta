@@ -43,7 +43,7 @@ import { mapGetters } from 'vuex'
 import ChatPanel from '~/components/ChatPanel'
 import PmPanel from '~/components/PmPanel'
 import markAsRead from '~/assets/js/mark-as-read'
-import { getRSSLink, findChatRaw } from '~/assets/js/util'
+import { getRSSLink, findChatRaw, deletedUser } from '~/assets/js/util'
 
 export default {
   validate({ params: { channel } }) {
@@ -77,6 +77,10 @@ export default {
         messagesPromise,
         channelPromise
       ])
+      channel.owner = {
+        ...deletedUser,
+        ...channel.owner
+      }
       return {
         data,
         channel,
@@ -98,6 +102,7 @@ export default {
     isModerator() {
       return (
         this.user &&
+        this.channel.owner &&
         (this.user.id === this.channel.owner.id ||
           !!this.channel.acl.full.user_ids.find(u => u.id === this.user.id))
       )

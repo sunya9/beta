@@ -14,15 +14,17 @@
       }"
       class="media mb-2">
       <nuxt-link
-        :to="`/@${message.user.username}`"
-        class="mt-4">
+        :to="`/@${messageUser.username}`"
+        :class="{ 'disabled-link': !messageUser.id }"
+        class="mt-4"
+      >
         <avatar
-          :avatar="message.user.content.avatar_image"
+          :avatar="messageUser.content.avatar_image"
           :class="{
             'mr-4': !me,
             'ml-4': me
           }"
-          :alt="message.user.username"
+          :alt="messageUser.username"
           class="d-flex"
           size="32"
           max-size="32"
@@ -36,10 +38,13 @@
             'text-right': me
           }"
           class="mb-2">
-          <nuxt-link :to="`/@${message.user.username}`">
-            {{ message.user.username }}
+          <nuxt-link
+            :to="`/@${messageUser.username}`"
+            :class="{ 'disabled-link': !messageUser.id }"
+          >
+            {{ messageUser.username }}
             <emojify
-              :text="message.user.name"
+              :text="messageUser.name"
               element="small"
               class="text-muted"
             />
@@ -140,7 +145,12 @@ import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
 import EntityText from '~/components/EntityText'
 import listItem from '~/assets/js/list-item'
-import { getImageURLs, getAudio, getSpoiler } from '~/assets/js/util'
+import {
+  getImageURLs,
+  getAudio,
+  getSpoiler,
+  deletedUser
+} from '~/assets/js/util'
 
 export default {
   components: {
@@ -174,7 +184,12 @@ export default {
   },
   computed: {
     me() {
-      return this.user && this.user.id === this.message.user.id
+      return (
+        this.user && this.messageUser && this.user.id === this.messageUser.id
+      )
+    },
+    messageUser() {
+      return this.message.user || deletedUser
     },
     canDelete() {
       return (
