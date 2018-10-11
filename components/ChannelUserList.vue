@@ -8,6 +8,7 @@
         class="mb-2">
         <nuxt-link
           :to="`/@${user.username}`"
+          :class="{ 'disabled-link': !user.id }"
           class="d-flex flex-row align-items-center flex-nowrap">
           <avatar
             :avatar="user.avatar_image"

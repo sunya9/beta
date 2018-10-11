@@ -18,6 +18,11 @@ body {
   margin-bottom: 0 !important;
 }
 
+.disabled-link {
+  pointer-events: none;
+  cursor: default;
+}
+
 // buggy
 .dropdown-item {
   padding-top: 0.8rem;
