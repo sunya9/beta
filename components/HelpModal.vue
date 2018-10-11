@@ -71,7 +71,7 @@ export default {
   computed: {
     actions() {
       if (process.server) return
-      return this.$route.name.startsWith('messages')
+      return this.$route.name && this.$route.name.startsWith('messages')
         ? this.$options.messageActions
         : this.$options.streamActions
     }

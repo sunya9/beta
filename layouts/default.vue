@@ -267,9 +267,10 @@ export default {
     keyboardBind(unbind = false) {
       this.$mousetrap.reset()
       if (unbind) return
-      const context = this.$route.name.startsWith('messages')
-        ? 'messages'
-        : 'streams'
+      const context =
+        this.$route.name && this.$route.name.startsWith('messages')
+          ? 'messages'
+          : 'streams'
       this.keyboardBinding()
       this.keyboardBinding(context)
     },
