@@ -37,6 +37,7 @@
     "@nuxtjs/component-cache": "^1.1.1",
     "@nuxtjs/google-analytics": "^2.0.2",
     "@nuxtjs/pwa": "^2.0.8",
+    "@nuxtjs/router": "^1.1.0",
     "@nuxtjs/toast": "^3.0.0",
     "bootstrap": "^4.0.0",
     "bootstrap.native": "^2.0.23",

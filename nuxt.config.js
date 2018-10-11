@@ -114,20 +114,6 @@ module.exports = {
 
   // router settings
   router: {
-    extendRoutes(routes, resolve) {
-      // Replace "at" prefix with @ because cannot use @ for file/dir name in nuxt's project.
-      routes.forEach(route => {
-        if (route.name && route.name.startsWith('atname')) {
-          route.name = route.name.replace(/^atname/, '@name')
-          route.path = route.path.replace(/^\/at/, '/@')
-        }
-      })
-      routes.push({
-        name: '@name-posts-id',
-        path: '/@:name/posts/:id?',
-        component: resolve(__dirname, 'pages/posts/_id.vue')
-      })
-    },
     linkActiveClass: 'active'
   },
   cache: true,
@@ -141,7 +127,13 @@ module.exports = {
     '@nuxtjs/toast',
     '@nuxtjs/google-analytics',
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    [
+      '@nuxtjs/router',
+      {
+        keepDefaultRouter: true
+      }
+    ]
   ],
   'google-analytics': {
     id: 'UA-10104011-16'

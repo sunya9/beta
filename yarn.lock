@@ -890,6 +890,10 @@
     "@nuxtjs/meta" "^2.2.1"
     "@nuxtjs/workbox" "^2.2.0"
 
+"@nuxtjs/router@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/router/-/router-1.1.0.tgz#d79c5f7ed1781465d30b8967779eaca2df18cb3b"
+
 "@nuxtjs/toast@^3.0.0":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@nuxtjs/toast/-/toast-3.0.1.tgz#20ea4eeb15dbac12d9967e85b809ca49c8a14cf5"
