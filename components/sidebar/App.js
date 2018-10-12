@@ -89,7 +89,7 @@ function createMenus({ user, self }) {
     },
     {
       label: 'Keyboard shortcuts',
-      click: () => self.$modal.show('#help-modal'),
+      click: () => self.$modal.show('help-modal'),
       normal: true,
       hidden: !user,
       icon: ['far', 'keyboard']

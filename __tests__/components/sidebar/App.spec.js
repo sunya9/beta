@@ -107,9 +107,6 @@ describe('App sidebar component', () => {
         NuxtLink
       }
     })
-    wrapper.setMethods({
-      showHelpModal: jest.fn()
-    })
     const keyboardLink = wrapper
       .findAll('a')
       .wrappers.find(wrapper =>
@@ -118,6 +115,6 @@ describe('App sidebar component', () => {
     const fn = jest.fn()
     wrapper.vm.$modal.show = fn
     keyboardLink.trigger('click')
-    expect(fn).toHaveBeenCalled()
+    expect(fn).toHaveBeenCalledWith('help-modal')
   })
 })
