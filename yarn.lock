@@ -10166,9 +10166,9 @@ vue-infinite-scroll@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/vue-infinite-scroll/-/vue-infinite-scroll-2.0.2.tgz#ca37a91fe92ee0ad3b74acf8682c00917144b711"
 
-vue-jest@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/vue-jest/-/vue-jest-2.6.0.tgz#23dc99a4dce0bb59fea3946e1317b234968cf12a"
+vue-jest@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/vue-jest/-/vue-jest-3.0.0.tgz#e5b0ad60c37bbeebe214124420de9eb911596cdc"
   dependencies:
     babel-plugin-transform-es2015-modules-commonjs "^6.26.0"
     chalk "^2.1.0"
