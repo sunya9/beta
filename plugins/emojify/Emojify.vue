@@ -48,7 +48,7 @@ export default {
           })
         res.push({
           type: 'emoji',
-          value: emoji
+          value: emoji.replace(/\ufe0f/g, '')
         })
         ep = match.index + emoji.length
       }
