@@ -1,10 +1,7 @@
 <template>
-  <div>
-    <slot
-      :ok="ok"
-      :cancel="cancel"
-    />
-  </div>
+  <div><slot
+    :ok="ok"
+    :cancel="cancel" /></div>
 </template>
 <script>
 import mediator from './mediator'
@@ -20,8 +17,8 @@ export default {
     mediator.$set(mediator.modals, this.$el.id, this)
   },
   methods: {
-    show(arg) {
-      this.$emit('show', arg)
+    show(...arg) {
+      this.$emit('show', ...arg)
       return new Promise((resolve, reject) => {
         this.resolve = resolve
         this.reject = reject
