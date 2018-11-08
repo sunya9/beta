@@ -95,7 +95,7 @@
                     aria-hidden="true"
                   />
                   <span v-if="!showLongpost">Expand Post</span>
-                  <span v-else>Collapse post</span>
+                  <span v-else>Collapse Post</span>
                 </button>
                 <div
                   v-if="showLongpost"
