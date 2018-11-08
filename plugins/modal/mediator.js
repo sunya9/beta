@@ -7,9 +7,9 @@ export default new Vue({
     }
   },
   methods: {
-    async show(id, arg) {
+    async show(id, ...arg) {
       if (!this.modals[id]) return
-      return this.modals[id].show(arg)
+      return this.modals[id].show(...arg)
     },
     async ok(id, arg) {
       if (!this.modals[id]) return
