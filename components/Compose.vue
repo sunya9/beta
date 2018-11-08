@@ -1,14 +1,15 @@
 <template>
   <div
     v-if="user"
-    :class="{'mb-4 compose': !compact}">
+    :class="{ 'mb-4 compose': !compact }">
     <div
-      :class="{'border-0': compact}"
+      :class="{ 'border-0': compact }"
       class="card">
       <form
-        :class="{'p-0': compact}"
+        :class="{ 'p-0': compact }"
         class="card-body"
-        @submit.prevent="submit">
+        @submit.prevent="submit"
+      >
         <div class="form-group relative">
           <textarea
             ref="textarea"
@@ -17,15 +18,16 @@
             class="form-control textarea"
             @keydown.ctrl.enter="submit"
             @keydown.meta.enter="submit"
-            @submit="submit" />
+            @submit="submit"
+          />
           <a
             href="#"
             class="open-emoji-picker text-dark"
-            @click.prevent.stop="toggleEmojiPalette">
+            @click.prevent.stop="toggleEmojiPalette"
+          >
             <font-awesome-icon
               :icon="['far', 'smile']"
-              size="lg"
-            />
+              size="lg" />
           </a>
           <no-ssr>
             <picker
@@ -35,7 +37,8 @@
               :background-image-fn="getSheet"
               set="twitter"
               class="emoji-picker"
-              @select="addEmoji" />
+              @select="addEmoji"
+            />
           </no-ssr>
         </div>
         <div
@@ -44,7 +47,8 @@
           <transition-group
             tag="div"
             name="photos"
-            class="d-flex flex-wrap justify-content align-items-center">
+            class="d-flex flex-wrap justify-content align-items-center"
+          >
             <thumb
               v-for="(photo, i) in previewPhotos"
               :key="photo.data"
@@ -52,20 +56,24 @@
               :thumb="photo.data"
               removable
               class="mr-2"
-              @remove="photos.splice(i, 1)" />
+              @remove="photos.splice(i, 1)"
+            />
           </transition-group>
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <strong
             class="text-muted"
-            data-test-id="post-counter">{{ postCounter }}</strong>
+            data-test-id="post-counter">{{
+              postCounter
+            }}</strong>
           <div>
             <label
               v-show="!noPhoto"
               v-if="storage.available"
               :disabled="promise"
-              class="btn btn-link text-dark add-photo mr-2">
-              <font-awesome-icon :icon="['far', 'image']"/>
+              class="btn btn-link text-dark add-photo mr-2"
+            >
+              <font-awesome-icon :icon="['far', 'image']" />
               <span class="d-none d-sm-inline ml-2">Photo</span>
               <input
                 ref="file"
@@ -73,7 +81,8 @@
                 multiple
                 accept="image/*"
                 style="display: none"
-                @change="fileChange">
+                @change="fileChange"
+              >
             </label>
             <button
               :class="{
@@ -82,7 +91,8 @@
               }"
               class="btn btn-link add-poll mr-2"
               type="button"
-              @click="togglePoll">
+              @click="togglePoll"
+            >
               <font-awesome-icon icon="chart-bar" />
               <span class="d-none d-sm-inline ml-2">Poll</span>
             </button>
@@ -93,8 +103,9 @@
               }"
               class="btn btn-link add-spoiler mr-2"
               type="button"
-              @click="toggleSpoiler">
-              <font-awesome-icon :icon="['far', 'bell']"/>
+              @click="toggleSpoiler"
+            >
+              <font-awesome-icon :icon="['far', 'bell']" />
               <span class="d-none d-sm-inline ml-2">Spoiler</span>
             </button>
             <button
@@ -104,40 +115,41 @@
               }"
               class="btn btn-link add-longpost mr-2"
               type="button"
-              @click="toggleLongpost">
-              <font-awesome-icon icon="plus"/>
+              @click="toggleLongpost"
+            >
+              <font-awesome-icon icon="plus" />
               <span class="d-none d-sm-inline ml-2">Long</span>
             </button>
             <button
               :disabled="disabled"
               type="submit"
-              class="ml-1 btn btn-primary text-uppercase">
+              class="ml-1 btn btn-primary text-uppercase"
+            >
               <span v-show="promise">
                 <font-awesome-icon
                   icon="sync"
                   spin
                   fixed-width
-                  class="mr-2"
-                />
+                  class="mr-2" />
               </span>
-              <span>
-                Post
-              </span>
+              <span> Post </span>
             </button>
           </div>
         </div>
         <input-poll
           v-if="poll"
           class="mt-3"
-          @update:poll="p => poll = p" />
+          @update:poll="p => (poll = p)" />
         <input-spoiler
           v-if="spoiler"
           class="mt-3"
-          @update:spoiler="p => spoiler = p" />
+          @update:spoiler="p => (spoiler = p)"
+        />
         <input-longpost
           v-if="longpost"
           class="mt-3"
-          @update:longpost="p => longpost = p" />
+          @update:longpost="p => (longpost = p)"
+        />
       </form>
     </div>
   </div>
@@ -154,6 +166,7 @@ import InputSpoiler from '~/components/InputSpoiler'
 import InputLongpost from '~/components/InputLongpost'
 import textCount from '~/assets/js/text-count'
 import resettable from '~/assets/js/resettable'
+import querystring from 'querystring'
 
 export default {
   components: {
@@ -189,6 +202,10 @@ export default {
     compact: {
       type: Boolean,
       default: false
+    },
+    editPost: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -308,6 +325,9 @@ export default {
         }
       },
       immediate: true
+    },
+    editPost(editPost) {
+      this.text = editPost ? this.editPost.content.text : ''
     }
   },
 
@@ -434,7 +454,15 @@ export default {
         this.$toast.error(e.message)
         return
       }
-      this.promise = this.$axios.$post('/posts', option)
+      const method = this.editPost ? '$put' : '$post'
+      const endpoint = this.editPost ? `/posts/${this.editPost.id}` : '/posts'
+      const queries = {
+        include_raw: 1
+      }
+      this.promise = this.$axios[method](
+        `${endpoint}?${querystring.stringify(queries)}`,
+        option
+      )
       await this.$nextTick()
       return this.promise
         .then(res => {
