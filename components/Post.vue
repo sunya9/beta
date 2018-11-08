@@ -51,68 +51,68 @@
         </nuxt-link>
       </h6>
       <div class="d-flex flex-wrap flex-md-nowrap">
-        <p
-          :class="{
-            'mb-0': preview,
-            'e-content p-name': detail
-          }"
-          class="flex-grow-1 w-100"
+        <div
+          class="flex-grow-1 w-100 pb-3"
         >
-          <template v-if="spoiler && !showSpoiler">
-            <button
-              class="btn btn-link mr-3 btn-primary"
-              type="button"
-              @click="toggleSpoiler"
+          <button
+            v-if="spoiler && !showSpoiler"
+            class="btn btn-link btn-primary"
+            type="button"
+            @click="toggleSpoiler"
+          >
+            <span
+              class="d-sm-inline ml-2"
+            >Show Spoiler: <emojify :text="spoiler.topic" />
+            </span>
+          </button>
+          <template v-else>
+            <p
+              :class="{
+                'e-content p-name': detail
+              }"
+              class="mb-0"
             >
-              <span
-                class="d-sm-inline ml-2"
-              >Show Spoiler: <emojify :text="spoiler.topic" />
-              </span>
-            </button>
-          </template>
-          <template v-if="!spoiler || showSpoiler">
-            <entity-text
-              :content="mainPost.content"
-              :deleted="post.is_deleted">
-              <em>[Post deleted]</em>
-            </entity-text>
-            <template v-if="!post.is_deleted">
+              <entity-text
+                :content="mainPost.content"
+                :deleted="post.is_deleted">
+                <em>[Post deleted]</em>
+              </entity-text>
+            </p>
+            <div
+              v-if="!post.is_deleted && longpost"
+              class="mt-2">
+              <button
+                :class="{
+                  'btn-outline-primary': showLongpost,
+                  'btn-primary': !showLongpost
+                }"
+                class="btn"
+                data-test-collapse-button
+                type="button"
+                @click="toggleLongpost"
+              >
+                <font-awesome-icon
+                  :icon="!showLongpost ? 'plus' : 'minus'"
+                  aria-hidden="true"
+                />
+                <span v-if="!showLongpost">Expand Post</span>
+                <span v-else>Collapse Post</span>
+              </button>
               <div
-                v-if="longpost"
+                v-if="showLongpost"
                 class="mt-2">
-                <button
-                  :class="{
-                    'btn-outline-primary': showLongpost,
-                    'btn-primary': !showLongpost
-                  }"
-                  class="btn"
-                  data-test-collapse-button
-                  type="button"
-                  @click="toggleLongpost"
-                >
-                  <font-awesome-icon
-                    :icon="!showLongpost ? 'plus' : 'minus'"
-                    aria-hidden="true"
-                  />
-                  <span v-if="!showLongpost">Expand Post</span>
-                  <span v-else>Collapse Post</span>
-                </button>
-                <div
-                  v-if="showLongpost"
-                  class="mt-2">
-                  <emojify
-                    v-if="longpost.title"
-                    :text="longpost.title"
-                    element="h5"
-                  />
-                  <emojify
-                    :text="longpost.body"
-                    element="p" />
-                </div>
+                <emojify
+                  v-if="longpost.title"
+                  :text="longpost.title"
+                  element="h5"
+                />
+                <emojify
+                  :text="longpost.body"
+                  element="p" />
               </div>
-            </template>
+            </div>
           </template>
-        </p>
+        </div>
         <div
           v-if="thumbs.length"
           class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
