@@ -16,35 +16,7 @@ describe('EntityText component', () => {
       true
     )
   })
-  describe('has long post', () => {
-    let wrapper
-    beforeEach(() => {
-      wrapper = mount(
-        EntityText,
-        baseMountOpts({
-          propsData: {
-            // FIXME: longpost does not entitytext domain
-            content: fixtures('post').content,
-            longpost: fixtures('post', 'hasLongpost')
-          }
-        })
-      )
-    })
-    it('Show Expand/Collapse button', () => {
-      const collapseText = 'Collapse Post'
-      const expandText = 'Expand Post'
-      expect(wrapper.text()).toContain(expandText)
-      expect(wrapper.text()).not.toContain(collapseText)
-      wrapper.find('button[data-test-collapse-button]').trigger('click')
-      expect(wrapper.text()).not.toContain(expandText)
-      expect(wrapper.text()).toContain(collapseText)
-    })
-    it('Show longpost content', () => {
-      wrapper.find('button[data-test-collapse-button]').trigger('click')
-      expect(wrapper.text()).toContain('title')
-      expect(wrapper.text()).toContain('body')
-    })
-  })
+
   // https://github.com/sunya9/beta/issues/221
   test('Markdown links are displayed correctly', () => {
     const wrapper = mount(
