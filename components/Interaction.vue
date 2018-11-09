@@ -32,17 +32,19 @@
           This post
         </nuxt-link>
         {{ actionBy }}
-        <ul class="list-inline d-inline">
-          <li
-            v-for="(user, i) in filteredUsers"
+        <template
+          v-for="(user, i) in filteredUsers"
+        >
+          <nuxt-link
+            :to="`@${user.username}`"
             :key="user.id"
-            class="list-inline-item">
-            <nuxt-link :to="`@${user.username}`">
-              @{{ user.username }}
-              <span v-if="i < filteredUsers.length - 1">, </span>
-            </nuxt-link>
-          </li>
-        </ul>.
+          >
+            @{{ user.username }}</nuxt-link><span
+              v-if="i < filteredUsers.length - 1"
+              :key="`comma-${i}`"
+            >, </span>
+        </template>
+        .
         <div class="card mt-3">
           <div class="card-body">
             <post
@@ -94,6 +96,7 @@ const convert = {
 }
 
 export default {
+  name: 'Interaction',
   components: {
     Post,
     Avatar
@@ -112,14 +115,6 @@ export default {
     },
     icon() {
       return convert[this.interaction.action].icon
-    },
-    html() {
-      switch (this.interaction.action) {
-        case 'bookmark':
-        case 'reply':
-        case 'repost':
-          return 'This post'
-      }
     },
     post() {
       return this.interaction.action !== 'follow'
