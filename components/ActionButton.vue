@@ -25,6 +25,7 @@
 import actionable from '~/assets/js/actionable'
 
 export default {
+  name: 'ActionButton',
   mixins: [actionable],
   props: {
     icon: {

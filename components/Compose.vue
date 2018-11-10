@@ -169,6 +169,7 @@ import resettable from '~/assets/js/resettable'
 import querystring from 'querystring'
 
 export default {
+  name: 'Composer',
   components: {
     Post,
     Thumb,

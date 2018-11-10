@@ -131,6 +131,7 @@ import AclSelect from '~/components/AclSelect'
 import { cloneDeep, groupBy } from 'lodash'
 
 export default {
+  name: 'ChannelMemberEditModal',
   components: {
     AclSelect,
     Avatar,

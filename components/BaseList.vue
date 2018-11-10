@@ -54,6 +54,7 @@ import keyBinding from '~/assets/js/key-binding'
 const INTERVAL = 1000 * 30 // 30sec
 
 export default {
+  name: 'BaseList',
   mixins: [keyBinding],
   keyMaps: {
     j: 'scrollDown',

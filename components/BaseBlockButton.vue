@@ -5,6 +5,7 @@
 </template>
 <script>
 export default {
+  name: 'BaseBlockButton',
   props: {
     profile: {
       type: Object,

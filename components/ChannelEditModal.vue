@@ -60,6 +60,7 @@ import { findChatRaw } from '~/assets/js/util'
 import { cloneDeep } from 'lodash'
 
 export default {
+  name: 'ChannelEditModal',
   categories: [
     'general',
     'fun',

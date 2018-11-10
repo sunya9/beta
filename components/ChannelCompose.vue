@@ -63,6 +63,7 @@
 import resettable from '~/assets/js/resettable'
 
 export default {
+  name: 'ChannelCompose',
   mixins: [resettable],
   data() {
     return {

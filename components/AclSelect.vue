@@ -18,6 +18,7 @@ import { mapGetters } from 'vuex'
 
 const permissions = ['read', 'write', 'full']
 export default {
+  name: 'AclSelect',
   model: {
     prop: 'value',
     event: 'change'

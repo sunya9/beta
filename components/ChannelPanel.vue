@@ -44,6 +44,7 @@ import markAsRead from '~/assets/js/mark-as-read'
 import CustomCheckbox from '~/components/CustomCheckbox'
 
 export default {
+  name: 'ChannelPanel',
   components: {
     CustomCheckbox
   },

@@ -60,6 +60,7 @@ import Avatar from '~/components/Avatar'
 import { getSpoiler, findChatRaw } from '~/assets/js/util'
 
 export default {
+  name: 'Channel',
   components: {
     Avatar
   },

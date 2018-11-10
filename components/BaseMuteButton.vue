@@ -5,6 +5,7 @@
 </template>
 <script>
 export default {
+  name: 'BaseMuteButton',
   props: {
     profile: {
       type: Object,
