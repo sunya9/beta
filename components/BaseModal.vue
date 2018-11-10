@@ -72,6 +72,7 @@
 </template>
 <script>
 export default {
+  name: 'BaseModal',
   props: {
     suppressWarnings: {
       type: Boolean,

@@ -17,6 +17,7 @@
 import BaseList from '~/components/BaseList'
 import Channel from '~/components/Channel'
 export default {
+  name: 'ChannelList',
   components: {
     BaseList,
     Channel

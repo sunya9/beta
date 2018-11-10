@@ -79,6 +79,7 @@ import BaseChannelPanel from '~/components/BaseChannelPanel'
 import ChannelUserList from '~/components/ChannelUserList'
 
 export default {
+  name: 'ChatPanel',
   components: {
     ChannelPanel,
     ChannelUserList

@@ -60,6 +60,7 @@ import stringLength from 'string-length'
 import NuxtLinkMod from '~/components/NuxtLinkMod'
 
 export default {
+  name: 'EntityText',
   components: {
     NuxtLinkMod
   },

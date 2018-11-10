@@ -36,6 +36,7 @@ const headingMap = {
   read: 'Readers'
 }
 export default {
+  name: 'ChannelUserList',
   components: {
     Avatar
   },
