@@ -92,12 +92,12 @@ describe('Profile component', () => {
     })
   })
   describe('more dropdown', () => {
-    test('Show dropdown when three dots is clicked', async () => {
+    test('Show dropdown when three dots is clicked', () => {
       const wrapper = mount(Profile, opts)
-      const dropdownBody = wrapper.find('[aria-labelledby="profile-dropdown"]')
-      expect(dropdownBody.is('[aria-expanded="false"]')).toBe(true)
-      wrapper.find('#profile-dropdown').trigger('click')
-      expect(dropdownBody.is('[aria-expanded="true"]')).toBe(true)
+      const dropdownWrapper = wrapper.find('#profile-dropdown')
+      expect(dropdownWrapper.is('[aria-expanded="false"]')).toBe(true)
+      wrapper.find('#profile-dropdown-trigger').trigger('click')
+      expect(dropdownWrapper.is('[aria-expanded="true"]')).toBe(true)
     })
     test('Not show Block/Mute link in not my profile', () => {
       opts.propsData.initialProfile = fixtures('user', 'notMe')
