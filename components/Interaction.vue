@@ -4,8 +4,7 @@
       <font-awesome-icon
         :icon="icon"
         fixed-width
-        size="2x"
-      />
+        size="2x" />
     </div>
     <div class="media-body">
       <h6 class="text-gray-dark">
@@ -14,7 +13,8 @@
             v-for="user in filteredUsers"
             v-if="user.content"
             :key="user.id"
-            class="list-inline-item">
+            class="list-inline-item"
+          >
             <nuxt-link :to="`@${user.username}`">
               <avatar
                 :avatar="user.content.avatar_image"
@@ -28,21 +28,20 @@
       <div class="my-3">
         <nuxt-link
           v-if="post"
-          :to="`@${interaction.objects[0].user.username}/posts/${interaction.objects[0].id}`">
+          :to="`@${post.user.username}/posts/${post.id}`">
           This post
         </nuxt-link>
         {{ actionBy }}
-        <template
-          v-for="(user, i) in filteredUsers"
-        >
+        <template v-for="(user, i) in filteredUsers">
           <nuxt-link
             :to="`@${user.username}`"
-            :key="user.id"
-          >
-            @{{ user.username }}</nuxt-link><span
-              v-if="i < filteredUsers.length - 1"
-              :key="`comma-${i}`"
-            >, </span>
+            :key="user.id">
+            @{{ user.username }}</nuxt-link
+          ><span
+            v-if="i < filteredUsers.length - 1"
+            :key="`comma-${i}`"
+          >,
+          </span>
         </template>
         .
         <div class="card mt-3">
