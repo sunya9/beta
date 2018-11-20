@@ -74,7 +74,7 @@
               class="btn btn-link text-dark add-photo mr-2"
             >
               <font-awesome-icon :icon="['far', 'image']" />
-              <span class="d-none d-sm-inline ml-2">Photo</span>
+              <span class="d-none d-lg-inline ml-2">Photo</span>
               <input
                 ref="file"
                 type="file"
@@ -94,7 +94,7 @@
               @click="togglePoll"
             >
               <font-awesome-icon icon="chart-bar" />
-              <span class="d-none d-sm-inline ml-2">Poll</span>
+              <span class="d-none d-lg-inline ml-2">Poll</span>
             </button>
             <button
               :class="{
@@ -106,7 +106,7 @@
               @click="toggleSpoiler"
             >
               <font-awesome-icon :icon="['far', 'bell']" />
-              <span class="d-none d-sm-inline ml-2">Spoiler</span>
+              <span class="d-none d-lg-inline ml-2">Spoiler</span>
             </button>
             <button
               :class="{
@@ -118,7 +118,19 @@
               @click="toggleLongpost"
             >
               <font-awesome-icon icon="plus" />
-              <span class="d-none d-sm-inline ml-2">Long</span>
+              <span class="d-none d-lg-inline ml-2">Long</span>
+            </button>
+            <button
+              :class="{
+                'text-dark': !nsfw,
+                'btn-primary': nsfw
+              }"
+              class="btn btn-link toggle-nsfw mr-2"
+              type="button"
+              @click="toggleNsfw"
+            >
+              <font-awesome-icon icon="exclamation-circle" />
+              <span class="d-none d-lg-inline ml-2">NSFW</span>
             </button>
             <button
               :disabled="disabled"
@@ -219,7 +231,8 @@ export default {
       showEmojiPicker: false,
       poll: null,
       spoiler: null,
-      longpost: null
+      longpost: null,
+      nsfw: false
     }
   },
   computed: {
@@ -341,6 +354,9 @@ export default {
     }
   },
   methods: {
+    toggleNsfw() {
+      this.nsfw = !this.nsfw
+    },
     insertText(text) {
       const { textarea } = this.$refs
       if (document.selection) {
@@ -422,6 +438,9 @@ export default {
         if (this.replyTarget) {
           option.reply_to = this.replyTarget.id
         }
+        if (this.nsfw) {
+          option.is_nsfw = true
+        }
         if (this.spoiler) {
           option.raw.push({
             type: 'shawn.spoiler',
@@ -475,6 +494,7 @@ export default {
           this.poll = null
           this.spoiler = null
           this.longpost = null
+          this.nsfw = false
         })
         .finally(() => ((this.promise = null), this.$toast.success('Posted!')))
     },
