@@ -99,7 +99,7 @@
                 </button>
                 <div
                   v-if="showLongpost"
-                  class="mt-2">
+                  class="mt-2 longpost">
                   <emojify
                     v-if="longpost.title"
                     :text="longpost.title"
@@ -604,5 +604,8 @@ footer {
 
 .text-gray-dark {
   color: $gray;
+}
+.longpost {
+  white-space: pre-wrap;
 }
 </style>
