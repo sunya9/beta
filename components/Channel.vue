@@ -4,7 +4,8 @@
       v-if="is_pm"
       :avatar="channel.recent_message.user.content.avatar_image"
       size="32"
-      class="mr-2" />
+      class="mr-2"
+    />
     <div
       class="media-body"
       style="overflow: hidden">
@@ -12,7 +13,8 @@
         <font-awesome-icon
           v-show="channel.you_muted"
           :icon="['far', 'bell-slash']"
-          style="float:right" />
+          style="float:right"
+        />
         <template v-if="is_pm">
           {{ members }}
         </template>
@@ -21,15 +23,17 @@
             v-if="channel.acl.read.public"
             icon="globe"
             fixed-width
-            aria-hidden="true"/>
+            aria-hidden="true"
+          />
           <font-awesome-icon
             v-else
             icon="users"
             fixed-width
-            aria-hidden="true"/>
+            aria-hidden="true"
+          />
           <emojify :text="chat.name" />
           <small class="text-muted">
-            {{ chat.description }}
+            <emojify :text="chat.description" />
           </small>
         </template>
       </h5>
@@ -37,10 +41,11 @@
         v-if="channel.recent_message"
         class="mb-0 text-truncate">
         <span v-if="!channel.recent_message.is_deleted && spoiler && !me">
-          {{ spoiler.topic }}
+          <emojify :text="spoiler.topic" />
         </span>
         <span v-else-if="!channel.recent_message.is_deleted">
-          @{{ channel.recent_message.user.username }}: {{ channel.recent_message.content.text }}
+          @{{ channel.recent_message.user.username }}:
+          <emojify :text="channel.recent_message.content.text" />
         </span>
         <span
           v-else
@@ -48,9 +53,10 @@
       </p>
     </div>
     <span
-      :class="{'unread-channel-arrow': channel.has_unread}"
-      class="align-self-center">
-      <font-awesome-icon icon="chevron-right"/>
+      :class="{ 'unread-channel-arrow': channel.has_unread }"
+      class="align-self-center"
+    >
+      <font-awesome-icon icon="chevron-right" />
     </span>
   </div>
 </template>
