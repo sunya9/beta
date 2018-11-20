@@ -31,15 +31,16 @@ export default {
       include_reposted_by: 1,
       include_deleted: 1
     }
-    const postPromise = $resource(option)
-
-    const data = await postPromise
-    data.data = data.data ? data.data.reverse() : []
-    return {
-      id,
-      option,
-      data
-    }
+    try {
+      const postPromise = $resource(option)
+      const data = await postPromise
+      data.data = data.data ? data.data.reverse() : []
+      return {
+        id,
+        option,
+        data
+      }
+    } catch (e) {}
   },
   validate({ params }) {
     return /^\w+$/.test(params.name) && /\d+$/.test(params.id)
