@@ -41,9 +41,8 @@
             v-if="i < filteredUsers.length - 1"
             :key="`comma-${i}`"
           >,
-          </span>
-        </template>
-        .
+        </span> </template
+        >.
         <div class="card mt-3">
           <div class="card-body">
             <post
