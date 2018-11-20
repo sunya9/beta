@@ -138,6 +138,24 @@
             />
           </div>
         </div>
+        <div v-if="oembedVideos">
+          <div
+            v-for="(video, i) in oembedVideos"
+            :key="i"
+            class="card mb-2">
+            <div class="card-body text-center">
+              <iframe
+                v-if="getVideoSrc(video)"
+                :src="getVideoSrc(video)"
+                :width="video.width"
+                :height="video.height"
+                frameborder="0"
+              >
+                Does not support iframe.
+              </iframe>
+            </div>
+          </div>
+        </div>
         <div
           v-if="poll"
           class="card mb-3">
@@ -371,13 +389,15 @@ import Poll from '~/components/Poll'
 import { mapGetters } from 'vuex'
 import EntityText from '~/components/EntityText'
 import Nsfw from '~/components/Nsfw'
+
 import {
   getImageURLs,
   getAudio,
   getCrosspostLink,
   getSpoiler,
   getLongpost,
-  getChannelInvite
+  getChannelInvite,
+  getOembedVideo
 } from '~/assets/js/util'
 import listItem from '~/assets/js/list-item'
 
@@ -455,6 +475,9 @@ export default {
           }, [])
       )
     },
+    oembedVideos() {
+      return getOembedVideo(this.mainPost)
+    },
     thumbs() {
       return getImageURLs(this.mainPost)
     },
@@ -504,6 +527,10 @@ export default {
     clearTimeout(this.timer)
   },
   methods: {
+    getVideoSrc(value) {
+      const matcher = value.html.match(/src="([^"]*)"/)
+      return matcher && matcher[1]
+    },
     toggleSpoiler() {
       this.showSpoiler = !this.showSpoiler
     },

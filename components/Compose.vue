@@ -179,6 +179,7 @@ import InputLongpost from '~/components/InputLongpost'
 import textCount from '~/assets/js/text-count'
 import resettable from '~/assets/js/resettable'
 import querystring from 'querystring'
+import { createVideoEmbedRaw } from '~/assets/js/oembed'
 
 export default {
   name: 'Composer',
@@ -469,6 +470,7 @@ export default {
             }
           })
         }
+        option.raw.push(...createVideoEmbedRaw(option.text))
       } catch (e) {
         console.error(e)
         this.$toast.error(e.message)
