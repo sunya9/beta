@@ -557,6 +557,7 @@ export default {
 
 .media-body {
   word-break: break-word;
+  hyphens: auto;
 }
 
 footer {
