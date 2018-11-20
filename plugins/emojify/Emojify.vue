@@ -1,14 +1,15 @@
 <template>
   <component
     :is="element"
-    v-bind="$attrs"
-  >
+    v-bind="$attrs">
     <template v-for="(text, i) in modifiedText">
       <template v-if="text.type === 'text'">{{ text.value }}</template>
       <img
         v-else
         :key="`emoji-${i}`"
-        :src="`https://twemoji.maxcdn.com/2/72x72/${toCodePoint(text.value)}.png`"
+        :src="
+          `https://twemoji.maxcdn.com/2/72x72/${toCodePoint(text.value)}.png`
+        "
         :alt="text.value"
         class="emoji"
       >
@@ -18,6 +19,9 @@
 <script>
 import twemoji from 'twemoji'
 import emojiRegex from 'emoji-regex/es2015'
+
+// https://github.com/twitter/twemoji/blob/27fe654b2bed5331cf1730bb4fbba1efa40af626/2/twemoji.js#L234
+const U200D = String.fromCharCode(0x200d)
 
 export default {
   name: 'Emojify',
@@ -48,7 +52,9 @@ export default {
           })
         res.push({
           type: 'emoji',
-          value: emoji.replace(/\ufe0f/g, '')
+          value:
+            // https://github.com/twitter/twemoji/blob/27fe654b2bed5331cf1730bb4fbba1efa40af626/2/twemoji.js#L321
+            emoji.indexOf(U200D) < 0 ? emoji.replace(/\ufe0f/g, '') : emoji
         })
         ep = match.index + emoji.length
       }
@@ -65,5 +71,4 @@ export default {
   }
 }
 </script>
-`
-})
+` })
