@@ -7,24 +7,28 @@ export function getTitle({ username, name }) {
 }
 
 function getImagesFromLinks(entityLinks) {
-  return entityLinks.filter(link => imgExt.test(link.link)).map(link => {
-    return {
-      original: link.link,
-      thumb: link.link
-    }
-  })
+  return entityLinks
+    .filter(link => imgExt.test(link.link))
+    .map(link => {
+      return {
+        original: link.link,
+        thumb: link.link
+      }
+    })
 }
 
 function getImagesFromRaws(raws) {
-  return raws.filter(r => isOembedType(r, 'photo')).map(r => {
-    return {
-      ...r.value,
-      original: r.value.url,
-      thumb: r.value.thumbnail_url || r.value.url,
-      width: r.value.width,
-      height: r.value.height
-    }
-  })
+  return raws
+    .filter(r => isOembedType(r, 'photo'))
+    .map(r => {
+      return {
+        ...r.value,
+        original: r.value.url,
+        thumb: r.value.thumbnail_url || r.value.url,
+        width: r.value.width,
+        height: r.value.height
+      }
+    })
 }
 
 export function getImageURLs(post, rawOnly = false) {
@@ -92,13 +96,21 @@ export function getLongpost(post) {
 export function getAudio(post) {
   if (!post.content) return {}
   if (!post.raw) return {}
-  const audio = post.raw.filter(r => isOembedType(r, 'audio')).map(r => {
-    return {
-      url: r.value.url,
-      title: r.value.title
-    }
-  })
+  const audio = post.raw
+    .filter(r => isOembedType(r, 'audio'))
+    .map(r => {
+      return {
+        url: r.value.url,
+        title: r.value.title
+      }
+    })
   return audio
+}
+
+export function getOembedVideo(post) {
+  if (!post.content) return []
+  if (!post.raw) return []
+  return post.raw.filter(r => isOembedType(r, 'video')).map(r => r.value)
 }
 
 export function getChannelInvite(post) {
