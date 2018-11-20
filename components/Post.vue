@@ -50,114 +50,115 @@
           />
         </nuxt-link>
       </h6>
-      <div class="d-flex flex-wrap flex-md-nowrap">
-        <div
-          class="flex-grow-1 w-100 pb-3"
-        >
-          <button
-            v-if="spoiler && !showSpoiler"
-            class="btn btn-link btn-primary"
-            type="button"
-            @click="toggleSpoiler"
-          >
-            <span
-              class="d-sm-inline ml-2"
-            >Show Spoiler: <emojify :text="spoiler.topic" />
-            </span>
-          </button>
-          <template v-else>
-            <p
-              :class="{
-                'e-content p-name': detail
-              }"
-              class="mb-0"
+      <nsfw :include-nsfw="mainPost.is_nsfw">
+        <div class="d-flex flex-wrap flex-md-nowrap">
+          <div class="flex-grow-1 w-100">
+            <button
+              v-if="spoiler && !showSpoiler"
+              class="btn btn-link btn-primary mb-2"
+              type="button"
+              @click="toggleSpoiler"
             >
-              <entity-text
-                :content="mainPost.content"
-                :deleted="post.is_deleted">
-                <em>[Post deleted]</em>
-              </entity-text>
-            </p>
-            <div
-              v-if="!post.is_deleted && longpost"
-              class="mt-2">
-              <button
+              <span
+                class="d-sm-inline ml-2"
+              >Show Spoiler: <emojify :text="spoiler.topic" />
+              </span>
+            </button>
+            <template v-else>
+              <p
                 :class="{
-                  'btn-outline-primary': showLongpost,
-                  'btn-primary': !showLongpost
+                  'e-content p-name': detail
                 }"
-                class="btn"
-                data-test-collapse-button
-                type="button"
-                @click="toggleLongpost"
               >
-                <font-awesome-icon
-                  :icon="!showLongpost ? 'plus' : 'minus'"
-                  aria-hidden="true"
-                />
-                <span v-if="!showLongpost">Expand Post</span>
-                <span v-else>Collapse Post</span>
-              </button>
+                <entity-text
+                  :content="mainPost.content"
+                  :deleted="post.is_deleted"
+                >
+                  <em>[Post deleted]</em>
+                </entity-text>
+              </p>
               <div
-                v-if="showLongpost"
-                class="mt-2">
-                <emojify
-                  v-if="longpost.title"
-                  :text="longpost.title"
-                  element="h5"
-                />
-                <emojify
-                  :text="longpost.body"
-                  element="p" />
+                v-if="!post.is_deleted && longpost"
+                class="my-2">
+                <button
+                  :class="{
+                    'btn-link': showLongpost,
+                    'btn-outline-primary': !showLongpost
+                  }"
+                  class="btn mb-2"
+                  data-test-collapse-button
+                  type="button"
+                  @click="toggleLongpost"
+                >
+                  <font-awesome-icon
+                    :icon="!showLongpost ? 'plus' : 'minus'"
+                    aria-hidden="true"
+                  />
+                  <span v-if="!showLongpost">Expand Post</span>
+                  <span v-else>Collapse Post</span>
+                </button>
+                <div
+                  v-if="showLongpost"
+                  class="mt-2">
+                  <emojify
+                    v-if="longpost.title"
+                    :text="longpost.title"
+                    element="h5"
+                  />
+                  <emojify
+                    :text="longpost.body"
+                    element="p" />
+                </div>
               </div>
-            </div>
-          </template>
+            </template>
+          </div>
+          <div
+            v-if="thumbs.length"
+            class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
+          >
+            <thumb
+              v-for="(t, i) in thumbs"
+              :original="t.original"
+              :thumb="t.thumb"
+              :original-width="t.width"
+              :original-height="t.height"
+              :key="i"
+              class="mx-1 mb-1 mb-lg-0"
+            />
+          </div>
+          <div
+            v-if="clips.length"
+            class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
+          >
+            <sound
+              v-for="(t, i) in clips"
+              :url="t.url"
+              :title="t.title"
+              :key="i"
+            />
+          </div>
         </div>
         <div
-          v-if="thumbs.length"
-          class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
-        >
-          <thumb
-            v-for="(t, i) in thumbs"
-            :original="t.original"
-            :thumb="t.thumb"
-            :original-width="t.width"
-            :original-height="t.height"
-            :key="i"
-            class="mx-1 mb-1 mb-lg-0"
-          />
+          v-if="poll"
+          class="card mb-3">
+          <div class="card-body">
+            <poll
+              :poll="poll"
+              :poll-id="poll.poll_id"
+              :poll-token="poll.poll_token"
+            />
+          </div>
         </div>
-        <div
-          v-if="clips.length"
-          class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
-        >
-          <sound
-            v-for="(t, i) in clips"
-            :url="t.url"
-            :title="t.title"
-            :key="i"
-          />
-        </div>
-      </div>
-      <div
-        v-if="poll"
-        class="card mb-3">
-        <div class="card-body">
-          <poll
-            :poll="poll"
-            :poll-id="poll.poll_id"
-            :poll-token="poll.poll_token"
-          />
-        </div>
-      </div>
-      <p v-if="channelInvite">
-        <nuxt-link
-          :to="`/messages/${channelInvite.channel_id}`"
-          class="btn btn-outline-primary"
-        >
-          Go to the channel {{ channelInvite.channel_id }}
-        </nuxt-link>
-      </p>
+        <p v-if="channelInvite">
+          <nuxt-link
+            :to="`/messages/${channelInvite.channel_id}`"
+            class="btn btn-outline-primary"
+          >
+            Go to the channel {{ channelInvite.channel_id }}
+          </nuxt-link>
+        </p>
+      </nsfw>
+
       <footer v-if="!post.is_deleted && !preview">
         <div v-if="post.repost_of">
           <nuxt-link
@@ -369,6 +370,7 @@ import Sound from '~/components/Sound'
 import Poll from '~/components/Poll'
 import { mapGetters } from 'vuex'
 import EntityText from '~/components/EntityText'
+import Nsfw from '~/components/Nsfw'
 import {
   getImageURLs,
   getAudio,
@@ -387,7 +389,8 @@ export default {
     Sound,
     Avatar,
     EntityText,
-    Poll
+    Poll,
+    Nsfw
   },
   mixins: [listItem],
   dateKey: 'post.created_at',
