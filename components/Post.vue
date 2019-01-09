@@ -172,7 +172,7 @@
             :to="`/messages/${channelInvite.channel_id}`"
             class="btn btn-outline-primary"
           >
-            Go to the channel {{ channelInvite.channel_id }}
+            Go to <i>{{ channelInvite.display_name }}</i>
           </nuxt-link>
         </p>
       </nsfw>
