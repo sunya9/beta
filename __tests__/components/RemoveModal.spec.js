@@ -1,15 +1,11 @@
 import RemoveModal from '~/components/RemoveModal'
 import BaseModal from '~/components/BaseModal'
-import { mount } from 'helper'
+import { shallowMount } from 'helper'
 
 describe('Remove modal component', () => {
   let wrapper, baseModalWrapper
   beforeEach(() => {
-    wrapper = mount(RemoveModal, {
-      stubs: {
-        post: true
-      }
-    })
+    wrapper = shallowMount(RemoveModal, {})
     baseModalWrapper = wrapper.find(BaseModal)
   })
   describe('Emitted show event from base-modal', () => {

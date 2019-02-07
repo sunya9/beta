@@ -21,27 +21,41 @@
               class="form-control"
               placeholder="Room description"
               maxlength="256"
-              title="Up to 256 characters"/>
+              title="Up to 256 characters"
+            />
           </div>
           <div class="form-group">
             <select
               v-model="chat.categories"
               :disabled="promise"
               class="form-control"
-              multiple>
-              <template v-for="i in ['general','fun','lifestyle','profession','language','community','tech','event']">
+              multiple
+            >
+              <template
+                v-for="i in [
+                  'general',
+                  'fun',
+                  'lifestyle',
+                  'profession',
+                  'language',
+                  'community',
+                  'tech',
+                  'event'
+                ]"
+              >
                 <option :key="i">{{ i }}</option>
               </template>
             </select>
           </div>
         </div>
         <div class="d-flex justify-content-between align-items-center">
-          <div/>
+          <div />
           <div>
             <button
               :disabled="calcDisabled"
               type="submit"
-              class="ml-1 btn text-uppercase btn-primary">
+              class="ml-1 btn text-uppercase btn-primary"
+            >
               <font-awesome-icon
                 v-show="promise"
                 spin
@@ -49,9 +63,7 @@
                 icon="sync"
                 class="mr-1"
               />
-              <span>
-                Create
-              </span>
+              <span> Create </span>
             </button>
           </div>
         </div>

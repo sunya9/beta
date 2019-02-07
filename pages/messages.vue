@@ -10,7 +10,8 @@
               :class="{ active: isPM === true }"
               to="/messages"
               class="nav-link"
-              exact>
+              exact
+            >
               Messages
             </nuxt-link>
           </li>
@@ -18,7 +19,8 @@
             <nuxt-link
               :class="{ active: isPM === false }"
               to="/messages?public"
-              class="nav-link">
+              class="nav-link"
+            >
               Chat Rooms
             </nuxt-link>
           </li>
@@ -27,8 +29,7 @@
     </div>
     <nuxt-child
       :key="$route.params.channel"
-      @updateNav="isPM = $event"
-    />
+      @updateNav="isPM = $event" />
   </div>
 </template>
 <script>

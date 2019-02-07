@@ -4,15 +4,14 @@
       v-if="firstUnreadMessage"
       class="matching-hr">
       <hr >
-      <div>
-        <span class="text-muted">Previously read</span>
-      </div>
+      <div><span class="text-muted">Previously read</span></div>
     </div>
     <div
       :class="{
         'flex-row-reverse': me
       }"
-      class="media mb-2">
+      class="media mb-2"
+    >
       <nuxt-link
         :to="`/@${messageUser.username}`"
         :class="{ 'disabled-link': !messageUser.id }"
@@ -30,14 +29,13 @@
           max-size="32"
         />
       </nuxt-link>
-      <div
-        class="media-body"
-      >
+      <div class="media-body">
         <h6
           :class="{
             'text-right': me
           }"
-          class="mb-2">
+          class="mb-2"
+        >
           <nuxt-link
             :to="`/@${messageUser.username}`"
             :class="{ 'disabled-link': !messageUser.id }"
@@ -56,12 +54,14 @@
             'ml-5': me && !displayFullView,
             'mr-5': !me && !displayFullView
           }"
-          class="d-flex flex-row">
+          class="d-flex flex-row"
+        >
           <div
             :class="{
-              'order-2': me,
+              'order-2': me
             }"
-            @click="clickMessage">
+            @click="clickMessage"
+          >
             <div
               :class="{
                 me: me,
@@ -72,12 +72,17 @@
               <entity-text
                 :content="message.content"
                 :spoiler="spoiler">
-                <em>[Message deleted{{ message.deleted_by ? ' by moderator' : '' }}]</em>
+                <em
+                >[Message deleted{{
+                  message.deleted_by ? ' by moderator' : ''
+                }}]</em
+                >
               </entity-text>
               <div
                 v-if="thumbs.length"
                 class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
-                style="margin-top:.8em">
+                style="margin-top:.8em"
+              >
                 <thumb
                   v-for="(t, i) in thumbs"
                   :original="t.original"
@@ -85,16 +90,19 @@
                   :original-width="t.width"
                   :original-height="t.height"
                   :key="i"
-                  class="mx-1 mb-1 mb-lg-0" />
+                  class="mx-1 mb-1 mb-lg-0"
+                />
               </div>
               <div
                 v-if="clips.length"
-                class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
+                class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
+              >
                 <sound
                   v-for="(t, i) in clips"
                   :url="t.url"
                   :title="t.title"
-                  :key="i" />
+                  :key="i"
+                />
               </div>
             </div>
             <footer>
@@ -104,8 +112,9 @@
                     v-if="canDelete"
                     class="text-muted"
                     href="#"
-                    @click.stop.prevent="removeModal">
-                    <font-awesome-icon icon="trash"/>
+                    @click.stop.prevent="removeModal"
+                  >
+                    <font-awesome-icon icon="trash" />
                     Remove
                   </a>
                 </li>
@@ -113,7 +122,8 @@
                   <a
                     :href="message.source.link"
                     class="text-muted"
-                    target="_new">
+                    target="_new"
+                  >
                     <font-awesome-icon icon="paper-plane" />
                     via {{ message.source.name }}
                   </a>
@@ -126,7 +136,8 @@
               'order-1 mr-2': me,
               'ml-2': !me
             }"
-            class="align-self-end date-pos">
+            class="align-self-end date-pos"
+          >
             <span
               :title="absDate"
               class="text-muted text-nowrap">

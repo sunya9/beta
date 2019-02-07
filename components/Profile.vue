@@ -205,9 +205,7 @@
             v-if="user && !me"
             :profile.sync="profile">
             <a
-              slot-scope="{
-                toggleBlock
-              }"
+              slot-scope="{ toggleBlock }"
               class="dropdown-item"
               href="#"
               @click.prevent="toggleBlock"
@@ -219,9 +217,7 @@
             :profile.sync="profile"
           >
             <a
-              slot-scope="{
-                toggleMute
-              }"
+              slot-scope="{ toggleMute }"
               class="dropdown-item"
               href="#"
               @click.prevent="toggleMute"

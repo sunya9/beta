@@ -7,7 +7,8 @@
     :width="size"
     :height="size"
     :srcset="srcset"
-    v-bind="$attrs" >
+    v-bind="$attrs"
+  >
 </template>
 
 <script>

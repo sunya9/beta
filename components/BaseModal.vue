@@ -5,10 +5,7 @@
     @hide="hide">
     <div
       ref="modal"
-      slot-scope="{
-        ok,
-        cancel
-      }"
+      slot-scope="{ ok, cancel }"
       class="modal"
       role="dialog"
       tabindex="-1"

@@ -10,29 +10,28 @@
           <custom-checkbox
             v-model="channel.you_subscribed"
             :resource="`/channels/${channel.id}/subscribe`"
-            @change="cancelMute">
+            @change="cancelMute"
+          >
             Subscribed
           </custom-checkbox>
           <custom-checkbox
             v-model="channel.you_muted"
             :resource="`/channels/${channel.id}/mute`"
-            @change="cancelSubscribe">
+            @change="cancelSubscribe"
+          >
             Muted
           </custom-checkbox>
           <custom-checkbox
             :checked="!channel.has_unread"
             :disabled="!channel.has_unread"
-            @change="markAsRead">
+            @change="markAsRead"
+          >
             Mark as read
           </custom-checkbox>
         </div>
       </div>
       <div class="col-sm col-md-12">
-        <h2 class="h3">
-          <slot name="memberTitle">
-            Members
-          </slot>
-        </h2>
+        <h2 class="h3"><slot name="memberTitle"> Members </slot></h2>
         <slot name="memberList" />
       </div>
     </div>

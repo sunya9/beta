@@ -9,9 +9,7 @@
     <div class="row flex-wrap">
       <div class="col-lg-4">
         <h6>Actions</h6>
-        <no-ssr>
-          <key-sets :key-sets="actions" />
-        </no-ssr>
+        <no-ssr> <key-sets :key-sets="actions" /> </no-ssr>
       </div>
       <div class="col-lg-4">
         <h6>Navigation</h6>

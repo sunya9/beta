@@ -46,11 +46,10 @@
     "emoji-datasource-twitter": "^4.1.0",
     "emoji-mart-vue": "^2.6.4",
     "emoji-regex": "^7.0.1",
-    "imports-loader": "^0.8.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "mousetrap": "^1.6.2",
-    "nuxt": "2.2.0",
+    "nuxt": "2.4.3",
     "sass-loader": "^7.1.0",
     "string-length": "^2.0.0",
     "twemoji": "^11.2.0",
@@ -88,6 +87,9 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "resolutions": {
+    "babel-core": "7.0.0-bridge.0"
   },
   "homepage": "https://github.com/sunya9/beta",
   "bugs": "https://github.com/sunya9/beta/issues",

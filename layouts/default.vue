@@ -14,8 +14,9 @@
         <div
           v-if="!notLoginIndex"
           :class="{
-            'col-md-4 col-lg-3': !notLoginIndex,
-        }">
+            'col-md-4 col-lg-3': !notLoginIndex
+          }"
+        >
           <div class="navbar navbar-light p-0">
             <div class="d-md-block collapse navbar-collapse">
               <transition
@@ -32,7 +33,8 @@
           :class="{
             'col-md-8 col-lg-9': !notLoginIndex && sidebar
           }"
-          class="col-12">
+          class="col-12"
+        >
           <h3
             v-if="!notLoginIndex"
             :class="{
@@ -45,7 +47,8 @@
               v-if="selectedDropdownItem"
               class="d-flex align-items-center">
               <div
-                class="d-block bg-primary text-center rounded-circle text-white border-white mr-1 icon">
+                class="d-block bg-primary text-center rounded-circle text-white border-white mr-1 icon"
+              >
                 <font-awesome-icon
                   :icon="selectedDropdownItem.icon"
                   fixed-width
@@ -56,7 +59,8 @@
 
             <div
               v-if="sidebar && !isAppSidebar"
-              class="ml-3 d-md-none h4 mb-1 mt-1">
+              class="ml-3 d-md-none h4 mb-1 mt-1"
+            >
               <a
                 data-toggle="collapse"
                 aria-controls="navbarSupportedContent"
@@ -66,23 +70,19 @@
               >
                 <font-awesome-icon
                   icon="bars"
-                  size="lg"
-                />
+                  size="lg" />
               </a>
             </div>
           </h3>
           <div
             id="navbarSupportedContent"
-            class="collapse"
-          >
+            class="collapse">
             <component
               v-if="!isAppSidebar"
               :is="sidebar"
               narrow />
           </div>
-          <div>
-            <nuxt />
-          </div>
+          <div><nuxt /></div>
         </div>
       </div>
     </main>

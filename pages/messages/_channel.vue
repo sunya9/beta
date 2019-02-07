@@ -11,15 +11,15 @@
       />
       <pm-panel
         v-else
-        :initial-channel.sync="channel"
-      />
+        :initial-channel.sync="channel" />
     </div>
     <div class="col-md-8 order-md-1">
       <message-compose
         v-if="canPost"
         v-model="message"
         :channel="channel"
-        @submit="() => $refs.list.refresh()" />
+        @submit="() => $refs.list.refresh()"
+      />
       <div class="card">
         <div class="card-body">
           <message-list
