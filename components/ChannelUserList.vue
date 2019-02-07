@@ -8,18 +8,20 @@
         class="mb-2">
         <nuxt-link
           :to="`/@${user.username}`"
-          class="d-flex flex-row align-items-center flex-nowrap">
+          :class="{ 'disabled-link': !user.id }"
+          class="d-flex flex-row align-items-center flex-nowrap"
+        >
           <avatar
             :avatar="user.avatar_image"
             size="24"
             max-size="24"
-            class="mr-2" />
+            class="mr-2"
+          />
           <div class="d-flex align-items-baseline flex-wrap">
             @{{ user.username }}
             <emojify
               :text="user.name"
-              class="ml-1 text-muted"
-            />
+              class="ml-1 text-muted" />
           </div>
         </nuxt-link>
       </li>
@@ -35,6 +37,7 @@ const headingMap = {
   read: 'Readers'
 }
 export default {
+  name: 'ChannelUserList',
   components: {
     Avatar
   },

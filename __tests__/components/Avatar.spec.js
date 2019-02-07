@@ -68,4 +68,13 @@ describe('Avatar', () => {
     const wrapper = shallowMount(Avatar, opts)
     expect(wrapper.attributes().srcset).toBe('foo.png?w=64 2x')
   })
+  test('Show transparent png when avatar link is empty', () => {
+    opts.propsData.avatar = {
+      link: ''
+    }
+    const wrapper = shallowMount(Avatar, opts)
+    expect(wrapper.find('img').attributes().src).toContain(
+      'data:image/png;base64'
+    )
+  })
 })

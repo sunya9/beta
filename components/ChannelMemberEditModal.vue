@@ -12,8 +12,7 @@
   >
     <div
       v-if="acl"
-      class="form-group"
-    >
+      class="form-group">
       <div class="form-group">
         <h5>Access</h5>
         <custom-checkbox
@@ -23,7 +22,8 @@
         </custom-checkbox>
         <custom-checkbox
           v-model="anyUserRead"
-          :disabled="acl.read.immutable || anyUserWrite || publicRead">
+          :disabled="acl.read.immutable || anyUserWrite || publicRead"
+        >
           Any user can read
         </custom-checkbox>
         <custom-checkbox
@@ -66,8 +66,7 @@
                   >
                     <font-awesome-icon
                       icon="plus"
-                      class="mr-1"
-                    />
+                      class="mr-1" />
                     <span>Add</span>
                   </button>
                 </div>
@@ -107,7 +106,8 @@
                         :disabled="editDisabled(user)"
                         type="button"
                         class="btn btn-link"
-                        @click="removeUser(index)">
+                        @click="removeUser(index)"
+                      >
                         <font-awesome-icon icon="times" />
                       </button>
                     </div>
@@ -131,6 +131,7 @@ import AclSelect from '~/components/AclSelect'
 import { cloneDeep, groupBy } from 'lodash'
 
 export default {
+  name: 'ChannelMemberEditModal',
   components: {
     AclSelect,
     Avatar,

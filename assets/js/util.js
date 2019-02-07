@@ -7,24 +7,28 @@ export function getTitle({ username, name }) {
 }
 
 function getImagesFromLinks(entityLinks) {
-  return entityLinks.filter(link => imgExt.test(link.link)).map(link => {
-    return {
-      original: link.link,
-      thumb: link.link
-    }
-  })
+  return entityLinks
+    .filter(link => imgExt.test(link.link))
+    .map(link => {
+      return {
+        original: link.link,
+        thumb: link.link
+      }
+    })
 }
 
 function getImagesFromRaws(raws) {
-  return raws.filter(r => isOembedType(r, 'photo')).map(r => {
-    return {
-      ...r.value,
-      original: r.value.url,
-      thumb: r.value.thumbnail_url || r.value.url,
-      width: r.value.width,
-      height: r.value.height
-    }
-  })
+  return raws
+    .filter(r => isOembedType(r, 'photo'))
+    .map(r => {
+      return {
+        ...r.value,
+        original: r.value.url,
+        thumb: r.value.thumbnail_url || r.value.url,
+        width: r.value.width,
+        height: r.value.height
+      }
+    })
 }
 
 export function getImageURLs(post, rawOnly = false) {
@@ -92,21 +96,29 @@ export function getLongpost(post) {
 export function getAudio(post) {
   if (!post.content) return {}
   if (!post.raw) return {}
-  const audio = post.raw.filter(r => isOembedType(r, 'audio')).map(r => {
-    return {
-      url: r.value.url,
-      title: r.value.title
-    }
-  })
+  const audio = post.raw
+    .filter(r => isOembedType(r, 'audio'))
+    .map(r => {
+      return {
+        url: r.value.url,
+        title: r.value.title
+      }
+    })
   return audio
+}
+
+export function getOembedVideo(post) {
+  if (!post.content) return []
+  if (!post.raw) return []
+  return post.raw.filter(r => isOembedType(r, 'video')).map(r => r.value)
 }
 
 export function getChannelInvite(post) {
   if (!post || !post.content || !post.raw) return
-  const channelRaw = post.raw.find(
-    raw => raw.type === 'io.pnut.core.channel.invite'
-  )
+  var channelRaw = post.raw.find(r => r.type === 'io.pnut.core.channel.invite')
   if (!channelRaw) return
+  channelRaw.value.display_name =
+    channelRaw.value.name || `Channel ${channelRaw.value.channel_id}`
   return channelRaw.value
 }
 
@@ -128,4 +140,15 @@ export function findChatRaw(channel, andValue = false) {
   if (!chatRaw) return
   if (!andValue) return chatRaw
   return chatRaw.value
+}
+
+export const deletedUser = {
+  id: '',
+  name: '',
+  username: 'Deleted user',
+  content: {
+    avatar_image: {
+      link: ''
+    }
+  }
 }

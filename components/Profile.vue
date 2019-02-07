@@ -15,17 +15,24 @@
       }"
       alt=""
       class="img-fluid card-img-top"
-      @load="loaded = true">
+      @load="loaded = true"
+    >
     <div class="card-body pt-3 h-card">
       <div class="flex-column d-flex flex-sm-row align-items-sm-start">
-        <div class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row">
-          <div class="d-flex flex-column align-items-center align-items-sm-stretch flex-sm-row justify-content-center justify-content-sm-start">
+        <div
+          class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row"
+        >
+          <div
+            class="d-flex flex-column align-items-center align-items-sm-stretch flex-sm-row justify-content-center justify-content-sm-start"
+          >
             <a
               v-if="!profile.verified"
               :href="`/@${profile.username}`"
               style="display:none"
               rel="me"
-              class="u-url">profile.username</a>
+              class="u-url"
+            >profile.username</a
+            >
             <thumb
               :original="profile.content.avatar_image.link"
               :width="0"
@@ -36,22 +43,26 @@
                   height: profile.content.avatar_image.height
                 }
               }"
-              no-border>
+              no-border
+            >
               <avatar
                 :avatar="profile.content.avatar_image"
                 :size="96"
                 :max-size="96"
                 :alt="profile.username"
                 :title="profile.id"
-                class="mr-sm-3 negative u-photo" />
+                class="mr-sm-3 negative u-photo"
+              />
             </thumb>
             <div class="w-100">
               <h3
                 :title="profile.id"
                 class="card-title mb-1">
-                <span class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline">
+                <span
+                  class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline"
+                >
                   <span
-                    :class="{'p-name': !profile.name}"
+                    :class="{ 'p-name': !profile.name }"
                     class="p-nickname">
                     @{{ profile.username }}
                   </span>
@@ -63,28 +74,34 @@
                   />
                   <small
                     v-if="profile.badge"
-                    class="ml-sm-2 d-block d-sm-inline text-muted ml-1">
-                    <font-awesome-icon icon="shield-alt"/>
+                    class="ml-sm-2 d-block d-sm-inline text-muted ml-1"
+                  >
+                    <font-awesome-icon icon="shield-alt" />
                   </small>
                   <small
                     v-if="profile.type !== 'human'"
-                    class="ml-sm-2 d-block d-sm-inline text-muted ml-1">
+                    class="ml-sm-2 d-block d-sm-inline text-muted ml-1"
+                  >
                     ({{ profile.type }})
                   </small>
                   <mute-button
                     v-if="profile.you_muted"
                     :profile.sync="profile"
-                    class="ml-2" />
+                    class="ml-2"
+                  />
                 </span>
               </h3>
               <p
                 v-if="profile.verified"
                 id="profile-domain"
-                class="text-center text-md-left">
+                class="text-center text-md-left"
+              >
                 <a
                   :href="profile.verified.link"
                   class="u-url"
-                  rel="me">{{ profile.verified.domain }}</a>
+                  rel="me">{{
+                    profile.verified.domain
+                  }}</a>
                 <font-awesome-icon
                   :icon="['far', 'check-circle']"
                   class="ml-1 text-success"
@@ -98,26 +115,27 @@
             <follow-button
               id="profile-follow-button"
               :profile.sync="profile"
-              class="mb-2" />
+              class="mb-2"
+            />
             <div
               id="profile-relation"
               class="text-muted">
-              <small>
-                {{ relation }}
-              </small>
+              <small> {{ relation }} </small>
             </div>
           </div>
         </div>
       </div>
       <p
         v-if="profile.content.text"
-        class="description card-text w-100 mt-3 mt-sm-0 p-note">
+        class="description card-text w-100 mt-3 mt-sm-0 p-note"
+      >
         <entity-text :content="profile.content" />
       </p>
     </div>
     <div
       id="profile-counts"
-      class="card-body d-flex justify-content-between justify-content-md-end">
+      class="card-body d-flex justify-content-between justify-content-md-end"
+    >
       <span
         class="card-link"
         append>{{ profile.counts.posts }} Posts</span>
@@ -125,33 +143,40 @@
         :tag="user ? 'a' : 'span'"
         class="card-link"
         to="follows"
-        append>{{ profile.counts.following }} Follows</nuxt-link>
+        append
+      >{{ profile.counts.following }} Follows</nuxt-link
+      >
       <nuxt-link
         :tag="user ? 'a' : 'span'"
         class="card-link"
         to="followers"
-        append>{{ profile.counts.followers }} Followers</nuxt-link>
+        append
+      >{{ profile.counts.followers }} Followers</nuxt-link
+      >
       <nuxt-link
         :tag="user ? 'a' : 'span'"
         class="card-link"
         to="starred"
-        append>{{ profile.counts.bookmarks }} Starred</nuxt-link>
+        append
+      >{{ profile.counts.bookmarks }} Starred</nuxt-link
+      >
       <div
+        id="profile-dropdown"
         ref="dropdown"
         class="dropdown card-link"
+        aria-expanded="false"
       >
         <a
-          id="profile-dropdown"
+          id="profile-dropdown-trigger"
           data-toggle="dropdown"
           aria-haspopup="true"
-          aria-expanded="false"
-          href="#">
-          <font-awesome-icon icon="ellipsis-h"/>
+          href="#"
+        >
+          <font-awesome-icon icon="ellipsis-h" />
         </a>
         <div
           class="dropdown-menu dropdown-menu-right"
-          aria-labelledby="profile-dropdown"
-          aria-expanded="false"
+          aria-labelledby="profile-dropdown-trigger"
         >
           <template v-if="!me && user && !profile.you_blocked">
             <a
@@ -161,22 +186,21 @@
               data-test-send-message
               @click.prevent.stop="sendMessage"
             >
-              <span v-if="!messagePromise">
-                Send a Message
-              </span>
+              <span v-if="!messagePromise"> Send a Message </span>
               <font-awesome-icon
                 v-else
                 icon="circle-notch"
                 fixed-width
-                spin
-              />
+                spin />
             </a>
-            <div class="dropdown-divider"/>
+            <div class="dropdown-divider" />
           </template>
           <nuxt-link
             v-if="me"
             to="/polls"
-            class="dropdown-item">Your polls</nuxt-link>
+            class="dropdown-item"
+          >Your polls</nuxt-link
+          >
           <base-block-button
             v-if="user && !me"
             :profile.sync="profile">
@@ -184,25 +208,34 @@
               slot-scope="{ toggleBlock }"
               class="dropdown-item"
               href="#"
-              @click.prevent="toggleBlock">{{ blockText }}</a>
+              @click.prevent="toggleBlock"
+            >{{ blockText }}</a
+            >
           </base-block-button>
           <base-mute-button
             v-if="user && !me && !profile.you_blocked"
-            :profile.sync="profile">
+            :profile.sync="profile"
+          >
             <a
               slot-scope="{ toggleMute }"
               class="dropdown-item"
               href="#"
-              @click.prevent="toggleMute">{{ muteText }}</a>
+              @click.prevent="toggleMute"
+            >{{ muteText }}</a
+            >
           </base-mute-button>
-          <div class="dropdown-divider"/>
+          <div class="dropdown-divider" />
           <a
-            :href="'https://api.pnut.io/v0/feed/rss/users/' + profile.id + '/posts'"
-            class="dropdown-item">
+            :href="
+              'https://api.pnut.io/v0/feed/rss/users/' + profile.id + '/posts'
+            "
+            class="dropdown-item"
+          >
             <font-awesome-icon
               icon="rss-square"
               class="mr-2"
-              aria-hidden="true"/>
+              aria-hidden="true"
+            />
             <span>RSS</span>
           </a>
         </div>

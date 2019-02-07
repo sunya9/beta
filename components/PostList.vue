@@ -2,13 +2,17 @@
   <base-list
     ref="list"
     v-bind="$attrs"
+    :data.sync="data"
     :data-added-hook="added"
-    :list-item-class="(item) => [
-      'list-group-item list-group-item-action',
-      {
-        'my-4': item.id === main,
-        'list-group-item-warning': isTarget(item)
-    }]"
+    :list-item-class="
+      item => [
+        'list-group-item list-group-item-action',
+        {
+          'my-4': item.id === main,
+          'list-group-item-warning': isTarget(item)
+        }
+      ]
+    "
     tabindex="-1"
     @select="select = $event"
   >
@@ -19,7 +23,7 @@
       :post="item"
       :last-update="lastUpdate"
       :detail="item.id === main"
-      @update:post="$set($attrs.data.data, index, $event)"
+      @update:post="$set(data.data, index, $event)"
     />
   </base-list>
 </template>
@@ -54,12 +58,19 @@ export default {
     all: {
       type: Boolean,
       default: false
+    },
+    data: {
+      type: Object,
+      default: () => ({
+        meta: {},
+        data: []
+      })
     }
   },
   computed: {
     ...mapGetters(['user']),
     mainItem() {
-      return this.$attrs.data.data.find(item => item.id === this.main)
+      return this.data.data.find(item => item.id === this.main)
     }
   },
   methods: {

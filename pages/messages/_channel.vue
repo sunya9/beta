@@ -11,15 +11,15 @@
       />
       <pm-panel
         v-else
-        :initial-channel.sync="channel"
-      />
+        :initial-channel.sync="channel" />
     </div>
     <div class="col-md-8 order-md-1">
       <message-compose
         v-if="canPost"
         v-model="message"
         :channel="channel"
-        @submit="() => $refs.list.refresh()" />
+        @submit="() => $refs.list.refresh()"
+      />
       <div class="card">
         <div class="card-body">
           <message-list
@@ -43,7 +43,7 @@ import { mapGetters } from 'vuex'
 import ChatPanel from '~/components/ChatPanel'
 import PmPanel from '~/components/PmPanel'
 import markAsRead from '~/assets/js/mark-as-read'
-import { getRSSLink, findChatRaw } from '~/assets/js/util'
+import { getRSSLink, findChatRaw, deletedUser } from '~/assets/js/util'
 
 export default {
   validate({ params: { channel } }) {
@@ -77,6 +77,10 @@ export default {
         messagesPromise,
         channelPromise
       ])
+      channel.owner = {
+        ...deletedUser,
+        ...channel.owner
+      }
       return {
         data,
         channel,
@@ -98,6 +102,7 @@ export default {
     isModerator() {
       return (
         this.user &&
+        this.channel.owner &&
         (this.user.id === this.channel.owner.id ||
           !!this.channel.acl.full.user_ids.find(u => u.id === this.user.id))
       )

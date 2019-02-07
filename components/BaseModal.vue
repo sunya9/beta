@@ -2,8 +2,7 @@
   <promise-modal
     ref="promiseModal"
     @show="show"
-    @hide="hide"
-  >
+    @hide="hide">
     <div
       ref="modal"
       slot-scope="{ ok, cancel }"
@@ -13,16 +12,14 @@
       aria-hidden="true"
     >
       <div
-        :class="{[`modal-${size}`]: size }"
+        :class="{ [`modal-${size}`]: size }"
         class="modal-dialog"
         role="document"
       >
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">
-              <slot name="header">
-                {{ title }}
-              </slot>
+              <slot name="header"> {{ title }} </slot>
             </h5>
             <button
               type="button"
@@ -33,21 +30,16 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <slot
-              :ok="ok"
-              :canchel="hideRequest"
-            />
-          </div>
+          <div class="modal-body"><slot
+            :ok="ok"
+            :canchel="hideRequest" /></div>
           <div
             v-if="!$slots.footer && !hideFooter"
-            class="modal-footer"
-          >
+            class="modal-footer">
             <slot
               :ok="ok"
               :cancel="hideRequest"
-              name="footer"
-            >
+              name="footer">
               <button
                 ref="cancel"
                 :form="form"
@@ -64,7 +56,10 @@
                 :disabled="okDisabled"
                 class="btn btn-primary"
                 tabindex="2"
-                @click="ok(okCb())">{{ okText }}</button>
+                @click="ok(okCb())"
+              >
+                {{ okText }}
+              </button>
             </slot>
           </div>
         </div>
@@ -74,6 +69,7 @@
 </template>
 <script>
 export default {
+  name: 'BaseModal',
   props: {
     suppressWarnings: {
       type: Boolean,
@@ -140,9 +136,9 @@ export default {
     this.$refs.modal.removeEventListener('hidden.bs.modal', this.hidden)
   },
   methods: {
-    show(arg) {
+    show(...arg) {
       this.modal.show()
-      this.$emit('show', arg)
+      this.$emit('show', ...arg)
       this.$mousetrap.pause()
     },
     shown() {

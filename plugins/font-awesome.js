@@ -45,7 +45,8 @@ import {
   faUserTimes,
   faPaintBrush,
   faBell as faBellS,
-  faCircleNotch
+  faCircleNotch,
+  faExclamationCircle
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faBellSlash,
@@ -123,7 +124,8 @@ library.add(
   faUserTimes,
   faPaintBrush,
   faBellR,
-  faCircleNotch
+  faCircleNotch,
+  faExclamationCircle
 )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)

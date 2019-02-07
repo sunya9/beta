@@ -48,8 +48,15 @@ export const hasPatterLink = {
 }
 
 export const hasLongpost = {
-  title: 'title',
-  body: 'body'
+  raw: [
+    {
+      type: 'nl.chimpnut.blog.post',
+      value: {
+        title: 'title',
+        body: 'body'
+      }
+    }
+  ]
 }
 
 // TODO: content should be deleted

@@ -7,7 +7,8 @@
     :width="size"
     :height="size"
     :srcset="srcset"
-    v-bind="$attrs" >
+    v-bind="$attrs"
+  >
 </template>
 
 <script>
@@ -15,7 +16,11 @@ function sizeValidator(numLike) {
   return [0, 16, 24, 32, 64, 96].includes(parseInt(numLike))
 }
 
+const TRANSPARENT_BASE64 =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+
 export default {
+  name: 'Avatar',
   props: {
     avatar: {
       type: [Object, String],
@@ -50,6 +55,7 @@ export default {
       // ''
     },
     src() {
+      if (!this.url) return TRANSPARENT_BASE64
       let src = this.url
       if (this.maxSize > 0) src += `?w=${this.maxSize}`
       return src

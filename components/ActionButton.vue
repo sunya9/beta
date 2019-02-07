@@ -11,12 +11,12 @@
       <input
         :checked="checked"
         type="checkbox"
-        @change="change($event.target.checked)">
+        @change="change($event.target.checked)"
+      >
       <font-awesome-icon
         :icon="computedIcon"
         size="lg"
-        fixed-width
-      />
+        fixed-width />
     </label>
   </div>
 </template>
@@ -25,6 +25,7 @@
 import actionable from '~/assets/js/actionable'
 
 export default {
+  name: 'ActionButton',
   mixins: [actionable],
   props: {
     icon: {

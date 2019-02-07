@@ -34,7 +34,8 @@
           class="form-control"
           placeholder="Room description"
           title="Up to 256 characters"
-          maxlength="256"/>
+          maxlength="256"
+        />
       </div>
       <div class="form-group">
         <h5>Categories</h5>
@@ -45,8 +46,9 @@
           <template>
             <option
               v-for="category in $options.categories"
-              :key="category"
-            >{{ category }}</option>
+              :key="category">{{
+                category
+              }}</option>
           </template>
         </select>
       </div>
@@ -60,6 +62,7 @@ import { findChatRaw } from '~/assets/js/util'
 import { cloneDeep } from 'lodash'
 
 export default {
+  name: 'ChannelEditModal',
   categories: [
     'general',
     'fun',

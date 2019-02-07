@@ -2,9 +2,10 @@
   <div class="media">
     <avatar
       v-if="is_pm"
-      :avatar="{ link: opponent.avatar_image }"
+      :avatar="channel.recent_message.user.content.avatar_image"
       size="32"
-      class="mr-2" />
+      class="mr-2"
+    />
     <div
       class="media-body"
       style="overflow: hidden">
@@ -12,46 +13,27 @@
         <font-awesome-icon
           v-show="channel.you_muted"
           :icon="['far', 'bell-slash']"
-          style="float:right"/>
+          style="float:right"
+        />
         <template v-if="is_pm">
-          <span v-if="opponent.name">
-            {{ opponent.name }}
-            <small class="text-muted">
-              @{{ opponent.username }}<span
-                v-if="members.length"
-                class="text-muted">, </span>
-            </small>
-          </span>
-          <span v-else>
-            @{{ opponent.username }}<small
-              v-if="members.length"
-              class="text-muted">, </small>
-          </span>
-          <span
-            v-if="members.length"
-          >
-            <span
-              v-for="user in members"
-              :key="user.id"
-              class="text-muted">
-              <small><span v-if="user.id !== members[0].id">, </span>@{{ user.username }}</small>
-            </span>
-          </span>
+          {{ members }}
         </template>
         <template v-else>
           <font-awesome-icon
             v-if="channel.acl.read.public"
             icon="globe"
             fixed-width
-            aria-hidden="true"/>
+            aria-hidden="true"
+          />
           <font-awesome-icon
             v-else
             icon="users"
             fixed-width
-            aria-hidden="true"/>
+            aria-hidden="true"
+          />
           <emojify :text="chat.name" />
           <small class="text-muted">
-            {{ chat.description }}
+            <emojify :text="chat.description" />
           </small>
         </template>
       </h5>
@@ -59,10 +41,11 @@
         v-if="channel.recent_message"
         class="mb-0 text-truncate">
         <span v-if="!channel.recent_message.is_deleted && spoiler && !me">
-          {{ spoiler.topic }}
+          <emojify :text="spoiler.topic" />
         </span>
         <span v-else-if="!channel.recent_message.is_deleted">
-          <span v-if="!is_pm">@{{ opponent.username }}: </span>{{ channel.recent_message.content.text }}
+          @{{ channel.recent_message.user.username }}:
+          <emojify :text="channel.recent_message.content.text" />
         </span>
         <span
           v-else
@@ -70,19 +53,20 @@
       </p>
     </div>
     <span
-      :class="{'unread-channel-arrow': channel.has_unread}"
-      class="align-self-center">
-      <font-awesome-icon icon="chevron-right"/>
+      :class="{ 'unread-channel-arrow': channel.has_unread }"
+      class="align-self-center"
+    >
+      <font-awesome-icon icon="chevron-right" />
     </span>
   </div>
 </template>
 
 <script>
 import Avatar from '~/components/Avatar'
-import { mapGetters } from 'vuex'
 import { getSpoiler, findChatRaw } from '~/assets/js/util'
 
 export default {
+  name: 'Channel',
   components: {
     Avatar
   },
@@ -93,45 +77,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user']),
-    opponent() {
-      if (this.channel.recent_message && this.channel.recent_message.user) {
-        const {
-          username,
-          name,
-          id,
-          content: {
-            avatar_image: { link: avatar_image }
-          }
-        } = this.channel.recent_message.user
-        const res = {
-          username,
-          name,
-          id,
-          avatar_image
-        }
-        return res
-      } else if (this.channel.owner.id === this.user.id) {
-        return this.channel.acl.write.user_ids[0]
-      }
-
-      const {
-        username,
-        name,
-        id,
-        content: {
-          avatar_image: { link: avatar_image }
-        }
-      } = this.channel.owner
-
-      const res = {
-        username,
-        name,
-        id,
-        avatar_image
-      }
-      return res
-    },
     members() {
       // don't include self or most recent messager
       const {
@@ -149,19 +94,8 @@ export default {
         avatar_image
       }
 
-      const members = this.channel.acl.write.user_ids.filter(user => {
-        return (
-          user.id !== this.user.id &&
-          (!this.channel.recent_message ||
-            user.id !== this.channel.recent_message.user.id)
-        )
-      })
-
-      if (this.channel.owner.id !== this.user.id) {
-        members.push(owner)
-      }
-
-      return members
+      const members = [owner, ...this.channel.acl.write.user_ids]
+      return members.map(member => `@${member.username}`).join(', ')
     },
     spoiler() {
       return getSpoiler(this.channel.recent_message)
@@ -170,7 +104,7 @@ export default {
       return this.channel.type === 'io.pnut.core.pm'
     },
     chat() {
-      return findChatRaw(this.channel).value
+      return findChatRaw(this.channel, true)
     }
   }
 }

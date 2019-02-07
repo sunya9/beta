@@ -9,15 +9,21 @@
     <a
       v-if="detail"
       v-show="false"
-      :href="(mainPost.user.verified ? mainPost.user.verified.link : `/@${mainPost.user.username}`)"
+      :href="
+        mainPost.user.verified
+          ? mainPost.user.verified.link
+          : `/@${mainPost.user.username}`
+      "
       rel="author"
-      class="p-author h-card">
+      class="p-author h-card"
+    >
       <avatar
         :avatar="mainPost.user.content.avatar_image"
-        :alt="(mainPost.user.name || mainPost.user.username)"
+        :alt="mainPost.user.name || mainPost.user.username"
         class="d-flex mr-3 iconSize u-photo"
         size="64"
-        max-size="64" />
+        max-size="64"
+      />
     </a>
     <nuxt-link
       v-if="!preview"
@@ -27,7 +33,8 @@
         :alt="mainPost.user.username"
         class="d-flex mr-3 iconSize"
         size="64"
-        max-size="64" />
+        max-size="64"
+      />
     </nuxt-link>
     <div class="media-body">
       <h6 class="mt-1">
@@ -43,62 +50,133 @@
           />
         </nuxt-link>
       </h6>
-      <div class="d-flex flex-wrap flex-md-nowrap">
-        <p
-          :class="{
-            'mb-0': preview,
-            'e-content p-name': detail
-          }"
-          class="flex-grow-1 w-100"
-        >
-          <entity-text
-            :content="mainPost.content"
-            :spoiler="spoiler"
-            :longpost="longpost"
-            :deleted="post.is_deleted">
-            <em>[Post deleted]</em>
-          </entity-text>
-        </p>
-        <div
-          v-if="thumbs.length"
-          class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
-          <thumb
-            v-for="(t, i) in thumbs"
-            :original="t.original"
-            :thumb="t.thumb"
-            :original-width="t.width"
-            :original-height="t.height"
+      <nsfw :include-nsfw="mainPost.is_nsfw">
+        <div class="d-flex flex-wrap flex-md-nowrap">
+          <div class="flex-grow-1 w-100">
+            <button
+              v-if="spoiler && !showSpoiler"
+              class="btn btn-link btn-primary mb-2"
+              type="button"
+              @click="toggleSpoiler"
+            >
+              <span
+                class="d-sm-inline ml-2"
+              >Show Spoiler: <emojify :text="spoiler.topic" />
+              </span>
+            </button>
+            <template v-else>
+              <p
+                :class="{
+                  'e-content p-name': detail
+                }"
+              >
+                <entity-text
+                  :content="mainPost.content"
+                  :deleted="post.is_deleted"
+                >
+                  <em>[Post deleted]</em>
+                </entity-text>
+              </p>
+              <div
+                v-if="!post.is_deleted && longpost"
+                class="my-2">
+                <button
+                  :class="{
+                    'btn-link': showLongpost,
+                    'btn-outline-primary': !showLongpost
+                  }"
+                  class="btn mb-2"
+                  data-test-collapse-button
+                  type="button"
+                  @click="toggleLongpost"
+                >
+                  <font-awesome-icon
+                    :icon="!showLongpost ? 'plus' : 'minus'"
+                    aria-hidden="true"
+                  />
+                  <span v-if="!showLongpost">Expand Post</span>
+                  <span v-else>Collapse Post</span>
+                </button>
+                <div
+                  v-if="showLongpost"
+                  class="mt-2 longpost">
+                  <emojify
+                    v-if="longpost.title"
+                    :text="longpost.title"
+                    element="h5"
+                  />
+                  <emojify
+                    :text="longpost.body"
+                    element="p" />
+                </div>
+              </div>
+            </template>
+          </div>
+          <div
+            v-if="thumbs.length"
+            class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
+          >
+            <thumb
+              v-for="(t, i) in thumbs"
+              :original="t.original"
+              :thumb="t.thumb"
+              :original-width="t.width"
+              :original-height="t.height"
+              :key="i"
+              class="mx-1 mb-1 mb-lg-0"
+            />
+          </div>
+          <div
+            v-if="clips.length"
+            class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
+          >
+            <sound
+              v-for="(t, i) in clips"
+              :url="t.url"
+              :title="t.title"
+              :key="i"
+            />
+          </div>
+        </div>
+        <div v-if="oembedVideos">
+          <div
+            v-for="(video, i) in oembedVideos"
             :key="i"
-            class="mx-1 mb-1 mb-lg-0" />
+            class="card mb-2">
+            <div class="card-body text-center">
+              <iframe
+                v-if="getVideoSrc(video)"
+                :src="getVideoSrc(video)"
+                :width="video.width"
+                :height="video.height"
+                frameborder="0"
+              >
+                Does not support iframe.
+              </iframe>
+            </div>
+          </div>
         </div>
         <div
-          v-if="clips.length"
-          class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end">
-          <sound
-            v-for="(t, i) in clips"
-            :url="t.url"
-            :title="t.title"
-            :key="i" />
+          v-if="poll"
+          class="card mb-3">
+          <div class="card-body">
+            <poll
+              :poll="poll"
+              :poll-id="poll.poll_id"
+              :poll-token="poll.poll_token"
+            />
+          </div>
         </div>
-      </div>
-      <div
-        v-if="poll"
-        class="card mb-3">
-        <div class="card-body">
-          <poll
-            :poll="poll"
-            :poll-id="poll.poll_id"
-            :poll-token="poll.poll_token" />
-        </div>
-      </div>
-      <p v-if="channelInvite">
-        <nuxt-link
-          :to="`/messages/${channelInvite.channel_id}`"
-          class="btn btn-outline-primary"
-        >
-          Go to the channel {{ channelInvite.channel_id }}
-        </nuxt-link>
-      </p>
+        <p v-if="channelInvite">
+          <nuxt-link
+            :to="`/messages/${channelInvite.channel_id}`"
+            class="btn btn-outline-primary"
+          >
+            Go to <i>{{ channelInvite.display_name }}</i>
+          </nuxt-link>
+        </p>
+      </nsfw>
+
       <footer v-if="!post.is_deleted && !preview">
         <div v-if="post.repost_of">
           <nuxt-link
@@ -106,8 +184,7 @@
             class="text-muted">
             <font-awesome-icon
               icon="retweet"
-              class="mr-1"
-            />
+              class="mr-1" />
             <span>Reposted by @{{ post.user.username }}</span>
           </nuxt-link>
         </div>
@@ -118,14 +195,16 @@
               :to="permalink"
               :class="{ 'u-url': detail }"
               :title="absDate"
-              class="text-muted">
+              class="text-muted"
+            >
               <font-awesome-icon
                 :icon="['far', 'clock']"
-                class="mr-1"
-              />
+                class="mr-1" />
               <time
                 :class="{ 'dt-published': detail }"
-                :datetime="absDate">{{ detail ? absDate : date }}</time>
+                :datetime="absDate">{{
+                  detail ? absDate : date
+                }}</time>
             </nuxt-link>
           </li>
           <template v-if="mainPost.is_revised">
@@ -133,35 +212,48 @@
               <template v-if="mainPost.revision">
                 <font-awesome-icon
                   :icon="['far', 'edit']"
-                  class="mr-1"
-                />
+                  class="mr-1" />
                 Original
               </template>
               <template v-else>
                 <nuxt-link
                   :to="revisions_permalink"
                   class="text-muted"
-                  title="Revised Post">
+                  title="Revised Post"
+                >
                   <font-awesome-icon
                     icon="edit"
-                    class="mr-1"
-                  />
+                    class="mr-1" />
                   <span>Revised</span>
                 </nuxt-link>
               </template>
             </li>
           </template>
+          <li
+            v-if="!viewOnly && me && !disableEdit && !revised"
+            class="list-inline-item edit"
+          >
+            <a
+              href="#"
+              class="text-muted"
+              @click.prevent="editPost">
+              <font-awesome-icon
+                icon="edit"
+                class="mr-1" />
+              <span>Edit</span>
+            </a>
+          </li>
           <template v-if="post.reply_to">
             <li class="list-inline-item">
               <nuxt-link
                 :to="reply_permalink"
                 :class="{ 'u-in-reply-to': detail }"
                 class="text-muted"
-                title="In Reply To">
+                title="In Reply To"
+              >
                 <font-awesome-icon
                   icon="comments"
-                  class="mr-1"
-                />
+                  class="mr-1" />
               </nuxt-link>
             </li>
           </template>
@@ -170,8 +262,9 @@
               <nuxt-link
                 :to="permalink"
                 class="text-muted"
-                title="Thread Starter">
-                <font-awesome-icon :icon="['far', 'comments']"/>
+                title="Thread Starter"
+              >
+                <font-awesome-icon :icon="['far', 'comments']" />
               </nuxt-link>
             </li>
           </template>
@@ -180,12 +273,10 @@
               <a
                 class="text-muted"
                 href="#"
-                @click.prevent="replyModal"
-              >
+                @click.prevent="replyModal">
                 <font-awesome-icon
                   icon="reply"
-                  class="mr-1"
-                />
+                  class="mr-1" />
                 <span>Reply</span>
               </a>
             </li>
@@ -198,8 +289,7 @@
                 @click.stop.prevent="removeModal">
                 <font-awesome-icon
                   icon="trash"
-                  class="mr-1"
-                />
+                  class="mr-1" />
                 <span>Remove</span>
               </a>
             </li>
@@ -212,8 +302,7 @@
                 target="_new">
                 <font-awesome-icon
                   icon="paper-plane"
-                  class="mr-1"
-                />
+                  class="mr-1" />
                 <span>via {{ mainPost.source.name }}</span>
               </a>
             </li>
@@ -226,8 +315,7 @@
                 target="_new">
                 <font-awesome-icon
                   icon="random"
-                  class="mr-1"
-                />
+                  class="mr-1" />
                 <span>Crosspost</span>
               </a>
             </li>
@@ -235,25 +323,19 @@
         </ul>
       </footer>
       <template v-if="detail">
-        <hr>
+        <hr >
         <div class="d-flex align-items-center">
           <ul class="list-inline">
             <li class="list-inline-item">
-              <div class="count">
-                {{ post.counts.replies }}
-              </div>
+              <div class="count">{{ post.counts.replies }}</div>
               <small class="text-muted">replies</small>
             </li>
             <li class="list-inline-item">
-              <div class="count">
-                {{ post.counts.reposts }}
-              </div>
+              <div class="count">{{ post.counts.reposts }}</div>
               <small class="text-muted">reposts</small>
             </li>
             <li class="list-inline-item">
-              <div class="count">
-                {{ post.counts.bookmarks }}
-              </div>
+              <div class="count">{{ post.counts.bookmarks }}</div>
               <small class="text-muted">stars</small>
             </li>
           </ul>
@@ -261,10 +343,12 @@
             <li
               v-for="user in reactionUsers"
               :key="user.id"
-              class="list-inline-item">
+              class="list-inline-item"
+            >
               <nuxt-link
                 :to="`/@${user.username}`"
-                :title="`@${user.username}`">
+                :title="`@${user.username}`"
+              >
                 <avatar :avatar="user.content.avatar_image" />
               </nuxt-link>
             </li>
@@ -282,13 +366,15 @@
           ref="favorite"
           :resource="`/posts/${mainPost.id}/bookmark`"
           :icon="[['far', 'star'], ['fas', 'star']]"
-          v-model="mainPost.you_bookmarked" />
+          v-model="mainPost.you_bookmarked"
+        />
         <action-button
           v-if="!me"
           ref="repost"
           :resource="`/posts/${mainPost.id}/repost`"
           v-model="mainPost.you_reposted"
-          icon="retweet" />
+          icon="retweet"
+        />
       </div>
     </div>
   </div>
@@ -302,16 +388,20 @@ import Sound from '~/components/Sound'
 import Poll from '~/components/Poll'
 import { mapGetters } from 'vuex'
 import EntityText from '~/components/EntityText'
+import Nsfw from '~/components/Nsfw'
+
 import {
   getImageURLs,
   getAudio,
   getCrosspostLink,
   getSpoiler,
   getLongpost,
-  getChannelInvite
+  getChannelInvite,
+  getOembedVideo
 } from '~/assets/js/util'
 import listItem from '~/assets/js/list-item'
 
+const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
 export default {
   components: {
     ActionButton,
@@ -319,7 +409,8 @@ export default {
     Sound,
     Avatar,
     EntityText,
-    Poll
+    Poll,
+    Nsfw
   },
   mixins: [listItem],
   dateKey: 'post.created_at',
@@ -341,7 +432,18 @@ export default {
       default: false
     }
   },
+  data() {
+    return {
+      timer: null,
+      disableEdit: true,
+      showSpoiler: false,
+      showLongpost: false
+    }
+  },
   computed: {
+    revised() {
+      return this.mainPost.is_revised
+    },
     poll() {
       if (!this.mainPost.raw) return
       const raw = this.mainPost.raw.filter(
@@ -372,6 +474,9 @@ export default {
             return res
           }, [])
       )
+    },
+    oembedVideos() {
+      return getOembedVideo(this.mainPost)
     },
     thumbs() {
       return getImageURLs(this.mainPost)
@@ -408,7 +513,39 @@ export default {
     },
     ...mapGetters(['user'])
   },
+  mounted() {
+    if (!this.me) return
+    const diff = Date.now() - new Date(this.itemDate).getTime()
+    const over5minutes = diff > FIVE_MINUTES
+    if (over5minutes) return
+    const remainMilliSeconds = FIVE_MINUTES - diff
+    this.disableEdit = false
+    this.timer = setTimeout(() => (this.disableEdit = true), remainMilliSeconds)
+  },
+  beforeDestroy() {
+    if (!this.timer) return
+    clearTimeout(this.timer)
+  },
   methods: {
+    getVideoSrc(value) {
+      const matcher = value.html.match(/src="([^"]*)"/)
+      return matcher && matcher[1]
+    },
+    toggleSpoiler() {
+      this.showSpoiler = !this.showSpoiler
+    },
+    toggleLongpost() {
+      this.showLongpost = !this.showLongpost
+    },
+    async editPost() {
+      if (this.mainPost.is_deleted) return
+      try {
+        const newPost = await this.$modal.show('post-modal', this.mainPost, {
+          edit: true
+        })
+        this.$emit('update:post', newPost)
+      } catch (e) {}
+    },
     replyModal() {
       if (this.mainPost.is_deleted) return
       this.$modal.show('post-modal', this.mainPost)
@@ -447,6 +584,7 @@ export default {
 
 .media-body {
   word-break: break-word;
+  hyphens: auto;
 }
 
 footer {
@@ -457,6 +595,7 @@ footer {
   .reply,
   .remove,
   .source,
+  .edit,
   .crosspost-url {
     opacity: 0;
     transition: all 0.2s ease;
@@ -466,6 +605,7 @@ footer {
     .reply,
     .remove,
     .source,
+    .edit,
     .crosspost-url {
       opacity: 1;
     }
@@ -491,5 +631,8 @@ footer {
 
 .text-gray-dark {
   color: $gray;
+}
+.longpost {
+  white-space: pre-wrap;
 }
 </style>

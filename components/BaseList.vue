@@ -10,7 +10,11 @@
     <component
       v-for="(item, index) in items"
       :key="item[idField]"
-      :class="typeof listItemClass === 'function' ? listItemClass(item) : listItemClass"
+      :class="
+        typeof listItemClass === 'function'
+          ? listItemClass(item)
+          : listItemClass
+      "
       :is="listElement"
       v-bind="listItemProps(item)"
       class="item"
@@ -26,28 +30,21 @@
     </component>
     <li
       v-show="more"
-      :class="{ 'list-group-item': listClass !== 'list-unstyled' }">
+      :class="{ 'list-group-item': listClass !== 'list-unstyled' }"
+    >
       <div class="text-center w-100 text-muted my-2">
         <font-awesome-icon
           spin
           fixed-width
           size="2x"
-          icon="sync"
-        />
+          icon="sync" />
       </div>
     </li>
   </ul>
   <div
     v-else
-    class="text-center my-3"
-  >
-    <slot name="empty">
-      <div
-        class="list-group-item py-4"
-      >
-        No Items
-      </div>
-    </slot>
+    class="text-center my-3">
+    <slot name="empty"> <div class="list-group-item py-4">No Items</div> </slot>
   </div>
 </template>
 <script>
@@ -57,6 +54,7 @@ import keyBinding from '~/assets/js/key-binding'
 const INTERVAL = 1000 * 30 // 30sec
 
 export default {
+  name: 'BaseList',
   mixins: [keyBinding],
   keyMaps: {
     j: 'scrollDown',
@@ -145,6 +143,12 @@ export default {
     refreshDate(newVal, oldVal) {
       if (!newVal || newVal <= oldVal) return
       this.refresh()
+    },
+    data: {
+      handler(data) {
+        this.items = 'data' in data ? data.data : []
+      },
+      deep: true
     }
   },
   mounted() {
@@ -202,6 +206,10 @@ export default {
 
         if (newItems.length) {
           this.items = this.items.concat(newItems)
+          this.$emit('update:data', {
+            meta: this.meta,
+            data: this.items
+          })
         }
       } catch (e) {
         console.error(e)
