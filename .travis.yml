@@ -15,7 +15,7 @@ env:
 notifications:
   email: false
   slack:
-    secure: Mxaom+mwnpohiP1oFI51ciBZD4eTdL6+6ORYuq9QmXH/SBfhqRYqukrS8ykC+KkgLE9m3IRh1lPNdTA0i0ArKaVzDxNRjByXG3PmFvrLC9BTrRseqkMFqGHhJp4V9X1AbhkEG9CtmuSm1Q64EiNxs+YV/ROWWo7r6TUp89grfx0nou47cb6Q80/p+zTXoLQDbFutrZRKXg7VNtE5XNuY8zUQPsDBruni0ixSO4ypDL6vunaGHilGfwvs61ZYBCJ8NaANXkagHgFlrZyIjYn2cGzcJ6PRfBrB7knWCmaIGbJaSBXp4D4zhs65zy1WUAMAMkYlx6CfG0eI6U5j2OmiiTMDlnOKyTgfNmX6ighdfDE3G9r2DwzhBYGIEozrNVDlSNR7sh+gRomY4R36kTGkxKE5W450QGWgHiQDoypafs98eGZ6QhGsp0GCkaFsdvlWPhTv854A1EXlOKXNLNu5kUaTD8Cf/TtjAvWTVLB40yXm5iSJcCFKKIduZ/4u7Z/fPCGNv7TexVueQUBUeZF468bux+3JKIgjFzIpAbPL458jX4KiumMn+qAPKrDYztqkLUTWrgC3pTw30htXhEKyZJKWh2YBnBtHBs3svuA3xMRtfGIQ1R7XAAev7Z63En/ePZQuZfopalVvEpIpv8v0xPXuJDqY9aBTmtyOR3UoKYg=
+    secure: qi+24/+aauzw4pgeIEGrQkeDBB4lhM77eORc7YEhwMwhZ229xEtTF+4dYXk1R96uIEv+bMROqgq8Xitf/3zvF4auT9hJ+1e8FlExqB0s7dngxIXLRzSsaNEN3jaBefyl9mQ5/pax6C1p9QHDvIkP3l5XwfpLPJb7bKLHGOz1iMy3ajP8l+PQGdPWfzr+yql5m1Jb5LlQM/NRMsP69b385uKCv1jsmxNrhtd6QdXJuH7iwJRO8PWIj3rz8aPqGCedgGC7NbmmDUKlrbUi1T70MOC6VYWEw3Vv4ehdeqqDUPH2+B10AVu9AuSFI547WkRyutjyaMgWgBCweHSBVzVPbpVqkRVRS3p/KDEjvSrlTJLA3ALXT79ibBvL3VTyOlTRS4Wlrgke31wWqFoO+mGymn3mqP59nY7bJJdqEKv8SMKxB8f6Kpdp1xTGvVlocRpNytQ+ejG7SvCjZMHJTYAsl8FXDuw4BLhvnkpo1ZVUJcd37mqpcvq1scGddVsdDCnOb3X2Y9bAJXC5Hjxm+OdJ0UEvcmMOaSCSG0+WX/5BNhu84VusljTCbTuLBNQJHav7V8u0/4RRHPFvEWEGjqvbJ2CY49pd6EYQ9toj8d+zpOF7jHoZsW3rFm/7Kc4gyzeCJAovpirVccnZbGMsxvDmCfVOqcVj0FPvWY6pUzsiDL4=
 
 script: yarn run test:all
 after_script:
@@ -29,4 +29,4 @@ deploy:
     branch: /^release-.*$/
 
 after_deploy:
-  - "curl -H 'Content-Type: application/json' --data '{\"build\": true}' -X POST $DOCKER_HUB_URL;"
+  - 'curl -H ''Content-Type: application/json'' --data ''{"build": true}'' -X POST $DOCKER_HUB_URL;'
