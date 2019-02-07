@@ -68,7 +68,7 @@ describe('Profile component', () => {
   describe('Me', () => {
     test('Not shown follow button', () => {
       const wrapper = shallowMount(Profile, opts)
-      expect(wrapper.contains('followbutton-stub')).toBe(false)
+      expect(wrapper.contains('follow-button-stub')).toBe(false)
     })
   })
   describe('Everyone except me', () => {
@@ -78,7 +78,7 @@ describe('Profile component', () => {
       wrapper = shallowMount(Profile, opts)
     })
     test('Show follow button', async () => {
-      expect(wrapper.contains('followbutton-stub')).toBe(true)
+      expect(wrapper.contains('follow-button-stub')).toBe(true)
     })
     test('relation is not shown when another user not follow you', () => {
       const $relation = wrapper.find('#profile-relation')
@@ -170,7 +170,7 @@ describe('Profile component', () => {
       opts.mocks.$store = createStore()
       opts.propsData.initialProfile = fixtures('user')
       const wrapper = shallowMount(Profile, opts)
-      expect(wrapper.contains('followbutton-stub')).toBe(false)
+      expect(wrapper.contains('follow-button-stub')).toBe(false)
     })
   })
 })
