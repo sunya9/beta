@@ -50,7 +50,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "mousetrap": "^1.6.2",
-    "nuxt": "2.2.0",
+    "nuxt": "2.4.3",
     "sass-loader": "^7.1.0",
     "string-length": "^2.0.0",
     "twemoji": "^11.2.0",
