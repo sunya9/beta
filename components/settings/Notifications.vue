@@ -2,19 +2,26 @@
   <div>
     <custom-checkbox
       v-model="notification"
-      :disabled="disabledNotification">
-      Enable notification <span
+      :disabled="disabledNotification"
+    >
+      Enable notification
+      <span
         v-if="error"
-        :class="`text-${error.type}`">{{ error.message }}</span>
+        :class="`text-${error.type}`"
+      >
+        {{ error.message }}
+      </span>
     </custom-checkbox>
     <custom-checkbox
       v-model="types.posts"
-      :disabled="!notification">
+      :disabled="!notification"
+    >
       New posts
     </custom-checkbox>
     <custom-checkbox
       v-model="types.mentions"
-      :disabled="!notification">
+      :disabled="!notification"
+    >
       New mentions
     </custom-checkbox>
   </div>

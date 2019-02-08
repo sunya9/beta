@@ -27,7 +27,8 @@
     </a>
     <nuxt-link
       v-if="!preview"
-      :to="`/@${mainPost.user.username}`">
+      :to="`/@${mainPost.user.username}`"
+    >
       <avatar
         :avatar="mainPost.user.content.avatar_image"
         :alt="mainPost.user.username"
@@ -40,7 +41,8 @@
       <h6 class="mt-1">
         <nuxt-link
           :to="`/@${mainPost.user.username}`"
-          class="text-gray-dark">
+          class="text-gray-dark"
+        >
           {{ mainPost.user.username }}
           <emojify
             v-if="mainPost.user.name"
@@ -59,9 +61,8 @@
               type="button"
               @click="toggleSpoiler"
             >
-              <span
-                class="d-sm-inline ml-2"
-              >Show Spoiler: <emojify :text="spoiler.topic" />
+              <span class="d-sm-inline ml-2">
+                Show Spoiler: <emojify :text="spoiler.topic" />
               </span>
             </button>
             <template v-else>
@@ -79,7 +80,8 @@
               </p>
               <div
                 v-if="!post.is_deleted && longpost"
-                class="my-2">
+                class="my-2"
+              >
                 <button
                   :class="{
                     'btn-link': showLongpost,
@@ -94,12 +96,17 @@
                     :icon="!showLongpost ? 'plus' : 'minus'"
                     aria-hidden="true"
                   />
-                  <span v-if="!showLongpost">Expand Post</span>
-                  <span v-else>Collapse Post</span>
+                  <span v-if="!showLongpost">
+                    Expand Post
+                  </span>
+                  <span v-else>
+                    Collapse Post
+                  </span>
                 </button>
                 <div
                   v-if="showLongpost"
-                  class="mt-2 longpost">
+                  class="mt-2 longpost"
+                >
                   <emojify
                     v-if="longpost.title"
                     :text="longpost.title"
@@ -107,7 +114,8 @@
                   />
                   <emojify
                     :text="longpost.body"
-                    element="p" />
+                    element="p"
+                  />
                 </div>
               </div>
             </template>
@@ -118,11 +126,11 @@
           >
             <thumb
               v-for="(t, i) in thumbs"
+              :key="i"
               :original="t.original"
               :thumb="t.thumb"
               :original-width="t.width"
               :original-height="t.height"
-              :key="i"
               class="mx-1 mb-1 mb-lg-0"
             />
           </div>
@@ -132,9 +140,9 @@
           >
             <sound
               v-for="(t, i) in clips"
+              :key="i"
               :url="t.url"
               :title="t.title"
-              :key="i"
             />
           </div>
         </div>
@@ -142,7 +150,8 @@
           <div
             v-for="(video, i) in oembedVideos"
             :key="i"
-            class="card mb-2">
+            class="card mb-2"
+          >
             <div class="card-body text-center">
               <iframe
                 v-if="getVideoSrc(video)"
@@ -158,7 +167,8 @@
         </div>
         <div
           v-if="poll"
-          class="card mb-3">
+          class="card mb-3"
+        >
           <div class="card-body">
             <poll
               :poll="poll"
@@ -181,10 +191,12 @@
         <div v-if="post.repost_of">
           <nuxt-link
             :to="`/@${post.user.username}`"
-            class="text-muted">
+            class="text-muted"
+          >
             <font-awesome-icon
               icon="retweet"
-              class="mr-1" />
+              class="mr-1"
+            />
             <span>Reposted by @{{ post.user.username }}</span>
           </nuxt-link>
         </div>
@@ -199,12 +211,14 @@
             >
               <font-awesome-icon
                 :icon="['far', 'clock']"
-                class="mr-1" />
+                class="mr-1"
+              />
               <time
                 :class="{ 'dt-published': detail }"
-                :datetime="absDate">{{
-                  detail ? absDate : date
-                }}</time>
+                :datetime="absDate"
+              >
+                {{ detail ? absDate : date }}
+              </time>
             </nuxt-link>
           </li>
           <template v-if="mainPost.is_revised">
@@ -212,7 +226,8 @@
               <template v-if="mainPost.revision">
                 <font-awesome-icon
                   :icon="['far', 'edit']"
-                  class="mr-1" />
+                  class="mr-1"
+                />
                 Original
               </template>
               <template v-else>
@@ -223,7 +238,8 @@
                 >
                   <font-awesome-icon
                     icon="edit"
-                    class="mr-1" />
+                    class="mr-1"
+                  />
                   <span>Revised</span>
                 </nuxt-link>
               </template>
@@ -236,10 +252,12 @@
             <a
               href="#"
               class="text-muted"
-              @click.prevent="editPost">
+              @click.prevent="editPost"
+            >
               <font-awesome-icon
                 icon="edit"
-                class="mr-1" />
+                class="mr-1"
+              />
               <span>Edit</span>
             </a>
           </li>
@@ -253,7 +271,8 @@
               >
                 <font-awesome-icon
                   icon="comments"
-                  class="mr-1" />
+                  class="mr-1"
+                />
               </nuxt-link>
             </li>
           </template>
@@ -273,10 +292,12 @@
               <a
                 class="text-muted"
                 href="#"
-                @click.prevent="replyModal">
+                @click.prevent="replyModal"
+              >
                 <font-awesome-icon
                   icon="reply"
-                  class="mr-1" />
+                  class="mr-1"
+                />
                 <span>Reply</span>
               </a>
             </li>
@@ -286,10 +307,12 @@
               <a
                 class="text-muted"
                 href="#"
-                @click.stop.prevent="removeModal">
+                @click.stop.prevent="removeModal"
+              >
                 <font-awesome-icon
                   icon="trash"
-                  class="mr-1" />
+                  class="mr-1"
+                />
                 <span>Remove</span>
               </a>
             </li>
@@ -299,10 +322,12 @@
               <a
                 :href="post.source.link"
                 class="text-muted"
-                target="_new">
+                target="_new"
+              >
                 <font-awesome-icon
                   icon="paper-plane"
-                  class="mr-1" />
+                  class="mr-1"
+                />
                 <span>via {{ mainPost.source.name }}</span>
               </a>
             </li>
@@ -312,10 +337,12 @@
               <a
                 :href="crosspost"
                 class="text-muted"
-                target="_new">
+                target="_new"
+              >
                 <font-awesome-icon
                   icon="random"
-                  class="mr-1" />
+                  class="mr-1"
+                />
                 <span>Crosspost</span>
               </a>
             </li>
@@ -323,20 +350,32 @@
         </ul>
       </footer>
       <template v-if="detail">
-        <hr >
+        <hr>
         <div class="d-flex align-items-center">
           <ul class="list-inline">
             <li class="list-inline-item">
-              <div class="count">{{ post.counts.replies }}</div>
-              <small class="text-muted">replies</small>
+              <div class="count">
+                {{ post.counts.replies }}
+              </div>
+              <small class="text-muted">
+                replies
+              </small>
             </li>
             <li class="list-inline-item">
-              <div class="count">{{ post.counts.reposts }}</div>
-              <small class="text-muted">reposts</small>
+              <div class="count">
+                {{ post.counts.reposts }}
+              </div>
+              <small class="text-muted">
+                reposts
+              </small>
             </li>
             <li class="list-inline-item">
-              <div class="count">{{ post.counts.bookmarks }}</div>
-              <small class="text-muted">stars</small>
+              <div class="count">
+                {{ post.counts.bookmarks }}
+              </div>
+              <small class="text-muted">
+                stars
+              </small>
             </li>
           </ul>
           <ul class="list-inline ml-3">
@@ -358,21 +397,23 @@
     </div>
     <div
       v-if="!viewOnly && user && !post.is_deleted"
-      class="ml-auto mt-1">
+      class="ml-auto mt-1"
+    >
       <div
         class="btn-group-vertical"
-        role="group">
+        role="group"
+      >
         <action-button
           ref="favorite"
+          v-model="mainPost.you_bookmarked"
           :resource="`/posts/${mainPost.id}/bookmark`"
           :icon="[['far', 'star'], ['fas', 'star']]"
-          v-model="mainPost.you_bookmarked"
         />
         <action-button
           v-if="!me"
           ref="repost"
-          :resource="`/posts/${mainPost.id}/repost`"
           v-model="mainPost.you_reposted"
+          :resource="`/posts/${mainPost.id}/repost`"
           icon="retweet"
         />
       </div>

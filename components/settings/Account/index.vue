@@ -7,11 +7,13 @@
     <form
       action="/proxy/users/me"
       method="post"
-      @submit.prevent="update">
+      @submit.prevent="update"
+    >
       <div class="form-group row">
         <label
           class="col-form-label col-sm-12 col-md-3"
-          for="name">
+          for="name"
+        >
           Name
         </label>
         <div class="col-sm-12 col-md-9">
@@ -20,13 +22,15 @@
             v-model="name"
             type="text"
             name="name"
-            class="form-control">
+            class="form-control"
+          >
         </div>
       </div>
       <div class="form-group row">
         <label
           class="col-form-label col-sm-12 col-md-3"
-          for="description">
+          for="description"
+        >
           Description
         </label>
         <div class="col-sm-12 col-md-9">
@@ -36,13 +40,15 @@
             name="content[text]"
             cols="30"
             rows="7"
-            class="form-control"/>
+            class="form-control"
+          />
         </div>
       </div>
       <div class="form-group row">
         <label
           class="col-form-label col-sm-12 col-md-3"
-          for="timezone">
+          for="timezone"
+        >
           Timezone
         </label>
         <div class="col-sm-12 col-md-9">
@@ -52,7 +58,8 @@
             name="timezone"
             cols="30"
             rows="7"
-            class="form-control">
+            class="form-control"
+          >
             <option
               v-for="t in timezones"
               :key="t"
@@ -67,7 +74,8 @@
       <div class="form-group row">
         <label
           class="col-form-label col-sm-12 col-md-3"
-          for="locale">
+          for="locale"
+        >
           Language
         </label>
         <div class="col-sm-12 col-md-9">
@@ -77,11 +85,13 @@
             name="locale"
             cols="30"
             rows="7"
-            class="form-control">
+            class="form-control"
+          >
             <option
               v-for="l in locales"
               :key="l.value"
-              :value="l.value">
+              :value="l.value"
+            >
               {{ l.label }}
             </option>
           </select>
@@ -93,7 +103,8 @@
             :disabled="promise"
             type="submit"
             class="btn btn-primary"
-            value="save" >
+            value="save"
+          >
         </div>
       </div>
     </form>

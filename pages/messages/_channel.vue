@@ -1,7 +1,8 @@
 <template>
   <div
     :key="$route.fullPath"
-    class="row">
+    class="row"
+  >
     <div class="col-md-4 order-md-2">
       <chat-panel
         v-if="chat"
@@ -11,7 +12,8 @@
       />
       <pm-panel
         v-else
-        :initial-channel.sync="channel" />
+        :initial-channel.sync="channel"
+      />
     </div>
     <div class="col-md-8 order-md-1">
       <message-compose

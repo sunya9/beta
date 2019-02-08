@@ -4,47 +4,51 @@
       <div
         class="btn-group"
         role="group"
-        style="display: none">
+        style="display: none"
+      >
         <label class="btn btn-primary">
           <input
             :class="active"
             type="checkbox"
             class="sr-only"
-            value="reply"> Reply
+            value="reply"
+          >
+          Reply
         </label>
         <label class="btn btn-primary">
           <input
             :class="active"
             type="checkbox"
             class="sr-only"
-            value="repost"> Repost
+            value="repost"
+          >
+          Repost
         </label>
         <label class="btn btn-primary">
           <input
             :class="active"
             type="checkbox"
             class="sr-only"
-            value="bookmark"> Star
+            value="bookmark"
+          >
+          Star
         </label>
         <label class="btn btn-primary">
           <input
             :class="active"
             type="checkbox"
             class="sr-only"
-            value="follow"> Follow
+            value="follow"
+          >
+          Follow
         </label>
       </div>
     </div>
-    <div>
-      <interaction-list
-        :data="data"
-      />
-    </div>
+    <div><interaction-list :data="data" /></div>
   </div>
 </template>
 
 <script>
-import Compose from '~/components/Compose'
 import InteractionList from '~/components/InteractionList'
 
 export default {
@@ -57,8 +61,7 @@ export default {
     return { data }
   },
   components: {
-    InteractionList,
-    Compose
+    InteractionList
   },
   methods: {
     active() {}

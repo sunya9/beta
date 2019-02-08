@@ -1,10 +1,10 @@
 <template>
   <div>
     <post-list
+      :key="`post-${id}`"
       :main="id"
       :data="data"
       :option="option"
-      :key="`post-${id}`"
       :refresh-date="date"
       disable-auto-refresh
       all
@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import Post from '~/components/Post'
-import Compose from '~/components/Compose'
 import PostList from '~/components/PostList'
 import { getImageURLs } from '~/assets/js/util'
 import refreshAfterAdded from '~/assets/js/refresh-after-added'
@@ -44,8 +42,6 @@ export default {
     return /^\w+$/.test(params.name) && /\d+$/.test(params.id)
   },
   components: {
-    Post,
-    Compose,
     PostList
   },
   mixins: [refreshAfterAdded],

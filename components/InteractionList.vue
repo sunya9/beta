@@ -4,10 +4,10 @@
     id-field="pagination_id"
   >
     <interaction
+      :key="item.pagination_id"
       slot-scope="{ item, lastUpdate }"
       :interaction="item"
       :last-update="lastUpdate"
-      :key="item.pagination_id"
     />
   </base-list>
 </template>

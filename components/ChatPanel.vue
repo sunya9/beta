@@ -10,19 +10,28 @@
       >
         <font-awesome-icon
           :icon="['far', 'edit']"
-          class="mr-2" />
-        <span class="d-none d-sm-inline">Edit</span>
+          class="mr-2"
+        />
+        <span class="d-none d-sm-inline">
+          Edit
+        </span>
       </button>
     </template>
-    <p class="text-muted">{{ chat.description }}</p>
+    <p class="text-muted">
+      {{ chat.description }}
+    </p>
     <ul
       v-if="chat.categories"
-      class="list-inline">
+      class="list-inline"
+    >
       <li
         v-for="i in chat.categories"
         :key="i"
-        class="list-inline-item">
-        <span class="badge badge-secondary">{{ upperFirst(i) }}</span>
+        class="list-inline-item"
+      >
+        <span class="badge badge-secondary">
+          {{ upperFirst(i) }}
+        </span>
       </li>
     </ul>
     <p v-if="channel.acl.read.public">
@@ -33,13 +42,15 @@
       >
         <font-awesome-icon
           icon="rss-square"
-          size="lg" />
+          size="lg"
+        />
         RSS
       </a>
     </p>
     <template
       v-if="channel.acl.read.public"
-      slot="memberTitle">
+      slot="memberTitle"
+    >
       <font-awesome-icon icon="globe" />
       Public
       <button
@@ -49,16 +60,20 @@
         @click.stop.prevent="memberEditModal"
       >
         <font-awesome-icon :icon="['far', 'edit']" />
-        <span class="d-none d-sm-inline ml-2">Edit</span>
+        <span class="d-none d-sm-inline ml-2">
+          Edit
+        </span>
       </button>
     </template>
     <template slot="memberList">
       <channel-user-list
-        :user="channel.owner"
-        kind="owner" />
+        :owner="channel.owner"
+        kind="owner"
+      />
       <channel-user-list
         :users="channel.acl.full.user_ids"
-        kind="full" />
+        kind="full"
+      />
       <channel-user-list
         v-if="!channel.acl.write.any_user"
         :users="channel.acl.write.user_ids"

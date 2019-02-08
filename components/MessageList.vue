@@ -6,8 +6,8 @@
     @select="select = $event"
   >
     <message
-      slot-scope="{ item, index, lastUpdate }"
       :key="item.id"
+      slot-scope="{ item, index, lastUpdate }"
       :message.sync="item"
       :last-update="lastUpdate"
       :is-moderator="isModerator"

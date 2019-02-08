@@ -14,7 +14,8 @@
         v-if="vm"
         :message="vm.message"
         :display-full-view="true"
-        view-only />
+        view-only
+      />
     </ul>
   </base-modal>
 </template>

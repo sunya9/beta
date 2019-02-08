@@ -6,7 +6,8 @@
     />
     <a
       :href="'https://api.pnut.io/v0/feed/rss/posts/tags/' + name"
-      class="card-link">
+      class="card-link"
+    >
       <font-awesome-icon
         icon="rss-square"
         aria-hidden="true"
@@ -15,8 +16,8 @@
       <span>RSS</span>
     </a>
     <post-list
-      :data="data"
       :key="name"
+      :data="data"
     />
   </div>
 </template>

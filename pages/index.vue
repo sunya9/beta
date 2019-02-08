@@ -1,18 +1,18 @@
 <template>
   <div>
-    <compose v-if="user" />
-    <splash
+    <compose v-if="user" /> <splash
       v-else
-      class="mb-5" />
+      class="mb-5"
+    />
     <post-list
       ref="list"
       :data="data"
       :refresh-date="date"
       :resource="resource"
-      type="Post" />
+      type="Post"
+    />
   </div>
 </template>
-
 
 <script>
 import Compose from '~/components/Compose'

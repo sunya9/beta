@@ -2,15 +2,19 @@
   <div>
     <h3
       v-show="title"
-      class="mt-1">{{ title }}</h3>
+      class="mt-1"
+    >
+      {{ title }}
+    </h3>
     <div class="my-4">
       <compose />
     </div>
     <post
       v-for="post in stream"
+      :key="post.id"
       :post="post"
-      :key="post.id" />
-    <ul class="list-group my-4"/>
+    />
+    <ul class="list-group my-4" />
   </div>
 </template>
 

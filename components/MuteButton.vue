@@ -2,11 +2,13 @@
   <base-mute-button
     :profile="profile"
     v-bind="$attrs"
-    v-on="$listeners">
+    v-on="$listeners"
+  >
     <a
       slot-scope="{ toggleMute }"
       href="#"
-      @click="toggleMute">
+      @click="toggleMute"
+    >
       <font-awesome-icon
         :class="color"
         icon="eye-slash"

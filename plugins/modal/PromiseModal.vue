@@ -1,7 +1,10 @@
 <template>
-  <div><slot
-    :ok="ok"
-    :cancel="cancel" /></div>
+  <div>
+    <slot
+      :ok="ok"
+      :cancel="cancel"
+    />
+  </div>
 </template>
 <script>
 import mediator from './mediator'

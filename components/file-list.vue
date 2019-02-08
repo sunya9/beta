@@ -2,13 +2,15 @@
   <div
     v-infinite-scroll="fetchMore"
     infinite-scroll-disabled="moreDisabled"
-    infinite-scroll-distance="100">
+    infinite-scroll-distance="100"
+  >
     <div class="d-flex mb-2">
       <button
         :disabled="!isSelected"
         class="ml-auto btn btn-danger"
-        @click="showModal">
-        <font-awesome-icon icon="trash"/>
+        @click="showModal"
+      >
+        <font-awesome-icon icon="trash" />
         Delete
       </button>
     </div>
@@ -17,17 +19,18 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th/>
+            <th />
             <th>name</th>
             <th>created at</th>
-            <th/>
+            <th />
           </tr>
         </thead>
         <tbody>
           <file-row
             v-for="file in modifiedFiles"
+            :key="file.id"
             :file="file"
-            :key="file.id" />
+          />
         </tbody>
       </table>
     </div>
@@ -39,9 +42,7 @@
       title="Are you sure?"
       suppress-warnings
     >
-      <p>
-        It cannot be undone.
-      </p>
+      <p>It cannot be undone.</p>
     </base-modal>
   </div>
 </template>

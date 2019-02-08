@@ -1,7 +1,8 @@
 <template>
   <div
     v-if="profile.content"
-    class="card profile">
+    class="card profile"
+  >
     <img
       v-if="profile.content.cover_image"
       :src="profile.content.cover_image.link"
@@ -31,8 +32,9 @@
               style="display:none"
               rel="me"
               class="u-url"
-            >profile.username</a
             >
+              profile.username
+            </a>
             <thumb
               :original="profile.content.avatar_image.link"
               :width="0"
@@ -57,13 +59,15 @@
             <div class="w-100">
               <h3
                 :title="profile.id"
-                class="card-title mb-1">
+                class="card-title mb-1"
+              >
                 <span
                   class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline"
                 >
                   <span
                     :class="{ 'p-name': !profile.name }"
-                    class="p-nickname">
+                    class="p-nickname"
+                  >
                     @{{ profile.username }}
                   </span>
                   <emojify
@@ -99,9 +103,10 @@
                 <a
                   :href="profile.verified.link"
                   class="u-url"
-                  rel="me">{{
-                    profile.verified.domain
-                  }}</a>
+                  rel="me"
+                >
+                  {{ profile.verified.domain }}
+                </a>
                 <font-awesome-icon
                   :icon="['far', 'check-circle']"
                   class="ml-1 text-success"
@@ -111,7 +116,8 @@
           </div>
           <div
             v-if="user && !me"
-            class="text-center">
+            class="text-center"
+          >
             <follow-button
               id="profile-follow-button"
               :profile.sync="profile"
@@ -119,7 +125,8 @@
             />
             <div
               id="profile-relation"
-              class="text-muted">
+              class="text-muted"
+            >
               <small> {{ relation }} </small>
             </div>
           </div>
@@ -138,28 +145,34 @@
     >
       <span
         class="card-link"
-        append>{{ profile.counts.posts }} Posts</span>
+        append
+      >
+        {{ profile.counts.posts }} Posts
+      </span>
       <nuxt-link
         :tag="user ? 'a' : 'span'"
         class="card-link"
         to="follows"
         append
-      >{{ profile.counts.following }} Follows</nuxt-link
       >
+        {{ profile.counts.following }} Follows
+      </nuxt-link>
       <nuxt-link
         :tag="user ? 'a' : 'span'"
         class="card-link"
         to="followers"
         append
-      >{{ profile.counts.followers }} Followers</nuxt-link
       >
+        {{ profile.counts.followers }} Followers
+      </nuxt-link>
       <nuxt-link
         :tag="user ? 'a' : 'span'"
         class="card-link"
         to="starred"
         append
-      >{{ profile.counts.bookmarks }} Starred</nuxt-link
       >
+        {{ profile.counts.bookmarks }} Starred
+      </nuxt-link>
       <div
         id="profile-dropdown"
         ref="dropdown"
@@ -186,12 +199,15 @@
               data-test-send-message
               @click.prevent.stop="sendMessage"
             >
-              <span v-if="!messagePromise"> Send a Message </span>
+              <span v-if="!messagePromise">
+                Send a Message
+              </span>
               <font-awesome-icon
                 v-else
                 icon="circle-notch"
                 fixed-width
-                spin />
+                spin
+              />
             </a>
             <div class="dropdown-divider" />
           </template>
@@ -199,18 +215,21 @@
             v-if="me"
             to="/polls"
             class="dropdown-item"
-          >Your polls</nuxt-link
           >
+            Your polls
+          </nuxt-link>
           <base-block-button
             v-if="user && !me"
-            :profile.sync="profile">
+            :profile.sync="profile"
+          >
             <a
               slot-scope="{ toggleBlock }"
               class="dropdown-item"
               href="#"
               @click.prevent="toggleBlock"
-            >{{ blockText }}</a
             >
+              {{ blockText }}
+            </a>
           </base-block-button>
           <base-mute-button
             v-if="user && !me && !profile.you_blocked"
@@ -221,8 +240,9 @@
               class="dropdown-item"
               href="#"
               @click.prevent="toggleMute"
-            >{{ muteText }}</a
             >
+              {{ muteText }}
+            </a>
           </base-mute-button>
           <div class="dropdown-divider" />
           <a

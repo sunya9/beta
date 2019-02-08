@@ -10,7 +10,8 @@
   >
     <ul
       class="nav nav-tabs"
-      role="tablist">
+      role="tablist"
+    >
       <li class="nav-item">
         <a
           id="create-private-room-tab-label"

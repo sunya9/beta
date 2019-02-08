@@ -1,14 +1,21 @@
 <template>
   <div class="text-center">
-    <h1 class="display-4">Welcome to Beta!</h1>
-    <p class="lead">Web client for <a href="https://pnut.io">pnut.io</a>.</p>
+    <h1 class="display-4">
+      Welcome to Beta!
+    </h1>
+    <p class="lead">
+      Web client for <a href="https://pnut.io">
+        pnut.io
+      </a>.
+    </p>
     <p>
       <button
         type="button"
         class="btn btn-primary btn-lg"
-        @click="$auth.loginWith('pnut')">
+        @click="$auth.loginWith('pnut')"
+      >
         Login with pnut.io
-        <font-awesome-icon icon="chevron-right"/>
+        <font-awesome-icon icon="chevron-right" />
       </button>
     </p>
   </div>

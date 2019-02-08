@@ -15,14 +15,16 @@
             :data-original-width="originalWidth"
             :data-original-height="originalHeight"
             alt=""
-            class="thumb">
+            class="thumb"
+          >
         </slot>
       </a>
       <a
         v-if="removable"
         class="remove"
-        @click.prevent="remove">
-        <font-awesome-icon icon="times"/>
+        @click.prevent="remove"
+      >
+        <font-awesome-icon icon="times" />
       </a>
     </div>
   </div>

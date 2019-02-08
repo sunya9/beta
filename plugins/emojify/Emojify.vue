@@ -1,16 +1,17 @@
 <template>
   <component
     :is="element"
-    v-bind="$attrs">
-    <template v-for="(text, i) in modifiedText">
-      <template v-if="text.type === 'text'">{{ text.value }}</template>
+    v-bind="$attrs"
+  >
+    <template v-for="(t, i) in modifiedText">
+      <template v-if="t.type === 'text'">
+        {{ t.value }}
+      </template>
       <img
         v-else
         :key="`emoji-${i}`"
-        :src="
-          `https://twemoji.maxcdn.com/2/72x72/${toCodePoint(text.value)}.png`
-        "
-        :alt="text.value"
+        :src="`https://twemoji.maxcdn.com/2/72x72/${toCodePoint(t.value)}.png`"
+        :alt="t.value"
         class="emoji"
       >
     </template>

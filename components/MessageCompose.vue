@@ -4,20 +4,27 @@
       <form @submit.prevent="submit()">
         <div
           v-if="createChannelMode"
-          class="form-group">
-          <div :class="{'d-flex justify-content-between align-items-center': calcPmLookup}">
+          class="form-group"
+        >
+          <div
+            :class="{
+              'd-flex justify-content-between align-items-center': calcPmLookup
+            }"
+          >
             <input
               v-model="channelUsersStr"
               type="text"
               class="form-control"
               placeholder="usernames (comma or space delimited)"
-              @input="resetPmSearch" >
+              @input="resetPmSearch"
+            >
             <button
               v-if="calcPmLookup && !targetUser"
               :disabled="pmLookupStatus"
               type="button"
               class="ml-3 btn text-uppercase btn-primary"
-              @click="findExistingPm">
+              @click="findExistingPm"
+            >
               <span v-show="promise">
                 <font-awesome-icon
                   class="mr-2"
@@ -41,15 +48,18 @@
             :disabled="promise"
             class="form-control"
             @keydown.ctrl.enter="submit()"
-            @keydown.meta.enter="submit()"/>
+            @keydown.meta.enter="submit()"
+          />
         </div>
         <div
           v-show="photos.length"
-          class="form-group">
+          class="form-group"
+        >
           <transition-group
             tag="div"
             name="photos"
-            class="d-flex flex-wrap justify-content align-items-center">
+            class="d-flex flex-wrap justify-content align-items-center"
+          >
             <thumb
               v-for="(photo, i) in previewPhotos"
               :key="photo.data"
@@ -57,26 +67,33 @@
               :thumb="photo.data"
               removable
               class="mr-2"
-              @remove="photos.splice(i, 1)" />
+              @remove="photos.splice(i, 1)"
+            />
           </transition-group>
         </div>
         <div class="d-flex justify-content-between align-items-center">
-          <span data-test-id="message-counter">{{ remain }}</span>
+          <span data-test-id="message-counter">
+            {{ remain }}
+          </span>
           <div>
             <label
               v-show="!noPhoto"
               v-if="storage.available"
               :disabled="promise"
-              class="btn btn-link text-dark add-photo mr-3">
-              <font-awesome-icon :icon="['far', 'image']"/>
-              <span class="d-none d-sm-inline ml-2">Photo</span>
+              class="btn btn-link text-dark add-photo mr-3"
+            >
+              <font-awesome-icon :icon="['far', 'image']" />
+              <span class="d-none d-sm-inline ml-2">
+                Photo
+              </span>
               <input
                 ref="file"
                 type="file"
                 multiple
                 accept="image/*"
                 style="display: none"
-                @change="fileChange">
+                @change="fileChange"
+              >
             </label>
             <button
               :class="{
@@ -85,17 +102,19 @@
               }"
               class="btn btn-link add-spoiler mr-3"
               type="button"
-              @click="toggleSpoiler">
-              <font-awesome-icon
-                :icon="['far', 'bell']
-                "/>
-              <span class="d-none d-sm-inline ml-2">Spoiler</span>
+              @click="toggleSpoiler"
+            >
+              <font-awesome-icon :icon="['far', 'bell']" />
+              <span class="d-none d-sm-inline ml-2">
+                Spoiler
+              </span>
             </button>
             <span :class="{ 'btn-group': canBroadcast }">
               <button
                 :disabled="calcDisabled"
                 type="submit"
-                class="ml-1 btn text-uppercase btn-primary">
+                class="ml-1 btn text-uppercase btn-primary"
+              >
                 <span v-show="promise && !calcPmLookup">
                   <font-awesome-icon
                     icon="sync"
@@ -104,9 +123,7 @@
                     class="mr-2"
                   />
                 </span>
-                <span>
-                  Send
-                </span>
+                <span> Send </span>
               </button>
               <button
                 v-if="canBroadcast"
@@ -118,7 +135,9 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                <span class="sr-only">Toggle Dropdown</span>
+                <span class="sr-only">
+                  Toggle Dropdown
+                </span>
               </button>
               <div class="dropdown-menu dropdown-menu-right">
                 <a
@@ -136,7 +155,8 @@
         <input-spoiler
           v-if="spoiler"
           class="mt-3"
-          @update:spoiler="p => spoiler = p" />
+          @update:spoiler="p => (spoiler = p)"
+        />
       </form>
     </div>
   </div>

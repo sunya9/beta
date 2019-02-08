@@ -6,9 +6,9 @@
     list-element="nuxt-link"
   >
     <channel
-      slot-scope="{ item, index }"
-      :channel="item"
       :key="item.id"
+      slot-scope="{ item }"
+      :channel="item"
       element="nuxt-link"
     />
   </base-list>

@@ -16,7 +16,8 @@
       <font-awesome-icon
         :icon="computedIcon"
         size="lg"
-        fixed-width />
+        fixed-width
+      />
     </label>
   </div>
 </template>

@@ -1,10 +1,12 @@
 <template>
   <div
     v-if="user"
-    :class="{ 'mb-4 compose': !compact }">
+    :class="{ 'mb-4 compose': !compact }"
+  >
     <div
       :class="{ 'border-0': compact }"
-      class="card">
+      class="card"
+    >
       <form
         :class="{ 'p-0': compact }"
         class="card-body"
@@ -27,13 +29,14 @@
           >
             <font-awesome-icon
               :icon="['far', 'smile']"
-              size="lg" />
+              size="lg"
+            />
           </a>
           <no-ssr>
             <picker
-              v-on-click-outside="closeEmojiPalette"
               v-show="showEmojiPicker"
               ref="picker"
+              v-on-click-outside="closeEmojiPalette"
               :background-image-fn="getSheet"
               set="twitter"
               class="emoji-picker"
@@ -43,7 +46,8 @@
         </div>
         <div
           v-show="photos.length"
-          class="form-group">
+          class="form-group"
+        >
           <transition-group
             tag="div"
             name="photos"
@@ -63,9 +67,10 @@
         <div class="d-flex justify-content-between align-items-center">
           <strong
             class="text-muted"
-            data-test-id="post-counter">{{
-              postCounter
-            }}</strong>
+            data-test-id="post-counter"
+          >
+            {{ postCounter }}
+          </strong>
           <div>
             <label
               v-show="!noPhoto"
@@ -74,7 +79,9 @@
               class="btn btn-link text-dark add-photo mr-2"
             >
               <font-awesome-icon :icon="['far', 'image']" />
-              <span class="d-none d-lg-inline ml-2">Photo</span>
+              <span class="d-none d-lg-inline ml-2">
+                Photo
+              </span>
               <input
                 ref="file"
                 type="file"
@@ -94,7 +101,9 @@
               @click="togglePoll"
             >
               <font-awesome-icon icon="chart-bar" />
-              <span class="d-none d-lg-inline ml-2">Poll</span>
+              <span class="d-none d-lg-inline ml-2">
+                Poll
+              </span>
             </button>
             <button
               :class="{
@@ -106,7 +115,9 @@
               @click="toggleSpoiler"
             >
               <font-awesome-icon :icon="['far', 'bell']" />
-              <span class="d-none d-lg-inline ml-2">Spoiler</span>
+              <span class="d-none d-lg-inline ml-2">
+                Spoiler
+              </span>
             </button>
             <button
               :class="{
@@ -118,7 +129,9 @@
               @click="toggleLongpost"
             >
               <font-awesome-icon icon="plus" />
-              <span class="d-none d-lg-inline ml-2">Long</span>
+              <span class="d-none d-lg-inline ml-2">
+                Long
+              </span>
             </button>
             <button
               :class="{
@@ -130,7 +143,9 @@
               @click="toggleNsfw"
             >
               <font-awesome-icon icon="exclamation-circle" />
-              <span class="d-none d-lg-inline ml-2">NSFW</span>
+              <span class="d-none d-lg-inline ml-2">
+                NSFW
+              </span>
             </button>
             <button
               :disabled="disabled"
@@ -142,16 +157,18 @@
                   icon="sync"
                   spin
                   fixed-width
-                  class="mr-2" />
+                  class="mr-2"
+                />
               </span>
-              <span> Post </span>
+              <span>Post</span>
             </button>
           </div>
         </div>
         <input-poll
           v-if="poll"
           class="mt-3"
-          @update:poll="p => (poll = p)" />
+          @update:poll="p => (poll = p)"
+        />
         <input-spoiler
           v-if="spoiler"
           class="mt-3"
@@ -168,7 +185,6 @@
 </template>
 
 <script>
-import Post from '~/components/Post'
 import bus from '~/assets/js/bus'
 import { mapGetters } from 'vuex'
 import Thumb from '~/components/Thumb'
@@ -184,7 +200,6 @@ import { createVideoEmbedRaw } from '~/assets/js/oembed'
 export default {
   name: 'Composer',
   components: {
-    Post,
     Thumb,
     Picker,
     InputPoll,

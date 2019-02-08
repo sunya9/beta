@@ -8,7 +8,8 @@
     />
     <div
       class="media-body"
-      style="overflow: hidden">
+      style="overflow: hidden"
+    >
       <h5>
         <font-awesome-icon
           v-show="channel.you_muted"
@@ -39,7 +40,8 @@
       </h5>
       <p
         v-if="channel.recent_message"
-        class="mb-0 text-truncate">
+        class="mb-0 text-truncate"
+      >
         <span v-if="!channel.recent_message.is_deleted && spoiler && !me">
           <emojify :text="spoiler.topic" />
         </span>
@@ -49,7 +51,10 @@
         </span>
         <span
           v-else
-          class="text-muted">[Message deleted]</span>
+          class="text-muted"
+        >
+          [Message deleted]
+        </span>
       </p>
     </div>
     <span

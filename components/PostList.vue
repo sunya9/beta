@@ -17,8 +17,8 @@
     @select="select = $event"
   >
     <post
-      slot-scope="{ item, index, lastUpdate, selected }"
       :key="item.id"
+      slot-scope="{ item, index, lastUpdate, selected }"
       :selected="selected"
       :post="item"
       :last-update="lastUpdate"

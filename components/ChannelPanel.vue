@@ -6,7 +6,8 @@
         <slot />
         <div
           v-if="user"
-          class="form-group">
+          class="form-group"
+        >
           <custom-checkbox
             v-model="channel.you_subscribed"
             :resource="`/channels/${channel.id}/subscribe`"
@@ -31,7 +32,11 @@
         </div>
       </div>
       <div class="col-sm col-md-12">
-        <h2 class="h3"><slot name="memberTitle"> Members </slot></h2>
+        <h2 class="h3">
+          <slot name="memberTitle">
+            Members
+          </slot>
+        </h2>
         <slot name="memberList" />
       </div>
     </div>

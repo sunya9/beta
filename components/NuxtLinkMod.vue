@@ -4,7 +4,7 @@
     v-bind="$attrs"
     :to="href"
   >
-    <slot/>
+    <slot />
   </nuxt-link>
   <a
     v-else

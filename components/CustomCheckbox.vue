@@ -6,10 +6,12 @@
       :checked="checked"
       type="checkbox"
       class="custom-control-input"
-      @change="change($event.target.checked)">
+      @change="change($event.target.checked)"
+    >
     <label
       :for="id"
-      class="custom-control-label">
+      class="custom-control-label"
+    >
       <slot />
     </label>
     <font-awesome-icon

@@ -5,13 +5,17 @@
         <strong>{{ title }}</strong>
         <audio
           :src="url"
-          controls>Your browser does not support the <code>audio</code> element.</audio>
+          controls
+        >
+          Your browser does not support the <code>audio</code> element.
+        </audio>
       </slot>
       <a
         v-if="removable"
         class="remove"
-        @click.prevent="remove">
-        <font-awesome-icon icon="times"/>
+        @click.prevent="remove"
+      >
+        <font-awesome-icon icon="times" />
       </a>
     </div>
   </div>

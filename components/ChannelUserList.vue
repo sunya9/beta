@@ -1,11 +1,14 @@
 <template>
   <div v-if="normalizedUsers.length">
-    <h5 v-if="!noHeading">{{ heading }}</h5>
+    <h5 v-if="!noHeading">
+      {{ heading }}
+    </h5>
     <ul class="list-unstyled">
       <li
         v-for="user in normalizedUsers"
         :key="user.id"
-        class="mb-2">
+        class="mb-2"
+      >
         <nuxt-link
           :to="`/@${user.username}`"
           :class="{ 'disabled-link': !user.id }"
@@ -21,7 +24,8 @@
             @{{ user.username }}
             <emojify
               :text="user.name"
-              class="ml-1 text-muted" />
+              class="ml-1 text-muted"
+            />
           </div>
         </nuxt-link>
       </li>
@@ -46,7 +50,7 @@ export default {
       type: Array,
       default: () => []
     },
-    user: {
+    owner: {
       type: Object,
       default: null
     },
@@ -65,7 +69,7 @@ export default {
       return headingMap[this.kind]
     },
     normalizedUsers() {
-      if (!this.user) return this.users
+      if (!this.owner) return this.users
       const res = [...this.users]
       const {
         name,
@@ -74,7 +78,7 @@ export default {
         content: {
           avatar_image: { link: avatar_image }
         }
-      } = this.user
+      } = this.owner
       res.unshift({
         name,
         id,
