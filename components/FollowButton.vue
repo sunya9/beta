@@ -4,14 +4,16 @@
     :class="btnClass"
     :disabled="busy"
     class="btn"
-    @click="follow">
+    @click="follow"
+  >
     {{ text }}
   </button>
   <button
     v-else
     :disabled="busy"
     class="btn btn-danger"
-    @click="unblock">
+    @click="unblock"
+  >
     Unblock
   </button>
 </template>

@@ -1,17 +1,20 @@
 <template>
   <form
     class="form-inline search-form d-inline-flex align-items-center"
-    @submit.prevent="search">
+    @submit.prevent="search"
+  >
     <input
       v-model="text"
       type="search"
       class="form-control"
-      placeholder="keyword search">
+      placeholder="keyword search"
+    >
     <button
       :disabled="!text"
       type="submit"
-      class="btn btn-link text-dark">
-      <font-awesome-icon icon="search"/>
+      class="btn btn-link text-dark"
+    >
+      <font-awesome-icon icon="search" />
     </button>
   </form>
 </template>

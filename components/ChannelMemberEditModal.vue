@@ -12,12 +12,14 @@
   >
     <div
       v-if="acl"
-      class="form-group">
+      class="form-group"
+    >
       <div class="form-group">
         <h5>Access</h5>
         <custom-checkbox
           v-model="anyUserWrite"
-          :disabled="acl.write.immutable">
+          :disabled="acl.write.immutable"
+        >
           Any user can write
         </custom-checkbox>
         <custom-checkbox
@@ -28,7 +30,8 @@
         </custom-checkbox>
         <custom-checkbox
           v-model="publicRead"
-          :disabled="acl.read.immutable">
+          :disabled="acl.read.immutable"
+        >
           Publicly readable
         </custom-checkbox>
       </div>
@@ -39,11 +42,12 @@
             <div class="form-group">
               <div
                 v-if="!anyUserWrite || isOwner"
-                class="input-group">
+                class="input-group"
+              >
                 <input
                   ref="addUserForm"
-                  :disabled="disabledAdd"
                   v-model="newUser.username"
+                  :disabled="disabledAdd"
                   type="text"
                   placeholder="Username"
                   class="form-control"
@@ -66,7 +70,8 @@
                   >
                     <font-awesome-icon
                       icon="plus"
-                      class="mr-1" />
+                      class="mr-1"
+                    />
                     <span>Add</span>
                   </button>
                 </div>
@@ -75,7 +80,8 @@
             <ul class="list-unstyled">
               <li
                 v-for="(user, index) in users"
-                :key="user.username">
+                :key="user.username"
+              >
                 <div class="form-group">
                   <div class="input-group">
                     <div class="input-group-prepend">

@@ -1,18 +1,24 @@
 <template>
   <div>
-    <h1 class="h3">{{ title }}</h1>
+    <h1 class="h3">
+      {{ title }}
+    </h1>
     <div v-if="!posted">
       <compose
         :initial-text="message"
         :focus="true"
         no-photo
-        @post="finishPosting" />
+        @post="finishPosting"
+      />
     </div>
     <div v-else>
       <button
         class="btn btn-primary my-2"
         autofocus
-        @click="close">Close</button>
+        @click="close"
+      >
+        Close
+      </button>
     </div>
   </div>
 </template>

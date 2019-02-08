@@ -5,7 +5,8 @@
         :avatar="user.content.avatar_image"
         :max-size="64"
         :size="64"
-        class="d-flex mr-3" />
+        class="d-flex mr-3"
+      />
     </nuxt-link>
     <div class="media-body">
       <div class="d-flex justify-content-between align-items-center mb-2">
@@ -21,17 +22,21 @@
             v-if="!myself"
             data-test-id="relation"
             class="ml-1 badge badge-secondary text-uppercase"
-          >{{ relation }}</span>
+          >
+            {{ relation }}
+          </span>
         </h6>
         <div>
           <follow-button
             v-if="!disableFollowButton && !myself"
             :profile.sync="internalUser"
-            data-test-id="follow-button" />
+            data-test-id="follow-button"
+          />
           <mute-button
             v-if="showUnmuteButton"
             :profile.sync="internalUser"
-            class="h5 mb-0" />
+            class="h5 mb-0"
+          />
         </div>
       </div>
       <p v-if="user.content">

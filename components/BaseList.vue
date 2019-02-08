@@ -1,13 +1,14 @@
 <template>
   <ul
+    v-if="items.length"
     v-on-click-outside="updateActiveElement"
     v-infinite-scroll="fetchMore"
-    v-if="items.length"
     :class="listClass"
     infinite-scroll-disabled="moreDisabled"
     infinite-scroll-distance="100"
   >
     <component
+      :is="listElement"
       v-for="(item, index) in items"
       :key="item[idField]"
       :class="
@@ -15,7 +16,6 @@
           ? listItemClass(item)
           : listItemClass
       "
-      :is="listElement"
       v-bind="listItemProps(item)"
       class="item"
       tabindex="-1"
@@ -37,14 +37,20 @@
           spin
           fixed-width
           size="2x"
-          icon="sync" />
+          icon="sync"
+        />
       </div>
     </li>
   </ul>
   <div
     v-else
-    class="text-center my-3">
-    <slot name="empty"> <div class="list-group-item py-4">No Items</div> </slot>
+    class="text-center my-3"
+  >
+    <slot name="empty">
+      <div class="list-group-item py-4">
+        No Items
+      </div>
+    </slot>
   </div>
 </template>
 <script>

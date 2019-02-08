@@ -1,33 +1,45 @@
 <template>
   <div class="row">
     <div class="col-md-8">
-      <h2 class="h4">Create a {{ isPrivate ? 'private message' : 'chat room' }}</h2>
+      <h2 class="h4">
+        Create a {{ isPrivate ? 'private message' : 'chat room' }}
+      </h2>
       <div>
         <message-compose
           v-if="isPrivate"
-          create-channel-mode />
+          create-channel-mode
+        />
         <channel-compose v-else />
       </div>
-      <h2 class="h4">{{ isPrivate ? 'Messages' : 'Chat rooms' }}</h2>
+      <h2 class="h4">
+        {{ isPrivate ? 'Messages' : 'Chat rooms' }}
+      </h2>
       <ul
         v-if="isPublic"
-        class="nav nav-pills my-3">
+        class="nav nav-pills my-3"
+      >
         <li class="nav-item">
           <nuxt-link
             class="nav-link"
             to="/messages?public"
-            exact>Subscribed</nuxt-link>
+            exact
+          >
+            Subscribed
+          </nuxt-link>
         </li>
         <li class="nav-item">
           <nuxt-link
             class="nav-link"
-            to="/messages?public&amp;all">All</nuxt-link>
+            to="/messages?public&amp;all"
+          >
+            All
+          </nuxt-link>
         </li>
       </ul>
       <channel-list
         ref="list"
-        :data="data"
         :key="JSON.stringify({ resource, option })"
+        :data="data"
         :option="option"
         :resource="resource"
         :refresh-date="date"
@@ -81,8 +93,8 @@ export default {
     const { option, resource } = isPrivate
       ? privateMessages
       : all
-        ? allChatRoom
-        : subscribedChatRoom
+      ? allChatRoom
+      : subscribedChatRoom
 
     const data = await $resource(resource, option)
     return { data, option, isPrivate, resource }

@@ -42,13 +42,15 @@
         <select
           v-model="chat.categories"
           class="form-control"
-          multiple>
+          multiple
+        >
           <template>
             <option
               v-for="category in $options.categories"
-              :key="category">{{
-                category
-              }}</option>
+              :key="category"
+            >
+              {{ category }}
+            </option>
           </template>
         </select>
       </div>

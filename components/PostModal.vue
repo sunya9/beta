@@ -12,7 +12,8 @@
         v-if="reply && !edit"
         :post="reply"
         class="my-3"
-        view-only />
+        view-only
+      />
       <compose
         ref="compose"
         :reply-target="reply"

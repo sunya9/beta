@@ -10,7 +10,8 @@
     <post
       v-if="post"
       :post="post"
-      view-only />
+      view-only
+    />
   </base-modal>
 </template>
 

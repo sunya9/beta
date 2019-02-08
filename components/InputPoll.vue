@@ -21,18 +21,22 @@
       <div
         v-for="(choice, index) in poll.options"
         :key="index"
-        class="form-group">
+        class="form-group"
+      >
         <div class="input-group">
           <div class="input-group-append">
             <button
               type="button"
-              class="btn handle">
-              <font-awesome-icon icon="bars"/>
+              class="btn handle"
+            >
+              <font-awesome-icon icon="bars" />
             </button>
           </div>
           <input
-            :placeholder="`Choice ${index + 1} ${index > 1 ? '(Optional)' : ''}`"
             v-model="choice.text"
+            :placeholder="
+              `Choice ${index + 1} ${index > 1 ? '(Optional)' : ''}`
+            "
             type="text"
             class="form-control"
             pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,64}"
@@ -43,8 +47,9 @@
               :class="{ invisible: index < 2 }"
               type="button"
               class="btn btn-link"
-              @click="removeChoice(index)">
-              <font-awesome-icon icon="times"/>
+              @click="removeChoice(index)"
+            >
+              <font-awesome-icon icon="times" />
             </button>
           </div>
         </div>
@@ -67,54 +72,83 @@
 
     <div class="input-group d-inline-sm duration">
       <div class="input-group-prepend">
-        <span class="input-group-text">Duration:</span>
+        <span class="input-group-text">
+          Duration:
+        </span>
       </div>
 
       <select
         v-model.number="dateForm.days"
-        class="form-control">
+        class="form-control"
+      >
         <option
           v-for="n in days.max - days.offset + 1"
-          :key="n">{{ n + days.offset - 1 }}</option>
+          :key="n"
+        >
+          {{ n + days.offset - 1 }}
+        </option>
       </select>
       <div class="input-group-append input-group-prepend">
         <span class="input-group-text">
           <span
             class="d-md-none"
-            title="days">d</span>
-          <span class="d-none d-sm-inline">Days</span>
+            title="days"
+          >
+            d
+          </span>
+          <span class="d-none d-sm-inline">
+            Days
+          </span>
         </span>
       </div>
 
       <select
         v-model.number="dateForm.hours"
-        class="form-control">
+        class="form-control"
+      >
         <option
           v-for="n in hours.max - hours.offset"
-          :key="n">{{ n + hours.offset - 1 }}</option>
+          :key="n"
+        >
+          {{ n + hours.offset - 1 }}
+        </option>
       </select>
       <div class="input-group-append input-group-prepend">
         <span class="input-group-text">
           <span
             class="d-md-none"
-            title="hours">h</span>
-          <span class="d-none d-sm-inline">Hours</span>
+            title="hours"
+          >
+            h
+          </span>
+          <span class="d-none d-sm-inline">
+            Hours
+          </span>
         </span>
       </div>
 
       <select
         v-model.number="dateForm.min"
-        class="form-control">
+        class="form-control"
+      >
         <option
           v-for="n in min.max - min.offset"
-          :key="n">{{ n + min.offset - 1 }}</option>
+          :key="n"
+        >
+          {{ n + min.offset - 1 }}
+        </option>
       </select>
       <div class="input-group-append">
         <span class="input-group-text">
           <span
             class="d-md-none"
-            title="min">m</span>
-          <span class="d-none d-sm-inline">Min</span>
+            title="min"
+          >
+            m
+          </span>
+          <span class="d-none d-sm-inline">
+            Min
+          </span>
         </span>
       </div>
     </div>

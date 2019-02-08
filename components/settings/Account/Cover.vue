@@ -12,7 +12,8 @@
           :width="internalCover.width"
           :height="internalCover.height"
           alt="cover image"
-          class="img-thumbnail">
+          class="img-thumbnail"
+        >
       </div>
       <div class="form-group">
         <input
@@ -20,12 +21,14 @@
           type="file"
           accept="image/*"
           style="display: none"
-          @change="coverChanged">
+          @change="coverChanged"
+        >
         <button
           :disabled="promise"
           type="button"
           class="btn btn-outline-secondary"
-          @click="changeCover">
+          @click="changeCover"
+        >
           Change cover
         </button>
       </div>

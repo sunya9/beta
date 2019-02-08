@@ -1,19 +1,24 @@
 <template>
   <transition
     name="fade"
-    mode="out-in">
+    mode="out-in"
+  >
     <div
       v-if="!show"
-      key="censored">
+      key="censored"
+    >
       <div class="card my-2 mr-3 border-danger text-danger">
         <div class="card-body">
           <div class="media">
             <div class="media-body align-self-center">
-              <p class="mb-0">This post includes NSFW.</p>
+              <p class="mb-0">
+                This post includes NSFW.
+              </p>
             </div>
             <button
               class="btn btn-outline-primary"
-              @click="toggle">
+              @click="toggle"
+            >
               Show
             </button>
           </div>
@@ -22,7 +27,10 @@
     </div>
     <div
       v-else
-      key="content"><slot /></div>
+      key="content"
+    >
+      <slot />
+    </div>
   </transition>
 </template>
 <script>

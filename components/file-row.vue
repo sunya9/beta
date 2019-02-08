@@ -1,31 +1,35 @@
 <template>
   <tr
     :class="{ 'table-active': file.select }"
-    @click="toggleSelect">
-    <td class="text-center"><input
-      v-model="file.select"
-      type="checkbox"
-      @click.stop></td>
+    @click="toggleSelect"
+  >
+    <td class="text-center">
+      <input
+        v-model="file.select"
+        type="checkbox"
+        @click.stop
+      >
+    </td>
     <td>
       <div class="d-flex">
         <a
           :href="file.link"
           target="_new"
           class=""
-          @click.stop>
+          @click.stop
+        >
           {{ file.name }}
         </a>
       </div>
     </td>
-    <td>
-      {{ date }}
-    </td>
+    <td>{{ date }}</td>
     <td>
       <span class="thumb ml-auto">
         <img
           v-if="file.image_info"
           :src="file.link"
-          height="24">
+          height="24"
+        >
       </span>
     </td>
   </tr>

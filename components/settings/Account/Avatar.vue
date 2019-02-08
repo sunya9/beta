@@ -11,7 +11,8 @@
           :src="internalAvatar.link"
           width="128"
           height="128"
-          alt="avatar image">
+          alt="avatar image"
+        >
       </div>
       <div class="form-group">
         <input
@@ -19,12 +20,14 @@
           type="file"
           accept="image/*"
           style="display: none"
-          @change="avatarChanged">
+          @change="avatarChanged"
+        >
         <button
           :disabled="promise"
           type="button"
           class="btn btn-outline-secondary"
-          @click="changeAvatar">
+          @click="changeAvatar"
+        >
           Change avatar
         </button>
       </div>

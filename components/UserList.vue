@@ -1,7 +1,7 @@
 <template>
   <base-list v-bind="$attrs">
     <user
-      slot-scope="{ item, index }"
+      slot-scope="{ item }"
       :user="item"
       v-bind="componentOptions"
     />

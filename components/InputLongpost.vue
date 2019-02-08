@@ -19,7 +19,8 @@
           v-model="longpost.body"
           class="form-control"
           placeholder="Body (~6000 characters)"
-          maxlength="6144"/>
+          maxlength="6144"
+        />
       </div>
     </div>
   </div>

@@ -1,7 +1,5 @@
 <template>
-  <channel-panel
-    :channel.sync="channel"
-  >
+  <channel-panel :channel.sync="channel">
     <emojify
       slot="title"
       :text="$metaInfo.title"
@@ -9,7 +7,7 @@
     <template slot="memberList">
       <channel-user-list
         v-if="!channel.acl.write.any_user"
-        :user="channel.owner"
+        :owner="channel.owner"
         :users="channel.acl.write.user_ids"
         kind="write"
         no-heading

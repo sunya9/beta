@@ -2,7 +2,8 @@
   <div>
     <custom-checkbox
       v-model="directed"
-      :disabled="true">
+      :disabled="true"
+    >
       Hide posts directed at people you do not follow
     </custom-checkbox>
     <!--<custom-checkbox v-model="unified" :disabled="true">

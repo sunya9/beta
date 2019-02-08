@@ -11,20 +11,24 @@
           v-if="!finished"
           :class="{ disabled: !votable }"
           class="btn btn-outline-primary btn-block"
-          @click="respond(option.position)">
+          @click="respond(option.position)"
+        >
           {{ option.text }}
         </a>
         <div v-else>
           <div
             class="progress position-relative"
             style="height: 2rem"
-            @click="toggleDisplay">
+            @click="toggleDisplay"
+          >
             <div
               :style="getStyle(option)"
-              class="progress-bar">
+              class="progress-bar"
+            >
               <div
                 class="position-absolute w-100"
-                style="right: 0; left: 0;">
+                style="right: 0; left: 0;"
+              >
                 <div class="mx-3 d-flex justify-content-between">
                   <span>{{ option.text }}</span>
                   <span>
@@ -54,7 +58,8 @@
       <ul class="list-inline">
         <li
           v-if="finished"
-          class="list-inline-item text-muted">
+          class="list-inline-item text-muted"
+        >
           Total: {{ total }}
         </li>
         <li class="list-inline-item text-muted">
@@ -66,7 +71,12 @@
               :icon="['far', 'clock']"
               class="mr-2"
             />
-            <span v-if="closed">Closed at</span><span v-else>~</span> {{ until }}
+            <span v-if="closed">
+              Closed at
+            </span><span v-else>
+              ~
+            </span>
+            {{ until }}
           </nuxt-link>
         </li>
       </ul>

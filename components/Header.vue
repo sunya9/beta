@@ -3,7 +3,8 @@
     <nav class="navbar navbar-light navbar fixed-top px-0">
       <div
         class="container"
-        @click.self="scrollToTop">
+        @click.self="scrollToTop"
+      >
         <button
           class="navbar-toggler mr-2 d-md-none align-items-stretch"
           type="button"
@@ -11,19 +12,22 @@
           data-target="#globalNavigation"
           aria-controls="globalNavigation"
           aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"/>
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon" />
         </button>
         <nuxt-link
           class="p-0 navbar-brand text-uppercase d-inline-flex align-items-center"
           to="/"
-          exact>
+          exact
+        >
           <img
             src="~assets/img/beta.svg"
             width="32"
             height="32"
             alt="β"
-            class="align-center mr-2 d-inline-block">
+            class="align-center mr-2 d-inline-block"
+          >
           <span class="d-none d-sm-inline header-title">
             Beta
           </span>
@@ -33,12 +37,16 @@
             v-if="!online"
             href="#"
             class="badge badge-secondary"
-            @click="showConnection">offline</a>
+            @click="showConnection"
+          >
+            offline
+          </a>
         </span>
         <search-form
           v-if="user"
           id="search-form"
-          class="mr-md-4 order-4 order-md-1" />
+          class="mr-md-4 order-4 order-md-1"
+        />
         <ul class="order-2 navbar-nav d-flex flex-row align-items-stretch">
           <nuxt-link
             v-if="user"
@@ -46,9 +54,10 @@
             to="/messages"
             tag="li"
             class="nav-item d-none d-sm-block"
-            title="Messages">
+            title="Messages"
+          >
             <a class="nav-link">
-              <font-awesome-icon icon="envelope"/>
+              <font-awesome-icon icon="envelope" />
             </a>
           </nuxt-link>
           <nuxt-link
@@ -69,21 +78,30 @@
           <li
             v-if="user"
             id="user-menu"
-            class="nav-item dropdown">
+            class="nav-item dropdown"
+          >
             <a
               id="navbarDropdownMenuLink"
               href="#"
               class="nav-link text-primary"
               data-toggle="dropdown"
               aria-haspopup="true"
-              aria-expanded="false">
+              aria-expanded="false"
+            >
               <span>
-                <span class="d-none d-sm-inline">{{ user.username }}</span>
+                <span class="d-none d-sm-inline">
+                  {{ user.username }}
+                </span>
                 <span class="d-inline d-sm-none">
                   <avatar
-                    :avatar="{ link: `https://api.pnut.io/v0/users/@${user.username}/avatar` }"
+                    :avatar="{
+                      link: `https://api.pnut.io/v0/users/@${
+                        user.username
+                      }/avatar`
+                    }"
                     :size="16"
-                    :max-size="16" />
+                    :max-size="16"
+                  />
                 </span>
               </span>
               <font-awesome-icon
@@ -93,16 +111,21 @@
             </a>
             <div
               class="dropdown-menu dropdown-menu-right"
-              aria-labelledby="navbarDropdownMenuLink">
+              aria-labelledby="navbarDropdownMenuLink"
+            >
               <nuxt-link
                 :to="`/@${user.username}`"
                 class="dropdown-item"
                 active-class=""
               >
-                <span class="d-none d-sm-inline">Profile</span>
-                <span class="d-inline d-sm-none">@{{ user.username }}</span>
+                <span class="d-none d-sm-inline">
+                  Profile
+                </span>
+                <span class="d-inline d-sm-none">
+                  @{{ user.username }}
+                </span>
               </nuxt-link>
-              <div class="dropdown-divider d-sm-none"/>
+              <div class="dropdown-divider d-sm-none" />
               <nuxt-link
                 to="/messages"
                 class="dropdown-item d-sm-none"
@@ -115,7 +138,7 @@
               >
                 Files
               </nuxt-link>
-              <div class="dropdown-divider"/>
+              <div class="dropdown-divider" />
               <nuxt-link
                 to="/settings"
                 class="dropdown-item"
@@ -123,32 +146,40 @@
               >
                 Settings
               </nuxt-link>
-              <div class="dropdown-divider"/>
+              <div class="dropdown-divider" />
               <a
                 href="#"
                 class="dropdown-item"
-                @click="$auth.logout()">Log out</a>
+                @click="$auth.logout()"
+              >
+                Log out
+              </a>
             </div>
           </li>
           <li
             v-if="user"
             id="nav-compose"
-            class="nav-item d-sm-block">
+            class="nav-item d-sm-block"
+          >
             <a
               href="#"
               class="nav-link"
               @click.prevent="$modal.show('post-modal')"
             >
-              <font-awesome-icon icon="pencil-alt"/>
+              <font-awesome-icon icon="pencil-alt" />
             </a>
           </li>
           <li
             v-if="!user"
-            class="nav-item">
+            class="nav-item"
+          >
             <a
               href="#"
               class="nav-link"
-              @click="$auth.loginWith('pnut')">Log in</a>
+              @click="$auth.loginWith('pnut')"
+            >
+              Log in
+            </a>
           </li>
         </ul>
       </div>

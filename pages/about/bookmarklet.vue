@@ -1,10 +1,15 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h1 class="h3 card-title">Share a link on pnut.io</h1>
+      <h1 class="h3 card-title">
+        Share a link on pnut.io
+      </h1>
       <a
         :href="shareScript"
-        class="btn btn-primary">Share on pnut.io</a>
+        class="btn btn-primary"
+      >
+        Share on pnut.io
+      </a>
     </div>
   </div>
 </template>

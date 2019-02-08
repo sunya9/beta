@@ -4,19 +4,21 @@
       <profile
         v-if="profile"
         :initial-profile.sync="profile"
-        class="mb-4" />
+        class="mb-4"
+      />
     </div>
     <div>
       <compose
+        :key="`${name}-compose`"
         :initial-text="initialText"
-        :key="`${name}-compose`" />
+      />
     </div>
     <div>
       <post-list
         v-if="!blocked"
         ref="list"
-        :data="data"
         :key="`${name}-posts`"
+        :data="data"
         :option="option"
         :refresh-date="date"
       />

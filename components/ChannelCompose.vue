@@ -43,7 +43,9 @@
                   'event'
                 ]"
               >
-                <option :key="i">{{ i }}</option>
+                <option :key="i">
+                  {{ i }}
+                </option>
               </template>
             </select>
           </div>

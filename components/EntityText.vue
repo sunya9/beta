@@ -4,32 +4,36 @@
       <template v-for="(entity, i) in entities">
         <nuxt-link
           v-if="entity.type === 'mentions'"
-          :to="`/@${entity.text}`"
           :key="`mention-${i}`"
-        >@{{ entity.text }}</nuxt-link
+          :to="`/@${entity.text}`"
         >
+          @{{ entity.text }}
+        </nuxt-link>
         <emojify
           v-else-if="entity.type === 'tags'"
+          :key="`tags-${i}`"
           :to="`/tags/${entity.text}`"
           :text="`#${entity.text}`"
-          :key="`tags-${i}`"
           element="nuxt-link"
         />
         <template v-else-if="entity.type === 'links'">
           <emojify
-            :to="entity.replace ? entity.replace.link : entity.link"
             :key="`links-${i}`"
+            :to="entity.replace ? entity.replace.link : entity.link"
             :element="$options.components.NuxtLinkMod"
             :text="replaceLinkText(entity)"
             target="_new"
           />
           <span
             v-if="entity.amended_len"
-            :key="`links-${i}-domain`">{{
+            :key="`links-${i}-domain`"
+          >
+            {{
               entity.replace
                 ? ` [${entity.replace.domain}]`
                 : unicodeSubstring(entity.text, entity.len, entity.amended_len)
-            }}</span>
+            }}
+          </span>
           <a
             v-if="entity.replace"
             :key="`links-${i}-replaced-icon`"
@@ -47,12 +51,15 @@
         </template>
         <emojify
           v-else
+          :key="`text-${i}`"
           :text="entity.text"
-          :key="`text-${i}`" />
+        />
       </template>
     </span>
   </span>
-  <span v-else> <slot /> </span>
+  <span v-else>
+    <slot />
+  </span>
 </template>
 <script>
 import unicodeSubstring from 'unicode-substring'
@@ -62,6 +69,7 @@ import NuxtLinkMod from '~/components/NuxtLinkMod'
 export default {
   name: 'EntityText',
   components: {
+    /* eslint-disable vue/no-unused-components */
     NuxtLinkMod
   },
   props: {

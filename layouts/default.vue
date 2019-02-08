@@ -2,12 +2,14 @@
   <div
     id="wrapper"
     :style="`margin-top: 48px`"
-    class="wrapper mb-3">
+    class="wrapper mb-3"
+  >
     <app-header ref="header">
       <jumbotron
         v-if="searchPage"
         slot="jumbotron"
-        class="jumbotron" />
+        class="jumbotron"
+      />
     </app-header>
     <main class="container main">
       <div class="row">
@@ -21,10 +23,12 @@
             <div class="d-md-block collapse navbar-collapse">
               <transition
                 name="slide"
-                mode="out-in">
+                mode="out-in"
+              >
                 <component
+                  :is="sidebar"
                   ref="sidebar"
-                  :is="sidebar" />
+                />
               </transition>
             </div>
           </div>
@@ -45,7 +49,8 @@
           >
             <div
               v-if="selectedDropdownItem"
-              class="d-flex align-items-center">
+              class="d-flex align-items-center"
+            >
               <div
                 class="d-block bg-primary text-center rounded-circle text-white border-white mr-1 icon"
               >
@@ -70,17 +75,20 @@
               >
                 <font-awesome-icon
                   icon="bars"
-                  size="lg" />
+                  size="lg"
+                />
               </a>
             </div>
           </h3>
           <div
             id="navbarSupportedContent"
-            class="collapse">
+            class="collapse"
+          >
             <component
-              v-if="!isAppSidebar"
               :is="sidebar"
-              narrow />
+              v-if="!isAppSidebar"
+              narrow
+            />
           </div>
           <div><nuxt /></div>
         </div>

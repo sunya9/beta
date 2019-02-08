@@ -3,7 +3,8 @@
     <div class="row">
       <div
         v-if="$auth.loggedIn"
-        class="col-md-8">
+        class="col-md-8"
+      >
         <ul class="nav nav-tabs mb-4">
           <li class="nav-item">
             <nuxt-link
@@ -29,7 +30,8 @@
     </div>
     <nuxt-child
       :key="$route.params.channel"
-      @updateNav="isPM = $event" />
+      @updateNav="isPM = $event"
+    />
   </div>
 </template>
 <script>

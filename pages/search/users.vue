@@ -1,10 +1,12 @@
 <template>
   <user-list
-    :data="data"
     :key="options.q"
+    :data="data"
     :option="options"
   >
-    <span slot="empty">No results for {{ options.q }}</span>
+    <span slot="empty">
+      No results for {{ options.q }}
+    </span>
   </user-list>
 </template>
 <script>

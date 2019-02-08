@@ -2,9 +2,14 @@
   <div>
     <div
       v-if="firstUnreadMessage"
-      class="matching-hr">
-      <hr >
-      <div><span class="text-muted">Previously read</span></div>
+      class="matching-hr"
+    >
+      <hr>
+      <div>
+        <span class="text-muted">
+          Previously read
+        </span>
+      </div>
     </div>
     <div
       :class="{
@@ -71,12 +76,13 @@
             >
               <entity-text
                 :content="message.content"
-                :spoiler="spoiler">
-                <em
-                >[Message deleted{{
-                  message.deleted_by ? ' by moderator' : ''
-                }}]</em
-                >
+                :spoiler="spoiler"
+              >
+                <em>
+                  [Message deleted{{
+                    message.deleted_by ? ' by moderator' : ''
+                  }}]
+                </em>
               </entity-text>
               <div
                 v-if="thumbs.length"
@@ -85,11 +91,11 @@
               >
                 <thumb
                   v-for="(t, i) in thumbs"
+                  :key="i"
                   :original="t.original"
                   :thumb="t.thumb"
                   :original-width="t.width"
                   :original-height="t.height"
-                  :key="i"
                   class="mx-1 mb-1 mb-lg-0"
                 />
               </div>
@@ -99,9 +105,9 @@
               >
                 <sound
                   v-for="(t, i) in clips"
+                  :key="i"
                   :url="t.url"
                   :title="t.title"
-                  :key="i"
                 />
               </div>
             </div>
@@ -140,7 +146,8 @@
           >
             <span
               :title="absDate"
-              class="text-muted text-nowrap">
+              class="text-muted text-nowrap"
+            >
               {{ date }}
             </span>
           </div>
