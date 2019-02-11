@@ -44,7 +44,12 @@
         </label>
       </div>
     </div>
-    <div><interaction-list :data="data" /></div>
+    <div>
+      <interaction-list
+        :data="data"
+        :option="option"
+      />
+    </div>
   </div>
 </template>
 
@@ -58,7 +63,7 @@ export default {
       filters: 'bookmark,repost,follow'
     }
     const data = await $resource(option)
-    return { data }
+    return { data, option }
   },
   components: {
     InteractionList
