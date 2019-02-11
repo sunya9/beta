@@ -12,8 +12,7 @@
     "lint": "eslint --ext .js,.vue .",
     "lint:fix": "eslint --ext .js,.vue --fix .",
     "test": "jest",
-    "test:all": "run-p 'test --coverage' lint",
-    "test:reporter": "codeclimate-test-reporter < coverage/lcov.info"
+    "test:all": "run-p 'test --coverage' lint"
   },
   "lint-staged": {
     "*.@(js|vue)": [
@@ -64,7 +63,6 @@
     "@babel/preset-env": "^7.1.5",
     "@vue/test-utils": "^1.0.0-beta.25",
     "axios-mock-adapter": "^1.11.0",
-    "codeclimate-test-reporter": "^0.5.1",
     "eslint": "^5.9.0",
     "eslint-config-prettier": "^4.0.0",
     "eslint-plugin-jest": "^22.0.0",
@@ -87,9 +85,6 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  },
-  "resolutions": {
-    "babel-core": "7.0.0-bridge.0"
   },
   "homepage": "https://github.com/sunya9/beta",
   "bugs": "https://github.com/sunya9/beta/issues",
