@@ -82,6 +82,7 @@
           >
             <a
               id="navbarDropdownMenuLink"
+              ref="dropdown"
               href="#"
               class="nav-link text-primary"
               data-toggle="dropdown"
@@ -225,6 +226,8 @@ export default {
     )
     const { height } = this.$el.children[0].getBoundingClientRect()
     this.collapseHeight = `calc(100vh - ${height}px)`
+    const { Dropdown } = require('bootstrap.native')
+    new Dropdown(this.$refs.dropdown)
   },
   beforeDestroy() {
     networkEvents.forEach(event =>
