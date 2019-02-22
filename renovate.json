@@ -1,9 +1,12 @@
 {
   "extends": [
     "config:base",
-    ":preserveSemverRanges"
   ],
   "travis": {
     "enabled": true
+  },
+  "automerge": true,
+  "major": {
+    "automerge": false
   }
 }
