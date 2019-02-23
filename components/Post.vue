@@ -57,7 +57,7 @@
           <div class="flex-grow-1 w-100">
             <button
               v-if="spoiler && !showSpoiler"
-              class="btn btn-link btn-primary mb-2"
+              class="btn btn-outline-primary mb-2"
               type="button"
               @click="toggleSpoiler"
             >
