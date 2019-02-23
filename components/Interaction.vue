@@ -49,10 +49,12 @@
             ,
           </span>
         </template>.
-        <div class="card mt-3">
+        <div
+          v-if="post"
+          class="card mt-3"
+        >
           <div class="card-body">
             <post
-              v-if="post"
               :post="post"
               view-only
               preview
