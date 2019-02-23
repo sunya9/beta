@@ -153,15 +153,18 @@
             class="card mb-2"
           >
             <div class="card-body text-center">
-              <iframe
-                v-if="getVideoSrc(video)"
-                :src="getVideoSrc(video)"
-                :width="video.width"
-                :height="video.height"
-                frameborder="0"
-              >
-                Does not support iframe.
-              </iframe>
+              <div class="video-wrapper">
+                <iframe
+                  v-if="getVideoSrc(video)"
+                  :src="getVideoSrc(video)"
+                  :width="video.width"
+                  :height="video.height"
+                  frameborder="0"
+                  class="video-iframe"
+                >
+                  Does not support iframe.
+                </iframe>
+              </div>
             </div>
           </div>
         </div>
@@ -675,5 +678,17 @@ footer {
 }
 .longpost {
   white-space: pre-wrap;
+}
+.video-wrapper {
+  // 16:9
+  padding-bottom: 56.25%;
+  position: relative;
+}
+.video-iframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>
