@@ -96,7 +96,11 @@ export default {
     data: {
       type: Object,
       validator: obj => 'meta' in obj && 'data' in obj,
-      required: true
+      required: true,
+      default: () => ({
+        meta: {},
+        data: []
+      })
     },
     resource: {
       type: String,
