@@ -133,7 +133,7 @@ export default {
   data() {
     return {
       name: this.account.name,
-      description: this.account.content.markdown_text,
+      description: this.account.content.text,
       timezone: this.account.timezone,
       locale: this.account.locale,
       locales,

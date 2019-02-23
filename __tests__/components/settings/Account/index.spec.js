@@ -9,7 +9,7 @@ describe('settings/Account/index component', () => {
         account: {
           name: 'foo',
           content: {
-            markdown_text: 'bar'
+            text: 'bar'
           },
           timezone: '',
           locale: ''
