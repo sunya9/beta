@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import originalCreateStore from '~/store'
+import { getters } from '~/store'
+import Vuex from 'vuex'
 import { merge } from 'lodash'
 import { RouterLinkStub as NuxtLink } from '@vue/test-utils'
 import axiosMock from './axios-mock'
@@ -17,7 +18,9 @@ beforeEach(() => {
 })
 
 function createStore() {
-  const store = originalCreateStore()
+  const store = new Vuex.Store({
+    getters
+  })
   store.replaceState({
     auth: {
       loggedIn: false,
