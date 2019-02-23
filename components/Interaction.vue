@@ -39,15 +39,13 @@
           <nuxt-link
             :key="user.id"
             :to="`@${user.username}`"
-          >
-            @{{ user.username }}
-          </nuxt-link>
+            v-text="`@${user.username}`"
+          />
           <span
             v-if="i < filteredUsers.length - 1"
             :key="`comma-${i}`"
-          >
-            ,
-          </span>
+            v-text="`, `"
+          />
         </template>.
         <div
           v-if="post"
