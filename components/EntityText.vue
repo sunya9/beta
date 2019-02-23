@@ -6,9 +6,8 @@
           v-if="entity.type === 'mentions'"
           :key="`mention-${i}`"
           :to="`/@${entity.text}`"
-        >
-          @{{ entity.text }}
-        </nuxt-link>
+          v-text="`@${entity.text}`"
+        />
         <emojify
           v-else-if="entity.type === 'tags'"
           :key="`tags-${i}`"
@@ -23,18 +22,15 @@
             :element="$options.components.NuxtLinkMod"
             :text="replaceLinkText(entity)"
             target="_new"
-          />
-          <span
+          /><span
             v-if="entity.amended_len"
             :key="`links-${i}-domain`"
-          >
-            {{
+            v-text="
               entity.replace
-                ? ` [${entity.replace.domain}]`
+                ? `[${entity.replace.domain}]`
                 : unicodeSubstring(entity.text, entity.len, entity.amended_len)
-            }}
-          </span>
-          <a
+            "
+          /><a
             v-if="entity.replace"
             :key="`links-${i}-replaced-icon`"
             :data-content="

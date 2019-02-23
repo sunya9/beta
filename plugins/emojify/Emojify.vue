@@ -4,9 +4,11 @@
     v-bind="$attrs"
   >
     <template v-for="(t, i) in modifiedText">
-      <template v-if="t.type === 'text'">
-        {{ t.value }}
-      </template>
+      <span
+        v-if="t.type === 'text'"
+        :key="`text-${i}`"
+        v-text="t.value"
+      />
       <img
         v-else
         :key="`emoji-${i}`"
