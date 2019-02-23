@@ -7,13 +7,13 @@
   >
     <message
       :key="item.id"
-      slot-scope="{ item, index, lastUpdate }"
+      slot-scope="{ item, index, lastUpdate, updateItem }"
       :message.sync="item"
       :last-update="lastUpdate"
       :is-moderator="isModerator"
       :last-read-message-id="lastReadMessageId"
       :channel-type="channelType"
-      @update:message="$set($attrs.data.data, index, $event)"
+      @update:message="updateItem(index, $event)"
     />
   </base-list>
 </template>

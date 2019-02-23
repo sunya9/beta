@@ -26,6 +26,7 @@
         :index="index"
         :selected="isSelected(index)"
         :last-update="lastUpdate"
+        :update-item="updateItem"
       />
     </component>
     <li
@@ -163,6 +164,9 @@ export default {
     this.$once('hook:beforeDestroy', () => clearInterval(timer))
   },
   methods: {
+    updateItem(index, item) {
+      this.$set(this.items, index, item)
+    },
     updateActiveElement() {
       this.activeElement = document.activeElement
     },
@@ -212,10 +216,10 @@ export default {
 
         if (newItems.length) {
           this.items = this.items.concat(newItems)
-          this.$emit('update:data', {
-            meta: this.meta,
-            data: this.items
-          })
+          // this.$emit('update:data', {
+          //   meta: this.meta,
+          //   data: this.items
+          // })
         }
       } catch (e) {
         console.error(e)

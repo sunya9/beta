@@ -18,12 +18,12 @@
   >
     <post
       :key="item.id"
-      slot-scope="{ item, index, lastUpdate, selected }"
+      slot-scope="{ item, index, lastUpdate, selected, updateItem }"
       :selected="selected"
       :post="item"
       :last-update="lastUpdate"
       :detail="item.id === main"
-      @update:post="$set(data.data, index, $event)"
+      @update:post="updateItem(index, $event)"
     />
   </base-list>
 </template>
