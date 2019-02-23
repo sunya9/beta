@@ -6,9 +6,7 @@ const fs = require('fs')
 const lastModified = fs.statSync('./package.json').mtime
 
 module.exports = {
-  /*
-   ** Headers of the page
-   */
+  mode: 'spa',
   head: {
     title: 'Beta',
     titleTemplate(partial) {
@@ -82,36 +80,16 @@ module.exports = {
 
   // plugin settings
   plugins: [
-    {
-      src: '~/plugins/bootstrap',
-      ssr: false
-    },
-    {
-      src: '~/plugins/vue-infinite',
-      ssr: false
-    },
-    {
-      src: '~/plugins/mousetrap',
-      ssr: false
-    },
-    {
-      src: '~/plugins/vue-outside',
-      ssr: false
-    },
-    {
-      src: '~/plugins/emoji',
-      ssr: false
-    },
+    '~/plugins/bootstrap',
+    '~/plugins/vue-infinite',
+    '~/plugins/mousetrap',
+    '~/plugins/vue-outside',
+    '~/plugins/emoji',
     '~/plugins/emojify',
-    {
-      src: '~/plugins/vue-scrollto',
-      ssr: false
-    },
+    '~/plugins/vue-scrollto',
     '~/plugins/axios/',
     '~/plugins/font-awesome',
-    {
-      src: '~/plugins/modal'
-    }
+    '~/plugins/modal'
   ],
 
   // router settings
