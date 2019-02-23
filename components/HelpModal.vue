@@ -3,19 +3,18 @@
     id="help-modal"
     title="Keyboard shortcuts"
     suppress-warnings
-    size="lg"
     hide-footer
   >
     <div class="row flex-wrap">
-      <div class="col-lg-4">
+      <div class="col-12">
         <h6>Actions</h6>
-        <no-ssr> <key-sets :key-sets="actions" /> </no-ssr>
+        <key-sets :key-sets="actions" />
       </div>
-      <div class="col-lg-4">
+      <div class="col-12">
         <h6>Navigation</h6>
         <key-sets :key-sets="$options.navigation" />
       </div>
-      <div class="col-lg-4">
+      <div class="col-12">
         <h6>Streams</h6>
         <key-sets :key-sets="$options.streams" />
       </div>
@@ -68,7 +67,6 @@ export default {
   ],
   computed: {
     actions() {
-      if (process.server) return
       return this.$route.name && this.$route.name.startsWith('messages')
         ? this.$options.messageActions
         : this.$options.streamActions
