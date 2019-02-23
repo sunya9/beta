@@ -7,7 +7,7 @@
     class="media w-100 justify-content-start"
   >
     <a
-      v-if="detail"
+      v-if="detail && mainPost.user"
       v-show="false"
       :href="
         mainPost.user.verified
@@ -25,8 +25,17 @@
         max-size="64"
       />
     </a>
+    <div v-if="!mainPost.user">
+      <img
+        src="~assets/img/beta.svg"
+        width="64"
+        height="64"
+        alt="deleted user's avatar"
+        class="d-flex mr-3 iconSize u-photo"
+      >
+    </div>
     <nuxt-link
-      v-if="!preview"
+      v-else-if="!preview"
       :to="`/@${mainPost.user.username}`"
     >
       <avatar
@@ -40,6 +49,7 @@
     <div class="media-body">
       <h6 class="mt-1">
         <nuxt-link
+          v-if="mainPost.user"
           :to="`/@${mainPost.user.username}`"
           class="text-gray-dark"
         >
@@ -51,6 +61,12 @@
             class="text-muted"
           />
         </nuxt-link>
+        <span
+          v-else
+          class="text-gray-dark"
+        >
+          Deleted user
+        </span>
       </h6>
       <nsfw :include-nsfw="mainPost.is_nsfw">
         <div class="d-flex flex-wrap flex-md-nowrap">
@@ -541,7 +557,7 @@ export default {
       return getChannelInvite(this.mainPost)
     },
     me() {
-      return this.user && this.user.id === this.post.user.id
+      return this.user && this.post.user && this.user.id === this.post.user.id
     },
     mainPost() {
       return this.post.repost_of || this.post
