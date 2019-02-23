@@ -11,7 +11,9 @@ module.exports = {
    */
   head: {
     title: 'Beta',
-    titleTemplate: partial => (partial ? `${partial} - Beta` : 'Beta'),
+    titleTemplate(partial) {
+      return partial ? `${partial} - Beta` : 'Beta'
+    },
     meta: [
       {
         charset: 'utf-8'
