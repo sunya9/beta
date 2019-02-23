@@ -75,7 +75,14 @@ module.exports = {
         'bootstrap.native/dist/bootstrap-native-v4.js'
     },
     extractCSS: true,
-    plugins: [new EnvironmentPlugin(['npm_package_version'])]
+    plugins: [new EnvironmentPlugin(['npm_package_version'])],
+    loaders: {
+      vue: {
+        compilerOptions: {
+          whitespace: 'condense'
+        }
+      }
+    }
   },
 
   // plugin settings
