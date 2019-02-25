@@ -18,6 +18,10 @@ notifications:
   slack:
     secure: EwBaiE5gJA1mJXwkk2RTv9Sr2Qa6sMJqC9cKlcHSKW/LYahB9W0xIHmqVbJvzhqOxLAungrXJRJcBpYkAo9aZantOAolTTZERaknzIQhLpDHgqsB+LY0pf12Vz3HrA1K95v/V/derTUYe7YfhGDyXO7AQU/pSz1qyA7VZqPDowPiFQqhkELbVBzgTcI+l1+1+U6icwOvH6616Zxa/vPTxhhldtwYnpgWMGfVORn0lsg154gBEBW/R6ofRGx6YfLyg7zsHy5Rx1Hr66h56DoLovOLiKswFhmiXfh2SlXEPl6SeVv3INFOGgr44TeYPDYtehuUgOG2qk1y/psZ/ztIot8BTVCKqJiy5a3LzobmSnScRbwwKHhJw8I1azEBdPeFxA88jq41fVcYNT3g3eU4PGuHXNTOwod8nKGpZ8/1DfFS13ACknYzc2XNBriB3NREtu120Xo73VrOJ+VCkSY56TIdzv2ggLsDsz6QsmVFIDYGain7x22RGe9eqzL2DvLYBxDGRH/ZVLJEKaNKlrA1Okw1Ggs1j8Aw2hbMh9/YXaLOIG8SBA0l7RNN1L7IK304S7qPtcDfh5Tkm0tdbqe28LCUr4zQVK8HcTznM3jiaskMhUjyq3cf19kyPLL/n1ncmizbTMZIByJdEyDEpBpdHZ5ZoJQLuqVonO/R7dH+3vs=
 
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0
+  - export PATH="$HOME/.yarn/bin:$PATH"
+
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
