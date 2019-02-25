@@ -58,7 +58,10 @@ export default {
       const { data: profile } = await $axios.$get(`/users/@${name}`)
 
       return {
-        data,
+        data: data || {
+          meta: {},
+          data: []
+        },
         profile,
         name,
         option
