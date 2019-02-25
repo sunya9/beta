@@ -27,7 +27,7 @@
             :key="`links-${i}-domain`"
             v-text="
               entity.replace
-                ? `[${entity.replace.domain}]`
+                ? ` [${entity.replace.domain}]`
                 : unicodeSubstring(entity.text, entity.len, entity.amended_len)
             "
           /><a
