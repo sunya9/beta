@@ -1401,12 +1401,12 @@
   dependencies:
     lru-cache "^5.1.1"
 
-"@nuxtjs/google-analytics@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/google-analytics/-/google-analytics-2.0.2.tgz#75353143628fd7697b41eb5aa7da38a513394eca"
-  integrity sha512-NpDQI7w4jr93Ukh98n3d0BRDHhX7cDUi3W2E0CAU6t5wmC+Q6cwQMqcEl32tGJBQlPZYWSrBKIM0A413HpL3TA==
+"@nuxtjs/google-analytics@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/google-analytics/-/google-analytics-2.1.0.tgz#f00d0429baf149b57477931a4a1860e430376f1d"
+  integrity sha512-JVHcCV2nNuY2bnk3C1C5cGIEWc3YA0pECt5BvbPwa8+ZeY1lxbMskm9xAoKI4V/WyWUDmA2kYtkbERSrifi0mw==
   dependencies:
-    vue-analytics "^5.4.0"
+    vue-analytics "^5.16.2"
 
 "@nuxtjs/icon@^2.6.0":
   version "2.6.0"
@@ -11153,10 +11153,10 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-analytics@^5.4.0:
-  version "5.16.1"
-  resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.16.1.tgz#2fa909a245e1cee9993a69f0b72caf1dd6126c10"
-  integrity sha512-3gnS0c9lxS7+eOtzEPZKZHgWur+qSFLsM+ZIXgPOGPBLfG4mIttT18RJROEozQ+qrCRmqnSCj/dgyg6FxVMM0A==
+vue-analytics@^5.16.2:
+  version "5.16.2"
+  resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.16.2.tgz#37724aeec71bb830b1cf2d52a969cf190ef120c1"
+  integrity sha512-5JKGnVF33VHlXFREzht9z3Z11N4IA8vXNnpvYeAf72rEUyAuuU9Q9kX34bULW2CxMrahr8m06IB8+91GX0Ruag==
 
 vue-eslint-parser@^4.0.2:
   version "4.0.3"
