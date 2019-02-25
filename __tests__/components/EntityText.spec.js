@@ -29,6 +29,6 @@ describe('EntityText component', () => {
     )
     // hacky: @vue/test-utils does not remove spaces between tags
     // (vue renderer remove all whitespaces between tags default)
-    expect(wrapper.text().replace(/\s+/, ' ')).toContain('Beta [beta.pnut.io]')
+    expect(wrapper.text()).toContain('Beta [beta.pnut.io]')
   })
 })

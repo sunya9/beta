@@ -65,13 +65,19 @@ const baseMountOpts = (...overrides) =>
     ...overrides
   )
 
+const stub = {
+  functional: true,
+  render: (h, context) => h('div', context.data, context.children)
+}
+
 export {
   createStore,
   authedUserCreateStore,
   baseMountOpts,
   axiosMock,
   fixtures,
-  sleep
+  sleep,
+  stub
 }
 
 export * from '@vue/test-utils'

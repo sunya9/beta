@@ -6,6 +6,7 @@
         @click.self="scrollToTop"
       >
         <button
+          ref="toggleButton"
           class="navbar-toggler mr-2 d-md-none align-items-stretch"
           type="button"
           data-toggle="collapse"
@@ -226,8 +227,9 @@ export default {
     )
     const { height } = this.$el.children[0].getBoundingClientRect()
     this.collapseHeight = `calc(100vh - ${height}px)`
-    const { Dropdown } = require('bootstrap.native')
+    const { Dropdown, Collapse } = require('bootstrap.native')
     new Dropdown(this.$refs.dropdown)
+    new Collapse(this.$refs.toggleButton)
   },
   beforeDestroy() {
     networkEvents.forEach(event =>
