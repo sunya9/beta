@@ -1,10 +1,4 @@
-import {
-  shallowMount,
-  createStore,
-  authedUserCreateStore,
-  fixtures,
-  mount
-} from 'helper'
+import { mount, createStore, authedUserCreateStore, fixtures } from 'helper'
 import Poll from '~/components/Poll'
 
 describe('Poll component', () => {
@@ -22,7 +16,7 @@ describe('Poll component', () => {
     }
   })
   test('Poll is shown when passed correct id', () => {
-    wrapper = shallowMount(Poll, opts)
+    wrapper = mount(Poll, opts)
     expect(wrapper.isEmpty()).toBe(false)
     const text = wrapper.text()
     Array(5)
@@ -31,28 +25,28 @@ describe('Poll component', () => {
   })
   describe('Voting is held', () => {
     test('Show tilde', () => {
-      wrapper = shallowMount(Poll, opts)
+      wrapper = mount(Poll, opts)
       expect(wrapper.text()).toContain('~')
     })
     test('Disable vote butons when logged out', () => {
-      wrapper = shallowMount(Poll, opts)
+      wrapper = mount(Poll, opts)
       expect(wrapper.contains('a.disabled')).toBe(true)
     })
     test('Enable vote butons when logged in', () => {
       opts.mocks.$store = authedUserCreateStore()
-      wrapper = shallowMount(Poll, opts)
+      wrapper = mount(Poll, opts)
       expect(wrapper.contains('a.disabled')).toBe(false)
     })
   })
   describe('Voting is over', () => {
     test('Show closed at', () => {
       opts.propsData.poll = fixtures('poll', 'closed')
-      wrapper = shallowMount(Poll, opts)
+      wrapper = mount(Poll, opts)
       expect(wrapper.text()).toContain('Closed at')
     })
     test('Show the result when poll has been closed', () => {
       opts.propsData.poll = fixtures('poll', 'closed')
-      wrapper = shallowMount(Poll, opts)
+      wrapper = mount(Poll, opts)
       expect(wrapper.contains('.progress')).toBe(true)
     })
     test('Show the result and checkmark when you respond', () => {
@@ -62,7 +56,7 @@ describe('Poll component', () => {
     })
     test('Calc percentage and toggle display', () => {
       opts.propsData.poll = fixtures('poll', 'detail', 'responded')
-      wrapper = shallowMount(Poll, opts)
+      wrapper = mount(Poll, opts)
       expect(wrapper.text()).toContain('100%')
       expect(wrapper.text()).toContain('0%')
       const progresses = wrapper.findAll('.progress')
@@ -78,7 +72,7 @@ describe('Poll component', () => {
     })
     test('Show total', () => {
       opts.propsData.poll = fixtures('poll', 'detail', 'responded')
-      wrapper = shallowMount(Poll, opts)
+      wrapper = mount(Poll, opts)
       expect(wrapper.text()).toContain('Total: 1')
     })
   })

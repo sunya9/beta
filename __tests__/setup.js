@@ -4,7 +4,7 @@ import axios from 'axios'
 import './axios-mock'
 import '~/plugins/font-awesome'
 import Modal from '~/plugins/modal/modal'
-import '~/plugins/emojify'
+import Emojify from '~/plugins/emojify/Emojify'
 import { config, RouterLinkStub } from '@vue/test-utils'
 
 Vue.use(Vuex)
@@ -27,6 +27,8 @@ config.stubs['no-ssr'] = {
 config.stubs['picker'] = {
   render: h => h('div')
 }
+
+config.stubs['emojify'] = Emojify
 
 config.stubs['nuxt-link'] = RouterLinkStub
 

@@ -13,7 +13,7 @@
           class="btn btn-outline-primary btn-block"
           @click="respond(option.position)"
         >
-          {{ option.text }}
+          <emojify :text="option.text" />
         </a>
         <div v-else>
           <div
@@ -30,7 +30,7 @@
                 style="right: 0; left: 0;"
               >
                 <div class="mx-3 d-flex justify-content-between">
-                  <span>{{ option.text }}</span>
+                  <emojify :text="option.text" />
                   <span>
                     <span>
                       <font-awesome-icon
