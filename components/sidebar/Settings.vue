@@ -29,6 +29,11 @@ export default {
       },
       { type: 'heading', label: 'App' },
       {
+        label: 'Stream',
+        icon: 'home',
+        url: '/settings/stream'
+      },
+      {
         label: 'Display',
         icon: 'paint-brush',
         url: '/settings/display'
