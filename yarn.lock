@@ -10891,10 +10891,10 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
 
-twemoji@11.2.0:
-  version "11.2.0"
-  resolved "https://registry.yarnpkg.com/twemoji/-/twemoji-11.2.0.tgz#3627c3607321bb784bcfb5b65b3b21309c031fa3"
-  integrity sha512-DgTadXkRHugun6mjUf1k3ni04WC4jHOX1bN5MjuCM3nwRyIMdXIr8FmWzW5mEIZjht5jD3NaEyXC4j3POdQwyQ==
+twemoji@11.3.0:
+  version "11.3.0"
+  resolved "https://registry.yarnpkg.com/twemoji/-/twemoji-11.3.0.tgz#8c520094fe94849db10fd5687f50c936183c4fad"
+  integrity sha512-xN/vlR6+gDmfjt6LInAqwGAv3Agwrmzx5TD1jEFwKS19IOGDrX0/3OB8GP1wUYPVIdkaer5hw6qd+52jzvz0Lg==
 
 type-check@~0.3.2:
   version "0.3.2"
