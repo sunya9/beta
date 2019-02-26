@@ -46,7 +46,7 @@
     "emoji-mart-vue": "2.6.6",
     "emoji-regex": "7.0.3",
     "lodash": "4.17.11",
-    "moment": "2.23.0",
+    "moment": "2.24.0",
     "mousetrap": "1.6.2",
     "nuxt": "2.4.3",
     "sass-loader": "7.1.0",
