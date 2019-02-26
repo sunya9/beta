@@ -16,19 +16,20 @@ import refreshAfterAdded from '~/assets/js/refresh-after-added'
 
 export default {
   middleware: ['auth'],
-  async asyncData({ app: { $resource } }) {
-    const option = {
-      include_directed_posts: 1
-    }
-
-    const data = await $resource(option)
-    return { data, option }
-  },
   components: {
     PostList,
     Compose
   },
   mixins: [refreshAfterAdded],
+  async asyncData({ app: { $resource } }) {
+    const option = {
+      include_directed_posts:
+        localStorage['hide_directed_posts'] === 'true' ? 0 : 1
+    }
+
+    const data = await $resource(option)
+    return { data, option }
+  },
   head() {
     return {
       title: 'Mentions'

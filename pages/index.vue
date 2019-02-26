@@ -32,8 +32,19 @@ export default {
   },
   mixins: [refreshAfterAdded],
   async asyncData({ app: { $resource }, store }) {
-    const data = await $resource(!store.getters.user ? globalPath : '')
-    return { data }
+    var streamPath = '/posts/streams/me'
+    if (localStorage['unified_timeline'] === 'true') {
+      streamPath = '/posts/streams/unified'
+    }
+    const option = {
+      include_directed_posts:
+        localStorage['hide_directed_posts'] === 'false' ? 1 : 0
+    }
+    const data = await $resource(
+      !store.getters.user ? globalPath : streamPath,
+      option
+    )
+    return { data, option }
   },
   computed: {
     ...mapGetters(['user']),

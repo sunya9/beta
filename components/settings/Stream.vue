@@ -1,14 +1,11 @@
 <template>
   <div>
-    <custom-checkbox
-      v-model="directed"
-      :disabled="true"
-    >
+    <custom-checkbox v-model="directed">
       Hide posts directed at people you do not follow
     </custom-checkbox>
-    <!--<custom-checkbox v-model="unified" :disabled="true">
-      Unified timeline; include your mentions and personal stream together
-    </custom-checkbox>-->
+    <custom-checkbox v-model="unified">
+      Include your mentions in your personal stream
+    </custom-checkbox>
   </div>
 </template>
 
@@ -21,17 +18,17 @@ export default {
   },
   data() {
     return {
-      unified: this.$store.state.unified_timeline,
-      directed: this.$store.state.hide_directed_posts,
+      unified: localStorage['unified_timeline'] === 'true' ? true : false,
+      directed: localStorage['hide_directed_posts'] === 'true' ? true : false,
       error: null
     }
   },
   watch: {
-    unified() {
-      // this.$store.commit('TOGGLE_KEY', 'unified_timeline')
+    unified(newVal) {
+      localStorage.setItem('unified_timeline', newVal)
     },
-    directed() {
-      // this.$store.commit('TOGGLE_KEY', 'hide_directed_posts')
+    directed(newVal) {
+      localStorage.setItem('hide_directed_posts', newVal)
     }
   }
 }
