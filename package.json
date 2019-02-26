@@ -57,7 +57,7 @@
     "vue-on-click-outside": "1.0.3",
     "vue-scrollto": "2.13.0",
     "vuedraggable": "2.18.1",
-    "zooming": "2.1.0"
+    "zooming": "2.1.1"
   },
   "devDependencies": {
     "@babel/preset-env": "7.3.4",
