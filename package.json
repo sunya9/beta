@@ -44,7 +44,7 @@
     "dotenv": "7.0.0",
     "emoji-datasource-twitter": "4.1.0",
     "emoji-mart-vue": "2.6.6",
-    "emoji-regex": "7.0.3",
+    "emoji-regex": "8.0.0",
     "lodash": "4.17.11",
     "moment": "2.24.0",
     "mousetrap": "1.6.3",
