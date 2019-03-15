@@ -4519,10 +4519,10 @@ eslint-config-prettier@4.1.0:
   dependencies:
     get-stdin "^6.0.0"
 
-eslint-plugin-jest@22.3.1:
-  version "22.3.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-22.3.1.tgz#18d5484fbba0eec41ce70cb30234ed757c69dc99"
-  integrity sha512-Jdcy0dQ6Uei1lwHbfGJtrvk/GV1D9a6IvPSHgxnOf6IHzAQj+JZa0jHn3wfI2ItuUcRg3f0gz6+Q63L03wPCUg==
+eslint-plugin-jest@22.4.0:
+  version "22.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-22.4.0.tgz#6f3874c98712069f1f4a77ee6a852a872f085be7"
+  integrity sha512-BLgYcXY8EfvujGdMWr6xK7cNjNAcYuyDjLI8NNU3D9qf0Iqd2FF8N+GbZkae45KG/MFDQLctz8gmiO1zo7i7BA==
 
 eslint-plugin-vue@5.2.2:
   version "5.2.2"
