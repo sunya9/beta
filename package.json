@@ -50,7 +50,7 @@
     "mousetrap": "1.6.3",
     "nuxt": "2.4.5",
     "sass-loader": "7.1.0",
-    "string-length": "3.0.0",
+    "string-length": "3.1.0",
     "twemoji": "11.3.0",
     "unicode-substring": "1.0.0",
     "vue-infinite-scroll": "2.0.2",
