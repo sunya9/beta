@@ -11461,10 +11461,17 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
 
-twemoji@11.3.0:
-  version "11.3.0"
-  resolved "https://registry.yarnpkg.com/twemoji/-/twemoji-11.3.0.tgz#8c520094fe94849db10fd5687f50c936183c4fad"
-  integrity sha512-xN/vlR6+gDmfjt6LInAqwGAv3Agwrmzx5TD1jEFwKS19IOGDrX0/3OB8GP1wUYPVIdkaer5hw6qd+52jzvz0Lg==
+twemoji-parser@12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/twemoji-parser/-/twemoji-parser-12.0.0.tgz#870ea374b495595baa3bddb719e902b39ea7ccd1"
+  integrity sha512-JWZHBY32zKXo6GQ/JIQGLbbSQ5a3k+NHh5VkQ5AJFA++6cr+EtErj1aG8H4K7x8GwQ9/YzArNBQ06ryvKZL+WQ==
+
+twemoji@12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/twemoji/-/twemoji-12.0.0.tgz#ccd1f67769711d3fa3a332ef9a860c52dd85fe5f"
+  integrity sha512-WX7ItaFagsZW9YEPNlVf9w50FdwxZK2Bdj3Y0XcDjZ4uLhr3qt/iUoRaLO2/getMhqumhFLR2gVoPLpSBtamJg==
+  dependencies:
+    twemoji-parser "12.0.0"
 
 type-check@~0.3.2:
   version "0.3.2"
