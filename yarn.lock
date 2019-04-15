@@ -1790,10 +1790,10 @@
   dependencies:
     consola "^2.4.1"
 
-"@nuxtjs/toast@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/toast/-/toast-3.0.2.tgz#6f027fb2210f0f348eb223ac5ad48d50d2369d92"
-  integrity sha512-3x7hovVQt++CRosciz9kzL9i3Xjua5XzZqxSr0pDfrCEoH77yvnTfQ6Wr0jdZOUeHZQaF90gbnD0T8fWyBcp/A==
+"@nuxtjs/toast@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/toast/-/toast-3.1.0.tgz#a1affa1d9b8299a3058aba576d055e2236b89ce2"
+  integrity sha512-t8xxl39KgDZIaQun5Ge9z8Aeh/THbupJTwzsYHp5cHDbAgcHhQdLiUjfUxj4qUDWMxmTKM11fGnzbL7MZ1kfCA==
   dependencies:
     vue-toasted "^1.1.26"
 
