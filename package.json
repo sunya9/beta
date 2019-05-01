@@ -51,13 +51,13 @@
     "nuxt": "2.4.3",
     "sass-loader": "7.1.0",
     "string-length": "2.0.0",
-    "twemoji": "11.2.0",
+    "twemoji": "11.3.0",
     "unicode-substring": "1.0.0",
     "vue-infinite-scroll": "2.0.2",
     "vue-on-click-outside": "1.0.3",
     "vue-scrollto": "2.13.0",
-    "vuedraggable": "2.17.0",
-    "zooming": "2.1.0"
+    "vuedraggable": "2.18.1",
+    "zooming": "2.1.1"
   },
   "devDependencies": {
     "@babel/preset-env": "7.3.4",
@@ -76,8 +76,8 @@
     "lint-staged": "8.1.4",
     "node-sass": "4.11.0",
     "npm-run-all": "4.1.5",
-    "prettier": "1.15.3",
-    "vue-jest": "3.0.2"
+    "prettier": "1.16.4",
+    "vue-jest": "3.0.3"
   },
   "resolutions": {
     "babel-core": "7.0.0-bridge.0"
