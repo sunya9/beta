@@ -41,7 +41,7 @@
     "bootstrap": "4.3.1",
     "bootstrap.native": "2.0.26",
     "cross-env": "5.2.0",
-    "dotenv": "7.0.0",
+    "dotenv": "8.0.0",
     "emoji-datasource-twitter": "4.1.0",
     "emoji-mart-vue": "2.6.6",
     "emoji-regex": "8.0.0",
