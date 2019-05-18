@@ -1635,12 +1635,12 @@
   dependencies:
     consola "^2.4.1"
 
-"@nuxtjs/toast@3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/toast/-/toast-3.1.0.tgz#a1affa1d9b8299a3058aba576d055e2236b89ce2"
-  integrity sha512-t8xxl39KgDZIaQun5Ge9z8Aeh/THbupJTwzsYHp5cHDbAgcHhQdLiUjfUxj4qUDWMxmTKM11fGnzbL7MZ1kfCA==
+"@nuxtjs/toast@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/toast/-/toast-3.2.0.tgz#a84aa0964ffb43ca70da2d22b755dd9b8356979e"
+  integrity sha512-08tN1EdaqCveMHvi8Kwwz3TUfFgkxPhut0IWIVnX1FN2UgTuiQQ6hVnNvdc+E/LZFEc9V8yZIeo7rDwsDpQfMA==
   dependencies:
-    vue-toasted "^1.1.26"
+    vue-toasted "^1.1.27"
 
 "@nuxtjs/workbox@^2.6.0":
   version "2.6.0"
@@ -12234,10 +12234,10 @@ vue-template-es2015-compiler@^1.8.2:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.8.2.tgz#dd73e80ba58bb65dd7a8aa2aeef6089cf6116f2a"
   integrity sha512-cliV19VHLJqFUYbz/XeWXe5CO6guzwd0yrrqqp0bmjlMP3ZZULY7fu8RTC4+3lmHwo6ESVDHFDsvjB15hcR5IA==
 
-vue-toasted@^1.1.26:
-  version "1.1.26"
-  resolved "https://registry.yarnpkg.com/vue-toasted/-/vue-toasted-1.1.26.tgz#1333d1a42157ab78389c3810023a49ba94e69c7b"
-  integrity sha512-Z4/gfPcqdzsRvif7UITrZOkh3C6jm0yQKJyr9kX31IGWXor5dNipE1Sc5SnlL5RLmY7vlLa+SqIjc9Gbpy7V0g==
+vue-toasted@^1.1.27:
+  version "1.1.27"
+  resolved "https://registry.yarnpkg.com/vue-toasted/-/vue-toasted-1.1.27.tgz#ce0a74b875f90c2e4a9e163cce6d5fc37d78a07c"
+  integrity sha512-GVbwInwnqkVxQ4GU/XYeQt1e0dAXL8sF5Hr1H/coCBbYUan5xP0G2mEz/HRDf1lt73rFQAN/bJcLTOKkqiM6tg==
 
 vue@^2.6.10:
   version "2.6.10"
