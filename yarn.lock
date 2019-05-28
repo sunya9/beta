@@ -1635,10 +1635,10 @@
     axios-retry "^3.1.1"
     consola "^1.4.4"
 
-"@nuxtjs/component-cache@1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/component-cache/-/component-cache-1.1.4.tgz#4015e0ab3499dbaac80866b47c62b9936fda41f8"
-  integrity sha512-6bQjzYBnbuJzAlUFCB17axlnTs98KUB2F8p0Q42SD9CYietGyjceFPEbAiFwShdQYm7qn6FR2z6JN71ilmHopg==
+"@nuxtjs/component-cache@1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/component-cache/-/component-cache-1.1.5.tgz#4866cb601a7e6a1387e931bbb929bafeec5981d5"
+  integrity sha512-S87xiF9d7WFOWPtcPSGz6T8dnV6wmUDy3W3pN35OhCYtXtav4jS27AySowx1fqk2fl7pPJW5GgTrwSHSKGCB7Q==
   dependencies:
     lru-cache "^5.1.1"
 
