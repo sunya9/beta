@@ -47,12 +47,14 @@
         RSS
       </a>
     </p>
-    <template
-      v-if="channel.acl.read.public"
-      slot="memberTitle"
-    >
-      <font-awesome-icon icon="globe" />
-      Public
+    <template slot="memberTitle">
+      <template v-if="channel.acl.read.public">
+        <font-awesome-icon icon="globe" />
+        Public
+      </template>
+      <template v-else>
+        Members
+      </template>
       <button
         v-if="isModerator"
         class="btn btn-link mr-2"
