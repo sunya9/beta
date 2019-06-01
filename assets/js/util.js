@@ -3,7 +3,7 @@ import _ from 'lodash'
 const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
 
 export function getTitle({ username, name }) {
-  return name ? `${name}(@${username})` : `@${username}`
+  return name ? `${name} (@${username})` : `@${username}`
 }
 
 function getImagesFromLinks(entityLinks) {
