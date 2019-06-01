@@ -104,8 +104,7 @@ export default {
     isModerator() {
       return (
         this.user &&
-        this.channel.owner &&
-        (this.user.id === this.channel.owner.id ||
+        ((this.channel.owner && this.user.id === this.channel.owner.id) ||
           !!this.channel.acl.full.user_ids.find(u => u.id === this.user.id))
       )
     },
