@@ -19,7 +19,7 @@
             class="ml-1 text-muted"
           />
           <span
-            v-if="!myself"
+            v-if="!myself && relation"
             data-test-id="relation"
             class="ml-1 badge badge-secondary text-uppercase"
           >
