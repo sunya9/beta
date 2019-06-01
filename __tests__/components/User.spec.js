@@ -36,7 +36,7 @@ describe('User', () => {
           }
         })
       )
-      expect(wrapper.find('[data-test-id="relation"]').text()).toBe('')
+      expect(wrapper.contains('[data-test-id="relation"]')).toBe(false)
     })
     test('Hidden when myself', () => {
       const wrapper = shallowMount(
