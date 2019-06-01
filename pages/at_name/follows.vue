@@ -3,12 +3,9 @@
     <h3 class="mb-4">
       <nuxt-link to=".">
         @{{ name }}
-      </nuxt-link>
-      's following
+      </nuxt-link>'s following
     </h3>
-    <user-list
-      :data="data"
-    />
+    <user-list :data="data" />
   </div>
 </template>
 
@@ -16,6 +13,9 @@
 import UserList from '~/components/UserList'
 
 export default {
+  components: {
+    UserList
+  },
   async asyncData(ctx) {
     const {
       params,
@@ -36,9 +36,6 @@ export default {
         message: meta.error_message
       })
     }
-  },
-  components: {
-    UserList
   },
   head() {
     return {
