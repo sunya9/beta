@@ -51,7 +51,7 @@
                   type="text"
                   placeholder="Username"
                   class="form-control"
-                  pattern="(\w+){0,20}"
+                  pattern="(\w{1,20})"
                   title="Username"
                   @keydown.enter="addUser"
                 >
@@ -87,7 +87,7 @@
                     <div class="input-group-prepend">
                       <div class="input-group-text">
                         <avatar
-                          :avatar="`@${user.username}`"
+                          :avatar="user.avatar_image"
                           size="16"
                           max-size="16"
                         />
@@ -154,6 +154,7 @@ export default {
       publicRead: null,
       newUser: {
         username: '',
+        avatar_image: '',
         acl: this.minimumPermission
       }
     }
@@ -215,6 +216,7 @@ export default {
     show(channel) {
       this.newUser = {
         username: '',
+        avatar_image: '',
         acl: this.minimumPermission
       }
       this.owner = channel.owner
@@ -222,18 +224,23 @@ export default {
       this.users.push(
         ...this.acl.full.user_ids.map(user => ({
           username: user.username,
+          avatar_image: user.avatar_image,
           acl: 'full'
         }))
       )
       this.users.push(
-        ...this.acl.write.user_ids.map(user => {
-          return { username: user.username, acl: 'write' }
-        })
+        ...this.acl.write.user_ids.map(user => ({
+          username: user.username,
+          avatar_image: user.avatar_image,
+          acl: 'write'
+        }))
       )
       this.users.push(
-        ...this.acl.read.user_ids.map(user => {
-          return { username: user.username, acl: 'read' }
-        })
+        ...this.acl.read.user_ids.map(user => ({
+          username: user.username,
+          avatar_image: user.avatar_image,
+          acl: 'read'
+        }))
       )
       this.anyUserWrite = this.acl.write.any_user
       this.anyUserRead = this.acl.read.any_user
@@ -259,7 +266,9 @@ export default {
     },
     addUser() {
       if (this.disabledAdd || this.disabledAddButton) return
-      this.users.unshift({ ...this.newUser })
+      var newUser = this.newUser
+      newUser.username = newUser.username.replace(/[^\w]/g, '')
+      this.users.unshift({ ...newUser })
       this.newUser.username = ''
     },
     removeUser(i) {
