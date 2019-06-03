@@ -1562,10 +1562,10 @@
     webpack-node-externals "^1.7.2"
     webpackbar "^3.2.0"
 
-"@nuxtjs/auth@4.6.3":
-  version "4.6.3"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/auth/-/auth-4.6.3.tgz#e00ad74418209d268e7021d61557f873bece4ffb"
-  integrity sha512-ski2AiWT8GfHEG54iYjFln8FEnAhnbchyT1SKh5OK13nszeJFQnB88gq4+Ttzj0InQ8rJDDN4uPWJv0kyV4Crg==
+"@nuxtjs/auth@4.6.4":
+  version "4.6.4"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/auth/-/auth-4.6.4.tgz#15a910d0136800b7c3c59a6d9784d0d26f9c8a01"
+  integrity sha512-3wPKFqIiNkatA8A0bG02bNc3jVYolroJMoH0pxnNzd9PyfMJfb5M5UwNhbpVSjbYQMk5EAPAYr70oyLJ2l6lZA==
   dependencies:
     "@nuxtjs/axios" "^5.5.3"
     consola "^2.7.1"
