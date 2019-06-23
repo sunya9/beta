@@ -1562,18 +1562,19 @@
     webpack-node-externals "^1.7.2"
     webpackbar "^3.2.0"
 
-"@nuxtjs/auth@4.7.0":
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/auth/-/auth-4.7.0.tgz#706de9bc93d8bd0fcb5f23c062129460b0c5cc0d"
-  integrity sha512-K+lBU6ZB16SHwBH8SyVfdAYW2Qf/iW+avDxqwbNNzqgOQ9OFd/GQ9UZK6zdVfpmNFtPrQ5d+N4q2m1FU1o5g4A==
+"@nuxtjs/auth@4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/auth/-/auth-4.8.0.tgz#fdf3f0602ac44a039e049ca75e4e4a6bffbe479e"
+  integrity sha512-XBeoY9XbhlvY9kWlXaqudtEhdjNLAd4dF4QM03Ja9KKlGfCYNRRRt+9Dhh5TCoLeU01tHQUMLhZy6pm9+3XeAg==
   dependencies:
     "@nuxtjs/axios" "^5.5.4"
-    consola "^2.7.1"
+    consola "^2.9.0"
     cookie "^0.4.0"
     dotprop "^1.2.0"
+    is-https "^1.0.0"
     js-cookie "^2.2.0"
     lodash "^4.17.11"
-    nanoid "^2.0.1"
+    nanoid "^2.0.3"
 
 "@nuxtjs/axios@5.5.4", "@nuxtjs/axios@^5.5.4":
   version "5.5.4"
@@ -3597,6 +3598,11 @@ consola@^2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/consola/-/consola-2.7.1.tgz#3f7f7c53eb44362240c3aee41b9bb2641d5ca32e"
   integrity sha512-u7JYs+HnMbZPD2cEuS1XHsLeqtazA0kd5lAk8r8DnnGdgNhOdb7DSubJ+QLdQkbtpmmxgp7gs8Ug44sCyY4FCQ==
+
+consola@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/consola/-/consola-2.9.0.tgz#57760e3a65a53ec27337f4add31505802d902278"
+  integrity sha512-34Iue+LRcWbndFIfZc5boNizWlsrRjqIBJZTe591vImgbnq7nx2EzlrLtANj9TH2Fxm7puFJBJAOk5BhvZOddQ==
 
 console-browserify@^1.1.0:
   version "1.1.0"
@@ -6579,6 +6585,11 @@ is-glob@^4.0.1:
   dependencies:
     is-extglob "^2.1.1"
 
+is-https@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/is-https/-/is-https-1.0.0.tgz#9c1dde000dc7e7288edb983bef379e498e7cb1bf"
+  integrity sha512-1adLLwZT9XEXjzhQhZxd75uxf0l+xI9uTSFaZeSESjL3E1eXSPpO+u5RcgqtzeZ1KCaNvtEwZSTO2P4U5erVqQ==
+
 is-jpg@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/is-jpg/-/is-jpg-2.0.0.tgz#2e1997fa6e9166eaac0242daae443403e4ef1d97"
@@ -8113,7 +8124,7 @@ nan@^2.9.2:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.12.1.tgz#7b1aa193e9aa86057e3c7bbd0ac448e770925552"
   integrity sha512-JY7V6lRkStKcKTvHO5NVSQRv+RV+FIL5pvDoLiAtSL9pKlC5x9PKQcZDsq7m4FO4d57mkhC6Z+QhAh3Jdk5JFw==
 
-nanoid@^2.0.1:
+nanoid@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-2.0.3.tgz#dde999e173bc9d7bd2ee2746b89909ade98e075e"
   integrity sha512-NbaoqdhIYmY6FXDRB4eYtDVC9Z9eCbn8TyaiC16LNKtpPv/aqa0tOPD8y6gNE4yUNnaZ7LLhYtXOev/6+cBtfw==
