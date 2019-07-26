@@ -1879,12 +1879,12 @@
     "@nuxtjs/meta" "^2.6.0"
     "@nuxtjs/workbox" "^2.6.0"
 
-"@nuxtjs/router@1.3.2":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/router/-/router-1.3.2.tgz#ddf130e9f0fcf6e2751ca31512af56595125f4eb"
-  integrity sha512-4SB/jyUrvjBzLmCYgGLOytwO3i8sY8Uo/+gJzlu+XLDeSSGgFH2t0LlOA8t1CRelVMaFYT+ROX5RCKDtTJ288w==
+"@nuxtjs/router@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/router/-/router-1.4.0.tgz#7f9a55ce69189def5b8781cbfd0cf6d5bf819cf9"
+  integrity sha512-OCLFrgNi56PEOUwJ8a1r+XdZFURryWkJPK/WinJEMeRNa8UY6doP7IOJGjmAmfI8T7v63FEfEDv0snPx7VRpZQ==
   dependencies:
-    consola "^2.4.1"
+    consola "^2.9.0"
 
 "@nuxtjs/toast@3.2.1":
   version "3.2.1"
@@ -3859,17 +3859,6 @@ consola@^2.3.0:
     std-env "^2.2.1"
     string-width "^2.1.1"
 
-consola@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/consola/-/consola-2.4.1.tgz#ad7209c306a2b6fa955b776f88f87bf92f491aa8"
-  integrity sha512-j6bIzpmyRGY2TDZVkAi3DM95CgC8hWx1A7AiJdyn4X5gls1bbpXIMpn3p8QsfaNu+ycNLXP+2DwKb47FXjw1ww==
-  dependencies:
-    chalk "^2.4.2"
-    dayjs "^1.8.3"
-    figures "^2.0.0"
-    std-env "^2.2.1"
-    string-width "^3.0.0"
-
 consola@^2.5.6:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/consola/-/consola-2.5.6.tgz#5ce14dbaf6f5b589c8a258ef80ed97b752fa57d5"
@@ -4435,11 +4424,6 @@ dayjs@^1.7.7:
   version "1.7.8"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.7.8.tgz#05d288f8d4b2140110cc1519cfe317d6f1f11a3c"
   integrity sha512-Gp4Y5KWeSri0QOWGzHQz7VrKDkfEpS92dCLK7P8hYowRFbaym1vj3d6CoHio3apSS4KSi/qb5Edemv26IN5Hfg==
-
-dayjs@^1.8.3:
-  version "1.8.5"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.5.tgz#0b066770f89a20022218544989f3d23e5e8db29a"
-  integrity sha512-jo5sEFdsT43RqXxoqQVEuD7XL6iSIRxcjTgheJdlV0EHKObKP3pb9JcJEv/KStVMy25ABNQrFnplKcCit05vOA==
 
 de-indent@^1.0.2:
   version "1.0.2"
