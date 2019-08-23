@@ -39,7 +39,7 @@
     "@nuxtjs/router": "1.5.0",
     "@nuxtjs/toast": "3.2.1",
     "bootstrap": "4.3.1",
-    "bootstrap.native": "2.0.26",
+    "bootstrap.native": "2.0.27",
     "cross-env": "5.2.0",
     "dotenv": "8.1.0",
     "emoji-datasource-twitter": "4.1.0",
