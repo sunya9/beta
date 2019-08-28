@@ -171,15 +171,25 @@
             <div class="card-body text-center">
               <div class="video-wrapper">
                 <iframe
-                  v-if="getVideoSrc(video)"
-                  :src="getVideoSrc(video)"
+                  v-if="video.type === 'iframe'"
                   :width="video.width"
                   :height="video.height"
                   frameborder="0"
+                  :src="video.url"
                   class="video-iframe"
                 >
                   Does not support iframe.
                 </iframe>
+                <video
+                  v-else
+                  controls
+                  :width="video.width"
+                  :height="video.height"
+                  class="video-iframe"
+                >
+                  <source :src="video.url">
+                  Does not support video.
+                </video>
               </div>
             </div>
           </div>
@@ -457,7 +467,9 @@ import {
   getSpoiler,
   getLongpost,
   getChannelInvite,
-  getOembedVideo
+  getOembedVideo,
+  getVideoSrcFromHtml,
+  determineVideoType
 } from '~/assets/js/util'
 import listItem from '~/assets/js/list-item'
 
@@ -536,7 +548,17 @@ export default {
       )
     },
     oembedVideos() {
-      return getOembedVideo(this.mainPost)
+      return getOembedVideo(this.mainPost).map(value => {
+        const url = getVideoSrcFromHtml(value.html)
+        const type = determineVideoType(url)
+        const { width, height } = value
+        return {
+          url,
+          type,
+          width,
+          height
+        }
+      })
     },
     thumbs() {
       return getImageURLs(this.mainPost)
@@ -587,10 +609,6 @@ export default {
     clearTimeout(this.timer)
   },
   methods: {
-    getVideoSrc(value) {
-      const matcher = value.html.match(/src="([^"]*)"/)
-      return matcher && matcher[1]
-    },
     toggleSpoiler() {
       this.showSpoiler = !this.showSpoiler
     },

@@ -152,3 +152,17 @@ export const deletedUser = {
     }
   }
 }
+
+const iframeVideoProviderRegexpList = [/^https:\/\/www\.youtube\.com\/embed\//]
+
+export function getVideoSrcFromHtml(html) {
+  const matcher = html.match(/src="([^"]*)"/)
+  if (!matcher) return
+  return matcher[1]
+}
+
+export function determineVideoType(src) {
+  const found = iframeVideoProviderRegexpList.find(regex => regex.test(src))
+  if (found) return 'iframe'
+  return 'video'
+}
