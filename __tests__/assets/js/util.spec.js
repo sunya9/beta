@@ -119,4 +119,25 @@ describe('util', () => {
     expect(util.findChatRaw(channel)).toEqual(chatRaw)
     expect(util.findChatRaw(channel, true)).toBe(value)
   })
+
+  test('getVideoSrcFromHtml', () => {
+    const youtubeUrl = 'https://www.youtube.com/embed/hoge'
+    const filesUrl = 'https://files.pnut.io/foo'
+    expect(util.getVideoSrcFromHtml(`<iframe src="${youtubeUrl}" />`)).toEqual(
+      youtubeUrl
+    )
+    expect(util.getVideoSrcFromHtml(`<iframe src="${filesUrl}" />`)).toEqual(
+      filesUrl
+    )
+    expect(util.getVideoSrcFromHtml(`<wrong html />`)).toBeFalsy()
+  })
+
+  test('determineVideoType', () => {
+    expect(
+      util.determineVideoType('https://www.youtube.com/embed/hoge')
+    ).toEqual('iframe')
+    expect(util.determineVideoType('https://files.pnut.io/foo')).toEqual(
+      'video'
+    )
+  })
 })
