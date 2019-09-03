@@ -68,7 +68,7 @@
     "eslint-plugin-jest": "22.16.0",
     "eslint-plugin-vue": "5.2.3",
     "flush-promises": "1.0.2",
-    "husky": "3.0.4",
+    "husky": "3.0.5",
     "imagemin-lint-staged": "0.4.0",
     "imports-loader": "0.8.0",
     "jest": "24.9.0",
