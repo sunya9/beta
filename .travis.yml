@@ -35,7 +35,10 @@ deploy:
   api_key:
     secure: T9OeyzMIoCkqBSB7nzmuiFbEwrw9W6myTTDZdowTy3W+T3wCcpHoqKzB5GfCH8YY+FS1D/Q5W8SJ0lbdTf9GTnIhidYTM2f/x5SHFTOzALEX3IXWORXSpo8QlflHLXQpqT1oIyYkIf9ONHclpXHai4l7FT1IMcaF9ibx4StqtHgEp6Ewx5o+CkIOsLk60a3auo2JMFIjNufSIXKZscxRrYKxfeEDEVDsjhZac7jVwps/sDVrOOhtrgAH4UWrrX3S6ODhkgGHH7Ck8k+6DGqVK4c62JyfSUgHEnGvQWQr635J/dI8jeDD5eVoyjy7EHbs4Qeefln8EJ3X9e6V/hHLDDil3euRUnLMYAgauvj1ql+hh9+Sl4vRIu6wOCkH0yq+L4d3KNTJRY9hFGRowoeSINnM8dIOIzRsykdILYyUXG4FQbgaO1QeuGkuvWAeDFmxmEnNbDXoCu+2hzItuFqIFUpcP7jmx0l2yvuNge7qnknGSTPK+Rk5VhJsHP0c2oUAe2KQsFZFSmhx69E1ibyFGt0j8eOMKv8Xj7ewxAJGYam5TZAJccfA56TjV879cPdUcNms3nAzrRLwQXoUo015WtDN4BcL8XgewLSA889o3zNWYN/wZzKqXadSFN7YuFVWSbGM5TTZXrr8gDHr1IkKvAyApSQskpE9mHeRAap2KAs=
   on:
-    branch: /^release-.*$/
+    tags: true
+    all_branches: true
+    condition: "$TRAVIS_TAG =~ ^v\d+\.\d+\.\d+$"
+  draft: true
 
 after_deploy:
   - 'curl -H ''Content-Type: application/json'' --data ''{"build": true}'' -X POST $DOCKER_HUB_URL;'
