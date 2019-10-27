@@ -77,4 +77,11 @@ describe('Avatar', () => {
       'data:image/png;base64'
     )
   })
+  test('Show transparent png when enablePlaceholder prop is true', () => {
+    opts.propsData.enablePlaceholder = true
+    const wrapper = shallowMount(Avatar, opts)
+    expect(wrapper.find('img').attributes().src).toContain(
+      'data:image/png;base64'
+    )
+  })
 })
