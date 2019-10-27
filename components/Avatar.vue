@@ -27,7 +27,11 @@ export default {
       validator(obj) {
         return typeof obj === 'string' || 'link' in obj
       },
-      required: true
+      default: ''
+    },
+    enablePlaceholder: {
+      type: Boolean,
+      default: false
     },
     size: {
       type: [String, Number],
@@ -47,6 +51,7 @@ export default {
   },
   computed: {
     url() {
+      if (!this.avatar || this.enablePlaceholder) return null
       return typeof this.avatar === 'string'
         ? /^(@\w+|\d+)$/.test(this.avatar)
           ? `https://api.pnut.io/v0/users/${this.avatar}/avatar`
