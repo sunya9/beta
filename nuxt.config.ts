@@ -1,3 +1,5 @@
+import { Configuration } from '@nuxt/types'
+
 require('dotenv').config()
 
 const { EnvironmentPlugin } = require('webpack')
@@ -5,7 +7,13 @@ const { homepage: npm_package_homepage } = require('./package')
 const fs = require('fs')
 const lastModified = fs.statSync('./package.json').mtime
 
-module.exports = {
+const config: Configuration = {
+  buildModules: ['@nuxt/typescript-build'],
+  typescript: {
+    typeCheck: {
+      eslint: true
+    }
+  },
   mode: 'spa',
   head: {
     title: 'Beta',
@@ -26,11 +34,11 @@ module.exports = {
         content: 'Beta is a client for pnut.io.'
       },
       {
-        'http-equiv': 'Pragma',
+        httpEquiv: 'Pragma',
         content: 'no-cache'
       },
       {
-        'http-equiv': 'Cache-Control',
+        httpEquiv: 'Cache-Control',
         content: 'no-cache'
       },
       // pwa-module does not support og:site_Name
@@ -55,10 +63,7 @@ module.exports = {
    ** Global CSS
    */
   css: [
-    {
-      src: '~assets/css/main.scss',
-      lang: 'scss'
-    },
+    '~assets/css/main.scss',
     '@fortawesome/fontawesome-svg-core/styles.css'
   ],
   /*
@@ -71,6 +76,7 @@ module.exports = {
   // webpack build setttings
   build: {
     extend(config) {
+      if(!config.resolve || !config.resolve.alias) return
       config.resolve.alias['bootstrap.native$'] =
         'bootstrap.native/dist/bootstrap-native-v4.js'
     },
@@ -188,3 +194,5 @@ module.exports = {
     }
   }
 }
+
+export default config

@@ -1,36 +1,16 @@
 {
   "name": "beta",
-  "version": "1.12.3",
   "description": "pnut.io client",
+  "version": "1.12.3",
   "author": "sunya9 <mugen.xyz@gmail.com> (https://unsweets.net)",
-  "private": true,
-  "main": "app.js",
-  "scripts": {
-    "dev": "nuxt",
-    "build": "cross-env NODE_ENV=production nuxt build",
-    "start": "cross-env NODE_ENV=production nuxt start",
-    "lint": "eslint --ext .js,.vue .",
-    "lint:fix": "eslint --ext .js,.vue --fix .",
-    "test": "jest",
-    "test:all": "run-p 'test --coverage' lint"
-  },
-  "lint-staged": {
-    "*.@(js|vue)": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
-    ],
-    "*.{png,jpeg,jpg,gif,svg}": [
-      "imagemin-lint-staged",
-      "git add"
-    ]
-  },
+  "bugs": "https://github.com/sunya9/beta/issues",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.25",
     "@fortawesome/free-brands-svg-icons": "5.11.2",
     "@fortawesome/free-regular-svg-icons": "5.11.2",
     "@fortawesome/free-solid-svg-icons": "5.11.2",
     "@fortawesome/vue-fontawesome": "0.1.7",
+    "@nuxt/typescript-runtime": "^0.2.2",
     "@nuxtjs/auth": "4.8.4",
     "@nuxtjs/axios": "5.8.0",
     "@nuxtjs/component-cache": "1.1.5",
@@ -61,6 +41,9 @@
   },
   "devDependencies": {
     "@babel/preset-env": "7.6.3",
+    "@nuxt/types": "^0.3.2",
+    "@nuxt/typescript-build": "^0.3.2",
+    "@nuxtjs/eslint-config-typescript": "^0.1.3",
     "@vue/test-utils": "1.0.0-beta.29",
     "axios-mock-adapter": "1.17.0",
     "eslint": "6.6.0",
@@ -79,22 +62,43 @@
     "prettier": "1.18.2",
     "vue-jest": "3.0.5"
   },
-  "resolutions": {
-    "babel-core": "7.0.0-bridge.0"
+  "engines": {
+    "node": ">= 8.0.0"
   },
+  "homepage": "https://github.com/sunya9/beta",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
-  "homepage": "https://github.com/sunya9/beta",
-  "bugs": "https://github.com/sunya9/beta/issues",
+  "license": "MIT",
+  "lint-staged": {
+    "*.@(js|vue|ts)": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{png,jpeg,jpg,gif,svg}": [
+      "imagemin-lint-staged",
+      "git add"
+    ]
+  },
+  "main": "app.js",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/sunya9/beta.git"
   },
-  "engines": {
-    "node": ">= 8.0.0"
+  "resolutions": {
+    "babel-core": "7.0.0-bridge.0"
   },
-  "license": "MIT"
+  "scripts": {
+    "build": "cross-env NODE_ENV=production nuxt-ts build",
+    "dev": "nuxt-ts",
+    "lint": "eslint --ext .ts,.js,.vue .",
+    "lint:fix": "eslint --ext .ts,.js,.vue --fix .",
+    "start": "cross-env NODE_ENV=production nuxt-ts start",
+    "test": "jest",
+    "test:all": "run-p 'test --coverage' lint"
+  }
 }
