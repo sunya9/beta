@@ -235,7 +235,7 @@ export default {
       this.refreshing = true
       const option = {
         ...this.option,
-        since_id: this.items.length && this.items[0][this.idField]
+        since_id: this.items.length && this.items[0]['pagination_id']
       }
       const { data: newItems } = await this.$resource(this.resource, option)
       if (newItems.length) {
