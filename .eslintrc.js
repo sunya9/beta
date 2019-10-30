@@ -6,17 +6,19 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:vue/recommended',
     'plugin:jest/recommended',
     '@nuxtjs/eslint-config-typescript',
     'prettier'
   ],
   parserOptions: {
+    parser: '@typescript-eslint/parser',
     ecmaVersion: 2018,
     sourceType: 'module'
   },
-
-  plugins: ['vue', 'jest'],
+  plugins: ['@typescript-eslint', 'vue', 'jest'],
   // add your custom rules here
   rules: {
     'no-console': [
@@ -32,7 +34,12 @@ module.exports = {
         allowEmptyCatch: true
       }
     ],
+    camelcase: 'off',
+    '@typescript-eslint/camelcase': 'off',
     eqeqeq: 'error',
-    'prefer-template': 'error'
+    'prefer-template': 'error',
+    // https://teppeis.hatenablog.com/entry/2019/02/typescript-eslint
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error'
   }
 }
