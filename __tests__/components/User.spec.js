@@ -1,10 +1,10 @@
-import User from '~/components/User'
 import {
   fixtures,
   shallowMount,
   baseMountOpts,
   authedUserCreateStore
 } from 'helper'
+import User from '~/components/User'
 
 describe('User', () => {
   describe('relation', () => {

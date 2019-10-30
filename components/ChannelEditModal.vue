@@ -39,16 +39,9 @@
       </div>
       <div class="form-group">
         <h5>Categories</h5>
-        <select
-          v-model="chat.categories"
-          class="form-control"
-          multiple
-        >
+        <select v-model="chat.categories" class="form-control" multiple>
           <template>
-            <option
-              v-for="category in $options.categories"
-              :key="category"
-            >
+            <option v-for="category in $options.categories" :key="category">
               {{ category }}
             </option>
           </template>
@@ -59,9 +52,9 @@
 </template>
 
 <script>
+import { cloneDeep } from 'lodash'
 import BaseModal from '~/components/BaseModal'
 import { findChatRaw } from '~/assets/js/util'
-import { cloneDeep } from 'lodash'
 
 export default {
   name: 'ChannelEditModal',

@@ -1,5 +1,5 @@
-import FollowButton from '~/components/FollowButton'
 import { mount } from 'helper'
+import FollowButton from '~/components/FollowButton'
 
 describe('FollowButton component', () => {
   let wrapper

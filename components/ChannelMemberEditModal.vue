@@ -10,16 +10,10 @@
     @shown="shown"
     @hidden="hidden"
   >
-    <div
-      v-if="acl"
-      class="form-group"
-    >
+    <div v-if="acl" class="form-group">
       <div class="form-group">
         <h5>Access</h5>
-        <custom-checkbox
-          v-model="anyUserWrite"
-          :disabled="acl.write.immutable"
-        >
+        <custom-checkbox v-model="anyUserWrite" :disabled="acl.write.immutable">
           Any user can write
         </custom-checkbox>
         <custom-checkbox
@@ -28,10 +22,7 @@
         >
           Any user can read
         </custom-checkbox>
-        <custom-checkbox
-          v-model="publicRead"
-          :disabled="acl.read.immutable"
-        >
+        <custom-checkbox v-model="publicRead" :disabled="acl.read.immutable">
           Publicly readable
         </custom-checkbox>
       </div>
@@ -40,10 +31,7 @@
           <div class="col-sm col-md-12">
             <h5>Members</h5>
             <div class="form-group">
-              <div
-                v-if="!anyUserWrite || isOwner"
-                class="input-group"
-              >
+              <div v-if="!anyUserWrite || isOwner" class="input-group">
                 <input
                   ref="addUserForm"
                   v-model="newUser.username"
@@ -68,20 +56,14 @@
                     type="button"
                     @click="addUser"
                   >
-                    <font-awesome-icon
-                      icon="plus"
-                      class="mr-1"
-                    />
+                    <font-awesome-icon icon="plus" class="mr-1" />
                     <span>Add</span>
                   </button>
                 </div>
               </div>
             </div>
             <ul class="list-unstyled">
-              <li
-                v-for="(user, index) in users"
-                :key="user.username"
-              >
+              <li v-for="(user, index) in users" :key="user.username">
                 <div class="form-group">
                   <div class="input-group">
                     <div class="input-group-prepend">
@@ -130,11 +112,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { cloneDeep, groupBy } from 'lodash'
 import CustomCheckbox from '~/components/CustomCheckbox'
 import BaseModal from '~/components/BaseModal'
 import Avatar from '~/components/Avatar'
 import AclSelect from '~/components/AclSelect'
-import { cloneDeep, groupBy } from 'lodash'
 
 export default {
   name: 'ChannelMemberEditModal',
@@ -266,7 +248,7 @@ export default {
     },
     addUser() {
       if (this.disabledAdd || this.disabledAddButton) return
-      var newUser = this.newUser
+      const newUser = this.newUser
       newUser.username = newUser.username.replace(/[^\w]/g, '')
       this.users.unshift({ ...newUser })
       this.newUser.username = ''

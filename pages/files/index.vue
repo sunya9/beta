@@ -11,6 +11,9 @@
 import FileList from '~/components/file-list'
 
 export default {
+  components: {
+    FileList
+  },
   async asyncData({ app: { $resource } }) {
     const data = await $resource()
     return {
@@ -21,9 +24,6 @@ export default {
     return {
       title: 'Your files'
     }
-  },
-  components: {
-    FileList
   }
 }
 </script>

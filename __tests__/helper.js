@@ -1,10 +1,10 @@
 import Vue from 'vue'
-import { getters } from '~/store'
 import Vuex from 'vuex'
 import { merge } from 'lodash'
 import { RouterLinkStub as NuxtLink } from '@vue/test-utils'
 import axiosMock from './axios-mock'
 import fixtures from './fixtures'
+import { getters } from '~/store'
 
 beforeEach(() => {
   Vue.prototype.$toast = {

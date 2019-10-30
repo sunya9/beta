@@ -1,12 +1,6 @@
 <template>
-  <div
-    v-if="user"
-    :class="{ 'mb-4 compose': !compact }"
-  >
-    <div
-      :class="{ 'border-0': compact }"
-      class="card"
-    >
+  <div v-if="user" :class="{ 'mb-4 compose': !compact }">
+    <div :class="{ 'border-0': compact }" class="card">
       <form
         :class="{ 'p-0': compact }"
         class="card-body"
@@ -27,10 +21,7 @@
             class="open-emoji-picker text-dark"
             @click.prevent.stop="toggleEmojiPalette"
           >
-            <font-awesome-icon
-              :icon="['far', 'smile']"
-              size="lg"
-            />
+            <font-awesome-icon :icon="['far', 'smile']" size="lg" />
           </a>
           <no-ssr>
             <picker
@@ -44,10 +35,7 @@
             />
           </no-ssr>
         </div>
-        <div
-          v-show="photos.length"
-          class="form-group"
-        >
+        <div v-show="photos.length" class="form-group">
           <transition-group
             tag="div"
             name="photos"
@@ -65,10 +53,7 @@
           </transition-group>
         </div>
         <div class="d-flex justify-content-between align-items-center">
-          <strong
-            class="text-muted"
-            data-test-id="post-counter"
-          >
+          <strong class="text-muted" data-test-id="post-counter">
             {{ postCounter }}
           </strong>
           <div>
@@ -153,22 +138,13 @@
               class="ml-1 btn btn-primary text-uppercase"
             >
               <span v-show="promise">
-                <font-awesome-icon
-                  icon="sync"
-                  spin
-                  fixed-width
-                  class="mr-2"
-                />
+                <font-awesome-icon icon="sync" spin fixed-width class="mr-2" />
               </span>
               <span>Post</span>
             </button>
           </div>
         </div>
-        <input-poll
-          v-if="poll"
-          class="mt-3"
-          @update:poll="p => (poll = p)"
-        />
+        <input-poll v-if="poll" class="mt-3" @update:poll="p => (poll = p)" />
         <input-spoiler
           v-if="spoiler"
           class="mt-3"
@@ -185,8 +161,9 @@
 </template>
 
 <script>
-import bus from '~/assets/js/bus'
+import querystring from 'querystring'
 import { mapGetters } from 'vuex'
+import bus from '~/assets/js/bus'
 import Thumb from '~/components/Thumb'
 import { Picker } from '~/plugins/emoji'
 import InputPoll from '~/components/InputPoll'
@@ -194,7 +171,6 @@ import InputSpoiler from '~/components/InputSpoiler'
 import InputLongpost from '~/components/InputLongpost'
 import textCount from '~/assets/js/text-count'
 import resettable from '~/assets/js/resettable'
-import querystring from 'querystring'
 import { createVideoEmbedRaw } from '~/assets/js/oembed'
 
 export default {
@@ -334,22 +310,20 @@ export default {
 
         this.replyStartPos = this.text.length
 
-        let mentions = [this.replyTarget.user.username.toLowerCase()]
+        const mentions = [this.replyTarget.user.username.toLowerCase()]
         for (
-          var i = this.replyTarget.content.entities.mentions.length - 1;
+          let i = this.replyTarget.content.entities.mentions.length - 1;
           i >= 0;
           i--
         ) {
-          var mention = this.replyTarget.content.entities.mentions[
+          const mention = this.replyTarget.content.entities.mentions[
             i
           ].text.toLowerCase()
           if (
-            mentions.indexOf(mention) === -1 &&
+            !mentions.includes(mention) &&
             mention !== this.user.username.toLowerCase()
           ) {
-            this.text += `@${
-              this.replyTarget.content.entities.mentions[i].text
-            } `
+            this.text += `@${this.replyTarget.content.entities.mentions[i].text} `
             mentions.push(mention)
           }
         }

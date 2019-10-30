@@ -1,9 +1,6 @@
 <template>
   <div>
-    <compose v-if="user" /> <splash
-      v-else
-      class="mb-5"
-    />
+    <compose v-if="user" /> <splash v-else class="mb-5" />
     <post-list
       ref="list"
       :data="data"
@@ -15,9 +12,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Compose from '~/components/Compose'
 import PostList from '~/components/PostList'
-import { mapGetters } from 'vuex'
 import { getResourcePath } from '~/plugins/axios/resources'
 import Splash from '~/components/Splash'
 import refreshAfterAdded from '~/assets/js/refresh-after-added'
@@ -32,13 +29,13 @@ export default {
   },
   mixins: [refreshAfterAdded],
   async asyncData({ app: { $resource }, store }) {
-    var streamPath = '/posts/streams/me'
-    if (localStorage['unified_timeline'] === 'true') {
+    let streamPath = '/posts/streams/me'
+    if (localStorage.unified_timeline === 'true') {
       streamPath = '/posts/streams/unified'
     }
     const option = {
       include_directed_posts:
-        localStorage['hide_directed_posts'] === 'false' ? 1 : 0
+        localStorage.hide_directed_posts === 'false' ? 1 : 0
     }
     const data = await $resource(
       !store.getters.user ? globalPath : streamPath,

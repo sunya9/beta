@@ -1,17 +1,10 @@
 <template>
   <div>
     <div>
-      <profile
-        v-if="profile"
-        :initial-profile.sync="profile"
-        class="mb-4"
-      />
+      <profile v-if="profile" :initial-profile.sync="profile" class="mb-4" />
     </div>
     <div>
-      <compose
-        :key="`${name}-compose`"
-        :initial-text="initialText"
-      />
+      <compose :key="`${name}-compose`" :initial-text="initialText" />
     </div>
     <div>
       <post-list
@@ -27,10 +20,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Profile from '~/components/Profile'
 import Compose from '~/components/Compose'
 import PostList from '~/components/PostList'
-import { mapGetters } from 'vuex'
 import { getTitle, getRSSLink } from '~/assets/js/util'
 import refreshAfterAdded from '~/assets/js/refresh-after-added'
 

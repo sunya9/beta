@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="profile.content"
-    class="card profile"
-  >
+  <div v-if="profile.content" class="card profile">
     <img
       v-if="profile.content.cover_image"
       :src="profile.content.cover_image.link"
@@ -57,17 +54,11 @@
               />
             </thumb>
             <div class="w-100">
-              <h3
-                :title="profile.id"
-                class="card-title mb-1"
-              >
+              <h3 :title="profile.id" class="card-title mb-1">
                 <span
                   class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline"
                 >
-                  <span
-                    :class="{ 'p-name': !profile.name }"
-                    class="p-nickname"
-                  >
+                  <span :class="{ 'p-name': !profile.name }" class="p-nickname">
                     @{{ profile.username }}
                   </span>
                   <emojify
@@ -100,11 +91,7 @@
                 id="profile-domain"
                 class="text-center text-md-left"
               >
-                <a
-                  :href="profile.verified.link"
-                  class="u-url"
-                  rel="me"
-                >
+                <a :href="profile.verified.link" class="u-url" rel="me">
                   {{ profile.verified.domain }}
                 </a>
                 <font-awesome-icon
@@ -114,19 +101,13 @@
               </p>
             </div>
           </div>
-          <div
-            v-if="user && !me"
-            class="text-center"
-          >
+          <div v-if="user && !me" class="text-center">
             <follow-button
               id="profile-follow-button"
               :profile.sync="profile"
               class="mb-2"
             />
-            <div
-              id="profile-relation"
-              class="text-muted"
-            >
+            <div id="profile-relation" class="text-muted">
               <small> {{ relation }} </small>
             </div>
           </div>
@@ -143,12 +124,7 @@
       id="profile-counts"
       class="card-body d-flex justify-content-between justify-content-md-end"
     >
-      <span
-        class="card-link"
-        append
-      >
-        {{ profile.counts.posts }} Posts
-      </span>
+      <span class="card-link" append> {{ profile.counts.posts }} Posts </span>
       <nuxt-link
         :tag="user ? 'a' : 'span'"
         class="card-link"
@@ -202,26 +178,14 @@
               <span v-if="!messagePromise">
                 Send a Message
               </span>
-              <font-awesome-icon
-                v-else
-                icon="circle-notch"
-                fixed-width
-                spin
-              />
+              <font-awesome-icon v-else icon="circle-notch" fixed-width spin />
             </a>
             <div class="dropdown-divider" />
           </template>
-          <nuxt-link
-            v-if="me"
-            to="/polls"
-            class="dropdown-item"
-          >
+          <nuxt-link v-if="me" to="/polls" class="dropdown-item">
             Your polls
           </nuxt-link>
-          <base-block-button
-            v-if="user && !me"
-            :profile.sync="profile"
-          >
+          <base-block-button v-if="user && !me" :profile.sync="profile">
             <a
               slot-scope="{ toggleBlock }"
               class="dropdown-item"
@@ -266,10 +230,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import FollowButton from '~/components/FollowButton'
 import Thumb from '~/components/Thumb'
 import Avatar from '~/components/Avatar'
-import { mapGetters } from 'vuex'
 import EntityText from '~/components/EntityText'
 import BaseMuteButton from '~/components/BaseMuteButton'
 import BaseBlockButton from '~/components/BaseBlockButton'

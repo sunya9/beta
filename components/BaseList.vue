@@ -34,19 +34,11 @@
       :class="{ 'list-group-item': listClass !== 'list-unstyled' }"
     >
       <div class="text-center w-100 text-muted my-2">
-        <font-awesome-icon
-          spin
-          fixed-width
-          size="2x"
-          icon="sync"
-        />
+        <font-awesome-icon spin fixed-width size="2x" icon="sync" />
       </div>
     </li>
   </ul>
-  <div
-    v-else
-    class="text-center my-3"
-  >
+  <div v-else class="text-center my-3">
     <slot name="empty">
       <div class="list-group-item py-4">
         No Items
@@ -235,7 +227,7 @@ export default {
       this.refreshing = true
       const option = {
         ...this.option,
-        since_id: this.items.length && this.items[0]['pagination_id']
+        since_id: this.items.length && this.items[0].pagination_id
       }
       const { data: newItems } = await this.$resource(this.resource, option)
       if (newItems.length) {

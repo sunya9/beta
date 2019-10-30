@@ -1,15 +1,7 @@
 <template>
-  <div
-    id="wrapper"
-    :style="`margin-top: 48px`"
-    class="wrapper mb-3"
-  >
+  <div id="wrapper" :style="`margin-top: 48px`" class="wrapper mb-3">
     <app-header ref="header">
-      <jumbotron
-        v-if="searchPage"
-        slot="jumbotron"
-        class="jumbotron"
-      />
+      <jumbotron v-if="searchPage" slot="jumbotron" class="jumbotron" />
     </app-header>
     <main class="container main">
       <div class="row">
@@ -21,14 +13,8 @@
         >
           <div class="navbar navbar-light p-0">
             <div class="d-md-block collapse navbar-collapse">
-              <transition
-                name="slide"
-                mode="out-in"
-              >
-                <component
-                  :is="sidebar"
-                  ref="sidebar"
-                />
+              <transition name="slide" mode="out-in">
+                <component :is="sidebar" ref="sidebar" />
               </transition>
             </div>
           </div>
@@ -47,10 +33,7 @@
             }"
             class="d-flex align-items-center mb-0"
           >
-            <div
-              v-if="selectedDropdownItem"
-              class="d-flex align-items-center"
-            >
+            <div v-if="selectedDropdownItem" class="d-flex align-items-center">
               <div
                 class="d-block bg-primary text-center rounded-circle text-white border-white mr-1 icon"
               >
@@ -73,22 +56,12 @@
                 aria-label="Toggle local navigation"
                 data-target="#navbarSupportedContent"
               >
-                <font-awesome-icon
-                  icon="bars"
-                  size="lg"
-                />
+                <font-awesome-icon icon="bars" size="lg" />
               </a>
             </div>
           </h3>
-          <div
-            id="navbarSupportedContent"
-            class="collapse"
-          >
-            <component
-              :is="sidebar"
-              v-if="!isAppSidebar"
-              narrow
-            />
+          <div id="navbarSupportedContent" class="collapse">
+            <component :is="sidebar" v-if="!isAppSidebar" narrow />
           </div>
           <div><nuxt /></div>
         </div>
@@ -104,8 +77,9 @@
   </div>
 </template>
 <script>
-import AppHeader from '~/components/Header'
 import { mapGetters } from 'vuex'
+import Vue from 'vue'
+import AppHeader from '~/components/Header'
 import PostModal from '~/components/PostModal'
 import RemoveModal from '~/components/RemoveModal'
 import MessageRemoveModal from '~/components/MessageRemoveModal'
@@ -119,7 +93,6 @@ import AboutSidebar from '~/components/sidebar/About'
 import FilesSidebar from '~/components/sidebar/Files'
 import SearchSidebar from '~/components/sidebar/Search'
 import Jumbotron from '~/components/Jumbotron'
-import Vue from 'vue'
 
 export default {
   commonShortcuts: {

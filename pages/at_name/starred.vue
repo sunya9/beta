@@ -6,9 +6,7 @@
       </nuxt-link>
       's Starred
     </h3>
-    <post-list
-      :data="data"
-    />
+    <post-list :data="data" />
   </div>
 </template>
 
@@ -16,6 +14,9 @@
 import PostList from '~/components/PostList'
 
 export default {
+  components: {
+    PostList
+  },
   async asyncData(ctx) {
     const {
       params,
@@ -36,9 +37,6 @@ export default {
         message: meta.error_message
       })
     }
-  },
-  components: {
-    PostList
   },
   head() {
     return {

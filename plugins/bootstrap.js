@@ -14,7 +14,7 @@ export default ({ app }) => {
 }
 
 function initCollapse(hide = false) {
-  new Array('globalNavigation', 'navbarSupportedContent').forEach(id => {
+  ;['globalNavigation', 'navbarSupportedContent'].forEach(id => {
     const button = document.querySelector(`[aria-controls="${id}"]`)
     if (!button) return
     const collapse = new Collapse(button)

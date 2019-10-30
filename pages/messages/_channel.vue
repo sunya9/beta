@@ -1,8 +1,5 @@
 <template>
-  <div
-    :key="$route.fullPath"
-    class="row"
-  >
+  <div :key="$route.fullPath" class="row">
     <div class="col-md-4 order-md-2">
       <chat-panel
         v-if="chat"
@@ -10,10 +7,7 @@
         :is-moderator="isModerator"
         :initial-channel.sync="channel"
       />
-      <pm-panel
-        v-else
-        :initial-channel.sync="channel"
-      />
+      <pm-panel v-else :initial-channel.sync="channel" />
     </div>
     <div class="col-md-8 order-md-1">
       <message-compose
@@ -39,9 +33,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import MessageList from '~/components/MessageList'
 import MessageCompose from '~/components/MessageCompose'
-import { mapGetters } from 'vuex'
 import ChatPanel from '~/components/ChatPanel'
 import PmPanel from '~/components/PmPanel'
 import markAsRead from '~/assets/js/mark-as-read'

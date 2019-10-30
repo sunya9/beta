@@ -25,10 +25,7 @@
       >
         <div class="input-group">
           <div class="input-group-append">
-            <button
-              type="button"
-              class="btn handle"
-            >
+            <button type="button" class="btn handle">
               <font-awesome-icon icon="bars" />
             </button>
           </div>
@@ -62,10 +59,7 @@
         type="button"
         @click="addChoice"
       >
-        <font-awesome-icon
-          icon="plus"
-          class="mr-2"
-        />
+        <font-awesome-icon icon="plus" class="mr-2" />
         <span>Add a choice</span>
       </button>
     </div>
@@ -77,23 +71,14 @@
         </span>
       </div>
 
-      <select
-        v-model.number="dateForm.days"
-        class="form-control"
-      >
-        <option
-          v-for="n in days.max - days.offset + 1"
-          :key="n"
-        >
+      <select v-model.number="dateForm.days" class="form-control">
+        <option v-for="n in days.max - days.offset + 1" :key="n">
           {{ n + days.offset - 1 }}
         </option>
       </select>
       <div class="input-group-append input-group-prepend">
         <span class="input-group-text">
-          <span
-            class="d-md-none"
-            title="days"
-          >
+          <span class="d-md-none" title="days">
             d
           </span>
           <span class="d-none d-sm-inline">
@@ -102,23 +87,14 @@
         </span>
       </div>
 
-      <select
-        v-model.number="dateForm.hours"
-        class="form-control"
-      >
-        <option
-          v-for="n in hours.max - hours.offset"
-          :key="n"
-        >
+      <select v-model.number="dateForm.hours" class="form-control">
+        <option v-for="n in hours.max - hours.offset" :key="n">
           {{ n + hours.offset - 1 }}
         </option>
       </select>
       <div class="input-group-append input-group-prepend">
         <span class="input-group-text">
-          <span
-            class="d-md-none"
-            title="hours"
-          >
+          <span class="d-md-none" title="hours">
             h
           </span>
           <span class="d-none d-sm-inline">
@@ -127,23 +103,14 @@
         </span>
       </div>
 
-      <select
-        v-model.number="dateForm.min"
-        class="form-control"
-      >
-        <option
-          v-for="n in min.max - min.offset"
-          :key="n"
-        >
+      <select v-model.number="dateForm.min" class="form-control">
+        <option v-for="n in min.max - min.offset" :key="n">
           {{ n + min.offset - 1 }}
         </option>
       </select>
       <div class="input-group-append">
         <span class="input-group-text">
-          <span
-            class="d-md-none"
-            title="min"
-          >
+          <span class="d-md-none" title="min">
             m
           </span>
           <span class="d-none d-sm-inline">
@@ -232,7 +199,7 @@ export default {
     dateForm: {
       deep: true,
       handler(dateForm) {
-        new Array('hours', 'min').forEach(key => {
+        ;['hours', 'min'].forEach(key => {
           const limitation = this[key]
           if (this.dateForm[key] < limitation.offset) {
             this.dateForm[key] = limitation.offset

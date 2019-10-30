@@ -1,6 +1,6 @@
-import MessageCompose from '~/components/MessageCompose'
 import { mount, authedUserCreateStore, baseMountOpts, fixtures } from 'helper'
 import flushPromises from 'flush-promises'
+import MessageCompose from '~/components/MessageCompose'
 
 describe('MessageCompose component', () => {
   let vm, wrapper

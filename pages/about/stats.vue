@@ -57,14 +57,14 @@
 
 <script>
 export default {
-  async asyncData({ app: { $resource } }) {
-    const data = await $resource()
-    return { data }
-  },
   computed: {
     counts() {
       return this.data.data.counts
     }
+  },
+  async asyncData({ app: { $resource } }) {
+    const data = await $resource()
+    return { data }
   },
   head() {
     return {

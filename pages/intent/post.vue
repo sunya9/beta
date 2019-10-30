@@ -12,11 +12,7 @@
       />
     </div>
     <div v-else>
-      <button
-        class="btn btn-primary my-2"
-        autofocus
-        @click="close"
-      >
+      <button class="btn btn-primary my-2" autofocus @click="close">
         Close
       </button>
     </div>
@@ -29,6 +25,14 @@ import Compose from '~/components/Compose'
 export default {
   middleware: ['auth'],
   layout: 'no-sidebar',
+  components: {
+    Compose
+  },
+  computed: {
+    title() {
+      return !this.posted ? 'Share a link' : 'Shared link!'
+    }
+  },
   async asyncData({ query }) {
     const { text, url } = query
     const message = text && url ? `[${text}](${url})` : ''
@@ -37,14 +41,6 @@ export default {
       url,
       text,
       posted: false
-    }
-  },
-  components: {
-    Compose
-  },
-  computed: {
-    title() {
-      return !this.posted ? 'Share a link' : 'Shared link!'
     }
   },
   methods: {

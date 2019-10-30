@@ -14,10 +14,7 @@
           <nuxt-link :to="`/@${user.username}`">
             {{ user.username }}
           </nuxt-link>
-          <emojify
-            :text="user.name"
-            class="ml-1 text-muted"
-          />
+          <emojify :text="user.name" class="ml-1 text-muted" />
           <span
             v-if="!myself && relation"
             data-test-id="relation"
@@ -47,11 +44,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import FollowButton from '~/components/FollowButton'
 import Avatar from '~/components/Avatar'
 import EntityText from '~/components/EntityText'
 import MuteButton from '~/components/MuteButton'
-import { mapGetters } from 'vuex'
 
 export default {
   components: {

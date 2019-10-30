@@ -18,6 +18,10 @@ import { getImageURLs } from '~/assets/js/util'
 import refreshAfterAdded from '~/assets/js/refresh-after-added'
 
 export default {
+  components: {
+    PostList
+  },
+  mixins: [refreshAfterAdded],
   async asyncData(ctx) {
     const {
       params: { id },
@@ -41,10 +45,6 @@ export default {
   validate({ params }) {
     return /^\w+$/.test(params.name) && /\d+$/.test(params.id)
   },
-  components: {
-    PostList
-  },
-  mixins: [refreshAfterAdded],
   head() {
     const [post] = this.data.data.filter(post => post.id === this.id)
     if (post.user && post.content) {

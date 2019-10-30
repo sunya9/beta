@@ -4,16 +4,9 @@
       <cover :cover="account.content.cover_image" />
       <avatar :avatar="account.content.avatar_image" />
     </div>
-    <form
-      action="/proxy/users/me"
-      method="post"
-      @submit.prevent="update"
-    >
+    <form action="/proxy/users/me" method="post" @submit.prevent="update">
       <div class="form-group row">
-        <label
-          class="col-form-label col-sm-12 col-md-3"
-          for="name"
-        >
+        <label class="col-form-label col-sm-12 col-md-3" for="name">
           Name
         </label>
         <div class="col-sm-12 col-md-9">
@@ -27,10 +20,7 @@
         </div>
       </div>
       <div class="form-group row">
-        <label
-          class="col-form-label col-sm-12 col-md-3"
-          for="description"
-        >
+        <label class="col-form-label col-sm-12 col-md-3" for="description">
           Description
         </label>
         <div class="col-sm-12 col-md-9">
@@ -45,10 +35,7 @@
         </div>
       </div>
       <div class="form-group row">
-        <label
-          class="col-form-label col-sm-12 col-md-3"
-          for="timezone"
-        >
+        <label class="col-form-label col-sm-12 col-md-3" for="timezone">
           Timezone
         </label>
         <div class="col-sm-12 col-md-9">
@@ -60,11 +47,7 @@
             rows="7"
             class="form-control"
           >
-            <option
-              v-for="t in timezones"
-              :key="t"
-              :value="t"
-            >
+            <option v-for="t in timezones" :key="t" :value="t">
               {{ t }}
             </option>
           </select>
@@ -72,10 +55,7 @@
       </div>
 
       <div class="form-group row">
-        <label
-          class="col-form-label col-sm-12 col-md-3"
-          for="locale"
-        >
+        <label class="col-form-label col-sm-12 col-md-3" for="locale">
           Language
         </label>
         <div class="col-sm-12 col-md-9">
@@ -87,11 +67,7 @@
             rows="7"
             class="form-control"
           >
-            <option
-              v-for="l in locales"
-              :key="l.value"
-              :value="l.value"
-            >
+            <option v-for="l in locales" :key="l.value" :value="l.value">
               {{ l.label }}
             </option>
           </select>
@@ -112,10 +88,10 @@
 </template>
 
 <script>
-import locales from '~/assets/json/locales'
-import timezones from '~/assets/json/timezones'
 import Cover from './Cover'
 import Avatar from './Avatar'
+import locales from '~/assets/json/locales'
+import timezones from '~/assets/json/timezones'
 
 export default {
   components: {

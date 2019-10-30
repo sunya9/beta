@@ -1,5 +1,3 @@
-import Header from '~/components/Header'
-
 import {
   shallowMount,
   createStore,
@@ -7,6 +5,7 @@ import {
   RouterLinkStub as NuxtLink
 } from 'helper'
 import { defaultsDeep } from 'lodash'
+import Header from '~/components/Header'
 
 describe('Header component', () => {
   let $store, authedStore, opts, authOpts

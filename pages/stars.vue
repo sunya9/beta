@@ -4,9 +4,7 @@
       <compose />
     </div>
     <div>
-      <post-list
-        :data="data"
-      />
+      <post-list :data="data" />
     </div>
   </div>
 </template>
@@ -17,13 +15,13 @@ import PostList from '~/components/PostList'
 
 export default {
   middleware: ['auth'],
-  async asyncData({ app: { $resource } }) {
-    const data = await $resource()
-    return { data }
-  },
   components: {
     PostList,
     Compose
+  },
+  async asyncData({ app: { $resource } }) {
+    const data = await $resource()
+    return { data }
   },
   head() {
     return {

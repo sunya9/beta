@@ -115,7 +115,9 @@ export function getOembedVideo(post) {
 
 export function getChannelInvite(post) {
   if (!post || !post.content || !post.raw) return
-  var channelRaw = post.raw.find(r => r.type === 'io.pnut.core.channel.invite')
+  const channelRaw = post.raw.find(
+    r => r.type === 'io.pnut.core.channel.invite'
+  )
   if (!channelRaw) return
   channelRaw.value.display_name =
     channelRaw.value.name || `Channel ${channelRaw.value.channel_id}`

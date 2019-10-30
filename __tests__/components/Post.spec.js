@@ -1,6 +1,6 @@
+import { mount, authedUserCreateStore, baseMountOpts, fixtures } from 'helper'
 import Post from '~/components/Post'
 import EntityText from '~/components/EntityText'
-import { mount, authedUserCreateStore, baseMountOpts, fixtures } from 'helper'
 
 describe('Post component', () => {
   let wrapper

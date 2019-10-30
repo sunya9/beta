@@ -1,14 +1,7 @@
 <template>
-  <component
-    :is="element"
-    v-bind="$attrs"
-  >
+  <component :is="element" v-bind="$attrs">
     <template v-for="(t, i) in modifiedText">
-      <span
-        v-if="t.type === 'text'"
-        :key="`text-${i}`"
-        v-text="t.value"
-      />
+      <span v-if="t.type === 'text'" :key="`text-${i}`" v-text="t.value" />
       <img
         v-else
         :key="`emoji-${i}`"
@@ -24,7 +17,7 @@ import twemoji from 'twemoji'
 import emojiRegex from 'emoji-regex/es2015'
 
 // https://github.com/twitter/twemoji/blob/27fe654b2bed5331cf1730bb4fbba1efa40af626/2/twemoji.js#L234
-const U200D = String.fromCharCode(0x200d)
+const U200D = String.fromCharCode(0x200D)
 
 export default {
   name: 'Emojify',
@@ -43,8 +36,8 @@ export default {
     modifiedText() {
       const text = this.text
       const regex = emojiRegex()
-      let match,
-        ep = 0
+      let match
+      let ep = 0
       const res = []
       while ((match = regex.exec(text))) {
         const emoji = match[0]
@@ -57,7 +50,7 @@ export default {
           type: 'emoji',
           value:
             // https://github.com/twitter/twemoji/blob/27fe654b2bed5331cf1730bb4fbba1efa40af626/2/twemoji.js#L321
-            emoji.indexOf(U200D) < 0 ? emoji.replace(/\ufe0f/g, '') : emoji
+            !emoji.includes(U200D) ? emoji.replace(/\uFE0F/g, '') : emoji
         })
         ep = match.index + emoji.length
       }

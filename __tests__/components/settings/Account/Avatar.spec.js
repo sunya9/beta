@@ -1,5 +1,5 @@
-import Avatar from '~/components/settings/Account/Avatar'
 import { shallowMount, fixtures } from 'helper'
+import Avatar from '~/components/settings/Account/Avatar'
 
 describe('Avatar component', () => {
   let wrapper, $input, $toast, $image

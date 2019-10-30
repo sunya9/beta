@@ -18,6 +18,10 @@ import { getImageURLs } from '~/assets/js/util'
 import refreshAfterAdded from '~/assets/js/refresh-after-added'
 
 export default {
+  components: {
+    PostList
+  },
+  mixins: [refreshAfterAdded],
   async asyncData(ctx) {
     const {
       params: { id },
@@ -43,10 +47,6 @@ export default {
   validate({ params }) {
     return /^\w+$/.test(params.name) && /\d+$/.test(params.id)
   },
-  components: {
-    PostList
-  },
-  mixins: [refreshAfterAdded],
   async mounted() {
     await this.$nextTick()
     const el = document.querySelector(`#post-${this.$route.params.id}`)

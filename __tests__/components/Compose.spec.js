@@ -1,5 +1,5 @@
-import Compose from '~/components/Compose'
 import { mount, authedUserCreateStore, baseMountOpts } from 'helper'
+import Compose from '~/components/Compose'
 
 // import noSsr from 'nuxt/lib/app/components/no-ssr'
 

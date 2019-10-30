@@ -11,12 +11,12 @@ import PollList from '~/components/PollList'
 
 export default {
   middleware: ['auth'],
+  components: {
+    PollList
+  },
   async asyncData({ app: { $resource } }) {
     const data = await $resource()
     return { data }
-  },
-  components: {
-    PollList
   },
   head() {
     return {

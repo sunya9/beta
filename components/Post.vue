@@ -34,10 +34,7 @@
         class="d-flex mr-3 iconSize u-photo"
       >
     </div>
-    <nuxt-link
-      v-else-if="!preview"
-      :to="`/@${mainPost.user.username}`"
-    >
+    <nuxt-link v-else-if="!preview" :to="`/@${mainPost.user.username}`">
       <avatar
         :avatar="mainPost.user.content.avatar_image"
         :alt="mainPost.user.username"
@@ -61,10 +58,7 @@
             class="text-muted"
           />
         </nuxt-link>
-        <span
-          v-else
-          class="text-gray-dark"
-        >
+        <span v-else class="text-gray-dark">
           Deleted user
         </span>
       </h6>
@@ -94,10 +88,7 @@
                   <em>[Post deleted]</em>
                 </entity-text>
               </p>
-              <div
-                v-if="!post.is_deleted && longpost"
-                class="my-2"
-              >
+              <div v-if="!post.is_deleted && longpost" class="my-2">
                 <button
                   :class="{
                     'btn-link': showLongpost,
@@ -119,19 +110,13 @@
                     Collapse Post
                   </span>
                 </button>
-                <div
-                  v-if="showLongpost"
-                  class="mt-2 longpost"
-                >
+                <div v-if="showLongpost" class="mt-2 longpost">
                   <emojify
                     v-if="longpost.title"
                     :text="longpost.title"
                     element="h5"
                   />
-                  <emojify
-                    :text="longpost.body"
-                    element="p"
-                  />
+                  <emojify :text="longpost.body" element="p" />
                 </div>
               </div>
             </template>
@@ -163,11 +148,7 @@
           </div>
         </div>
         <div v-if="oembedVideos">
-          <div
-            v-for="(video, i) in oembedVideos"
-            :key="i"
-            class="card mb-2"
-          >
+          <div v-for="(video, i) in oembedVideos" :key="i" class="card mb-2">
             <div class="card-body text-center">
               <div class="video-wrapper">
                 <iframe
@@ -194,10 +175,7 @@
             </div>
           </div>
         </div>
-        <div
-          v-if="poll"
-          class="card mb-3"
-        >
+        <div v-if="poll" class="card mb-3">
           <div class="card-body">
             <poll
               :poll="poll"
@@ -218,14 +196,8 @@
 
       <footer v-if="!post.is_deleted && !preview">
         <div v-if="post.repost_of">
-          <nuxt-link
-            :to="`/@${post.user.username}`"
-            class="text-muted"
-          >
-            <font-awesome-icon
-              icon="retweet"
-              class="mr-1"
-            />
+          <nuxt-link :to="`/@${post.user.username}`" class="text-muted">
+            <font-awesome-icon icon="retweet" class="mr-1" />
             <span>Reposted by @{{ post.user.username }}</span>
           </nuxt-link>
         </div>
@@ -238,14 +210,8 @@
               :title="absDate"
               class="text-muted"
             >
-              <font-awesome-icon
-                :icon="['far', 'clock']"
-                class="mr-1"
-              />
-              <time
-                :class="{ 'dt-published': detail }"
-                :datetime="absDate"
-              >
+              <font-awesome-icon :icon="['far', 'clock']" class="mr-1" />
+              <time :class="{ 'dt-published': detail }" :datetime="absDate">
                 {{ detail ? absDate : date }}
               </time>
             </nuxt-link>
@@ -253,10 +219,7 @@
           <template v-if="mainPost.is_revised">
             <li class="list-inline-item revised">
               <template v-if="mainPost.revision">
-                <font-awesome-icon
-                  :icon="['far', 'edit']"
-                  class="mr-1"
-                />
+                <font-awesome-icon :icon="['far', 'edit']" class="mr-1" />
                 Original
               </template>
               <template v-else>
@@ -265,10 +228,7 @@
                   class="text-muted"
                   title="Revised Post"
                 >
-                  <font-awesome-icon
-                    icon="edit"
-                    class="mr-1"
-                  />
+                  <font-awesome-icon icon="edit" class="mr-1" />
                   <span>Revised</span>
                 </nuxt-link>
               </template>
@@ -278,15 +238,8 @@
             v-if="!viewOnly && me && !disableEdit && !revised"
             class="list-inline-item edit"
           >
-            <a
-              href="#"
-              class="text-muted"
-              @click.prevent="editPost"
-            >
-              <font-awesome-icon
-                icon="edit"
-                class="mr-1"
-              />
+            <a href="#" class="text-muted" @click.prevent="editPost">
+              <font-awesome-icon icon="edit" class="mr-1" />
               <span>Edit</span>
             </a>
           </li>
@@ -298,10 +251,7 @@
                 class="text-muted"
                 title="In Reply To"
               >
-                <font-awesome-icon
-                  icon="comments"
-                  class="mr-1"
-                />
+                <font-awesome-icon icon="comments" class="mr-1" />
               </nuxt-link>
             </li>
           </template>
@@ -318,60 +268,32 @@
           </template>
           <template v-if="!viewOnly && user">
             <li class="list-inline-item reply">
-              <a
-                class="text-muted"
-                href="#"
-                @click.prevent="replyModal"
-              >
-                <font-awesome-icon
-                  icon="reply"
-                  class="mr-1"
-                />
+              <a class="text-muted" href="#" @click.prevent="replyModal">
+                <font-awesome-icon icon="reply" class="mr-1" />
                 <span>Reply</span>
               </a>
             </li>
           </template>
           <template v-if="!viewOnly && me">
             <li class="list-inline-item remove">
-              <a
-                class="text-muted"
-                href="#"
-                @click.stop.prevent="removeModal"
-              >
-                <font-awesome-icon
-                  icon="trash"
-                  class="mr-1"
-                />
+              <a class="text-muted" href="#" @click.stop.prevent="removeModal">
+                <font-awesome-icon icon="trash" class="mr-1" />
                 <span>Remove</span>
               </a>
             </li>
           </template>
           <template v-if="!viewOnly || !user">
             <li class="list-inline-item source">
-              <a
-                :href="post.source.link"
-                class="text-muted"
-                target="_new"
-              >
-                <font-awesome-icon
-                  icon="paper-plane"
-                  class="mr-1"
-                />
+              <a :href="post.source.link" class="text-muted" target="_new">
+                <font-awesome-icon icon="paper-plane" class="mr-1" />
                 <span>via {{ mainPost.source.name }}</span>
               </a>
             </li>
           </template>
           <template v-if="crosspost">
             <li class="list-inline-item crosspost-url">
-              <a
-                :href="crosspost"
-                class="text-muted"
-                target="_new"
-              >
-                <font-awesome-icon
-                  icon="random"
-                  class="mr-1"
-                />
+              <a :href="crosspost" class="text-muted" target="_new">
+                <font-awesome-icon icon="random" class="mr-1" />
                 <span>Crosspost</span>
               </a>
             </li>
@@ -424,14 +346,8 @@
         </div>
       </template>
     </div>
-    <div
-      v-if="!viewOnly && user && !post.is_deleted"
-      class="ml-auto mt-1"
-    >
-      <div
-        class="btn-group-vertical"
-        role="group"
-      >
+    <div v-if="!viewOnly && user && !post.is_deleted" class="ml-auto mt-1">
+      <div class="btn-group-vertical" role="group">
         <action-button
           ref="favorite"
           v-model="mainPost.you_bookmarked"
@@ -451,12 +367,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ActionButton from '~/components/ActionButton'
 import Avatar from '~/components/Avatar'
 import Thumb from '~/components/Thumb'
 import Sound from '~/components/Sound'
 import Poll from '~/components/Poll'
-import { mapGetters } from 'vuex'
 import EntityText from '~/components/EntityText'
 import Nsfw from '~/components/Nsfw'
 

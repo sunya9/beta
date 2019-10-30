@@ -6,9 +6,7 @@
       </nuxt-link>
       's followers
     </h3>
-    <user-list
-      :data="data"
-    />
+    <user-list :data="data" />
   </div>
 </template>
 
@@ -16,6 +14,9 @@
 import UserList from '~/components/UserList'
 
 export default {
+  components: {
+    UserList
+  },
   async asyncData(ctx) {
     const {
       params,
@@ -36,9 +37,6 @@ export default {
         message: meta.error_message
       })
     }
-  },
-  components: {
-    UserList
   },
   head() {
     return {

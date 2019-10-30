@@ -8,8 +8,8 @@ import {
   createLocalVue,
   sleep
 } from 'helper'
-import Profile from '~/components/Profile'
 import VueRouter from 'vue-router'
+import Profile from '~/components/Profile'
 import CreatePmModal from '~/components/CreatePmModal'
 
 describe('Profile component', () => {
@@ -27,7 +27,7 @@ describe('Profile component', () => {
       stubs: {
         Thumb: true,
         NuxtLink,
-        CreatePmModal: CreatePmModal
+        CreatePmModal
       }
     }
   })

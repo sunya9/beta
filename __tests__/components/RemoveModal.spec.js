@@ -1,6 +1,6 @@
+import { shallowMount } from 'helper'
 import RemoveModal from '~/components/RemoveModal'
 import BaseModal from '~/components/BaseModal'
-import { shallowMount } from 'helper'
 
 describe('Remove modal component', () => {
   let wrapper, baseModalWrapper

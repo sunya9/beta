@@ -3,15 +3,16 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import './axios-mock'
 import '~/plugins/font-awesome'
+import { config, RouterLinkStub } from '@vue/test-utils'
 import Modal from '~/plugins/modal/modal'
 import Emojify from '~/plugins/emojify/Emojify'
-import { config, RouterLinkStub } from '@vue/test-utils'
 
 Vue.use(Vuex)
 Vue.use(Modal)
-
-// dummy directives
-Array('on-click-outside', 'infinite-scroll', 'shortkey').forEach(directive => {
+[
+  // dummy directives
+  ('on-click-outside', 'infinite-scroll', 'shortkey')
+].forEach(directive => {
   Vue.directive(directive, {
     bind: () => {},
     unbind: () => {}
@@ -24,15 +25,15 @@ config.stubs['no-ssr'] = {
 }
 
 // emoji picker
-config.stubs['picker'] = {
+config.stubs.picker = {
   render: h => h('div')
 }
 
-config.stubs['emojify'] = Emojify
+config.stubs.emojify = Emojify
 
 config.stubs['nuxt-link'] = RouterLinkStub
 
-config.mocks['$mousetrap'] = {
+config.mocks.$mousetrap = {
   bind() {},
   unbind() {},
   pause() {},
@@ -42,7 +43,7 @@ config.mocks['$mousetrap'] = {
 Vue.use({
   install(Vue) {
     // https://github.com/nuxt-community/axios-module/blob/27aa4bdc7746d84d063fe9cfa34850bc6f08e141/lib/plugin.template.js#L37
-    for (let method of [
+    for (const method of [
       'request',
       'delete',
       'get',

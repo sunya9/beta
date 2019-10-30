@@ -1,11 +1,7 @@
 <template>
   <div>
     <compose />
-    <post-list
-      :data="data"
-      :option="option"
-      disable-auto-refresh
-    />
+    <post-list :data="data" :option="option" disable-auto-refresh />
   </div>
 </template>
 <script>
@@ -20,7 +16,7 @@ export default {
   async asyncData({ app: { $resource } }) {
     const option = {
       include_directed_posts:
-        localStorage['hide_directed_posts'] === 'true' ? 0 : 1
+        localStorage.hide_directed_posts === 'true' ? 0 : 1
     }
     const data = await $resource(option)
     return { data, option }

@@ -2,9 +2,9 @@ import { Configuration } from '@nuxt/types'
 
 require('dotenv').config()
 
+const fs = require('fs')
 const { EnvironmentPlugin } = require('webpack')
 const { homepage: npm_package_homepage } = require('./package')
-const fs = require('fs')
 const lastModified = fs.statSync('./package.json').mtime
 
 const config: Configuration = {
@@ -76,7 +76,7 @@ const config: Configuration = {
   // webpack build setttings
   build: {
     extend(config) {
-      if(!config.resolve || !config.resolve.alias) return
+      if (!config.resolve || !config.resolve.alias) return
       config.resolve.alias['bootstrap.native$'] =
         'bootstrap.native/dist/bootstrap-native-v4.js'
     },

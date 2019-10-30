@@ -5,33 +5,20 @@
         Create a {{ isPrivate ? 'private message' : 'chat room' }}
       </h2>
       <div>
-        <message-compose
-          v-if="isPrivate"
-          create-channel-mode
-        />
+        <message-compose v-if="isPrivate" create-channel-mode />
         <channel-compose v-else />
       </div>
       <h2 class="h4">
         {{ isPrivate ? 'Messages' : 'Chat rooms' }}
       </h2>
-      <ul
-        v-if="isPublic"
-        class="nav nav-pills my-3"
-      >
+      <ul v-if="isPublic" class="nav nav-pills my-3">
         <li class="nav-item">
-          <nuxt-link
-            class="nav-link"
-            to="/messages?public"
-            exact
-          >
+          <nuxt-link class="nav-link" to="/messages?public" exact>
             Subscribed
           </nuxt-link>
         </li>
         <li class="nav-item">
-          <nuxt-link
-            class="nav-link"
-            to="/messages?public&amp;all"
-          >
+          <nuxt-link class="nav-link" to="/messages?public&amp;all">
             All
           </nuxt-link>
         </li>
@@ -57,6 +44,17 @@ import refreshAfterAdded from '~/assets/js/refresh-after-added'
 export default {
   middleware: ['auth'],
   watchQuery: ['public', 'all'],
+  components: {
+    ChannelList,
+    MessageCompose,
+    ChannelCompose
+  },
+  mixins: [refreshAfterAdded],
+  computed: {
+    isPublic() {
+      return !this.isPrivate
+    }
+  },
   async asyncData({ app: { $resource }, query }) {
     const isPrivate = !('public' in query)
     const all = 'all' in query
@@ -98,17 +96,6 @@ export default {
 
     const data = await $resource(resource, option)
     return { data, option, isPrivate, resource }
-  },
-  components: {
-    ChannelList,
-    MessageCompose,
-    ChannelCompose
-  },
-  mixins: [refreshAfterAdded],
-  computed: {
-    isPublic() {
-      return !this.isPrivate
-    }
   },
   head() {
     return {

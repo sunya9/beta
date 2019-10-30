@@ -1,5 +1,5 @@
-import Nsfw from '~/components/Nsfw'
 import { shallowMount } from 'helper'
+import Nsfw from '~/components/Nsfw'
 
 describe('NSFW component', () => {
   describe('When post does not include nsfw', () => {

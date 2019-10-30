@@ -2,10 +2,7 @@
   <div class="card mb-4 compose">
     <div class="card-body">
       <form @submit.prevent="submit()">
-        <div
-          v-if="createChannelMode"
-          class="form-group"
-        >
+        <div v-if="createChannelMode" class="form-group">
           <div
             :class="{
               'd-flex justify-content-between align-items-center': calcPmLookup
@@ -26,17 +23,9 @@
               @click="findExistingPm"
             >
               <span v-show="promise">
-                <font-awesome-icon
-                  class="mr-2"
-                  icon="sync"
-                  spin
-                  fixed-width
-                />
+                <font-awesome-icon class="mr-2" icon="sync" spin fixed-width />
               </span>
-              <font-awesome-icon
-                icon="search"
-                class="mr-2"
-              />
+              <font-awesome-icon icon="search" class="mr-2" />
               {{ pmLookupStatus ? pmLookupStatus : 'Find Existing' }}
             </button>
           </div>
@@ -51,10 +40,7 @@
             @keydown.meta.enter="submit()"
           />
         </div>
-        <div
-          v-show="photos.length"
-          class="form-group"
-        >
+        <div v-show="photos.length" class="form-group">
           <transition-group
             tag="div"
             name="photos"
@@ -162,12 +148,12 @@
   </div>
 </template>
 <script>
-import textCount from '~/assets/js/text-count'
 import { mapGetters } from 'vuex'
+import unicodeSubstring from 'unicode-substring'
+import textCount from '~/assets/js/text-count'
 import Thumb from '~/components/Thumb'
 import InputSpoiler from '~/components/InputSpoiler'
 import resettable from '~/assets/js/resettable'
-import unicodeSubstring from 'unicode-substring'
 
 export default {
   components: {

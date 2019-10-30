@@ -1,5 +1,5 @@
-import Cover from '~/components/settings/Account/Cover'
 import { shallowMount } from 'helper'
+import Cover from '~/components/settings/Account/Cover'
 
 describe('Cover component', () => {
   let wrapper, $input, $button, $toast

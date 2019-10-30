@@ -28,13 +28,13 @@
   </base-list>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import BaseList from '~/components/BaseList'
 import Post from '~/components/Post'
 import {
   sendPostNotification,
   sendMentionNotification
 } from '~/assets/js/notification-wrapper'
-import { mapGetters } from 'vuex'
 import keyBinding, { forList } from '~/assets/js/key-binding'
 
 export default {

@@ -18,8 +18,8 @@ export default {
   },
   data() {
     return {
-      unified: localStorage['unified_timeline'] === 'true' ? true : false,
-      directed: localStorage['hide_directed_posts'] === 'true' ? true : false,
+      unified: localStorage.unified_timeline === 'true',
+      directed: localStorage.hide_directed_posts === 'true',
       error: null
     }
   },

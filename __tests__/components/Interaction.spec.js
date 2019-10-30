@@ -1,5 +1,5 @@
-import Interaction from '~/components/Interaction'
 import { mount, authedUserCreateStore, fixtures } from 'helper'
+import Interaction from '~/components/Interaction'
 
 describe('Interaction component', () => {
   it('reply', () => {

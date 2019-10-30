@@ -1,10 +1,10 @@
-import PostModal from '~/components/PostModal'
 import {
   mount,
   authedUserCreateStore,
   RouterLinkStub as NuxtLink,
   fixtures
 } from 'helper'
+import PostModal from '~/components/PostModal'
 
 describe('PostModal component', () => {
   let wrapper

@@ -1,5 +1,5 @@
-import index from '~/components/settings/Account'
 import { shallowMount, stub } from 'helper'
+import index from '~/components/settings/Account'
 
 describe('settings/Account/index component', () => {
   let wrapper, $toast
