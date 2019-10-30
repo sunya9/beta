@@ -36,10 +36,13 @@ module.exports = {
     ],
     camelcase: 'off',
     '@typescript-eslint/camelcase': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
     eqeqeq: 'error',
     'prefer-template': 'error',
     // https://teppeis.hatenablog.com/entry/2019/02/typescript-eslint
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'error'
+    '@typescript-eslint/no-unused-vars': 'error',
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': 'error'
   }
 }
