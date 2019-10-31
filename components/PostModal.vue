@@ -8,12 +8,7 @@
     @hidden="hidden"
   >
     <div slot-scope="{ ok }">
-      <post
-        v-if="reply && !edit"
-        :post="reply"
-        class="my-3"
-        view-only
-      />
+      <post v-if="reply && !edit" :post="reply" class="my-3" view-only />
       <compose
         ref="compose"
         :reply-target="reply"
@@ -58,7 +53,7 @@ export default {
       this.reply = null
       this.edit = false
     },
-    async show(post, options = {}) {
+    show(post, options = {}) {
       this.edit = options.edit
       this.reply = post
     },

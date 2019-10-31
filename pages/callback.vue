@@ -5,7 +5,7 @@
 <script>
 export default {
   layout: 'loading',
-  async mounted() {
+  mounted() {
     this.$router.replace('/')
   }
 }

@@ -150,10 +150,18 @@
 <script>
 import { mapGetters } from 'vuex'
 import unicodeSubstring from 'unicode-substring'
+import { Dropdown } from 'bootstrap.native'
 import textCount from '~/assets/js/text-count'
 import Thumb from '~/components/Thumb'
 import InputSpoiler from '~/components/InputSpoiler'
 import resettable from '~/assets/js/resettable'
+
+function obj2FormData(obj) {
+  return Object.keys(obj).reduce((fd, key) => {
+    fd.append(key, obj[key])
+    return fd
+  }, new FormData())
+}
 
 export default {
   components: {
@@ -187,7 +195,8 @@ export default {
       photos: [],
       previewPhotos: [],
       spoiler: null,
-      pmLookupStatus: null
+      pmLookupStatus: null,
+      dropdown: null
     }
   },
   computed: {
@@ -249,9 +258,8 @@ export default {
       this.$refs.textarea.focus()
       e.preventDefault()
     })
-    const { Dropdown } = require('bootstrap.native')
     if (!this.$refs.dropdown) return
-    new Dropdown(this.$refs.dropdown)
+    this.dropdown = new Dropdown(this.$refs.dropdown)
   },
   beforeDestroy() {
     this.$mousetrap.unbind('n')
@@ -412,13 +420,6 @@ export default {
       this.$refs.file.value = ''
     }
   }
-}
-
-function obj2FormData(obj) {
-  return Object.keys(obj).reduce((fd, key) => {
-    fd.append(key, obj[key])
-    return fd
-  }, new FormData())
 }
 </script>
 

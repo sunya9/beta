@@ -3,6 +3,15 @@ import { getResourcePath } from './resources'
 export default (context, inject) => {
   const { $axios, error, app } = context
   let resourcePath
+
+  function showError(err) {
+    const code = parseInt(err.response && err.response.status)
+    error({
+      statusCode: code,
+      message: err.message
+    })
+  }
+
   const $resource = (url = '', options = {}) => {
     if (typeof url === 'object') {
       options = url
@@ -20,18 +29,11 @@ export default (context, inject) => {
       .catch(showError)
   }
   inject('resource', $resource)
-  app.router.beforeEach((to, from, next) => {
+  app.router.beforeEach((to, _, next) => {
     resourcePath = getResourcePath(to)
     next()
   })
 
-  function showError(err) {
-    const code = parseInt(err.response && err.response.status)
-    error({
-      statusCode: code,
-      message: err.message
-    })
-  }
   $axios.onError(err => {
     if (process.server) {
       showError(err)

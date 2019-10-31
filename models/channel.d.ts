@@ -5,9 +5,9 @@ export interface Channel {
   id: string;
   is_active: boolean;
   type: string;
-  owner?: User.User;
+  owner?: User;
   recent_message_id?: string;
-  recent_message?: Message.Message;
+  recent_message?: Message;
   acl: Channel.Acl;
   counts: {
     messages: number;
@@ -24,20 +24,20 @@ export namespace Channel {
     full: {
       immutable: boolean;
       you: boolean;
-      user_ids: string[] | User.User[];
+      user_ids: string[] | User[];
     };
     write: {
       any_user: boolean;
       immutable: boolean;
       you: boolean;
-      user_ids: string[] | User.User[];
+      user_ids: string[] | User[];
     };
     read: {
       any_user: boolean;
       immutable: boolean;
       public: boolean;
       you: boolean;
-      user_ids: string[] | User.User[];
+      user_ids: string[] | User[];
     };
   }
 }

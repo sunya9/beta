@@ -1,3 +1,7 @@
+function getData(auth, key) {
+  return auth && auth.user && auth.user.data && auth.user.data[key]
+}
+
 export const getters = {
   user({ auth }) {
     return getData(auth, 'user')
@@ -9,8 +13,4 @@ export const getters = {
       }
     )
   }
-}
-
-function getData(auth, key) {
-  return auth && auth.user && auth.user.data && auth.user.data[key]
 }

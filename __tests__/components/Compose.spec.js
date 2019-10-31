@@ -120,7 +120,7 @@ describe('Compose component', () => {
     })
     describe('clicked picker button', () => {
       let emojiPicker
-      beforeEach(async () => {
+      beforeEach(() => {
         wrapper.find('.open-emoji-picker').trigger('click')
         emojiPicker = wrapper.find({
           ref: 'picker'

@@ -173,7 +173,7 @@ export default {
         this.$el.children[this.select].contains(this.activeElement)
       )
     },
-    async focus(e) {
+    focus(e) {
       const element = e ? e.target : this.$el.children[this.select]
       if (!element) return
       this.activeElement = this.$el.children[this.select]

@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      v-if="firstUnreadMessage"
-      class="matching-hr"
-    >
+    <div v-if="firstUnreadMessage" class="matching-hr">
       <hr>
       <div>
         <span class="text-muted">
@@ -65,7 +62,6 @@
             :class="{
               'order-2': me
             }"
-            @click="clickMessage"
           >
             <div
               :class="{
@@ -74,10 +70,7 @@
               }"
               class="py-2 px-3 mb-1 balloon"
             >
-              <entity-text
-                :content="message.content"
-                :spoiler="spoiler"
-              >
+              <entity-text :content="message.content" :spoiler="spoiler">
                 <em>
                   [Message deleted{{
                     message.deleted_by ? ' by moderator' : ''
@@ -144,10 +137,7 @@
             }"
             class="align-self-end date-pos"
           >
-            <span
-              :title="absDate"
-              class="text-muted text-nowrap"
-            >
+            <span :title="absDate" class="text-muted text-nowrap">
               {{ date }}
             </span>
           </div>
@@ -231,7 +221,6 @@ export default {
     ...mapGetters(['user'])
   },
   methods: {
-    clickMessage() {},
     removeModal() {
       this.$modal.show('message-remove-modal', this)
     },

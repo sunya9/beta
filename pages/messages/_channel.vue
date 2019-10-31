@@ -57,6 +57,33 @@ export default {
       message: ''
     }
   },
+  computed: {
+    chat() {
+      return findChatRaw(this.channel, true)
+    },
+    ...mapGetters(['user']),
+    isModerator() {
+      return (
+        this.user &&
+        ((this.channel.owner && this.user.id === this.channel.owner.id) ||
+          !!this.channel.acl.full.user_ids.find(u => u.id === this.user.id))
+      )
+    },
+    isPM() {
+      return this.channel.type === 'io.pnut.core.pm'
+    },
+    canPost() {
+      return this.user && this.channel.acl.write.you
+    }
+  },
+  watch: {
+    '$route.fullPath': {
+      handler() {
+        this.$emit('updateNav', this.isPM)
+      },
+      immediate: true
+    }
+  },
   async asyncData({ app: { $axios, $resource }, params, error }) {
     const option = {
       include_deleted: 1
@@ -88,33 +115,6 @@ export default {
         statusCode: code,
         message: error_message
       })
-    }
-  },
-  computed: {
-    chat() {
-      return findChatRaw(this.channel, true)
-    },
-    ...mapGetters(['user']),
-    isModerator() {
-      return (
-        this.user &&
-        ((this.channel.owner && this.user.id === this.channel.owner.id) ||
-          !!this.channel.acl.full.user_ids.find(u => u.id === this.user.id))
-      )
-    },
-    isPM() {
-      return this.channel.type === 'io.pnut.core.pm'
-    },
-    canPost() {
-      return this.user && this.channel.acl.write.you
-    }
-  },
-  watch: {
-    '$route.fullPath': {
-      handler() {
-        this.$emit('updateNav', this.isPM)
-      },
-      immediate: true
     }
   },
   mounted() {

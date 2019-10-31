@@ -21,14 +21,8 @@
             style="height: 2rem"
             @click="toggleDisplay"
           >
-            <div
-              :style="getStyle(option)"
-              class="progress-bar"
-            >
-              <div
-                class="position-absolute w-100"
-                style="right: 0; left: 0;"
-              >
+            <div :style="getStyle(option)" class="progress-bar">
+              <div class="position-absolute w-100" style="right: 0; left: 0;">
                 <div class="mx-3 d-flex justify-content-between">
                   <emojify :text="option.text" />
                   <span>
@@ -56,24 +50,13 @@
     </ul>
     <footer>
       <ul class="list-inline">
-        <li
-          v-if="finished"
-          class="list-inline-item text-muted"
-        >
+        <li v-if="finished" class="list-inline-item text-muted">
           Total: {{ total }}
         </li>
         <li class="list-inline-item text-muted">
-          <nuxt-link
-            :to="`/polls/${internalPoll.id}`"
-            class="text-muted"
-          >
-            <font-awesome-icon
-              :icon="['far', 'clock']"
-              class="mr-2"
-            />
-            <span v-if="closed">
-              Closed at
-            </span><span v-else>
+          <nuxt-link :to="`/polls/${internalPoll.id}`" class="text-muted">
+            <font-awesome-icon :icon="['far', 'clock']" class="mr-2" />
+            <span v-if="closed"> Closed at </span><span v-else>
               ~
             </span>
             {{ until }}
@@ -170,7 +153,7 @@ export default {
       )
       this.internalPoll = data
     },
-    async toggleDisplay() {
+    toggleDisplay() {
       this.preferPercent = !this.preferPercent
       this.getPoll()
     }

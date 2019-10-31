@@ -231,6 +231,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { Dropdown } from 'bootstrap.native'
 import FollowButton from '~/components/FollowButton'
 import Thumb from '~/components/Thumb'
 import Avatar from '~/components/Avatar'
@@ -303,7 +304,6 @@ export default {
     // 2 === side border width
     const ratio = (width - 2) / this.profile.content.cover_image.width
     this.headerHeight = this.profile.content.cover_image.height * ratio
-    const { Dropdown } = require('bootstrap.native')
     this.dropdown = new Dropdown(this.$refs.dropdown)
   },
   methods: {

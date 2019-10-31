@@ -118,6 +118,10 @@ import BaseModal from '~/components/BaseModal'
 import Avatar from '~/components/Avatar'
 import AclSelect from '~/components/AclSelect'
 
+function atUserStr(user) {
+  return `@${user.username.replace(/[^\w]/g, '')}`
+}
+
 export default {
   name: 'ChannelMemberEditModal',
   components: {
@@ -267,9 +271,5 @@ export default {
       })
     }
   }
-}
-
-function atUserStr(user) {
-  return `@${user.username.replace(/[^\w]/g, '')}`
 }
 </script>

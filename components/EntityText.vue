@@ -45,11 +45,7 @@
             <font-awesome-icon icon="info-circle" />
           </a>
         </template>
-        <emojify
-          v-else
-          :key="`text-${i}`"
-          :text="entity.text"
-        />
+        <emojify v-else :key="`text-${i}`" :text="entity.text" />
       </template>
     </span>
   </span>
@@ -60,7 +56,35 @@
 <script>
 import unicodeSubstring from 'unicode-substring'
 import stringLength from 'string-length'
+import { Popover } from 'bootstrap.native'
 import NuxtLinkMod from '~/components/NuxtLinkMod'
+
+const ReplaceUrls = [
+  {
+    test: /^https?:\/\/patter.chat\/room\/(\d+)/,
+    replace: 'https://beta.pnut.io/messages/$1',
+    domain: 'beta.pnut.io'
+  }
+]
+
+function modifyURL(entity) {
+  const itemToReplace = ReplaceUrls.find(({ test }) => test.test(entity.link))
+  if (!itemToReplace) return null
+  const { test, replace, domain } = itemToReplace
+  const link = entity.link.replace(test, replace)
+  return {
+    link,
+    domain
+  }
+}
+
+function addTypeKey(entities, value) {
+  return entities.map(entity => {
+    entity.type = value
+    if (value === 'links') entity.replace = modifyURL(entity)
+    return entity
+  })
+}
 
 export default {
   name: 'EntityText',
@@ -121,7 +145,6 @@ export default {
   },
   mounted() {
     // ensure to initialize
-    const { Popover } = require('bootstrap.native')
     Array.from(this.$el.querySelectorAll('[data-toggle="popover"]')).forEach(
       target => new Popover(target)
     )
@@ -135,33 +158,6 @@ export default {
       if (!entity.replace || !isURLLiteral) return text
       return entity.replace.link
     }
-  }
-}
-
-function addTypeKey(entities, value) {
-  return entities.map(entity => {
-    entity.type = value
-    if (value === 'links') entity.replace = modifyURL(entity)
-    return entity
-  })
-}
-
-const ReplaceUrls = [
-  {
-    test: /^https?:\/\/patter.chat\/room\/(\d+)/,
-    replace: 'https://beta.pnut.io/messages/$1',
-    domain: 'beta.pnut.io'
-  }
-]
-
-function modifyURL(entity) {
-  const itemToReplace = ReplaceUrls.find(({ test }) => test.test(entity.link))
-  if (!itemToReplace) return null
-  const { test, replace, domain } = itemToReplace
-  const link = entity.link.replace(test, replace)
-  return {
-    link,
-    domain
   }
 }
 </script>

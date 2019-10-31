@@ -173,6 +173,13 @@ import textCount from '~/assets/js/text-count'
 import resettable from '~/assets/js/resettable'
 import { createVideoEmbedRaw } from '~/assets/js/oembed'
 
+function obj2FormData(obj) {
+  return Object.keys(obj).reduce((fd, key) => {
+    fd.append(key, obj[key])
+    return fd
+  }, new FormData())
+}
+
 export default {
   name: 'Composer',
   components: {
@@ -310,22 +317,20 @@ export default {
 
         this.replyStartPos = this.text.length
 
-        const mentions = [this.replyTarget.user.username.toLowerCase()]
-        for (
-          let i = this.replyTarget.content.entities.mentions.length - 1;
-          i >= 0;
-          i--
-        ) {
-          const mention = this.replyTarget.content.entities.mentions[
-            i
-          ].text.toLowerCase()
-          if (
-            !mentions.includes(mention) &&
-            mention !== this.user.username.toLowerCase()
-          ) {
-            this.text += `@${this.replyTarget.content.entities.mentions[i].text} `
-            mentions.push(mention)
-          }
+        const screenNames = this.replyTarget.content.entities.mentions.reduce(
+          (memo, mention) => {
+            const key = mention.text.toLowerCase()
+            const unique = !memo.includes(mention)
+            const notMe = key !== this.user.username.toLowerCase()
+            if (unique && notMe) {
+              memo.push(`@${mention.text}`)
+            }
+            return memo
+          },
+          []
+        )
+        if (screenNames.length > 0) {
+          this.text += `${screenNames.join(' ')} `
         }
       },
       immediate: true
@@ -409,10 +414,11 @@ export default {
     },
     async uploadPoll() {
       this.poll.options = this.poll.options.filter(option => option.text)
-      return await this.$axios.$post('/polls', {
+      const res = await this.$axios.$post('/polls', {
         ...this.poll,
         prompt: this.poll.prompt || this.text
       })
+      return res
     },
     async submit() {
       if (this.promise || this.textOverflow || this.hasNoText) return false
@@ -487,7 +493,10 @@ export default {
           this.longpost = null
           this.nsfw = false
         })
-        .finally(() => ((this.promise = null), this.$toast.success('Posted!')))
+        .finally(() => {
+          this.promise = null
+          this.$toast.success('Posted!')
+        })
     },
     async uploadPhotos() {
       const photosPromise = this.photos.map(async content => {
@@ -548,13 +557,6 @@ export default {
       this.showEmojiPicker = false
     }
   }
-}
-
-function obj2FormData(obj) {
-  return Object.keys(obj).reduce((fd, key) => {
-    fd.append(key, obj[key])
-    return fd
-  }, new FormData())
 }
 </script>
 

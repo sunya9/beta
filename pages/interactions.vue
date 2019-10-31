@@ -3,39 +3,19 @@
     <div class="d-flex justify-content-between flex-wrap">
       <div class="btn-group" role="group" style="display: none">
         <label class="btn btn-primary">
-          <input
-            :class="active"
-            type="checkbox"
-            class="sr-only"
-            value="reply"
-          >
+          <input type="checkbox" class="sr-only" value="reply">
           Reply
         </label>
         <label class="btn btn-primary">
-          <input
-            :class="active"
-            type="checkbox"
-            class="sr-only"
-            value="repost"
-          >
+          <input type="checkbox" class="sr-only" value="repost">
           Repost
         </label>
         <label class="btn btn-primary">
-          <input
-            :class="active"
-            type="checkbox"
-            class="sr-only"
-            value="bookmark"
-          >
+          <input type="checkbox" class="sr-only" value="bookmark">
           Star
         </label>
         <label class="btn btn-primary">
-          <input
-            :class="active"
-            type="checkbox"
-            class="sr-only"
-            value="follow"
-          >
+          <input type="checkbox" class="sr-only" value="follow">
           Follow
         </label>
       </div>
@@ -60,9 +40,6 @@ export default {
     }
     const data = await $resource(option)
     return { data, option }
-  },
-  methods: {
-    active() {}
   },
   head() {
     return {

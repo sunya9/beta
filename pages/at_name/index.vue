@@ -34,6 +34,25 @@ export default {
     PostList
   },
   mixins: [refreshAfterAdded],
+  computed: {
+    ...mapGetters(['user']),
+    initialText() {
+      return this.user && this.user.username === this.name
+        ? ''
+        : `@${this.name} `
+    },
+    blocked() {
+      return this.profile.you_blocked
+    }
+  },
+  watch: {
+    async blocked(after, before) {
+      if (before && !after) {
+        await this.$nextTick()
+        this.$refs.list.fetchMore()
+      }
+    }
+  },
   async asyncData(ctx) {
     const {
       params,
@@ -65,25 +84,6 @@ export default {
         statusCode: meta.code,
         message: meta.error_message
       })
-    }
-  },
-  computed: {
-    ...mapGetters(['user']),
-    initialText() {
-      return this.user && this.user.username === this.name
-        ? ''
-        : `@${this.name} `
-    },
-    blocked() {
-      return this.profile.you_blocked
-    }
-  },
-  watch: {
-    async blocked(after, before) {
-      if (before && !after) {
-        await this.$nextTick()
-        this.$refs.list.fetchMore()
-      }
     }
   },
   head() {

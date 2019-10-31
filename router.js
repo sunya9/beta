@@ -3,14 +3,6 @@ import Router from 'vue-router'
 import postPage from '~/pages/posts/_id.vue'
 Vue.use(Router)
 
-export function createRouter(ssrContext, createDefaultRouter) {
-  const defaultRouter = createDefaultRouter(ssrContext)
-  return new Router({
-    ...defaultRouter.options,
-    routes: fixRoutes(defaultRouter.options.routes)
-  })
-}
-
 function fixRoutes(defaultRoutes) {
   const routes = defaultRoutes.reduce((routes, route) => {
     // Replace "at" prefix with @ because cannot use @ for file/dir name in nuxt's project.
@@ -27,4 +19,12 @@ function fixRoutes(defaultRoutes) {
     component: postPage
   })
   return routes
+}
+
+export function createRouter(ssrContext, createDefaultRouter) {
+  const defaultRouter = createDefaultRouter(ssrContext)
+  return new Router({
+    ...defaultRouter.options,
+    routes: fixRoutes(defaultRouter.options.routes)
+  })
 }

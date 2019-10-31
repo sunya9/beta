@@ -3,6 +3,6 @@ import Modal from './modal'
 
 Vue.use(Modal)
 
-export default (app, inject) => {
+export default (_, inject) => {
   inject('modal', Modal)
 }

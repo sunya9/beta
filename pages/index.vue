@@ -28,6 +28,12 @@ export default {
     Splash
   },
   mixins: [refreshAfterAdded],
+  computed: {
+    ...mapGetters(['user']),
+    resource() {
+      return !this.user ? getResourcePath('global') : ''
+    }
+  },
   async asyncData({ app: { $resource }, store }) {
     let streamPath = '/posts/streams/me'
     if (localStorage.unified_timeline === 'true') {
@@ -42,12 +48,6 @@ export default {
       option
     )
     return { data, option }
-  },
-  computed: {
-    ...mapGetters(['user']),
-    resource() {
-      return !this.user ? getResourcePath('global') : ''
-    }
   },
   head() {
     return {

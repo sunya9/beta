@@ -33,7 +33,7 @@ export default {
       return !this.posted ? 'Share a link' : 'Shared link!'
     }
   },
-  async asyncData({ query }) {
+  asyncData({ query }) {
     const { text, url } = query
     const message = text && url ? `[${text}](${url})` : ''
     return {

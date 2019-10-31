@@ -1,9 +1,5 @@
 <template>
-  <promise-modal
-    ref="promiseModal"
-    @show="show"
-    @hide="hide"
-  >
+  <promise-modal ref="promiseModal" @show="show" @hide="hide">
     <div
       ref="modal"
       slot-scope="{ ok }"
@@ -36,20 +32,10 @@
             </button>
           </div>
           <div class="modal-body">
-            <slot
-              :ok="ok"
-              :canchel="hideRequest"
-            />
+            <slot :ok="ok" :canchel="hideRequest" />
           </div>
-          <div
-            v-if="!$slots.footer && !hideFooter"
-            class="modal-footer"
-          >
-            <slot
-              :ok="ok"
-              :cancel="hideRequest"
-              name="footer"
-            >
+          <div v-if="!$slots.footer && !hideFooter" class="modal-footer">
+            <slot :ok="ok" :cancel="hideRequest" name="footer">
               <button
                 ref="cancel"
                 :form="form"
@@ -78,6 +64,8 @@
   </promise-modal>
 </template>
 <script>
+import { Modal } from 'bootstrap.native'
+
 export default {
   name: 'BaseModal',
   props: {
@@ -136,7 +124,6 @@ export default {
     }
   },
   mounted() {
-    const { Modal } = require('bootstrap.native')
     this.modal = new Modal(this.$refs.modal)
     this.$refs.modal.addEventListener('shown.bs.modal', this.shown)
     this.$refs.modal.addEventListener('hidden.bs.modal', this.hidden)

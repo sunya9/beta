@@ -8,10 +8,7 @@
     @show="show"
     @hidden="hidden"
   >
-    <ul
-      class="nav nav-tabs"
-      role="tablist"
-    >
+    <ul class="nav nav-tabs" role="tablist">
       <li class="nav-item">
         <a
           id="create-private-room-tab-label"
@@ -72,6 +69,7 @@
 </template>
 
 <script>
+import { Tab } from 'bootstrap.native'
 import MessageCompose from '~/components/MessageCompose'
 import ChannelCompose from '~/components/ChannelCompose'
 import BaseModal from '~/components/BaseModal'
@@ -94,7 +92,6 @@ export default {
     }
   },
   mounted() {
-    const { Tab } = require('bootstrap.native')
     const targets = this.$el.querySelectorAll('[data-toggle="tab"]')
     this.tabMap = Array.from(targets).reduce((obj, target) => {
       obj[target.hash.slice(1)] = new Tab(target)

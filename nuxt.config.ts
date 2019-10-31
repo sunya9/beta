@@ -1,10 +1,12 @@
+import * as fs from 'fs'
 import { Configuration } from '@nuxt/types'
+import { EnvironmentPlugin } from 'webpack'
+import dotenv from 'dotenv'
+import pkg from './package.json'
 
-require('dotenv').config()
+dotenv.config()
 
-const fs = require('fs')
-const { EnvironmentPlugin } = require('webpack')
-const { homepage: npm_package_homepage } = require('./package')
+const { homepage: npm_package_homepage } = pkg
 const lastModified = fs.statSync('./package.json').mtime
 
 const config: Configuration = {
@@ -111,8 +113,8 @@ const config: Configuration = {
   },
   cache: true,
   env: {
-    npm_package_homepage,
-    last_modified: lastModified
+    npm_package_homepage: npm_package_homepage.toString(),
+    last_modified: lastModified.toString()
   },
   modules: [
     '@nuxtjs/pwa',

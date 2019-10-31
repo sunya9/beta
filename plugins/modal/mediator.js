@@ -7,15 +7,15 @@ export default new Vue({
     }
   },
   methods: {
-    async show(id, ...arg) {
+    show(id, ...arg) {
       if (!this.modals[id]) return
       return this.modals[id].show(...arg)
     },
-    async ok(id, arg) {
+    ok(id, arg) {
       if (!this.modals[id]) return
       return this.modals[id].ok(arg)
     },
-    async cancel(id, arg) {
+    cancel(id, arg) {
       if (!this.modals[id]) return
       return this.modals[id].cancel(arg)
     }

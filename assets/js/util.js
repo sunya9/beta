@@ -17,6 +17,10 @@ function getImagesFromLinks(entityLinks) {
     })
 }
 
+function isOembedType(raw, type) {
+  return raw.type === 'io.pnut.core.oembed' && raw.value.type === type
+}
+
 function getImagesFromRaws(raws) {
   return raws
     .filter(r => isOembedType(r, 'photo'))
@@ -131,10 +135,6 @@ export function getRSSLink(href) {
     type: 'application/rss+xml',
     href
   }
-}
-
-function isOembedType(raw, type) {
-  return raw.type === 'io.pnut.core.oembed' && raw.value.type === type
 }
 
 export function findChatRaw(channel, andValue = false) {
