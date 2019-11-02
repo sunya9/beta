@@ -2119,6 +2119,13 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
 
+"@types/nuxtjs__auth@^4.8.1":
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/@types/nuxtjs__auth/-/nuxtjs__auth-4.8.1.tgz#4d7efdfbea2a2e02737916c423591aaf40ac7671"
+  integrity sha512-pBR95IGyu9ZUfPOlZcrUf8/MjVUP/mkoyD0WgJygSvwxcFyVcMQzyib9Y6P6KPiLsk6fFe+crqqKUvicAoa1nQ==
+  dependencies:
+    vue "^2.6.10"
+
 "@types/optimize-css-assets-webpack-plugin@^5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@types/optimize-css-assets-webpack-plugin/-/optimize-css-assets-webpack-plugin-5.0.1.tgz#1f437ef9ef937b393687a8819be2d2fddc03b069"
