@@ -15,11 +15,11 @@
 import { mapGetters } from 'vuex'
 import Compose from '~/components/Compose'
 import PostList from '~/components/PostList'
-import { getResourcePath } from '~/plugins/axios/resources'
+import { convertPageId2ApiPath } from '~/plugins/axios/resources'
 import Splash from '~/components/Splash'
 import refreshAfterAdded from '~/assets/js/refresh-after-added'
 
-const globalPath = getResourcePath('global')
+const globalPath = convertPageId2ApiPath('global')
 
 export default {
   components: {
@@ -31,7 +31,7 @@ export default {
   computed: {
     ...mapGetters(['user']),
     resource() {
-      return !this.user ? getResourcePath('global') : ''
+      return !this.user ? convertPageId2ApiPath('global') : ''
     }
   },
   async asyncData({ app: { $resource }, store }) {

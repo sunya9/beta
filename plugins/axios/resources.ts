@@ -1,4 +1,12 @@
-const map = {
+import { Route } from 'vue-router'
+import { Dictionary } from 'vue-router/types/router'
+
+type RouteLike = { params: Dictionary<string> }
+type RouteGetter = ((route: RouteLike) => string) | string
+
+const map: {
+  [key: string]: RouteGetter;
+} = {
   index: '/posts/streams/me',
   mentions: '/users/me/mentions',
   interactions: '/users/me/actions',
@@ -31,8 +39,27 @@ const map = {
   'settings-blocked-accounts': '/users/me/blocked',
   'settings-muted-accounts': '/users/me/muted'
 }
-export default map
-export const getResourcePath = route => {
-  const val = route.name ? map[route.name] : map[route]
-  return typeof val === 'function' ? val(route) : val
+
+function isString(route: Route | string): route is string {
+  return typeof route === 'string'
+}
+
+function getKey(route: Route | string): string | null {
+  if (isString(route)) {
+    return route
+  } else {
+    return route.name || null
+  }
+}
+
+function getValue(route: Route | string): RouteGetter | null {
+  const key = getKey(route)
+  if (!key) return key
+  return map[key]
+}
+
+export function convertPageId2ApiPath(route: Route | string): string | null {
+  const val = getValue(route)
+  const params = isString(route) ? {} : route.params
+  return typeof val === 'function' ? val({ params }) : val
 }
