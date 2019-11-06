@@ -3,11 +3,14 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "noImplicitThis": true,
     "resolveJsonModule": true,
     "lib": [
       "esnext",
       "esnext.asynciterable",
-      "dom"
+      "dom",
+      "webworker"
     ],
     "esModuleInterop": true,
     "allowJs": true,

@@ -78,9 +78,20 @@ const config: Configuration = {
   // webpack build setttings
   build: {
     extend(config) {
-      if (!config.resolve || !config.resolve.alias) return
+      if (
+        !config.resolve ||
+        !config.resolve.alias ||
+        !config.module ||
+        !config.output
+      )
+        return
       config.resolve.alias['bootstrap.native$'] =
         'bootstrap.native/dist/bootstrap-native-v4.js'
+      config.module.rules.unshift({
+        test: /\.worker\.(js|ts)$/,
+        loader: 'worker-loader'
+      })
+      config.output.globalObject = 'this'
     },
     extractCSS: true,
     plugins: [new EnvironmentPlugin(['npm_package_version'])],
