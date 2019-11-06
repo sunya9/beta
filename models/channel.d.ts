@@ -1,5 +1,6 @@
 import { User } from './user'
 import { Message } from './message'
+import { Raw } from './raw'
 
 export interface Channel {
   id: string;
@@ -17,6 +18,7 @@ export interface Channel {
 
   you_muted: boolean;
   has_unread: boolean;
+  raw?: Raw<any>[];
 }
 
 export namespace Channel {

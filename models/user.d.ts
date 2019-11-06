@@ -1,4 +1,5 @@
 import { Entity } from './entity'
+import { Raw } from './raw'
 
 export interface User {
   badge?: {
@@ -30,6 +31,7 @@ export interface User {
     domain: string;
     link: string;
   };
+  raw?: Raw<any>[];
 }
 
 export namespace User {

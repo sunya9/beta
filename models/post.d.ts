@@ -1,5 +1,6 @@
 import { User } from './user'
 import { Entity } from './entity'
+import { Raw } from './raw'
 
 export interface Post {
   created_at: Date;
@@ -26,6 +27,7 @@ export interface Post {
   content?: Post.PostContent;
   you_bookmarked?: boolean;
   you_reposted: boolean;
+  raw?: Raw<any>[];
 }
 
 export namespace Post {
