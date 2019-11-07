@@ -12,14 +12,15 @@
     </template>
   </component>
 </template>
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import twemoji from 'twemoji'
 import emojiRegex from 'emoji-regex/es2015'
 
 // https://github.com/twitter/twemoji/blob/27fe654b2bed5331cf1730bb4fbba1efa40af626/2/twemoji.js#L234
 const U200D = String.fromCharCode(0x200D)
 
-export default {
+export default Vue.extend({
   name: 'Emojify',
   props: {
     element: {
@@ -65,6 +66,5 @@ export default {
   methods: {
     toCodePoint: twemoji.convert.toCodePoint
   }
-}
+})
 </script>
-` })
