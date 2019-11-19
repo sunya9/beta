@@ -64,7 +64,7 @@
     "@vue/test-utils": "1.0.0-beta.29",
     "axios-mock-adapter": "1.17.0",
     "eslint": "6.6.0",
-    "eslint-config-prettier": "6.6.0",
+    "eslint-config-prettier": "6.7.0",
     "eslint-plugin-jest": "23.0.4",
     "eslint-plugin-vue": "6.0.1",
     "flush-promises": "1.0.2",
