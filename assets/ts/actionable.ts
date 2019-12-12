@@ -1,13 +1,23 @@
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   model: {
     prop: 'checked',
     event: 'change'
   },
   props: {
-    resource: String,
-    checked: Boolean
+    resource: {
+      type: String,
+      required: true
+    },
+    checked: {
+      type: Boolean,
+      required: true
+    }
   },
-  data() {
+  data(): {
+    processing: Promise<any> | null;
+  } {
     return {
       processing: null
     }
@@ -20,22 +30,20 @@ export default {
   methods: {
     // Don't use the way to watch `checked`.
     // If you use watch, might to occur infinite loops when revert checked state.
-    change(newVal) {
+    async change(newVal: boolean) {
       this.$emit('change', newVal)
       if (!this.resource) return
-      this.processing = this.$axios[this.method](`${this.resource}`)
+      this.processing = this.$axios(this.resource, {
+        method: this.method
+      })
       const old = this.checked
-      return this.processing
-        .then(() => {
-          this.processing = null
-        })
-        .catch(() => {
-          this.processing = null
-          this.$emit('change', old)
-        })
+      await this.processing.catch(() => {
+        this.$emit('change', old)
+      })
+      this.processing = null
     },
     toggle() {
       this.change(!this.checked)
     }
   }
-}
+})

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import TextCountWorker from '~/assets/js/text-count.worker'
+import TextCountWorker from '~/assets/js/workers/text-count.worker'
 
 export default Vue.extend({
   data() {

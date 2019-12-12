@@ -1,4 +1,5 @@
 import { getTitle } from './util'
+import { Post, DefinitelyPost } from '~/models/post'
 
 function isEnabledNotification() {
   return localStorage.getItem('notification') === 'true'
@@ -10,7 +11,11 @@ export function sendPostNotification(posts) {
   if (posts.length === 1) {
     const [post] = posts
     const { text: body } = post.content
-    const { content: { avatar_image: { link: icon } } } = post.user
+    const {
+      content: {
+        avatar_image: { link: icon }
+      }
+    } = post.user
     const title = getTitle(post.user)
     const options = {
       icon,
@@ -27,23 +32,28 @@ export function sendPostNotification(posts) {
   }
 }
 
-export function sendMentionNotification(mentions) {
+function isDefinitelyPost(post: Post): post is DefinitelyPost {
+  return !!post.content && !!post.user
+}
+
+export function sendMentionNotification(mentions: Post[]): Notification[] {
   const enabled = localStorage.getItem('notification:mentions') === 'true'
-  if (!enabled || !isEnabledNotification()) return
-  return mentions.map(mention => {
-    const { text: body } = mention.content
-    const {
-      content: {
-        avatar_image: {
-          link: icon
+  if (!enabled || !isEnabledNotification()) return []
+  return mentions
+    .filter(isDefinitelyPost)
+    .map(mention => {
+      const { text: body } = mention.content
+      const {
+        content: {
+          avatar_image: { link: icon }
         }
+      } = mention.user
+      const title = getTitle(mention.user)
+      const options = {
+        icon,
+        body
       }
-    } = mention.user
-    const title = getTitle(mention.user)
-    const options = {
-      icon,
-      body
-    }
-    return new Notification(title, options)
-  })
+      return new Notification(title, options)
+    })
+    .filter(not => !!not)
 }

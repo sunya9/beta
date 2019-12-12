@@ -1,6 +1,7 @@
+import Vue from 'vue'
 import bus from '~/assets/js/bus'
 
-export default {
+export default Vue.extend({
   data() {
     return {
       date: Date.now()
@@ -17,4 +18,4 @@ export default {
       this.date = Date.now()
     }
   }
-}
+})
