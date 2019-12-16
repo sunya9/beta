@@ -10,10 +10,15 @@
   </div>
 </template>
 
-<script>
-import UserList from '~/components/UserList'
+<script lang="ts">
+import Vue from 'vue'
+import UserList from '~/components/UserList.vue'
 
-export default {
+type Data = {
+  name: string
+}
+
+export default Vue.extend<Data, {}, {}, {}>({
   components: {
     UserList
   },
@@ -43,5 +48,5 @@ export default {
       title: `@${this.name}'s followers`
     }
   }
-}
+})
 </script>

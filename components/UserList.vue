@@ -1,26 +1,21 @@
 <template>
   <base-list v-bind="$attrs">
-    <user
-      slot-scope="{ item }"
-      :user="item"
-      v-bind="componentOptions"
-    />
+    <user slot-scope="{ item }" :user="item" v-bind="componentOptions" />
   </base-list>
 </template>
-<script>
-import BaseList from '~/components/BaseList'
-import User from '~/components/User'
+<script lang="ts">
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import BaseList from '~/components/BaseList.vue'
+import User from '~/components/User.vue'
 
-export default {
+@Component({
   components: {
     BaseList,
     User
-  },
-  props: {
-    componentOptions: {
-      type: Object,
-      default: () => ({})
-    }
   }
+})
+export default class extends Vue {
+  @Prop({ type: Object })
+  componentOptions!: object
 }
 </script>

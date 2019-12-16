@@ -2,9 +2,10 @@
   <display />
 </template>
 
-<script>
-import Display from '~/components/settings/Display'
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import Display from '~/components/settings/Display.vue'
+export default Vue.extend({
   components: {
     Display
   },
@@ -13,5 +14,5 @@ export default {
       title: 'Display settings'
     }
   }
-}
+})
 </script>

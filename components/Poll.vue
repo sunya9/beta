@@ -67,96 +67,92 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Component, Prop } from 'nuxt-property-decorator'
 import moment from 'moment'
 import { cloneDeep } from 'lodash'
-export default {
-  props: {
-    poll: {
-      type: Object,
-      default: null
-    },
-    pollId: {
-      type: String,
-      default: ''
-    },
-    pollToken: {
-      type: String,
-      default: ''
-    }
-  },
-  data() {
-    return {
-      currentTime: Date.now(),
-      timer: null,
-      preferPercent: true,
-      internalPoll: cloneDeep(this.poll)
-    }
-  },
-  computed: {
-    votable() {
-      return this.$store.getters.user && !this.closed
-    },
-    finished() {
-      return this.internalPoll.you_responded || this.closed
-    },
-    until() {
-      return moment(this.internalPoll.closed_at).format('llll')
-    },
-    closed() {
-      return new Date(this.internalPoll.closed_at).getTime() < this.currentTime
-    },
-    total() {
-      return this.internalPoll.options.reduce(
-        (sum, option) => sum + (option.respondents || 0),
-        0
-      )
-    },
-    id() {
-      return this.internalPoll.id || this.internalPoll.poll_id
-    }
-  },
+import { Poll } from '../models/poll'
+import { PollNotice } from '../models/raw/raw/poll-notice'
+
+@Component
+export default class extends Vue {
+  @Prop({ required: true })
+  poll!: Poll
+
+  @Prop({ default: '' })
+  pollId!: string
+
+  @Prop({ default: '' })
+  pollToken!: string
+
+  currentTime = Date.now()
+  timer: NodeJS.Timeout | null = null
+  preferPercent = true
+  internalPoll: Poll &
+    Partial<Pick<PollNotice.Value, 'poll_token' | 'poll_id'>> = cloneDeep(
+    this.poll
+  )
+  get votable() {
+    return this.$store.getters.user && !this.closed
+  }
+  get finished() {
+    return this.internalPoll.you_responded || this.closed
+  }
+  get until() {
+    return moment(this.internalPoll.closed_at).format('llll')
+  }
+  get closed() {
+    return new Date(this.internalPoll.closed_at).getTime() < this.currentTime
+  }
+  get total() {
+    return this.internalPoll.options.reduce(
+      (sum, option) => sum + (option.respondents || 0),
+      0
+    )
+  }
+  get id() {
+    return this.internalPoll.id || this.internalPoll.poll_id
+  }
   async mounted() {
     this.timer = setInterval(this.updateTime, 1000)
     await this.getPoll()
-  },
+  }
   beforeDestroy() {
     if (this.timer) {
       clearInterval(this.timer)
     }
-  },
-  methods: {
-    async getPoll() {
-      const { data } = await this.$axios.$get(
-        `/polls/${this.pollId || this.internalPoll.id}?poll_token=${this
-          .pollToken || this.internalPoll.poll_token}`
-      )
-      this.internalPoll = data
-    },
-    updateTime() {
-      this.currentTime = Date.now()
-    },
-    getPercent(option) {
-      return ((option.respondents / this.total || 0) * 100)
-        .toFixed(1)
-        .replace(/\.0+$/, '')
-    },
-    getStyle(option) {
-      return {
-        width: `${0 || this.getPercent(option)}%`
-      }
-    },
-    async respond(position) {
-      const { data } = await this.$axios.$put(
-        `/polls/${this.id}/response/${position}?poll_token=${this.pollToken ||
-          this.internalPoll.poll_token}`
-      )
-      this.internalPoll = data
-    },
-    toggleDisplay() {
-      this.preferPercent = !this.preferPercent
-      this.getPoll()
+  }
+  async getPoll() {
+    const { data } = await this.$axios.$get(
+      `/polls/${this.pollId || this.internalPoll.id}?poll_token=${this
+        .pollToken || this.internalPoll.poll_token}`
+    )
+    this.internalPoll = data
+  }
+  updateTime() {
+    this.currentTime = Date.now()
+  }
+  getPercent(option: Poll.PollOption) {
+    if (!option.respondents || !this.total) return '0'
+    return ((option.respondents / this.total) * 100)
+      .toFixed(1)
+      .replace(/\.0+$/, '')
+  }
+  getStyle(option: Poll.PollOption) {
+    return {
+      width: `${0 || this.getPercent(option)}%`
     }
+  }
+  async respond(position: number) {
+    const { data } = await this.$axios.$put(
+      `/polls/${this.id}/response/${position}?poll_token=${this.pollToken ||
+        this.internalPoll.poll_token}`
+    )
+    this.internalPoll = data
+  }
+  toggleDisplay() {
+    this.preferPercent = !this.preferPercent
+    this.getPoll()
   }
 }
 </script>

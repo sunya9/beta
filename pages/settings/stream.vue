@@ -2,9 +2,10 @@
   <stream />
 </template>
 
-<script>
-import Stream from '~/components/settings/Stream'
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import Stream from '~/components/settings/Stream.vue'
+export default Vue.extend({
   components: {
     Stream
   },
@@ -13,5 +14,5 @@ export default {
       title: 'Stream settings'
     }
   }
-}
+})
 </script>

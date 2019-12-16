@@ -1,14 +1,11 @@
 <template>
-  <poll-list
-    :data="data"
-    :options="options"
-    disable-auto-refresh
-  />
+  <poll-list :data="data" :options="options" disable-auto-refresh />
 </template>
-<script>
-import PollList from '~/components/PollList'
+<script lang="ts">
+import Vue from 'vue'
+import PollList from '~/components/PollList.vue'
 
-export default {
+export default Vue.extend({
   components: {
     PollList
   },
@@ -23,5 +20,5 @@ export default {
       options
     }
   }
-}
+})
 </script>

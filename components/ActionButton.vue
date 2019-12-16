@@ -13,19 +13,16 @@
         type="checkbox"
         @change="change($event.target.checked)"
       >
-      <font-awesome-icon
-        :icon="computedIcon"
-        size="lg"
-        fixed-width
-      />
+      <font-awesome-icon :icon="computedIcon" size="lg" fixed-width />
     </label>
   </div>
 </template>
 
-<script>
-import actionable from '~/assets/js/actionable'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import { actionable } from '~/assets/ts/actionable'
 
-export default {
+export default Vue.extend({
   name: 'ActionButton',
   mixins: [actionable],
   props: {
@@ -34,18 +31,19 @@ export default {
       default: '',
       validator: val =>
         typeof val === 'string' || (typeof val === 'object' && val.length === 2)
-    }
+    } as PropOptions<string | [string, string]>
   },
   computed: {
-    computedIcon() {
+    computedIcon(): string {
       if (typeof this.icon === 'object') {
-        return this.icon[+this.checked]
+        // TODO
+        return this.icon[+(this as any).checked]
       } else {
         return this.icon
       }
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">

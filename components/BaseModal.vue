@@ -63,10 +63,11 @@
     </div>
   </promise-modal>
 </template>
-<script>
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
 import { Modal } from 'bootstrap.native'
 
-export default {
+export default Vue.extend({
   name: 'BaseModal',
   props: {
     suppressWarnings: {
@@ -93,7 +94,7 @@ export default {
       type: String,
       default: null,
       validator: str => ['ok', 'cancel'].includes(str)
-    },
+    } as PropOptions<'ok' | 'cancel'>,
     okDisabled: {
       type: Boolean,
       default: false
@@ -114,7 +115,7 @@ export default {
   },
   data() {
     return {
-      modal: null
+      modal: null as Modal | null
     }
   },
   watch: {
@@ -124,34 +125,47 @@ export default {
     }
   },
   mounted() {
-    this.modal = new Modal(this.$refs.modal)
-    this.$refs.modal.addEventListener('shown.bs.modal', this.shown)
-    this.$refs.modal.addEventListener('hidden.bs.modal', this.hidden)
+    const modalEl = this.$refs.modal as Element
+    this.modal = new Modal(modalEl)
+    modalEl.addEventListener('shown.bs.modal', this.shown)
+    modalEl.addEventListener('hidden.bs.modal', this.hidden)
   },
   beforeDestroy() {
-    this.$refs.modal.removeEventListener('shown.bs.modal', this.shown)
-    this.$refs.modal.removeEventListener('hidden.bs.modal', this.hidden)
+    const modalEl = this.$refs.modal as Element
+    modalEl.removeEventListener('shown.bs.modal', this.shown)
+    modalEl.removeEventListener('hidden.bs.modal', this.hidden)
   },
   methods: {
-    show(...arg) {
-      this.modal.show()
-      this.$emit('show', ...arg)
-      this.$mousetrap.pause()
+    show(...arg: any[]) {
+      // if(!this.modal) return
+      if (!this.modal) return // TODO: why???
+      ;(this.modal as any)
+        .show()(this as any)
+        .$emit('show', ...arg)(
+          // TODO
+          this.$mousetrap as any
+        )
+        .pause()
     },
     shown() {
-      if (this.autoFocus) this.$refs[this.autoFocus].focus()
+      // TODO
+      if (this.autoFocus) (this.$refs[this.autoFocus] as any).focus()
       this.$emit('shown')
     },
     hideRequest() {
-      return this.$refs.promiseModal[this.suppressWarnings ? 'ok' : 'cancel']()
+      // TODO
+      const action = this.suppressWarnings ? 'ok' : 'cancel'
+      return (this.$refs.promiseModal as any)[action]()
     },
     hide() {
+      if (!this.modal) return
       this.modal.hide()
     },
     hidden() {
-      this.$mousetrap.unpause()
+      // TODO
+      ;(this.$mousetrap as any).unpause()
       if (!this.hideRequest()) this.$emit('hidden')
     }
   }
-}
+})
 </script>

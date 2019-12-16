@@ -147,27 +147,32 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
-import Avatar from '~/components/Avatar'
-import Thumb from '~/components/Thumb'
-import EntityText from '~/components/EntityText'
-import listItem from '~/assets/js/list-item'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import Avatar from '~/components/Avatar.vue'
+import Thumb from '~/components/Thumb.vue'
+import EntityText from '~/components/EntityText.vue'
+import listItem from '~/assets/ts/list-item'
 import {
   getImageURLs,
   getAudio,
   getSpoiler,
-  deletedUser
-} from '~/assets/js/util'
+  deletedUser,
+  ImageForView,
+  AudioForView,
+  MinimumUser
+} from '~/assets/ts/util'
+import { User } from '~/models/user'
+import { Message } from '~/models/message'
+import { Spoiler } from '~/models/raw/raw/spoiler'
 
-export default {
+export default Vue.extend({
   components: {
     Avatar,
     EntityText,
     Thumb
   },
-  mixins: [listItem],
-  dateKey: 'message.created_at',
+  mixins: [listItem('message.created_at')],
   props: {
     displayFullView: {
       type: Boolean,
@@ -176,7 +181,7 @@ export default {
     message: {
       type: Object,
       required: true
-    },
+    } as PropOptions<Message>,
     isModerator: {
       type: Boolean,
       default: false
@@ -191,40 +196,43 @@ export default {
     }
   },
   computed: {
-    me() {
+    me(): boolean {
       return (
-        this.user && this.messageUser && this.user.id === this.messageUser.id
+        !!this.user && this.messageUser && this.user.id === this.messageUser.id
       )
     },
-    messageUser() {
+    messageUser(): MinimumUser {
       return this.message.user || deletedUser
     },
-    canDelete() {
+    canDelete(): boolean {
       return (
         !this.message.is_deleted &&
         (this.me ||
           (this.channelType !== 'io.pnut.core.pm' && this.isModerator))
       )
     },
-    firstUnreadMessage() {
+    firstUnreadMessage(): boolean {
       return this.message.id === this.lastReadMessageId
     },
-    thumbs() {
+    thumbs(): ImageForView[] {
       return getImageURLs(this.message)
     },
-    clips() {
+    clips(): AudioForView[] | void {
       return getAudio(this.message)
     },
-    spoiler() {
+    spoiler(): Spoiler.Value | void {
       return getSpoiler(this.message)
     },
-    ...mapGetters(['user'])
+    user(): User | null {
+      return this.$store.state.user
+    }
   },
   methods: {
     removeModal() {
       this.$modal.show('message-remove-modal', this)
     },
     async remove() {
+      if (!this.message) return
       const { data: message } = await this.$axios.$delete(
         `/channels/${this.message.channel_id}/messages/${this.message.id}`
       )
@@ -232,7 +240,7 @@ export default {
       this.$emit('update:message', message)
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

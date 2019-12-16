@@ -19,18 +19,28 @@
   </div>
 </template>
 
-<script>
-import Compose from '~/components/Compose'
+<script lang="ts">
+import Vue from 'vue'
+import Compose from '~/components/Compose.vue'
 
-export default {
+function getTitle(posted: boolean) {
+  return !posted ? 'Share a link' : 'Shared link!'
+}
+
+export default Vue.extend({
   middleware: ['auth'],
   layout: 'no-sidebar',
   components: {
     Compose
   },
+  data() {
+    return {
+      posted: false
+    }
+  },
   computed: {
-    title() {
-      return !this.posted ? 'Share a link' : 'Shared link!'
+    title(): string {
+      return getTitle(this.posted)
     }
   },
   asyncData({ query }) {
@@ -39,8 +49,7 @@ export default {
     return {
       message,
       url,
-      text,
-      posted: false
+      text
     }
   },
   methods: {
@@ -53,8 +62,9 @@ export default {
   },
   head() {
     return {
-      title: this.title
+      // TODO
+      title: getTitle((this as any).posted)
     }
   }
-}
+})
 </script>

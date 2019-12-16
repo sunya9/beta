@@ -55,11 +55,20 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import { PnutResponse } from '~/models/pnut-response'
+import { Stats } from '~/models/stats'
+
+export default Vue.extend({
+  data() {
+    return {
+      data: null as PnutResponse<Stats> | null
+    }
+  },
   computed: {
-    counts() {
-      return this.data.data.counts
+    counts(): Stats.Counts | null {
+      return this.data && this.data.data ? this.data.data.counts : null
     }
   },
   async asyncData({ app: { $resource } }) {
@@ -71,5 +80,5 @@ export default {
       title: 'Stats'
     }
   }
-}
+})
 </script>

@@ -3,10 +3,11 @@
     <user-list :data="data" :component-options="options" />
   </div>
 </template>
-<script>
-import UserList from '~/components/UserList'
+<script lang="ts">
+import Vue from 'vue'
+import UserList from '~/components/UserList.vue'
 
-export default {
+export default Vue.extend({
   components: {
     UserList
   },
@@ -29,5 +30,5 @@ export default {
       title: 'Muted Accounts'
     }
   }
-}
+})
 </script>

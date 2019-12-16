@@ -9,11 +9,12 @@
   </div>
 </template>
 
-<script>
-import Compose from '~/components/Compose'
-import PostList from '~/components/PostList'
+<script lang="ts">
+import Vue from 'vue'
+import Compose from '~/components/Compose.vue'
+import PostList from '~/components/PostList.vue'
 
-export default {
+export default Vue.extend({
   middleware: ['auth'],
   components: {
     PostList,
@@ -28,5 +29,5 @@ export default {
       title: 'Stars'
     }
   }
-}
+})
 </script>

@@ -21,7 +21,7 @@
           <message-list
             ref="list"
             :data="data"
-            :option="option"
+            :option="options"
             :is-moderator="isModerator"
             :channel-type="channel.type"
             :last-read-message-id="data.meta.marker && data.meta.marker.id"
@@ -32,19 +32,19 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
-import MessageList from '~/components/MessageList'
-import MessageCompose from '~/components/MessageCompose'
-import ChatPanel from '~/components/ChatPanel'
-import PmPanel from '~/components/PmPanel'
-import markAsRead from '~/assets/js/mark-as-read'
-import { getRSSLink, findChatRaw, deletedUser } from '~/assets/js/util'
+<script lang="ts">
+import Vue from 'vue'
+import MessageList from '~/components/MessageList.vue'
+import MessageCompose from '~/components/MessageCompose.vue'
+import ChatPanel from '~/components/ChatPanel.vue'
+import PmPanel from '~/components/PmPanel.vue'
+import markAsRead from '~/assets/ts/mark-as-read'
+import { getRSSLink, deletedUser, findChatValueRaw } from '~/assets/ts/util'
+import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
+import { Channel } from '~/models/channel'
+import { User } from '~/models/user'
 
-export default {
-  validate({ params: { channel } }) {
-    return /^\d+$/.test(channel)
-  },
+export default Vue.extend({
   components: {
     MessageList,
     MessageCompose,
@@ -52,28 +52,39 @@ export default {
     PmPanel
   },
   mixins: [markAsRead],
+  validate({ params: { channel } }) {
+    return /^\d+$/.test(channel)
+  },
   data() {
     return {
-      message: ''
+      message: '',
+      // TODO
+      channel: null as Channel | null
     }
   },
   computed: {
-    chat() {
-      return findChatRaw(this.channel, true)
+    chat(): ChatRoomSettings.Value | void {
+      if (!this.channel) return
+      return findChatValueRaw(this.channel)
     },
-    ...mapGetters(['user']),
-    isModerator() {
+    user(): User | void {
+      return this.$store.state.user
+    },
+    isModerator(): boolean {
       return (
-        this.user &&
+        !!this.user &&
+        !!this.channel &&
         ((this.channel.owner && this.user.id === this.channel.owner.id) ||
           !!this.channel.acl.full.user_ids.find(u => u.id === this.user.id))
       )
     },
-    isPM() {
+    isPM(): boolean {
+      if (!this.channel) return false
       return this.channel.type === 'io.pnut.core.pm'
     },
-    canPost() {
-      return this.user && this.channel.acl.write.you
+    canPost(): boolean {
+      if (!this.channel) return false
+      return !!this.user && this.channel.acl.write.you
     }
   },
   watch: {
@@ -85,10 +96,10 @@ export default {
     }
   },
   async asyncData({ app: { $axios, $resource }, params, error }) {
-    const option = {
+    const options = {
       include_deleted: 1
     }
-    const messagesPromise = $resource(option)
+    const messagesPromise = $resource({ options })
     const channelPromise = $axios.$get(`/channels/${params.channel}`, {
       params: {
         include_limited_users: 1,
@@ -107,11 +118,11 @@ export default {
       return {
         data,
         channel,
-        option
+        options
       }
     } catch (e) {
       const { code, error_message } = e.response.data.meta
-      error({
+      return error({
         statusCode: code,
         message: error_message
       })
@@ -131,7 +142,7 @@ export default {
       link
     }
   }
-}
+})
 </script>
 <style scoped lang="scss">
 @import '~assets/css/mixin';

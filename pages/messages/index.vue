@@ -27,7 +27,7 @@
         ref="list"
         :key="JSON.stringify({ resource, option })"
         :data="data"
-        :option="option"
+        :option="options"
         :resource="resource"
         :refresh-date="date"
       />
@@ -35,13 +35,14 @@
   </div>
 </template>
 
-<script>
-import MessageCompose from '~/components/MessageCompose'
-import ChannelCompose from '~/components/ChannelCompose'
-import ChannelList from '~/components/ChannelList'
-import refreshAfterAdded from '~/assets/js/refresh-after-added'
+<script lang="ts">
+import Vue from 'vue'
+import MessageCompose from '~/components/MessageCompose.vue'
+import ChannelCompose from '~/components/ChannelCompose.vue'
+import ChannelList from '~/components/ChannelList.vue'
+import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 
-export default {
+export default Vue.extend({
   middleware: ['auth'],
   watchQuery: ['public', 'all'],
   components: {
@@ -50,8 +51,15 @@ export default {
     ChannelCompose
   },
   mixins: [refreshAfterAdded],
+
+  // TODO
+  data() {
+    return {
+      isPrivate: false
+    }
+  },
   computed: {
-    isPublic() {
+    isPublic(): boolean {
       return !this.isPrivate
     }
   },
@@ -65,7 +73,7 @@ export default {
     }
     const privateMessages = {
       resource: '/users/me/channels/subscribed',
-      option: {
+      options: {
         ...commonOption,
         channel_types: 'io.pnut.core.pm',
         is_private: 1
@@ -73,7 +81,7 @@ export default {
     }
     const subscribedChatRoom = {
       resource: '/users/me/channels/subscribed',
-      option: {
+      options: {
         ...commonOption,
         channel_types: 'io.pnut.core.chat',
         is_public: 1
@@ -81,28 +89,32 @@ export default {
     }
     const allChatRoom = {
       resource: '/channels/search',
-      option: {
+      options: {
         ...commonOption,
         channel_types: 'io.pnut.core.chat',
         is_public: 1,
         include_inactive: 1
       }
     }
-    const { option, resource } = isPrivate
+    const { options, resource } = isPrivate
       ? privateMessages
       : all
       ? allChatRoom
       : subscribedChatRoom
 
-    const data = await $resource(resource, option)
-    return { data, option, isPrivate, resource }
+    const data = await $resource({
+      url: resource,
+      options
+    })
+    return { data, options, isPrivate, resource }
   },
   head() {
+    // TODO
     return {
-      title: this.isPrivate ? 'Messages' : 'Chat Rooms'
+      title: (this as any).isPrivate ? 'Messages' : 'Chat Rooms'
     }
   }
-}
+})
 </script>
 
 <style>

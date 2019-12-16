@@ -26,11 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <file-row
-            v-for="file in modifiedFiles"
-            :key="file.id"
-            :file="file"
-          />
+          <file-row v-for="file in modifiedFiles" :key="file.id" :file="file" />
         </tbody>
       </table>
     </div>
@@ -47,11 +43,18 @@
   </div>
 </template>
 
-<script>
-import FileRow from '~/components/file-row'
-import BaseModal from '~/components/BaseModal'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import FileRow from '~/components/file-row.vue'
+import BaseModal from '~/components/BaseModal.vue'
+import { PnutResponse } from '~/models/pnut-response'
+import { File } from '~/models/file'
 
-export default {
+export interface ModifiedFile extends File {
+  select: boolean
+}
+
+export default Vue.extend({
   components: {
     BaseModal,
     FileRow
@@ -59,8 +62,8 @@ export default {
   props: {
     data: {
       type: Object,
-      default: () => ({})
-    }
+      required: true
+    } as PropOptions<PnutResponse<File[]>>
   },
   data() {
     return {
@@ -71,29 +74,35 @@ export default {
     }
   },
   computed: {
-    isSelected() {
+    isSelected(): boolean {
       return this.modifiedFiles.some(file => file.select)
     },
-    selectedFiles() {
+    selectedFiles(): ModifiedFile[] {
       return this.modifiedFiles.filter(file => file.select)
     },
-    moreDisabled() {
+    moreDisabled(): boolean {
       return this.busy || !this.meta.more
     },
-    modifiedFiles() {
+    modifiedFiles(): ModifiedFile[] {
       return this.files.map(file => {
-        this.$set(file, 'select', false)
-        return file
+        const modifiedFile = {
+          ...file,
+          select: false
+        }
+        return modifiedFile
       })
     }
   },
   methods: {
     async fetchMore() {
       this.busy = true
-      const option = Object.assign({}, this.option, {
-        before_id: this.meta.min_id
-      })
-      const { data: newItems, meta } = await this.$resource(option)
+      const options = Object.assign(
+        {},
+        {
+          before_id: this.meta.min_id
+        }
+      )
+      const { data: newItems, meta } = await this.$resource({ options })
       this.meta = meta
 
       if (newItems.length) {
@@ -113,5 +122,5 @@ export default {
       this.files = this.modifiedFiles.filter(file => !file.select)
     }
   }
-}
+})
 </script>

@@ -4,9 +4,9 @@
       Welcome to Beta!
     </h1>
     <p class="lead">
-      Web client for <a href="https://pnut.io">
-        pnut.io
-      </a>.
+      Web client for
+      <a href="https://pnut.io">
+        pnut.io </a>.
     </p>
     <p>
       <button
@@ -20,3 +20,7 @@
     </p>
   </div>
 </template>
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({})
+</script>

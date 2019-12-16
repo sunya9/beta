@@ -43,14 +43,15 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
-import FollowButton from '~/components/FollowButton'
-import Avatar from '~/components/Avatar'
-import EntityText from '~/components/EntityText'
-import MuteButton from '~/components/MuteButton'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import FollowButton from '~/components/FollowButton.vue'
+import Avatar from '~/components/Avatar.vue'
+import EntityText from '~/components/EntityText.vue'
+import MuteButton from '~/components/MuteButton.vue'
+import { User } from '~/models/user'
 
-export default {
+export default Vue.extend({
   components: {
     FollowButton,
     Avatar,
@@ -61,7 +62,7 @@ export default {
     user: {
       type: Object,
       required: true
-    },
+    } as PropOptions<User>,
     disableFollowButton: {
       type: Boolean,
       default: false
@@ -77,17 +78,17 @@ export default {
     }
   },
   computed: {
-    relation() {
+    relation(): string {
       return this.user.follows_you ? 'Follows you' : ''
     },
-    ...mapGetters({
-      me: 'user'
-    }),
-    myself() {
-      return this.me && this.user && this.user.id === this.me.id
+    me(): User | void {
+      return this.$store.state.user
+    },
+    myself(): boolean {
+      return !!this.me && this.user && this.user.id === this.me.id
     }
   }
-}
+})
 </script>
 
 <style scoped>

@@ -3,26 +3,21 @@
     <div>
       <slot>
         <strong>{{ title }}</strong>
-        <audio
-          :src="url"
-          controls
-        >
+        <audio :src="url" controls>
           Your browser does not support the <code>audio</code> element.
         </audio>
       </slot>
-      <a
-        v-if="removable"
-        class="remove"
-        @click.prevent="remove"
-      >
+      <a v-if="removable" class="remove" @click.prevent="remove">
         <font-awesome-icon icon="times" />
       </a>
     </div>
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   props: {
     url: {
       type: String,
@@ -42,7 +37,7 @@ export default {
       this.$emit('remove')
     }
   }
-}
+})
 </script>
 
 <style scoped>

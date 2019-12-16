@@ -1,11 +1,12 @@
-<script>
-import Sidebar from './Sidebar'
+<script lang="ts">
+import Vue from 'vue'
+import Sidebar from './Sidebar.vue'
 
-export default {
+export default Vue.extend({
   extends: Sidebar,
   computed: {
     menus() {
-      const { q } = this.$route.query
+      const q = this.$route.query.q as string
       return [
         { type: 'heading', label: 'Search' },
         {
@@ -21,5 +22,5 @@ export default {
       ]
     }
   }
-}
+})
 </script>

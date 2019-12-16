@@ -53,11 +53,26 @@
     <slot />
   </span>
 </template>
-<script>
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
 import unicodeSubstring from 'unicode-substring'
 import stringLength from 'string-length'
 import { Popover } from 'bootstrap.native'
-import NuxtLinkMod from '~/components/NuxtLinkMod'
+import NuxtLinkMod from '~/components/NuxtLinkMod.vue'
+import { Entity } from '~/models/entity'
+
+interface ExtendedLinkInfo {
+  link: string;
+  domain: string;
+}
+
+interface ModifiedLink extends Entity.Link, TypedEntity {
+  replace: ExtendedLinkInfo | null;
+}
+
+interface DefinitelyModifiedLink extends ModifiedLink {
+  replace: ExtendedLinkInfo;
+}
 
 const ReplaceUrls = [
   {
@@ -67,7 +82,21 @@ const ReplaceUrls = [
   }
 ]
 
-function modifyURL(entity) {
+function isModifiedLink(entity: Entity): boolean {
+  return 'replace' in entity
+}
+
+function entityIsModifiedLink(entity: Entity): entity is ModifiedLink {
+  return isModifiedLink(entity)
+}
+
+function entityIsDefinitelyModifiedLink(
+  entity: Entity
+): entity is DefinitelyModifiedLink {
+  return entityIsModifiedLink(entity) && !!entity.replace
+}
+
+function modifyURL(entity: Entity.Link): ExtendedLinkInfo | null {
   const itemToReplace = ReplaceUrls.find(({ test }) => test.test(entity.link))
   if (!itemToReplace) return null
   const { test, replace, domain } = itemToReplace
@@ -78,15 +107,41 @@ function modifyURL(entity) {
   }
 }
 
-function addTypeKey(entities, value) {
+type EntityType = 'links' | 'mentions' | 'tags' | 'text'
+interface TypedEntity extends Entity {
+  type: EntityType;
+}
+
+function isLinkEntity(typedEntity: TypedEntity): boolean {
+  return typedEntity.type === 'links'
+}
+
+function entityIsLinkEntity(
+  typedEntity: TypedEntity
+): typedEntity is ModifiedLink {
+  return isLinkEntity(typedEntity)
+}
+
+function addTypeKey(entities: Entity[], type: EntityType): TypedEntity[] {
   return entities.map(entity => {
-    entity.type = value
-    if (value === 'links') entity.replace = modifyURL(entity)
-    return entity
+    const typedEntity = {
+      ...entity,
+      type
+    }
+    if (isLinkEntity(typedEntity) && entityIsModifiedLink(entity))
+      entity.replace = modifyURL(entity)
+    return typedEntity
   })
 }
 
-export default {
+function getLen(typedEntity: TypedEntity): number {
+  return (
+    (entityIsLinkEntity(typedEntity) && typedEntity.amended_len) ||
+    typedEntity.len
+  )
+}
+
+export default Vue.extend({
   name: 'EntityText',
   components: {
     /* eslint-disable vue/no-unused-components */
@@ -95,20 +150,21 @@ export default {
   props: {
     content: {
       type: Object,
-      default: () => ({})
-    },
+      required: true
+    } as PropOptions<Entity.HaveEntity>,
     deleted: {
       type: Boolean,
       default: false
     }
   },
   computed: {
-    hasEntities() {
+    hasEntities(): boolean {
       return 'entities' in this.content && 'text' in this.content
     },
     // text and entities to html
-    entities() {
-      const { text: orig, entities } = this.content
+    entities(): TypedEntity[] {
+      const { text, entities } = this.content
+      const orig = text
       const {
         links: originalLinks,
         mentions: originalMentions,
@@ -117,7 +173,13 @@ export default {
       const links = addTypeKey(originalLinks, 'links')
       const mentions = addTypeKey(originalMentions, 'mentions')
       const tags = addTypeKey(originalTags, 'tags')
-      return [{ text: '', type: 'text', pos: 0, len: 0 }]
+      const firstEntity: TypedEntity = {
+        text: '',
+        type: 'text',
+        pos: 0,
+        len: 0
+      }
+      return [firstEntity]
         .concat(links, mentions, tags, {
           text: '',
           type: 'text',
@@ -125,10 +187,10 @@ export default {
           len: 0
         })
         .sort((a, b) => a.pos - b.pos)
-        .reduce((res, cur, i, ary) => {
+        .reduce<TypedEntity[]>((res, cur, i, ary) => {
           if (i === 0) return res
           const prev = ary[i - 1]
-          const pos = prev.pos + (prev.amended_len || prev.len)
+          const pos = prev.pos + getLen(prev)
           const len = cur.pos
           const text = unicodeSubstring(orig, pos, len)
           res.push({
@@ -151,15 +213,15 @@ export default {
   },
   methods: {
     unicodeSubstring,
-    replaceLinkText(entity) {
+    replaceLinkText(entity: Entity.Link): string {
       const text = unicodeSubstring(entity.text, 0, entity.len)
       const isURLLiteral = entity.link === entity.text
       // Unsubstituted link
-      if (!entity.replace || !isURLLiteral) return text
+      if (!entityIsDefinitelyModifiedLink(entity) || !isURLLiteral) return text
       return entity.replace.link
     }
   }
-}
+})
 </script>
 <style scoped>
 .apply-pre >>> * {

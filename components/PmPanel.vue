@@ -1,9 +1,6 @@
 <template>
   <channel-panel :channel.sync="channel">
-    <emojify
-      slot="title"
-      :text="$metaInfo.title"
-    />
+    <emojify slot="title" :text="$metaInfo.title" />
     <template slot="memberList">
       <channel-user-list
         v-if="!channel.acl.write.any_user"
@@ -15,21 +12,20 @@
     </template>
   </channel-panel>
 </template>
-<script>
-import ChannelUserList from '~/components/ChannelUserList'
-import ChannelPanel from '~/components/ChannelPanel'
-import BaseChannelPanel from '~/components/BaseChannelPanel'
+<script lang="ts">
+import ChannelUserList from '~/components/ChannelUserList.vue'
+import ChannelPanel from '~/components/ChannelPanel.vue'
+import { BaseChannelPanel } from '~/components/BaseChannelPanel'
 
-export default {
+export default BaseChannelPanel.extend({
   components: {
     ChannelPanel,
     ChannelUserList
   },
-  extends: BaseChannelPanel,
   head() {
     return {
       title: `Room ${this.channel.id}`
     }
   }
-}
+})
 </script>

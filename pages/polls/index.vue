@@ -6,10 +6,11 @@
     <poll-list :data="data" />
   </div>
 </template>
-<script>
-import PollList from '~/components/PollList'
+<script lang="ts">
+import Vue from 'vue'
+import PollList from '~/components/PollList.vue'
 
-export default {
+export default Vue.extend({
   middleware: ['auth'],
   components: {
     PollList
@@ -23,5 +24,5 @@ export default {
       title: 'Your polls'
     }
   }
-}
+})
 </script>

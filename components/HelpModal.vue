@@ -22,15 +22,12 @@
   </base-modal>
 </template>
 
-<script>
-import KeySets from './KeySets'
-import BaseModal from '~/components/BaseModal'
+<script lang="ts">
+import Vue from 'vue'
+import KeySets from './KeySets.vue'
+import BaseModal from '~/components/BaseModal.vue'
 
-export default {
-  components: {
-    KeySets,
-    BaseModal
-  },
+const keyMaps = {
   streamActions: [
     { key: 'n', label: 'New post' },
     { key: 's', label: 'Start' },
@@ -64,13 +61,20 @@ export default {
     { key: ['g', 'p'], label: 'Photos' },
     { key: ['g', 't'], label: 'Trending' },
     { key: ['g', 'g'], label: 'Global' }
-  ],
+  ]
+}
+
+export default Vue.extend({
+  components: {
+    KeySets,
+    BaseModal
+  },
   computed: {
-    actions() {
+    actions(): { key: string[] | string; label: string }[] {
       return this.$route.name && this.$route.name.startsWith('messages')
-        ? this.$options.messageActions
-        : this.$options.streamActions
+        ? keyMaps.messageActions
+        : keyMaps.streamActions
     }
   }
-}
+})
 </script>

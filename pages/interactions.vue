@@ -21,30 +21,31 @@
       </div>
     </div>
     <div>
-      <interaction-list :data="data" :option="option" />
+      <interaction-list :data="data" :option="options" />
     </div>
   </div>
 </template>
 
-<script>
-import InteractionList from '~/components/InteractionList'
+<script lang="ts">
+import Vue from 'vue'
+import InteractionList from '~/components/InteractionList.vue'
 
-export default {
+export default Vue.extend({
   middleware: ['auth'],
   components: {
     InteractionList
   },
   async asyncData({ app: { $resource } }) {
-    const option = {
+    const options = {
       filters: 'bookmark,repost,follow'
     }
-    const data = await $resource(option)
-    return { data, option }
+    const data = await $resource({ options })
+    return { data, options }
   },
   head() {
     return {
       title: 'Interactions'
     }
   }
-}
+})
 </script>

@@ -8,23 +8,21 @@
   >
     {{ text }}
   </button>
-  <button
-    v-else
-    :disabled="busy"
-    class="btn btn-danger"
-    @click="unblock"
-  >
+  <button v-else :disabled="busy" class="btn btn-danger" @click="unblock">
     Unblock
   </button>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import { User } from '~/models/user'
+
+export default Vue.extend({
   props: {
     profile: {
       type: Object,
       required: true
-    }
+    } as PropOptions<User>
   },
   data() {
     return {
@@ -34,23 +32,24 @@ export default {
     }
   },
   computed: {
-    text() {
+    text(): string {
       return this.following ? 'Following' : 'Follow'
     },
-    btnClass() {
+    btnClass(): string {
       return `btn-${this.following ? 'secondary' : 'primary'}`
     }
   },
   methods: {
     async follow() {
-      const method = this.profile.you_follow ? '$delete' : '$put'
+      const method = this.profile.you_follow ? 'delete' : 'put'
       const prev = this.profile.you_follow
       this.updateProfile({ you_follow: !this.profile.you_follow })
       this.busy = true
       try {
-        const { data: profile } = await this.$axios[method](
-          `/users/${this.profile.id}/follow`
-        )
+        const { data: profile } = await this.$axios.$request({
+          url: `/users/${this.profile.id}/follow`,
+          method
+        })
         this.updateProfile(profile)
       } catch (e) {
         this.$toast.error(e.message)
@@ -58,9 +57,10 @@ export default {
       }
       this.busy = false
     },
-    updateProfile(newProfile) {
-      this.following = newProfile.you_follow
-      this.blocking = newProfile.you_blocked
+    updateProfile(newProfile: Partial<User>) {
+      // TODO
+      this.following = newProfile.you_follow || false
+      this.blocking = newProfile.you_blocked || false
       this.$emit('update:profile', { ...this.profile, ...newProfile })
     },
     async unblock() {
@@ -78,5 +78,5 @@ export default {
       this.busy = false
     }
   }
-}
+})
 </script>

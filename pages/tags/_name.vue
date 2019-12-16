@@ -12,11 +12,12 @@
   </div>
 </template>
 
-<script>
-import PostList from '~/components/PostList'
-import { getRSSLink } from '~/assets/js/util'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import PostList from '~/components/PostList.vue'
+import { getRSSLink } from '~/assets/ts/util'
 
-export default {
+@Component({
   components: {
     PostList
   },
@@ -27,7 +28,10 @@ export default {
       data,
       name
     }
-  },
+  }
+})
+export default class extends Vue {
+  name!: string
   head() {
     const link = [
       getRSSLink(`https://api.pnut.io/v0/feed/rss/posts/tags/${this.name}`)

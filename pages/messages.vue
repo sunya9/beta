@@ -1,10 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div
-        v-if="$auth.loggedIn"
-        class="col-md-8"
-      >
+      <div v-if="$auth.loggedIn" class="col-md-8">
         <ul class="nav nav-tabs mb-4">
           <li class="nav-item">
             <nuxt-link
@@ -28,17 +25,16 @@
         </ul>
       </div>
     </div>
-    <nuxt-child
-      :key="$route.params.channel"
-      @updateNav="isPM = $event"
-    />
+    <nuxt-child :key="$route.params.channel" @updateNav="isPM = $event" />
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   data() {
     return {
-      isPM: null
+      isPM: null as boolean | null
     }
   },
   watch: {
@@ -46,5 +42,5 @@ export default {
       this.isPM = null
     }
   }
-}
+})
 </script>

@@ -20,30 +20,31 @@
   </base-modal>
 </template>
 
-<script>
-import Message from '~/components/Message'
-import BaseModal from '~/components/BaseModal'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import Message from '~/components/Message.vue'
+import BaseModal from '~/components/BaseModal.vue'
 
-export default {
+interface VM {
+  remove: () => void
+}
+@Component({
   components: {
     BaseModal,
     Message
-  },
-  data() {
-    return {
-      vm: null
-    }
-  },
-  methods: {
-    show(vm) {
-      this.vm = vm
-    },
-    ok() {
-      this.vm.remove()
-    },
-    hidden() {
-      this.vm = null
-    }
+  }
+})
+export default class extends Vue {
+  vm: VM | null = null
+  show(vm: VM) {
+    this.vm = vm
+  }
+  ok() {
+    if (!this.vm) return
+    this.vm.remove()
+  }
+  hidden() {
+    this.vm = null
   }
 }
 </script>

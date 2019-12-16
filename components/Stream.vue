@@ -1,30 +1,24 @@
 <template>
   <div>
-    <h3
-      v-show="title"
-      class="mt-1"
-    >
+    <h3 v-show="title" class="mt-1">
       {{ title }}
     </h3>
     <div class="my-4">
       <compose />
     </div>
-    <post
-      v-for="post in stream"
-      :key="post.id"
-      :post="post"
-    />
+    <post v-for="post in stream" :key="post.id" :post="post" />
     <ul class="list-group my-4" />
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script lang="ts">
+import Vue from 'vue'
 import Compose from '~/components/Compose.vue'
 // import List from '~/components/List.vue'
 import Post from '~/components/Post.vue'
+import { User } from '~/models/user'
 
-export default {
+export default Vue.extend({
   components: {
     Compose,
     Post
@@ -40,6 +34,10 @@ export default {
       default: ''
     }
   },
-  computed: mapGetters(['user'])
-}
+  computed: {
+    user(): User {
+      return this.$store.state.user
+    }
+  }
+})
 </script>

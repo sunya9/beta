@@ -7,10 +7,11 @@
     </div>
   </div>
 </template>
-<script>
-import FileList from '~/components/file-list'
+<script lang="ts">
+import Vue from 'vue'
+import FileList from '~/components/file-list.vue'
 
-export default {
+export default Vue.extend({
   components: {
     FileList
   },
@@ -25,5 +26,5 @@ export default {
       title: 'Your files'
     }
   }
-}
+})
 </script>

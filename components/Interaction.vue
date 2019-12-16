@@ -1,21 +1,13 @@
 <template>
   <div class="media pt-2 w-100">
     <div class="d-inline-block mr-4 text-muted">
-      <font-awesome-icon
-        :icon="icon"
-        fixed-width
-        size="2x"
-      />
+      <font-awesome-icon :icon="icon" fixed-width size="2x" />
     </div>
     <div class="media-body">
       <h6 class="text-gray-dark">
         <ul class="list-inline">
           <template v-for="user in filteredUsers">
-            <li
-              v-if="user.content"
-              :key="user.id"
-              class="list-inline-item"
-            >
+            <li v-if="user.content" :key="user.id" class="list-inline-item">
               <nuxt-link :to="`@${user.username}`">
                 <avatar
                   :avatar="user.content.avatar_image"
@@ -28,10 +20,7 @@
         </ul>
       </h6>
       <div class="my-3">
-        <nuxt-link
-          v-if="post"
-          :to="`@${post.user.username}/posts/${post.id}`"
-        >
+        <nuxt-link v-if="post" :to="`@${post.user.username}/posts/${post.id}`">
           This post
         </nuxt-link>
         {{ actionBy }}
@@ -47,26 +36,16 @@
             v-text="`, `"
           />
         </template>.
-        <div
-          v-if="post"
-          class="card mt-3"
-        >
+        <div v-if="post" class="card mt-3">
           <div class="card-body">
-            <post
-              :post="post"
-              view-only
-              preview
-            />
+            <post :post="post" view-only preview />
           </div>
         </div>
       </div>
       <footer>
         <ul class="list-inline">
           <li class="list-inline-item">
-            <span
-              :title="absDate"
-              class="text-muted"
-            >
+            <span :title="absDate" class="text-muted">
               <font-awesome-icon :icon="['far', 'clock']" />
               {{ date }}
             </span>
@@ -77,12 +56,19 @@
   </div>
 </template>
 
-<script>
-import Post from '~/components/Post'
-import Avatar from '~/components/Avatar'
-import listItem from '~/assets/js/list-item'
+<script lang="ts">
+import { Vue, Component, Prop } from 'nuxt-property-decorator'
+import Post from '~/components/Post.vue'
+import Avatar from '~/components/Avatar.vue'
+import listItem from '~/assets/ts/list-item'
+import { Interaction } from '~/models/interaction'
 
-const convert = {
+const convert: {
+  [key in Interaction.ActionType]: {
+    text: string
+    icon: string
+  }
+} = {
   follow: {
     text: 'Followed',
     icon: 'user-plus'
@@ -98,40 +84,41 @@ const convert = {
   repost: {
     text: 'reposted',
     icon: 'retweet'
+  },
+  // TODO
+  poll_response: {
+    text: 'Poll',
+    icon: 'poll'
   }
 }
 
-export default {
-  name: 'Interaction',
+@Component({
   components: {
     Post,
     Avatar
   },
-  mixins: [listItem],
-  props: {
-    interaction: {
-      type: Object,
-      required: true
-    }
-  },
-  dateKey: 'interaction.event_date',
-  computed: {
-    actionBy() {
-      return `${convert[this.interaction.action].text} by`
-    },
-    icon() {
-      return convert[this.interaction.action].icon
-    },
-    post() {
-      return this.interaction.action !== 'follow'
-        ? this.interaction.objects[0]
-        : null
-    },
-    filteredUsers() {
-      return this.interaction.users.filter((user, i, ary) => {
-        return !ary.slice(0, i).some(user2 => user.id === user2.id)
-      })
-    }
+  name: 'Interaction',
+  mixins: [listItem('interaction.event_date')]
+})
+export default class extends Vue {
+  @Prop({ required: true })
+  interaction!: Interaction<any>
+  get actionBy() {
+    return `${convert[this.interaction.action].text} by`
+  }
+  get icon() {
+    return convert[this.interaction.action].icon
+  }
+  get post() {
+    return this.interaction.action !== 'follow'
+      ? this.interaction.objects[0]
+      : null
+  }
+  get filteredUsers() {
+    if (!this.interaction.users) return []
+    return this.interaction.users.filter((user, i, ary) => {
+      return !ary.slice(0, i).some(user2 => user.id === user2.id)
+    })
   }
 }
 </script>

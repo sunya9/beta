@@ -17,16 +17,9 @@
             :href="menu.url"
           >
             <span>
-              <font-awesome-icon
-                :icon="menu.icon"
-                fixed-width
-                class="mr-2"
-              />
+              <font-awesome-icon :icon="menu.icon" fixed-width class="mr-2" />
               <span>{{ menu.label }}</span>
-              <font-awesome-icon
-                icon="external-link-alt"
-                class="ml-2"
-              />
+              <font-awesome-icon icon="external-link-alt" class="ml-2" />
             </span>
           </a>
           <a
@@ -36,11 +29,7 @@
             href="#"
             @click.prevent="menu.click"
           >
-            <font-awesome-icon
-              :icon="menu.icon"
-              fixed-width
-              class="mr-2"
-            />
+            <font-awesome-icon :icon="menu.icon" fixed-width class="mr-2" />
             <span>{{ menu.label }}</span>
           </a>
           <nuxt-link
@@ -60,11 +49,7 @@
             exact
           >
             <span>
-              <font-awesome-icon
-                :icon="menu.icon"
-                fixed-width
-                class="mr-2"
-              />
+              <font-awesome-icon :icon="menu.icon" fixed-width class="mr-2" />
               <span>{{ menu.label }}</span>
               <!-- <span class="badge badge-important pull-right">{{ badge }}</span>-->
             </span>
@@ -75,10 +60,7 @@
         </template>
       </template>
     </div>
-    <div
-      v-if="$options.name === 'AppSidebar'"
-      class="pb-3"
-    >
+    <div v-if="$options.name === 'AppSidebar'" class="pb-3">
       <a
         :href="`${npm_package_homepage}/releases/tag/v${npm_package_version}`"
         class="text-muted"
@@ -92,10 +74,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
-export default {
+
+export default Vue.extend({
   props: {
     narrow: {
       type: Boolean,
@@ -115,11 +99,11 @@ export default {
   },
   computed: mapGetters(['user']),
   methods: {
-    active(url) {
+    active(url: string): string {
       return this.$route.fullPath === url ? 'active' : ''
     }
   }
-}
+})
 </script>
 <style scoped lang="scss">
 @import '~assets/css/override';

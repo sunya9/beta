@@ -5,17 +5,19 @@
   </div>
 </template>
 
-<script>
-import Compose from '~/components/Compose'
-import PostList from '~/components/PostList'
+<script lang="ts">
+import Vue from 'vue'
+import Compose from '~/components/Compose.vue'
+import PostList from '~/components/PostList.vue'
+import { Post } from '~/models/post'
 
-export default {
+export default Vue.extend({
   components: {
     PostList,
     Compose
   },
   async asyncData({ app: { $resource } }) {
-    const data = await $resource()
+    const data = await $resource<Post>()
     return { data }
   },
   head() {
@@ -23,5 +25,5 @@ export default {
       title: 'Trending'
     }
   }
-}
+})
 </script>

@@ -17,20 +17,22 @@
     />
   </base-list>
 </template>
-<script>
-import BaseList from '~/components/BaseList'
-import Message from '~/components/Message'
-import keyBinding, { forList } from '~/assets/js/key-binding'
+<script lang="ts">
+import Vue from 'vue'
+import BaseList from '~/components/BaseList.vue'
+import Message from '~/components/Message.vue'
+import keyBinding, { forList } from '~/assets/ts/key-binding'
 
-export default {
-  keyMaps: {
-    del: 'removeModal'
-  },
+const keyMap = {
+  del: 'removeModal'
+}
+
+export default Vue.extend({
   components: {
     BaseList,
     Message
   },
-  mixins: [keyBinding, forList],
+  mixins: [keyBinding(keyMap), forList(keyMap)],
   props: {
     isModerator: {
       type: Boolean,
@@ -45,5 +47,5 @@ export default {
       default: ''
     }
   }
-}
+})
 </script>

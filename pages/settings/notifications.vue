@@ -2,9 +2,10 @@
   <notifications />
 </template>
 
-<script>
-import Notifications from '~/components/settings/Notifications'
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import Notifications from '~/components/settings/Notifications.vue'
+export default Vue.extend({
   components: {
     Notifications
   },
@@ -13,5 +14,5 @@ export default {
       title: 'Notification settings'
     }
   }
-}
+})
 </script>

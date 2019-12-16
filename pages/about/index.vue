@@ -9,13 +9,13 @@
         client.
       </p>
       <p class="card-text">
-        It is made by <nuxt-link to="@xyz">
+        It is made by
+        <nuxt-link to="@xyz">
           @xyz
-        </nuxt-link> and the source
-        code is
+        </nuxt-link>
+        and the source code is
         <a href="https://github.com/sunya9/beta">
-          published on GitHub
-        </a>.
+          published on GitHub </a>.
       </p>
       <p class="card-text">
         Most of the code is original, but part of the CSS mimics Alpha.
@@ -24,10 +24,12 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   head: {
     title: 'About'
   }
-}
+})
 </script>

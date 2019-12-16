@@ -7,8 +7,8 @@
   </div>
 </template>
 
-<script>
-import AppHeader from '~/components/Header'
+<script lang="ts">
+import AppHeader from '~/components/Header.vue'
 
 export default {
   components: {

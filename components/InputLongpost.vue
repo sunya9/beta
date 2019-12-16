@@ -25,8 +25,11 @@
     </div>
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import { LongPost } from '~/models/raw/raw/long-post'
+
+export default Vue.extend({
   data() {
     return {
       longpost: {
@@ -38,13 +41,13 @@ export default {
   watch: {
     longpost: {
       deep: true,
-      handler(longpost) {
+      handler(longpost: LongPost.Value) {
         this.$emit('update:longpost', longpost)
       },
       immediate: true
     }
   }
-}
+})
 </script>
 <style scoped lang="scss">
 @import '~assets/css/override';

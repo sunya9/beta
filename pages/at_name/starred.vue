@@ -10,10 +10,11 @@
   </div>
 </template>
 
-<script>
-import PostList from '~/components/PostList'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import PostList from '~/components/PostList.vue'
 
-export default {
+@Component({
   components: {
     PostList
   },
@@ -37,7 +38,10 @@ export default {
         message: meta.error_message
       })
     }
-  },
+  }
+})
+export default class extends Vue {
+  name!: string
   head() {
     return {
       title: `@${this.name}'s starred`

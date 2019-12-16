@@ -12,47 +12,29 @@
         ref="list"
         :key="`${name}-posts`"
         :data="data"
-        :option="option"
+        :option="options"
         :refresh-date="date"
       />
     </div>
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
-import Profile from '~/components/Profile'
-import Compose from '~/components/Compose'
-import PostList from '~/components/PostList'
-import { getTitle, getRSSLink } from '~/assets/js/util'
-import refreshAfterAdded from '~/assets/js/refresh-after-added'
+<script lang="ts">
+import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
+import Profile from '~/components/Profile.vue'
+import Compose from '~/components/Compose.vue'
+import PostList from '~/components/PostList.vue'
+import { getTitle, getRSSLink } from '~/assets/ts/util'
+import refreshAfterAdded from '~/assets/ts/refresh-after-added'
+import { User } from '~/models/user'
 
-export default {
+@Component({
   components: {
     Profile,
     Compose,
     PostList
   },
   mixins: [refreshAfterAdded],
-  computed: {
-    ...mapGetters(['user']),
-    initialText() {
-      return this.user && this.user.username === this.name
-        ? ''
-        : `@${this.name} `
-    },
-    blocked() {
-      return this.profile.you_blocked
-    }
-  },
-  watch: {
-    async blocked(after, before) {
-      if (before && !after) {
-        await this.$nextTick()
-        this.$refs.list.fetchMore()
-      }
-    }
-  },
   async asyncData(ctx) {
     const {
       params,
@@ -60,11 +42,11 @@ export default {
       app: { $axios, $resource }
     } = ctx
     const { name } = params
-    const option = {
+    const options = {
       include_directed_posts: 1
     }
     try {
-      const data = await $resource(option).catch(() => ({
+      const data = await $resource({ options }).catch(() => ({
         meta: { code: 404 }
       }))
       const { data: profile } = await $axios.$get(`/users/@${name}`)
@@ -76,7 +58,7 @@ export default {
         },
         profile,
         name,
-        option
+        options
       }
     } catch (e) {
       const { meta } = e.response.data
@@ -85,8 +67,35 @@ export default {
         message: meta.error_message
       })
     }
-  },
+  }
+})
+export default class extends Vue {
+  @Prop({ type: Object, required: true })
+  profile!: User
+  @Prop({ type: String, required: true })
+  name!: string
+  $refs!: {
+    list: any
+  }
+  get user(): User | null {
+    return this.$store.state.user
+  }
+  get initialText(): string {
+    return this.user && this.user.username === this.name ? '' : `@${this.name} `
+  }
+  get blocked(): boolean {
+    return this.profile.you_blocked
+  }
+  @Watch('blocked')
+  async onBlockedChange(after: boolean, before: boolean) {
+    if (before && !after) {
+      await this.$nextTick()
+      // TODO
+      this.$refs.list.fetchMore()
+    }
+  }
   head() {
+    if (!this.profile) return {}
     const title = getTitle(this.profile)
     const meta = [
       {
