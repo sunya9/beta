@@ -157,16 +157,17 @@
   </header>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script lang="ts">
+import Vue from 'vue'
 import { Dropdown, Collapse } from 'bootstrap.native'
-import SearchForm from './SearchForm'
+import SearchForm from './SearchForm.vue'
 import AppSidebar from '~/components/sidebar/App'
-import Avatar from '~/components/Avatar'
+import Avatar from '~/components/Avatar.vue'
+import { User } from '~/models/user'
 
 const networkEvents = ['online', 'offline']
 
-export default {
+export default Vue.extend({
   components: {
     SearchForm,
     AppSidebar,
@@ -175,12 +176,16 @@ export default {
   data() {
     return {
       online: true,
-      collapseHeight: 0,
-      dropdown: null,
-      collapse: null
+      collapseHeight: 0 as number | string,
+      dropdown: null as Dropdown | null,
+      collapse: null as Collapse | null
     }
   },
-  computed: mapGetters(['user']),
+  computed: {
+    user(): User {
+      return this.$store.state.user
+    }
+  },
   mounted() {
     this.online = navigator.onLine
     networkEvents.forEach(event =>
@@ -188,8 +193,8 @@ export default {
     )
     const { height } = this.$el.children[0].getBoundingClientRect()
     this.collapseHeight = `calc(100vh - ${height}px)`
-    this.dropdown = new Dropdown(this.$refs.dropdown)
-    this.collapse = new Collapse(this.$refs.toggleButton)
+    this.dropdown = new Dropdown(this.$refs.dropdown as Element)
+    this.collapse = new Collapse(this.$refs.toggleButton as Element)
   },
   beforeDestroy() {
     networkEvents.forEach(event =>
@@ -208,7 +213,7 @@ export default {
       this.$toast.show(`You are ${this.online ? 'on' : 'off'}line`).goAway(2000)
     }
   }
-}
+})
 </script>
 <style scoped lang="scss">
 @import '~assets/css/adn_base_variables';

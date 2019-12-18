@@ -1,7 +1,8 @@
-<script>
-import Sidebar from './Sidebar'
+<script lang="ts">
+import Vue from 'vue'
+import Sidebar from './Sidebar.vue'
 
-export default {
+export default Vue.extend({
   extends: Sidebar,
   data() {
     const { user } = this.$store.getters
@@ -29,5 +30,5 @@ export default {
       menus
     }
   }
-}
+})
 </script>

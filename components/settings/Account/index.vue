@@ -87,13 +87,16 @@
   </div>
 </template>
 
-<script>
-import Cover from './Cover'
-import Avatar from './Avatar'
-import locales from '~/assets/json/locales'
-import timezones from '~/assets/json/timezones'
+<script lang="ts">
+import Vue from 'vue'
+import Cover from './Cover.vue'
+import Avatar from './Avatar.vue'
+import locales from '~/assets/json/locales.json'
+import timezones from '~/assets/json/timezones.json'
+import { PnutResponse } from '~/models/pnut-response'
+import { User } from '~/models/user'
 
-export default {
+export default Vue.extend({
   components: {
     Cover,
     Avatar
@@ -114,11 +117,19 @@ export default {
       locale: this.account.locale,
       locales,
       timezones,
-      promise: null
+      promise: null as Promise<PnutResponse<User>> | null
     }
   },
   computed: {
-    submitData() {
+    // TODO
+    submitData(): {
+      name: string
+      content: {
+        text: string
+      }
+      timezone: string
+      locale: string
+    } {
       return {
         name: this.name,
         content: {
@@ -132,7 +143,10 @@ export default {
   methods: {
     async update() {
       try {
-        this.promise = this.$axios.$patch('/users/me', this.submitData)
+        this.promise = this.$axios.$patch<PnutResponse<User>>(
+          '/users/me',
+          this.submitData
+        )
         await this.promise
         this.$toast.success('Updated!')
       } catch (e) {
@@ -141,5 +155,5 @@ export default {
       this.promise = null
     }
   }
-}
+})
 </script>

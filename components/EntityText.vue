@@ -62,16 +62,16 @@ import NuxtLinkMod from '~/components/NuxtLinkMod.vue'
 import { Entity } from '~/models/entity'
 
 interface ExtendedLinkInfo {
-  link: string;
-  domain: string;
+  link: string
+  domain: string
 }
 
 interface ModifiedLink extends Entity.Link, TypedEntity {
-  replace: ExtendedLinkInfo | null;
+  replace: ExtendedLinkInfo | null
 }
 
 interface DefinitelyModifiedLink extends ModifiedLink {
-  replace: ExtendedLinkInfo;
+  replace: ExtendedLinkInfo
 }
 
 const ReplaceUrls = [
@@ -95,7 +95,6 @@ function entityIsDefinitelyModifiedLink(
 ): entity is DefinitelyModifiedLink {
   return entityIsModifiedLink(entity) && !!entity.replace
 }
-
 function modifyURL(entity: Entity.Link): ExtendedLinkInfo | null {
   const itemToReplace = ReplaceUrls.find(({ test }) => test.test(entity.link))
   if (!itemToReplace) return null
@@ -106,10 +105,9 @@ function modifyURL(entity: Entity.Link): ExtendedLinkInfo | null {
     domain
   }
 }
-
 type EntityType = 'links' | 'mentions' | 'tags' | 'text'
 interface TypedEntity extends Entity {
-  type: EntityType;
+  type: EntityType
 }
 
 function isLinkEntity(typedEntity: TypedEntity): boolean {

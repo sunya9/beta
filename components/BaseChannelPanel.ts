@@ -1,9 +1,12 @@
-export default {
+import Vue, { PropOptions } from 'vue'
+import { Channel } from '~/models/channel'
+
+export const BaseChannelPanel = Vue.extend({
   props: {
     initialChannel: {
       type: Object,
       required: true
-    }
+    } as PropOptions<Channel>
   },
   data() {
     return {
@@ -19,4 +22,6 @@ export default {
       deep: true
     }
   }
-}
+})
+
+// export default ctor

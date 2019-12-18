@@ -1,8 +1,5 @@
 <template>
-  <base-list
-    v-bind="$attrs"
-    id-field="pagination_id"
-  >
+  <base-list v-bind="$attrs" id-field="pagination_id">
     <interaction
       :key="item.pagination_id"
       slot-scope="{ item, lastUpdate }"
@@ -11,14 +8,15 @@
     />
   </base-list>
 </template>
-<script>
-import BaseList from '~/components/BaseList'
-import Interaction from '~/components/Interaction'
+<script lang="ts">
+import Vue from 'vue'
+import BaseList from '~/components/BaseList.vue'
+import Interaction from '~/components/Interaction.vue'
 
-export default {
+export default Vue.extend({
   components: {
     BaseList,
     Interaction
   }
-}
+})
 </script>

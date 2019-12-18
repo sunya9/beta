@@ -8,11 +8,12 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import AppHeader from '~/components/Header.vue'
 
-export default {
+export default Vue.extend({
   components: {
     AppHeader
   }
-}
+})
 </script>

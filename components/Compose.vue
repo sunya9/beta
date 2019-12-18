@@ -43,9 +43,9 @@
           >
             <thumb
               v-for="(photo, i) in previewPhotos"
-              :key="photo.data"
-              :original="photo.data"
-              :thumb="photo.data"
+              :key="photo"
+              :original="photo"
+              :thumb="photo"
               removable
               class="mr-2"
               @remove="photos.splice(i, 1)"
@@ -160,27 +160,39 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import querystring from 'querystring'
-import { mapGetters } from 'vuex'
-import bus from '~/assets/js/bus'
-import Thumb from '~/components/Thumb'
+import Vue, { PropOptions } from 'vue'
+import { Token } from '~/models/token'
+import { Post } from '~/models/post'
+import { LongPost } from '~/models/raw/raw/long-post'
+import { Poll } from '~/models/poll'
+import { Spoiler } from '~/models/raw/raw/spoiler'
+import { User } from '~/models/user'
+import {
+  getMinimumPoll,
+  getMinimumSpoiler,
+  getMinimumLongPost
+} from '~/util/minimum-entities'
+import bus from '~/assets/ts/bus'
+import Thumb from '~/components/Thumb.vue'
 import { Picker } from '~/plugins/emoji'
-import InputPoll from '~/components/InputPoll'
-import InputSpoiler from '~/components/InputSpoiler'
-import InputLongpost from '~/components/InputLongpost'
-import textCount from '~/assets/js/text-count'
-import resettable from '~/assets/js/resettable'
-import { createVideoEmbedRaw } from '~/assets/js/oembed'
+import InputPoll from '~/components/InputPoll.vue'
+import InputSpoiler from '~/components/InputSpoiler.vue'
+import InputLongpost from '~/components/InputLongpost.vue'
+import textCount from '~/assets/ts/text-count'
+import resettable from '~/assets/ts/resettable'
+import { createVideoEmbedRaw } from '~/assets/ts/oembed'
+import { Raw } from '~/models/raw'
 
-function obj2FormData(obj) {
+function obj2FormData(obj: { [key: string]: string | Blob }) {
   return Object.keys(obj).reduce((fd, key) => {
     fd.append(key, obj[key])
     return fd
   }, new FormData())
 }
 
-export default {
+export default Vue.extend({
   name: 'Composer',
   components: {
     Thumb,
@@ -196,13 +208,13 @@ export default {
       default: ''
     },
     focus: {
-      type: null,
-      default: null
+      type: Boolean,
+      default: false
     },
     replyTarget: {
       type: Object,
       default: null
-    },
+    } as PropOptions<Post>,
     replyAll: {
       type: Boolean,
       default: false
@@ -218,42 +230,44 @@ export default {
     editPost: {
       type: Object,
       default: null
-    }
+    } as PropOptions<Post>
   },
   data() {
     return {
-      promise: null,
-      photos: [],
-      previewPhotos: [],
+      promise: null as Promise<any> | null | boolean,
+      photos: [] as File[],
+      previewPhotos: [] as string[],
       text: this.initialText,
       replyStartPos: 0,
       showEmojiPicker: false,
-      poll: null,
-      spoiler: null,
-      longpost: null,
+      poll: null as Poll.PostBody | null,
+      spoiler: null as Spoiler.Value | null,
+      longpost: null as LongPost.Value | null,
       nsfw: false
     }
   },
   computed: {
-    hasPoll() {
-      return this.poll
+    hasPoll(): boolean {
+      return !!this.poll
     },
-    hasSpoiler() {
-      return this.spoiler
+    hasSpoiler(): boolean {
+      return !!this.spoiler
     },
-    hasLongpost() {
-      return this.longpost
+    hasLongpost(): boolean {
+      return !!this.longpost
     },
-    postCounter() {
-      return 256 - this.textLength
+    postCounter(): number {
+      // TODO
+      return 256 - (this as any).textLength
     },
-    textOverflow() {
+    textOverflow(): boolean {
       return this.postCounter < 0
     },
-    hasNoText() {
-      return !this.textLength
+    hasNoText(): boolean {
+      // TODO
+      return !(this as any).textLength
     },
-    disabled() {
+    disabled(): boolean {
       const sending = !!this.promise
       return !!(
         this.textOverflow ||
@@ -264,70 +278,81 @@ export default {
         (this.longpost && !this.availableLongpost)
       )
     },
-    availablePoll() {
+    availablePoll(): boolean {
       return (
-        this.poll &&
+        !!this.poll &&
         this.poll.options &&
         this.poll.options.filter(option => option.text).length >= 2
       )
     },
-    availableSpoiler() {
+    availableSpoiler(): boolean {
       return (
-        this.spoiler &&
-        this.spoiler.topic &&
+        !!this.spoiler &&
+        !!this.spoiler.topic &&
         this.spoiler.topic.length > 0 &&
         this.spoiler.topic.length <= 128
       )
     },
-    availableLongpost() {
+    availableLongpost(): boolean {
       return (
-        this.longpost &&
-        this.longpost.body &&
+        !!this.longpost &&
+        !!this.longpost.body &&
         this.longpost.body.length > 0 &&
         this.longpost.body.length <= 6144 &&
         (!this.longpost.title || this.longpost.title.length < 128)
       )
     },
-    hasPhotos() {
-      return this.photos.length
+    hasPhotos(): boolean {
+      return !!this.photos.length
     },
-    ...mapGetters(['user', 'storage'])
+    user(): User {
+      return this.$store.state.user
+    },
+    storage(): Token.Storage {
+      return this.$store.state.storage
+    }
   },
   watch: {
     async photos() {
       const promisePhotos = this.photos.map(file => {
-        return new Promise(resolve => {
+        return new Promise<string>(resolve => {
           const fr = new FileReader()
           fr.readAsDataURL(file)
           fr.onload = e => {
-            file.data = e.target.result
-            resolve(file)
+            if (
+              !e.target ||
+              !e.target.result ||
+              typeof e.target.result !== 'string'
+            )
+              throw new Error('Failed to load photo')
+            resolve(e.target.result)
           }
         })
       })
       this.previewPhotos = await Promise.all(promisePhotos)
     },
     replyTarget: {
-      handler(replyTarget) {
-        if (!replyTarget) return
-        const notMe = this.user.username !== this.replyTarget.user.username
+      handler(replyTarget: Post) {
+        if (!replyTarget || !replyTarget.user || !replyTarget.content) return
+        const notMe = this.user.username !== replyTarget.user.username
         if (notMe) {
-          this.text = `@${this.replyTarget.user.username} `
+          this.text = `@${replyTarget.user.username} `
         }
 
         this.replyStartPos = this.text.length
 
-        const screenNames = this.replyTarget.content.entities.mentions.reduce(
+        const screenNames = replyTarget.content.entities.mentions.reduce(
           (memo, mention) => {
             const key = mention.text.toLowerCase()
-            const unique = !memo.includes(mention)
+            const mentionTextWithAt = `@${mention.text}`
+            const unique = !memo.includes(mentionTextWithAt)
             const notMe = key !== this.user.username.toLowerCase()
             if (unique && notMe) {
-              memo.push(`@${mention.text}`)
+              memo.push(mentionTextWithAt)
             }
             return memo
           },
-          []
+          [] as string[]
         )
         if (screenNames.length > 0) {
           this.text += `${screenNames.join(' ')} `
@@ -335,8 +360,9 @@ export default {
       },
       immediate: true
     },
-    editPost(editPost) {
-      this.text = editPost ? this.editPost.content.text : ''
+    editPost(editPost: Post) {
+      if (!editPost || !editPost.content) return
+      this.text = editPost ? editPost.content.text : ''
     }
   },
 
@@ -352,11 +378,12 @@ export default {
     toggleNsfw() {
       this.nsfw = !this.nsfw
     },
-    insertText(text) {
-      const { textarea } = this.$refs
-      if (document.selection) {
+    insertText(text: string) {
+      const textarea = this.$refs.textarea as HTMLTextAreaElement
+      const getSelection = document.getSelection()
+      if (getSelection) {
         textarea.focus()
-        const sel = document.selection.createRange()
+        const sel = (getSelection as any).createRange()
         sel.text = text
         textarea.focus()
       } else if (textarea.selectionStart || textarea.selectionStart === 0) {
@@ -375,18 +402,18 @@ export default {
           textarea.scrollTop = scrollTop
         })
       } else {
-        this.text = +text
+        this.text = text
         textarea.focus()
       }
     },
     togglePoll() {
-      this.poll = this.poll ? null : {}
+      this.poll = this.poll ? null : getMinimumPoll()
     },
     toggleSpoiler() {
-      this.spoiler = this.spoiler ? null : {}
+      this.spoiler = this.spoiler ? null : getMinimumSpoiler()
     },
     toggleLongpost() {
-      this.longpost = this.longpost ? null : {}
+      this.longpost = this.longpost ? null : getMinimumLongPost()
     },
     getSheet() {
       return require('emoji-datasource-twitter/img/twitter/sheets-128/64.png')
@@ -394,10 +421,12 @@ export default {
     setFocus(force = false) {
       if (this.focus === false && !force) return
       // occur error if it not displayed like logged out
-      const { textarea } = this.$refs
-      if (this.text.length === undefined) {
-        this.text.length = this.replyStartPos
-      }
+      // TODO
+      const textarea = this.$refs.textarea as any
+      // TODO
+      // if (this.text.length === undefined) {
+      //   this.text.length = this.replyStartPos
+      // }
       if ('selectionStart' in textarea) {
         textarea.selectionStart = this.replyStartPos
         textarea.selectionEnd = this.text.length
@@ -413,6 +442,7 @@ export default {
       textarea.focus()
     },
     async uploadPoll() {
+      if (!this.poll) return
       this.poll.options = this.poll.options.filter(option => option.text)
       const res = await this.$axios.$post('/polls', {
         ...this.poll,
@@ -422,12 +452,12 @@ export default {
     },
     async submit() {
       if (this.promise || this.textOverflow || this.hasNoText) return false
-      const option = {
+      const option: Post.PostBody = {
         text: this.text,
-        raw: []
+        raw: [] as Raw<any>[]
       }
       try {
-        if (this.hasPhotos) {
+        if (this.hasPhotos && option.raw) {
           const raws = await this.uploadPhotos()
           option.raw.push(...raws)
         }
@@ -437,7 +467,7 @@ export default {
         if (this.nsfw) {
           option.is_nsfw = true
         }
-        if (this.spoiler) {
+        if (this.spoiler && option.raw) {
           option.raw.push({
             type: 'shawn.spoiler',
             value: {
@@ -445,13 +475,13 @@ export default {
             }
           })
         }
-        if (this.longpost) {
+        if (this.longpost && option.raw) {
           option.raw.push({
             type: 'nl.chimpnut.blog.post',
             value: this.longpost
           })
         }
-        if (this.hasPoll) {
+        if (this.hasPoll && option.raw) {
           const {
             data: { id: poll_id, poll_token }
           } = await this.uploadPoll()
@@ -465,7 +495,9 @@ export default {
             }
           })
         }
-        option.raw.push(...createVideoEmbedRaw(option.text))
+        if (option.raw) {
+          option.raw.push(...createVideoEmbedRaw(option.text))
+        }
       } catch (e) {
         console.error(e)
         this.$toast.error(e.message)
@@ -505,7 +537,7 @@ export default {
           name: content.name,
           kind: 'image',
           content,
-          is_public: true
+          is_public: 'true'
         })
         const res = await this.$axios.$post('/files', data, {
           headers: {
@@ -535,13 +567,18 @@ export default {
       })
       return raws
     },
-    fileChange(e) {
-      if (!e.target.files.length) return
-      this.photos.push(...Array.prototype.slice.call(e.target.files))
+    fileChange(e: Event) {
+      if (!e.target) return
+      const target = e.target as HTMLInputElement
+      if (!target || !target.files || !target.files.length) return
+      ;[].unshift()
+      const newPhotos = Array.from(target.files)
+      this.photos = [...this.photos, ...newPhotos] as File[]
       // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
-      this.$refs.file.value = ''
+      ;(this.$refs.file as HTMLInputElement).value = ''
     },
-    addEmoji(emoji) {
+    // TODO
+    addEmoji(emoji: any) {
       this.insertText(emoji.native)
       this.closeEmojiPalette()
     },
@@ -549,7 +586,7 @@ export default {
       this.showEmojiPicker = !this.showEmojiPicker
       if (!this.showEmojiPicker) return
       await this.$nextTick()
-      const input = this.$refs.picker.$el.querySelector('input')
+      const input = (this.$refs.picker as Vue).$el.querySelector('input')
       if (!input) return
       input.focus()
     },
@@ -557,7 +594,7 @@ export default {
       this.showEmojiPicker = false
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">

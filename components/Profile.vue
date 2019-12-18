@@ -229,19 +229,22 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
 import { Dropdown } from 'bootstrap.native'
-import FollowButton from '~/components/FollowButton'
-import Thumb from '~/components/Thumb'
-import Avatar from '~/components/Avatar'
-import EntityText from '~/components/EntityText'
-import BaseMuteButton from '~/components/BaseMuteButton'
-import BaseBlockButton from '~/components/BaseBlockButton'
-import MuteButton from '~/components/MuteButton'
-import createPmModal from '~/components/CreatePmModal'
+import FollowButton from '~/components/FollowButton.vue'
+import Thumb from '~/components/Thumb.vue'
+import Avatar from '~/components/Avatar.vue'
+import EntityText from '~/components/EntityText.vue'
+import BaseMuteButton from '~/components/BaseMuteButton.vue'
+import BaseBlockButton from '~/components/BaseBlockButton.vue'
+import MuteButton from '~/components/MuteButton.vue'
+import createPmModal from '~/components/CreatePmModal.vue'
+import { User } from '~/models/user'
+import { Channel } from '~/models/channel'
+import { PnutResponse } from '~/models/pnut-response'
 
-export default {
+export default Vue.extend({
   components: {
     createPmModal,
     FollowButton,
@@ -256,33 +259,35 @@ export default {
     initialProfile: {
       required: true,
       type: Object
-    }
+    } as PropOptions<User>
   },
   data() {
     return {
       headerHeight: 0,
       loaded: false,
       profile: this.initialProfile,
-      messagePromise: null,
-      dropdown: null
+      messagePromise: null as Promise<PnutResponse<Channel>> | null,
+      dropdown: null as Dropdown | null
     }
   },
   computed: {
-    ...mapGetters(['user']),
-    relation() {
+    user(): User | null {
+      return this.$store.state.user
+    },
+    relation(): string {
       return this.profile.follows_you ? 'Follows you' : ''
     },
-    me() {
-      return this.user && this.profile.id === this.user.id
+    me(): boolean {
+      return !!this.user && this.profile.id === this.user.id
     },
-    atname() {
+    atname(): string {
       return `@${this.profile.username}`
     },
-    blockText() {
+    blockText(): string {
       const prefix = this.profile.you_blocked ? 'Unblock' : 'Block'
       return `${prefix} ${this.atname}`
     },
-    muteText() {
+    muteText(): string {
       const prefix = this.profile.you_muted ? 'Unmute' : 'Mute'
       return `${prefix} ${this.atname}`
     }
@@ -301,15 +306,16 @@ export default {
   },
   mounted() {
     const { width } = this.$el.getBoundingClientRect()
+    if (!this.profile.content) return
     // 2 === side border width
     const ratio = (width - 2) / this.profile.content.cover_image.width
     this.headerHeight = this.profile.content.cover_image.height * ratio
-    this.dropdown = new Dropdown(this.$refs.dropdown)
+    this.dropdown = new Dropdown(this.$refs.dropdown as Element)
   },
   methods: {
     async sendMessage() {
       try {
-        this.messagePromise = this.$axios.$get(
+        this.messagePromise = this.$axios.$get<PnutResponse<Channel>>(
           `/users/me/channels/existing_pm?ids=@${this.profile.username}`
         )
         const { data } = await this.messagePromise
@@ -322,11 +328,11 @@ export default {
           target: this.profile.username
         })
       }
-      this.dropdown.toggle()
+      if (this.dropdown) this.dropdown.toggle()
       this.messagePromise = null
     }
   }
-}
+})
 </script>
 <style scoped lang="scss">
 @import '~assets/css/mixin';

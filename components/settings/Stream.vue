@@ -9,10 +9,11 @@
   </div>
 </template>
 
-<script>
-import CustomCheckbox from '../CustomCheckbox'
+<script lang="ts">
+import Vue from 'vue'
+import CustomCheckbox from '../CustomCheckbox.vue'
 
-export default {
+export default Vue.extend({
   components: {
     CustomCheckbox
   },
@@ -24,12 +25,12 @@ export default {
     }
   },
   watch: {
-    unified(newVal) {
-      localStorage.setItem('unified_timeline', newVal)
+    unified(newVal: boolean) {
+      localStorage.setItem('unified_timeline', newVal.toString())
     },
-    directed(newVal) {
-      localStorage.setItem('hide_directed_posts', newVal)
+    directed(newVal: boolean) {
+      localStorage.setItem('hide_directed_posts', newVal.toString())
     }
   }
-}
+})
 </script>

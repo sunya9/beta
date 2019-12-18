@@ -76,73 +76,33 @@
     <help-modal />
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex'
-import Vue from 'vue'
-import AppHeader from '~/components/Header'
-import PostModal from '~/components/PostModal'
-import RemoveModal from '~/components/RemoveModal'
-import MessageRemoveModal from '~/components/MessageRemoveModal'
-import ChannelEditModal from '~/components/ChannelEditModal'
-import ChannelMemberEditModal from '~/components/ChannelMemberEditModal'
-import MessageModal from '~/components/MessageModal'
-import HelpModal from '~/components/HelpModal'
+<script lang="ts">
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import AppHeader from '~/components/Header.vue'
+import PostModal from '~/components/PostModal.vue'
+import RemoveModal from '~/components/RemoveModal.vue'
+import MessageRemoveModal from '~/components/MessageRemoveModal.vue'
+import ChannelEditModal from '~/components/ChannelEditModal.vue'
+import ChannelMemberEditModal from '~/components/ChannelMemberEditModal.vue'
+import MessageModal from '~/components/MessageModal.vue'
+import HelpModal from '~/components/HelpModal.vue'
 import AppSidebar from '~/components/sidebar/App'
-import SettingsSidebar from '~/components/sidebar/Settings'
-import AboutSidebar from '~/components/sidebar/About'
-import FilesSidebar from '~/components/sidebar/Files'
-import SearchSidebar from '~/components/sidebar/Search'
-import Jumbotron from '~/components/Jumbotron'
+import SettingsSidebar from '~/components/sidebar/Settings.vue'
+import AboutSidebar from '~/components/sidebar/About.vue'
+import FilesSidebar from '~/components/sidebar/Files.vue'
+import SearchSidebar from '~/components/sidebar/Search.vue'
+import Jumbotron from '~/components/Jumbotron.vue'
+import { User } from '~/models/user'
 
-export default {
-  commonShortcuts: {
-    '?'() {
-      this.$modal.show('help-modal')
-    },
-    'g h'() {
-      this.$router.push('/')
-    },
-    'g m'() {
-      this.$router.push('/mentions')
-    },
-    'g i'() {
-      this.$router.push('/interactions')
-    },
-    'g s'() {
-      this.$router.push('/stars')
-    },
+interface MenuItem {
+  type?: string
+  label: string
+  hidden?: boolean
+  icon?: string
+  url?: string
+}
 
-    // explore
-    'g c'() {
-      this.$router.push('/conversations')
-    },
-    'g p'() {
-      this.$router.push('/photos')
-    },
-    'g t'() {
-      this.$router.push('/trending')
-    },
-    'g g'() {
-      this.$router.push('/global')
-    }
-  },
-  streamsShortcuts: {
-    n() {
-      this.$modal.show('post-modal')
-    }
-  },
-  messagesShortcuts: {
-    m() {
-      this.$modal.show('message-modal', {
-        isPrivate: true
-      })
-    },
-    c() {
-      this.$modal.show('message-modal', {
-        isPrivate: false
-      })
-    }
-  },
+@Component({
   components: {
     AppHeader,
     PostModal,
@@ -158,73 +118,116 @@ export default {
     FilesSidebar,
     SearchSidebar,
     Jumbotron
-  },
-  props: {
-    error: {
-      type: null,
-      default: null
+  }
+})
+export default class extends Vue {
+  commonShortcuts = {
+    '?': () => {
+      this.$modal.show('help-modal')
+    },
+    'g h': () => {
+      this.$router.push('/')
+    },
+    'g m': () => {
+      this.$router.push('/mentions')
+    },
+    'g i': () => {
+      this.$router.push('/interactions')
+    },
+    'g s': () => {
+      this.$router.push('/stars')
+    },
+
+    // explore
+    'g c': () => {
+      this.$router.push('/conversations')
+    },
+    'g p': () => {
+      this.$router.push('/photos')
+    },
+    'g t': () => {
+      this.$router.push('/trending')
+    },
+    'g g': () => {
+      this.$router.push('/global')
     }
-  },
-  data() {
-    return {
-      bodyClass: ''
+  }
+  streamsShortcuts = {
+    n: () => {
+      this.$modal.show('post-modal')
     }
-  },
-  computed: {
-    isAppSidebar() {
-      return this.sidebarName === 'AppSidebar'
+  }
+  messagesShortcuts = {
+    m: () => {
+      this.$modal.show('message-modal', {
+        isPrivate: true
+      })
     },
-    notLoginIndex() {
-      return !this.user && this.$route.name === 'index'
-    },
-    searchPage() {
-      return this.$route.fullPath.match(/^\/search/)
-    },
-    dropdownItems() {
-      if (!this.sidebar) return []
-      const inst = new Vue({
-        ...this.sidebar,
-        store: this.$store,
-        router: this.$router
-      }).$mount()
-      const items = (inst.menus || []).slice(1)
-      return items
-    },
-    selectedDropdownItem() {
-      return this.dropdownItems.filter(item => item.url === this.$route.path)[0]
-    },
-    routeName() {
-      if (!this.$route.name) return null
-      const matcher = this.$route.name.match(/^[\w@]*/)
-      return matcher ? matcher[0] : ''
-    },
-    sidebar() {
-      return this.$options.components[this.sidebarName]
-    },
-    sidebarName() {
-      const name = this.routeName
-      const map = {
-        settings: 'SettingsSidebar',
-        about: 'AboutSidebar',
-        files: 'FilesSidebar',
-        search: 'SearchSidebar',
-        messages: null,
-        null: null
-      }
-      return map[name] || (map[name] !== null && 'AppSidebar')
-    },
-    ...mapGetters(['user'])
-  },
-  watch: {
-    $route: {
-      handler() {
-        if (process.server) return
-        this.$mousetrap.reset()
-        this.keyboardBind()
-      }
-      // immediate: true
+    c: () => {
+      this.$modal.show('message-modal', {
+        isPrivate: false
+      })
     }
-  },
+  }
+  bodyClass = ''
+  get isAppSidebar(): boolean {
+    return this.sidebarName === 'AppSidebar'
+  }
+  get notLoginIndex(): boolean {
+    return !this.user && this.$route.name === 'index'
+  }
+  get searchPage(): boolean {
+    return !!this.$route && !!this.$route.fullPath.match(/^\/search/)
+  }
+  get dropdownItems(): MenuItem[] {
+    if (!this.sidebar) return []
+    // TODO
+    const inst = new Vue({
+      ...(this.sidebar as any),
+      store: this.$store,
+      router: this.$router
+    }).$mount()
+    const items = ((inst as any).menus || []).slice(1)
+    return items
+  }
+  get selectedDropdownItem(): MenuItem | void {
+    return this.dropdownItems.find(item => item.url === this.$route.path)
+  }
+  get routeName(): string {
+    if (!this.$route.name) return ''
+    const matcher = this.$route.name.match(/^[\w@]*/)
+    return matcher ? matcher[0] : ''
+  }
+  get sidebar() {
+    return (
+      this.$options.components && this.$options.components[this.sidebarName]
+    )
+  }
+  get sidebarName(): string {
+    const name = this.routeName
+    const map: {
+      [key: string]: string
+    } = {
+      settings: 'SettingsSidebar',
+      about: 'AboutSidebar',
+      files: 'FilesSidebar',
+      search: 'SearchSidebar',
+      messages: '',
+      null: ''
+    }
+    return map[name] || 'AppSidebar'
+  }
+  get user(): User | null {
+    return this.$store.state.user
+  }
+
+  @Watch('$route')
+  onRouteChange() {
+    if (process.server) return
+    this.$mousetrap.reset()
+    this.keyboardBind()
+  }
+
   mounted() {
     // // dark theme
     if (process.browser) {
@@ -233,37 +236,37 @@ export default {
       }
     }
     this.keyboardBind()
-  },
+  }
   beforeDestroy() {
     this.keyboardBind(true)
-  },
+  }
   head() {
     return {
       bodyAttrs: {
         class: this.bodyClass
       }
     }
-  },
-  methods: {
-    keyboardBind(unbind = false) {
-      this.$mousetrap.reset()
-      if (unbind) return
-      const context =
-        this.$route.name && this.$route.name.startsWith('messages')
-          ? 'messages'
-          : 'streams'
-      this.keyboardBinding()
-      this.keyboardBinding(context)
-    },
-    keyboardBinding(context) {
-      const contextKey = `${context || 'common'}Shortcuts`
-      Object.keys(this.$options[contextKey]).forEach(shortcutKey => {
-        this.$mousetrap.bind(
-          shortcutKey,
-          this.$options[contextKey][shortcutKey].bind(this)
-        )
-      })
-    }
+  }
+  keyboardBind(unbind = false) {
+    this.$mousetrap.reset()
+    if (unbind) return
+    const context =
+      this.$route.name && this.$route.name.startsWith('messages')
+        ? 'messages'
+        : 'streams'
+    // TODO: ???
+    this.keyboardBinding()
+    this.keyboardBinding(context)
+  }
+  keyboardBinding(context?: string) {
+    const contextKey = `${context || 'common'}Shortcuts`
+    // TODO
+    Object.keys((this as any).$options[contextKey]).forEach(shortcutKey => {
+      this.$mousetrap.bind(
+        shortcutKey,
+        (this as any).$options[contextKey][shortcutKey].bind(this)
+      )
+    })
   }
 }
 </script>

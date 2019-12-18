@@ -147,23 +147,29 @@
     </div>
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
 import unicodeSubstring from 'unicode-substring'
 import { Dropdown } from 'bootstrap.native'
-import textCount from '~/assets/js/text-count'
-import Thumb from '~/components/Thumb'
-import InputSpoiler from '~/components/InputSpoiler'
-import resettable from '~/assets/js/resettable'
+import textCount from '~/assets/ts/text-count'
+import Thumb from '~/components/Thumb.vue'
+import InputSpoiler from '~/components/InputSpoiler.vue'
+import resettable from '~/assets/ts/resettable'
+import { Spoiler } from '~/models/raw/raw/spoiler'
+import { Channel } from '~/models/channel'
+import { Token } from '~/models/token'
+import { Raw } from '~/models/raw'
+import { PnutResponse } from '~/models/pnut-response'
+import { getMinimumSpoiler } from '~/util/minimum-entities'
 
-function obj2FormData(obj) {
+function obj2FormData(obj: { [key: string]: string | Blob }) {
   return Object.keys(obj).reduce((fd, key) => {
     fd.append(key, obj[key])
     return fd
   }, new FormData())
 }
 
-export default {
+export default Vue.extend({
   components: {
     Thumb,
     InputSpoiler
@@ -185,65 +191,74 @@ export default {
     channel: {
       type: Object,
       default: null
-    }
+    } as PropOptions<Channel>
   },
   data() {
     return {
-      promise: null,
+      // TODO
+      promise: null as Promise<PnutResponse<any>> | null | boolean,
       channelUsersStr: '',
       text: '',
-      photos: [],
-      previewPhotos: [],
-      spoiler: null,
-      pmLookupStatus: null,
-      dropdown: null
+      photos: [] as File[],
+      previewPhotos: [] as string[],
+      spoiler: null as Spoiler.Value | null,
+      pmLookupStatus: null as string | null,
+      dropdown: null as Dropdown | null
     }
   },
   computed: {
-    canBroadcast() {
+    canBroadcast(): boolean {
       return this.channel && this.channel.acl.read.public
     },
-    calcDisabled() {
+    calcDisabled(): boolean {
       const requireTargetValue = this.createChannelMode && !this.channelUsersStr
       return (
         requireTargetValue ||
-        this.promise ||
+        !!this.promise ||
         !this.text ||
         this.remain < 0 ||
-        (this.spoiler && !this.availableSpoiler)
+        (!!this.spoiler && !this.availableSpoiler)
       )
     },
-    calcPmLookup() {
-      return this.createChannelMode && this.channelUsersStr && !this.text
+    calcPmLookup(): boolean {
+      return this.createChannelMode && !!this.channelUsersStr && !this.text
     },
-    remain() {
-      return 2048 - this.textLength
+    remain(): number {
+      // TODO
+      return 2048 - (this as any).textLength
     },
-    hasPhotos() {
-      return this.photos.length
+    hasPhotos(): boolean {
+      return !!this.photos.length
     },
-    hasSpoiler() {
-      return this.spoiler
+    hasSpoiler(): boolean {
+      return !!this.spoiler
     },
-    availableSpoiler() {
+    availableSpoiler(): boolean {
       return (
-        this.spoiler &&
-        this.spoiler.topic &&
+        !!this.spoiler &&
+        !!this.spoiler.topic &&
         this.spoiler.topic.length > 0 &&
         this.spoiler.topic.length <= 128
       )
     },
-    ...mapGetters(['storage'])
+    storage(): Token.Storage {
+      return this.$store.state.storage
+    }
   },
   watch: {
     async photos() {
       const promisePhotos = this.photos.map(file => {
-        return new Promise(resolve => {
+        return new Promise<string>((resolve, reject) => {
           const fr = new FileReader()
           fr.readAsDataURL(file)
           fr.onload = e => {
-            file.data = e.target.result
-            resolve(file)
+            if (
+              !e.target ||
+              !e.target.result ||
+              typeof e.target.result !== 'string'
+            )
+              return reject(new Error('Failed to load photo'))
+            resolve(e.target.result)
           }
         })
       })
@@ -255,11 +270,11 @@ export default {
   },
   mounted() {
     this.$mousetrap.bind('n', e => {
-      this.$refs.textarea.focus()
+      ;(this.$refs.textarea as any).focus()
       e.preventDefault()
     })
     if (!this.$refs.dropdown) return
-    this.dropdown = new Dropdown(this.$refs.dropdown)
+    this.dropdown = new Dropdown(this.$refs.dropdown as Element)
   },
   beforeDestroy() {
     this.$mousetrap.unbind('n')
@@ -267,7 +282,7 @@ export default {
   methods: {
     async broadcast() {
       const option = await this.createGeneralPost()
-      const raw = [
+      const raw: Raw<any>[] = [
         {
           type: 'io.pnut.core.crosspost',
           value: {
@@ -290,7 +305,7 @@ export default {
       return res
     },
     toggleSpoiler() {
-      this.spoiler = this.spoiler ? null : {}
+      this.spoiler = this.spoiler ? null : getMinimumSpoiler()
     },
     resetPmSearch() {
       this.pmLookupStatus = null
@@ -319,7 +334,7 @@ export default {
     async createGeneralPost() {
       const option = {
         text: this.text,
-        raw: []
+        raw: [] as Raw<any>[]
       }
       if (this.hasPhotos) {
         const raws = await this.uploadPhotos()
@@ -335,7 +350,12 @@ export default {
       }
       return option
     },
-    async submit(preparedOption = null) {
+    async submit(
+      preparedOption: {
+        text: string
+        raw: Raw<any>[]
+      } | null = null
+    ) {
       if (this.createChannelMode) return this.createChannel()
       try {
         const option = preparedOption || (await this.createGeneralPost())
@@ -383,7 +403,7 @@ export default {
           name: content.name,
           kind: 'image',
           content,
-          is_public: false
+          is_public: 'false'
         })
         const res = await this.$axios.$post('/files', data, {
           headers: {
@@ -413,14 +433,19 @@ export default {
       })
       return raws
     },
-    fileChange(e) {
-      if (!e.target.files.length) return
-      this.photos.push(...Array.prototype.slice.call(e.target.files))
+    fileChange(e: Event) {
+      if (!e.target) return
+      const inputEl = e.target as HTMLInputElement
+      if (!inputEl || !inputEl.files || !inputEl.files.length) return
+      const files = inputEl.files
+      const filesAry = Array.from(files)
+      // filesAry
+      this.photos = [...this.photos, ...filesAry] as File[]
       // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
-      this.$refs.file.value = ''
+      ;(this.$refs.file as any).value = ''
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">

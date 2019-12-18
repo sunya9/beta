@@ -366,15 +366,19 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
-import ActionButton from '~/components/ActionButton'
-import Avatar from '~/components/Avatar'
-import Thumb from '~/components/Thumb'
-import Sound from '~/components/Sound'
-import Poll from '~/components/Poll'
-import EntityText from '~/components/EntityText'
-import Nsfw from '~/components/Nsfw'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import ActionButton from '~/components/ActionButton.vue'
+import Avatar from '~/components/Avatar.vue'
+import Thumb from '~/components/Thumb.vue'
+import Sound from '~/components/Sound.vue'
+import PollView from '~/components/Poll.vue'
+import EntityText from '~/components/EntityText.vue'
+import Nsfw from '~/components/Nsfw.vue'
+import { Post } from '~/models/post'
+import { PollNotice } from '~/models/raw/raw/poll-notice'
+import { Raw } from '~/models/raw'
+import { User } from '~/models/user'
 
 import {
   getImageURLs,
@@ -385,28 +389,34 @@ import {
   getChannelInvite,
   getOembedVideo,
   getVideoSrcFromHtml,
-  determineVideoType
-} from '~/assets/js/util'
-import listItem from '~/assets/js/list-item'
+  determineVideoType,
+  AudioForView,
+  LongPostValueForView,
+  ChannelInviteForView
+} from '~/assets/ts/util'
+import listItem from '~/assets/ts/list-item'
+import { Spoiler } from '~/models/raw/raw/spoiler'
 
+function rawIsPollNotice(raw: Raw<any>): raw is PollNotice {
+  return raw.type === PollNotice.type
+}
 const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
-export default {
+export default Vue.extend({
   components: {
     ActionButton,
     Thumb,
     Sound,
     Avatar,
     EntityText,
-    Poll,
+    Poll: PollView,
     Nsfw
   },
-  mixins: [listItem],
-  dateKey: 'post.created_at',
+  mixins: [listItem('post.created_at')],
   props: {
     post: {
       type: Object,
       required: true
-    },
+    } as PropOptions<Post>,
     viewOnly: {
       type: Boolean,
       default: false
@@ -422,51 +432,54 @@ export default {
   },
   data() {
     return {
-      timer: null,
+      timer: null as NodeJS.Timer | null,
       disableEdit: true,
       showSpoiler: false,
       showLongpost: false
     }
   },
   computed: {
-    revised() {
+    revised(): boolean {
       return this.mainPost.is_revised
     },
-    poll() {
+    poll(): PollNotice.Value | void {
       if (!this.mainPost.raw) return
-      const raw = this.mainPost.raw.filter(
-        item => item.type === 'io.pnut.core.poll-notice'
-      )[0]
+      const raw = this.mainPost.raw.find(rawIsPollNotice)
       if (!raw) return
       return raw.value
     },
-    reactionUsers() {
+    reactionUsers(): User[] {
       if (!this.detail || this.post.is_deleted) return []
-      const users = this.mainPost.bookmarked_by.concat(
-        this.mainPost.reposted_by
-      )
+      const bookmarkedBy = this.mainPost.bookmarked_by || []
+      const repostedBy = this.mainPost.reposted_by || []
+      const users = [...bookmarkedBy, ...repostedBy]
+      // TODO: merge
       return (
         users
           // .slice(0, 10)
-          .reduce((res, user) => {
-            let exist = false
-            for (let i = 0; res.length > i; i++) {
-              if (res[i].id === user.id) {
-                exist = true
-                break
+          .reduce(
+            (res, user) => {
+              let exist = false
+              for (let i = 0; res.length > i; i++) {
+                if (res[i].id === user.id) {
+                  exist = true
+                  break
+                }
               }
-            }
-            if (!exist) {
-              res.push(user)
-            }
-            return res
-          }, [])
+              if (!exist) {
+                res.push(user)
+              }
+              return res
+            },
+            [] as User[]
+          )
       )
     },
-    oembedVideos() {
+    // TODO
+    oembedVideos(): any {
       return getOembedVideo(this.mainPost).map(value => {
         const url = getVideoSrcFromHtml(value.html)
-        const type = determineVideoType(url)
+        const type = determineVideoType(url!)
         const { width, height } = value
         return {
           url,
@@ -476,44 +489,53 @@ export default {
         }
       })
     },
-    thumbs() {
+    // TODO
+    thumbs(): any {
       return getImageURLs(this.mainPost)
     },
-    clips() {
+    clips(): AudioForView[] | void {
       return getAudio(this.mainPost)
     },
-    crosspost() {
+    crosspost(): string | void {
       return getCrosspostLink(this.mainPost)
     },
-    spoiler() {
+    spoiler(): Spoiler.Value | void {
       return getSpoiler(this.mainPost)
     },
-    longpost() {
+    longpost(): LongPostValueForView | void {
       return getLongpost(this.mainPost)
     },
-    channelInvite() {
+    channelInvite(): ChannelInviteForView | void {
       return getChannelInvite(this.mainPost)
     },
-    me() {
-      return this.user && this.post.user && this.user.id === this.post.user.id
+    me(): boolean {
+      return (
+        !!this.user && !!this.post.user && this.user.id === this.post.user.id
+      )
     },
-    mainPost() {
+    mainPost(): Post {
       return this.post.repost_of || this.post
     },
-    permalink() {
-      return `/@${this.mainPost.user.username}/posts/${this.mainPost.id}`
+    permalink(): string {
+      const user = this.mainPost.user
+      return user
+        ? `/@${user.username}/posts/${this.mainPost.id}`
+        : `/posts/${this.mainPost.id}`
     },
-    reply_permalink() {
+    reply_permalink(): string {
       return `/posts/${this.mainPost.reply_to}`
     },
-    revisions_permalink() {
+    revisions_permalink(): string {
       return `/posts/${this.mainPost.id}/revisions`
     },
-    ...mapGetters(['user'])
+    user(): User | void {
+      return this.$store.state.user
+    }
   },
   mounted() {
     if (!this.me) return
-    const diff = Date.now() - new Date(this.itemDate).getTime()
+    // TODO
+    const diff = Date.now() - new Date((this as any).itemDate).getTime()
     const over5minutes = diff > FIVE_MINUTES
     if (over5minutes) return
     const remainMilliSeconds = FIVE_MINUTES - diff
@@ -549,11 +571,13 @@ export default {
     },
     favoriteToggle() {
       if (this.mainPost.is_deleted) return
-      this.$refs.favorite.toggle()
+      // TODO
+      ;(this.$refs.favorite as any).toggle()
     },
     repostToggle() {
       if (this.me || this.mainPost.is_deleted) return
-      this.$refs.repost.toggle()
+      // TODO
+      ;(this.$refs.repost as any).toggle()
     },
     async removeModal() {
       if (!this.me || this.mainPost.is_deleted) return
@@ -568,7 +592,7 @@ export default {
       this.$emit('update:post', post)
     }
   }
-}
+})
 </script>
 <style scoped lang="scss">
 @import '~assets/css/override';

@@ -13,22 +13,24 @@
     />
   </base-list>
 </template>
-<script>
-import BaseList from '~/components/BaseList'
-import Channel from '~/components/Channel'
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import { Channel } from '../models/channel'
+import BaseList from '~/components/BaseList.vue'
+import ChannelView from '~/components/Channel.vue'
+export default Vue.extend({
   name: 'ChannelList',
   components: {
     BaseList,
-    Channel
+    Channel: ChannelView
   },
   methods: {
-    listItemProps(channel) {
+    listItemProps(channel: Channel) {
       return {
         to: `/messages/${channel.id}`
       }
     },
-    listItemClass(channel) {
+    listItemClass(channel: Channel) {
       return [
         'list-group-item list-group-item-action',
         {
@@ -37,5 +39,5 @@ export default {
       ]
     }
   }
-}
+})
 </script>

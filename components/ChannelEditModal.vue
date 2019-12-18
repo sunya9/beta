@@ -41,7 +41,7 @@
         <h5>Categories</h5>
         <select v-model="chat.categories" class="form-control" multiple>
           <template>
-            <option v-for="category in $options.categories" :key="category">
+            <option v-for="category in categories" :key="category">
               {{ category }}
             </option>
           </template>
@@ -51,51 +51,55 @@
   </base-modal>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { cloneDeep } from 'lodash'
-import BaseModal from '~/components/BaseModal'
-import { findChatRaw } from '~/assets/js/util'
+import { Channel } from '../models/channel'
+import BaseModal from '~/components/BaseModal.vue'
+import { findChatRaw } from '~/assets/ts/util'
+import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
 
-export default {
+export default Vue.extend({
   name: 'ChannelEditModal',
-  categories: [
-    'general',
-    'fun',
-    'lifestyle',
-    'profession',
-    'language',
-    'community',
-    'tech',
-    'event'
-  ],
   components: {
     BaseModal
   },
   data() {
     return {
-      chat: null
+      chat: null as ChatRoomSettings.Value | null,
+      categories: [
+        'general',
+        'fun',
+        'lifestyle',
+        'profession',
+        'language',
+        'community',
+        'tech',
+        'event'
+      ]
     }
   },
   computed: {
-    calcDisabled() {
+    calcDisabled(): boolean {
       return (
         !this.chat ||
         this.chat.name.length === 0 ||
         this.chat.name.length > 128 ||
-        this.chat.description.length > 256 ||
-        this.chat.categories.length > 3
+        (!!this.chat.description && this.chat.description.length > 256) ||
+        (!!this.chat.categories && this.chat.categories.length > 3)
       )
     }
   },
   methods: {
     shown() {
-      this.$refs.nameInput.focus()
+      // TODO
+      ;(this.$refs.nameInput as HTMLInputElement).focus()
     },
-    show(channel) {
+    show(channel: Channel) {
       const chatRaw = findChatRaw(channel)
       if (!chatRaw) return
       const chat = chatRaw.value
-      if (!chat) if (!chat.categories) chat.categories = []
+      if (!chat || !chat.categories) chat.categories = []
       this.chat = cloneDeep(chat)
     },
     ok() {
@@ -105,5 +109,5 @@ export default {
       this.chat = null
     }
   }
-}
+})
 </script>

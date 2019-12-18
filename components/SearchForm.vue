@@ -9,17 +9,15 @@
       class="form-control"
       placeholder="keyword search"
     >
-    <button
-      :disabled="!text"
-      type="submit"
-      class="btn btn-link text-dark"
-    >
+    <button :disabled="!text" type="submit" class="btn btn-link text-dark">
       <font-awesome-icon icon="search" />
     </button>
   </form>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   data() {
     return {
       text: this.$route.query.q
@@ -31,11 +29,12 @@ export default {
     }
   },
   methods: {
-    search(e) {
+    search(e: Event) {
       if (!this.text) return e.preventDefault()
       const query = {
         q: this.text
       }
+      if (!this.$route || !this.$route.name) return
       const [search, type] = this.$route.name.split('-')
       const searchType = search === 'search' ? type : 'posts'
       this.$router.push({
@@ -44,7 +43,7 @@ export default {
       })
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">

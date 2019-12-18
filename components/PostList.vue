@@ -27,29 +27,33 @@
     />
   </base-list>
 </template>
-<script>
-import { mapGetters } from 'vuex'
-import BaseList from '~/components/BaseList'
-import Post from '~/components/Post'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import { User } from '~/models/user'
+import BaseList from '~/components/BaseList.vue'
+import PostView from '~/components/Post.vue'
 import {
   sendPostNotification,
   sendMentionNotification
-} from '~/assets/js/notification-wrapper'
-import keyBinding, { forList } from '~/assets/js/key-binding'
+} from '~/assets/ts/notification-wrapper'
+import keyBinding, { forList } from '~/assets/ts/key-binding'
+import { Post } from '~/models/post'
+import { PnutResponse } from '~/models/pnut-response'
 
-export default {
-  keyMaps: {
-    r: 'replyModal',
-    s: 'favoriteToggle',
-    p: 'repostToggle',
-    enter: 'goPost',
-    del: 'removeModal'
-  },
+const keyMap = {
+  r: 'replyModal',
+  s: 'favoriteToggle',
+  p: 'repostToggle',
+  enter: 'goPost',
+  del: 'removeModal'
+}
+
+export default Vue.extend({
   components: {
     BaseList,
-    Post
+    Post: PostView
   },
-  mixins: [keyBinding, forList],
+  mixins: [keyBinding(keyMap), forList(keyMap)],
   props: {
     main: {
       type: String,
@@ -61,30 +65,31 @@ export default {
     },
     data: {
       type: Object,
-      default: () => ({
-        meta: {},
-        data: []
-      })
-    }
+      required: true
+    } as PropOptions<PnutResponse<Post[]>>
   },
   computed: {
-    ...mapGetters(['user']),
-    mainItem() {
-      return this.data.data.find(item => item.id === this.main)
+    user(): User {
+      return this.$store.state('user')
+    },
+    // ...mapGetters(['user']),
+    mainItem(): Post | null {
+      return this.data.data.find((item: Post) => item.id === this.main) || null
     }
   },
   methods: {
-    isTarget(item) {
-      return this.mainItem && this.mainItem.reply_to === item.id
+    isTarget(item: Post): boolean {
+      return !!this.mainItem && this.mainItem.reply_to === item.id
     },
-    added(newItems) {
+    added(newItems: Post[]): boolean | void {
       const posts = newItems.filter(
-        post => this.user && this.user.id !== post.user.id
+        post => this.user && post.user && this.user.id !== post.user.id
       )
       if (posts.length > 0) sendPostNotification(posts)
       const mentions = newItems.filter(post => {
-        const notMe = this.user && this.user.id !== post.user.id
+        const notMe = this.user && post.user && this.user.id !== post.user.id
         const includedInMention =
+          post.content &&
           post.content.entities &&
           post.content.entities.mentions.some(
             mention => this.user && mention.id === this.user.id
@@ -94,5 +99,5 @@ export default {
       if (mentions.length > 0) sendMentionNotification(mentions)
     }
   }
-}
+})
 </script>

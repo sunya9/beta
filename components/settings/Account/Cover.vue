@@ -35,8 +35,12 @@
     </div>
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import { User } from '~/models/user'
+import { PnutResponse } from '~/models/pnut-response'
+
+export default Vue.extend({
   props: {
     cover: {
       type: Object,
@@ -50,14 +54,20 @@ export default {
   },
   data() {
     return {
-      promise: null,
+      promise: null as Promise<PnutResponse<User>> | null,
       internalCover: this.cover
     }
   },
   methods: {
-    async coverChanged(e) {
-      if (!e.target.files.length) return false
-      const [file] = e.target.files
+    async coverChanged(e: Event) {
+      if (
+        !e.target ||
+        !(e.target instanceof HTMLInputElement) ||
+        !e.target.files ||
+        !e.target.files.length
+      )
+        return false
+      const file = e.target.files[0]
       if (file.size > 4194000) {
         this.$toast.error('Over 4MiB.')
         return
@@ -66,7 +76,7 @@ export default {
       fd.append('cover', file)
       try {
         this.promise = this.$axios
-          .$post('/users/me/cover', fd, {
+          .$post<PnutResponse<User>>('/users/me/cover', fd, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -75,6 +85,7 @@ export default {
             throw new Error(err.response.data.meta.error_message)
           })
         const response = await this.promise
+        if (!response.data.content) return
         this.internalCover = response.data.content.cover_image
         this.$toast.success('Changed!')
       } catch (err) {
@@ -83,8 +94,9 @@ export default {
       this.promise = null
     },
     changeCover() {
-      this.$refs.coverFileInput.click()
+      // TODO
+      ;(this.$refs.coverFileInput as HTMLInputElement).click()
     }
   }
-}
+})
 </script>

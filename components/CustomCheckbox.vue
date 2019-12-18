@@ -16,7 +16,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import actionable from '~/assets/ts/actionable'
+import { actionable } from '~/assets/ts/actionable'
 
 export default Vue.extend({
   mixins: [actionable],

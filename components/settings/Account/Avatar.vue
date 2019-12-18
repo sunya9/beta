@@ -35,29 +35,36 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import { User } from '~/models/user'
+import { PnutResponse } from '~/models/pnut-response'
+
+export default Vue.extend({
   props: {
     avatar: {
       type: Object,
       required: true,
-      validator: obj =>
+      validator: (obj: object) =>
         ['is_default', 'height', 'link', 'width'].every(key => key in obj)
-    }
+    } as PropOptions<User.UserImage>
   },
   data() {
     return {
-      promise: null,
+      promise: null as Promise<PnutResponse<User>> | null,
       internalAvatar: this.avatar
     }
   },
   methods: {
     changeAvatar() {
-      this.$refs.avatarFileInput.click()
+      // TODO
+      ;(this.$refs.avatarFileInput as HTMLInputElement).click()
     },
-    async avatarChanged(e) {
-      if (!e.target.files.length) return false
-      const [file] = e.target.files
+    async avatarChanged(e: Event) {
+      if (!e.target) return
+      const target = e.target as HTMLInputElement
+      if (!target.files || !target.files.length) return false
+      const file = target.files[0]
       if (file.size > 2097000) {
         this.$toast.error('Over 2MiB.')
         return
@@ -66,7 +73,7 @@ export default {
       fd.append('avatar', file)
       try {
         this.promise = this.$axios
-          .$post('/users/me/avatar', fd, {
+          .$post<PnutResponse<User>>('/users/me/avatar', fd, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -75,6 +82,7 @@ export default {
             throw new Error(err.response.data.meta.error_message)
           })
         const response = await this.promise
+        if (!response.data.content) return // TODO: improve error handling
         this.internalAvatar = response.data.content.avatar_image
         this.$toast.success('Changed!')
       } catch (err) {
@@ -83,5 +91,5 @@ export default {
       this.promise = null
     }
   }
-}
+})
 </script>

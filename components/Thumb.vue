@@ -19,19 +19,17 @@
           >
         </slot>
       </a>
-      <a
-        v-if="removable"
-        class="remove"
-        @click.prevent="remove"
-      >
+      <a v-if="removable" class="remove" @click.prevent="remove">
         <font-awesome-icon icon="times" />
       </a>
     </div>
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   props: {
     original: {
       type: String,
@@ -71,14 +69,16 @@ export default {
     }
   },
   computed: {
-    normalizeOriginal() {
+    normalizeOriginal(): string {
       return this.original.replace(/^https?:/, '')
     },
-    normalizeThumb() {
+    normalizeThumb(): string {
       return this.thumb.replace(/^https?:/, '')
     },
-    style() {
-      const style = {}
+    style(): { [key: string]: number | string } {
+      const style: {
+        [key: string]: number | string
+      } = {}
       if (this.height > 0) style['max-height'] = `${this.height}px`
       if (this.width > 0) style['max-width'] = `${this.width}px`
       return style
@@ -87,6 +87,7 @@ export default {
   mounted() {
     const Zooming = require('zooming').default
     const img = this.$el.querySelector('img')
+    if (!img) return
     const option = {
       bgColor: '#000',
       zIndex: 99999,
@@ -115,7 +116,7 @@ export default {
       this.$emit('remove')
     }
   }
-}
+})
 </script>
 
 <style scoped>

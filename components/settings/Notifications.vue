@@ -1,36 +1,25 @@
 <template>
   <div>
-    <custom-checkbox
-      v-model="notification"
-      :disabled="disabledNotification"
-    >
+    <custom-checkbox v-model="notification" :disabled="disabledNotification">
       Enable notification
-      <span
-        v-if="error"
-        :class="`text-${error.type}`"
-      >
+      <span v-if="error" :class="`text-${error.type}`">
         {{ error.message }}
       </span>
     </custom-checkbox>
-    <custom-checkbox
-      v-model="types.posts"
-      :disabled="!notification"
-    >
+    <custom-checkbox v-model="types.posts" :disabled="!notification">
       New posts
     </custom-checkbox>
-    <custom-checkbox
-      v-model="types.mentions"
-      :disabled="!notification"
-    >
+    <custom-checkbox v-model="types.mentions" :disabled="!notification">
       New mentions
     </custom-checkbox>
   </div>
 </template>
 
-<script>
-import CustomCheckbox from '../CustomCheckbox'
+<script lang="ts">
+import Vue from 'vue'
+import CustomCheckbox from '../CustomCheckbox.vue'
 
-export default {
+export default Vue.extend({
   components: {
     CustomCheckbox
   },
@@ -42,27 +31,29 @@ export default {
         mentions: false
       },
       disabledNotification: false,
-      error: null
+      error: null as { type: string; message: string } | null
     }
   },
   watch: {
-    notification(newVal) {
-      localStorage.setItem('notification', newVal)
+    notification(newVal: boolean) {
+      localStorage.setItem('notification', newVal.toString())
       if (newVal) {
         Notification.requestPermission(this.checkPermission)
       }
     },
-    'types.posts'(newVal) {
-      localStorage.setItem('notification:posts', newVal)
+    'types.posts'(newVal: boolean) {
+      localStorage.setItem('notification:posts', newVal.toString())
     },
-    'types.mentions'(newVal) {
-      localStorage.setItem('notification:mentions', newVal)
+    'types.mentions'(newVal: boolean) {
+      localStorage.setItem('notification:mentions', newVal.toString())
     }
   },
   mounted() {
     this.checkPermission()
     Object.keys(this.types).forEach(key => {
-      this.types[key] = localStorage.getItem(`notification:${key}`) === 'true'
+      // TODO
+      ;(this as any).types[key] =
+        localStorage.getItem(`notification:${key}`) === 'true'
     })
   },
   methods: {
@@ -86,5 +77,5 @@ export default {
         localStorage.getItem('notification') === 'true'
     }
   }
-}
+})
 </script>
