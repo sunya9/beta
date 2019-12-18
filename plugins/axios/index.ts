@@ -3,6 +3,7 @@ import { AxiosError } from 'axios'
 import { convertPageId2ApiPath } from './resources'
 import { PnutResponse } from '~/models/pnut-response'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function setupRouter(
   app: NuxtAppOptions,
   callback: (resourcePath: string) => void
@@ -16,11 +17,10 @@ function setupRouter(
     next()
   })
 }
-
-const injecter: Plugin = (context, inject) => {
-  const { error, app } = context
+const plugin: Plugin = (context, inject) => {
+  const { error, app, route } = context
   const { $axios } = app
-  let resourcePath: string
+  // let resourcePath: string
 
   function showError(err: AxiosError) {
     if (!err || !err.response || !err.response.status) return
@@ -31,13 +31,11 @@ const injecter: Plugin = (context, inject) => {
     })
   }
 
-  function $resource<T>(url = '', options = {}): Promise<PnutResponse<T>> {
-    if (typeof url === 'object') {
-      options = url
-      url = ''
-    }
-
-    $axios.onError(err => {
+  function $resource<T>(option?: {
+    url?: string
+    options?: object
+  }): Promise<PnutResponse<T>> {
+    $axios.onError((err: AxiosError) => {
       if (process.server) {
         showError(err)
       } else {
@@ -45,13 +43,18 @@ const injecter: Plugin = (context, inject) => {
       }
     })
 
+    const resourcePath = convertPageId2ApiPath(route.fullPath)
+
+    const url = option && option.url ? option.url : resourcePath
+
     try {
-      const res = $axios.$get(url || resourcePath, {
+      const extendOptions = option ? option.options : {}
+      const res = $axios.$get(url, {
         params: {
           include_post_raw: 1,
           include_message_raw: 1,
           include_deleted: 0,
-          ...options
+          ...extendOptions
         }
       })
       return res
@@ -61,10 +64,9 @@ const injecter: Plugin = (context, inject) => {
     }
   }
 
-  setupRouter(app, path => {
-    resourcePath = path
-  })
+  // setupRouter(app, path => {
+  //   resourcePath = path
+  // })
   inject('resource', $resource)
 }
-
-export default injecter
+export default plugin

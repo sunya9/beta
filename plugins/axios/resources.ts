@@ -1,11 +1,16 @@
 import { Route } from 'vue-router'
-import { Dictionary } from 'vue-router/types/router'
+import { PnutResponse } from '~/models/pnut-response'
 
-type RouteLike = { params: Dictionary<string> }
+// TODO: define types for resource option
+interface Dictionary {
+  [key: string]: string | number | null
+}
+
+type RouteLike = { params: Dictionary }
 type RouteGetter = ((route: RouteLike) => string) | string
 
 const map: {
-  [key: string]: RouteGetter;
+  [key: string]: RouteGetter
 } = {
   index: '/posts/streams/me',
   mentions: '/users/me/mentions',
@@ -18,7 +23,10 @@ const map: {
   global: '/posts/streams/global',
   'posts-id': ({ params }) => `/posts/${params.id}/thread`,
   'posts-id-revisions': ({ params }) => `/posts/${params.id}/revisions`,
-  'tags-name': ({ params }) => `/posts/tag/${encodeURIComponent(params.name)}`,
+  'tags-name': ({ params }) => {
+    const tag: string = params.name ? `${params.name}` : ''
+    return `/posts/tag/${encodeURIComponent(tag)}`
+  },
   '@name': ({ params }) => `/users/@${params.name}/posts`,
   '@name-follows': ({ params }) => `/users/@${params.name}/following`,
   '@name-followers': ({ params }) => `/users/@${params.name}/followers`,
@@ -44,22 +52,33 @@ function isString(route: Route | string): route is string {
   return typeof route === 'string'
 }
 
-function getKey(route: Route | string): string | null {
+function getKey(route: Route | string): string {
   if (isString(route)) {
     return route
+  } else if (route.name) {
+    return route.name
   } else {
-    return route.name || null
+    throw new Error('Cannot get resource url')
   }
 }
 
-function getValue(route: Route | string): RouteGetter | null {
+function getRouteGetter(route: Route | string): RouteGetter {
   const key = getKey(route)
   if (!key) return key
   return map[key]
 }
 
-export function convertPageId2ApiPath(route: Route | string): string | null {
-  const val = getValue(route)
+export function convertPageId2ApiPath(route: Route | string): string {
+  const routeGetter = getRouteGetter(route)
   const params = isString(route) ? {} : route.params
-  return typeof val === 'function' ? val({ params }) : val
+  return typeof routeGetter === 'function'
+    ? routeGetter({ params })
+    : routeGetter
 }
+
+// type PredictedResource =  <T>(options?: Dictionary) => PnutResponse<T>
+// type PredictedResource =  <T>(url: string, options: Dictionary) => PnutResponse<T>
+export type Resource = <T>(option?: {
+  url?: string
+  options?: object
+}) => Promise<PnutResponse<T>>
