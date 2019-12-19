@@ -1,4 +1,4 @@
-import * as util from '~/assets/js/util'
+import * as util from '~/assets/ts/util'
 
 describe('util', () => {
   test('getRSSLink', () => {
