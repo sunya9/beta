@@ -14,7 +14,8 @@ export default (dateKey: string) =>
     },
     computed: {
       itemDate(): Date {
-        return dateKey.split('.').reduce((obj, key) => obj[key], this) as Date
+        // TODO
+        return dateKey.split('.').reduce((obj, key) => obj[key], this as any)
       },
       date(): string {
         const now = this.$moment(this.lastUpdate)
@@ -28,7 +29,7 @@ export default (dateKey: string) =>
           return postDate.fromNow(true)
         }
       },
-      absDate() {
+      absDate(): string {
         return this.$moment(this.itemDate).format('YYYY/MM/DD HH:mm:ss')
       }
     }

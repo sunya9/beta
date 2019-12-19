@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import bus from '~/assets/js/bus'
+import bus from '~/assets/ts/bus'
 
 export default Vue.extend({
   data() {

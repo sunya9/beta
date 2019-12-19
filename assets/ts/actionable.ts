@@ -1,6 +1,6 @@
-import Vue from 'vue'
+import Vue, { PropOptions } from 'vue'
 
-export default Vue.extend({
+export const actionable = Vue.extend({
   model: {
     prop: 'checked',
     event: 'change'
@@ -13,10 +13,10 @@ export default Vue.extend({
     checked: {
       type: Boolean,
       required: true
-    }
+    } as PropOptions<boolean>
   },
   data(): {
-    processing: Promise<any> | null;
+    processing: Promise<any> | null
   } {
     return {
       processing: null

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { User } from '~/models/user'
 import { Post } from '~/models/post'
+import { PnutResponse } from '~/models/pnut-response'
 
 export default Vue.extend({
   watchQuery: ['q'],
@@ -10,12 +11,12 @@ export default Vue.extend({
       options: {
         q: ''
       },
-      data: {}
+      data: ({} as any) as PnutResponse<Post[] | User[]> | null
     }
   },
   computed: {
-    title() {
-      if (!this.$route.path || !this.$route.query) return null
+    title(): string | null {
+      if (!this.$route || !this.$route.path || !this.$route.query) return null
       const { q } = this.$route.query
       if (!q || typeof q !== 'string') return null
       const type = this.$route.path.replace(/^\/search\//, '')
