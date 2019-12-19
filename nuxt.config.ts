@@ -115,7 +115,8 @@ const config: Configuration = {
     '~/plugins/vue-scrollto',
     '~/plugins/axios/',
     '~/plugins/font-awesome',
-    '~/plugins/modal'
+    '~/plugins/modal',
+    '~/plugins/moment'
   ],
 
   // router settings

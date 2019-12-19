@@ -14,10 +14,10 @@ module.exports = {
   testRegex: '(/__tests__/(components|pages)/.*|(\\.|/)(test|spec))\\.jsx?$',
   transformIgnorePatterns: ['node_modules/(?!(nuxt)/)'],
   collectCoverageFrom: [
-    'assets/js/**/*',
+    'assets/ts/**/*',
     'components/**/*',
     'store/**/*',
-    'assets/js/**/*',
+    'assets/ts/**/*',
     'layouts/js/**/*',
     'pages/js/**/*'
   ]
