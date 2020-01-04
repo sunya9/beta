@@ -2,7 +2,10 @@
   <div class="media">
     <avatar
       v-if="is_pm"
-      :avatar="channel.recent_message.user.content.avatar_image"
+      v-bind="{
+        avatar: recentMessageUser && recentMessageUser.content.avatar_image
+      }"
+      :enable-placeholder="!recentMessageUser"
       size="32"
       class="mr-2"
     />
@@ -82,6 +85,11 @@ export default {
     }
   },
   computed: {
+    recentMessageUser() {
+      return this.channel.recent_message && this.channel.recent_message.user
+        ? this.channel.recent_message.user
+        : null
+    },
     members() {
       // don't include self or most recent messager
       const {
