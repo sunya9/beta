@@ -62,6 +62,10 @@ body {
   cursor: auto;
 }
 
+.btn-primary,.btn-primary:hover {
+	color: #fff;
+}
+
 .unread-channel {
   background-color: #fff1ec !important;
 }
@@ -339,9 +343,5 @@ body.dark {
     color: rgb(74, 74, 74);
     background-color: #181818;
     border-color: #181818;
-  }
-
-  .btn-link {
-  	color: #fff;
   }
 }
