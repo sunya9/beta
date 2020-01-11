@@ -5540,10 +5540,10 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
-emoji-datasource-twitter@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/emoji-datasource-twitter/-/emoji-datasource-twitter-4.1.0.tgz#e374a6ec87e071561e47b07ddb00b3bf4326d2a2"
-  integrity sha1-43Sm7IfgcVYeR7B92wCzv0Mm0qI=
+emoji-datasource-twitter@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/emoji-datasource-twitter/-/emoji-datasource-twitter-5.0.0.tgz#c5d9b330697c02efa70096e10dc8524dfddbb291"
+  integrity sha512-bhBYyKJ0tE6UC3eIb6n7iC9BpHQuIOuSKP+CTpUZ28a4wfDC1kgt0fVB4WLG7rdXD8mdf7pwosMihWhRgv4GbQ==
 
 emoji-mart-vue@2.6.6:
   version "2.6.6"
