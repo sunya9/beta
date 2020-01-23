@@ -9208,10 +9208,10 @@ moment@2.24.0:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
-mousetrap@1.6.4:
-  version "1.6.4"
-  resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.4.tgz#6a65d9ef6b5dcfbe98f88eaa95110dfe0674dec6"
-  integrity sha512-FEqV3qG8AqGEpCkRRnbH5TuhhMXFb1YkmdfgqYEfjOtWQ7nQeZtkIGcVgX3tV1mKU1885aq+Qs6bZ4EzPUJPdQ==
+mousetrap@1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.5.tgz#8a766d8c272b08393d5f56074e0b5ec183485bf9"
+  integrity sha512-QNo4kEepaIBwiT8CDhP98umTetp+JNfQYBWvC1pc6/OAibuXtRcxZ58Qz8skvEHYvURne/7R8T5VoOI7rDsEUA==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
