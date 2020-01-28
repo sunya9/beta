@@ -51,7 +51,7 @@
     "nuxt": "2.11.0",
     "sass-loader": "8.0.2",
     "string-length": "3.1.0",
-    "twemoji": "12.1.4",
+    "twemoji": "12.1.5",
     "unicode-substring": "1.0.0",
     "vue-infinite-scroll": "2.0.2",
     "vue-on-click-outside": "1.0.3",
