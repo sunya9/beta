@@ -1,40 +1,25 @@
 import Vue from 'vue'
-import TextCountWorker from '~/assets/ts/workers/text-count.worker'
+// import TextCountWorker from '~/assets/ts/workers/text-count.worker'
+import stringLength from 'string-length'
+import _ from 'lodash'
+import { Component, Watch } from 'nuxt-property-decorator'
 
-export default Vue.extend({
-  data() {
-    return {
-      text: '',
-      textLength: 0,
-      worker: new TextCountWorker()
-    }
-  },
-  watch: {
-    text: {
-      handler(text: string) {
-        this.$nextTick()
-        this.onUpdateText(text)
-      },
-      immediate: true
-    }
-  },
-  created() {
-    this.worker.addEventListener('message', (e: MessageEvent) => {
-      setTimeout(() => {
-        this.receiveCount(e)
-      }, 0)
-    })
-  },
-  methods: {
-    onUpdateText(text: string) {
-      setTimeout(() => {
-        this.worker.postMessage(text)
-      }, 0)
-    },
+@Component({})
+export default class extends Vue {
+  text = ''
+  textLength = 0
 
-    receiveCount(e: MessageEvent) {
-      const length = e.data as number
-      this.textLength = length
-    }
+  @Watch('text', { immediate: true })
+  debounceCalcTextLength = _.debounce(this.calcTextLength, 300)
+
+  calcTextLength() {
+    // http://stackoverflow.com/a/32382702
+    const stripMarked = this.text.replace(
+      /(\[((?:\[[^\]]*\]|[^[\]])*)\]\([ \t]*((?:\([^)]*\)|[^()\s])*?)([ \t]*)((['"])(.*?)\6[ \t]*)?\))/g,
+      '[$2]'
+    )
+    const length = stringLength(stripMarked)
+    this.textLength = length
+    return length
   }
-})
+}
