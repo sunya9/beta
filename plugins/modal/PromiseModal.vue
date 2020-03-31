@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import mediator from './mediator'
+import { mediator } from './mediator'
 
 export default Vue.extend({
   data(): {
