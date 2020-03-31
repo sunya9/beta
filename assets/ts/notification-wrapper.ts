@@ -5,11 +5,12 @@ function isEnabledNotification() {
   return localStorage.getItem('notification') === 'true'
 }
 
-export function sendPostNotification(posts) {
+export function sendPostNotification(posts: Post[]) {
   const enabled = localStorage.getItem('notification:posts') === 'true'
   if (!enabled || !isEnabledNotification()) return
   if (posts.length === 1) {
     const [post] = posts
+    if (!post.content || !post.user || !post.user.content) return
     const { text: body } = post.content
     const {
       content: {

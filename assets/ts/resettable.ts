@@ -3,7 +3,8 @@ import Vue from 'vue'
 export default Vue.extend({
   methods: {
     reset() {
-      Object.assign(this.$data, this.$options.data.apply(this))
+      // TODO
+      Object.assign(this.$data, (this as any).$options.data.apply(this))
     }
   }
 })

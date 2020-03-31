@@ -20,11 +20,15 @@ import emojiRegex from 'emoji-regex/es2015'
 // https://github.com/twitter/twemoji/blob/27fe654b2bed5331cf1730bb4fbba1efa40af626/2/twemoji.js#L234
 const U200D = String.fromCharCode(0x200D)
 
+interface TypedText {
+  type: 'text' | 'emoji'
+  value: string
+}
 export default Vue.extend({
   name: 'Emojify',
   props: {
     element: {
-      type: [String, Object],
+      type: [String, Object, Function],
       default: 'span'
     },
     text: {
@@ -35,11 +39,11 @@ export default Vue.extend({
   },
   computed: {
     modifiedText() {
-      const text = this.text
+      const text: string = this.text
       const regex = emojiRegex()
       let match
       let ep = 0
-      const res = []
+      const res: TypedText[] = []
       while ((match = regex.exec(text))) {
         const emoji = match[0]
         if (ep !== match.index)
