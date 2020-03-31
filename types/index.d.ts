@@ -1,14 +1,7 @@
 import Vue from 'vue'
 import moment from 'moment'
+import { MousetrapInstance } from 'mousetrap'
 import { Resource } from '~/plugins/axios/resources'
-
-declare module 'worker-loader!*' {
-  class WebpackWorker extends Worker {
-    constructor()
-  }
-
-  export default WebpackWorker
-}
 
 declare module 'vue/types/vue' {
   interface Vue {
