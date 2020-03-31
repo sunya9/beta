@@ -42,7 +42,7 @@ function rawIsOembed(raw: Raw<any>): raw is OEmbed<any> {
 function oEmbedIsPhoto(
   oembed: OEmbed<any>
 ): oembed is OEmbed<OEmbed.PhotoValue> {
-  return oembed.type === 'photo'
+  return oembed.value.type === 'photo'
 }
 
 // TODO
@@ -56,15 +56,13 @@ function getImagesFromRaws(raws: Raw<any>[]): PhotoValueForView[] {
   return raws
     .filter(rawIsOembed)
     .filter(oEmbedIsPhoto)
-    .map<PhotoValueForView>(r => {
-      return {
-        ...r.value,
-        original: r.value.url,
-        thumb: r.value.thumbnail_url || r.value.url,
-        width: r.value.width,
-        height: r.value.height
-      }
-    })
+    .map<PhotoValueForView>(r => ({
+      ...r.value,
+      original: r.value.url,
+      thumb: r.value.thumbnail_url || r.value.url,
+      width: r.value.width,
+      height: r.value.height
+    }))
 }
 
 export interface ImageForView {
@@ -149,7 +147,7 @@ export interface AudioForView {
 function oembedIsAudio(
   oembed: OEmbed<any>
 ): oembed is OEmbed<OEmbed.AudioValue> {
-  return oembed.type === 'audio'
+  return oembed.value.type === 'audio'
 }
 export function getAudio(hasRawData: HasRaw): AudioForView[] | void {
   if (!hasRawData.raw) return
@@ -168,7 +166,7 @@ export function getAudio(hasRawData: HasRaw): AudioForView[] | void {
 function rawIsOembedVideo(
   oembed: OEmbed<any>
 ): oembed is OEmbed<OEmbed.VideoValue> {
-  return oembed.type === 'video'
+  return oembed.value.type === 'video'
 }
 
 export function getOembedVideo(post: HasRaw & (Post | Message)) {
