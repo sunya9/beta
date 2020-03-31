@@ -82,7 +82,7 @@ export default Vue.extend({
       return this.user.follows_you ? 'Follows you' : ''
     },
     me(): User | void {
-      return this.$store.state.user
+      return this.$store.getters.user
     },
     myself(): boolean {
       return !!this.me && this.user && this.user.id === this.me.id

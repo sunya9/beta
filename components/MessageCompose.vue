@@ -242,7 +242,7 @@ export default Vue.extend({
       )
     },
     storage(): Token.Storage {
-      return this.$store.state.storage
+      return this.$store.getters.storage
     }
   },
   watch: {

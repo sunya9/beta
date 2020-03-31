@@ -183,7 +183,7 @@ export default Vue.extend({
   },
   computed: {
     user(): User {
-      return this.$store.state.user
+      return this.$store.getters.user
     }
   },
   mounted() {
@@ -193,7 +193,9 @@ export default Vue.extend({
     )
     const { height } = this.$el.children[0].getBoundingClientRect()
     this.collapseHeight = `calc(100vh - ${height}px)`
-    this.dropdown = new Dropdown(this.$refs.dropdown as Element)
+    if (this.$refs.dropdown) {
+      this.dropdown = new Dropdown(this.$refs.dropdown as Element)
+    }
     this.collapse = new Collapse(this.$refs.toggleButton as Element)
   },
   beforeDestroy() {

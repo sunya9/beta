@@ -32,11 +32,13 @@ export default Vue.extend({
   mixins: [refreshAfterAdded],
   computed: {
     user(): User | null {
-      return this.$store.state.user
+      return this.$store.getters.user
     },
     resource(): string {
       // TODO: ?
-      return !this.$store.state.user ? convertPageId2ApiPath('global') : ''
+      return !this.$store.state.auth.loggedIn
+        ? convertPageId2ApiPath('global')
+        : ''
     }
   },
   async asyncData({ app: { $resource }, store }) {

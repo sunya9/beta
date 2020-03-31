@@ -306,10 +306,10 @@ export default Vue.extend({
       return !!this.photos.length
     },
     user(): User {
-      return this.$store.state.user
+      return this.$store.getters.user
     },
     storage(): Token.Storage {
-      return this.$store.state.storage
+      return this.$store.getters.storage
     }
   },
   watch: {

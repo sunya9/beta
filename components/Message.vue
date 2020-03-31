@@ -224,7 +224,7 @@ export default Vue.extend({
       return getSpoiler(this.message)
     },
     user(): User | null {
-      return this.$store.state.user
+      return this.$store.getters.user
     }
   },
   methods: {

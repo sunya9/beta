@@ -59,7 +59,7 @@ export default Vue.extend({
   },
   computed: {
     user(): User {
-      return this.$store.state.user
+      return this.$store.getters.user
     }
   },
   methods: {
