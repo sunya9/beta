@@ -4,14 +4,16 @@
     "module": "esnext",
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "noImplicitThis": true,
     "resolveJsonModule": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "lib": [
       "esnext",
       "esnext.asynciterable",
-      "dom"
+      "dom",
     ],
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "allowJs": true,
     "sourceMap": true,
