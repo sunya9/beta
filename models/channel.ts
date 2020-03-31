@@ -26,20 +26,20 @@ export namespace Channel {
     full: {
       immutable: boolean
       you: boolean
-      user_ids: SimpleUser[]
+      user_ids: Array<string | SimpleUser>
     }
     write: {
       any_user: boolean
       immutable: boolean
       you: boolean
-      user_ids: SimpleUser[]
+      user_ids: Array<string | SimpleUser>
     }
     read: {
       any_user: boolean
       immutable: boolean
       public: boolean
       you: boolean
-      user_ids: SimpleUser[]
+      user_ids: Array<string | SimpleUser>
     }
   }
   export interface SimpleUser {

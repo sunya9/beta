@@ -4,7 +4,7 @@ export interface PnutResponse<T> {
 }
 
 export namespace PnutResponse {
-  interface Meta {
+  export interface Meta {
     more?: boolean
     max_id?: string
     min_id?: string
@@ -12,7 +12,7 @@ export namespace PnutResponse {
     code?: number
   }
   export namespace Meta {
-    interface Marker {
+    export interface Marker {
       id?: string
       last_read_id?: string
       percentage?: string

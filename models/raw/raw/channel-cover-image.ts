@@ -5,7 +5,7 @@ export type ChannelCoverImage = Raw<ChannelCoverImage.Value>
 
 export namespace ChannelCoverImage {
   export const type = 'io.pnut.core.channel.cover'
-  interface Value {
-    '+io.pnut.core.file': ReplacementFile;
+  export interface Value {
+    '+io.pnut.core.file': ReplacementFile
   }
 }

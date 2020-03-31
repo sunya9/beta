@@ -5,7 +5,7 @@ export type ChannelAvatarImage = Raw<ChannelAvatarImage.Value>
 
 export namespace ChannelAvatarImage {
   export const type = 'io.pnut.core.channel.avatar'
-  interface Value {
-    '+io.pnut.core.file': ReplacementFile;
+  export interface Value {
+    '+io.pnut.core.file': ReplacementFile
   }
 }

@@ -4,8 +4,8 @@ export type Spoiler = Raw<Spoiler.Value>
 
 export namespace Spoiler {
   export const type = 'shawn.spoiler'
-  interface Value {
-    topic: string;
-    expired_at?: string;
+  export interface Value {
+    topic: string
+    expired_at?: string
   }
 }

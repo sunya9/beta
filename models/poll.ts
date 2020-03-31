@@ -21,7 +21,7 @@ export namespace Poll {
   export interface PostBody extends Pick<Poll, 'prompt' | 'type' | 'options'> {
     duration: number
   }
-  interface PollOption {
+  export interface PollOption {
     text: string
     position: number
     is_your_response?: boolean

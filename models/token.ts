@@ -2,10 +2,10 @@ import { User } from './user'
 import { Client } from './client'
 
 export interface Token {
-  app: Client.Source;
-  scopes: Token.Scope[];
-  user: User;
-  storage: Token.Storage;
+  app: Client.Source
+  scopes: Token.Scope[]
+  user: User
+  storage: Token.Storage
 }
 
 export namespace Token {
@@ -24,7 +24,7 @@ export namespace Token {
     email
   }
   export interface Storage {
-    available: number;
-    total: number;
+    available: number
+    total: number
   }
 }

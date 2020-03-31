@@ -44,12 +44,12 @@ export namespace User {
     feed,
     bot
   }
-  interface UserContent extends Entity.HaveEntity {
+  export interface UserContent extends Entity.HaveEntity {
     avatar_image: UserImage
     cover_image: UserImage
     markdown_text?: string
   }
-  interface UserImage {
+  export interface UserImage {
     link: string
     is_defualt: boolean
     width: number

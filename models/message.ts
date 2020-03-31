@@ -17,5 +17,5 @@ export interface Message extends HasRaw {
 }
 
 export namespace Message {
-  type MessageContent = Entity.HaveEntity
+  export type MessageContent = Entity.HaveEntity
 }

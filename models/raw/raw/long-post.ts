@@ -4,9 +4,9 @@ export type LongPost = Raw<LongPost.Value>
 
 export namespace LongPost {
   export const type = 'nl.chimpnut.blog.post'
-  interface Value {
-    body: string;
-    title?: string;
-    tstamp: string;
+  export interface Value {
+    body: string
+    title?: string
+    tstamp: string
   }
 }

@@ -38,10 +38,10 @@ export interface DefinitelyPost extends Post {
 }
 
 export namespace Post {
-  interface PostContent extends Entity.HaveEntity {
+  export interface PostContent extends Entity.HaveEntity {
     links_not_parsed: boolean
   }
-  interface PostBody {
+  export interface PostBody {
     text: string
     raw?: Raw<any>[]
     is_nsfw?: boolean
