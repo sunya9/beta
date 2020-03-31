@@ -15,7 +15,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { Channel } from '../models/channel'
+import { Channel } from '~/models/channel'
 import BaseList from '~/components/BaseList.vue'
 import ChannelView from '~/components/Channel.vue'
 export default Vue.extend({

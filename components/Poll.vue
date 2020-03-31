@@ -71,8 +71,8 @@
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 import moment from 'moment'
 import { cloneDeep } from 'lodash'
-import { Poll } from '../models/poll'
-import { PollNotice } from '../models/raw/raw/poll-notice'
+import { Poll } from '~/models/poll'
+import { PollNotice } from '~/models/raw/raw/poll-notice'
 
 @Component
 export default class extends Vue {

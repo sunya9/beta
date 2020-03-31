@@ -1,6 +1,6 @@
 <script lang="ts">
 import Vue from 'vue'
-import Sidebar from './Sidebar'
+import Sidebar from './Sidebar.vue'
 
 export default Vue.extend({
   extends: Sidebar,

@@ -54,7 +54,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { cloneDeep } from 'lodash'
-import { Channel } from '../models/channel'
+import { Channel } from '~/models/channel'
 import BaseModal from '~/components/BaseModal.vue'
 import { findChatRaw } from '~/assets/ts/util'
 import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'

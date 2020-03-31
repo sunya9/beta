@@ -49,7 +49,7 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
 import { mapGetters } from 'vuex'
-import { PnutResponse } from '../models/pnut-response'
+import { PnutResponse } from '~/models/pnut-response'
 import keyBinding from '~/assets/ts/key-binding'
 
 const INTERVAL = 1000 * 30 // 30sec
