@@ -180,13 +180,12 @@ export default class extends Vue {
     return !!this.$route && !!this.$route.fullPath.match(/^\/search/)
   }
   get dropdownItems(): MenuItem[] {
-    if (!this.sidebar) return []
-    // TODO
-    const inst = new Vue({
-      ...(this.sidebar as any),
-      store: this.$store,
-      router: this.$router
-    }).$mount()
+    if (!this.sidebar || !this.sidebarComp) return []
+    const inst = new (Vue.extend({
+      ...this.sidebarComp,
+      router: this.$router,
+      store: this.$store
+    }))()
     const items = ((inst as any).menus || []).slice(1)
     return items
   }
@@ -217,8 +216,20 @@ export default class extends Vue {
     }
     return map[name] || 'AppSidebar'
   }
+  get sidebarComp(): typeof AppSidebar | null {
+    const name = this.routeName
+    const map = {
+      settings: SettingsSidebar,
+      about: AboutSidebar,
+      files: FilesSidebar,
+      search: SearchSidebar,
+      messages: null,
+      null: null
+    }
+    return map[name] || AppSidebar
+  }
   get user(): User | null {
-    return this.$store.state.user
+    return this.$store.getters.user
   }
 
   @Watch('$route')
