@@ -11,11 +11,6 @@ const lastModified = fs.statSync('./package.json').mtime
 
 const config: Configuration = {
   buildModules: ['@nuxt/typescript-build'],
-  typescript: {
-    typeCheck: {
-      eslint: true
-    }
-  },
   mode: 'spa',
   head: {
     title: 'Beta',
@@ -206,6 +201,9 @@ const config: Configuration = {
     http2: {
       push: true
     }
+  },
+  typescript: {
+    ignoreNotFoundWarnings: true
   }
 }
 
