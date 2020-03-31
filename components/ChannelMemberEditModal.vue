@@ -122,7 +122,7 @@ import Avatar from '~/components/Avatar.vue'
 import AclSelect from '~/components/AclSelect.vue'
 import { User } from '~/models/user'
 import { Channel } from '~/models/channel'
-import { userIdsIsString } from '~/util/channel'
+import { userIdsIsString, userIdIsSimpleUser } from '~/util/channel'
 
 function atUserStr(user: Channel.UserWithAcl) {
   return `@${user.username.replace(/[^\w]/g, '')}`
@@ -158,7 +158,7 @@ export default Vue.extend({
   },
   computed: {
     user(): User {
-      return this.$store.state.user
+      return this.$store.getters.user
     },
     isOwner(): boolean {
       return !!this.user && !!this.owner && this.user.id === this.owner.id
@@ -230,26 +230,32 @@ export default Vue.extend({
       const fullUserIds = this.acl.full.user_ids
       if (userIdsIsString(fullUserIds)) return
       this.users.push(
-        ...fullUserIds.map<Channel.UserWithAcl>(user => ({
-          ...user,
-          acl: 'full'
-        }))
+        ...fullUserIds
+          .filter(userIdIsSimpleUser)
+          .map<Channel.UserWithAcl>(user => ({
+            ...user,
+            acl: 'full'
+          }))
       )
       const writeUserIds = this.acl.write.user_ids
       if (userIdsIsString(writeUserIds)) return
       this.users.push(
-        ...writeUserIds.map<Channel.UserWithAcl>(user => ({
-          ...user,
-          acl: 'write'
-        }))
+        ...writeUserIds
+          .filter(userIdIsSimpleUser)
+          .map<Channel.UserWithAcl>(user => ({
+            ...user,
+            acl: 'write'
+          }))
       )
       const readUserIds = this.acl.read.user_ids
       if (userIdsIsString(readUserIds)) return
       this.users.push(
-        ...readUserIds.map<Channel.UserWithAcl>(user => ({
-          ...user,
-          acl: 'read'
-        }))
+        ...readUserIds
+          .filter(userIdIsSimpleUser)
+          .map<Channel.UserWithAcl>(user => ({
+            ...user,
+            acl: 'read'
+          }))
       )
       this.anyUserWrite = this.acl.write.any_user
       this.anyUserRead = this.acl.read.any_user

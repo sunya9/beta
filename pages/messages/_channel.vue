@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { userIdIsSimpleUser } from '~/util/channel'
 import MessageList from '~/components/MessageList.vue'
 import MessageCompose from '~/components/MessageCompose.vue'
 import ChatPanel from '~/components/ChatPanel.vue'
@@ -68,14 +69,16 @@ export default Vue.extend({
       return findChatValueRaw(this.channel)
     },
     user(): User | void {
-      return this.$store.state.user
+      return this.$store.getters.user
     },
     isModerator(): boolean {
       return (
         !!this.user &&
         !!this.channel &&
         ((this.channel.owner && this.user.id === this.channel.owner.id) ||
-          !!this.channel.acl.full.user_ids.find(u => u.id === this.user.id))
+          !!this.channel.acl.full.user_ids
+            .filter(userIdIsSimpleUser)
+            .find(u => !!this.user && u.id === this.user.id))
       )
     },
     isPM(): boolean {
@@ -129,14 +132,15 @@ export default Vue.extend({
     }
   },
   mounted() {
-    setTimeout(() => this.markAsRead(), 1000)
+    // TODO
+    setTimeout(() => (this as any).markAsRead(), 1000)
   },
   head() {
-    if (this.channel && !this.channel.acl.read.public) return {}
+    if (!this.channel || !this.channel.id) return {}
+    // TODO
+    const id = (this as any).channel.id
     const link = [
-      getRSSLink(
-        `https://api.pnut.io/v0/feed/rss/channels/${this.channel.id}/messages`
-      )
+      getRSSLink(`https://api.pnut.io/v0/feed/rss/channels/${id}/messages`)
     ]
     return {
       link
