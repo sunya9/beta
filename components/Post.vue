@@ -331,15 +331,15 @@
           </ul>
           <ul class="list-inline ml-3">
             <li
-              v-for="user in reactionUsers"
-              :key="user.id"
+              v-for="reactionUser in reactionUsers"
+              :key="reactionUser.id"
               class="list-inline-item"
             >
               <nuxt-link
-                :to="`/@${user.username}`"
-                :title="`@${user.username}`"
+                :to="`/@${reactionUser.username}`"
+                :title="`@${reactionUser.username}`"
               >
-                <avatar :avatar="user.content.avatar_image" />
+                <avatar :avatar="reactionUser.content.avatar_image" />
               </nuxt-link>
             </li>
           </ul>
@@ -529,7 +529,7 @@ export default Vue.extend({
       return `/posts/${this.mainPost.id}/revisions`
     },
     user(): User | void {
-      return this.$store.state.user
+      return this.$store.getters.user
     }
   },
   mounted() {
@@ -570,13 +570,11 @@ export default Vue.extend({
       this.$router.push(this.permalink)
     },
     favoriteToggle() {
-      if (this.mainPost.is_deleted) return
-      // TODO
+      if (this.mainPost.is_deleted) return // TODO
       ;(this.$refs.favorite as any).toggle()
     },
     repostToggle() {
-      if (this.me || this.mainPost.is_deleted) return
-      // TODO
+      if (this.me || this.mainPost.is_deleted) return // TODO
       ;(this.$refs.repost as any).toggle()
     },
     async removeModal() {
