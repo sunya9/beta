@@ -1,13 +1,8 @@
 import Vue from 'vue'
 import Sidebar from './Sidebar.vue'
 import { User } from '~/models/user'
-import mediator from '~/plugins/modal/mediator'
 
-// TODO
-interface VM {
-  $modal: typeof mediator;
-}
-function createMenus({ user, self }: { user: User; self: VM }) {
+function createMenus({ user, self }: { user: User; self: Vue }) {
   return [
     {
       type: 'heading',
