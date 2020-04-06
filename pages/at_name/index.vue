@@ -4,13 +4,13 @@
       <profile v-if="profile" :initial-profile.sync="profile" class="mb-4" />
     </div>
     <div>
-      <compose :key="`${name}-compose`" :initial-text="initialText" />
+      <compose :key="`${uniqueName}-compose`" :initial-text="initialText" />
     </div>
     <div>
       <post-list
         v-if="!blocked"
         ref="list"
-        :key="`${name}-posts`"
+        :key="`${uniqueName}-posts`"
         :data="data"
         :option="options"
         :refresh-date="date"
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import Profile from '~/components/Profile.vue'
 import Compose from '~/components/Compose.vue'
 import PostList from '~/components/PostList.vue'
@@ -50,14 +50,13 @@ import { User } from '~/models/user'
         meta: { code: 404 }
       }))
       const { data: profile } = await $axios.$get(`/users/@${name}`)
-
       return {
         data: data || {
           meta: {},
           data: []
         },
         profile,
-        name,
+        uniqueName: name,
         options
       }
     } catch (e) {
@@ -70,18 +69,18 @@ import { User } from '~/models/user'
   }
 })
 export default class extends Vue {
-  @Prop({ type: Object, required: true })
   profile!: User
-  @Prop({ type: String, required: true })
-  name!: string
+  uniqueName!: string
   $refs!: {
     list: any
   }
   get user(): User | null {
-    return this.$store.state.user
+    return this.$store.getters.user
   }
   get initialText(): string {
-    return this.user && this.user.username === this.name ? '' : `@${this.name} `
+    return this.user && this.user.username === this.uniqueName
+      ? ''
+      : `@${this.uniqueName} `
   }
   get blocked(): boolean {
     return this.profile.you_blocked
@@ -122,11 +121,13 @@ export default class extends Vue {
       },
       {
         property: 'profile:username',
-        content: this.name
+        content: this.uniqueName
       }
     ]
     const link = [
-      getRSSLink(`https://api.pnut.io/v0/feed/rss/users/@${this.name}/posts`)
+      getRSSLink(
+        `https://api.pnut.io/v0/feed/rss/users/@${this.uniqueName}/posts`
+      )
     ]
     return {
       title,
