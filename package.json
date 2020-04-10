@@ -31,7 +31,7 @@
     "nuxt": "2.12.2",
     "nuxt-property-decorator": "2.5.0",
     "sass-loader": "8.0.2",
-    "string-length": "3.1.0",
+    "string-length": "4.0.1",
     "twemoji": "12.1.5",
     "unicode-substring": "1.0.0",
     "vue-infinite-scroll": "2.0.2",
