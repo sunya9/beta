@@ -1,6 +1,4 @@
-declare module 'mousetrap' {
-  interface MousetrapStatic {
-    pause(): void
-    unpause(): void
-  }
+interface MousetrapStatic {
+  pause(): void
+  unpause(): void
 }

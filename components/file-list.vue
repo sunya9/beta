@@ -102,7 +102,7 @@ export default Vue.extend({
           before_id: this.meta.min_id
         }
       )
-      const { data: newItems, meta } = await this.$resource({ options })
+      const { data: newItems, meta } = await this.$resource<File[]>({ options })
       this.meta = meta
 
       if (newItems.length) {
