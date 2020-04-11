@@ -8,7 +8,8 @@ export const actionable = Vue.extend({
   props: {
     resource: {
       type: String,
-      required: true
+      required: false,
+      default: ''
     },
     checked: {
       type: Boolean,
