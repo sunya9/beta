@@ -7,7 +7,7 @@
     "emitDecoratorMetadata": true,
     "noImplicitThis": true,
     "resolveJsonModule": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "lib": [
       "esnext",
       "esnext.asynciterable",

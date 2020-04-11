@@ -12,11 +12,11 @@
       </div>
       <div class="col-12">
         <h6>Navigation</h6>
-        <key-sets :key-sets="$options.navigation" />
+        <key-sets :key-sets="staticActions.navigation" />
       </div>
       <div class="col-12">
         <h6>Streams</h6>
-        <key-sets :key-sets="$options.streams" />
+        <key-sets :key-sets="staticActions.streams" />
       </div>
     </div>
   </base-modal>
@@ -74,6 +74,9 @@ export default Vue.extend({
       return this.$route.name && this.$route.name.startsWith('messages')
         ? keyMaps.messageActions
         : keyMaps.streamActions
+    },
+    staticActions() {
+      return keyMaps
     }
   }
 })

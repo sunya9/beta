@@ -6,9 +6,9 @@
     <main class="container main">
       <div class="row">
         <div
-          v-if="!notLoginIndex"
+          v-if="!notLoginIndex && sidebarComp"
           :class="{
-            'col-md-4 col-lg-3': !notLoginIndex
+            'col-md-4 col-lg-3': !notLoginIndex && sidebarComp
           }"
         >
           <div class="navbar navbar-light p-0">
@@ -21,7 +21,7 @@
         </div>
         <div
           :class="{
-            'col-md-8 col-lg-9': !notLoginIndex && sidebar
+            'col-md-8 col-lg-9': !notLoginIndex && sidebarComp
           }"
           class="col-12"
         >
@@ -77,6 +77,7 @@
   </div>
 </template>
 <script lang="ts">
+import { VueConstructor } from 'vue'
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import AppHeader from '~/components/Header.vue'
 import PostModal from '~/components/PostModal.vue'
@@ -93,7 +94,6 @@ import FilesSidebar from '~/components/sidebar/Files.vue'
 import SearchSidebar from '~/components/sidebar/Search.vue'
 import Jumbotron from '~/components/Jumbotron.vue'
 import { User } from '~/models/user'
-
 interface MenuItem {
   type?: string
   label: string
@@ -216,17 +216,16 @@ export default class extends Vue {
     }
     return map[name] || 'AppSidebar'
   }
-  get sidebarComp(): typeof AppSidebar | null {
+  get sidebarComp() {
     const name = this.routeName
-    const map = {
+    const map: { [key: string]: VueConstructor<Vue> | null } = {
       settings: SettingsSidebar,
       about: AboutSidebar,
       files: FilesSidebar,
       search: SearchSidebar,
-      messages: null,
-      null: null
+      messages: null
     }
-    return map[name] || AppSidebar
+    return name in map ? map[name] : AppSidebar
   }
   get user(): User | null {
     return this.$store.getters.user
@@ -272,10 +271,10 @@ export default class extends Vue {
   keyboardBinding(context?: string) {
     const contextKey = `${context || 'common'}Shortcuts`
     // TODO
-    Object.keys((this as any).$options[contextKey]).forEach(shortcutKey => {
+    Object.keys((this as any)[contextKey]).forEach(shortcutKey => {
       this.$mousetrap.bind(
         shortcutKey,
-        (this as any).$options[contextKey][shortcutKey].bind(this)
+        (this as any)[contextKey][shortcutKey].bind(this)
       )
     })
   }
