@@ -13,19 +13,26 @@
       </h2>
       <ul v-if="isPublic" class="nav nav-pills my-3">
         <li class="nav-item">
-          <nuxt-link class="nav-link" to="/messages?public" exact>
+          <nuxt-link
+            class="nav-link"
+            to="/messages?public"
+            exact
+          >
             Subscribed
           </nuxt-link>
         </li>
         <li class="nav-item">
-          <nuxt-link class="nav-link" to="/messages?public&amp;all">
+          <nuxt-link
+            class="nav-link"
+            to="/messages?public&amp;all"
+          >
             All
           </nuxt-link>
         </li>
       </ul>
       <channel-list
         ref="list"
-        :key="JSON.stringify({ resource, option })"
+        :key="JSON.stringify({ resource, options })"
         :data="data"
         :option="options"
         :resource="resource"
@@ -37,12 +44,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Component } from 'nuxt-property-decorator'
+import { Channel } from '~/models/channel'
 import MessageCompose from '~/components/MessageCompose.vue'
 import ChannelCompose from '~/components/ChannelCompose.vue'
 import ChannelList from '~/components/ChannelList.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
+import { PnutResponse } from '~/models/pnut-response'
 
-export default Vue.extend({
+@Component({
   middleware: ['auth'],
   watchQuery: ['public', 'all'],
   components: {
@@ -51,18 +61,6 @@ export default Vue.extend({
     ChannelCompose
   },
   mixins: [refreshAfterAdded],
-
-  // TODO
-  data() {
-    return {
-      isPrivate: false
-    }
-  },
-  computed: {
-    isPublic(): boolean {
-      return !this.isPrivate
-    }
-  },
   async asyncData({ app: { $resource }, query }) {
     const isPrivate = !('public' in query)
     const all = 'all' in query
@@ -102,19 +100,28 @@ export default Vue.extend({
       ? allChatRoom
       : subscribedChatRoom
 
-    const data = await $resource({
+    const data = await $resource<Channel[]>({
       url: resource,
       options
     })
     return { data, options, isPrivate, resource }
   },
-  head() {
-    // TODO
+  head(this: Messages) {
     return {
-      title: (this as any).isPrivate ? 'Messages' : 'Chat Rooms'
+      title: this.isPrivate ? 'Messages' : 'Chat Rooms'
     }
   }
 })
+export default class Messages extends Vue {
+  resource!: string
+  data!: PnutResponse<Channel[]>
+  options!: object
+  date!: number
+  isPrivate!: boolean
+  get isPublic(): boolean {
+    return !this.isPrivate
+  }
+}
 </script>
 
 <style>

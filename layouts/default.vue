@@ -63,7 +63,9 @@
           <div id="navbarSupportedContent" class="collapse">
             <component :is="sidebar" v-if="!isAppSidebar" narrow />
           </div>
-          <div><nuxt /></div>
+          <div>
+            <nuxt />
+          </div>
         </div>
       </div>
     </main>
@@ -122,48 +124,48 @@ interface MenuItem {
 })
 export default class extends Vue {
   commonShortcuts = {
-    '?': () => {
+    '?'(this: Vue) {
       this.$modal.show('help-modal')
     },
-    'g h': () => {
+    'g h'(this: Vue) {
       this.$router.push('/')
     },
-    'g m': () => {
+    'g m'(this: Vue) {
       this.$router.push('/mentions')
     },
-    'g i': () => {
+    'g i'(this: Vue) {
       this.$router.push('/interactions')
     },
-    'g s': () => {
+    'g s'(this: Vue) {
       this.$router.push('/stars')
     },
 
     // explore
-    'g c': () => {
+    'g c'(this: Vue) {
       this.$router.push('/conversations')
     },
-    'g p': () => {
+    'g p'(this: Vue) {
       this.$router.push('/photos')
     },
-    'g t': () => {
+    'g t'(this: Vue) {
       this.$router.push('/trending')
     },
-    'g g': () => {
+    'g g'(this: Vue) {
       this.$router.push('/global')
     }
   }
   streamsShortcuts = {
-    n: () => {
+    n(this: Vue) {
       this.$modal.show('post-modal')
     }
   }
   messagesShortcuts = {
-    m: () => {
+    m(this: Vue) {
       this.$modal.show('message-modal', {
         isPrivate: true
       })
     },
-    c: () => {
+    c(this: Vue) {
       this.$modal.show('message-modal', {
         isPrivate: false
       })

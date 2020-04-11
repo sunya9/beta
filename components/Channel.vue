@@ -3,7 +3,10 @@
     <avatar
       v-if="is_pm"
       v-bind="{
-        avatar: recentMessageUser && recentMessageUser.content.avatar_image
+        avatar:
+          recentMessageUser &&
+          recentMessageUser.content &&
+          recentMessageUser.content.avatar_image
       }"
       :enable-placeholder="!recentMessageUser"
       size="32"
@@ -32,8 +35,8 @@
             fixed-width
             aria-hidden="true"
           />
-          <emojify :text="chat.name" />
-          <small class="text-muted">
+          <emojify :text="chat && chat.name" />
+          <small v-if="chat" class="text-muted">
             <emojify :text="chat.description" />
           </small>
         </template>
@@ -42,13 +45,17 @@
         <span v-if="!channel.recent_message.is_deleted && spoiler && !me">
           <emojify :text="spoiler.topic" />
         </span>
-        <span v-else-if="!channel.recent_message.is_deleted">
+        <span
+          v-else-if="
+            !channel.recent_message.is_deleted &&
+              channel.recent_message.user &&
+              channel.recent_message.content
+          "
+        >
           @{{ channel.recent_message.user.username }}:
           <emojify :text="channel.recent_message.content.text" />
         </span>
-        <span v-else class="text-muted">
-          [Message deleted]
-        </span>
+        <span v-else class="text-muted">[Message deleted]</span>
       </p>
     </div>
     <span
@@ -76,13 +83,13 @@ function isSimpleUser(
   return typeof user !== 'string'
 }
 
-function getOwnerObjFromChannel(channel: Channel): Channel.SimpleUser | void {
+function getOwnerObjFromChannel(channel: Channel): Channel.SimpleUser | null {
   if (
     !channel.owner ||
     !channel.owner.content ||
     !channel.owner.content.avatar_image
   )
-    return
+    return null
   const {
     username,
     name,
@@ -119,10 +126,12 @@ export default Vue.extend({
       // don't include self or most recent messager
       const owner = getOwnerObjFromChannel(this.channel)
       const userIds = this.channel.acl.write.user_ids
-      if (!owner || userIdsIsString(userIds)) return ''
+      if (userIdsIsString(userIds)) return ''
       const users = userIds.filter(isSimpleUser)
       const members = [owner, ...users]
-      return members.map(member => `@${member.username}`).join(', ')
+      return members
+        .map(member => (member ? `@${member.username}` : 'Deleted user'))
+        .join(', ')
     },
     spoiler(): Spoiler.Value | void {
       return getSpoiler(this.channel.recent_message)

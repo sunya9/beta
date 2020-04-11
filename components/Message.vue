@@ -3,15 +3,11 @@
     <div v-if="firstUnreadMessage" class="matching-hr">
       <hr>
       <div>
-        <span class="text-muted">
-          Previously read
-        </span>
+        <span class="text-muted">Previously read</span>
       </div>
     </div>
     <div
-      :class="{
-        'flex-row-reverse': me
-      }"
+      :class="{ 'flex-row-reverse': me, 'is-deleted': !message.content }"
       class="media mb-2"
     >
       <nuxt-link
@@ -20,7 +16,7 @@
         class="mt-4"
       >
         <avatar
-          :avatar="messageUser.content.avatar_image"
+          :avatar="messageUser.content && messageUser.content.avatar_image"
           :class="{
             'mr-4': !me,
             'ml-4': me
@@ -70,13 +66,18 @@
               }"
               class="py-2 px-3 mb-1 balloon"
             >
-              <entity-text :content="message.content" :spoiler="spoiler">
+              <entity-text
+                v-if="message.content"
+                :content="message.content"
+                :spoiler="spoiler"
+              >
                 <em>
                   [Message deleted{{
                     message.deleted_by ? ' by moderator' : ''
                   }}]
                 </em>
               </entity-text>
+              <span v-else>Deleted</span>
               <div
                 v-if="thumbs.length"
                 class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
@@ -93,7 +94,7 @@
                 />
               </div>
               <div
-                v-if="clips.length"
+                v-if="clips"
                 class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
               >
                 <sound
@@ -113,8 +114,7 @@
                     href="#"
                     @click.stop.prevent="removeModal"
                   >
-                    <font-awesome-icon icon="trash" />
-                    Remove
+                    <font-awesome-icon icon="trash" />Remove
                   </a>
                 </li>
                 <li class="list-inline-item">
@@ -137,9 +137,9 @@
             }"
             class="align-self-end date-pos"
           >
-            <span :title="absDate" class="text-muted text-nowrap">
-              {{ date }}
-            </span>
+            <span :title="absDate" class="text-muted text-nowrap">{{
+              date
+            }}</span>
           </div>
         </div>
       </div>
@@ -304,5 +304,8 @@ export default Vue.extend({
 .date-pos {
   position: relative;
   top: -1.8rem;
+}
+.is-deleted {
+  opacity: 0.5;
 }
 </style>

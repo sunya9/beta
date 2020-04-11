@@ -3,9 +3,9 @@
     v-bind="$attrs"
     list-class="list-unstyled"
     list-item-class="message"
-    @select="select = $event"
   >
     <message
+      v-if="item"
       :key="item.id"
       slot-scope="{ item, index, lastUpdate, updateItem }"
       :message.sync="item"
