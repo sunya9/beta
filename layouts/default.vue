@@ -266,7 +266,6 @@ export default class extends Vue {
       this.$route.name && this.$route.name.startsWith('messages')
         ? 'messages'
         : 'streams'
-    // TODO: ???
     this.keyboardBinding()
     this.keyboardBinding(context)
   }
