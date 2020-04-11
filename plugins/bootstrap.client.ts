@@ -1,5 +1,6 @@
 import { Collapse } from 'bootstrap.native'
 import { Plugin } from '@nuxt/types'
+import Vue from 'vue'
 
 function initCollapse(hide = false) {
   ;['globalNavigation', 'navbarSupportedContent'].forEach(id => {
@@ -11,10 +12,7 @@ function initCollapse(hide = false) {
   })
 }
 
-const plugin: Plugin = ({ app, beforeNuxtRender }) => {
-  beforeNuxtRender(() => {
-    initCollapse(true)
-  })
+const plugin: Plugin = ({ app }) => {
   if (!app.router || !app.watch) return
   app.router.beforeEach((_, __, next) => {
     next()
@@ -23,7 +21,7 @@ const plugin: Plugin = ({ app, beforeNuxtRender }) => {
   })
 
   app.watch.$route = async () => {
-    await app.$nextTick()
+    await Vue.nextTick()
     // initialize collapse
     initCollapse()
   }
