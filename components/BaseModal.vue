@@ -137,15 +137,10 @@ export default Vue.extend({
   },
   methods: {
     show(...arg: any[]) {
-      // if(!this.modal) return
-      if (!this.modal) return // TODO: why???
-      ;(this.modal as any)
-        .show()(this as any)
-        .$emit('show', ...arg)(
-          // TODO
-          this.$mousetrap as any
-        )
-        .pause()
+      if (!this.modal) return
+      this.modal.show()
+      this.$emit('show', ...arg)
+      this.$mousetrap.pause()
     },
     shown() {
       // TODO
@@ -162,8 +157,7 @@ export default Vue.extend({
       this.modal.hide()
     },
     hidden() {
-      // TODO
-      ;(this.$mousetrap as any).unpause()
+      this.$mousetrap.unpause()
       if (!this.hideRequest()) this.$emit('hidden')
     }
   }

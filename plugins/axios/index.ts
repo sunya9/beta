@@ -18,7 +18,7 @@ function setupRouter(
   })
 }
 const plugin: Plugin = (context, inject) => {
-  const { error, app, route } = context
+  const { error, app } = context
   const { $axios } = app
   // let resourcePath: string
 
@@ -43,7 +43,7 @@ const plugin: Plugin = (context, inject) => {
       }
     })
 
-    const resourcePath = convertPageId2ApiPath(route.fullPath)
+    const resourcePath = convertPageId2ApiPath(context.route || '')
 
     const url = option && option.url ? option.url : resourcePath
 
