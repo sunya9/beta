@@ -2,7 +2,8 @@
   <img
     :src="src"
     :class="{
-      'rounded-circle': !isSquare
+      'rounded-circle': !isSquare,
+      'is-deleted': isDeletedUser
     }"
     :width="size"
     :height="size"
@@ -14,12 +15,11 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
 import { User } from '~/models/user'
+import deletedUser from '~/assets/img/beta.svg'
+
 function sizeValidator(numLike: string) {
   return [0, 16, 24, 32, 64, 96].includes(parseInt(numLike))
 }
-
-const TRANSPARENT_BASE64 =
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
 
 function avatarIsString(avatar: User.UserImage | string): avatar is string {
   return typeof avatar === 'string'
@@ -29,12 +29,12 @@ export default Vue.extend({
   props: {
     avatar: {
       type: [Object, String],
-      required: true,
+      required: false,
       validator(obj) {
-        return typeof obj === 'string' || 'link' in obj
+        return obj === null || typeof obj === 'string' || 'link' in obj
       },
       default: ''
-    } as PropOptions<User.UserImage | string>,
+    } as PropOptions<User.UserImage | string | null>,
     enablePlaceholder: {
       type: Boolean,
       default: false
@@ -65,8 +65,11 @@ export default Vue.extend({
         : this.avatar.link
       // ''
     },
+    isDeletedUser(): boolean {
+      return !this.avatar
+    },
     src(): string {
-      if (!this.url) return TRANSPARENT_BASE64
+      if (!this.url) return deletedUser
       let src = this.url
       if (this.maxSize > 0) src += `?w=${this.maxSize}`
       return src
@@ -80,3 +83,8 @@ export default Vue.extend({
   }
 })
 </script>
+<style scoped>
+.is-deleted {
+  opacity: 0.5;
+}
+</style>
