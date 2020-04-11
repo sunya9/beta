@@ -36,9 +36,7 @@ export default Vue.extend({
     },
     resource(): string {
       // TODO: ?
-      return !this.$store.state.auth.loggedIn
-        ? convertPageId2ApiPath('global')
-        : ''
+      return !this.$store.getters.user ? convertPageId2ApiPath('global') : ''
     }
   },
   async asyncData({ app: { $resource }, store }) {
