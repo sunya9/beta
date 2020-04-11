@@ -55,7 +55,7 @@ export default Vue.extend({
   },
   computed: {
     user(): User {
-      return this.$store.state.auth.user
+      return this.$store.getters.user
     },
     isOwner(): boolean {
       return this.user && this.user.id === this.ownerId
