@@ -37,6 +37,7 @@ module.exports = {
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': 'error',
     'no-useless-constructor': 'off',
-    '@typescript-eslint/no-useless-constructor': 'error'
+    '@typescript-eslint/no-useless-constructor': 'error',
+    'vue/max-attributes-per-line': 'off'
   }
 }
