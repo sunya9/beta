@@ -4,7 +4,7 @@ import bus from '~/assets/ts/bus'
 export default Vue.extend({
   data() {
     return {
-      date: Date.now()
+      date: Date.now(),
     }
   },
   mounted() {
@@ -16,6 +16,6 @@ export default Vue.extend({
   methods: {
     add() {
       this.date = Date.now()
-    }
-  }
+    },
+  },
 })

@@ -16,7 +16,7 @@ function fixRoutes(defaultRoutes) {
   routes.push({
     name: '@name-posts-id',
     path: '/@:name/posts/:id?',
-    component: postPage
+    component: postPage,
   })
   return routes
 }
@@ -25,6 +25,6 @@ export function createRouter(ssrContext, createDefaultRouter) {
   const defaultRouter = createDefaultRouter(ssrContext)
   return new Router({
     ...defaultRouter.options,
-    routes: fixRoutes(defaultRouter.options.routes)
+    routes: fixRoutes(defaultRouter.options.routes),
   })
 }

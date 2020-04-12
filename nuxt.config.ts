@@ -19,55 +19,55 @@ const config: Configuration = {
     },
     meta: [
       {
-        charset: 'utf-8'
+        charset: 'utf-8',
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1'
+        content: 'width=device-width, initial-scale=1',
       },
       {
         hid: 'description',
         name: 'description',
-        content: 'Beta is a client for pnut.io.'
+        content: 'Beta is a client for pnut.io.',
       },
       {
         httpEquiv: 'Pragma',
-        content: 'no-cache'
+        content: 'no-cache',
       },
       {
         httpEquiv: 'Cache-Control',
-        content: 'no-cache'
+        content: 'no-cache',
       },
       // pwa-module does not support og:site_Name
       {
         hid: 'og:site_name',
         property: 'og:site_name',
-        content: 'Beta'
-      }
+        content: 'Beta',
+      },
     ],
     link: [
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Montserrat:300,400'
+        href: 'https://fonts.googleapis.com/css?family=Montserrat:300,400',
       },
       {
         rel: 'shortcut icon',
-        href: '/favicon.ico'
-      }
-    ]
+        href: '/favicon.ico',
+      },
+    ],
   },
   /*
    ** Global CSS
    */
   css: [
     '~assets/css/main.scss',
-    '@fortawesome/fontawesome-svg-core/styles.css'
+    '@fortawesome/fontawesome-svg-core/styles.css',
   ],
   /*
    ** Customize the progress-bar color
    */
   loading: {
-    color: '#d36854'
+    color: '#d36854',
   },
 
   // webpack build setttings
@@ -84,7 +84,7 @@ const config: Configuration = {
         'bootstrap.native/dist/bootstrap-native-v4.js'
       config.module.rules.unshift({
         test: /\.worker\.(js|ts)$/,
-        loader: 'worker-loader'
+        loader: 'worker-loader',
       })
       config.output.globalObject = 'this'
     },
@@ -93,10 +93,10 @@ const config: Configuration = {
     loaders: {
       vue: {
         compilerOptions: {
-          whitespace: 'condense'
-        }
-      }
-    }
+          whitespace: 'condense',
+        },
+      },
+    },
   },
 
   // plugin settings
@@ -111,17 +111,17 @@ const config: Configuration = {
     '~/plugins/axios/',
     '~/plugins/font-awesome',
     '~/plugins/modal',
-    '~/plugins/moment'
+    '~/plugins/moment',
   ],
 
   // router settings
   router: {
-    linkActiveClass: 'active'
+    linkActiveClass: 'active',
   },
   cache: true,
   env: {
     npm_package_homepage: npm_package_homepage.toString(),
-    last_modified: lastModified.toString()
+    last_modified: lastModified.toString(),
   },
   modules: [
     '@nuxtjs/pwa',
@@ -133,16 +133,16 @@ const config: Configuration = {
     [
       '@nuxtjs/router',
       {
-        keepDefaultRouter: true
-      }
-    ]
+        keepDefaultRouter: true,
+      },
+    ],
   ],
   'google-analytics': {
-    id: 'UA-10104011-16'
+    id: 'UA-10104011-16',
   },
   toast: {
     position: 'bottom-left',
-    duration: 5000
+    duration: 5000,
   },
   workbox: {
     dev: process.env.NODE_ENV !== 'production',
@@ -150,26 +150,26 @@ const config: Configuration = {
       {
         urlPattern: 'https://twemoji.maxcdn.com/*',
         handler: 'cacheFirst',
-        method: 'GET'
+        method: 'GET',
       },
       {
         urlPattern: 'https://.*.cloudfront.net/*',
         handler: 'cacheFirst',
-        method: 'GET'
-      }
-    ]
+        method: 'GET',
+      },
+    ],
   },
   manifest: {
-    name: 'Beta'
+    name: 'Beta',
   },
   icon: {
-    iconSrc: 'static/img/beta.png'
+    iconSrc: 'static/img/beta.png',
   },
   meta: {
-    theme_color: '#d36854'
+    theme_color: '#d36854',
   },
   axios: {
-    baseURL: 'https://api.pnut.io/v0'
+    baseURL: 'https://api.pnut.io/v0',
   },
   auth: {
     strategies: {
@@ -186,25 +186,25 @@ const config: Configuration = {
           'follow',
           'update_profile',
           'files',
-          'polls'
+          'polls',
         ],
-        client_id: process.env.CLIENT_ID
+        client_id: process.env.CLIENT_ID,
       },
-      local: false
+      local: false,
     },
     redirect: {
       callback: '/callback',
-      login: '/'
-    }
+      login: '/',
+    },
   },
   render: {
     http2: {
-      push: true
-    }
+      push: true,
+    },
   },
   typescript: {
-    ignoreNotFoundWarnings: true
-  }
+    ignoreNotFoundWarnings: true,
+  },
 }
 
 export default config

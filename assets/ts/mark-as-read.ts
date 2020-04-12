@@ -10,8 +10,8 @@ export default Vue.extend({
       const marker = [
         {
           name: `channel:${channel.id}`,
-          id: channel.recent_message_id
-        }
+          id: channel.recent_message_id,
+        },
       ]
       // channel.has_unread
       try {
@@ -21,6 +21,6 @@ export default Vue.extend({
       } catch (e) {
         this.$toast.error(e.message)
       }
-    }
-  }
+    },
+  },
 })

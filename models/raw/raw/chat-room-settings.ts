@@ -17,6 +17,6 @@ export namespace ChatRoomSettings {
     community,
     tech,
     event,
-    general
+    general,
   }
 }

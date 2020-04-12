@@ -27,7 +27,7 @@ const plugin: Plugin = (context, inject) => {
     const statusCode = err.response.status
     error({
       statusCode,
-      message: err.message
+      message: err.message,
     })
   }
 
@@ -54,8 +54,8 @@ const plugin: Plugin = (context, inject) => {
           include_post_raw: 1,
           include_message_raw: 1,
           include_deleted: 0,
-          ...extendOptions
-        }
+          ...extendOptions,
+        },
       })
       return res
     } catch (err) {

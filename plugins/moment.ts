@@ -7,8 +7,8 @@ moment.updateLocale('en', {
     m: '1m',
     mm: '%dm',
     h: '1h',
-    hh: '%dh'
-  }
+    hh: '%dh',
+  },
 })
 
 const plugin: Plugin = (_, inject) => {

@@ -1,7 +1,7 @@
 const youtube = {
   regexp: /https?:\/\/(?:(?:www)?\.youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9\-_]+)/g,
   html: (id: string) =>
-    `<iframe src="https://www.youtube.com/embed/${id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+    `<iframe src="https://www.youtube.com/embed/${id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
 
   // { provider_name: String, provider_url: String, regex: RegExp, html: function(id) }
 }
@@ -18,12 +18,12 @@ export function createVideoEmbedRaw(text: string) {
         const [embeddable_url, id] = matcher
         rawHtmls.push({
           html: detectGenerator.html(id),
-          embeddable_url
+          embeddable_url,
         })
       }
       return rawHtmls
     }, [])
-    .map(resObj => {
+    .map((resObj) => {
       const { html, embeddable_url } = resObj
       return {
         type: 'io.pnut.core.oembed',
@@ -33,8 +33,8 @@ export function createVideoEmbedRaw(text: string) {
           width: 480,
           height: 270,
           html,
-          embeddable_url
-        }
+          embeddable_url,
+        },
       }
     })
 }

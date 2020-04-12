@@ -24,6 +24,6 @@ export namespace EmbeddedMedia {
     video,
     rich,
     html5video,
-    audio
+    audio,
   }
 }

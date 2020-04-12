@@ -21,7 +21,7 @@ export namespace Token {
     public_messages,
     files,
     polls,
-    email
+    email,
   }
   export interface Storage {
     available: number

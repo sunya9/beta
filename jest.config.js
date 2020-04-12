@@ -6,11 +6,11 @@ module.exports = {
     '^.+\\.ts$': 'ts-jest',
     '^.+\\.js$': 'babel-jest',
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      'jest-transform-stub'
+      'jest-transform-stub',
   },
   moduleNameMapper: {
     '^[@~]/(.*)$': '<rootDir>/$1',
-    '^helper$': '<rootDir>/__tests__/helper'
+    '^helper$': '<rootDir>/__tests__/helper',
   },
   setupFiles: ['jest-localstorage-mock', '<rootDir>/__tests__/setup.ts'],
   testRegex: '(/__tests__/(components|pages)/.*|(\\.|/)(test|spec))\\.[jt]sx?$',
@@ -21,6 +21,6 @@ module.exports = {
     'store/**/*',
     'assets/ts/**/*',
     'layouts/js/**/*',
-    'pages/js/**/*'
-  ]
+    'pages/js/**/*',
+  ],
 }

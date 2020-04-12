@@ -102,7 +102,6 @@ body.dark .jumbotron {
 }
 
 body.dark {
-
   h1,
   h2,
   h3,
@@ -249,8 +248,8 @@ body.dark {
   }
 
   /* top menu toggle */
-  .navbar-light .navbar-nav .show>.nav-link,
-  .navbar-light .navbar-nav .active>.nav-link,
+  .navbar-light .navbar-nav .show > .nav-link,
+  .navbar-light .navbar-nav .active > .nav-link,
   .navbar-light .navbar-nav .nav-link.show,
   .navbar-light .navbar-nav .nav-link.active {
     color: rgb(189, 148, 139);
@@ -298,7 +297,7 @@ body.dark {
 
   .matching-hr span {
     background-color: #252525;
-    border-color: rgba(0, 0, 0, .3);
+    border-color: rgba(0, 0, 0, 0.3);
   }
 
   .nav-tabs {
@@ -322,7 +321,7 @@ body.dark {
   }
 
   .nav-pills .nav-link.active,
-  .nav-pills .show>.nav-link {
+  .nav-pills .show > .nav-link {
     background-color: #242424;
   }
 

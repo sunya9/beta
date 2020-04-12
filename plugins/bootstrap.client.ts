@@ -3,7 +3,7 @@ import { Plugin } from '@nuxt/types'
 import Vue from 'vue'
 
 function initCollapse(hide = false) {
-  ;['globalNavigation', 'navbarSupportedContent'].forEach(id => {
+  ;['globalNavigation', 'navbarSupportedContent'].forEach((id) => {
     const button = document.querySelector(`[aria-controls="${id}"]`)
     if (!button) return
     const collapse = new Collapse(button)

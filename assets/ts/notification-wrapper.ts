@@ -14,20 +14,20 @@ export function sendPostNotification(posts: Post[]) {
     const { text: body } = post.content
     const {
       content: {
-        avatar_image: { link: icon }
-      }
+        avatar_image: { link: icon },
+      },
     } = post.user
     const title = getTitle(post.user)
     const options = {
       icon,
-      body
+      body,
     }
     return new Notification(title, options)
   } else {
     const count = posts.length
     const title = `Receive ${count} posts.`
     const options = {
-      icon: '/img/beta.png'
+      icon: '/img/beta.png',
     }
     return new Notification(title, options)
   }
@@ -42,19 +42,19 @@ export function sendMentionNotification(mentions: Post[]): Notification[] {
   if (!enabled || !isEnabledNotification()) return []
   return mentions
     .filter(isDefinitelyPost)
-    .map(mention => {
+    .map((mention) => {
       const { text: body } = mention.content
       const {
         content: {
-          avatar_image: { link: icon }
-        }
+          avatar_image: { link: icon },
+        },
       } = mention.user
       const title = getTitle(mention.user)
       const options = {
         icon,
-        body
+        body,
       }
       return new Notification(title, options)
     })
-    .filter(not => !!not)
+    .filter((not) => !!not)
 }

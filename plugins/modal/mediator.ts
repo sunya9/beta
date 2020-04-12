@@ -19,7 +19,7 @@ interface Data {
 export const mediator = new Vue<Data, MediatorMethods, {}, {}>({
   data(): Data {
     return {
-      modals: {}
+      modals: {},
     }
   },
   methods: {
@@ -34,8 +34,8 @@ export const mediator = new Vue<Data, MediatorMethods, {}, {}>({
     cancel(id: string, arg: any): Promise<any> | void {
       if (!this.modals[id]) return
       return this.modals[id].cancel(arg)
-    }
-  }
+    },
+  },
 })
 
 export default mediator

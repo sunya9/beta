@@ -8,19 +8,19 @@ export function getMinimumPoll(): Poll.PostBody {
     prompt: '',
     type: 'net.unsweets.beta',
     options: [],
-    duration: oneDayMin
+    duration: oneDayMin,
   }
 }
 
 export function getMinimumSpoiler(): Spoiler.Value {
   return {
-    topic: ''
+    topic: '',
   }
 }
 
 export function getMinimumLongPost(): LongPost.Value {
   return {
     body: '',
-    tstamp: `${Date.now()}`
+    tstamp: `${Date.now()}`,
   }
 }

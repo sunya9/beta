@@ -45,7 +45,7 @@ const map: {
   polls: '/users/me/polls',
   'polls-id': ({ params }) => `/polls/${params.id}`,
   'settings-blocked-accounts': '/users/me/blocked',
-  'settings-muted-accounts': '/users/me/muted'
+  'settings-muted-accounts': '/users/me/muted',
 }
 
 function isString(route: Route | string): route is string {

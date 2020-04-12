@@ -5,12 +5,12 @@ export default (dateKey: string) =>
     props: {
       lastUpdate: {
         type: Number,
-        default: null
+        default: null,
       },
       selected: {
         type: Boolean,
-        default: false
-      }
+        default: false,
+      },
     },
     computed: {
       itemDate(): Date {
@@ -31,6 +31,6 @@ export default (dateKey: string) =>
       },
       absDate(): string {
         return this.$moment(this.itemDate).format('YYYY/MM/DD HH:mm:ss')
-      }
-    }
+      },
+    },
   })

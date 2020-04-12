@@ -5,12 +5,12 @@ export const BaseChannelPanel = Vue.extend({
   props: {
     initialChannel: {
       type: Object,
-      required: true
-    } as PropOptions<Channel>
+      required: true,
+    } as PropOptions<Channel>,
   },
   data() {
     return {
-      channel: this.initialChannel
+      channel: this.initialChannel,
     }
   },
   watch: {
@@ -19,9 +19,9 @@ export const BaseChannelPanel = Vue.extend({
         this.$emit('update:initialChannel', channel)
       },
       immediate: true,
-      deep: true
-    }
-  }
+      deep: true,
+    },
+  },
 })
 
 // export default ctor

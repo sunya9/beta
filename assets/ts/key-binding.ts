@@ -6,7 +6,7 @@ const defaultMixin = (keyMap: KeyMap) =>
   Vue.extend({
     async mounted() {
       await this.$nextTick()
-      Object.keys(keyMap).forEach(key =>
+      Object.keys(keyMap).forEach((key) =>
         this.$mousetrap.bind(key, () => {
           const method = keyMap[key]
           // TODO
@@ -16,8 +16,8 @@ const defaultMixin = (keyMap: KeyMap) =>
       )
     },
     beforeDestroy() {
-      Object.keys(keyMap).forEach(key => this.$mousetrap.unbind(key))
-    }
+      Object.keys(keyMap).forEach((key) => this.$mousetrap.unbind(key))
+    },
   })
 
 export default defaultMixin
@@ -26,13 +26,13 @@ export const forList = (keyMap: KeyMap) =>
   Vue.extend({
     data() {
       return {
-        select: -1
+        select: -1,
       }
     },
     async mounted() {
       await this.$nextTick()
       const keys = Object.keys(keyMap)
-      keys.forEach(key => {
+      keys.forEach((key) => {
         const method = keyMap[key]
         this.$on(method, () => {
           if (this.select < 0 || !this.$el || !this.$el.children) return
@@ -41,5 +41,5 @@ export const forList = (keyMap: KeyMap) =>
         })
         this.$once('hook:beforeDestroy', () => this.$off(method))
       })
-    }
+    },
   })

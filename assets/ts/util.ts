@@ -16,7 +16,7 @@ const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
 
 export function getTitle({
   username,
-  name
+  name,
 }: {
   username: string
   name: string
@@ -26,11 +26,11 @@ export function getTitle({
 
 function getImagesFromLinks(entityLinks: Entity.Link[]) {
   return entityLinks
-    .filter(link => imgExt.test(link.link))
-    .map(link => {
+    .filter((link) => imgExt.test(link.link))
+    .map((link) => {
       return {
         original: link.link,
-        thumb: link.link
+        thumb: link.link,
       }
     })
 }
@@ -56,12 +56,12 @@ function getImagesFromRaws(raws: Raw<any>[]): PhotoValueForView[] {
   return raws
     .filter(rawIsOembed)
     .filter(oEmbedIsPhoto)
-    .map<PhotoValueForView>(r => ({
+    .map<PhotoValueForView>((r) => ({
       ...r.value,
       original: r.value.url,
       thumb: r.value.thumbnail_url || r.value.url,
       width: r.value.width,
-      height: r.value.height
+      height: r.value.height,
     }))
 }
 
@@ -103,7 +103,7 @@ export function getCrosspostLink(
 
 export function getSpoiler(hasRaw: HasRaw | void): Spoiler.Value | void {
   if (!hasRaw || !hasRaw.raw) return
-  const spoilerRaw = hasRaw.raw.find(r => {
+  const spoilerRaw = hasRaw.raw.find((r) => {
     return (
       r.type === 'shawn.spoiler' &&
       r.value.topic &&
@@ -112,7 +112,7 @@ export function getSpoiler(hasRaw: HasRaw | void): Spoiler.Value | void {
   })
   if (!spoilerRaw) return
   return {
-    topic: spoilerRaw.value.topic
+    topic: spoilerRaw.value.topic,
   }
 }
 
@@ -135,7 +135,7 @@ export function getLongpost(
       longpost.value.title !==
         longpost.value.body.substr(0, longpost.value.title.length)
         ? longpost.value.title
-        : ''
+        : '',
   }
 }
 
@@ -154,10 +154,10 @@ export function getAudio(hasRawData: HasRaw): AudioForView[] | void {
   const audio = hasRawData.raw
     .filter(rawIsOembed)
     .filter(oembedIsAudio)
-    .map(r => {
+    .map((r) => {
       return {
         url: r.value.url,
-        title: r.value.title
+        title: r.value.title,
       }
     })
   return audio
@@ -175,7 +175,7 @@ export function getOembedVideo(post: HasRaw & (Post | Message)) {
   return post.raw
     .filter(rawIsOembed)
     .filter(rawIsOembedVideo)
-    .map(r => r.value)
+    .map((r) => r.value)
 }
 
 function rawIsChannelInvite(raw: Raw<any>): raw is ChannelInvite {
@@ -194,7 +194,7 @@ export function getChannelInvite(
   return {
     ...channelRaw.value,
     display_name:
-      channelRaw.value.name || `Channel ${channelRaw.value.channel_id}`
+      channelRaw.value.name || `Channel ${channelRaw.value.channel_id}`,
   }
 }
 
@@ -203,13 +203,15 @@ export function getRSSLink(href: string) {
     hid: 'rss',
     rel: 'alternate',
     type: 'application/rss+xml',
-    href
+    href,
   }
 }
 
 export function findChatRaw(channel: Channel): ChatRoomSettings | void {
   if (!channel.raw) return
-  const chatRaw = channel.raw.find(r => r.type === 'io.pnut.core.chat-settings')
+  const chatRaw = channel.raw.find(
+    (r) => r.type === 'io.pnut.core.chat-settings'
+  )
   if (!chatRaw) return
   return chatRaw
 }
@@ -218,7 +220,9 @@ export function findChatValueRaw(
   channel: Channel
 ): ChatRoomSettings.Value | void {
   if (!channel.raw) return
-  const chatRaw = channel.raw.find(r => r.type === 'io.pnut.core.chat-settings')
+  const chatRaw = channel.raw.find(
+    (r) => r.type === 'io.pnut.core.chat-settings'
+  )
   if (!chatRaw) return
   return chatRaw.value
 }
@@ -238,9 +242,9 @@ export const deletedUser: MinimumUser = {
   username: 'Deleted user',
   content: {
     avatar_image: {
-      link: ''
-    }
-  }
+      link: '',
+    },
+  },
 }
 
 const iframeVideoProviderRegexpList = [/^https:\/\/www\.youtube\.com\/embed\//]
@@ -252,7 +256,7 @@ export function getVideoSrcFromHtml(html: string) {
 }
 
 export function determineVideoType(src: string) {
-  const found = iframeVideoProviderRegexpList.find(regex => regex.test(src))
+  const found = iframeVideoProviderRegexpList.find((regex) => regex.test(src))
   if (found) return 'iframe'
   return 'video'
 }

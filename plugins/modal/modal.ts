@@ -5,14 +5,14 @@ import PromiseModal from './PromiseModal.vue'
 const modalObj = {
   show: mediator.show,
   ok: mediator.ok,
-  cancel: mediator.cancel
+  cancel: mediator.cancel,
 }
 
 const plugin: PluginObject<never> = {
   install(Vue) {
     Vue.prototype.$modal = modalObj
     Vue.component('promise-modal', PromiseModal)
-  }
+  },
 }
 
 declare module 'vue/types/vue' {

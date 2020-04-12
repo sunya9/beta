@@ -5,6 +5,6 @@ export default Vue.extend({
     reset() {
       // TODO
       Object.assign(this.$data, (this as any).$options.data.apply(this))
-    }
-  }
+    },
+  },
 })

@@ -5,13 +5,13 @@ import { PnutResponse } from '~/models/pnut-response'
 
 export default Vue.extend({
   watchQuery: ['q'],
-  key: to => to.fullPath,
+  key: (to) => to.fullPath,
   data() {
     return {
       options: {
-        q: ''
+        q: '',
       },
-      data: ({} as any) as PnutResponse<Post[] | User[]> | null
+      data: ({} as any) as PnutResponse<Post[] | User[]> | null,
     }
   },
   computed: {
@@ -21,17 +21,17 @@ export default Vue.extend({
       if (!q || typeof q !== 'string') return null
       const type = this.$route.path.replace(/^\/search\//, '')
       return `Search ${type} for "${decodeURIComponent(q)}"`
-    }
+    },
   },
   watch: {
     '$route.query.q'(q) {
       this.options = {
         ...this.options,
-        q: encodeURIComponent(q)
+        q: encodeURIComponent(q),
       }
     },
     async options(options) {
       this.data = await this.$resource<User[] | Post[]>(options)
-    }
-  }
+    },
+  },
 })

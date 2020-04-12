@@ -8,5 +8,5 @@ Vue.use(VueScrollTo, {
   offset: 0,
   cancelable: false,
   x: false,
-  y: true
+  y: true,
 })
