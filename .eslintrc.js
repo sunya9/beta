@@ -42,5 +42,19 @@ module.exports = {
     'vue/max-attributes-per-line': 'off',
     'no-unused-expressions': 'off',
     '@typescript-eslint/no-unused-expressions': 'error',
+    'vue/html-self-closing': [
+      'error',
+      {
+        html: {
+          void: 'always',
+          normal: 'always',
+          component: 'always',
+        },
+        svg: 'always',
+        math: 'always',
+      },
+    ],
+    'vue/singleline-html-element-content-newline': 'off',
+    'unicorn/number-literal-case': 'off',
   },
 }
