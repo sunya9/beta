@@ -2,7 +2,7 @@ import { Wrapper } from '@vue/test-utils'
 import { shallowMount, stub } from '../../../helper'
 import Index from '~/components/settings/Account/index.vue'
 
-type IndexType = Index & { update: () => Promise<void> }
+type IndexType = Vue & typeof Index & { update: () => Promise<void> }
 
 describe('settings/Account/index component', () => {
   let wrapper: Wrapper<IndexType>

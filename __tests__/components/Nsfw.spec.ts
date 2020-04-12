@@ -2,6 +2,8 @@ import { Wrapper } from '@vue/test-utils'
 import { shallowMount } from '../helper'
 import Nsfw from '~/components/Nsfw.vue'
 
+type NsfwType = typeof Nsfw & Vue
+
 describe('NSFW component', () => {
   describe('When post does not include nsfw', () => {
     test('Show contents as it is', () => {
@@ -18,9 +20,9 @@ describe('NSFW component', () => {
     })
   })
   describe('When post includes nsfw', () => {
-    let wrapper: Wrapper<Nsfw>
+    let wrapper: Wrapper<NsfwType>
     beforeEach(() => {
-      wrapper = shallowMount(Nsfw, {
+      wrapper = shallowMount<NsfwType>(Nsfw, {
         propsData: {
           includeNsfw: true,
         },

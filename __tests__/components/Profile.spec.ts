@@ -15,8 +15,10 @@ import Profile from '~/components/Profile.vue'
 import CreatePmModal from '~/components/CreatePmModal.vue'
 import { User } from '~/models/user'
 
+type ProfileType = Vue & typeof Profile
+
 describe('Profile component', () => {
-  let opts: ThisTypedMountOptions<Vue>
+  let opts: ThisTypedMountOptions<ProfileType>
 
   beforeEach(() => {
     const user = fixtures<User>('user')
@@ -86,7 +88,7 @@ describe('Profile component', () => {
     })
   })
   describe('Everyone except me', () => {
-    let wrapper: Wrapper<Profile>
+    let wrapper: Wrapper<ProfileType>
     beforeEach(() => {
       wrapper = shallowMount(Profile, {
         ...opts,

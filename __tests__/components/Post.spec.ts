@@ -7,10 +7,12 @@ import {
 } from '../helper'
 import Post from '~/components/Post.vue'
 
+type PostType = typeof Post & Vue
+
 describe('Post component', () => {
-  let wrapper: Wrapper<Post>
+  let wrapper: Wrapper<PostType>
   beforeEach(() => {
-    wrapper = mount(
+    wrapper = mount<PostType>(
       Post,
       baseMountOpts({
         mocks: {

@@ -3,9 +3,12 @@ import { shallowMount, fixtures } from '../../../helper'
 import Avatar from '~/components/settings/Account/Avatar.vue'
 import { User } from '~/models/user'
 
-type AvatarType = Avatar & {
-  avatarChanged: (e: { target: { files: { size: number }[] } }) => Promise<void>
-}
+type AvatarType = Vue &
+  typeof Avatar & {
+    avatarChanged: (e: {
+      target: { files: { size: number }[] }
+    }) => Promise<void>
+  }
 
 describe('Avatar component', () => {
   let wrapper: Wrapper<AvatarType>

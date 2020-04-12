@@ -1,7 +1,7 @@
 import { mount } from '../helper'
 import BaseList from '~/components/BaseList.vue'
 
-type BaseListType = BaseList & { refresh: () => Promise<void> }
+type BaseListType = typeof BaseList & Vue & { refresh: () => Promise<void> }
 
 describe('BaseList component', () => {
   // https://github.com/sunya9/beta/issues/196

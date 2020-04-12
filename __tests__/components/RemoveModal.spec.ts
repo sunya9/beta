@@ -4,18 +4,21 @@ import RemoveModal from '~/components/RemoveModal.vue'
 import BaseModal from '~/components/BaseModal.vue'
 import { Post } from '~/models/post'
 
-type RemoveModalType = RemoveModal & {
-  show: () => void
-  post: Partial<Post> | null
-  hidden: () => void
-}
+type RemoveModalType = Vue &
+  typeof RemoveModal & {
+    show: () => void
+    post: Partial<Post> | null
+    hidden: () => void
+  }
+
+type BaseModalType = Vue & typeof BaseModal
 
 describe('Remove modal component', () => {
   let wrapper: Wrapper<RemoveModalType>
-  let baseModalWrapper: Wrapper<BaseModal>
+  let baseModalWrapper: Wrapper<BaseModalType>
   beforeEach(() => {
     wrapper = shallowMount<RemoveModalType>(RemoveModal, {})
-    baseModalWrapper = wrapper.find(BaseModal)
+    baseModalWrapper = wrapper.find<BaseModalType>(BaseModal)
   })
   describe('Emitted show event from base-modal', () => {
     beforeEach(() => {

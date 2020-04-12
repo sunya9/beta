@@ -2,9 +2,10 @@ import { Wrapper } from '@vue/test-utils'
 import { shallowMount } from '../../../helper'
 import Cover from '~/components/settings/Account/Cover.vue'
 
-type CoverType = Cover & {
-  coverChanged: (arg: { target: { files: unknown[] } }) => Promise<void>
-}
+type CoverType = Vue &
+  typeof Cover & {
+    coverChanged: (arg: { target: { files: unknown[] } }) => Promise<void>
+  }
 
 describe('Cover component', () => {
   let wrapper: Wrapper<CoverType>

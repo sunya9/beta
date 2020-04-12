@@ -9,10 +9,12 @@ import {
 import MessageCompose from '~/components/MessageCompose.vue'
 import { Channel } from '~/models/channel'
 
+type MessageComposeType = typeof MessageCompose & Vue
+
 describe('MessageCompose component', () => {
-  let wrapper: Wrapper<MessageCompose>
+  let wrapper: Wrapper<MessageComposeType>
   beforeEach(() => {
-    wrapper = mount(
+    wrapper = mount<MessageComposeType>(
       MessageCompose,
       baseMountOpts({
         propsData: {

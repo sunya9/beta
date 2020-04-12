@@ -8,7 +8,8 @@ import {
 import PostModal from '~/components/PostModal.vue'
 import { Post } from '~/models/post'
 
-type PostModalType = PostModal & { show: (post: Post) => void }
+type PostModalType = Vue & typeof PostModal & { show: (post: Post) => void }
+
 describe('PostModal component', () => {
   let wrapper: Wrapper<PostModalType>
   beforeEach(() => {
