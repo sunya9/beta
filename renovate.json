@@ -7,5 +7,6 @@
   "major": {
     "automerge": false
   },
+  "reviewers": ["@sunya9"],
   "assignees": ["@sunya9"]
 }
