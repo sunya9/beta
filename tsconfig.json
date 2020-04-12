@@ -11,7 +11,7 @@
     "lib": [
       "esnext",
       "esnext.asynciterable",
-      "dom",
+      "dom"
     ],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -33,7 +33,8 @@
       "@nuxt/types",
       "@nuxtjs/axios",
       "@types/nuxtjs__auth",
-      "@nuxtjs/toast"
+      "@nuxtjs/toast",
+      "@types/jest"
     ]
   },
   "exclude": [
