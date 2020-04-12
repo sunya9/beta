@@ -110,6 +110,7 @@
     "lint:fix": "eslint --ext ts,js,vue --fix  --ignore-path .gitignore .",
     "start": "cross-env NODE_ENV=production nuxt-ts start",
     "test": "jest",
-    "test:all": "run-p 'test --coverage' lint"
+    "test:all": "run-p 'test --coverage' lint",
+    "format": "prettier --write --ignore-path .gitignore ."
   }
 }
