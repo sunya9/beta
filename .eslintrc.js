@@ -3,13 +3,13 @@ module.exports = {
   env: {
     browser: true,
     node: true,
-    jest: true
+    jest: true,
   },
   extends: [
     '@nuxtjs/eslint-config-typescript',
     'eslint:recommended',
     'plugin:jest/recommended',
-    'prettier'
+    'prettier',
   ],
   plugins: ['jest'],
   // add your custom rules here
@@ -17,15 +17,15 @@ module.exports = {
     'no-console': [
       'error',
       {
-        allow: ['warn', 'error']
-      }
+        allow: ['warn', 'error'],
+      },
     ],
     'no-trailing-spaces': 'error',
     'no-empty': [
       'error',
       {
-        allowEmptyCatch: true
-      }
+        allowEmptyCatch: true,
+      },
     ],
     camelcase: 'off',
     // '@typescript-eslint/camelcase': 'off',
@@ -39,6 +39,8 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 'error',
     'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
-    'vue/max-attributes-per-line': 'off'
-  }
+    'vue/max-attributes-per-line': 'off',
+    'no-unused-expressions': 'off',
+    '@typescript-eslint/no-unused-expressions': 'error',
+  },
 }
