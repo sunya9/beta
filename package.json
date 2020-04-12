@@ -47,7 +47,7 @@
     "@nuxtjs/eslint-config-typescript": "1.0.2",
     "@types/emoji-regex": "8.0.0",
     "@types/jest": "25.2.1",
-    "@types/lodash": "4.14.144",
+    "@types/lodash": "4.14.149",
     "@types/mousetrap": "1.6.3",
     "@types/nuxtjs__auth": "4.8.1",
     "@types/twemoji": "12.1.0",
