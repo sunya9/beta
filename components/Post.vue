@@ -2,7 +2,7 @@
   <div
     :class="{
       deleted: post.is_deleted,
-      'h-entry': detail
+      'h-entry': detail,
     }"
     class="media w-100 justify-content-start"
   >
@@ -78,7 +78,7 @@
             <template v-else>
               <p
                 :class="{
-                  'e-content p-name': detail
+                  'e-content p-name': detail,
                 }"
               >
                 <entity-text
@@ -92,7 +92,7 @@
                 <button
                   :class="{
                     'btn-link': showLongpost,
-                    'btn-outline-primary': !showLongpost
+                    'btn-outline-primary': !showLongpost,
                   }"
                   class="btn mb-2"
                   data-test-collapse-button
@@ -136,7 +136,7 @@
             />
           </div>
           <div
-            v-if="clips.length"
+            v-if="clips"
             class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
           >
             <sound
@@ -352,7 +352,10 @@
           ref="favorite"
           v-model="mainPost.you_bookmarked"
           :resource="`/posts/${mainPost.id}/bookmark`"
-          :icon="[['far', 'star'], ['fas', 'star']]"
+          :icon="[
+            ['far', 'star'],
+            ['fas', 'star'],
+          ]"
         />
         <action-button
           v-if="!me"
@@ -392,7 +395,7 @@ import {
   determineVideoType,
   AudioForView,
   LongPostValueForView,
-  ChannelInviteForView
+  ChannelInviteForView,
 } from '~/assets/ts/util'
 import listItem from '~/assets/ts/list-item'
 import { Spoiler } from '~/models/raw/raw/spoiler'
@@ -409,33 +412,33 @@ export default Vue.extend({
     Avatar,
     EntityText,
     Poll: PollView,
-    Nsfw
+    Nsfw,
   },
   mixins: [listItem('post.created_at')],
   props: {
     post: {
       type: Object,
-      required: true
+      required: true,
     } as PropOptions<Post>,
     viewOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     detail: {
       type: Boolean,
-      default: false
+      default: false,
     },
     preview: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       timer: null as NodeJS.Timer | null,
       disableEdit: true,
       showSpoiler: false,
-      showLongpost: false
+      showLongpost: false,
     }
   },
   computed: {
@@ -457,27 +460,24 @@ export default Vue.extend({
       return (
         users
           // .slice(0, 10)
-          .reduce(
-            (res, user) => {
-              let exist = false
-              for (let i = 0; res.length > i; i++) {
-                if (res[i].id === user.id) {
-                  exist = true
-                  break
-                }
+          .reduce((res, user) => {
+            let exist = false
+            for (let i = 0; res.length > i; i++) {
+              if (res[i].id === user.id) {
+                exist = true
+                break
               }
-              if (!exist) {
-                res.push(user)
-              }
-              return res
-            },
-            [] as User[]
-          )
+            }
+            if (!exist) {
+              res.push(user)
+            }
+            return res
+          }, [] as User[])
       )
     },
     // TODO
     oembedVideos(): any {
-      return getOembedVideo(this.mainPost).map(value => {
+      return getOembedVideo(this.mainPost).map((value) => {
         const url = getVideoSrcFromHtml(value.html)
         const type = determineVideoType(url!)
         const { width, height } = value
@@ -485,7 +485,7 @@ export default Vue.extend({
           url,
           type,
           width,
-          height
+          height,
         }
       })
     },
@@ -530,7 +530,7 @@ export default Vue.extend({
     },
     user(): User | void {
       return this.$store.getters.user
-    }
+    },
   },
   mounted() {
     if (!this.me) return
@@ -557,7 +557,7 @@ export default Vue.extend({
       if (this.mainPost.is_deleted) return
       try {
         const newPost = await this.$modal.show('post-modal', this.mainPost, {
-          edit: true
+          edit: true,
         })
         this.$emit('update:post', newPost)
       } catch (e) {}
@@ -588,8 +588,8 @@ export default Vue.extend({
       const { data: post } = await this.$axios.$delete(`/posts/${this.post.id}`)
       this.$toast.success('Deleted Post!')
       this.$emit('update:post', post)
-    }
-  }
+    },
+  },
 })
 </script>
 <style scoped lang="scss">

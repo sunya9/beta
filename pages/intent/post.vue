@@ -21,27 +21,18 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Component } from 'nuxt-property-decorator'
 import Compose from '~/components/Compose.vue'
 
 function getTitle(posted: boolean) {
   return !posted ? 'Share a link' : 'Shared link!'
 }
 
-export default Vue.extend({
+@Component({
   middleware: ['auth'],
   layout: 'no-sidebar',
   components: {
-    Compose
-  },
-  data() {
-    return {
-      posted: false
-    }
-  },
-  computed: {
-    title(): string {
-      return getTitle(this.posted)
-    }
+    Compose,
   },
   asyncData({ query }) {
     const { text, url } = query
@@ -49,22 +40,28 @@ export default Vue.extend({
     return {
       message,
       url,
-      text
+      text,
     }
   },
-  methods: {
-    finishPosting() {
-      this.posted = true
-    },
-    close() {
-      window.close()
-    }
-  },
-  head() {
+  head(this: PostIntent) {
     return {
       // TODO
-      title: getTitle((this as any).posted)
+      title: getTitle(this.posted),
     }
-  }
+  },
 })
+export default class PostIntent extends Vue {
+  posted = false
+  get title(): string {
+    return getTitle(this.posted)
+  }
+
+  finishPosting() {
+    this.posted = true
+  }
+
+  close() {
+    window.close()
+  }
+}
 </script>

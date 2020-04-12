@@ -42,7 +42,7 @@ export namespace User {
   export enum UserType {
     human,
     feed,
-    bot
+    bot,
   }
   export interface UserContent extends Entity.HaveEntity {
     avatar_image: UserImage
@@ -51,7 +51,7 @@ export namespace User {
   }
   export interface UserImage {
     link: string
-    is_defualt: boolean
+    is_default: boolean
     width: number
     height: number
   }

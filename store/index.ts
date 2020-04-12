@@ -4,19 +4,19 @@ import { PnutResponse } from '~/models/pnut-response'
 import { User } from '~/models/user'
 
 function getData<T extends keyof Token>(
-  auth: Auth<PnutResponse<Token>> | null | undefined,
+  auth: Partial<Auth<PnutResponse<Token>>> | null | undefined,
   key: T
 ): Token[T] | null {
   return (auth && auth.user && auth.user.data && auth.user.data[key]) || null
 }
 
-type State = {
-  auth?: Auth<PnutResponse<Token>>;
+export type State = {
+  auth?: Partial<Auth<PnutResponse<Token>>>
 }
 
 type Getters = {
-  user: (state: State) => User | null;
-  storage: (state: State) => Token.Storage;
+  user: (state: State) => User | null
+  storage: (state: State) => Token.Storage
 }
 
 export const getters: Getters = {
@@ -27,8 +27,8 @@ export const getters: Getters = {
     return (
       getData(auth, 'storage') || {
         available: 0,
-        total: 0
+        total: 0,
       }
     )
-  }
+  },
 }

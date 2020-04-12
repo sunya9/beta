@@ -5,7 +5,7 @@
         <div v-if="createChannelMode" class="form-group">
           <div
             :class="{
-              'd-flex justify-content-between align-items-center': calcPmLookup
+              'd-flex justify-content-between align-items-center': calcPmLookup,
             }"
           >
             <input
@@ -36,6 +36,7 @@
             v-model="text"
             :disabled="promise"
             class="form-control"
+            data-test-id="textarea"
             @keydown.ctrl.enter="submit()"
             @keydown.meta.enter="submit()"
           />
@@ -77,14 +78,14 @@
                 type="file"
                 multiple
                 accept="image/*"
-                style="display: none"
+                style="display: none;"
                 @change="fileChange"
               >
             </label>
             <button
               :class="{
                 'text-dark': !hasSpoiler,
-                'btn-primary': hasSpoiler
+                'btn-primary': hasSpoiler,
               }"
               class="btn btn-link add-spoiler mr-3"
               type="button"
@@ -99,6 +100,7 @@
               <button
                 :disabled="calcDisabled"
                 type="submit"
+                data-test-id="submitButton"
                 class="ml-1 btn text-uppercase btn-primary"
               >
                 <span v-show="promise && !calcPmLookup">
@@ -115,6 +117,7 @@
                 v-if="canBroadcast"
                 ref="dropdown"
                 :disabled="calcDisabled"
+                data-test-id="broadcastButton"
                 type="button"
                 class="btn btn-danger dropdown-toggle dropdown-toggle-split"
                 data-toggle="dropdown"
@@ -141,7 +144,7 @@
         <input-spoiler
           v-if="spoiler"
           class="mt-3"
-          @update:spoiler="p => (spoiler = p)"
+          @update:spoiler="(p) => (spoiler = p)"
         />
       </form>
     </div>
@@ -151,6 +154,7 @@
 import Vue, { PropOptions } from 'vue'
 import unicodeSubstring from 'unicode-substring'
 import { Dropdown } from 'bootstrap.native'
+import bus from '../assets/ts/bus'
 import textCount from '~/assets/ts/text-count'
 import Thumb from '~/components/Thumb.vue'
 import InputSpoiler from '~/components/InputSpoiler.vue'
@@ -172,26 +176,26 @@ function obj2FormData(obj: { [key: string]: string | Blob }) {
 export default Vue.extend({
   components: {
     Thumb,
-    InputSpoiler
+    InputSpoiler,
   },
   mixins: [textCount, resettable],
   props: {
     createChannelMode: {
       type: Boolean,
-      default: false
+      default: false,
     },
     noPhoto: {
       type: Boolean,
-      default: false
+      default: false,
     },
     targetUser: {
       type: String,
-      default: ''
+      default: '',
     },
     channel: {
       type: Object,
-      default: null
-    } as PropOptions<Channel>
+      default: null,
+    } as PropOptions<Channel>,
   },
   data() {
     return {
@@ -203,7 +207,7 @@ export default Vue.extend({
       previewPhotos: [] as string[],
       spoiler: null as Spoiler.Value | null,
       pmLookupStatus: null as string | null,
-      dropdown: null as Dropdown | null
+      dropdown: null as Dropdown | null,
     }
   },
   computed: {
@@ -243,15 +247,15 @@ export default Vue.extend({
     },
     storage(): Token.Storage {
       return this.$store.getters.storage
-    }
+    },
   },
   watch: {
     async photos() {
-      const promisePhotos = this.photos.map(file => {
+      const promisePhotos = this.photos.map((file) => {
         return new Promise<string>((resolve, reject) => {
           const fr = new FileReader()
           fr.readAsDataURL(file)
-          fr.onload = e => {
+          fr.onload = (e) => {
             if (
               !e.target ||
               !e.target.result ||
@@ -266,10 +270,10 @@ export default Vue.extend({
     },
     targetUser(user) {
       this.channelUsersStr = user
-    }
+    },
   },
   mounted() {
-    this.$mousetrap.bind('n', e => {
+    this.$mousetrap.bind('n', (e) => {
       ;(this.$refs.textarea as any).focus()
       e.preventDefault()
     })
@@ -287,15 +291,15 @@ export default Vue.extend({
           type: 'io.pnut.core.crosspost',
           value: {
             // TODO: use rel="canonical" value in the future
-            canonical_url: location.href
-          }
+            canonical_url: location.href,
+          },
         },
         {
           type: 'io.pnut.core.channel.invite',
           value: {
-            channel_id: this.channel.id
-          }
-        }
+            channel_id: this.channel.id,
+          },
+        },
       ]
       option.raw.push(...raw)
       option.text = `${unicodeSubstring(this.text, 0, 255)}…`
@@ -313,9 +317,11 @@ export default Vue.extend({
     async findExistingPm() {
       this.pmLookupStatus = 'Searching'
       try {
-        const destinations = this.channelUsersStr.split(/[,\s]+/g).map(name => {
-          return name.startsWith('@') ? name : `@${name}`
-        })
+        const destinations = this.channelUsersStr
+          .split(/[,\s]+/g)
+          .map((name) => {
+            return name.startsWith('@') ? name : `@${name}`
+          })
         this.promise = this.$axios.$get(
           `/users/me/channels/existing_pm?ids=${destinations.join(',')}`
         )
@@ -334,7 +340,7 @@ export default Vue.extend({
     async createGeneralPost() {
       const option = {
         text: this.text,
-        raw: [] as Raw<any>[]
+        raw: [] as Raw<any>[],
       }
       if (this.hasPhotos) {
         const raws = await this.uploadPhotos()
@@ -344,8 +350,8 @@ export default Vue.extend({
         option.raw.push({
           type: 'shawn.spoiler',
           value: {
-            topic: this.spoiler.topic
-          }
+            topic: this.spoiler.topic,
+          },
         })
       }
       return option
@@ -368,6 +374,7 @@ export default Vue.extend({
         if (meta.code === 201) {
           this.$emit('submit')
         }
+        bus.$emit('post')
         this.text = ''
         this.$toast.success('Posted!')
         this.photos = []
@@ -379,12 +386,12 @@ export default Vue.extend({
       this.promise = null
     },
     async createChannel() {
-      const destinations = this.channelUsersStr.split(/[,\s]+/g).map(name => {
+      const destinations = this.channelUsersStr.split(/[,\s]+/g).map((name) => {
         return name.startsWith('@') ? name : `@${name}`
       })
       const option = {
         text: this.text,
-        destinations
+        destinations,
       }
       const { data: channel } = await this.$axios.$post(
         '/channels/pm/messages',
@@ -397,36 +404,36 @@ export default Vue.extend({
       this.$emit('submit')
     },
     async uploadPhotos() {
-      const photosPromise = this.photos.map(async content => {
+      const photosPromise = this.photos.map(async (content) => {
         const data = obj2FormData({
           type: 'net.unsweets.beta',
           name: content.name,
           kind: 'image',
           content,
-          is_public: 'false'
+          is_public: 'false',
         })
         const res = await this.$axios.$post('/files', data, {
           headers: {
-            'Content-type': 'multipart/form-data'
-          }
+            'Content-type': 'multipart/form-data',
+          },
         })
         return res
       })
       this.promise = true
       const photosJson = await Promise.all(photosPromise)
-      const raws = photosJson.map(res => {
+      const raws = photosJson.map((res) => {
         const image = res.data
         const value = {
           '+io.pnut.core.file': {
             file_id: image.id,
             file_token: image.file_token,
-            format: 'oembed'
-          }
+            format: 'oembed',
+          },
         }
         return Object.assign(
           {},
           {
-            type: 'io.pnut.core.oembed'
+            type: 'io.pnut.core.oembed',
           },
           { value }
         )
@@ -443,8 +450,8 @@ export default Vue.extend({
       this.photos = [...this.photos, ...filesAry] as File[]
       // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
       ;(this.$refs.file as any).value = ''
-    }
-  }
+    },
+  },
 })
 </script>
 

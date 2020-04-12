@@ -33,9 +33,7 @@
           /><a
             v-if="entity.replace"
             :key="`links-${i}-replaced-icon`"
-            :data-content="
-              `<a href='${entity.link}' target='_new'>${entity.link}</a>`
-            "
+            :data-content="`<a href='${entity.link}' target='_new'>${entity.link}</a>`"
             data-toggle="popover"
             data-trigger="click"
             href="#"
@@ -78,8 +76,8 @@ const ReplaceUrls = [
   {
     test: /^https?:\/\/patter.chat\/room\/(\d+)/,
     replace: 'https://beta.pnut.io/messages/$1',
-    domain: 'beta.pnut.io'
-  }
+    domain: 'beta.pnut.io',
+  },
 ]
 
 function isModifiedLink(entity: Entity): boolean {
@@ -95,6 +93,7 @@ function entityIsDefinitelyModifiedLink(
 ): entity is DefinitelyModifiedLink {
   return entityIsModifiedLink(entity) && !!entity.replace
 }
+
 function modifyURL(entity: Entity.Link): ExtendedLinkInfo | null {
   const itemToReplace = ReplaceUrls.find(({ test }) => test.test(entity.link))
   if (!itemToReplace) return null
@@ -102,7 +101,7 @@ function modifyURL(entity: Entity.Link): ExtendedLinkInfo | null {
   const link = entity.link.replace(test, replace)
   return {
     link,
-    domain
+    domain,
   }
 }
 type EntityType = 'links' | 'mentions' | 'tags' | 'text'
@@ -121,13 +120,16 @@ function entityIsLinkEntity(
 }
 
 function addTypeKey(entities: Entity[], type: EntityType): TypedEntity[] {
-  return entities.map(entity => {
+  return entities.map<TypedEntity>((entity) => {
     const typedEntity = {
       ...entity,
-      type
+      type,
     }
-    if (isLinkEntity(typedEntity) && entityIsModifiedLink(entity))
-      entity.replace = modifyURL(entity)
+    if (entityIsLinkEntity(typedEntity))
+      return {
+        ...typedEntity,
+        replace: modifyURL(typedEntity),
+      }
     return typedEntity
   })
 }
@@ -143,30 +145,34 @@ export default Vue.extend({
   name: 'EntityText',
   components: {
     /* eslint-disable vue/no-unused-components */
-    NuxtLinkMod
+    NuxtLinkMod,
   },
   props: {
     content: {
       type: Object,
-      required: true
-    } as PropOptions<Entity.HaveEntity>,
+      required: false,
+      default: null,
+    } as PropOptions<Entity.HaveEntity | null>,
     deleted: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     hasEntities(): boolean {
-      return 'entities' in this.content && 'text' in this.content
+      return (
+        !!this.content && 'entities' in this.content && 'text' in this.content
+      )
     },
     // text and entities to html
     entities(): TypedEntity[] {
+      if (!this.content) return []
       const { text, entities } = this.content
       const orig = text
       const {
         links: originalLinks,
         mentions: originalMentions,
-        tags: originalTags
+        tags: originalTags,
       } = entities
       const links = addTypeKey(originalLinks, 'links')
       const mentions = addTypeKey(originalMentions, 'mentions')
@@ -175,14 +181,14 @@ export default Vue.extend({
         text: '',
         type: 'text',
         pos: 0,
-        len: 0
+        len: 0,
       }
       return [firstEntity]
         .concat(links, mentions, tags, {
           text: '',
           type: 'text',
           pos: stringLength(orig),
-          len: 0
+          len: 0,
         })
         .sort((a, b) => a.pos - b.pos)
         .reduce<TypedEntity[]>((res, cur, i, ary) => {
@@ -195,18 +201,18 @@ export default Vue.extend({
             text,
             type: 'text',
             pos,
-            len: stringLength(text)
+            len: stringLength(text),
           })
           res.push(cur)
           return res
         }, [])
-        .filter(entity => !(entity.type === 'text' && entity.text === ''))
-    }
+        .filter((entity) => !(entity.type === 'text' && entity.text === ''))
+    },
   },
   mounted() {
     // ensure to initialize
     Array.from(this.$el.querySelectorAll('[data-toggle="popover"]')).forEach(
-      target => new Popover(target)
+      (target) => new Popover(target)
     )
   },
   methods: {
@@ -217,8 +223,8 @@ export default Vue.extend({
       // Unsubstituted link
       if (!entityIsDefinitelyModifiedLink(entity) || !isURLLiteral) return text
       return entity.replace.link
-    }
-  }
+    },
+  },
 })
 </script>
 <style scoped>

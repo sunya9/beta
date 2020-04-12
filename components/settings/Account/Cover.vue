@@ -20,7 +20,7 @@
           ref="coverFileInput"
           type="file"
           accept="image/*"
-          style="display: none"
+          style="display: none;"
           @change="coverChanged"
         >
         <button
@@ -40,6 +40,10 @@ import Vue from 'vue'
 import { User } from '~/models/user'
 import { PnutResponse } from '~/models/pnut-response'
 
+function isFileInput(t: EventTarget): t is HTMLInputElement {
+  return 'files' in t
+}
+
 export default Vue.extend({
   props: {
     cover: {
@@ -47,22 +51,22 @@ export default Vue.extend({
       required: true,
       validator(obj) {
         return ['is_default', 'height', 'width', 'height'].every(
-          key => key in obj
+          (key) => key in obj
         )
-      }
-    }
+      },
+    },
   },
   data() {
     return {
       promise: null as Promise<PnutResponse<User>> | null,
-      internalCover: this.cover
+      internalCover: this.cover,
     }
   },
   methods: {
     async coverChanged(e: Event) {
       if (
         !e.target ||
-        !(e.target instanceof HTMLInputElement) ||
+        !isFileInput(e.target) ||
         !e.target.files ||
         !e.target.files.length
       )
@@ -78,10 +82,10 @@ export default Vue.extend({
         this.promise = this.$axios
           .$post<PnutResponse<User>>('/users/me/cover', fd, {
             headers: {
-              'Content-Type': 'multipart/form-data'
-            }
+              'Content-Type': 'multipart/form-data',
+            },
           })
-          .catch(err => {
+          .catch((err) => {
             throw new Error(err.response.data.meta.error_message)
           })
         const response = await this.promise
@@ -96,7 +100,7 @@ export default Vue.extend({
     changeCover() {
       // TODO
       ;(this.$refs.coverFileInput as HTMLInputElement).click()
-    }
-  }
+    },
+  },
 })
 </script>

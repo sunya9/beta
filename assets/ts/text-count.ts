@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { Component, Watch } from 'nuxt-property-decorator'
 
 @Component({})
-export default class extends Vue {
+export default class TextCount extends Vue {
   text = ''
   textLength = 0
 

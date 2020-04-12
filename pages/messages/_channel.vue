@@ -10,18 +10,13 @@
       <pm-panel v-else :initial-channel.sync="channel" />
     </div>
     <div class="col-md-8 order-md-1">
-      <message-compose
-        v-if="canPost"
-        v-model="message"
-        :channel="channel"
-        @submit="() => $refs.list.refresh()"
-      />
+      <message-compose v-if="canPost" v-model="message" :channel="channel" />
       <div class="card">
         <div class="card-body">
           <message-list
-            ref="list"
             :data="data"
             :option="options"
+            :refresh-date="date"
             :is-moderator="isModerator"
             :channel-type="channel.type"
             :last-read-message-id="data.meta.marker && data.meta.marker.id"
@@ -44,23 +39,57 @@ import { getRSSLink, deletedUser, findChatValueRaw } from '~/assets/ts/util'
 import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
+import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 
 export default Vue.extend({
   components: {
     MessageList,
     MessageCompose,
     ChatPanel,
-    PmPanel
+    PmPanel,
   },
-  mixins: [markAsRead],
+  mixins: [refreshAfterAdded, markAsRead],
   validate({ params: { channel } }) {
     return /^\d+$/.test(channel)
+  },
+  async asyncData({ app: { $axios, $resource }, params, error }) {
+    const options = {
+      include_deleted: 1,
+    }
+    const messagesPromise = $resource({ options })
+    const channelPromise = $axios.$get(`/channels/${params.channel}`, {
+      params: {
+        include_limited_users: 1,
+        include_channel_raw: 1,
+      },
+    })
+    try {
+      const [data, { data: channel }] = await Promise.all([
+        messagesPromise,
+        channelPromise,
+      ])
+      channel.owner = {
+        ...deletedUser,
+        ...channel.owner,
+      }
+      return {
+        data,
+        channel,
+        options,
+      }
+    } catch (e) {
+      const { code, error_message } = e.response.data.meta
+      return error({
+        statusCode: code,
+        message: error_message,
+      })
+    }
   },
   data() {
     return {
       message: '',
       // TODO
-      channel: null as Channel | null
+      channel: null as Channel | null,
     }
   },
   computed: {
@@ -78,7 +107,7 @@ export default Vue.extend({
         ((this.channel.owner && this.user.id === this.channel.owner.id) ||
           !!this.channel.acl.full.user_ids
             .filter(userIdIsSimpleUser)
-            .find(u => !!this.user && u.id === this.user.id))
+            .find((u) => !!this.user && u.id === this.user.id))
       )
     },
     isPM(): boolean {
@@ -88,48 +117,15 @@ export default Vue.extend({
     canPost(): boolean {
       if (!this.channel) return false
       return !!this.user && this.channel.acl.write.you
-    }
+    },
   },
   watch: {
     '$route.fullPath': {
       handler() {
         this.$emit('updateNav', this.isPM)
       },
-      immediate: true
-    }
-  },
-  async asyncData({ app: { $axios, $resource }, params, error }) {
-    const options = {
-      include_deleted: 1
-    }
-    const messagesPromise = $resource({ options })
-    const channelPromise = $axios.$get(`/channels/${params.channel}`, {
-      params: {
-        include_limited_users: 1,
-        include_channel_raw: 1
-      }
-    })
-    try {
-      const [data, { data: channel }] = await Promise.all([
-        messagesPromise,
-        channelPromise
-      ])
-      channel.owner = {
-        ...deletedUser,
-        ...channel.owner
-      }
-      return {
-        data,
-        channel,
-        options
-      }
-    } catch (e) {
-      const { code, error_message } = e.response.data.meta
-      return error({
-        statusCode: code,
-        message: error_message
-      })
-    }
+      immediate: true,
+    },
   },
   mounted() {
     // TODO
@@ -140,12 +136,12 @@ export default Vue.extend({
     // TODO
     const id = (this as any).channel.id
     const link = [
-      getRSSLink(`https://api.pnut.io/v0/feed/rss/channels/${id}/messages`)
+      getRSSLink(`https://api.pnut.io/v0/feed/rss/channels/${id}/messages`),
     ]
     return {
-      link
+      link,
     }
-  }
+  },
 })
 </script>
 <style scoped lang="scss">
