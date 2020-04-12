@@ -2,23 +2,26 @@
   <account :account="account" />
 </template>
 
-<script>
-import Account from '~/components/settings/Account'
+<script lang="ts">
+import Vue from 'vue'
+import Account from '~/components/settings/Account/index.vue'
+import { PnutResponse } from '~/models/pnut-response'
+import { User } from '~/models/user'
 
-export default {
-  async asyncData({ app: { $axios } }) {
-    const { data: account } = await $axios.$get('/users/me')
-    return {
-      account
-    }
-  },
+export default Vue.extend({
   components: {
-    Account
+    Account,
+  },
+  async asyncData({ app: { $axios } }) {
+    const { data: account } = await $axios.$get<PnutResponse<User>>('/users/me')
+    return {
+      account,
+    }
   },
   head() {
     return {
-      title: 'Account settings'
+      title: 'Account settings',
     }
-  }
-}
+  },
+})
 </script>

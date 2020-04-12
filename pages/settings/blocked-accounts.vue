@@ -1,27 +1,27 @@
 <template>
   <div>
-    <user-list
-      :data="data"
-    />
+    <user-list :data="data" />
   </div>
 </template>
-<script>
-import UserList from '~/components/UserList'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import UserList from '~/components/UserList.vue'
 
-export default {
+@Component({
+  components: {
+    UserList,
+  },
   async asyncData({ app: { $resource } }) {
     const data = await $resource()
     return {
-      data
+      data,
     }
-  },
-  components: {
-    UserList
   },
   head() {
     return {
-      title: 'Blocked Accounts'
+      title: 'Blocked Accounts',
     }
-  }
-}
+  },
+})
+export class BlockedAccounts extends Vue {}
 </script>

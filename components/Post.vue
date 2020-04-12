@@ -2,7 +2,7 @@
   <div
     :class="{
       deleted: post.is_deleted,
-      'h-entry': detail
+      'h-entry': detail,
     }"
     class="media w-100 justify-content-start"
   >
@@ -32,12 +32,9 @@
         height="64"
         alt="deleted user's avatar"
         class="d-flex mr-3 iconSize u-photo"
-      >
+      />
     </div>
-    <nuxt-link
-      v-else-if="!preview"
-      :to="`/@${mainPost.user.username}`"
-    >
+    <nuxt-link v-else-if="!preview" :to="`/@${mainPost.user.username}`">
       <avatar
         :avatar="mainPost.user.content.avatar_image"
         :alt="mainPost.user.username"
@@ -61,10 +58,7 @@
             class="text-muted"
           />
         </nuxt-link>
-        <span
-          v-else
-          class="text-gray-dark"
-        >
+        <span v-else class="text-gray-dark">
           Deleted user
         </span>
       </h6>
@@ -78,13 +72,14 @@
               @click="toggleSpoiler"
             >
               <span class="d-sm-inline ml-2">
-                Show Spoiler: <emojify :text="spoiler.topic" />
+                Show Spoiler:
+                <emojify :text="spoiler.topic" />
               </span>
             </button>
             <template v-else>
               <p
                 :class="{
-                  'e-content p-name': detail
+                  'e-content p-name': detail,
                 }"
               >
                 <entity-text
@@ -94,14 +89,11 @@
                   <em>[Post deleted]</em>
                 </entity-text>
               </p>
-              <div
-                v-if="!post.is_deleted && longpost"
-                class="my-2"
-              >
+              <div v-if="!post.is_deleted && longpost" class="my-2">
                 <button
                   :class="{
                     'btn-link': showLongpost,
-                    'btn-outline-primary': !showLongpost
+                    'btn-outline-primary': !showLongpost,
                   }"
                   class="btn mb-2"
                   data-test-collapse-button
@@ -119,19 +111,13 @@
                     Collapse Post
                   </span>
                 </button>
-                <div
-                  v-if="showLongpost"
-                  class="mt-2 longpost"
-                >
+                <div v-if="showLongpost" class="mt-2 longpost">
                   <emojify
                     v-if="longpost.title"
                     :text="longpost.title"
                     element="h5"
                   />
-                  <emojify
-                    :text="longpost.body"
-                    element="p"
-                  />
+                  <emojify :text="longpost.body" element="p" />
                 </div>
               </div>
             </template>
@@ -151,7 +137,7 @@
             />
           </div>
           <div
-            v-if="clips.length"
+            v-if="clips"
             class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
           >
             <sound
@@ -163,11 +149,7 @@
           </div>
         </div>
         <div v-if="oembedVideos">
-          <div
-            v-for="(video, i) in oembedVideos"
-            :key="i"
-            class="card mb-2"
-          >
+          <div v-for="(video, i) in oembedVideos" :key="i" class="card mb-2">
             <div class="card-body text-center">
               <div class="video-wrapper">
                 <iframe
@@ -187,17 +169,14 @@
                   :height="video.height"
                   class="video-iframe"
                 >
-                  <source :src="video.url">
+                  <source :src="video.url" />
                   Does not support video.
                 </video>
               </div>
             </div>
           </div>
         </div>
-        <div
-          v-if="poll"
-          class="card mb-3"
-        >
+        <div v-if="poll" class="card mb-3">
           <div class="card-body">
             <poll
               :poll="poll"
@@ -211,21 +190,16 @@
             :to="`/messages/${channelInvite.channel_id}`"
             class="btn btn-outline-primary"
           >
-            Go to <i>{{ channelInvite.display_name }}</i>
+            Go to
+            <i>{{ channelInvite.display_name }}</i>
           </nuxt-link>
         </p>
       </nsfw>
 
       <footer v-if="!post.is_deleted && !preview">
         <div v-if="post.repost_of">
-          <nuxt-link
-            :to="`/@${post.user.username}`"
-            class="text-muted"
-          >
-            <font-awesome-icon
-              icon="retweet"
-              class="mr-1"
-            />
+          <nuxt-link :to="`/@${post.user.username}`" class="text-muted">
+            <font-awesome-icon icon="retweet" class="mr-1" />
             <span>Reposted by @{{ post.user.username }}</span>
           </nuxt-link>
         </div>
@@ -238,14 +212,8 @@
               :title="absDate"
               class="text-muted"
             >
-              <font-awesome-icon
-                :icon="['far', 'clock']"
-                class="mr-1"
-              />
-              <time
-                :class="{ 'dt-published': detail }"
-                :datetime="absDate"
-              >
+              <font-awesome-icon :icon="['far', 'clock']" class="mr-1" />
+              <time :class="{ 'dt-published': detail }" :datetime="absDate">
                 {{ detail ? absDate : date }}
               </time>
             </nuxt-link>
@@ -253,10 +221,7 @@
           <template v-if="mainPost.is_revised">
             <li class="list-inline-item revised">
               <template v-if="mainPost.revision">
-                <font-awesome-icon
-                  :icon="['far', 'edit']"
-                  class="mr-1"
-                />
+                <font-awesome-icon :icon="['far', 'edit']" class="mr-1" />
                 Original
               </template>
               <template v-else>
@@ -265,10 +230,7 @@
                   class="text-muted"
                   title="Revised Post"
                 >
-                  <font-awesome-icon
-                    icon="edit"
-                    class="mr-1"
-                  />
+                  <font-awesome-icon icon="edit" class="mr-1" />
                   <span>Revised</span>
                 </nuxt-link>
               </template>
@@ -278,15 +240,8 @@
             v-if="!viewOnly && me && !disableEdit && !revised"
             class="list-inline-item edit"
           >
-            <a
-              href="#"
-              class="text-muted"
-              @click.prevent="editPost"
-            >
-              <font-awesome-icon
-                icon="edit"
-                class="mr-1"
-              />
+            <a href="#" class="text-muted" @click.prevent="editPost">
+              <font-awesome-icon icon="edit" class="mr-1" />
               <span>Edit</span>
             </a>
           </li>
@@ -298,10 +253,7 @@
                 class="text-muted"
                 title="In Reply To"
               >
-                <font-awesome-icon
-                  icon="comments"
-                  class="mr-1"
-                />
+                <font-awesome-icon icon="comments" class="mr-1" />
               </nuxt-link>
             </li>
           </template>
@@ -318,60 +270,32 @@
           </template>
           <template v-if="!viewOnly && user">
             <li class="list-inline-item reply">
-              <a
-                class="text-muted"
-                href="#"
-                @click.prevent="replyModal"
-              >
-                <font-awesome-icon
-                  icon="reply"
-                  class="mr-1"
-                />
+              <a class="text-muted" href="#" @click.prevent="replyModal">
+                <font-awesome-icon icon="reply" class="mr-1" />
                 <span>Reply</span>
               </a>
             </li>
           </template>
           <template v-if="!viewOnly && me">
             <li class="list-inline-item remove">
-              <a
-                class="text-muted"
-                href="#"
-                @click.stop.prevent="removeModal"
-              >
-                <font-awesome-icon
-                  icon="trash"
-                  class="mr-1"
-                />
+              <a class="text-muted" href="#" @click.stop.prevent="removeModal">
+                <font-awesome-icon icon="trash" class="mr-1" />
                 <span>Remove</span>
               </a>
             </li>
           </template>
           <template v-if="!viewOnly || !user">
             <li class="list-inline-item source">
-              <a
-                :href="post.source.link"
-                class="text-muted"
-                target="_new"
-              >
-                <font-awesome-icon
-                  icon="paper-plane"
-                  class="mr-1"
-                />
+              <a :href="post.source.link" class="text-muted" target="_new">
+                <font-awesome-icon icon="paper-plane" class="mr-1" />
                 <span>via {{ mainPost.source.name }}</span>
               </a>
             </li>
           </template>
           <template v-if="crosspost">
             <li class="list-inline-item crosspost-url">
-              <a
-                :href="crosspost"
-                class="text-muted"
-                target="_new"
-              >
-                <font-awesome-icon
-                  icon="random"
-                  class="mr-1"
-                />
+              <a :href="crosspost" class="text-muted" target="_new">
+                <font-awesome-icon icon="random" class="mr-1" />
                 <span>Crosspost</span>
               </a>
             </li>
@@ -379,7 +303,7 @@
         </ul>
       </footer>
       <template v-if="detail">
-        <hr>
+        <hr />
         <div class="d-flex align-items-center">
           <ul class="list-inline">
             <li class="list-inline-item">
@@ -409,34 +333,31 @@
           </ul>
           <ul class="list-inline ml-3">
             <li
-              v-for="user in reactionUsers"
-              :key="user.id"
+              v-for="reactionUser in reactionUsers"
+              :key="reactionUser.id"
               class="list-inline-item"
             >
               <nuxt-link
-                :to="`/@${user.username}`"
-                :title="`@${user.username}`"
+                :to="`/@${reactionUser.username}`"
+                :title="`@${reactionUser.username}`"
               >
-                <avatar :avatar="user.content.avatar_image" />
+                <avatar :avatar="reactionUser.content.avatar_image" />
               </nuxt-link>
             </li>
           </ul>
         </div>
       </template>
     </div>
-    <div
-      v-if="!viewOnly && user && !post.is_deleted"
-      class="ml-auto mt-1"
-    >
-      <div
-        class="btn-group-vertical"
-        role="group"
-      >
+    <div v-if="!viewOnly && user && !post.is_deleted" class="ml-auto mt-1">
+      <div class="btn-group-vertical" role="group">
         <action-button
           ref="favorite"
           v-model="mainPost.you_bookmarked"
           :resource="`/posts/${mainPost.id}/bookmark`"
-          :icon="[['far', 'star'], ['fas', 'star']]"
+          :icon="[
+            ['far', 'star'],
+            ['fas', 'star'],
+          ]"
         />
         <action-button
           v-if="!me"
@@ -450,15 +371,19 @@
   </div>
 </template>
 
-<script>
-import ActionButton from '~/components/ActionButton'
-import Avatar from '~/components/Avatar'
-import Thumb from '~/components/Thumb'
-import Sound from '~/components/Sound'
-import Poll from '~/components/Poll'
-import { mapGetters } from 'vuex'
-import EntityText from '~/components/EntityText'
-import Nsfw from '~/components/Nsfw'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import ActionButton from '~/components/ActionButton.vue'
+import Avatar from '~/components/Avatar.vue'
+import Thumb from '~/components/Thumb.vue'
+import Sound from '~/components/Sound.vue'
+import PollView from '~/components/Poll.vue'
+import EntityText from '~/components/EntityText.vue'
+import Nsfw from '~/components/Nsfw.vue'
+import { Post } from '~/models/post'
+import { PollNotice } from '~/models/raw/raw/poll-notice'
+import { Raw } from '~/models/raw'
+import { User } from '~/models/user'
 
 import {
   getImageURLs,
@@ -469,66 +394,71 @@ import {
   getChannelInvite,
   getOembedVideo,
   getVideoSrcFromHtml,
-  determineVideoType
-} from '~/assets/js/util'
-import listItem from '~/assets/js/list-item'
+  determineVideoType,
+  AudioForView,
+  LongPostValueForView,
+  ChannelInviteForView,
+} from '~/assets/ts/util'
+import listItem from '~/assets/ts/list-item'
+import { Spoiler } from '~/models/raw/raw/spoiler'
 
+function rawIsPollNotice(raw: Raw<any>): raw is PollNotice {
+  return raw.type === PollNotice.type
+}
 const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
-export default {
+export default Vue.extend({
   components: {
     ActionButton,
     Thumb,
     Sound,
     Avatar,
     EntityText,
-    Poll,
-    Nsfw
+    Poll: PollView,
+    Nsfw,
   },
-  mixins: [listItem],
-  dateKey: 'post.created_at',
+  mixins: [listItem('post.created_at')],
   props: {
     post: {
       type: Object,
-      required: true
-    },
+      required: true,
+    } as PropOptions<Post>,
     viewOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     detail: {
       type: Boolean,
-      default: false
+      default: false,
     },
     preview: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      timer: null,
+      timer: null as NodeJS.Timer | null,
       disableEdit: true,
       showSpoiler: false,
-      showLongpost: false
+      showLongpost: false,
     }
   },
   computed: {
-    revised() {
+    revised(): boolean {
       return this.mainPost.is_revised
     },
-    poll() {
+    poll(): PollNotice.Value | void {
       if (!this.mainPost.raw) return
-      const raw = this.mainPost.raw.filter(
-        item => item.type === 'io.pnut.core.poll-notice'
-      )[0]
+      const raw = this.mainPost.raw.find(rawIsPollNotice)
       if (!raw) return
       return raw.value
     },
-    reactionUsers() {
+    reactionUsers(): User[] {
       if (!this.detail || this.post.is_deleted) return []
-      const users = this.mainPost.bookmarked_by.concat(
-        this.mainPost.reposted_by
-      )
+      const bookmarkedBy = this.mainPost.bookmarked_by || []
+      const repostedBy = this.mainPost.reposted_by || []
+      const users = [...bookmarkedBy, ...repostedBy]
+      // TODO: merge
       return (
         users
           // .slice(0, 10)
@@ -544,60 +474,70 @@ export default {
               res.push(user)
             }
             return res
-          }, [])
+          }, [] as User[])
       )
     },
-    oembedVideos() {
-      return getOembedVideo(this.mainPost).map(value => {
+    // TODO
+    oembedVideos(): any {
+      return getOembedVideo(this.mainPost).map((value) => {
         const url = getVideoSrcFromHtml(value.html)
-        const type = determineVideoType(url)
+        const type = determineVideoType(url!)
         const { width, height } = value
         return {
           url,
           type,
           width,
-          height
+          height,
         }
       })
     },
-    thumbs() {
+    // TODO
+    thumbs(): any {
       return getImageURLs(this.mainPost)
     },
-    clips() {
+    clips(): AudioForView[] | void {
       return getAudio(this.mainPost)
     },
-    crosspost() {
+    crosspost(): string | void {
       return getCrosspostLink(this.mainPost)
     },
-    spoiler() {
+    spoiler(): Spoiler.Value | void {
       return getSpoiler(this.mainPost)
     },
-    longpost() {
+    longpost(): LongPostValueForView | void {
       return getLongpost(this.mainPost)
     },
-    channelInvite() {
+    channelInvite(): ChannelInviteForView | void {
       return getChannelInvite(this.mainPost)
     },
-    me() {
-      return this.user && this.post.user && this.user.id === this.post.user.id
+    me(): boolean {
+      return (
+        !!this.user && !!this.post.user && this.user.id === this.post.user.id
+      )
     },
-    mainPost() {
+    mainPost(): Post {
       return this.post.repost_of || this.post
     },
-    permalink() {
-      return `/@${this.mainPost.user.username}/posts/${this.mainPost.id}`
+    permalink(): string {
+      const user = this.mainPost.user
+      return user
+        ? `/@${user.username}/posts/${this.mainPost.id}`
+        : `/posts/${this.mainPost.id}`
     },
-    reply_permalink() {
+    reply_permalink(): string {
       return `/posts/${this.mainPost.reply_to}`
     },
-    revisions_permalink() {
+    revisions_permalink(): string {
       return `/posts/${this.mainPost.id}/revisions`
     },
-    ...mapGetters(['user'])
+    user(): User | void {
+      return this.$store.getters.user
+    },
   },
   mounted() {
     if (!this.me) return
-    const diff = Date.now() - new Date(this.itemDate).getTime()
+    // TODO
+    const diff = Date.now() - new Date((this as any).itemDate).getTime()
     const over5minutes = diff > FIVE_MINUTES
     if (over5minutes) return
     const remainMilliSeconds = FIVE_MINUTES - diff
@@ -619,7 +559,7 @@ export default {
       if (this.mainPost.is_deleted) return
       try {
         const newPost = await this.$modal.show('post-modal', this.mainPost, {
-          edit: true
+          edit: true,
         })
         this.$emit('update:post', newPost)
       } catch (e) {}
@@ -632,12 +572,12 @@ export default {
       this.$router.push(this.permalink)
     },
     favoriteToggle() {
-      if (this.mainPost.is_deleted) return
-      this.$refs.favorite.toggle()
+      if (this.mainPost.is_deleted) return // TODO
+      ;(this.$refs.favorite as any).toggle()
     },
     repostToggle() {
-      if (this.me || this.mainPost.is_deleted) return
-      this.$refs.repost.toggle()
+      if (this.me || this.mainPost.is_deleted) return // TODO
+      ;(this.$refs.repost as any).toggle()
     },
     async removeModal() {
       if (!this.me || this.mainPost.is_deleted) return
@@ -650,9 +590,9 @@ export default {
       const { data: post } = await this.$axios.$delete(`/posts/${this.post.id}`)
       this.$toast.success('Deleted Post!')
       this.$emit('update:post', post)
-    }
-  }
-}
+    },
+  },
+})
 </script>
 <style scoped lang="scss">
 @import '~assets/css/override';

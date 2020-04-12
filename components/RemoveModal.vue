@@ -7,35 +7,33 @@
     @hidden="hidden"
   >
     <p>Do you want to remove this post?</p>
-    <post
-      v-if="post"
-      :post="post"
-      view-only
-    />
+    <post v-if="post" :post="post" view-only />
   </base-modal>
 </template>
 
-<script>
-import Post from '~/components/Post'
-import BaseModal from '~/components/BaseModal'
+<script lang="ts">
+import Vue from 'vue'
+import PostView from '~/components/Post.vue'
+import BaseModal from '~/components/BaseModal.vue'
+import { Post } from '~/models/post'
 
-export default {
+export default Vue.extend({
   components: {
-    Post,
-    BaseModal
+    Post: PostView,
+    BaseModal,
   },
   data() {
     return {
-      post: null
+      post: null as Post | null,
     }
   },
   methods: {
-    show(post) {
+    show(post: Post) {
       this.post = post
     },
     hidden() {
       this.post = null
-    }
-  }
-}
+    },
+  },
+})
 </script>

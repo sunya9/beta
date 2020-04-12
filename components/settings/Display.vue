@@ -9,37 +9,38 @@
   </div>
 </template>
 
-<script>
-import CustomCheckbox from '../CustomCheckbox'
+<script lang="ts">
+import Vue from 'vue'
+import CustomCheckbox from '../CustomCheckbox.vue'
 
-export default {
+export default Vue.extend({
   components: {
-    CustomCheckbox
+    CustomCheckbox,
   },
   data() {
     return {
       square: false,
       theme: false,
-      error: null
+      error: null,
     }
   },
   watch: {
-    square(newVal) {
-      localStorage.setItem('square_avatars', newVal)
+    square(newVal: boolean) {
+      localStorage.setItem('square_avatars', newVal.toString())
     },
-    theme(newVal) {
+    theme(newVal: boolean) {
       if (
         (newVal && localStorage.getItem(`dark_theme`) !== 'true') ||
         (!newVal && localStorage.getItem(`dark_theme`) === 'true')
       ) {
-        localStorage.setItem('dark_theme', newVal)
+        localStorage.setItem('dark_theme', newVal.toString())
         window.location.reload()
       }
-    }
+    },
   },
   mounted() {
     this.square = localStorage.getItem(`square_avatars`) === 'true'
     this.theme = localStorage.getItem(`dark_theme`) === 'true'
-  }
-}
+  },
+})
 </script>

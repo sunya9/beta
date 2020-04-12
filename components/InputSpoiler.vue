@@ -9,29 +9,32 @@
         class="form-control"
         pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,128}"
         title="Up to 128 characters"
-      >
+      />
     </div>
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import { Spoiler } from '~/models/raw/raw/spoiler'
+
+export default Vue.extend({
   data() {
     return {
       spoiler: {
-        topic: ''
-      }
+        topic: '',
+      },
     }
   },
   watch: {
     spoiler: {
       deep: true,
-      handler(spoiler) {
+      handler(spoiler: Spoiler.Value) {
         this.$emit('update:spoiler', spoiler)
       },
-      immediate: true
-    }
-  }
-}
+      immediate: true,
+    },
+  },
+})
 </script>
 <style scoped lang="scss">
 @import '~assets/css/override';

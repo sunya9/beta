@@ -7,23 +7,24 @@
     </div>
   </div>
 </template>
-<script>
-import FileList from '~/components/file-list'
+<script lang="ts">
+import Vue from 'vue'
+import FileList from '~/components/file-list.vue'
 
-export default {
+export default Vue.extend({
+  components: {
+    FileList,
+  },
   async asyncData({ app: { $resource } }) {
     const data = await $resource()
     return {
-      data
+      data,
     }
   },
   head() {
     return {
-      title: 'Your files'
+      title: 'Your files',
     }
   },
-  components: {
-    FileList
-  }
-}
+})
 </script>

@@ -1,61 +1,65 @@
 <template>
   <div>
-    <compose v-if="user" /> <splash
-      v-else
-      class="mb-5"
-    />
+    <compose v-if="user" />
+    <splash v-else class="mb-5" />
     <post-list
       ref="list"
       :data="data"
       :refresh-date="date"
       :resource="resource"
+      :option="options"
       type="Post"
     />
   </div>
 </template>
 
-<script>
-import Compose from '~/components/Compose'
-import PostList from '~/components/PostList'
-import { mapGetters } from 'vuex'
-import { getResourcePath } from '~/plugins/axios/resources'
-import Splash from '~/components/Splash'
-import refreshAfterAdded from '~/assets/js/refresh-after-added'
+<script lang="ts">
+import Vue from 'vue'
+import Compose from '~/components/Compose.vue'
+import PostList from '~/components/PostList.vue'
+import { convertPageId2ApiPath } from '~/plugins/axios/resources'
+import Splash from '~/components/Splash.vue'
+import refreshAfterAdded from '~/assets/ts/refresh-after-added'
+import { User } from '~/models/user'
 
-const globalPath = getResourcePath('global')
+const globalPath = convertPageId2ApiPath('global')
 
-export default {
+export default Vue.extend({
   components: {
     Compose,
     PostList,
-    Splash
+    Splash,
   },
   mixins: [refreshAfterAdded],
   async asyncData({ app: { $resource }, store }) {
-    var streamPath = '/posts/streams/me'
-    if (localStorage['unified_timeline'] === 'true') {
+    let streamPath = '/posts/streams/me'
+    if (localStorage.unified_timeline === 'true') {
       streamPath = '/posts/streams/unified'
     }
-    const option = {
+    const options = {
       include_directed_posts:
-        localStorage['hide_directed_posts'] === 'false' ? 1 : 0
+        localStorage.hide_directed_posts === 'false' ? 1 : 0,
     }
-    const data = await $resource(
-      !store.getters.user ? globalPath : streamPath,
-      option
-    )
-    return { data, option }
+    const data = await $resource({
+      url: !store.getters.user ? globalPath : streamPath,
+      options,
+    })
+    return { data, options }
   },
   computed: {
-    ...mapGetters(['user']),
-    resource() {
-      return !this.user ? getResourcePath('global') : ''
-    }
+    user(): User | null {
+      return this.$store.getters.user
+    },
+    resource(): string {
+      // TODO: ?
+      return !this.$store.getters.user ? convertPageId2ApiPath('global') : ''
+    },
   },
   head() {
+    const loggedIn = !!this.$store.getters.user
     return {
-      title: this.$store.getters.user ? 'Your Stream' : null
+      title: loggedIn ? 'Your Stream' : '',
     }
-  }
-}
+  },
+})
 </script>

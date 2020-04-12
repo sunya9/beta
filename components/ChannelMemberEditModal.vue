@@ -10,16 +10,10 @@
     @shown="shown"
     @hidden="hidden"
   >
-    <div
-      v-if="acl"
-      class="form-group"
-    >
+    <div v-if="acl" class="form-group">
       <div class="form-group">
         <h5>Access</h5>
-        <custom-checkbox
-          v-model="anyUserWrite"
-          :disabled="acl.write.immutable"
-        >
+        <custom-checkbox v-model="anyUserWrite" :disabled="acl.write.immutable">
           Any user can write
         </custom-checkbox>
         <custom-checkbox
@@ -28,10 +22,7 @@
         >
           Any user can read
         </custom-checkbox>
-        <custom-checkbox
-          v-model="publicRead"
-          :disabled="acl.read.immutable"
-        >
+        <custom-checkbox v-model="publicRead" :disabled="acl.read.immutable">
           Publicly readable
         </custom-checkbox>
       </div>
@@ -40,10 +31,7 @@
           <div class="col-sm col-md-12">
             <h5>Members</h5>
             <div class="form-group">
-              <div
-                v-if="!anyUserWrite || isOwner"
-                class="input-group"
-              >
+              <div v-if="!anyUserWrite || isOwner" class="input-group">
                 <input
                   ref="addUserForm"
                   v-model="newUser.username"
@@ -54,7 +42,7 @@
                   pattern="(\w{1,20})"
                   title="Username"
                   @keydown.enter="addUser"
-                >
+                />
                 <div class="input-group-append">
                   <acl-select
                     v-model="newUser.acl"
@@ -68,10 +56,7 @@
                     type="button"
                     @click="addUser"
                   >
-                    <font-awesome-icon
-                      icon="plus"
-                      class="mr-1"
-                    />
+                    <font-awesome-icon icon="plus" class="mr-1" />
                     <span>Add</span>
                   </button>
                 </div>
@@ -79,37 +64,37 @@
             </div>
             <ul class="list-unstyled">
               <li
-                v-for="(user, index) in users"
-                :key="user.username"
+                v-for="(userWithAcl, index) in users"
+                :key="userWithAcl.username"
               >
                 <div class="form-group">
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <div class="input-group-text">
                         <avatar
-                          :avatar="user.avatar_image"
+                          :avatar="userWithAcl.avatar_image"
                           size="16"
                           max-size="16"
                         />
                       </div>
                     </div>
                     <input
-                      :value="user.username"
+                      :value="userWithAcl.username"
                       type="text"
                       class="form-control"
                       readonly
-                    >
+                    />
                     <div class="input-group-append">
                       <acl-select
-                        v-model="user.acl"
+                        v-model="userWithAcl.acl"
                         :any-user-read="anyUserRead"
                         :any-user-write="anyUserWrite"
-                        :disabled="editDisabled(user)"
-                        :your-acl="user.acl"
+                        :disabled="editDisabled(userWithAcl)"
+                        :your-acl="userWithAcl.acl"
                         :owner-id="owner.id"
                       />
                       <button
-                        :disabled="editDisabled(user)"
+                        :disabled="editDisabled(userWithAcl)"
                         type="button"
                         class="btn btn-link"
                         @click="removeUser(index)"
@@ -128,74 +113,94 @@
   </base-modal>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
-import CustomCheckbox from '~/components/CustomCheckbox'
-import BaseModal from '~/components/BaseModal'
-import Avatar from '~/components/Avatar'
-import AclSelect from '~/components/AclSelect'
+<script lang="ts">
+import Vue from 'vue'
 import { cloneDeep, groupBy } from 'lodash'
+import CustomCheckbox from '~/components/CustomCheckbox.vue'
+import BaseModal from '~/components/BaseModal.vue'
+import Avatar from '~/components/Avatar.vue'
+import AclSelect from '~/components/AclSelect.vue'
+import { User } from '~/models/user'
+import { Channel } from '~/models/channel'
+import { userIdsIsString, userIdIsSimpleUser } from '~/util/channel'
 
-export default {
+function atUserStr(user: Channel.UserWithAcl) {
+  return `@${user.username.replace(/[^\w]/g, '')}`
+}
+
+function keyIsAclKey(key: string): key is Channel.Permission {
+  return ['write', 'full', 'read'].includes(key)
+}
+
+export default Vue.extend({
   name: 'ChannelMemberEditModal',
   components: {
     AclSelect,
     Avatar,
     BaseModal,
-    CustomCheckbox
+    CustomCheckbox,
   },
   data() {
     return {
-      owner: null,
-      users: [],
-      acl: null,
-      anyUserWrite: null,
-      anyUserRead: null,
-      publicRead: null,
+      owner: null as User | null,
+      users: [] as Channel.UserWithAcl[],
+      acl: null as Channel.Acl | null,
+      anyUserWrite: false,
+      anyUserRead: false,
+      publicRead: false,
       newUser: {
         username: '',
         avatar_image: '',
-        acl: this.minimumPermission
-      }
+        // acl: this.minimumPermission as string
+        acl: 'read' as Channel.Permission,
+      },
     }
   },
   computed: {
-    ...mapGetters(['user']),
-    isOwner() {
-      return this.user && this.user.id === this.owner.id
+    user(): User {
+      return this.$store.getters.user
     },
-    disabledAdd() {
+    isOwner(): boolean {
+      return !!this.user && !!this.owner && this.user.id === this.owner.id
+    },
+    disabledAdd(): boolean {
       return this.users.length + 1 >= 200
     },
-    disabledAddButton() {
-      return (
-        this.disabledAdd ||
-        !this.newUser.username ||
-        this.users.find(user => user.username === this.newUser.username) ||
-        this.user.username === this.newUser.username ||
-        this.owner.username === this.newUser.username
+    disabledAddButton(): boolean {
+      const foundSameUser = this.users.some(
+        (user) =>
+          !!user.username &&
+          !!this.owner &&
+          !!this.newUser &&
+          (user.username === this.newUser.username ||
+            this.user.username === this.newUser.username ||
+            this.owner.username === this.newUser.username)
       )
+      return this.disabledAdd || !this.newUser.username || foundSameUser
     },
-    minimumPermission() {
+    minimumPermission(): Channel.Permission {
       if (this.anyUserRead) return 'write'
       if (this.anyUserWrite) return 'full'
       return 'read'
-    }
+    },
   },
   watch: {
-    anyUserWrite(can) {
+    anyUserWrite(can: boolean) {
+      if (!this.acl) return
       this.acl.write.any_user = can
       if (!this.publicRead) {
         this.anyUserRead = can
       }
     },
-    anyUserRead(can) {
+    anyUserRead(can: boolean) {
+      if (!this.acl) return
       this.acl.read.any_user = can
       if (can) {
         this.verifyACL()
       }
     },
-    publicRead(can) {
+    publicRead(can: boolean) {
+      if (!this.acl) return
       this.acl.read.public = can
       if (!this.anyUserWrite) {
         this.anyUserRead = can
@@ -203,58 +208,71 @@ export default {
       if (can) {
         this.verifyACL()
       }
-    }
+    },
   },
   methods: {
-    editDisabled(user) {
-      const userIsModerator = !this.isOwner && user.acl === 'full'
-      return this.acl[user.acl].immutable || userIsModerator
+    editDisabled(user: Channel.UserWithAcl): boolean {
+      const userIsModerator = !this.isOwner && !!this.acl && user.acl === 'full'
+      return (!!this.acl && this.acl[user.acl].immutable) || userIsModerator
     },
     shown() {
-      this.$refs.addUserForm.focus()
+      // TODO
+      ;(this.$refs.addUserForm as any).focus()
     },
-    show(channel) {
+    show(channel: Channel) {
       this.newUser = {
         username: '',
         avatar_image: '',
-        acl: this.minimumPermission
+        acl: this.minimumPermission,
       }
-      this.owner = channel.owner
+      this.owner = channel.owner || null
       this.acl = cloneDeep(channel.acl)
+      const fullUserIds = this.acl.full.user_ids
+      if (userIdsIsString(fullUserIds)) return
       this.users.push(
-        ...this.acl.full.user_ids.map(user => ({
-          username: user.username,
-          avatar_image: user.avatar_image,
-          acl: 'full'
-        }))
+        ...fullUserIds
+          .filter(userIdIsSimpleUser)
+          .map<Channel.UserWithAcl>((user) => ({
+            ...user,
+            acl: 'full',
+          }))
       )
+      const writeUserIds = this.acl.write.user_ids
+      if (userIdsIsString(writeUserIds)) return
       this.users.push(
-        ...this.acl.write.user_ids.map(user => ({
-          username: user.username,
-          avatar_image: user.avatar_image,
-          acl: 'write'
-        }))
+        ...writeUserIds
+          .filter(userIdIsSimpleUser)
+          .map<Channel.UserWithAcl>((user) => ({
+            ...user,
+            acl: 'write',
+          }))
       )
+      const readUserIds = this.acl.read.user_ids
+      if (userIdsIsString(readUserIds)) return
       this.users.push(
-        ...this.acl.read.user_ids.map(user => ({
-          username: user.username,
-          avatar_image: user.avatar_image,
-          acl: 'read'
-        }))
+        ...readUserIds
+          .filter(userIdIsSimpleUser)
+          .map<Channel.UserWithAcl>((user) => ({
+            ...user,
+            acl: 'read',
+          }))
       )
       this.anyUserWrite = this.acl.write.any_user
       this.anyUserRead = this.acl.read.any_user
       this.publicRead = this.acl.read.public
     },
     ok() {
+      if (!this.acl) return
       const usersMap = groupBy(
-        this.users.filter(user => user.username),
-        user => user.acl
+        this.users.filter((user) => user.username),
+        (user) => user.acl
       )
-      Object.keys(usersMap).forEach(
-        permission =>
-          (this.acl[permission].user_ids = usersMap[permission].map(atUserStr))
-      )
+      Object.keys(usersMap)
+        .filter(keyIsAclKey)
+        .forEach((permission) => {
+          if (!this.acl) return
+          this.acl[permission].user_ids = usersMap[permission].map(atUserStr)
+        })
       if (this.acl.read.immutable) delete this.acl.read
       if (this.acl.write.immutable) delete this.acl.write
       if (this.acl.full.immutable || !this.isOwner) delete this.acl.full
@@ -266,16 +284,16 @@ export default {
     },
     addUser() {
       if (this.disabledAdd || this.disabledAddButton) return
-      var newUser = this.newUser
+      const newUser = this.newUser
       newUser.username = newUser.username.replace(/[^\w]/g, '')
       this.users.unshift({ ...newUser })
       this.newUser.username = ''
     },
-    removeUser(i) {
+    removeUser(i: number) {
       this.users.splice(i, 1)
     },
     verifyACL() {
-      this.users = this.users.map(user => {
+      this.users = this.users.map((user) => {
         if (this.anyUserRead && user.acl === 'read') {
           user.acl = 'write'
         } else if (this.anyUserWrite && user.acl === 'write') {
@@ -283,11 +301,7 @@ export default {
         }
         return user
       })
-    }
-  }
-}
-
-function atUserStr(user) {
-  return `@${user.username.replace(/[^\w]/g, '')}`
-}
+    },
+  },
+})
 </script>

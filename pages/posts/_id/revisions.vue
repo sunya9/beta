@@ -4,7 +4,7 @@
       :key="`post-${id}`"
       :main="id"
       :data="data"
-      :option="option"
+      :option="options"
       :refresh-date="date"
       disable-auto-refresh
       all
@@ -12,41 +12,46 @@
   </div>
 </template>
 
-<script>
-import PostList from '~/components/PostList'
-import { getImageURLs } from '~/assets/js/util'
-import refreshAfterAdded from '~/assets/js/refresh-after-added'
+<script lang="ts">
+import Vue from 'vue'
+import PostList from '~/components/PostList.vue'
+import { getImageURLs } from '~/assets/ts/util'
+import refreshAfterAdded from '~/assets/ts/refresh-after-added'
+import { PnutResponse } from '~/models/pnut-response'
+import { Post } from '~/models/post'
 
-export default {
+export default Vue.extend({
+  components: {
+    PostList,
+  },
+  mixins: [refreshAfterAdded],
   async asyncData(ctx) {
     const {
       params: { id },
-      app: { $resource }
+      app: { $resource },
     } = ctx
-    const option = {
+    const options = {
       include_directed_posts: 1,
       include_bookmarked_by: 1,
-      include_reposted_by: 1
+      include_reposted_by: 1,
     }
-    const postPromise = $resource(option)
+    const postPromise: Promise<PnutResponse<Post[]>> = $resource({ options })
 
     const data = await postPromise
     data.data = data.data ? data.data.reverse() : []
     return {
       id,
-      option,
-      data
+      options,
+      data,
     }
   },
   validate({ params }) {
     return /^\w+$/.test(params.name) && /\d+$/.test(params.id)
   },
-  components: {
-    PostList
-  },
-  mixins: [refreshAfterAdded],
   head() {
-    const [post] = this.data.data.filter(post => post.id === this.id)
+    // TODO
+    const data = (this as any).data as PnutResponse<Post[]>
+    const [post] = data.data.filter((post) => post.id === (this as any).id)
     if (post.user && post.content) {
       const name = post.user.name
         ? `${post.user.name}(@${post.user.username})`
@@ -59,9 +64,9 @@ export default {
         {
           hid: 'og:description',
           property: 'og:description',
-          content: fullTitle
+          content: fullTitle,
         },
-        { hid: 'og:title', property: 'og:title', content: title }
+        { hid: 'og:title', property: 'og:title', content: title },
       ]
       const [photo] = getImageURLs(post, true)
       if (photo) {
@@ -69,43 +74,43 @@ export default {
           {
             hid: 'og:image',
             property: 'og:image',
-            content: photo.original
+            content: photo.original,
           },
           {
             hid: 'og:image:width',
             property: 'og:image:width',
-            content: photo.width
+            content: photo.width.toString(),
           },
           {
             hid: 'og:image:height',
             property: 'og:image:height',
-            content: photo.height
+            content: photo.height.toString(),
           },
           {
             hid: 'og:type',
             property: 'og:type',
-            content: 'article'
+            content: 'article',
           },
           {
             hid: 'article:published_time',
             property: 'article:published_time',
-            content: post.created_at
+            content: post.created_at.toString(),
           },
           {
             hid: 'article:author',
             property: 'article:author',
-            content: post.user.username
+            content: post.user.username,
           }
         )
       }
       return {
         title,
-        meta
+        meta,
       }
     }
     return {}
-  }
-}
+  },
+})
 </script>
 
 <style scoped lang="scss">

@@ -1,10 +1,7 @@
 <template>
   <header>
     <nav class="navbar navbar-light navbar fixed-top px-0">
-      <div
-        class="container"
-        @click.self="scrollToTop"
-      >
+      <div class="container" @click.self="scrollToTop">
         <button
           ref="toggleButton"
           class="navbar-toggler mr-2 d-md-none align-items-stretch"
@@ -28,7 +25,7 @@
             height="32"
             alt="β"
             class="align-center mr-2 d-inline-block"
-          >
+          />
           <span class="d-none d-sm-inline header-title">
             Beta
           </span>
@@ -70,17 +67,10 @@
             to="/files"
           >
             <a class="nav-link">
-              <font-awesome-icon
-                size="lg"
-                icon="database"
-              />
+              <font-awesome-icon size="lg" icon="database" />
             </a>
           </nuxt-link>
-          <li
-            v-if="user"
-            id="user-menu"
-            class="nav-item dropdown"
-          >
+          <li v-if="user" id="user-menu" class="nav-item dropdown">
             <a
               id="navbarDropdownMenuLink"
               ref="dropdown"
@@ -97,19 +87,14 @@
                 <span class="d-inline d-sm-none">
                   <avatar
                     :avatar="{
-                      link: `https://api.pnut.io/v0/users/@${
-                        user.username
-                      }/avatar`
+                      link: `https://api.pnut.io/v0/users/@${user.username}/avatar`,
                     }"
                     :size="16"
                     :max-size="16"
                   />
                 </span>
               </span>
-              <font-awesome-icon
-                class="ml-2"
-                icon="chevron-down"
-              />
+              <font-awesome-icon class="ml-2" icon="chevron-down" />
             </a>
             <div
               class="dropdown-menu dropdown-menu-right"
@@ -123,46 +108,26 @@
                 <span class="d-none d-sm-inline">
                   Profile
                 </span>
-                <span class="d-inline d-sm-none">
-                  @{{ user.username }}
-                </span>
+                <span class="d-inline d-sm-none">@{{ user.username }}</span>
               </nuxt-link>
               <div class="dropdown-divider d-sm-none" />
-              <nuxt-link
-                to="/messages"
-                class="dropdown-item d-sm-none"
-              >
+              <nuxt-link to="/messages" class="dropdown-item d-sm-none">
                 Messages
               </nuxt-link>
-              <nuxt-link
-                class="dropdown-item d-sm-none"
-                to="/files"
-              >
+              <nuxt-link class="dropdown-item d-sm-none" to="/files">
                 Files
               </nuxt-link>
               <div class="dropdown-divider" />
-              <nuxt-link
-                to="/settings"
-                class="dropdown-item"
-                active-class=""
-              >
+              <nuxt-link to="/settings" class="dropdown-item" active-class="">
                 Settings
               </nuxt-link>
               <div class="dropdown-divider" />
-              <a
-                href="#"
-                class="dropdown-item"
-                @click="$auth.logout()"
-              >
+              <a href="#" class="dropdown-item" @click="$auth.logout()">
                 Log out
               </a>
             </div>
           </li>
-          <li
-            v-if="user"
-            id="nav-compose"
-            class="nav-item d-sm-block"
-          >
+          <li v-if="user" id="nav-compose" class="nav-item d-sm-block">
             <a
               href="#"
               class="nav-link"
@@ -171,15 +136,8 @@
               <font-awesome-icon icon="pencil-alt" />
             </a>
           </li>
-          <li
-            v-if="!user"
-            class="nav-item"
-          >
-            <a
-              href="#"
-              class="nav-link"
-              @click="$auth.loginWith('pnut')"
-            >
+          <li v-if="!user" class="nav-item">
+            <a href="#" class="nav-link" @click="$auth.loginWith('pnut')">
               Log in
             </a>
           </li>
@@ -189,7 +147,7 @@
         <app-sidebar
           id="globalNavigation"
           :style="{
-            'max-height': collapseHeight
+            'max-height': collapseHeight,
           }"
           class="collapse scrollable w-100"
         />
@@ -199,40 +157,49 @@
   </header>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
-import SearchForm from './SearchForm'
+<script lang="ts">
+import Vue from 'vue'
+import { Dropdown, Collapse } from 'bootstrap.native'
+import SearchForm from './SearchForm.vue'
 import AppSidebar from '~/components/sidebar/App'
-import Avatar from '~/components/Avatar'
+import Avatar from '~/components/Avatar.vue'
+import { User } from '~/models/user'
 
 const networkEvents = ['online', 'offline']
 
-export default {
+export default Vue.extend({
   components: {
     SearchForm,
     AppSidebar,
-    Avatar
+    Avatar,
   },
   data() {
     return {
       online: true,
-      collapseHeight: 0
+      collapseHeight: 0 as number | string,
+      dropdown: null as Dropdown | null,
+      collapse: null as Collapse | null,
     }
   },
-  computed: mapGetters(['user']),
+  computed: {
+    user(): User {
+      return this.$store.getters.user
+    },
+  },
   mounted() {
     this.online = navigator.onLine
-    networkEvents.forEach(event =>
+    networkEvents.forEach((event) =>
       window.addEventListener(event, this.connectionChanged)
     )
     const { height } = this.$el.children[0].getBoundingClientRect()
     this.collapseHeight = `calc(100vh - ${height}px)`
-    const { Dropdown, Collapse } = require('bootstrap.native')
-    new Dropdown(this.$refs.dropdown)
-    new Collapse(this.$refs.toggleButton)
+    if (this.$refs.dropdown) {
+      this.dropdown = new Dropdown(this.$refs.dropdown as Element)
+    }
+    this.collapse = new Collapse(this.$refs.toggleButton as Element)
   },
   beforeDestroy() {
-    networkEvents.forEach(event =>
+    networkEvents.forEach((event) =>
       window.removeEventListener(event, this.connectionChanged)
     )
   },
@@ -246,9 +213,9 @@ export default {
     },
     showConnection() {
       this.$toast.show(`You are ${this.online ? 'on' : 'off'}line`).goAway(2000)
-    }
-  }
-}
+    },
+  },
+})
 </script>
 <style scoped lang="scss">
 @import '~assets/css/adn_base_variables';

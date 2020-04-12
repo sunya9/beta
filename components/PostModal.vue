@@ -8,12 +8,7 @@
     @hidden="hidden"
   >
     <div slot-scope="{ ok }">
-      <post
-        v-if="reply && !edit"
-        :post="reply"
-        class="my-3"
-        view-only
-      />
+      <post v-if="reply && !edit" :post="reply" class="my-3" view-only />
       <compose
         ref="compose"
         :reply-target="reply"
@@ -25,46 +20,51 @@
   </base-modal>
 </template>
 
-<script>
-import Post from '~/components/Post'
-import Compose from '~/components/Compose'
-import BaseModal from '~/components/BaseModal'
+<script lang="ts">
+import Vue from 'vue'
+import PostView from '~/components/Post.vue'
+import Compose from '~/components/Compose.vue'
+import BaseModal from '~/components/BaseModal.vue'
+import { Post } from '~/models/post'
 
-export default {
+export default Vue.extend({
   components: {
-    Post,
+    Post: PostView,
     Compose,
-    BaseModal
+    BaseModal,
   },
   data() {
     return {
-      reply: null,
+      reply: null as Post | null,
       key: Date.now(),
-      edit: false
+      edit: false,
     }
   },
   computed: {
-    title() {
-      return this.edit
+    title(): string {
+      // TODO
+      return this.edit && this.reply && this.reply.user
         ? 'Edit post'
-        : this.reply
+        : this.reply && this.reply.user
         ? `Reply to @${this.reply.user.username}`
         : 'Compose new post'
-    }
+    },
   },
   methods: {
     hidden() {
-      this.$refs.compose.reset()
+      // TODO
+      ;(this.$refs.compose as any).reset()
       this.reply = null
       this.edit = false
     },
-    async show(post, options = {}) {
-      this.edit = options.edit
+    show(post: Post, options: { edit?: boolean } = {}) {
+      this.edit = options.edit || false
       this.reply = post
     },
     shown() {
-      this.$refs.compose.setFocus(true)
-    }
-  }
-}
+      // TODO
+      ;(this.$refs.compose as any).setFocus(true)
+    },
+  },
+})
 </script>

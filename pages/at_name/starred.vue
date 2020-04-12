@@ -1,48 +1,48 @@
 <template>
   <div>
     <h3>
-      <nuxt-link to=".">
-        @{{ name }}
-      </nuxt-link>
+      <nuxt-link to=".">@{{ name }}</nuxt-link>
       's Starred
     </h3>
-    <post-list
-      :data="data"
-    />
+    <post-list :data="data" />
   </div>
 </template>
 
-<script>
-import PostList from '~/components/PostList'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import PostList from '~/components/PostList.vue'
 
-export default {
+@Component({
+  components: {
+    PostList,
+  },
   async asyncData(ctx) {
     const {
       params,
       app: { $resource },
-      error
+      error,
     } = ctx
     const { name } = params
     try {
       const data = await $resource()
       return {
         data,
-        name
+        name,
       }
     } catch (e) {
       const { meta } = e.response.data
       error({
         statusCode: meta.code,
-        message: meta.error_message
+        message: meta.error_message,
       })
     }
   },
-  components: {
-    PostList
-  },
+})
+export default class extends Vue {
+  name!: string
   head() {
     return {
-      title: `@${this.name}'s starred`
+      title: `@${this.name}'s starred`,
     }
   }
 }

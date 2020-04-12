@@ -4,10 +4,7 @@
     <div class="row">
       <div class="col-sm col-md-12">
         <slot />
-        <div
-          v-if="user"
-          class="form-group"
-        >
+        <div v-if="user" class="form-group">
           <custom-checkbox
             v-model="channel.you_subscribed"
             :resource="`/channels/${channel.id}/subscribe`"
@@ -42,41 +39,44 @@
     </div>
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex'
-import markAsRead from '~/assets/js/mark-as-read'
-import CustomCheckbox from '~/components/CustomCheckbox'
-
-export default {
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import markAsRead from '~/assets/ts/mark-as-read'
+import CustomCheckbox from '~/components/CustomCheckbox.vue'
+import { User } from '~/models/user'
+import { Channel } from '~/models/channel'
+export default Vue.extend({
   name: 'ChannelPanel',
   components: {
-    CustomCheckbox
+    CustomCheckbox,
   },
   mixins: [markAsRead],
   props: {
     channel: {
       type: Object,
-      required: true
-    }
+      required: true,
+    } as PropOptions<Channel>,
   },
   computed: {
-    ...mapGetters(['user'])
+    user(): User {
+      return this.$store.getters.user
+    },
   },
   methods: {
-    cancelSubscribe(bool) {
+    cancelSubscribe(bool: boolean) {
       if (!bool) return
       this.$emit('update:channel', {
         ...this.channel,
-        you_subscribed: false
+        you_subscribed: false,
       })
     },
-    cancelMute(bool) {
+    cancelMute(bool: boolean) {
       if (!bool) return
       this.$emit('update:channel', {
         ...this.channel,
-        you_muted: false
+        you_muted: false,
       })
-    }
-  }
-}
+    },
+  },
+})
 </script>

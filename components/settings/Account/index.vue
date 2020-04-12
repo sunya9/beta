@@ -4,16 +4,9 @@
       <cover :cover="account.content.cover_image" />
       <avatar :avatar="account.content.avatar_image" />
     </div>
-    <form
-      action="/proxy/users/me"
-      method="post"
-      @submit.prevent="update"
-    >
+    <form action="/proxy/users/me" method="post" @submit.prevent="update">
       <div class="form-group row">
-        <label
-          class="col-form-label col-sm-12 col-md-3"
-          for="name"
-        >
+        <label class="col-form-label col-sm-12 col-md-3" for="name">
           Name
         </label>
         <div class="col-sm-12 col-md-9">
@@ -23,14 +16,11 @@
             type="text"
             name="name"
             class="form-control"
-          >
+          />
         </div>
       </div>
       <div class="form-group row">
-        <label
-          class="col-form-label col-sm-12 col-md-3"
-          for="description"
-        >
+        <label class="col-form-label col-sm-12 col-md-3" for="description">
           Description
         </label>
         <div class="col-sm-12 col-md-9">
@@ -45,10 +35,7 @@
         </div>
       </div>
       <div class="form-group row">
-        <label
-          class="col-form-label col-sm-12 col-md-3"
-          for="timezone"
-        >
+        <label class="col-form-label col-sm-12 col-md-3" for="timezone">
           Timezone
         </label>
         <div class="col-sm-12 col-md-9">
@@ -60,11 +47,7 @@
             rows="7"
             class="form-control"
           >
-            <option
-              v-for="t in timezones"
-              :key="t"
-              :value="t"
-            >
+            <option v-for="t in timezones" :key="t" :value="t">
               {{ t }}
             </option>
           </select>
@@ -72,10 +55,7 @@
       </div>
 
       <div class="form-group row">
-        <label
-          class="col-form-label col-sm-12 col-md-3"
-          for="locale"
-        >
+        <label class="col-form-label col-sm-12 col-md-3" for="locale">
           Language
         </label>
         <div class="col-sm-12 col-md-9">
@@ -87,11 +67,7 @@
             rows="7"
             class="form-control"
           >
-            <option
-              v-for="l in locales"
-              :key="l.value"
-              :value="l.value"
-            >
+            <option v-for="l in locales" :key="l.value" :value="l.value">
               {{ l.label }}
             </option>
           </select>
@@ -104,31 +80,34 @@
             type="submit"
             class="btn btn-primary"
             value="save"
-          >
+          />
         </div>
       </div>
     </form>
   </div>
 </template>
 
-<script>
-import locales from '~/assets/json/locales'
-import timezones from '~/assets/json/timezones'
-import Cover from './Cover'
-import Avatar from './Avatar'
+<script lang="ts">
+import Vue from 'vue'
+import Cover from './Cover.vue'
+import Avatar from './Avatar.vue'
+import locales from '~/assets/json/locales.json'
+import timezones from '~/assets/json/timezones.json'
+import { PnutResponse } from '~/models/pnut-response'
+import { User } from '~/models/user'
 
-export default {
+export default Vue.extend({
   components: {
     Cover,
-    Avatar
+    Avatar,
   },
   props: {
     account: {
       type: Object,
       required: true,
-      validator: obj =>
-        ['name', 'content', 'locale', 'timezone'].every(key => key in obj)
-    }
+      validator: (obj) =>
+        ['name', 'content', 'locale', 'timezone'].every((key) => key in obj),
+    },
   },
   data() {
     return {
@@ -138,32 +117,43 @@ export default {
       locale: this.account.locale,
       locales,
       timezones,
-      promise: null
+      promise: null as Promise<PnutResponse<User>> | null,
     }
   },
   computed: {
-    submitData() {
+    // TODO
+    submitData(): {
+      name: string
+      content: {
+        text: string
+      }
+      timezone: string
+      locale: string
+    } {
       return {
         name: this.name,
         content: {
-          text: this.description
+          text: this.description,
         },
         timezone: this.timezone,
-        locale: this.locale
+        locale: this.locale,
       }
-    }
+    },
   },
   methods: {
     async update() {
       try {
-        this.promise = this.$axios.$patch('/users/me', this.submitData)
+        this.promise = this.$axios.$patch<PnutResponse<User>>(
+          '/users/me',
+          this.submitData
+        )
         await this.promise
         this.$toast.success('Updated!')
       } catch (e) {
         this.$toast.error(e.message)
       }
       this.promise = null
-    }
-  }
-}
+    },
+  },
+})
 </script>

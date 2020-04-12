@@ -6,22 +6,23 @@
     <poll-list :data="data" />
   </div>
 </template>
-<script>
-import PollList from '~/components/PollList'
+<script lang="ts">
+import Vue from 'vue'
+import PollList from '~/components/PollList.vue'
 
-export default {
+export default Vue.extend({
   middleware: ['auth'],
+  components: {
+    PollList,
+  },
   async asyncData({ app: { $resource } }) {
     const data = await $resource()
     return { data }
   },
-  components: {
-    PollList
-  },
   head() {
     return {
-      title: 'Your polls'
+      title: 'Your polls',
     }
-  }
-}
+  },
+})
 </script>

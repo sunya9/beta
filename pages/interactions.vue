@@ -1,80 +1,51 @@
 <template>
   <div>
     <div class="d-flex justify-content-between flex-wrap">
-      <div
-        class="btn-group"
-        role="group"
-        style="display: none"
-      >
+      <div class="btn-group" role="group" style="display: none;">
         <label class="btn btn-primary">
-          <input
-            :class="active"
-            type="checkbox"
-            class="sr-only"
-            value="reply"
-          >
+          <input type="checkbox" class="sr-only" value="reply" />
           Reply
         </label>
         <label class="btn btn-primary">
-          <input
-            :class="active"
-            type="checkbox"
-            class="sr-only"
-            value="repost"
-          >
+          <input type="checkbox" class="sr-only" value="repost" />
           Repost
         </label>
         <label class="btn btn-primary">
-          <input
-            :class="active"
-            type="checkbox"
-            class="sr-only"
-            value="bookmark"
-          >
+          <input type="checkbox" class="sr-only" value="bookmark" />
           Star
         </label>
         <label class="btn btn-primary">
-          <input
-            :class="active"
-            type="checkbox"
-            class="sr-only"
-            value="follow"
-          >
+          <input type="checkbox" class="sr-only" value="follow" />
           Follow
         </label>
       </div>
     </div>
     <div>
-      <interaction-list
-        :data="data"
-        :option="option"
-      />
+      <interaction-list :data="data" :option="options" />
     </div>
   </div>
 </template>
 
-<script>
-import InteractionList from '~/components/InteractionList'
+<script lang="ts">
+import Vue from 'vue'
+import InteractionList from '~/components/InteractionList.vue'
 
-export default {
+export default Vue.extend({
   middleware: ['auth'],
-  async asyncData({ app: { $resource } }) {
-    const option = {
-      filters: 'bookmark,repost,follow'
-    }
-    const data = await $resource(option)
-    return { data, option }
-  },
   components: {
-    InteractionList
+    InteractionList,
   },
-  methods: {
-    active() {}
+  async asyncData({ app: { $resource } }) {
+    const options = {
+      filters: 'bookmark,repost,follow',
+    }
+    const data = await $resource({ options })
+    return { data, options }
   },
   head() {
     return {
-      title: 'Interactions'
+      title: 'Interactions',
     }
-  }
-}
+  },
+})
 </script>

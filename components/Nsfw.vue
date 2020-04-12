@@ -1,12 +1,6 @@
 <template>
-  <transition
-    name="fade"
-    mode="out-in"
-  >
-    <div
-      v-if="!show"
-      key="censored"
-    >
+  <transition name="fade" mode="out-in">
+    <div v-if="!show" key="censored">
       <div class="card my-2 mr-3 border-danger text-danger">
         <div class="card-body">
           <div class="media">
@@ -15,49 +9,45 @@
                 This post includes NSFW.
               </p>
             </div>
-            <button
-              class="btn btn-outline-primary"
-              @click="toggle"
-            >
+            <button class="btn btn-outline-primary" @click="toggle">
               Show
             </button>
           </div>
         </div>
       </div>
     </div>
-    <div
-      v-else
-      key="content"
-    >
+    <div v-else key="content">
       <slot />
     </div>
   </transition>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   name: 'Nsfw',
   props: {
     includeNsfw: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      accept: false
+      accept: false,
     }
   },
   computed: {
-    show() {
+    show(): boolean {
       return this.accept || !this.includeNsfw
-    }
+    },
   },
   methods: {
     toggle() {
       this.accept = !this.accept
-    }
-  }
-}
+    },
+  },
+})
 </script>
 <style>
 .fade-enter-active,

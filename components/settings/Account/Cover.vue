@@ -13,16 +13,16 @@
           :height="internalCover.height"
           alt="cover image"
           class="img-thumbnail"
-        >
+        />
       </div>
       <div class="form-group">
         <input
           ref="coverFileInput"
           type="file"
           accept="image/*"
-          style="display: none"
+          style="display: none;"
           @change="coverChanged"
-        >
+        />
         <button
           :disabled="promise"
           type="button"
@@ -35,29 +35,43 @@
     </div>
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import { User } from '~/models/user'
+import { PnutResponse } from '~/models/pnut-response'
+
+function isFileInput(t: EventTarget): t is HTMLInputElement {
+  return 'files' in t
+}
+
+export default Vue.extend({
   props: {
     cover: {
       type: Object,
       required: true,
       validator(obj) {
         return ['is_default', 'height', 'width', 'height'].every(
-          key => key in obj
+          (key) => key in obj
         )
-      }
-    }
+      },
+    },
   },
   data() {
     return {
-      promise: null,
-      internalCover: this.cover
+      promise: null as Promise<PnutResponse<User>> | null,
+      internalCover: this.cover,
     }
   },
   methods: {
-    async coverChanged(e) {
-      if (!e.target.files.length) return false
-      const [file] = e.target.files
+    async coverChanged(e: Event) {
+      if (
+        !e.target ||
+        !isFileInput(e.target) ||
+        !e.target.files ||
+        !e.target.files.length
+      )
+        return false
+      const file = e.target.files[0]
       if (file.size > 4194000) {
         this.$toast.error('Over 4MiB.')
         return
@@ -66,15 +80,16 @@ export default {
       fd.append('cover', file)
       try {
         this.promise = this.$axios
-          .$post('/users/me/cover', fd, {
+          .$post<PnutResponse<User>>('/users/me/cover', fd, {
             headers: {
-              'Content-Type': 'multipart/form-data'
-            }
+              'Content-Type': 'multipart/form-data',
+            },
           })
-          .catch(err => {
+          .catch((err) => {
             throw new Error(err.response.data.meta.error_message)
           })
         const response = await this.promise
+        if (!response.data.content) return
         this.internalCover = response.data.content.cover_image
         this.$toast.success('Changed!')
       } catch (err) {
@@ -83,8 +98,9 @@ export default {
       this.promise = null
     },
     changeCover() {
-      this.$refs.coverFileInput.click()
-    }
-  }
-}
+      // TODO
+      ;(this.$refs.coverFileInput as HTMLInputElement).click()
+    },
+  },
+})
 </script>

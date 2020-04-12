@@ -17,29 +17,33 @@
     />
   </base-modal>
 </template>
-<script>
-import BaseModal from '~/components/BaseModal'
-import MessageCompose from '~/components/MessageCompose'
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import { User } from '~/models/user'
+import BaseModal from '~/components/BaseModal.vue'
+import MessageCompose from '~/components/MessageCompose.vue'
+export default Vue.extend({
   components: {
     BaseModal,
-    MessageCompose
+    MessageCompose,
   },
   data() {
     return {
-      target: null
+      target: null as User | null,
     }
   },
   methods: {
-    show({ target }) {
+    show({ target }: { target: User }) {
       this.target = target
     },
     shown() {
-      this.$el.querySelector('textarea').focus()
+      const textarea = this.$el.querySelector('textarea')
+      if (!textarea) return
+      textarea.focus()
     },
     hide() {
       this.target = null
-    }
-  }
-}
+    },
+  },
+})
 </script>

@@ -4,31 +4,30 @@
       <compose />
     </div>
     <div>
-      <post-list
-        :data="data"
-      />
+      <post-list :data="data" />
     </div>
   </div>
 </template>
 
-<script>
-import Compose from '~/components/Compose'
-import PostList from '~/components/PostList'
+<script lang="ts">
+import Vue from 'vue'
+import Compose from '~/components/Compose.vue'
+import PostList from '~/components/PostList.vue'
 
-export default {
+export default Vue.extend({
   middleware: ['auth'],
+  components: {
+    PostList,
+    Compose,
+  },
   async asyncData({ app: { $resource } }) {
     const data = await $resource()
     return { data }
   },
-  components: {
-    PostList,
-    Compose
-  },
   head() {
     return {
-      title: 'Stars'
+      title: 'Stars',
     }
-  }
-}
+  },
+})
 </script>

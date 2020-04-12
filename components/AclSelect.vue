@@ -12,65 +12,67 @@
     <option v-if="!anyUserWrite">
       write
     </option>
-    <option
-      :disabled="!isOwner"
-      value="full"
-    >
+    <option :disabled="!isOwner" value="full">
       moderate
     </option>
   </select>
 </template>
-<script>
-import { mapGetters } from 'vuex'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import { User } from '~/models/user'
+import { Channel } from '~/models/channel'
 
-const permissions = ['read', 'write', 'full']
-export default {
+const permissions: Channel.Permission[] = ['read', 'write', 'full']
+export default Vue.extend({
   name: 'AclSelect',
   model: {
     prop: 'value',
-    event: 'change'
+    event: 'change',
   },
   props: {
     value: {
       type: String,
       default: 'read',
-      validator: permission => permissions.includes(permission)
-    },
+      validator: (permission) => permissions.includes(permission),
+    } as PropOptions<Channel.Permission>,
     anyUserRead: {
       type: Boolean,
-      default: false
+      default: false,
     },
     anyUserWrite: {
       type: Boolean,
-      default: false
+      default: false,
     },
     yourPermission: {
       type: String,
-      validator: permission => !permission || permissions.includes(permission),
-      default: ''
-    },
+      validator: (permission) =>
+        !permission || permissions.includes(permission),
+      default: 'read',
+    } as PropOptions<Channel.Permission>,
     ownerId: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   computed: {
-    ...mapGetters(['user']),
-    isOwner() {
+    user(): User {
+      return this.$store.getters.user
+    },
+    isOwner(): boolean {
       return this.user && this.user.id === this.ownerId
     },
-    haveFullPermission() {
+    haveFullPermission(): boolean {
       return this.yourPermission === 'full'
     },
-    isPublic() {
+    isPublic(): boolean {
       return this.anyUserWrite && this.ownerLike
     },
-    ownerLike() {
+    ownerLike(): boolean {
       return this.isOwner && this.haveFullPermission
     },
-    isModeratorNotOwner() {
+    isModeratorNotOwner(): boolean {
       return !this.isOwner && this.haveFullPermission
-    }
-  }
-}
+    },
+  },
+})
 </script>

@@ -34,19 +34,11 @@
       :class="{ 'list-group-item': listClass !== 'list-unstyled' }"
     >
       <div class="text-center w-100 text-muted my-2">
-        <font-awesome-icon
-          spin
-          fixed-width
-          size="2x"
-          icon="sync"
-        />
+        <font-awesome-icon spin fixed-width size="2x" icon="sync" />
       </div>
     </li>
   </ul>
-  <div
-    v-else
-    class="text-center my-3"
-  >
+  <div v-else class="text-center my-3">
     <slot name="empty">
       <div class="list-group-item py-4">
         No Items
@@ -54,70 +46,74 @@
     </slot>
   </div>
 </template>
-<script>
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
 import { mapGetters } from 'vuex'
-import keyBinding from '~/assets/js/key-binding'
+import { PnutResponse } from '~/models/pnut-response'
+import keyBinding from '~/assets/ts/key-binding'
 
 const INTERVAL = 1000 * 30 // 30sec
 
-export default {
+const keyMap = {
+  j: 'scrollDown',
+  k: 'scrollUp',
+  '.': 'refresh',
+}
+
+export default Vue.extend({
   name: 'BaseList',
-  mixins: [keyBinding],
-  keyMaps: {
-    j: 'scrollDown',
-    k: 'scrollUp',
-    '.': 'refresh'
-  },
+  mixins: [keyBinding(keyMap)],
   props: {
     dataAddedHook: {
       type: Function,
-      default: () => () => null
+      default: () => () => null,
     },
     listClass: {
       type: String,
-      default: 'list-group mb-4'
+      default: 'list-group mb-4',
     },
     listItemClass: {
       type: [String, Function],
-      default: 'list-group-item list-group-item-action'
+      default: 'list-group-item list-group-item-action',
     },
     listElement: {
       type: [String, Object, Function],
-      default: 'li'
+      default: 'li',
     },
     listItemProps: {
       type: Function,
-      default: () => ({})
+      default: () => ({}),
     },
     disableAutoRefresh: {
       type: Boolean,
-      default: false
+      default: false,
     },
     data: {
       type: Object,
-      validator: obj => 'meta' in obj && 'data' in obj,
+      validator: (obj) => 'meta' in obj && 'data' in obj,
       required: true,
-      default: () => ({
-        meta: {},
-        data: []
-      })
+      default: () =>
+        ({
+          meta: {},
+          data: [],
+        } as PropOptions<PnutResponse<any[]>>),
     },
     resource: {
       type: String,
-      default: ''
+      default: '',
     },
     option: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     idField: {
       type: String,
-      default: 'id'
+      default: 'id',
     },
     refreshDate: {
       type: Number,
-      default: Date.now()
-    }
+      default: Date.now(),
+    },
   },
   data() {
     return {
@@ -127,28 +123,28 @@ export default {
       lastUpdate: Date.now(),
       meta: this.data.meta,
       refreshing: false,
-      activeElement: null
+      activeElement: (null as any) as Element | null,
     }
   },
   computed: {
     ...mapGetters(['user']),
     select: {
-      get() {
+      get(): number {
         return this.internalSelect
       },
-      set(v) {
+      set(v: number) {
         if (!(this.items.length - 1 < v) && !(v < 0)) {
           this.internalSelect = v
           this.$emit('select', this.internalSelect)
         }
-      }
+      },
     },
-    moreDisabled() {
+    moreDisabled(): boolean {
       return this.busy || !this.more
     },
-    more() {
+    more(): boolean {
       return this.meta.more
-    }
+    },
   },
   watch: {
     refreshDate(newVal, oldVal) {
@@ -159,8 +155,8 @@ export default {
       handler(data) {
         this.items = 'data' in data ? data.data : []
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   mounted() {
     if (this.disableAutoRefresh) return
@@ -168,22 +164,22 @@ export default {
     this.$once('hook:beforeDestroy', () => clearInterval(timer))
   },
   methods: {
-    updateItem(index, item) {
+    updateItem(index: number, item: any) {
       this.$set(this.items, index, item)
     },
     updateActiveElement() {
       this.activeElement = document.activeElement
     },
-    isSelected(index) {
+    isSelected(index: number) {
       if (!this.$el || !this.$el.children[this.select]) return
       return (
         index === this.select &&
         this.$el.children[this.select].contains(this.activeElement)
       )
     },
-    async focus(e) {
+    focus(e?: Event) {
       const element = e ? e.target : this.$el.children[this.select]
-      if (!element) return
+      if (!element || !(element instanceof HTMLElement)) return
       this.activeElement = this.$el.children[this.select]
       const { top, bottom, height } = element.getBoundingClientRect()
       if (top < 100) {
@@ -193,7 +189,7 @@ export default {
       }
       element.focus()
     },
-    setSelect(index) {
+    setSelect(index: number) {
       this.select = index
       if (this.select < 0) return
       this.activeElement = this.$el.children[this.select]
@@ -211,11 +207,11 @@ export default {
       if (this.busy) return
       this.busy = true
       try {
-        const option = { ...this.option, before_id: this.meta.min_id }
-        const { data: newItems, meta } = await this.$resource(
-          this.resource,
-          option
-        )
+        const options = { ...this.option, before_id: this.meta.min_id }
+        const { data: newItems, meta } = await this.$resource<any[]>({
+          url: this.resource,
+          options,
+        })
         this.meta = meta
 
         if (newItems.length) {
@@ -233,11 +229,14 @@ export default {
     async refresh() {
       if (this.refreshing) return
       this.refreshing = true
-      const option = {
+      const options = {
         ...this.option,
-        since_id: this.items.length && this.items[0]['pagination_id']
+        since_id: this.items.length && this.items[0].pagination_id,
       }
-      const { data: newItems } = await this.$resource(this.resource, option)
+      const { data: newItems } = await this.$resource<any[]>({
+        url: this.resource,
+        options,
+      })
       if (newItems.length) {
         this.items = newItems.concat(this.items)
         this.select += newItems.length
@@ -245,9 +244,9 @@ export default {
       }
       this.refreshing = false
       this.lastUpdate = Date.now()
-    }
-  }
-}
+    },
+  },
+})
 </script>
 <style scoped lang="scss">
 @import '~assets/css/mixin';

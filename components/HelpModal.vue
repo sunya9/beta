@@ -12,25 +12,22 @@
       </div>
       <div class="col-12">
         <h6>Navigation</h6>
-        <key-sets :key-sets="$options.navigation" />
+        <key-sets :key-sets="staticActions.navigation" />
       </div>
       <div class="col-12">
         <h6>Streams</h6>
-        <key-sets :key-sets="$options.streams" />
+        <key-sets :key-sets="staticActions.streams" />
       </div>
     </div>
   </base-modal>
 </template>
 
-<script>
-import KeySets from './KeySets'
-import BaseModal from '~/components/BaseModal'
+<script lang="ts">
+import Vue from 'vue'
+import KeySets from './KeySets.vue'
+import BaseModal from '~/components/BaseModal.vue'
 
-export default {
-  components: {
-    KeySets,
-    BaseModal
-  },
+const keyMaps = {
   streamActions: [
     { key: 'n', label: 'New post' },
     { key: 's', label: 'Start' },
@@ -39,7 +36,7 @@ export default {
     { key: 'p', label: 'Repost' },
     { key: 'Del', label: 'Delete my post' },
     { key: 'Enter', label: 'Go to detail page' },
-    { key: 'Ctrl+Enter', label: 'Send post' }
+    { key: 'Ctrl+Enter', label: 'Send post' },
   ],
   messageActions: [
     { key: 'm', label: 'Create a private message' },
@@ -47,13 +44,13 @@ export default {
     { key: 'n', label: 'New message' },
     { key: 'Del', label: 'Delete a message' },
     { key: 'Enter', label: 'Go to chat page' },
-    { key: 'Ctrl+Enter', label: 'Send post' }
+    { key: 'Ctrl+Enter', label: 'Send post' },
   ],
   navigation: [
     { key: 'j', label: 'Next item' },
     { key: 'k', label: 'Previous item' },
     { key: '.', label: 'Load new items' },
-    { key: 'Shift+/', label: 'This help' }
+    { key: 'Shift+/', label: 'This help' },
   ],
   streams: [
     { key: ['g', 'h'], label: 'Home' },
@@ -63,14 +60,24 @@ export default {
     { key: ['g', 'c'], label: 'Conversations' },
     { key: ['g', 'p'], label: 'Photos' },
     { key: ['g', 't'], label: 'Trending' },
-    { key: ['g', 'g'], label: 'Global' }
+    { key: ['g', 'g'], label: 'Global' },
   ],
-  computed: {
-    actions() {
-      return this.$route.name && this.$route.name.startsWith('messages')
-        ? this.$options.messageActions
-        : this.$options.streamActions
-    }
-  }
 }
+
+export default Vue.extend({
+  components: {
+    KeySets,
+    BaseModal,
+  },
+  computed: {
+    actions(): { key: string[] | string; label: string }[] {
+      return this.$route.name && this.$route.name.startsWith('messages')
+        ? keyMaps.messageActions
+        : keyMaps.streamActions
+    },
+    staticActions() {
+      return keyMaps
+    },
+  },
+})
 </script>

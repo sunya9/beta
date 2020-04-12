@@ -12,53 +12,56 @@
       />
     </div>
     <div v-else>
-      <button
-        class="btn btn-primary my-2"
-        autofocus
-        @click="close"
-      >
+      <button class="btn btn-primary my-2" autofocus @click="close">
         Close
       </button>
     </div>
   </div>
 </template>
 
-<script>
-import Compose from '~/components/Compose'
+<script lang="ts">
+import Vue from 'vue'
+import { Component } from 'nuxt-property-decorator'
+import Compose from '~/components/Compose.vue'
 
-export default {
+function getTitle(posted: boolean) {
+  return !posted ? 'Share a link' : 'Shared link!'
+}
+
+@Component({
   middleware: ['auth'],
   layout: 'no-sidebar',
-  async asyncData({ query }) {
+  components: {
+    Compose,
+  },
+  asyncData({ query }) {
     const { text, url } = query
     const message = text && url ? `[${text}](${url})` : ''
     return {
       message,
       url,
       text,
-      posted: false
     }
   },
-  components: {
-    Compose
-  },
-  computed: {
-    title() {
-      return !this.posted ? 'Share a link' : 'Shared link!'
-    }
-  },
-  methods: {
-    finishPosting() {
-      this.posted = true
-    },
-    close() {
-      window.close()
-    }
-  },
-  head() {
+  head(this: PostIntent) {
     return {
-      title: this.title
+      // TODO
+      title: getTitle(this.posted),
     }
+  },
+})
+export default class PostIntent extends Vue {
+  posted = false
+  get title(): string {
+    return getTitle(this.posted)
+  }
+
+  finishPosting() {
+    this.posted = true
+  }
+
+  close() {
+    window.close()
   }
 }
 </script>

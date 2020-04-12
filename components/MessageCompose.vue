@@ -2,13 +2,10 @@
   <div class="card mb-4 compose">
     <div class="card-body">
       <form @submit.prevent="submit()">
-        <div
-          v-if="createChannelMode"
-          class="form-group"
-        >
+        <div v-if="createChannelMode" class="form-group">
           <div
             :class="{
-              'd-flex justify-content-between align-items-center': calcPmLookup
+              'd-flex justify-content-between align-items-center': calcPmLookup,
             }"
           >
             <input
@@ -17,7 +14,7 @@
               class="form-control"
               placeholder="usernames (comma or space delimited)"
               @input="resetPmSearch"
-            >
+            />
             <button
               v-if="calcPmLookup && !targetUser"
               :disabled="pmLookupStatus"
@@ -26,17 +23,9 @@
               @click="findExistingPm"
             >
               <span v-show="promise">
-                <font-awesome-icon
-                  class="mr-2"
-                  icon="sync"
-                  spin
-                  fixed-width
-                />
+                <font-awesome-icon class="mr-2" icon="sync" spin fixed-width />
               </span>
-              <font-awesome-icon
-                icon="search"
-                class="mr-2"
-              />
+              <font-awesome-icon icon="search" class="mr-2" />
               {{ pmLookupStatus ? pmLookupStatus : 'Find Existing' }}
             </button>
           </div>
@@ -47,14 +36,12 @@
             v-model="text"
             :disabled="promise"
             class="form-control"
+            data-test-id="textarea"
             @keydown.ctrl.enter="submit()"
             @keydown.meta.enter="submit()"
           />
         </div>
-        <div
-          v-show="photos.length"
-          class="form-group"
-        >
+        <div v-show="photos.length" class="form-group">
           <transition-group
             tag="div"
             name="photos"
@@ -91,14 +78,14 @@
                 type="file"
                 multiple
                 accept="image/*"
-                style="display: none"
+                style="display: none;"
                 @change="fileChange"
-              >
+              />
             </label>
             <button
               :class="{
                 'text-dark': !hasSpoiler,
-                'btn-primary': hasSpoiler
+                'btn-primary': hasSpoiler,
               }"
               class="btn btn-link add-spoiler mr-3"
               type="button"
@@ -113,6 +100,7 @@
               <button
                 :disabled="calcDisabled"
                 type="submit"
+                data-test-id="submitButton"
                 class="ml-1 btn text-uppercase btn-primary"
               >
                 <span v-show="promise && !calcPmLookup">
@@ -123,12 +111,13 @@
                     class="mr-2"
                   />
                 </span>
-                <span> Send </span>
+                <span>Send</span>
               </button>
               <button
                 v-if="canBroadcast"
                 ref="dropdown"
                 :disabled="calcDisabled"
+                data-test-id="broadcastButton"
                 type="button"
                 class="btn btn-danger dropdown-toggle dropdown-toggle-split"
                 data-toggle="dropdown"
@@ -155,100 +144,125 @@
         <input-spoiler
           v-if="spoiler"
           class="mt-3"
-          @update:spoiler="p => (spoiler = p)"
+          @update:spoiler="(p) => (spoiler = p)"
         />
       </form>
     </div>
   </div>
 </template>
-<script>
-import textCount from '~/assets/js/text-count'
-import { mapGetters } from 'vuex'
-import Thumb from '~/components/Thumb'
-import InputSpoiler from '~/components/InputSpoiler'
-import resettable from '~/assets/js/resettable'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
 import unicodeSubstring from 'unicode-substring'
+import { Dropdown } from 'bootstrap.native'
+import bus from '../assets/ts/bus'
+import textCount from '~/assets/ts/text-count'
+import Thumb from '~/components/Thumb.vue'
+import InputSpoiler from '~/components/InputSpoiler.vue'
+import resettable from '~/assets/ts/resettable'
+import { Spoiler } from '~/models/raw/raw/spoiler'
+import { Channel } from '~/models/channel'
+import { Token } from '~/models/token'
+import { Raw } from '~/models/raw'
+import { PnutResponse } from '~/models/pnut-response'
+import { getMinimumSpoiler } from '~/util/minimum-entities'
 
-export default {
+function obj2FormData(obj: { [key: string]: string | Blob }) {
+  return Object.keys(obj).reduce((fd, key) => {
+    fd.append(key, obj[key])
+    return fd
+  }, new FormData())
+}
+
+export default Vue.extend({
   components: {
     Thumb,
-    InputSpoiler
+    InputSpoiler,
   },
   mixins: [textCount, resettable],
   props: {
     createChannelMode: {
       type: Boolean,
-      default: false
+      default: false,
     },
     noPhoto: {
       type: Boolean,
-      default: false
+      default: false,
     },
     targetUser: {
       type: String,
-      default: ''
+      default: '',
     },
     channel: {
       type: Object,
-      default: null
-    }
+      default: null,
+    } as PropOptions<Channel>,
   },
   data() {
     return {
-      promise: null,
+      // TODO
+      promise: null as Promise<PnutResponse<any>> | null | boolean,
       channelUsersStr: '',
       text: '',
-      photos: [],
-      previewPhotos: [],
-      spoiler: null,
-      pmLookupStatus: null
+      photos: [] as File[],
+      previewPhotos: [] as string[],
+      spoiler: null as Spoiler.Value | null,
+      pmLookupStatus: null as string | null,
+      dropdown: null as Dropdown | null,
     }
   },
   computed: {
-    canBroadcast() {
+    canBroadcast(): boolean {
       return this.channel && this.channel.acl.read.public
     },
-    calcDisabled() {
+    calcDisabled(): boolean {
       const requireTargetValue = this.createChannelMode && !this.channelUsersStr
       return (
         requireTargetValue ||
-        this.promise ||
+        !!this.promise ||
         !this.text ||
         this.remain < 0 ||
-        (this.spoiler && !this.availableSpoiler)
+        (!!this.spoiler && !this.availableSpoiler)
       )
     },
-    calcPmLookup() {
-      return this.createChannelMode && this.channelUsersStr && !this.text
+    calcPmLookup(): boolean {
+      return this.createChannelMode && !!this.channelUsersStr && !this.text
     },
-    remain() {
-      return 2048 - this.textLength
+    remain(): number {
+      // TODO
+      return 2048 - (this as any).textLength
     },
-    hasPhotos() {
-      return this.photos.length
+    hasPhotos(): boolean {
+      return !!this.photos.length
     },
-    hasSpoiler() {
-      return this.spoiler
+    hasSpoiler(): boolean {
+      return !!this.spoiler
     },
-    availableSpoiler() {
+    availableSpoiler(): boolean {
       return (
-        this.spoiler &&
-        this.spoiler.topic &&
+        !!this.spoiler &&
+        !!this.spoiler.topic &&
         this.spoiler.topic.length > 0 &&
         this.spoiler.topic.length <= 128
       )
     },
-    ...mapGetters(['storage'])
+    storage(): Token.Storage {
+      return this.$store.getters.storage
+    },
   },
   watch: {
     async photos() {
-      const promisePhotos = this.photos.map(file => {
-        return new Promise(resolve => {
+      const promisePhotos = this.photos.map((file) => {
+        return new Promise<string>((resolve, reject) => {
           const fr = new FileReader()
           fr.readAsDataURL(file)
-          fr.onload = e => {
-            file.data = e.target.result
-            resolve(file)
+          fr.onload = (e) => {
+            if (
+              !e.target ||
+              !e.target.result ||
+              typeof e.target.result !== 'string'
+            )
+              return reject(new Error('Failed to load photo'))
+            resolve(e.target.result)
           }
         })
       })
@@ -256,16 +270,15 @@ export default {
     },
     targetUser(user) {
       this.channelUsersStr = user
-    }
+    },
   },
   mounted() {
-    this.$mousetrap.bind('n', e => {
-      this.$refs.textarea.focus()
+    this.$mousetrap.bind('n', (e) => {
+      ;(this.$refs.textarea as any).focus()
       e.preventDefault()
     })
-    const { Dropdown } = require('bootstrap.native')
     if (!this.$refs.dropdown) return
-    new Dropdown(this.$refs.dropdown)
+    this.dropdown = new Dropdown(this.$refs.dropdown as Element)
   },
   beforeDestroy() {
     this.$mousetrap.unbind('n')
@@ -273,20 +286,20 @@ export default {
   methods: {
     async broadcast() {
       const option = await this.createGeneralPost()
-      const raw = [
+      const raw: Raw<any>[] = [
         {
           type: 'io.pnut.core.crosspost',
           value: {
             // TODO: use rel="canonical" value in the future
-            canonical_url: location.href
-          }
+            canonical_url: location.href,
+          },
         },
         {
           type: 'io.pnut.core.channel.invite',
           value: {
-            channel_id: this.channel.id
-          }
-        }
+            channel_id: this.channel.id,
+          },
+        },
       ]
       option.raw.push(...raw)
       option.text = `${unicodeSubstring(this.text, 0, 255)}…`
@@ -296,7 +309,7 @@ export default {
       return res
     },
     toggleSpoiler() {
-      this.spoiler = this.spoiler ? null : {}
+      this.spoiler = this.spoiler ? null : getMinimumSpoiler()
     },
     resetPmSearch() {
       this.pmLookupStatus = null
@@ -304,9 +317,11 @@ export default {
     async findExistingPm() {
       this.pmLookupStatus = 'Searching'
       try {
-        const destinations = this.channelUsersStr.split(/[,\s]+/g).map(name => {
-          return name.startsWith('@') ? name : `@${name}`
-        })
+        const destinations = this.channelUsersStr
+          .split(/[,\s]+/g)
+          .map((name) => {
+            return name.startsWith('@') ? name : `@${name}`
+          })
         this.promise = this.$axios.$get(
           `/users/me/channels/existing_pm?ids=${destinations.join(',')}`
         )
@@ -325,7 +340,7 @@ export default {
     async createGeneralPost() {
       const option = {
         text: this.text,
-        raw: []
+        raw: [] as Raw<any>[],
       }
       if (this.hasPhotos) {
         const raws = await this.uploadPhotos()
@@ -335,13 +350,18 @@ export default {
         option.raw.push({
           type: 'shawn.spoiler',
           value: {
-            topic: this.spoiler.topic
-          }
+            topic: this.spoiler.topic,
+          },
         })
       }
       return option
     },
-    async submit(preparedOption = null) {
+    async submit(
+      preparedOption: {
+        text: string
+        raw: Raw<any>[]
+      } | null = null
+    ) {
       if (this.createChannelMode) return this.createChannel()
       try {
         const option = preparedOption || (await this.createGeneralPost())
@@ -354,6 +374,7 @@ export default {
         if (meta.code === 201) {
           this.$emit('submit')
         }
+        bus.$emit('post')
         this.text = ''
         this.$toast.success('Posted!')
         this.photos = []
@@ -365,12 +386,12 @@ export default {
       this.promise = null
     },
     async createChannel() {
-      const destinations = this.channelUsersStr.split(/[,\s]+/g).map(name => {
+      const destinations = this.channelUsersStr.split(/[,\s]+/g).map((name) => {
         return name.startsWith('@') ? name : `@${name}`
       })
       const option = {
         text: this.text,
-        destinations
+        destinations,
       }
       const { data: channel } = await this.$axios.$post(
         '/channels/pm/messages',
@@ -383,57 +404,55 @@ export default {
       this.$emit('submit')
     },
     async uploadPhotos() {
-      const photosPromise = this.photos.map(async content => {
+      const photosPromise = this.photos.map(async (content) => {
         const data = obj2FormData({
           type: 'net.unsweets.beta',
           name: content.name,
           kind: 'image',
           content,
-          is_public: false
+          is_public: 'false',
         })
         const res = await this.$axios.$post('/files', data, {
           headers: {
-            'Content-type': 'multipart/form-data'
-          }
+            'Content-type': 'multipart/form-data',
+          },
         })
         return res
       })
       this.promise = true
       const photosJson = await Promise.all(photosPromise)
-      const raws = photosJson.map(res => {
+      const raws = photosJson.map((res) => {
         const image = res.data
         const value = {
           '+io.pnut.core.file': {
             file_id: image.id,
             file_token: image.file_token,
-            format: 'oembed'
-          }
+            format: 'oembed',
+          },
         }
         return Object.assign(
           {},
           {
-            type: 'io.pnut.core.oembed'
+            type: 'io.pnut.core.oembed',
           },
           { value }
         )
       })
       return raws
     },
-    fileChange(e) {
-      if (!e.target.files.length) return
-      this.photos.push(...Array.prototype.slice.call(e.target.files))
+    fileChange(e: Event) {
+      if (!e.target) return
+      const inputEl = e.target as HTMLInputElement
+      if (!inputEl || !inputEl.files || !inputEl.files.length) return
+      const files = inputEl.files
+      const filesAry = Array.from(files)
+      // filesAry
+      this.photos = [...this.photos, ...filesAry] as File[]
       // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
-      this.$refs.file.value = ''
-    }
-  }
-}
-
-function obj2FormData(obj) {
-  return Object.keys(obj).reduce((fd, key) => {
-    fd.append(key, obj[key])
-    return fd
-  }, new FormData())
-}
+      ;(this.$refs.file as any).value = ''
+    },
+  },
+})
 </script>
 
 <style scoped lang="scss">

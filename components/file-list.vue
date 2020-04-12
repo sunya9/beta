@@ -26,11 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <file-row
-            v-for="file in modifiedFiles"
-            :key="file.id"
-            :file="file"
-          />
+          <file-row v-for="file in modifiedFiles" :key="file.id" :file="file" />
         </tbody>
       </table>
     </div>
@@ -47,53 +43,66 @@
   </div>
 </template>
 
-<script>
-import FileRow from '~/components/file-row'
-import BaseModal from '~/components/BaseModal'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import FileRow from '~/components/file-row.vue'
+import BaseModal from '~/components/BaseModal.vue'
+import { PnutResponse } from '~/models/pnut-response'
+import { File } from '~/models/file'
 
-export default {
+export interface ModifiedFile extends File {
+  select: boolean
+}
+
+export default Vue.extend({
   components: {
     BaseModal,
-    FileRow
+    FileRow,
   },
   props: {
     data: {
       type: Object,
-      default: () => ({})
-    }
+      required: true,
+    } as PropOptions<PnutResponse<File[]>>,
   },
   data() {
     return {
       busy: false,
       meta: this.data.meta,
       files: this.data.data,
-      modal: null
+      modal: null,
     }
   },
   computed: {
-    isSelected() {
-      return this.modifiedFiles.some(file => file.select)
+    isSelected(): boolean {
+      return this.modifiedFiles.some((file) => file.select)
     },
-    selectedFiles() {
-      return this.modifiedFiles.filter(file => file.select)
+    selectedFiles(): ModifiedFile[] {
+      return this.modifiedFiles.filter((file) => file.select)
     },
-    moreDisabled() {
+    moreDisabled(): boolean {
       return this.busy || !this.meta.more
     },
-    modifiedFiles() {
-      return this.files.map(file => {
-        this.$set(file, 'select', false)
-        return file
+    modifiedFiles(): ModifiedFile[] {
+      return this.files.map((file) => {
+        const modifiedFile = {
+          ...file,
+          select: false,
+        }
+        return modifiedFile
       })
-    }
+    },
   },
   methods: {
     async fetchMore() {
       this.busy = true
-      const option = Object.assign({}, this.option, {
-        before_id: this.meta.min_id
-      })
-      const { data: newItems, meta } = await this.$resource(option)
+      const options = Object.assign(
+        {},
+        {
+          before_id: this.meta.min_id,
+        }
+      )
+      const { data: newItems, meta } = await this.$resource<File[]>({ options })
       this.meta = meta
 
       if (newItems.length) {
@@ -105,13 +114,13 @@ export default {
       this.$modal.show('delete-file-modal')
     },
     async deleteFiles() {
-      const deletePromises = this.selectedFiles.map(async file => {
+      const deletePromises = this.selectedFiles.map(async (file) => {
         const res = await this.$axios.$delete(`/files/${file.id}`)
         return res
       })
       await Promise.all(deletePromises)
-      this.files = this.modifiedFiles.filter(file => !file.select)
-    }
-  }
-}
+      this.files = this.modifiedFiles.filter((file) => !file.select)
+    },
+  },
+})
 </script>

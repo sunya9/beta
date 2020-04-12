@@ -1,36 +1,34 @@
 <template>
   <div>
-    <user-list
-      :data="data"
-      :component-options="options"
-    />
+    <user-list :data="data" :component-options="options" />
   </div>
 </template>
-<script>
-import UserList from '~/components/UserList'
+<script lang="ts">
+import Vue from 'vue'
+import UserList from '~/components/UserList.vue'
 
-export default {
+export default Vue.extend({
+  components: {
+    UserList,
+  },
   async asyncData({ app: { $resource } }) {
     const data = await $resource()
     return {
-      data
+      data,
     }
-  },
-  components: {
-    UserList
   },
   data() {
     return {
       options: {
         disableFollowButton: true,
-        showUnmuteButton: true
-      }
+        showUnmuteButton: true,
+      },
     }
   },
   head() {
     return {
-      title: 'Muted Accounts'
+      title: 'Muted Accounts',
     }
-  }
-}
+  },
+})
 </script>

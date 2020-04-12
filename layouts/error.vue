@@ -13,19 +13,23 @@
     </nuxt-link>
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import { NuxtError } from '@nuxt/types'
+
+export default Vue.extend({
   props: {
     error: {
-      type: null,
-      default: null
-    }
+      type: Object,
+      required: true,
+    } as PropOptions<NuxtError>,
   },
   layout: 'no-sidebar',
   head() {
+    const title = this.error.statusCode ? this.error.statusCode.toString() : ''
     return {
-      title: this.error.statusCode
+      title,
     }
-  }
-}
+  },
+})
 </script>

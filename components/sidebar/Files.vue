@@ -1,7 +1,8 @@
-<script>
-import Sidebar from './Sidebar'
+<script lang="ts">
+import Vue from 'vue'
+import Sidebar from './Sidebar.vue'
 
-export default {
+export default Vue.extend({
   extends: Sidebar,
   data() {
     const menus = [
@@ -9,12 +10,12 @@ export default {
       {
         label: 'Your files',
         icon: ['far', 'copy'],
-        url: '/files'
-      }
+        url: '/files',
+      },
     ]
     return {
-      menus
+      menus,
     }
-  }
-}
+  },
+})
 </script>

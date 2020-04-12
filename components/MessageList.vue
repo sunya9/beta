@@ -3,9 +3,9 @@
     v-bind="$attrs"
     list-class="list-unstyled"
     list-item-class="message"
-    @select="select = $event"
   >
     <message
+      v-if="item"
       :key="item.id"
       slot-scope="{ item, index, lastUpdate, updateItem }"
       :message.sync="item"
@@ -17,33 +17,35 @@
     />
   </base-list>
 </template>
-<script>
-import BaseList from '~/components/BaseList'
-import Message from '~/components/Message'
-import keyBinding, { forList } from '~/assets/js/key-binding'
+<script lang="ts">
+import Vue from 'vue'
+import BaseList from '~/components/BaseList.vue'
+import Message from '~/components/Message.vue'
+import keyBinding, { forList } from '~/assets/ts/key-binding'
 
-export default {
-  keyMaps: {
-    del: 'removeModal'
-  },
+const keyMap = {
+  del: 'removeModal',
+}
+
+export default Vue.extend({
   components: {
     BaseList,
-    Message
+    Message,
   },
-  mixins: [keyBinding, forList],
+  mixins: [keyBinding(keyMap), forList(keyMap)],
   props: {
     isModerator: {
       type: Boolean,
-      default: false
+      default: false,
     },
     lastReadMessageId: {
       type: String,
-      default: ''
+      default: '',
     },
     channelType: {
       type: String,
-      default: ''
-    }
-  }
-}
+      default: '',
+    },
+  },
+})
 </script>

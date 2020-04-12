@@ -5,15 +5,17 @@
     </div>
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   middleware: ['auth'],
   head() {
     return {
-      title: 'Account settings'
+      title: 'Account settings',
     }
-  }
-}
+  },
+})
 </script>
 <style scoped lang="scss">
 @import '~assets/css/mixin';

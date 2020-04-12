@@ -1,7 +1,8 @@
-<script>
-import Sidebar from './Sidebar'
+<script lang="ts">
+import Vue from 'vue'
+import Sidebar from './Sidebar.vue'
 
-export default {
+export default Vue.extend({
   extends: Sidebar,
   data() {
     const { user } = this.$store.getters
@@ -10,24 +11,24 @@ export default {
       {
         label: 'Beta',
         icon: 'info-circle',
-        url: '/about'
+        url: '/about',
       },
       {
         label: 'Stats',
         icon: 'chart-bar',
         url: '/about/stats',
-        hidden: !user
+        hidden: !user,
       },
       { type: 'heading', label: 'Resources' },
       {
         label: 'Bookmarklet',
         icon: 'bookmark',
-        url: '/about/bookmarklet'
-      }
+        url: '/about/bookmarklet',
+      },
     ]
     return {
-      menus
+      menus,
     }
-  }
-}
+  },
+})
 </script>

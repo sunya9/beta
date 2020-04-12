@@ -3,17 +3,18 @@
     <poll
       slot-scope="{ item, index }"
       :poll="item"
-      @update:data="data => $set(items, index, data)"
+      @update:data="(data) => $set(items, index, data)"
     />
   </base-list>
 </template>
-<script>
-import BaseList from '~/components/BaseList'
-import Poll from '~/components/Poll'
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import BaseList from '~/components/BaseList.vue'
+import Poll from '~/components/Poll.vue'
+export default Vue.extend({
   components: {
     BaseList,
-    Poll
-  }
-}
+    Poll,
+  },
+})
 </script>

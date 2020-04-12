@@ -5,42 +5,29 @@
         Create a {{ isPrivate ? 'private message' : 'chat room' }}
       </h2>
       <div>
-        <message-compose
-          v-if="isPrivate"
-          create-channel-mode
-        />
+        <message-compose v-if="isPrivate" create-channel-mode />
         <channel-compose v-else />
       </div>
       <h2 class="h4">
         {{ isPrivate ? 'Messages' : 'Chat rooms' }}
       </h2>
-      <ul
-        v-if="isPublic"
-        class="nav nav-pills my-3"
-      >
+      <ul v-if="isPublic" class="nav nav-pills my-3">
         <li class="nav-item">
-          <nuxt-link
-            class="nav-link"
-            to="/messages?public"
-            exact
-          >
+          <nuxt-link class="nav-link" to="/messages?public" exact>
             Subscribed
           </nuxt-link>
         </li>
         <li class="nav-item">
-          <nuxt-link
-            class="nav-link"
-            to="/messages?public&amp;all"
-          >
+          <nuxt-link class="nav-link" to="/messages?public&amp;all">
             All
           </nuxt-link>
         </li>
       </ul>
       <channel-list
         ref="list"
-        :key="JSON.stringify({ resource, option })"
+        :key="JSON.stringify({ resource, options })"
         :data="data"
-        :option="option"
+        :option="options"
         :resource="resource"
         :refresh-date="date"
       />
@@ -48,72 +35,84 @@
   </div>
 </template>
 
-<script>
-import MessageCompose from '~/components/MessageCompose'
-import ChannelCompose from '~/components/ChannelCompose'
-import ChannelList from '~/components/ChannelList'
-import refreshAfterAdded from '~/assets/js/refresh-after-added'
+<script lang="ts">
+import Vue from 'vue'
+import { Component } from 'nuxt-property-decorator'
+import { Channel } from '~/models/channel'
+import MessageCompose from '~/components/MessageCompose.vue'
+import ChannelCompose from '~/components/ChannelCompose.vue'
+import ChannelList from '~/components/ChannelList.vue'
+import refreshAfterAdded from '~/assets/ts/refresh-after-added'
+import { PnutResponse } from '~/models/pnut-response'
 
-export default {
+@Component({
   middleware: ['auth'],
   watchQuery: ['public', 'all'],
+  components: {
+    ChannelList,
+    MessageCompose,
+    ChannelCompose,
+  },
+  mixins: [refreshAfterAdded],
   async asyncData({ app: { $resource }, query }) {
     const isPrivate = !('public' in query)
     const all = 'all' in query
     const commonOption = {
       include_recent_message: 1,
       include_limited_users: 1,
-      include_channel_raw: 1
+      include_channel_raw: 1,
     }
     const privateMessages = {
       resource: '/users/me/channels/subscribed',
-      option: {
+      options: {
         ...commonOption,
         channel_types: 'io.pnut.core.pm',
-        is_private: 1
-      }
+        is_private: 1,
+      },
     }
     const subscribedChatRoom = {
       resource: '/users/me/channels/subscribed',
-      option: {
-        ...commonOption,
-        channel_types: 'io.pnut.core.chat',
-        is_public: 1
-      }
-    }
-    const allChatRoom = {
-      resource: '/channels/search',
-      option: {
+      options: {
         ...commonOption,
         channel_types: 'io.pnut.core.chat',
         is_public: 1,
-        include_inactive: 1
-      }
+      },
     }
-    const { option, resource } = isPrivate
+    const allChatRoom = {
+      resource: '/channels/search',
+      options: {
+        ...commonOption,
+        channel_types: 'io.pnut.core.chat',
+        is_public: 1,
+        include_inactive: 1,
+      },
+    }
+    const { options, resource } = isPrivate
       ? privateMessages
       : all
       ? allChatRoom
       : subscribedChatRoom
 
-    const data = await $resource(resource, option)
-    return { data, option, isPrivate, resource }
+    const data = await $resource<Channel[]>({
+      url: resource,
+      options,
+    })
+    return { data, options, isPrivate, resource }
   },
-  components: {
-    ChannelList,
-    MessageCompose,
-    ChannelCompose
-  },
-  mixins: [refreshAfterAdded],
-  computed: {
-    isPublic() {
-      return !this.isPrivate
-    }
-  },
-  head() {
+  head(this: Messages) {
     return {
-      title: this.isPrivate ? 'Messages' : 'Chat Rooms'
+      title: this.isPrivate ? 'Messages' : 'Chat Rooms',
     }
+  },
+})
+export default class Messages extends Vue {
+  resource!: string
+  data!: PnutResponse<Channel[]>
+  options!: object
+  date!: number
+  isPrivate!: boolean
+  get isPublic(): boolean {
+    return !this.isPrivate
   }
 }
 </script>

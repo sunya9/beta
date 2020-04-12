@@ -1,23 +1,20 @@
 <template>
-  <div
-    v-if="profile.content"
-    class="card profile"
-  >
+  <div v-if="profile.content" class="card profile">
     <img
       v-if="profile.content.cover_image"
       :src="profile.content.cover_image.link"
       :width="profile.content.cover_image.width"
       :height="profile.content.cover_image.height"
       :class="{
-        show: loaded
+        show: loaded,
       }"
       :style="{
-        'min-height': `${headerHeight}px`
+        'min-height': `${headerHeight}px`,
       }"
       alt=""
       class="img-fluid card-img-top"
       @load="loaded = true"
-    >
+    />
     <div class="card-body pt-3 h-card">
       <div class="flex-column d-flex flex-sm-row align-items-sm-start">
         <div
@@ -29,7 +26,7 @@
             <a
               v-if="!profile.verified"
               :href="`/@${profile.username}`"
-              style="display:none"
+              style="display: none;"
               rel="me"
               class="u-url"
             >
@@ -42,8 +39,8 @@
               :zooming-options="{
                 customSize: {
                   width: profile.content.avatar_image.width,
-                  height: profile.content.avatar_image.height
-                }
+                  height: profile.content.avatar_image.height,
+                },
               }"
               no-border
             >
@@ -57,17 +54,11 @@
               />
             </thumb>
             <div class="w-100">
-              <h3
-                :title="profile.id"
-                class="card-title mb-1"
-              >
+              <h3 :title="profile.id" class="card-title mb-1">
                 <span
                   class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline"
                 >
-                  <span
-                    :class="{ 'p-name': !profile.name }"
-                    class="p-nickname"
-                  >
+                  <span :class="{ 'p-name': !profile.name }" class="p-nickname">
                     @{{ profile.username }}
                   </span>
                   <emojify
@@ -100,11 +91,7 @@
                 id="profile-domain"
                 class="text-center text-md-left"
               >
-                <a
-                  :href="profile.verified.link"
-                  class="u-url"
-                  rel="me"
-                >
+                <a :href="profile.verified.link" class="u-url" rel="me">
                   {{ profile.verified.domain }}
                 </a>
                 <font-awesome-icon
@@ -114,20 +101,14 @@
               </p>
             </div>
           </div>
-          <div
-            v-if="user && !me"
-            class="text-center"
-          >
+          <div v-if="user && !me" class="text-center">
             <follow-button
               id="profile-follow-button"
               :profile.sync="profile"
               class="mb-2"
             />
-            <div
-              id="profile-relation"
-              class="text-muted"
-            >
-              <small> {{ relation }} </small>
+            <div id="profile-relation" class="text-muted">
+              <small>{{ relation }}</small>
             </div>
           </div>
         </div>
@@ -143,12 +124,7 @@
       id="profile-counts"
       class="card-body d-flex justify-content-between justify-content-md-end"
     >
-      <span
-        class="card-link"
-        append
-      >
-        {{ profile.counts.posts }} Posts
-      </span>
+      <span class="card-link" append>{{ profile.counts.posts }} Posts</span>
       <nuxt-link
         :tag="user ? 'a' : 'span'"
         class="card-link"
@@ -202,26 +178,14 @@
               <span v-if="!messagePromise">
                 Send a Message
               </span>
-              <font-awesome-icon
-                v-else
-                icon="circle-notch"
-                fixed-width
-                spin
-              />
+              <font-awesome-icon v-else icon="circle-notch" fixed-width spin />
             </a>
             <div class="dropdown-divider" />
           </template>
-          <nuxt-link
-            v-if="me"
-            to="/polls"
-            class="dropdown-item"
-          >
+          <nuxt-link v-if="me" to="/polls" class="dropdown-item">
             Your polls
           </nuxt-link>
-          <base-block-button
-            v-if="user && !me"
-            :profile.sync="profile"
-          >
+          <base-block-button v-if="user && !me" :profile.sync="profile">
             <a
               slot-scope="{ toggleBlock }"
               class="dropdown-item"
@@ -265,18 +229,22 @@
   </div>
 </template>
 
-<script>
-import FollowButton from '~/components/FollowButton'
-import Thumb from '~/components/Thumb'
-import Avatar from '~/components/Avatar'
-import { mapGetters } from 'vuex'
-import EntityText from '~/components/EntityText'
-import BaseMuteButton from '~/components/BaseMuteButton'
-import BaseBlockButton from '~/components/BaseBlockButton'
-import MuteButton from '~/components/MuteButton'
-import createPmModal from '~/components/CreatePmModal'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import { Dropdown } from 'bootstrap.native'
+import FollowButton from '~/components/FollowButton.vue'
+import Thumb from '~/components/Thumb.vue'
+import Avatar from '~/components/Avatar.vue'
+import EntityText from '~/components/EntityText.vue'
+import BaseMuteButton from '~/components/BaseMuteButton.vue'
+import BaseBlockButton from '~/components/BaseBlockButton.vue'
+import MuteButton from '~/components/MuteButton.vue'
+import createPmModal from '~/components/CreatePmModal.vue'
+import { User } from '~/models/user'
+import { Channel } from '~/models/channel'
+import { PnutResponse } from '~/models/pnut-response'
 
-export default {
+export default Vue.extend({
   components: {
     createPmModal,
     FollowButton,
@@ -285,67 +253,69 @@ export default {
     EntityText,
     BaseMuteButton,
     BaseBlockButton,
-    MuteButton
+    MuteButton,
   },
   props: {
     initialProfile: {
       required: true,
-      type: Object
-    }
+      type: Object,
+    } as PropOptions<User>,
   },
   data() {
     return {
       headerHeight: 0,
       loaded: false,
       profile: this.initialProfile,
-      messagePromise: null,
-      dropdown: null
+      messagePromise: null as Promise<PnutResponse<Channel>> | null,
+      dropdown: null as Dropdown | null,
     }
   },
   computed: {
-    ...mapGetters(['user']),
-    relation() {
+    user(): User | null {
+      return this.$store.getters.user
+    },
+    relation(): string {
       return this.profile.follows_you ? 'Follows you' : ''
     },
-    me() {
-      return this.user && this.profile.id === this.user.id
+    me(): boolean {
+      return !!this.user && this.profile.id === this.user.id
     },
-    atname() {
+    atname(): string {
       return `@${this.profile.username}`
     },
-    blockText() {
+    blockText(): string {
       const prefix = this.profile.you_blocked ? 'Unblock' : 'Block'
       return `${prefix} ${this.atname}`
     },
-    muteText() {
+    muteText(): string {
       const prefix = this.profile.you_muted ? 'Unmute' : 'Mute'
       return `${prefix} ${this.atname}`
-    }
+    },
   },
   watch: {
     profile: {
       handler(profile) {
         this.$emit('update:initialProfile', profile)
       },
-      deep: true
+      deep: true,
     },
     loaded(bool) {
       if (!bool) return
       this.headerHeight = 0
-    }
+    },
   },
   mounted() {
     const { width } = this.$el.getBoundingClientRect()
+    if (!this.profile.content) return
     // 2 === side border width
     const ratio = (width - 2) / this.profile.content.cover_image.width
     this.headerHeight = this.profile.content.cover_image.height * ratio
-    const { Dropdown } = require('bootstrap.native')
-    this.dropdown = new Dropdown(this.$refs.dropdown)
+    this.dropdown = new Dropdown(this.$refs.dropdown as Element)
   },
   methods: {
     async sendMessage() {
       try {
-        this.messagePromise = this.$axios.$get(
+        this.messagePromise = this.$axios.$get<PnutResponse<Channel>>(
           `/users/me/channels/existing_pm?ids=@${this.profile.username}`
         )
         const { data } = await this.messagePromise
@@ -355,14 +325,14 @@ export default {
         // not found and transition to /messages
         this.$modal.show('create-pm-modal', {
           isPrivate: true,
-          target: this.profile.username
+          target: this.profile.username,
         })
       }
-      this.dropdown.toggle()
+      if (this.dropdown) this.dropdown.toggle()
       this.messagePromise = null
-    }
-  }
-}
+    },
+  },
+})
 </script>
 <style scoped lang="scss">
 @import '~assets/css/mixin';

@@ -1,8 +1,8 @@
 <template>
   <base-list
     v-bind="$attrs"
-    :list-item-props="channel => listItemProps(channel)"
-    :list-item-class="channel => listItemClass(channel)"
+    :list-item-props="(channel) => listItemProps(channel)"
+    :list-item-class="(channel) => listItemClass(channel)"
     list-element="nuxt-link"
   >
     <channel
@@ -13,29 +13,31 @@
     />
   </base-list>
 </template>
-<script>
-import BaseList from '~/components/BaseList'
-import Channel from '~/components/Channel'
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import { Channel } from '~/models/channel'
+import BaseList from '~/components/BaseList.vue'
+import ChannelView from '~/components/Channel.vue'
+export default Vue.extend({
   name: 'ChannelList',
   components: {
     BaseList,
-    Channel
+    Channel: ChannelView,
   },
   methods: {
-    listItemProps(channel) {
+    listItemProps(channel: Channel) {
       return {
-        to: `/messages/${channel.id}`
+        to: `/messages/${channel.id}`,
       }
     },
-    listItemClass(channel) {
+    listItemClass(channel: Channel) {
       return [
         'list-group-item list-group-item-action',
         {
-          'unread-channel': channel.has_unread
-        }
+          'unread-channel': channel.has_unread,
+        },
       ]
-    }
-  }
-}
+    },
+  },
+})
 </script>

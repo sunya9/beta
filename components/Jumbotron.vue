@@ -8,9 +8,11 @@
   </div>
 </template>
 
-<script>
-import search from '~/assets/js/search'
-export default {
-  mixins: [search]
-}
+<script lang="ts">
+import Vue from 'vue'
+import search from '~/assets/ts/search'
+
+export default Vue.extend({
+  mixins: [search],
+})
 </script>

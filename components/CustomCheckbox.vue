@@ -7,39 +7,33 @@
       type="checkbox"
       class="custom-control-input"
       @change="change($event.target.checked)"
-    >
-    <label
-      :for="id"
-      class="custom-control-label"
-    >
+    />
+    <label :for="id" class="custom-control-label">
       <slot />
     </label>
-    <font-awesome-icon
-      v-if="processing"
-      pulse
-      fixed-width
-      icon="spinner"
-    />
+    <font-awesome-icon v-if="processing" pulse fixed-width icon="spinner" />
   </div>
 </template>
-<script>
-import actionable from '~/assets/js/actionable'
+<script lang="ts">
+import Vue from 'vue'
+import { actionable } from '~/assets/ts/actionable'
 
-export default {
+export default Vue.extend({
   mixins: [actionable],
   props: {
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      id: null
+      id: null as string | null,
     }
   },
   mounted() {
-    this.id = `checkbox-${this._uid}`
-  }
-}
+    // FIXME
+    this.id = `checkbox-${(this as any)._uid}`
+  },
+})
 </script>

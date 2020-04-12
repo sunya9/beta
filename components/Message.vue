@@ -1,20 +1,13 @@
 <template>
   <div>
-    <div
-      v-if="firstUnreadMessage"
-      class="matching-hr"
-    >
-      <hr>
+    <div v-if="firstUnreadMessage" class="matching-hr">
+      <hr />
       <div>
-        <span class="text-muted">
-          Previously read
-        </span>
+        <span class="text-muted">Previously read</span>
       </div>
     </div>
     <div
-      :class="{
-        'flex-row-reverse': me
-      }"
+      :class="{ 'flex-row-reverse': me, 'is-deleted': !message.content }"
       class="media mb-2"
     >
       <nuxt-link
@@ -23,10 +16,10 @@
         class="mt-4"
       >
         <avatar
-          :avatar="messageUser.content.avatar_image"
+          :avatar="messageUser.content && messageUser.content.avatar_image"
           :class="{
             'mr-4': !me,
-            'ml-4': me
+            'ml-4': me,
           }"
           :alt="messageUser.username"
           class="d-flex"
@@ -37,7 +30,7 @@
       <div class="media-body">
         <h6
           :class="{
-            'text-right': me
+            'text-right': me,
           }"
           class="mb-2"
         >
@@ -57,24 +50,24 @@
           :class="{
             'justify-content-end': me,
             'ml-5': me && !displayFullView,
-            'mr-5': !me && !displayFullView
+            'mr-5': !me && !displayFullView,
           }"
           class="d-flex flex-row"
         >
           <div
             :class="{
-              'order-2': me
+              'order-2': me,
             }"
-            @click="clickMessage"
           >
             <div
               :class="{
                 me: me,
-                other: !me
+                other: !me,
               }"
               class="py-2 px-3 mb-1 balloon"
             >
               <entity-text
+                v-if="message.content"
                 :content="message.content"
                 :spoiler="spoiler"
               >
@@ -84,10 +77,11 @@
                   }}]
                 </em>
               </entity-text>
+              <span v-else>Deleted</span>
               <div
                 v-if="thumbs.length"
                 class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
-                style="margin-top:.8em"
+                style="margin-top: 0.8em;"
               >
                 <thumb
                   v-for="(t, i) in thumbs"
@@ -100,7 +94,7 @@
                 />
               </div>
               <div
-                v-if="clips.length"
+                v-if="clips"
                 class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
               >
                 <sound
@@ -140,14 +134,11 @@
           <div
             :class="{
               'order-1 mr-2': me,
-              'ml-2': !me
+              'ml-2': !me,
             }"
             class="align-self-end date-pos"
           >
-            <span
-              :title="absDate"
-              class="text-muted text-nowrap"
-            >
+            <span :title="absDate" class="text-muted text-nowrap">
               {{ date }}
             </span>
           </div>
@@ -157,93 +148,100 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
-import Avatar from '~/components/Avatar'
-import Thumb from '~/components/Thumb'
-import EntityText from '~/components/EntityText'
-import listItem from '~/assets/js/list-item'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import Avatar from '~/components/Avatar.vue'
+import Thumb from '~/components/Thumb.vue'
+import EntityText from '~/components/EntityText.vue'
+import listItem from '~/assets/ts/list-item'
 import {
   getImageURLs,
   getAudio,
   getSpoiler,
-  deletedUser
-} from '~/assets/js/util'
+  deletedUser,
+  ImageForView,
+  AudioForView,
+  MinimumUser,
+} from '~/assets/ts/util'
+import { User } from '~/models/user'
+import { Message } from '~/models/message'
+import { Spoiler } from '~/models/raw/raw/spoiler'
 
-export default {
+export default Vue.extend({
   components: {
     Avatar,
     EntityText,
-    Thumb
+    Thumb,
   },
-  mixins: [listItem],
-  dateKey: 'message.created_at',
+  mixins: [listItem('message.created_at')],
   props: {
     displayFullView: {
       type: Boolean,
-      default: false
+      default: false,
     },
     message: {
       type: Object,
-      required: true
-    },
+      required: true,
+    } as PropOptions<Message>,
     isModerator: {
       type: Boolean,
-      default: false
+      default: false,
     },
     channelType: {
       type: String,
-      default: ''
+      default: '',
     },
     lastReadMessageId: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   computed: {
-    me() {
+    me(): boolean {
       return (
-        this.user && this.messageUser && this.user.id === this.messageUser.id
+        !!this.user && this.messageUser && this.user.id === this.messageUser.id
       )
     },
-    messageUser() {
+    messageUser(): MinimumUser {
       return this.message.user || deletedUser
     },
-    canDelete() {
+    canDelete(): boolean {
       return (
         !this.message.is_deleted &&
         (this.me ||
           (this.channelType !== 'io.pnut.core.pm' && this.isModerator))
       )
     },
-    firstUnreadMessage() {
+    firstUnreadMessage(): boolean {
       return this.message.id === this.lastReadMessageId
     },
-    thumbs() {
+    thumbs(): ImageForView[] {
       return getImageURLs(this.message)
     },
-    clips() {
+    clips(): AudioForView[] | void {
       return getAudio(this.message)
     },
-    spoiler() {
+    spoiler(): Spoiler.Value | void {
       return getSpoiler(this.message)
     },
-    ...mapGetters(['user'])
+    user(): User | null {
+      return this.$store.getters.user
+    },
   },
   methods: {
-    clickMessage() {},
     removeModal() {
       this.$modal.show('message-remove-modal', this)
     },
     async remove() {
+      if (!this.message) return
       const { data: message } = await this.$axios.$delete(
         `/channels/${this.message.channel_id}/messages/${this.message.id}`
       )
       this.$toast.success('Deleted Message!')
       this.$emit('update:message', message)
-    }
-  }
-}
+    },
+  },
+})
 </script>
 
 <style lang="scss" scoped>
@@ -307,5 +305,8 @@ export default {
 .date-pos {
   position: relative;
   top: -1.8rem;
+}
+.is-deleted {
+  opacity: 0.5;
 }
 </style>

@@ -1,10 +1,7 @@
 <template>
   <dl class="row">
     <template v-for="keySet in keySets">
-      <dt
-        :key="`${keySet.label}-dt`"
-        class="col-4"
-      >
+      <dt :key="`${keySet.label}-dt`" class="col-4">
         <template v-if="keySet.key.includes('+')">
           <kbd>
             <template v-for="(key, i) in keySet.key.split('+')">
@@ -31,32 +28,33 @@
           <kbd>{{ keySet.key }}</kbd>
         </template>
       </dt>
-      <dd
-        :key="`${keySet.label}-dd`"
-        class="col-8"
-      >
+      <dd :key="`${keySet.label}-dd`" class="col-8">
         {{ keySet.label }}
       </dd>
     </template>
   </dl>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+type KeyObj = { label: string; key: string }
+export default Vue.extend({
   props: {
     keySets: {
       type: Array,
       required: true,
-      validator: keys =>
+      // TODO
+      validator: (keys: KeyObj[]) =>
         keys.every(
-          keyObj =>
+          (keyObj: any) =>
             'label' in keyObj &&
             typeof keyObj.label === 'string' &&
             'key' in keyObj &&
             (typeof keyObj.key === 'string' ||
               (typeof keyObj.key === 'object' &&
-                keyObj.key.every(k => typeof k === 'string')))
-        )
-    }
-  }
-}
+                keyObj.key.every((k: any) => typeof k === 'string')))
+        ),
+    },
+  },
+})
 </script>
