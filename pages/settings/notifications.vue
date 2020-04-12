@@ -7,12 +7,12 @@ import Vue from 'vue'
 import Notifications from '~/components/settings/Notifications.vue'
 export default Vue.extend({
   components: {
-    Notifications
+    Notifications,
   },
   head() {
     return {
-      title: 'Notification settings'
+      title: 'Notification settings',
     }
-  }
+  },
 })
 </script>

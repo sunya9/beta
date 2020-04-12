@@ -53,8 +53,8 @@ export default Vue.extend({
             (typeof keyObj.key === 'string' ||
               (typeof keyObj.key === 'object' &&
                 keyObj.key.every((k: any) => typeof k === 'string')))
-        )
-    }
-  }
+        ),
+    },
+  },
 })
 </script>

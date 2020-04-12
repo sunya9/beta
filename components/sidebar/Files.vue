@@ -10,12 +10,12 @@ export default Vue.extend({
       {
         label: 'Your files',
         icon: ['far', 'copy'],
-        url: '/files'
-      }
+        url: '/files',
+      },
     ]
     return {
-      menus
+      menus,
     }
-  }
+  },
 })
 </script>

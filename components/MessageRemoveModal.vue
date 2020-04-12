@@ -31,18 +31,20 @@ interface VM {
 @Component({
   components: {
     BaseModal,
-    Message
-  }
+    Message,
+  },
 })
 export default class extends Vue {
   vm: VM | null = null
   show(vm: VM) {
     this.vm = vm
   }
+
   ok() {
     if (!this.vm) return
     this.vm.remove()
   }
+
   hidden() {
     this.vm = null
   }

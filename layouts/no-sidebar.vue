@@ -13,7 +13,7 @@ import AppHeader from '~/components/Header.vue'
 
 export default Vue.extend({
   components: {
-    AppHeader
-  }
+    AppHeader,
+  },
 })
 </script>

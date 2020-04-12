@@ -3,13 +3,13 @@
     :src="src"
     :class="{
       'rounded-circle': !isSquare,
-      'is-deleted': isDeletedUser
+      'is-deleted': isDeletedUser,
     }"
     :width="size"
     :height="size"
     :srcset="srcset"
     v-bind="$attrs"
-  >
+  />
 </template>
 
 <script lang="ts">
@@ -33,26 +33,26 @@ export default Vue.extend({
       validator(obj) {
         return obj === null || typeof obj === 'string' || 'link' in obj
       },
-      default: ''
+      default: '',
     } as PropOptions<User.UserImage | string | null>,
     enablePlaceholder: {
       type: Boolean,
-      default: false
+      default: false,
     },
     size: {
       type: [String, Number],
       default: 24,
-      validator: sizeValidator
+      validator: sizeValidator,
     } as PropOptions<number | string>,
     maxSize: {
       type: [String, Number],
       default: 0,
-      validator: sizeValidator
-    } as PropOptions<number | string>
+      validator: sizeValidator,
+    } as PropOptions<number | string>,
   },
   data() {
     return {
-      isSquare: false
+      isSquare: false,
     }
   },
   computed: {
@@ -76,11 +76,11 @@ export default Vue.extend({
     },
     srcset(): string {
       return `${this.url}?w=${(+this.size || +this.maxSize) * 2} 2x`
-    }
+    },
   },
   mounted() {
     this.isSquare = localStorage.getItem('square_avatars') === 'true'
-  }
+  },
 })
 </script>
 <style scoped>

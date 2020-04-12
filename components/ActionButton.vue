@@ -4,7 +4,7 @@
       :class="{
         disabled: processing,
         'text-primary': checked,
-        'text-secondary': !checked
+        'text-secondary': !checked,
       }"
       class="btn btn-link btn-lg my-0 py-1 mx-0 px-0 rounded-0"
     >
@@ -12,7 +12,7 @@
         :checked="checked"
         type="checkbox"
         @change="change($event.target.checked)"
-      >
+      />
       <font-awesome-icon :icon="computedIcon" size="lg" fixed-width />
     </label>
   </div>
@@ -29,9 +29,10 @@ export default Vue.extend({
     icon: {
       type: [String, Array],
       default: '',
-      validator: val =>
-        typeof val === 'string' || (typeof val === 'object' && val.length === 2)
-    } as PropOptions<string | [string, string]>
+      validator: (val) =>
+        typeof val === 'string' ||
+        (typeof val === 'object' && val.length === 2),
+    } as PropOptions<string | [string, string]>,
   },
   computed: {
     computedIcon(): string {
@@ -41,8 +42,8 @@ export default Vue.extend({
       } else {
         return this.icon
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

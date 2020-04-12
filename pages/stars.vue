@@ -18,7 +18,7 @@ export default Vue.extend({
   middleware: ['auth'],
   components: {
     PostList,
-    Compose
+    Compose,
   },
   async asyncData({ app: { $resource } }) {
     const data = await $resource()
@@ -26,8 +26,8 @@ export default Vue.extend({
   },
   head() {
     return {
-      title: 'Stars'
+      title: 'Stars',
     }
-  }
+  },
 })
 </script>

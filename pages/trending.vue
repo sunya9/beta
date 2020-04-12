@@ -14,7 +14,7 @@ import { Post } from '~/models/post'
 export default Vue.extend({
   components: {
     PostList,
-    Compose
+    Compose,
   },
   async asyncData({ app: { $resource } }) {
     const data = await $resource<Post>()
@@ -22,8 +22,8 @@ export default Vue.extend({
   },
   head() {
     return {
-      title: 'Trending'
+      title: 'Trending',
     }
-  }
+  },
 })
 </script>

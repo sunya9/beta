@@ -10,18 +10,18 @@ import { User } from '~/models/user'
 
 export default Vue.extend({
   components: {
-    Account
+    Account,
   },
   async asyncData({ app: { $axios } }) {
     const { data: account } = await $axios.$get<PnutResponse<User>>('/users/me')
     return {
-      account
+      account,
     }
   },
   head() {
     return {
-      title: 'Account settings'
+      title: 'Account settings',
     }
-  }
+  },
 })
 </script>

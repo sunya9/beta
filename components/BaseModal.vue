@@ -72,57 +72,57 @@ export default Vue.extend({
   props: {
     suppressWarnings: {
       type: Boolean,
-      default: false
+      default: false,
     },
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     hideFooter: {
       type: Boolean,
-      default: false
+      default: false,
     },
     okCb: {
       type: Function,
-      default: () => () => {}
+      default: () => () => {},
     },
     cancelCb: {
       type: Function,
-      default: () => () => {}
+      default: () => () => {},
     },
     autoFocus: {
       type: String,
       default: null,
-      validator: str => ['ok', 'cancel'].includes(str)
+      validator: (str) => ['ok', 'cancel'].includes(str),
     } as PropOptions<'ok' | 'cancel'>,
     okDisabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     okText: {
       type: String,
-      default: 'OK'
+      default: 'OK',
     },
     size: {
       type: String,
       default: '',
-      validator: str => ['', 'lg', 'sm'].includes(str)
+      validator: (str) => ['', 'lg', 'sm'].includes(str),
     },
     form: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
-      modal: null as Modal | null
+      modal: null as Modal | null,
     }
   },
   watch: {
     '$route.fullPath'() {
       if (!this.modal) return
       this.hideRequest()
-    }
+    },
   },
   mounted() {
     const modalEl = this.$refs.modal as Element
@@ -159,7 +159,7 @@ export default Vue.extend({
     hidden() {
       this.$mousetrap.unpause()
       if (!this.hideRequest()) this.$emit('hidden')
-    }
-  }
+    },
+  },
 })
 </script>

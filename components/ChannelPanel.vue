@@ -48,35 +48,35 @@ import { Channel } from '~/models/channel'
 export default Vue.extend({
   name: 'ChannelPanel',
   components: {
-    CustomCheckbox
+    CustomCheckbox,
   },
   mixins: [markAsRead],
   props: {
     channel: {
       type: Object,
-      required: true
-    } as PropOptions<Channel>
+      required: true,
+    } as PropOptions<Channel>,
   },
   computed: {
     user(): User {
       return this.$store.getters.user
-    }
+    },
   },
   methods: {
     cancelSubscribe(bool: boolean) {
       if (!bool) return
       this.$emit('update:channel', {
         ...this.channel,
-        you_subscribed: false
+        you_subscribed: false,
       })
     },
     cancelMute(bool: boolean) {
       if (!bool) return
       this.$emit('update:channel', {
         ...this.channel,
-        you_muted: false
+        you_muted: false,
       })
-    }
-  }
+    },
+  },
 })
 </script>

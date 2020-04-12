@@ -31,13 +31,13 @@ export default Vue.extend({
   components: {
     Post: PostView,
     Compose,
-    BaseModal
+    BaseModal,
   },
   data() {
     return {
       reply: null as Post | null,
       key: Date.now(),
-      edit: false
+      edit: false,
     }
   },
   computed: {
@@ -48,7 +48,7 @@ export default Vue.extend({
         : this.reply && this.reply.user
         ? `Reply to @${this.reply.user.username}`
         : 'Compose new post'
-    }
+    },
   },
   methods: {
     hidden() {
@@ -64,7 +64,7 @@ export default Vue.extend({
     shown() {
       // TODO
       ;(this.$refs.compose as any).setFocus(true)
-    }
-  }
+    },
+  },
 })
 </script>

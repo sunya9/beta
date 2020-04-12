@@ -1,5 +1,5 @@
 <template>
-  <span> <slot :toggle-block="toggleBlock" /> </span>
+  <span><slot :toggle-block="toggleBlock" /></span>
 </template>
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
@@ -11,8 +11,8 @@ export default Vue.extend({
   props: {
     profile: {
       type: Object,
-      required: true
-    } as PropOptions<User>
+      required: true,
+    } as PropOptions<User>,
   },
   methods: {
     async toggleBlock() {
@@ -23,13 +23,13 @@ export default Vue.extend({
           PnutResponse<User>
         >({
           url: `/users/${this.profile.id}/block`,
-          method
+          method,
         })
         this.$emit('update:profile', profile)
       } catch (e) {
         this.$emit('update:profile', prevValue)
       }
-    }
-  }
+    },
+  },
 })
 </script>

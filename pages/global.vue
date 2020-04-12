@@ -15,21 +15,21 @@ export default Vue.extend({
   middleware: ['auth'],
   components: {
     PostList,
-    Compose
+    Compose,
   },
   mixins: [refreshAfterAdded],
   async asyncData({ app: { $resource } }) {
     const options = {
       include_directed_posts:
-        localStorage.hide_directed_posts === 'true' ? 0 : 1
+        localStorage.hide_directed_posts === 'true' ? 0 : 1,
     }
     const data = await $resource({ options })
     return { data, options }
   },
   head() {
     return {
-      title: 'Global'
+      title: 'Global',
     }
-  }
+  },
 })
 </script>

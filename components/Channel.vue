@@ -6,18 +6,18 @@
         avatar:
           recentMessageUser &&
           recentMessageUser.content &&
-          recentMessageUser.content.avatar_image
+          recentMessageUser.content.avatar_image,
       }"
       :enable-placeholder="!recentMessageUser"
       size="32"
       class="mr-2"
     />
-    <div class="media-body" style="overflow: hidden">
+    <div class="media-body" style="overflow: hidden;">
       <h5>
         <font-awesome-icon
           v-show="channel.you_muted"
           :icon="['far', 'bell-slash']"
-          style="float:right"
+          style="float: right;"
         />
         <template v-if="is_pm">
           {{ members }}
@@ -45,13 +45,7 @@
         <span v-if="!channel.recent_message.is_deleted && spoiler && !me">
           <emojify :text="spoiler.topic" />
         </span>
-        <span
-          v-else-if="
-            !channel.recent_message.is_deleted &&
-              channel.recent_message.user &&
-              channel.recent_message.content
-          "
-        >
+        <span v-else-if="hasRecentMessage">
           @{{ channel.recent_message.user.username }}:
           <emojify :text="channel.recent_message.content.text" />
         </span>
@@ -95,26 +89,26 @@ function getOwnerObjFromChannel(channel: Channel): Channel.SimpleUser | null {
     name,
     id,
     content: {
-      avatar_image: { link: avatar_image }
-    }
+      avatar_image: { link: avatar_image },
+    },
   } = channel.owner
   return {
     username,
     name,
     id,
-    avatar_image
+    avatar_image,
   }
 }
 export default Vue.extend({
   name: 'Channel',
   components: {
-    Avatar
+    Avatar,
   },
   props: {
     channel: {
       type: Object,
-      required: true
-    } as PropOptions<Channel>
+      required: true,
+    } as PropOptions<Channel>,
   },
   computed: {
     recentMessageUser(): User | null {
@@ -130,7 +124,7 @@ export default Vue.extend({
       const users = userIds.filter(isSimpleUser)
       const members = [owner, ...users]
       return members
-        .map(member => (member ? `@${member.username}` : 'Deleted user'))
+        .map((member) => (member ? `@${member.username}` : 'Deleted user'))
         .join(', ')
     },
     spoiler(): Spoiler.Value | void {
@@ -141,7 +135,14 @@ export default Vue.extend({
     },
     chat(): ChatRoomSettings.Value | void {
       return findChatValueRaw(this.channel)
-    }
-  }
+    },
+    hasRecentMessage(): boolean {
+      return (
+        !this.channel.recent_message?.is_deleted &&
+        !!this.channel.recent_message?.user &&
+        !!this.channel.recent_message?.content
+      )
+    },
+  },
 })
 </script>

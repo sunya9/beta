@@ -12,7 +12,7 @@
               class="form-control"
               maxlength="128"
               title="Up to 128 characters"
-            >
+            />
           </div>
           <div class="form-group">
             <textarea
@@ -40,7 +40,7 @@
                   'language',
                   'community',
                   'tech',
-                  'event'
+                  'event',
                 ]"
               >
                 <option :key="i">
@@ -65,7 +65,7 @@
                 icon="sync"
                 class="mr-1"
               />
-              <span> Create </span>
+              <span>Create</span>
             </button>
           </div>
         </div>
@@ -89,8 +89,8 @@ export default Vue.extend({
       chat: {
         name: '',
         description: '',
-        categories: []
-      }
+        categories: [],
+      },
     }
   },
   computed: {
@@ -102,18 +102,18 @@ export default Vue.extend({
         this.chat.description.length > 256 ||
         this.chat.categories.length > 3
       )
-    }
+    },
   },
   methods: {
     async submit() {
       if (this.promise) return false
       const channel = {
         type: 'io.pnut.core.chat',
-        raw: [] as Array<Raw<any>>
+        raw: [] as Array<Raw<any>>,
       }
       channel.raw.push({
         type: 'io.pnut.core.chat-settings',
-        value: this.chat
+        value: this.chat,
       })
       try {
         this.promise = this.$axios.$post<PnutResponse<Channel>>(
@@ -124,7 +124,7 @@ export default Vue.extend({
         this.chat = {
           name: '',
           description: '',
-          categories: []
+          categories: [],
         }
         this.$router.push(`/messages/${response.id}`)
         this.$emit('submit')
@@ -133,8 +133,8 @@ export default Vue.extend({
         this.$toast.error(e.message)
       }
       this.promise = null
-    }
-  }
+    },
+  },
 })
 </script>
 

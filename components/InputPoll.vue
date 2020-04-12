@@ -9,13 +9,13 @@
         class="form-control"
         pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,256}"
         title="Up to 256 unicode characters"
-      >
+      />
     </div>
-    <hr>
+    <hr />
     <draggable
       v-model="poll.options"
       :options="{
-        handle: '.handle'
+        handle: '.handle',
       }"
     >
       <div
@@ -31,14 +31,14 @@
           </div>
           <input
             v-model="choice.text"
-            :placeholder="
-              `Choice ${index + 1} ${index > 1 ? '(Optional)' : ''}`
-            "
+            :placeholder="`Choice ${index + 1} ${
+              index > 1 ? '(Optional)' : ''
+            }`"
             type="text"
             class="form-control"
             pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,64}"
             title="Up to 64 unicode characters"
-          >
+          />
           <div class="input-group-append">
             <button
               :class="{ invisible: index < 2 }"
@@ -141,8 +141,8 @@ interface DateForm {
 }
 @Component({
   components: {
-    draggable
-  }
+    draggable,
+  },
 })
 export default class extends Vue {
   poll = {
@@ -150,52 +150,60 @@ export default class extends Vue {
     duration: ONE_DAY_MINUTE,
     type: 'net.unsweets.beta',
     is_public: true,
-    prompt: ''
+    prompt: '',
   }
+
   dateForm: DateForm = {
     days: 1,
     hours: 0,
-    min: 0
+    min: 0,
   }
+
   get reached(): boolean {
     return this.poll.options.length >= 10
   }
+
   get maxDays(): boolean {
     return this.dateForm.days === 14
   }
+
   get days(): MaxOffset {
     return {
       max: 14,
-      offset: 0
+      offset: 0,
     }
   }
+
   get hours(): MaxOffset {
     return {
       offset: 0,
-      max: this.maxDays ? 1 : 24
+      max: this.maxDays ? 1 : 24,
     }
   }
+
   get min(): MaxOffset {
     if (this.maxDays) {
       return {
         offset: 0,
-        max: 1
+        max: 1,
       }
     } else if (this.minDuration) {
       return {
         offset: 1,
-        max: 60
+        max: 60,
       }
     } else {
       return {
         offset: 0,
-        max: 60
+        max: 60,
       }
     }
   }
+
   get minDuration(): boolean {
     return this.dateForm.days === 0 && this.dateForm.hours === 0
   }
+
   @Watch('poll', { immediate: true, deep: true })
   onPollChange(poll: Poll.PostBody) {
     this.$emit('update:poll', poll)
@@ -204,7 +212,7 @@ export default class extends Vue {
   @Watch('dateForm', { deep: true, immediate: true })
   onDateFormChange(dateForm: DateForm) {
     const keys: Array<keyof DateForm> = ['hours', 'min']
-    keys.forEach(key => {
+    keys.forEach((key) => {
       // TODO
       const limitation = (this as any)[key] as MaxOffset
       if (this.dateForm[key] < limitation.offset) {
@@ -221,6 +229,7 @@ export default class extends Vue {
   addChoice() {
     this.poll.options.push({ text: '' })
   }
+
   removeChoice(i: number) {
     this.poll.options.splice(i, 1)
   }

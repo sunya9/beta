@@ -26,9 +26,7 @@
     </ul>
     <p v-if="channel.acl.read.public">
       <a
-        :href="
-          `https://api.pnut.io/v0/feed/rss/channels/${channel.id}/messages`
-        "
+        :href="`https://api.pnut.io/v0/feed/rss/channels/${channel.id}/messages`"
       >
         <font-awesome-icon icon="rss-square" size="lg" />
         RSS
@@ -83,17 +81,17 @@ export default BaseChannelPanel.extend({
   name: 'ChatPanel',
   components: {
     ChannelPanel,
-    ChannelUserList
+    ChannelUserList,
   },
   props: {
     chat: {
       type: Object,
-      required: true
+      required: true,
     } as PropOptions<ChatRoomSettings.Value>,
     isModerator: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
     upperFirst,
@@ -104,7 +102,7 @@ export default BaseChannelPanel.extend({
       )
       if (!acl) return
       this.update({
-        acl
+        acl,
       })
     },
     async channelEditModal() {
@@ -115,20 +113,20 @@ export default BaseChannelPanel.extend({
       )
       if (!chatRawValue) return
       const chatRawIndex = this.channel.raw.findIndex(
-        r => r.type === 'io.pnut.core.chat-settings'
+        (r) => r.type === 'io.pnut.core.chat-settings'
       )
       if (chatRawIndex < 0) return
       if (!!chatRawValue.categories && !chatRawValue.categories.length)
         delete chatRawValue.categories
       const chatRaw = {
         type: 'io.pnut.core.chat-settings',
-        value: chatRawValue
+        value: chatRawValue,
       }
       const raw = [...this.channel.raw]
       raw[chatRawIndex] = chatRaw
       this.$set(this.channel.raw, chatRawIndex, chatRaw)
       this.update({
-        raw
+        raw,
       })
     },
     async update(channel: Partial<Channel>) {
@@ -142,12 +140,12 @@ export default BaseChannelPanel.extend({
       } catch (e) {
         this.$toast.error(e.message)
       }
-    }
+    },
   },
   head() {
     return {
-      title: this.chat.name
+      title: this.chat.name,
     }
-  }
+  },
 })
 </script>

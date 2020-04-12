@@ -18,7 +18,7 @@
         <div v-else>
           <div
             class="progress position-relative"
-            style="height: 2rem"
+            style="height: 2rem;"
             @click="toggleDisplay"
           >
             <div :style="getStyle(option)" class="progress-bar">
@@ -34,9 +34,7 @@
                         size="lg"
                       />
                     </span>
-                    <span v-if="preferPercent">
-                      {{ getPercent(option) }}%
-                    </span>
+                    <span v-if="preferPercent">{{ getPercent(option) }}%</span>
                     <span v-else>
                       {{ option.respondents }}
                     </span>
@@ -56,7 +54,8 @@
         <li class="list-inline-item text-muted">
           <nuxt-link :to="`/polls/${internalPoll.id}`" class="text-muted">
             <font-awesome-icon :icon="['far', 'clock']" class="mr-2" />
-            <span v-if="closed"> Closed at </span><span v-else>
+            <span v-if="closed">Closed at</span>
+            <span v-else>
               ~
             </span>
             {{ until }}
@@ -92,64 +91,80 @@ export default class extends Vue {
     Partial<Pick<PollNotice.Value, 'poll_token' | 'poll_id'>> = cloneDeep(
     this.poll
   )
+
   get votable() {
     return this.$store.getters.user && !this.closed
   }
+
   get finished() {
     return this.internalPoll.you_responded || this.closed
   }
+
   get until() {
     return moment(this.internalPoll.closed_at).format('llll')
   }
+
   get closed() {
     return new Date(this.internalPoll.closed_at).getTime() < this.currentTime
   }
+
   get total() {
     return this.internalPoll.options.reduce(
       (sum, option) => sum + (option.respondents || 0),
       0
     )
   }
+
   get id() {
     return this.internalPoll.id || this.internalPoll.poll_id
   }
+
   async mounted() {
     this.timer = setInterval(this.updateTime, 1000)
     await this.getPoll()
   }
+
   beforeDestroy() {
     if (this.timer) {
       clearInterval(this.timer)
     }
   }
+
   async getPoll() {
     const { data } = await this.$axios.$get(
-      `/polls/${this.pollId || this.internalPoll.id}?poll_token=${this
-        .pollToken || this.internalPoll.poll_token}`
+      `/polls/${this.pollId || this.internalPoll.id}?poll_token=${
+        this.pollToken || this.internalPoll.poll_token
+      }`
     )
     this.internalPoll = data
   }
+
   updateTime() {
     this.currentTime = Date.now()
   }
+
   getPercent(option: Poll.PollOption) {
     if (!option.respondents || !this.total) return '0'
     return ((option.respondents / this.total) * 100)
       .toFixed(1)
       .replace(/\.0+$/, '')
   }
+
   getStyle(option: Poll.PollOption) {
     return {
-      width: `${0 || this.getPercent(option)}%`
+      width: `${0 || this.getPercent(option)}%`,
     }
   }
+
   async respond(position: number) {
     const { data } = await this.$axios.$put(
-      `/polls/${this.id}/response/${position}?poll_token=${this.pollToken ||
-        this.internalPoll.poll_token}`
+      `/polls/${this.id}/response/${position}?poll_token=${
+        this.pollToken || this.internalPoll.poll_token
+      }`
     )
     this.internalPoll = data
   }
+
   toggleDisplay() {
     this.preferPercent = !this.preferPercent
     this.getPoll()

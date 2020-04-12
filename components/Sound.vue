@@ -4,7 +4,9 @@
       <slot>
         <strong>{{ title }}</strong>
         <audio :src="url" controls>
-          Your browser does not support the <code>audio</code> element.
+          Your browser does not support the
+          <code>audio</code>
+          element.
         </audio>
       </slot>
       <a v-if="removable" class="remove" @click.prevent="remove">
@@ -21,22 +23,22 @@ export default Vue.extend({
   props: {
     url: {
       type: String,
-      default: ''
+      default: '',
     },
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     removable: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
     remove() {
       this.$emit('remove')
-    }
-  }
+    },
+  },
 })
 </script>
 

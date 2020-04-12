@@ -11,24 +11,24 @@ export default Vue.extend({
       {
         label: 'Beta',
         icon: 'info-circle',
-        url: '/about'
+        url: '/about',
       },
       {
         label: 'Stats',
         icon: 'chart-bar',
         url: '/about/stats',
-        hidden: !user
+        hidden: !user,
       },
       { type: 'heading', label: 'Resources' },
       {
         label: 'Bookmarklet',
         icon: 'bookmark',
-        url: '/about/bookmarklet'
-      }
+        url: '/about/bookmarklet',
+      },
     ]
     return {
-      menus
+      menus,
     }
-  }
+  },
 })
 </script>

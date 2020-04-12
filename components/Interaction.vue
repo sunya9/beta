@@ -35,7 +35,8 @@
             :key="`comma-${i}`"
             v-text="`, `"
           />
-        </template>.
+        </template>
+        .
         <div v-if="post" class="card mt-3">
           <div class="card-body">
             <post :post="post" view-only preview />
@@ -71,53 +72,57 @@ const convert: {
 } = {
   follow: {
     text: 'Followed',
-    icon: 'user-plus'
+    icon: 'user-plus',
   },
   bookmark: {
     text: 'starred',
-    icon: 'star'
+    icon: 'star',
   },
   reply: {
     text: 'replied to',
-    icon: 'reply'
+    icon: 'reply',
   },
   repost: {
     text: 'reposted',
-    icon: 'retweet'
+    icon: 'retweet',
   },
   // TODO
   poll_response: {
     text: 'Poll',
-    icon: 'poll'
-  }
+    icon: 'poll',
+  },
 }
 
 @Component({
   components: {
     Post,
-    Avatar
+    Avatar,
   },
   name: 'Interaction',
-  mixins: [listItem('interaction.event_date')]
+  mixins: [listItem('interaction.event_date')],
 })
 export default class extends Vue {
   @Prop({ required: true })
   interaction!: Interaction<any>
+
   get actionBy() {
     return `${convert[this.interaction.action].text} by`
   }
+
   get icon() {
     return convert[this.interaction.action].icon
   }
+
   get post() {
     return this.interaction.action !== 'follow'
       ? this.interaction.objects[0]
       : null
   }
+
   get filteredUsers() {
     if (!this.interaction.users) return []
     return this.interaction.users.filter((user, i, ary) => {
-      return !ary.slice(0, i).some(user2 => user.id === user2.id)
+      return !ary.slice(0, i).some((user2) => user.id === user2.id)
     })
   }
 }

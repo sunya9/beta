@@ -13,18 +13,18 @@ import FileList from '~/components/file-list.vue'
 
 export default Vue.extend({
   components: {
-    FileList
+    FileList,
   },
   async asyncData({ app: { $resource } }) {
     const data = await $resource()
     return {
-      data
+      data,
     }
   },
   head() {
     return {
-      title: 'Your files'
+      title: 'Your files',
     }
-  }
+  },
 })
 </script>

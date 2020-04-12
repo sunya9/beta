@@ -14,8 +14,8 @@
           @xyz
         </nuxt-link>
         and the source code is
-        <a href="https://github.com/sunya9/beta">
-          published on GitHub </a>.
+        <a href="https://github.com/sunya9/beta">published on GitHub</a>
+        .
       </p>
       <p class="card-text">
         Most of the code is original, but part of the CSS mimics Alpha.
@@ -29,7 +29,7 @@ import Vue from 'vue'
 
 export default Vue.extend({
   head: {
-    title: 'About'
-  }
+    title: 'About',
+  },
 })
 </script>

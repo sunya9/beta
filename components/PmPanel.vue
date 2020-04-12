@@ -20,12 +20,12 @@ import { BaseChannelPanel } from '~/components/BaseChannelPanel'
 export default BaseChannelPanel.extend({
   components: {
     ChannelPanel,
-    ChannelUserList
+    ChannelUserList,
   },
   head() {
     return {
-      title: `Room ${this.channel.id}`
+      title: `Room ${this.channel.id}`,
     }
-  }
+  },
 })
 </script>

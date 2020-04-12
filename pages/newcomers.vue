@@ -12,20 +12,20 @@ import PostList from '~/components/PostList.vue'
 export default Vue.extend({
   components: {
     PostList,
-    Compose
+    Compose,
   },
   async asyncData({ app: { $resource } }) {
     const options = {
       include_directed_posts:
-        localStorage.hide_directed_posts === 'true' ? 0 : 1
+        localStorage.hide_directed_posts === 'true' ? 0 : 1,
     }
     const data = await $resource({ options })
     return { data, options }
   },
   head() {
     return {
-      title: 'Newcomers'
+      title: 'Newcomers',
     }
-  }
+  },
 })
 </script>

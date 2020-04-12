@@ -13,7 +13,7 @@ import PollList from '~/components/PollList.vue'
 export default Vue.extend({
   middleware: ['auth'],
   components: {
-    PollList
+    PollList,
   },
   async asyncData({ app: { $resource } }) {
     const data = await $resource()
@@ -21,8 +21,8 @@ export default Vue.extend({
   },
   head() {
     return {
-      title: 'Your polls'
+      title: 'Your polls',
     }
-  }
+  },
 })
 </script>

@@ -14,7 +14,7 @@
               class="form-control"
               placeholder="usernames (comma or space delimited)"
               @input="resetPmSearch"
-            >
+            />
             <button
               v-if="calcPmLookup && !targetUser"
               :disabled="pmLookupStatus"
@@ -80,7 +80,7 @@
                 accept="image/*"
                 style="display: none;"
                 @change="fileChange"
-              >
+              />
             </label>
             <button
               :class="{
@@ -111,7 +111,7 @@
                     class="mr-2"
                   />
                 </span>
-                <span> Send </span>
+                <span>Send</span>
               </button>
               <button
                 v-if="canBroadcast"

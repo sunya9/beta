@@ -14,21 +14,21 @@ import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 export default Vue.extend({
   components: {
     PostList,
-    Compose
+    Compose,
   },
   mixins: [refreshAfterAdded],
   async asyncData({ app: { $resource } }) {
     const options = {
       include_directed_posts:
-        localStorage.hide_directed_posts === 'true' ? 0 : 1
+        localStorage.hide_directed_posts === 'true' ? 0 : 1,
     }
     const data = await $resource({ options })
     return { data, options }
   },
   head() {
     return {
-      title: 'Conversations'
+      title: 'Conversations',
     }
-  }
+  },
 })
 </script>

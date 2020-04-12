@@ -12,15 +12,15 @@ export default Vue.extend({
         {
           label: 'Posts',
           icon: 'list',
-          url: `/search/posts?q=${encodeURIComponent(q)}`
+          url: `/search/posts?q=${encodeURIComponent(q)}`,
         },
         {
           label: 'Users',
           icon: 'users',
-          url: `/search/users?q=${encodeURIComponent(q)}`
-        }
+          url: `/search/users?q=${encodeURIComponent(q)}`,
+        },
       ]
-    }
-  }
+    },
+  },
 })
 </script>

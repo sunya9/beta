@@ -13,19 +13,12 @@
       </h2>
       <ul v-if="isPublic" class="nav nav-pills my-3">
         <li class="nav-item">
-          <nuxt-link
-            class="nav-link"
-            to="/messages?public"
-            exact
-          >
+          <nuxt-link class="nav-link" to="/messages?public" exact>
             Subscribed
           </nuxt-link>
         </li>
         <li class="nav-item">
-          <nuxt-link
-            class="nav-link"
-            to="/messages?public&amp;all"
-          >
+          <nuxt-link class="nav-link" to="/messages?public&amp;all">
             All
           </nuxt-link>
         </li>
@@ -58,7 +51,7 @@ import { PnutResponse } from '~/models/pnut-response'
   components: {
     ChannelList,
     MessageCompose,
-    ChannelCompose
+    ChannelCompose,
   },
   mixins: [refreshAfterAdded],
   async asyncData({ app: { $resource }, query }) {
@@ -67,23 +60,23 @@ import { PnutResponse } from '~/models/pnut-response'
     const commonOption = {
       include_recent_message: 1,
       include_limited_users: 1,
-      include_channel_raw: 1
+      include_channel_raw: 1,
     }
     const privateMessages = {
       resource: '/users/me/channels/subscribed',
       options: {
         ...commonOption,
         channel_types: 'io.pnut.core.pm',
-        is_private: 1
-      }
+        is_private: 1,
+      },
     }
     const subscribedChatRoom = {
       resource: '/users/me/channels/subscribed',
       options: {
         ...commonOption,
         channel_types: 'io.pnut.core.chat',
-        is_public: 1
-      }
+        is_public: 1,
+      },
     }
     const allChatRoom = {
       resource: '/channels/search',
@@ -91,8 +84,8 @@ import { PnutResponse } from '~/models/pnut-response'
         ...commonOption,
         channel_types: 'io.pnut.core.chat',
         is_public: 1,
-        include_inactive: 1
-      }
+        include_inactive: 1,
+      },
     }
     const { options, resource } = isPrivate
       ? privateMessages
@@ -102,15 +95,15 @@ import { PnutResponse } from '~/models/pnut-response'
 
     const data = await $resource<Channel[]>({
       url: resource,
-      options
+      options,
     })
     return { data, options, isPrivate, resource }
   },
   head(this: Messages) {
     return {
-      title: this.isPrivate ? 'Messages' : 'Chat Rooms'
+      title: this.isPrivate ? 'Messages' : 'Chat Rooms',
     }
-  }
+  },
 })
 export default class Messages extends Vue {
   resource!: string

@@ -20,11 +20,11 @@ import { Post } from '~/models/post'
 export default Vue.extend({
   components: {
     Post: PostView,
-    BaseModal
+    BaseModal,
   },
   data() {
     return {
-      post: null as Post | null
+      post: null as Post | null,
     }
   },
   methods: {
@@ -33,7 +33,7 @@ export default Vue.extend({
     },
     hidden() {
       this.post = null
-    }
-  }
+    },
+  },
 })
 </script>

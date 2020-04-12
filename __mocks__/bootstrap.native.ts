@@ -24,7 +24,11 @@ export class Dropdown {
 }
 
 export class Modal {
-  constructor(el: HTMLElement) {}
+  el: HTMLElement
+  constructor(el: HTMLElement) {
+    this.el = el
+  }
+
   show() {}
   hide() {}
 }

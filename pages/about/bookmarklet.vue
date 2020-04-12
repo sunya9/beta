@@ -21,11 +21,11 @@ javascript:(function(){var D=550,A=450,C=screen.height,B=screen.width,H=Math.rou
 export default Vue.extend({
   data() {
     return {
-      shareScript
+      shareScript,
     }
   },
   head: {
-    title: 'Bookmarklet'
-  }
+    title: 'Bookmarklet',
+  },
 })
 </script>

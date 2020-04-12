@@ -21,14 +21,14 @@ export default Vue.extend({
   props: {
     profile: {
       type: Object,
-      required: true
-    } as PropOptions<User>
+      required: true,
+    } as PropOptions<User>,
   },
   data() {
     return {
       busy: false,
       following: this.profile.you_follow,
-      blocking: this.profile.you_blocked
+      blocking: this.profile.you_blocked,
     }
   },
   computed: {
@@ -37,7 +37,7 @@ export default Vue.extend({
     },
     btnClass(): string {
       return `btn-${this.following ? 'secondary' : 'primary'}`
-    }
+    },
   },
   methods: {
     async follow() {
@@ -48,7 +48,7 @@ export default Vue.extend({
       try {
         const { data: profile } = await this.$axios.$request({
           url: `/users/${this.profile.id}/follow`,
-          method
+          method,
         })
         this.updateProfile(profile)
       } catch (e) {
@@ -76,7 +76,7 @@ export default Vue.extend({
         this.updateProfile({ you_blocked: true })
       }
       this.busy = false
-    }
-  }
+    },
+  },
 })
 </script>

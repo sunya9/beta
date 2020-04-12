@@ -9,7 +9,7 @@
         class="form-control"
         pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,128}"
         title="Up to 128 characters"
-      >
+      />
     </div>
   </div>
 </template>
@@ -21,8 +21,8 @@ export default Vue.extend({
   data() {
     return {
       spoiler: {
-        topic: ''
-      }
+        topic: '',
+      },
     }
   },
   watch: {
@@ -31,9 +31,9 @@ export default Vue.extend({
       handler(spoiler: Spoiler.Value) {
         this.$emit('update:spoiler', spoiler)
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 })
 </script>
 <style scoped lang="scss">

@@ -21,23 +21,23 @@ import { User } from '~/models/user'
 export default Vue.extend({
   components: {
     Compose,
-    Post
+    Post,
     // List
   },
   props: {
     stream: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     title: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   computed: {
     user(): User {
       return this.$store.getters.user
-    }
-  }
+    },
+  },
 })
 </script>

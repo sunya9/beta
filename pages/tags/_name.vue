@@ -19,26 +19,26 @@ import { getRSSLink } from '~/assets/ts/util'
 
 @Component({
   components: {
-    PostList
+    PostList,
   },
   async asyncData({ app: { $resource }, params }) {
     const { name } = params
     const data = await $resource()
     return {
       data,
-      name
+      name,
     }
-  }
+  },
 })
 export default class extends Vue {
   name!: string
   head() {
     const link = [
-      getRSSLink(`https://api.pnut.io/v0/feed/rss/posts/tags/${this.name}`)
+      getRSSLink(`https://api.pnut.io/v0/feed/rss/posts/tags/${this.name}`),
     ]
     return {
       title: `#${this.name}`,
-      link
+      link,
     }
   }
 }

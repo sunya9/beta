@@ -32,7 +32,7 @@
         height="64"
         alt="deleted user's avatar"
         class="d-flex mr-3 iconSize u-photo"
-      >
+      />
     </div>
     <nuxt-link v-else-if="!preview" :to="`/@${mainPost.user.username}`">
       <avatar
@@ -72,7 +72,8 @@
               @click="toggleSpoiler"
             >
               <span class="d-sm-inline ml-2">
-                Show Spoiler: <emojify :text="spoiler.topic" />
+                Show Spoiler:
+                <emojify :text="spoiler.topic" />
               </span>
             </button>
             <template v-else>
@@ -168,7 +169,7 @@
                   :height="video.height"
                   class="video-iframe"
                 >
-                  <source :src="video.url">
+                  <source :src="video.url" />
                   Does not support video.
                 </video>
               </div>
@@ -189,7 +190,8 @@
             :to="`/messages/${channelInvite.channel_id}`"
             class="btn btn-outline-primary"
           >
-            Go to <i>{{ channelInvite.display_name }}</i>
+            Go to
+            <i>{{ channelInvite.display_name }}</i>
           </nuxt-link>
         </p>
       </nsfw>
@@ -301,7 +303,7 @@
         </ul>
       </footer>
       <template v-if="detail">
-        <hr>
+        <hr />
         <div class="d-flex align-items-center">
           <ul class="list-inline">
             <li class="list-inline-item">

@@ -1,7 +1,7 @@
 <template>
   <tr :class="{ 'table-active': file.select }" @click="toggleSelect">
     <td class="text-center">
-      <input v-model="file.select" type="checkbox" @click.stop>
+      <input v-model="file.select" type="checkbox" @click.stop />
     </td>
     <td>
       <div class="d-flex">
@@ -13,7 +13,7 @@
     <td>{{ date }}</td>
     <td>
       <span class="thumb ml-auto">
-        <img v-if="file.image_info" :src="file.link" height="24">
+        <img v-if="file.image_info" :src="file.link" height="24" />
       </span>
     </td>
   </tr>
@@ -26,19 +26,19 @@ export default Vue.extend({
   props: {
     file: {
       type: Object,
-      required: true
-    } as PropOptions<ModifiedFile>
+      required: true,
+    } as PropOptions<ModifiedFile>,
   },
   computed: {
     date(): string {
       return moment(this.file.created_at).format('LLL')
-    }
+    },
   },
   methods: {
     toggleSelect() {
       this.file.select = !this.file.select
-    }
-  }
+    },
+  },
 })
 </script>
 <style scoped>

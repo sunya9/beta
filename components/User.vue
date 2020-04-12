@@ -56,25 +56,25 @@ export default Vue.extend({
     FollowButton,
     Avatar,
     EntityText,
-    MuteButton
+    MuteButton,
   },
   props: {
     user: {
       type: Object,
-      required: true
+      required: true,
     } as PropOptions<User>,
     disableFollowButton: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showUnmuteButton: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      internalUser: this.user
+      internalUser: this.user,
     }
   },
   computed: {
@@ -86,8 +86,8 @@ export default Vue.extend({
     },
     myself(): boolean {
       return !!this.me && this.user && this.user.id === this.me.id
-    }
-  }
+    },
+  },
 })
 </script>
 

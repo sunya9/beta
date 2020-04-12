@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="form-group">
-      <h5>Long Post <small>(tags and usernames ignored)</small></h5>
+      <h5>
+        Long Post
+        <small>(tags and usernames ignored)</small>
+      </h5>
 
       <div class="form-group">
         <input
@@ -11,7 +14,7 @@
           class="form-control"
           pattern="(?:[\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,128}"
           title="Up to 128 characters"
-        >
+        />
       </div>
 
       <div class="form-group">
@@ -34,8 +37,8 @@ export default Vue.extend({
     return {
       longpost: {
         title: '',
-        body: ''
-      }
+        body: '',
+      },
     }
   },
   watch: {
@@ -44,9 +47,9 @@ export default Vue.extend({
       handler(longpost: LongPost.Value) {
         this.$emit('update:longpost', longpost)
       },
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 })
 </script>
 <style scoped lang="scss">

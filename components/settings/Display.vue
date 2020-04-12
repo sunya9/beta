@@ -15,13 +15,13 @@ import CustomCheckbox from '../CustomCheckbox.vue'
 
 export default Vue.extend({
   components: {
-    CustomCheckbox
+    CustomCheckbox,
   },
   data() {
     return {
       square: false,
       theme: false,
-      error: null
+      error: null,
     }
   },
   watch: {
@@ -36,11 +36,11 @@ export default Vue.extend({
         localStorage.setItem('dark_theme', newVal.toString())
         window.location.reload()
       }
-    }
+    },
   },
   mounted() {
     this.square = localStorage.getItem(`square_avatars`) === 'true'
     this.theme = localStorage.getItem(`dark_theme`) === 'true'
-  }
+  },
 })
 </script>

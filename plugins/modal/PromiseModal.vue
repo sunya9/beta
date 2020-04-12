@@ -14,7 +14,7 @@ export default Vue.extend({
   } {
     return {
       resolve: null,
-      reject: null
+      reject: null,
     }
   },
   mounted() {
@@ -44,7 +44,7 @@ export default Vue.extend({
       if (this.resolve || this.reject) this.$emit('hide', arg)
       this.resolve = null
       this.reject = null
-    }
-  }
+    },
+  },
 })
 </script>

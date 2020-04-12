@@ -8,7 +8,7 @@
         :src="`https://twemoji.maxcdn.com/2/72x72/${toCodePoint(t.value)}.png`"
         :alt="t.value"
         class="emoji"
-      >
+      />
     </template>
   </component>
 </template>
@@ -18,7 +18,7 @@ import twemoji from 'twemoji'
 import emojiRegex from 'emoji-regex/es2015'
 
 // https://github.com/twitter/twemoji/blob/27fe654b2bed5331cf1730bb4fbba1efa40af626/2/twemoji.js#L234
-const U200D = String.fromCharCode(0x200D)
+const U200D = String.fromCharCode(0x200d)
 
 interface TypedText {
   type: 'text' | 'emoji'
@@ -29,13 +29,13 @@ export default Vue.extend({
   props: {
     element: {
       type: [String, Object, Function],
-      default: 'span'
+      default: 'span',
     },
     text: {
       type: String,
       default: '',
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     modifiedText() {
@@ -49,26 +49,26 @@ export default Vue.extend({
         if (ep !== match.index)
           res.push({
             type: 'text',
-            value: text.substring(ep, match.index)
+            value: text.substring(ep, match.index),
           })
         res.push({
           type: 'emoji',
           value:
             // https://github.com/twitter/twemoji/blob/27fe654b2bed5331cf1730bb4fbba1efa40af626/2/twemoji.js#L321
-            !emoji.includes(U200D) ? emoji.replace(/\uFE0F/g, '') : emoji
+            !emoji.includes(U200D) ? emoji.replace(/\uFE0F/g, '') : emoji,
         })
         ep = match.index + emoji.length
       }
       if (ep !== text.length)
         res.push({
           type: 'text',
-          value: text.substring(ep, text.length)
+          value: text.substring(ep, text.length),
         })
-      return res.filter(obj => obj.value)
-    }
+      return res.filter((obj) => obj.value)
+    },
   },
   methods: {
-    toCodePoint: twemoji.convert.toCodePoint
-  }
+    toCodePoint: twemoji.convert.toCodePoint,
+  },
 })
 </script>

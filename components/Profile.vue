@@ -6,15 +6,15 @@
       :width="profile.content.cover_image.width"
       :height="profile.content.cover_image.height"
       :class="{
-        show: loaded
+        show: loaded,
       }"
       :style="{
-        'min-height': `${headerHeight}px`
+        'min-height': `${headerHeight}px`,
       }"
       alt=""
       class="img-fluid card-img-top"
       @load="loaded = true"
-    >
+    />
     <div class="card-body pt-3 h-card">
       <div class="flex-column d-flex flex-sm-row align-items-sm-start">
         <div
@@ -26,7 +26,7 @@
             <a
               v-if="!profile.verified"
               :href="`/@${profile.username}`"
-              style="display:none"
+              style="display: none;"
               rel="me"
               class="u-url"
             >
@@ -39,8 +39,8 @@
               :zooming-options="{
                 customSize: {
                   width: profile.content.avatar_image.width,
-                  height: profile.content.avatar_image.height
-                }
+                  height: profile.content.avatar_image.height,
+                },
               }"
               no-border
             >
@@ -108,7 +108,7 @@
               class="mb-2"
             />
             <div id="profile-relation" class="text-muted">
-              <small> {{ relation }} </small>
+              <small>{{ relation }}</small>
             </div>
           </div>
         </div>
@@ -124,7 +124,7 @@
       id="profile-counts"
       class="card-body d-flex justify-content-between justify-content-md-end"
     >
-      <span class="card-link" append> {{ profile.counts.posts }} Posts </span>
+      <span class="card-link" append>{{ profile.counts.posts }} Posts</span>
       <nuxt-link
         :tag="user ? 'a' : 'span'"
         class="card-link"
@@ -253,13 +253,13 @@ export default Vue.extend({
     EntityText,
     BaseMuteButton,
     BaseBlockButton,
-    MuteButton
+    MuteButton,
   },
   props: {
     initialProfile: {
       required: true,
-      type: Object
-    } as PropOptions<User>
+      type: Object,
+    } as PropOptions<User>,
   },
   data() {
     return {
@@ -267,7 +267,7 @@ export default Vue.extend({
       loaded: false,
       profile: this.initialProfile,
       messagePromise: null as Promise<PnutResponse<Channel>> | null,
-      dropdown: null as Dropdown | null
+      dropdown: null as Dropdown | null,
     }
   },
   computed: {
@@ -290,19 +290,19 @@ export default Vue.extend({
     muteText(): string {
       const prefix = this.profile.you_muted ? 'Unmute' : 'Mute'
       return `${prefix} ${this.atname}`
-    }
+    },
   },
   watch: {
     profile: {
       handler(profile) {
         this.$emit('update:initialProfile', profile)
       },
-      deep: true
+      deep: true,
     },
     loaded(bool) {
       if (!bool) return
       this.headerHeight = 0
-    }
+    },
   },
   mounted() {
     const { width } = this.$el.getBoundingClientRect()
@@ -325,13 +325,13 @@ export default Vue.extend({
         // not found and transition to /messages
         this.$modal.show('create-pm-modal', {
           isPrivate: true,
-          target: this.profile.username
+          target: this.profile.username,
         })
       }
       if (this.dropdown) this.dropdown.toggle()
       this.messagePromise = null
-    }
-  }
+    },
+  },
 })
 </script>
 <style scoped lang="scss">

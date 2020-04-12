@@ -42,7 +42,7 @@
                   pattern="(\w{1,20})"
                   title="Username"
                   @keydown.enter="addUser"
-                >
+                />
                 <div class="input-group-append">
                   <acl-select
                     v-model="newUser.acl"
@@ -83,7 +83,7 @@
                       type="text"
                       class="form-control"
                       readonly
-                    >
+                    />
                     <div class="input-group-append">
                       <acl-select
                         v-model="userWithAcl.acl"
@@ -138,7 +138,7 @@ export default Vue.extend({
     AclSelect,
     Avatar,
     BaseModal,
-    CustomCheckbox
+    CustomCheckbox,
   },
   data() {
     return {
@@ -152,8 +152,8 @@ export default Vue.extend({
         username: '',
         avatar_image: '',
         // acl: this.minimumPermission as string
-        acl: 'read' as Channel.Permission
-      }
+        acl: 'read' as Channel.Permission,
+      },
     }
   },
   computed: {
@@ -168,7 +168,7 @@ export default Vue.extend({
     },
     disabledAddButton(): boolean {
       const foundSameUser = this.users.some(
-        user =>
+        (user) =>
           !!user.username &&
           !!this.owner &&
           !!this.newUser &&
@@ -182,7 +182,7 @@ export default Vue.extend({
       if (this.anyUserRead) return 'write'
       if (this.anyUserWrite) return 'full'
       return 'read'
-    }
+    },
   },
   watch: {
     anyUserWrite(can: boolean) {
@@ -208,7 +208,7 @@ export default Vue.extend({
       if (can) {
         this.verifyACL()
       }
-    }
+    },
   },
   methods: {
     editDisabled(user: Channel.UserWithAcl): boolean {
@@ -223,7 +223,7 @@ export default Vue.extend({
       this.newUser = {
         username: '',
         avatar_image: '',
-        acl: this.minimumPermission
+        acl: this.minimumPermission,
       }
       this.owner = channel.owner || null
       this.acl = cloneDeep(channel.acl)
@@ -232,9 +232,9 @@ export default Vue.extend({
       this.users.push(
         ...fullUserIds
           .filter(userIdIsSimpleUser)
-          .map<Channel.UserWithAcl>(user => ({
+          .map<Channel.UserWithAcl>((user) => ({
             ...user,
-            acl: 'full'
+            acl: 'full',
           }))
       )
       const writeUserIds = this.acl.write.user_ids
@@ -242,9 +242,9 @@ export default Vue.extend({
       this.users.push(
         ...writeUserIds
           .filter(userIdIsSimpleUser)
-          .map<Channel.UserWithAcl>(user => ({
+          .map<Channel.UserWithAcl>((user) => ({
             ...user,
-            acl: 'write'
+            acl: 'write',
           }))
       )
       const readUserIds = this.acl.read.user_ids
@@ -252,9 +252,9 @@ export default Vue.extend({
       this.users.push(
         ...readUserIds
           .filter(userIdIsSimpleUser)
-          .map<Channel.UserWithAcl>(user => ({
+          .map<Channel.UserWithAcl>((user) => ({
             ...user,
-            acl: 'read'
+            acl: 'read',
           }))
       )
       this.anyUserWrite = this.acl.write.any_user
@@ -264,12 +264,12 @@ export default Vue.extend({
     ok() {
       if (!this.acl) return
       const usersMap = groupBy(
-        this.users.filter(user => user.username),
-        user => user.acl
+        this.users.filter((user) => user.username),
+        (user) => user.acl
       )
       Object.keys(usersMap)
         .filter(keyIsAclKey)
-        .forEach(permission => {
+        .forEach((permission) => {
           if (!this.acl) return
           this.acl[permission].user_ids = usersMap[permission].map(atUserStr)
         })
@@ -293,7 +293,7 @@ export default Vue.extend({
       this.users.splice(i, 1)
     },
     verifyACL() {
-      this.users = this.users.map(user => {
+      this.users = this.users.map((user) => {
         if (this.anyUserRead && user.acl === 'read') {
           user.acl = 'write'
         } else if (this.anyUserWrite && user.acl === 'write') {
@@ -301,7 +301,7 @@ export default Vue.extend({
         }
         return user
       })
-    }
-  }
+    },
+  },
 })
 </script>

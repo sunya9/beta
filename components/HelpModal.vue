@@ -36,7 +36,7 @@ const keyMaps = {
     { key: 'p', label: 'Repost' },
     { key: 'Del', label: 'Delete my post' },
     { key: 'Enter', label: 'Go to detail page' },
-    { key: 'Ctrl+Enter', label: 'Send post' }
+    { key: 'Ctrl+Enter', label: 'Send post' },
   ],
   messageActions: [
     { key: 'm', label: 'Create a private message' },
@@ -44,13 +44,13 @@ const keyMaps = {
     { key: 'n', label: 'New message' },
     { key: 'Del', label: 'Delete a message' },
     { key: 'Enter', label: 'Go to chat page' },
-    { key: 'Ctrl+Enter', label: 'Send post' }
+    { key: 'Ctrl+Enter', label: 'Send post' },
   ],
   navigation: [
     { key: 'j', label: 'Next item' },
     { key: 'k', label: 'Previous item' },
     { key: '.', label: 'Load new items' },
-    { key: 'Shift+/', label: 'This help' }
+    { key: 'Shift+/', label: 'This help' },
   ],
   streams: [
     { key: ['g', 'h'], label: 'Home' },
@@ -60,14 +60,14 @@ const keyMaps = {
     { key: ['g', 'c'], label: 'Conversations' },
     { key: ['g', 'p'], label: 'Photos' },
     { key: ['g', 't'], label: 'Trending' },
-    { key: ['g', 'g'], label: 'Global' }
-  ]
+    { key: ['g', 'g'], label: 'Global' },
+  ],
 }
 
 export default Vue.extend({
   components: {
     KeySets,
-    BaseModal
+    BaseModal,
   },
   computed: {
     actions(): { key: string[] | string; label: string }[] {
@@ -77,7 +77,7 @@ export default Vue.extend({
     },
     staticActions() {
       return keyMaps
-    }
-  }
+    },
+  },
 })
 </script>

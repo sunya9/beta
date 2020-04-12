@@ -7,7 +7,7 @@
       type="checkbox"
       class="custom-control-input"
       @change="change($event.target.checked)"
-    >
+    />
     <label :for="id" class="custom-control-label">
       <slot />
     </label>
@@ -23,17 +23,17 @@ export default Vue.extend({
   props: {
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      id: null as string | null
+      id: null as string | null,
     }
   },
   mounted() {
     // FIXME
     this.id = `checkbox-${(this as any)._uid}`
-  }
+  },
 })
 </script>

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <compose v-if="user" /> <splash v-else class="mb-5" />
+    <compose v-if="user" />
+    <splash v-else class="mb-5" />
     <post-list
       ref="list"
       :data="data"
@@ -27,18 +28,9 @@ export default Vue.extend({
   components: {
     Compose,
     PostList,
-    Splash
+    Splash,
   },
   mixins: [refreshAfterAdded],
-  computed: {
-    user(): User | null {
-      return this.$store.getters.user
-    },
-    resource(): string {
-      // TODO: ?
-      return !this.$store.getters.user ? convertPageId2ApiPath('global') : ''
-    }
-  },
   async asyncData({ app: { $resource }, store }) {
     let streamPath = '/posts/streams/me'
     if (localStorage.unified_timeline === 'true') {
@@ -46,19 +38,28 @@ export default Vue.extend({
     }
     const options = {
       include_directed_posts:
-        localStorage.hide_directed_posts === 'false' ? 1 : 0
+        localStorage.hide_directed_posts === 'false' ? 1 : 0,
     }
     const data = await $resource({
       url: !store.getters.user ? globalPath : streamPath,
-      options
+      options,
     })
     return { data, options }
+  },
+  computed: {
+    user(): User | null {
+      return this.$store.getters.user
+    },
+    resource(): string {
+      // TODO: ?
+      return !this.$store.getters.user ? convertPageId2ApiPath('global') : ''
+    },
   },
   head() {
     const loggedIn = !!this.$store.getters.user
     return {
-      title: loggedIn ? 'Your Stream' : ''
+      title: loggedIn ? 'Your Stream' : '',
     }
-  }
+  },
 })
 </script>

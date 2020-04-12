@@ -8,7 +8,7 @@
       type="search"
       class="form-control"
       placeholder="keyword search"
-    >
+    />
     <button :disabled="!text" type="submit" class="btn btn-link text-dark">
       <font-awesome-icon icon="search" />
     </button>
@@ -20,29 +20,29 @@ import Vue from 'vue'
 export default Vue.extend({
   data() {
     return {
-      text: this.$route.query.q
+      text: this.$route.query.q,
     }
   },
   watch: {
     '$route.query.q'(text) {
       this.text = text
-    }
+    },
   },
   methods: {
     search(e: Event) {
       if (!this.text) return e.preventDefault()
       const query = {
-        q: this.text
+        q: this.text,
       }
       if (!this.$route || !this.$route.name) return
       const [search, type] = this.$route.name.split('-')
       const searchType = search === 'search' ? type : 'posts'
       this.$router.push({
         path: `/search/${searchType}`,
-        query
+        query,
       })
-    }
-  }
+    },
+  },
 })
 </script>
 

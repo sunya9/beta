@@ -1,5 +1,5 @@
 <template>
-  <span> <slot :toggle-mute="toggleMute" /> </span>
+  <span><slot :toggle-mute="toggleMute" /></span>
 </template>
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
@@ -9,8 +9,8 @@ export default Vue.extend({
   props: {
     profile: {
       type: Object,
-      required: true
-    } as PropOptions<User>
+      required: true,
+    } as PropOptions<User>,
   },
   methods: {
     async toggleMute() {
@@ -19,13 +19,13 @@ export default Vue.extend({
       try {
         const { data: profile } = await this.$axios.$request({
           url: `/users/${this.profile.id}/mute`,
-          method
+          method,
         })
         this.$emit('update:profile', profile)
       } catch (e) {
         this.$emit('update:profile', prevValue)
       }
-    }
-  }
+    },
+  },
 })
 </script>

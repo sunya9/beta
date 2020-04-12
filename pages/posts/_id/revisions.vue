@@ -22,18 +22,18 @@ import { Post } from '~/models/post'
 
 export default Vue.extend({
   components: {
-    PostList
+    PostList,
   },
   mixins: [refreshAfterAdded],
   async asyncData(ctx) {
     const {
       params: { id },
-      app: { $resource }
+      app: { $resource },
     } = ctx
     const options = {
       include_directed_posts: 1,
       include_bookmarked_by: 1,
-      include_reposted_by: 1
+      include_reposted_by: 1,
     }
     const postPromise: Promise<PnutResponse<Post[]>> = $resource({ options })
 
@@ -42,7 +42,7 @@ export default Vue.extend({
     return {
       id,
       options,
-      data
+      data,
     }
   },
   validate({ params }) {
@@ -51,7 +51,7 @@ export default Vue.extend({
   head() {
     // TODO
     const data = (this as any).data as PnutResponse<Post[]>
-    const [post] = data.data.filter(post => post.id === (this as any).id)
+    const [post] = data.data.filter((post) => post.id === (this as any).id)
     if (post.user && post.content) {
       const name = post.user.name
         ? `${post.user.name}(@${post.user.username})`
@@ -64,9 +64,9 @@ export default Vue.extend({
         {
           hid: 'og:description',
           property: 'og:description',
-          content: fullTitle
+          content: fullTitle,
         },
-        { hid: 'og:title', property: 'og:title', content: title }
+        { hid: 'og:title', property: 'og:title', content: title },
       ]
       const [photo] = getImageURLs(post, true)
       if (photo) {
@@ -74,42 +74,42 @@ export default Vue.extend({
           {
             hid: 'og:image',
             property: 'og:image',
-            content: photo.original
+            content: photo.original,
           },
           {
             hid: 'og:image:width',
             property: 'og:image:width',
-            content: photo.width.toString()
+            content: photo.width.toString(),
           },
           {
             hid: 'og:image:height',
             property: 'og:image:height',
-            content: photo.height.toString()
+            content: photo.height.toString(),
           },
           {
             hid: 'og:type',
             property: 'og:type',
-            content: 'article'
+            content: 'article',
           },
           {
             hid: 'article:published_time',
             property: 'article:published_time',
-            content: post.created_at.toString()
+            content: post.created_at.toString(),
           },
           {
             hid: 'article:author',
             property: 'article:author',
-            content: post.user.username
+            content: post.user.username,
           }
         )
       }
       return {
         title,
-        meta
+        meta,
       }
     }
     return {}
-  }
+  },
 })
 </script>
 

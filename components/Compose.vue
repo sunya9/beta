@@ -69,7 +69,7 @@
                 accept="image/*"
                 style="display: none;"
                 @change="fileChange"
-              >
+              />
             </label>
             <button
               :class="{
@@ -223,6 +223,7 @@ export default class Composer extends Vue {
 
   @Prop({
     type: Boolean,
+
     default: false,
   })
   replyAll!: boolean
@@ -252,6 +253,7 @@ export default class Composer extends Vue {
   replyStartPos = 0
   showEmojiPicker = false
   poll: Poll.PostBody | null = null
+
   spoiler: Spoiler.Value | null = null
   longpost: LongPost.Value | null = null
   nsfw = false
@@ -406,18 +408,21 @@ export default class Composer extends Vue {
     const getSelection = document.getSelection()
     if (getSelection) {
       textarea.focus()
+
       const sel = (getSelection as any).createRange()
       sel.text = text
       textarea.focus()
     } else if (textarea.selectionStart || textarea.selectionStart === 0) {
       const startPos = textarea.selectionStart
       const endPos = textarea.selectionEnd
+
       const scrollTop = textarea.scrollTop
       const updateText =
         textarea.value.substring(0, startPos) +
         text +
         textarea.value.substring(endPos, textarea.value.length)
       this.text = updateText
+
       this.$nextTick(() => {
         textarea.focus()
         textarea.selectionStart = startPos + text.length
@@ -450,6 +455,7 @@ export default class Composer extends Vue {
     if (this.focus === false && !force) return
     // occur error if it not displayed like logged out
     // TODO
+
     const textarea = this.$refs.textarea as any
     // TODO
     // if (this.text.length === undefined) {
@@ -530,6 +536,7 @@ export default class Composer extends Vue {
       }
     } catch (e) {
       console.error(e)
+
       this.$toast.error(e.message)
       return
     }
@@ -567,6 +574,7 @@ export default class Composer extends Vue {
         type: 'net.unsweets.beta',
         name: content.name,
         kind: 'image',
+
         content,
         is_public: 'true',
       })
@@ -577,6 +585,7 @@ export default class Composer extends Vue {
       })
       return res
     })
+
     this.promise = true
     const photosJson = await Promise.all(photosPromise)
     const raws = photosJson.map((res) => {
@@ -590,6 +599,7 @@ export default class Composer extends Vue {
       }
       return Object.assign(
         {},
+
         {
           type: 'io.pnut.core.oembed',
         },

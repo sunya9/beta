@@ -83,8 +83,8 @@ interface TabMap {
   components: {
     BaseModal,
     MessageCompose,
-    ChannelCompose
-  }
+    ChannelCompose,
+  },
 })
 export default class extends Vue {
   tabMap: TabMap = {}
@@ -95,9 +95,11 @@ export default class extends Vue {
     messageCompose: any
     modal: any
   }
+
   get id() {
     return `create-${this.isPrivate ? 'private' : 'public'}-room-tab`
   }
+
   mounted() {
     const targets = this.$el.querySelectorAll('[data-toggle="tab"]')
     this.tabMap = Array.from(targets).reduce<TabMap>((obj, target) => {
@@ -110,6 +112,7 @@ export default class extends Vue {
       return obj
     }, {})
   }
+
   shown() {
     const pane = this.$el.querySelector('.tab-pane.active')
     if (!pane) return
@@ -117,16 +120,19 @@ export default class extends Vue {
     if (!input) return
     input.focus()
   }
+
   show({ isPrivate = true }) {
     this.isPrivate = isPrivate
     // already shown
     if (this.$el.querySelector(`#${this.id}.active`)) return
     this.tabMap[this.id].show()
   }
+
   hidden() {
     this.$refs.channelCompose.reset()
     this.$refs.messageCompose.reset()
   }
+
   hideRequest() {
     if (!this.$refs.modal) return
     this.$refs.modal.ok()

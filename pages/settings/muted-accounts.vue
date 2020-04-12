@@ -9,26 +9,26 @@ import UserList from '~/components/UserList.vue'
 
 export default Vue.extend({
   components: {
-    UserList
+    UserList,
+  },
+  async asyncData({ app: { $resource } }) {
+    const data = await $resource()
+    return {
+      data,
+    }
   },
   data() {
     return {
       options: {
         disableFollowButton: true,
-        showUnmuteButton: true
-      }
-    }
-  },
-  async asyncData({ app: { $resource } }) {
-    const data = await $resource()
-    return {
-      data
+        showUnmuteButton: true,
+      },
     }
   },
   head() {
     return {
-      title: 'Muted Accounts'
+      title: 'Muted Accounts',
     }
-  }
+  },
 })
 </script>

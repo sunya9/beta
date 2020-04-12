@@ -21,17 +21,17 @@ import CustomCheckbox from '../CustomCheckbox.vue'
 
 export default Vue.extend({
   components: {
-    CustomCheckbox
+    CustomCheckbox,
   },
   data() {
     return {
       notification: false,
       types: {
         posts: false,
-        mentions: false
+        mentions: false,
       },
       disabledNotification: false,
-      error: null as { type: string; message: string } | null
+      error: null as { type: string; message: string } | null,
     }
   },
   watch: {
@@ -46,11 +46,11 @@ export default Vue.extend({
     },
     'types.mentions'(newVal: boolean) {
       localStorage.setItem('notification:mentions', newVal.toString())
-    }
+    },
   },
   mounted() {
     this.checkPermission()
-    Object.keys(this.types).forEach(key => {
+    Object.keys(this.types).forEach((key) => {
       // TODO
       ;(this as any).types[key] =
         localStorage.getItem(`notification:${key}`) === 'true'
@@ -63,19 +63,19 @@ export default Vue.extend({
       if (!('Notification' in window)) {
         this.error = {
           type: 'warning',
-          message: 'Your browser does not support notification.'
+          message: 'Your browser does not support notification.',
         }
       } else if (Notification.permission === 'denied') {
         this.error = {
           type: 'danger',
           message:
-            'You have to unblock notification from your browser settings.'
+            'You have to unblock notification from your browser settings.',
         }
       }
       this.notification =
         !this.disabledNotification &&
         localStorage.getItem('notification') === 'true'
-    }
-  }
+    },
+  },
 })
 </script>

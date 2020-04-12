@@ -14,7 +14,7 @@ import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 export default Vue.extend({
   components: {
     PostList,
-    Compose
+    Compose,
   },
   mixins: [refreshAfterAdded],
   async asyncData({ app: { $resource } }) {
@@ -23,8 +23,8 @@ export default Vue.extend({
   },
   head() {
     return {
-      title: 'Photos'
+      title: 'Photos',
     }
-  }
+  },
 })
 </script>

@@ -12,16 +12,16 @@
           width="128"
           height="128"
           alt="avatar image"
-        >
+        />
       </div>
       <div class="form-group">
         <input
           ref="avatarFileInput"
           type="file"
           accept="image/*"
-          style="display: none"
+          style="display: none;"
           @change="avatarChanged"
-        >
+        />
         <button
           :disabled="promise"
           type="button"
@@ -46,13 +46,13 @@ export default Vue.extend({
       type: Object,
       required: true,
       validator: (obj: object) =>
-        ['is_default', 'height', 'link', 'width'].every(key => key in obj)
-    } as PropOptions<User.UserImage>
+        ['is_default', 'height', 'link', 'width'].every((key) => key in obj),
+    } as PropOptions<User.UserImage>,
   },
   data() {
     return {
       promise: null as Promise<PnutResponse<User>> | null,
-      internalAvatar: this.avatar
+      internalAvatar: this.avatar,
     }
   },
   methods: {
@@ -75,10 +75,10 @@ export default Vue.extend({
         this.promise = this.$axios
           .$post<PnutResponse<User>>('/users/me/avatar', fd, {
             headers: {
-              'Content-Type': 'multipart/form-data'
-            }
+              'Content-Type': 'multipart/form-data',
+            },
           })
-          .catch(err => {
+          .catch((err) => {
             throw new Error(err.response.data.meta.error_message)
           })
         const response = await this.promise
@@ -89,7 +89,7 @@ export default Vue.extend({
         this.$toast.error(err.message)
       }
       this.promise = null
-    }
-  }
+    },
+  },
 })
 </script>

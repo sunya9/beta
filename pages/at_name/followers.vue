@@ -1,9 +1,7 @@
 <template>
   <div>
     <h3 class="mb-4">
-      <nuxt-link to=".">
-        @{{ name }}
-      </nuxt-link>
+      <nuxt-link to=".">@{{ name }}</nuxt-link>
       's followers
     </h3>
     <user-list :data="data" />
@@ -20,33 +18,33 @@ type Data = {
 
 export default Vue.extend<Data, {}, {}, {}>({
   components: {
-    UserList
+    UserList,
   },
   async asyncData(ctx) {
     const {
       params,
       app: { $resource },
-      error
+      error,
     } = ctx
     const { name } = params
     try {
       const data = await $resource()
       return {
         data,
-        name
+        name,
       }
     } catch (e) {
       const { meta } = e.response.data
       error({
         statusCode: meta.code,
-        message: meta.error_message
+        message: meta.error_message,
       })
     }
   },
   head() {
     return {
-      title: `@${this.name}'s followers`
+      title: `@${this.name}'s followers`,
     }
-  }
+  },
 })
 </script>

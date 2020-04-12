@@ -13,7 +13,7 @@
           :height="internalCover.height"
           alt="cover image"
           class="img-thumbnail"
-        >
+        />
       </div>
       <div class="form-group">
         <input
@@ -22,7 +22,7 @@
           accept="image/*"
           style="display: none;"
           @change="coverChanged"
-        >
+        />
         <button
           :disabled="promise"
           type="button"

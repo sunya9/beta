@@ -39,32 +39,32 @@ const headingMap: {
   owner: 'Owner',
   full: 'Moderators',
   write: 'Writers',
-  read: 'Readers'
+  read: 'Readers',
 }
 
 export default Vue.extend({
   name: 'ChannelUserList',
   components: {
-    Avatar
+    Avatar,
   },
   props: {
     users: {
       type: Array,
-      default: () => []
+      default: () => [],
     } as PropOptions<Channel.SimpleUser[]>,
     owner: {
       type: Object,
-      default: null
+      default: null,
     } as PropOptions<User | null>,
     kind: {
       type: String,
       required: true,
-      validator: kind => Object.keys(headingMap).includes(kind)
+      validator: (kind) => Object.keys(headingMap).includes(kind),
     } as PropOptions<Kind>,
     noHeading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     heading(): string {
@@ -83,17 +83,17 @@ export default Vue.extend({
         id,
         username,
         content: {
-          avatar_image: { link: avatar_image }
-        }
+          avatar_image: { link: avatar_image },
+        },
       } = this.owner
       res.unshift({
         name,
         id,
         username,
-        avatar_image
+        avatar_image,
       })
       return res
-    }
-  }
+    },
+  },
 })
 </script>

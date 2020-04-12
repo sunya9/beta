@@ -9,6 +9,6 @@ export default Vue.extend({
   layout: 'loading',
   mounted() {
     this.$router.replace('/')
-  }
+  },
 })
 </script>

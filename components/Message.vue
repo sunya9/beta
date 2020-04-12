@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="firstUnreadMessage" class="matching-hr">
-      <hr>
+      <hr />
       <div>
         <span class="text-muted">Previously read</span>
       </div>
@@ -19,7 +19,7 @@
           :avatar="messageUser.content && messageUser.content.avatar_image"
           :class="{
             'mr-4': !me,
-            'ml-4': me
+            'ml-4': me,
           }"
           :alt="messageUser.username"
           class="d-flex"
@@ -30,7 +30,7 @@
       <div class="media-body">
         <h6
           :class="{
-            'text-right': me
+            'text-right': me,
           }"
           class="mb-2"
         >
@@ -50,19 +50,19 @@
           :class="{
             'justify-content-end': me,
             'ml-5': me && !displayFullView,
-            'mr-5': !me && !displayFullView
+            'mr-5': !me && !displayFullView,
           }"
           class="d-flex flex-row"
         >
           <div
             :class="{
-              'order-2': me
+              'order-2': me,
             }"
           >
             <div
               :class="{
                 me: me,
-                other: !me
+                other: !me,
               }"
               class="py-2 px-3 mb-1 balloon"
             >
@@ -81,7 +81,7 @@
               <div
                 v-if="thumbs.length"
                 class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
-                style="margin-top:.8em"
+                style="margin-top: 0.8em;"
               >
                 <thumb
                   v-for="(t, i) in thumbs"
@@ -114,7 +114,8 @@
                     href="#"
                     @click.stop.prevent="removeModal"
                   >
-                    <font-awesome-icon icon="trash" />Remove
+                    <font-awesome-icon icon="trash" />
+                    Remove
                   </a>
                 </li>
                 <li class="list-inline-item">
@@ -133,13 +134,13 @@
           <div
             :class="{
               'order-1 mr-2': me,
-              'ml-2': !me
+              'ml-2': !me,
             }"
             class="align-self-end date-pos"
           >
-            <span :title="absDate" class="text-muted text-nowrap">{{
-              date
-            }}</span>
+            <span :title="absDate" class="text-muted text-nowrap">
+              {{ date }}
+            </span>
           </div>
         </div>
       </div>
@@ -160,7 +161,7 @@ import {
   deletedUser,
   ImageForView,
   AudioForView,
-  MinimumUser
+  MinimumUser,
 } from '~/assets/ts/util'
 import { User } from '~/models/user'
 import { Message } from '~/models/message'
@@ -170,30 +171,30 @@ export default Vue.extend({
   components: {
     Avatar,
     EntityText,
-    Thumb
+    Thumb,
   },
   mixins: [listItem('message.created_at')],
   props: {
     displayFullView: {
       type: Boolean,
-      default: false
+      default: false,
     },
     message: {
       type: Object,
-      required: true
+      required: true,
     } as PropOptions<Message>,
     isModerator: {
       type: Boolean,
-      default: false
+      default: false,
     },
     channelType: {
       type: String,
-      default: ''
+      default: '',
     },
     lastReadMessageId: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   computed: {
     me(): boolean {
@@ -225,7 +226,7 @@ export default Vue.extend({
     },
     user(): User | null {
       return this.$store.getters.user
-    }
+    },
   },
   methods: {
     removeModal() {
@@ -238,8 +239,8 @@ export default Vue.extend({
       )
       this.$toast.success('Deleted Message!')
       this.$emit('update:message', message)
-    }
-  }
+    },
+  },
 })
 </script>
 

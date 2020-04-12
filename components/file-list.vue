@@ -57,41 +57,41 @@ export interface ModifiedFile extends File {
 export default Vue.extend({
   components: {
     BaseModal,
-    FileRow
+    FileRow,
   },
   props: {
     data: {
       type: Object,
-      required: true
-    } as PropOptions<PnutResponse<File[]>>
+      required: true,
+    } as PropOptions<PnutResponse<File[]>>,
   },
   data() {
     return {
       busy: false,
       meta: this.data.meta,
       files: this.data.data,
-      modal: null
+      modal: null,
     }
   },
   computed: {
     isSelected(): boolean {
-      return this.modifiedFiles.some(file => file.select)
+      return this.modifiedFiles.some((file) => file.select)
     },
     selectedFiles(): ModifiedFile[] {
-      return this.modifiedFiles.filter(file => file.select)
+      return this.modifiedFiles.filter((file) => file.select)
     },
     moreDisabled(): boolean {
       return this.busy || !this.meta.more
     },
     modifiedFiles(): ModifiedFile[] {
-      return this.files.map(file => {
+      return this.files.map((file) => {
         const modifiedFile = {
           ...file,
-          select: false
+          select: false,
         }
         return modifiedFile
       })
-    }
+    },
   },
   methods: {
     async fetchMore() {
@@ -99,7 +99,7 @@ export default Vue.extend({
       const options = Object.assign(
         {},
         {
-          before_id: this.meta.min_id
+          before_id: this.meta.min_id,
         }
       )
       const { data: newItems, meta } = await this.$resource<File[]>({ options })
@@ -114,13 +114,13 @@ export default Vue.extend({
       this.$modal.show('delete-file-modal')
     },
     async deleteFiles() {
-      const deletePromises = this.selectedFiles.map(async file => {
+      const deletePromises = this.selectedFiles.map(async (file) => {
         const res = await this.$axios.$delete(`/files/${file.id}`)
         return res
       })
       await Promise.all(deletePromises)
-      this.files = this.modifiedFiles.filter(file => !file.select)
-    }
-  }
+      this.files = this.modifiedFiles.filter((file) => !file.select)
+    },
+  },
 })
 </script>

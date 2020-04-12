@@ -7,7 +7,7 @@
       </a>
     </p>
     <post-list :key="options.q" :data="data" :option="options">
-      <span slot="empty"> No results for {{ options.q }} </span>
+      <span slot="empty">No results for {{ options.q }}</span>
     </post-list>
   </div>
 </template>
@@ -19,33 +19,33 @@ import { getRSSLink } from '~/assets/ts/util'
 
 export default Vue.extend({
   components: {
-    PostList
+    PostList,
   },
   mixins: [search],
   async asyncData({ app: { $resource }, query }) {
     const options = {
       type: 'Post',
       q: query.q,
-      order: 'id'
+      order: 'id',
     }
     const data = await $resource({ options })
     return {
       data,
-      options
+      options,
     }
   },
   head() {
     const link = [
       getRSSLink(
         `https://api.pnut.io/v0/feed/rss/posts/search?q=${this.$route.query.q}&order=id`
-      )
+      ),
     ]
     // TODO
     const title: string = (this as any).title
     return {
       title,
-      link
+      link,
     }
-  }
+  },
 })
 </script>

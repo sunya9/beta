@@ -57,7 +57,7 @@ const INTERVAL = 1000 * 30 // 30sec
 const keyMap = {
   j: 'scrollDown',
   k: 'scrollUp',
-  '.': 'refresh'
+  '.': 'refresh',
 }
 
 export default Vue.extend({
@@ -66,54 +66,54 @@ export default Vue.extend({
   props: {
     dataAddedHook: {
       type: Function,
-      default: () => () => null
+      default: () => () => null,
     },
     listClass: {
       type: String,
-      default: 'list-group mb-4'
+      default: 'list-group mb-4',
     },
     listItemClass: {
       type: [String, Function],
-      default: 'list-group-item list-group-item-action'
+      default: 'list-group-item list-group-item-action',
     },
     listElement: {
       type: [String, Object, Function],
-      default: 'li'
+      default: 'li',
     },
     listItemProps: {
       type: Function,
-      default: () => ({})
+      default: () => ({}),
     },
     disableAutoRefresh: {
       type: Boolean,
-      default: false
+      default: false,
     },
     data: {
       type: Object,
-      validator: obj => 'meta' in obj && 'data' in obj,
+      validator: (obj) => 'meta' in obj && 'data' in obj,
       required: true,
       default: () =>
         ({
           meta: {},
-          data: []
-        } as PropOptions<PnutResponse<any[]>>)
+          data: [],
+        } as PropOptions<PnutResponse<any[]>>),
     },
     resource: {
       type: String,
-      default: ''
+      default: '',
     },
     option: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     idField: {
       type: String,
-      default: 'id'
+      default: 'id',
     },
     refreshDate: {
       type: Number,
-      default: Date.now()
-    }
+      default: Date.now(),
+    },
   },
   data() {
     return {
@@ -123,7 +123,7 @@ export default Vue.extend({
       lastUpdate: Date.now(),
       meta: this.data.meta,
       refreshing: false,
-      activeElement: (null as any) as Element | null
+      activeElement: (null as any) as Element | null,
     }
   },
   computed: {
@@ -137,14 +137,14 @@ export default Vue.extend({
           this.internalSelect = v
           this.$emit('select', this.internalSelect)
         }
-      }
+      },
     },
     moreDisabled(): boolean {
       return this.busy || !this.more
     },
     more(): boolean {
       return this.meta.more
-    }
+    },
   },
   watch: {
     refreshDate(newVal, oldVal) {
@@ -155,8 +155,8 @@ export default Vue.extend({
       handler(data) {
         this.items = 'data' in data ? data.data : []
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   mounted() {
     if (this.disableAutoRefresh) return
@@ -210,7 +210,7 @@ export default Vue.extend({
         const options = { ...this.option, before_id: this.meta.min_id }
         const { data: newItems, meta } = await this.$resource<any[]>({
           url: this.resource,
-          options
+          options,
         })
         this.meta = meta
 
@@ -231,11 +231,11 @@ export default Vue.extend({
       this.refreshing = true
       const options = {
         ...this.option,
-        since_id: this.items.length && this.items[0].pagination_id
+        since_id: this.items.length && this.items[0].pagination_id,
       }
       const { data: newItems } = await this.$resource<any[]>({
         url: this.resource,
-        options
+        options,
       })
       if (newItems.length) {
         this.items = newItems.concat(this.items)
@@ -244,8 +244,8 @@ export default Vue.extend({
       }
       this.refreshing = false
       this.lastUpdate = Date.now()
-    }
-  }
+    },
+  },
 })
 </script>
 <style scoped lang="scss">

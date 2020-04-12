@@ -12,18 +12,18 @@ import { User } from '~/models/user'
 
 export default Vue.extend({
   components: {
-    BaseMuteButton
+    BaseMuteButton,
   },
   props: {
     profile: {
       type: Object,
-      required: true
-    } as PropOptions<User>
+      required: true,
+    } as PropOptions<User>,
   },
   computed: {
     color(): string {
       return this.profile.you_muted ? 'text-danger' : 'text-secondary'
-    }
-  }
+    },
+  },
 })
 </script>

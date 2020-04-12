@@ -41,9 +41,9 @@
                 active:
                   menu.active && typeof menu.active === 'function'
                     ? menu.active()
-                    : menu.active || active(menu.url)
+                    : menu.active || active(menu.url),
               },
-              itemClass
+              itemClass,
             ]"
             class="d-inline-flex justify-content-between flex-nowrap text-overflow"
             exact
@@ -83,8 +83,8 @@ export default Vue.extend({
   props: {
     narrow: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     // Vue might recgnize process.env as strings and replace.
@@ -94,15 +94,15 @@ export default Vue.extend({
         'list-group-item list-group-item-action border-left-0 border-bottom-0',
       npm_package_version: process.env.npm_package_version,
       npm_package_homepage: process.env.npm_package_homepage,
-      last_modified: moment(process.env.last_modified).format('YYYY-MM-DD')
+      last_modified: moment(process.env.last_modified).format('YYYY-MM-DD'),
     }
   },
   computed: mapGetters(['user']),
   methods: {
     active(url: string): string {
       return this.$route.fullPath === url ? 'active' : ''
-    }
-  }
+    },
+  },
 })
 </script>
 <style scoped lang="scss">

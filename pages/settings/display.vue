@@ -7,12 +7,12 @@ import Vue from 'vue'
 import Display from '~/components/settings/Display.vue'
 export default Vue.extend({
   components: {
-    Display
+    Display,
   },
   head() {
     return {
-      title: 'Display settings'
+      title: 'Display settings',
     }
-  }
+  },
 })
 </script>

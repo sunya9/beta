@@ -12,9 +12,9 @@ export default Vue.extend({
   middleware: ['auth'],
   head() {
     return {
-      title: 'Account settings'
+      title: 'Account settings',
     }
-  }
+  },
 })
 </script>
 <style scoped lang="scss">

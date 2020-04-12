@@ -9,19 +9,19 @@ import UserList from '~/components/UserList.vue'
 
 @Component({
   components: {
-    UserList
+    UserList,
   },
   async asyncData({ app: { $resource } }) {
     const data = await $resource()
     return {
-      data
+      data,
     }
   },
   head() {
     return {
-      title: 'Blocked Accounts'
+      title: 'Blocked Accounts',
     }
-  }
+  },
 })
 export class BlockedAccounts extends Vue {}
 </script>

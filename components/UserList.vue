@@ -11,8 +11,8 @@ import User from '~/components/User.vue'
 @Component({
   components: {
     BaseList,
-    User
-  }
+    User,
+  },
 })
 export default class extends Vue {
   @Prop({ type: Object })

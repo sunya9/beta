@@ -7,18 +7,14 @@
           <p class="display-4 mb-0">
             {{ counts.users.created }}
           </p>
-          <p class="text-muted">
-            Online: {{ counts.users.present }}
-          </p>
+          <p class="text-muted">Online: {{ counts.users.present }}</p>
         </div>
         <div class="col-md-4">
           <h4>Clients</h4>
           <p class="display-4 mb-0">
             {{ counts.clients.created }}
           </p>
-          <p class="text-muted">
-            Public: {{ counts.clients.public }}
-          </p>
+          <p class="text-muted">Public: {{ counts.clients.public }}</p>
         </div>
         <div class="col-md-4">
           <h4>Days</h4>
@@ -61,24 +57,24 @@ import { PnutResponse } from '~/models/pnut-response'
 import { Stats } from '~/models/stats'
 
 export default Vue.extend({
+  async asyncData({ app: { $resource } }) {
+    const data = await $resource()
+    return { data }
+  },
   data() {
     return {
-      data: null as PnutResponse<Stats> | null
+      data: null as PnutResponse<Stats> | null,
     }
   },
   computed: {
     counts(): Stats.Counts | null {
       return this.data && this.data.data ? this.data.data.counts : null
-    }
-  },
-  async asyncData({ app: { $resource } }) {
-    const data = await $resource()
-    return { data }
+    },
   },
   head() {
     return {
-      title: 'Stats'
+      title: 'Stats',
     }
-  }
+  },
 })
 </script>

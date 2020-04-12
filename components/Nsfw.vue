@@ -29,24 +29,24 @@ export default Vue.extend({
   props: {
     includeNsfw: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      accept: false
+      accept: false,
     }
   },
   computed: {
     show(): boolean {
       return this.accept || !this.includeNsfw
-    }
+    },
   },
   methods: {
     toggle() {
       this.accept = !this.accept
-    }
-  }
+    },
+  },
 })
 </script>
 <style>

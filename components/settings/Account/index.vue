@@ -16,7 +16,7 @@
             type="text"
             name="name"
             class="form-control"
-          >
+          />
         </div>
       </div>
       <div class="form-group row">
@@ -80,7 +80,7 @@
             type="submit"
             class="btn btn-primary"
             value="save"
-          >
+          />
         </div>
       </div>
     </form>
@@ -99,15 +99,15 @@ import { User } from '~/models/user'
 export default Vue.extend({
   components: {
     Cover,
-    Avatar
+    Avatar,
   },
   props: {
     account: {
       type: Object,
       required: true,
-      validator: obj =>
-        ['name', 'content', 'locale', 'timezone'].every(key => key in obj)
-    }
+      validator: (obj) =>
+        ['name', 'content', 'locale', 'timezone'].every((key) => key in obj),
+    },
   },
   data() {
     return {
@@ -117,7 +117,7 @@ export default Vue.extend({
       locale: this.account.locale,
       locales,
       timezones,
-      promise: null as Promise<PnutResponse<User>> | null
+      promise: null as Promise<PnutResponse<User>> | null,
     }
   },
   computed: {
@@ -133,12 +133,12 @@ export default Vue.extend({
       return {
         name: this.name,
         content: {
-          text: this.description
+          text: this.description,
         },
         timezone: this.timezone,
-        locale: this.locale
+        locale: this.locale,
       }
-    }
+    },
   },
   methods: {
     async update() {
@@ -153,7 +153,7 @@ export default Vue.extend({
         this.$toast.error(e.message)
       }
       this.promise = null
-    }
-  }
+    },
+  },
 })
 </script>

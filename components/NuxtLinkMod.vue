@@ -14,8 +14,8 @@ export default Vue.extend({
     to: {
       type: String,
       default: '',
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     ownDomain(): boolean {
@@ -23,7 +23,7 @@ export default Vue.extend({
     },
     href(): string {
       return this.to.replace(/^https:\/\/beta\.pnut\.io/, '')
-    }
-  }
+    },
+  },
 })
 </script>

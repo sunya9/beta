@@ -25,7 +25,7 @@
           class="form-control"
           maxlength="128"
           title="Up to 128 characters"
-        >
+        />
       </div>
       <div class="form-group">
         <h5>Description</h5>
@@ -62,7 +62,7 @@ import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
 export default Vue.extend({
   name: 'ChannelEditModal',
   components: {
-    BaseModal
+    BaseModal,
   },
   data() {
     return {
@@ -75,8 +75,8 @@ export default Vue.extend({
         'language',
         'community',
         'tech',
-        'event'
-      ]
+        'event',
+      ],
     }
   },
   computed: {
@@ -88,7 +88,7 @@ export default Vue.extend({
         (!!this.chat.description && this.chat.description.length > 256) ||
         (!!this.chat.categories && this.chat.categories.length > 3)
       )
-    }
+    },
   },
   methods: {
     shown() {
@@ -107,7 +107,7 @@ export default Vue.extend({
     },
     hidden() {
       this.chat = null
-    }
-  }
+    },
+  },
 })
 </script>

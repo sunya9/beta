@@ -32,41 +32,41 @@ import { User } from '~/models/user'
   components: {
     Profile,
     Compose,
-    PostList
+    PostList,
   },
   mixins: [refreshAfterAdded],
   async asyncData(ctx) {
     const {
       params,
       error,
-      app: { $axios, $resource }
+      app: { $axios, $resource },
     } = ctx
     const { name } = params
     const options = {
-      include_directed_posts: 1
+      include_directed_posts: 1,
     }
     try {
       const data = await $resource({ options }).catch(() => ({
-        meta: { code: 404 }
+        meta: { code: 404 },
       }))
       const { data: profile } = await $axios.$get(`/users/@${name}`)
       return {
         data: data || {
           meta: {},
-          data: []
+          data: [],
         },
         profile,
         uniqueName: name,
-        options
+        options,
       }
     } catch (e) {
       const { meta } = e.response.data
       error({
         statusCode: meta.code,
-        message: meta.error_message
+        message: meta.error_message,
       })
     }
-  }
+  },
 })
 export default class extends Vue {
   profile!: User
@@ -74,17 +74,21 @@ export default class extends Vue {
   $refs!: {
     list: any
   }
+
   get user(): User | null {
     return this.$store.getters.user
   }
+
   get initialText(): string {
     return this.user && this.user.username === this.uniqueName
       ? ''
       : `@${this.uniqueName} `
   }
+
   get blocked(): boolean {
     return this.profile.you_blocked
   }
+
   @Watch('blocked')
   async onBlockedChange(after: boolean, before: boolean) {
     if (before && !after) {
@@ -93,6 +97,7 @@ export default class extends Vue {
       this.$refs.list.fetchMore()
     }
   }
+
   head() {
     if (!this.profile) return {}
     const title = getTitle(this.profile)
@@ -101,38 +106,38 @@ export default class extends Vue {
         hid: 'description',
         name: 'description',
         content:
-          this.profile && this.profile.content && this.profile.content.text
+          this.profile && this.profile.content && this.profile.content.text,
       },
       {
         hid: 'og:description',
         property: 'og:description',
         content:
-          this.profile && this.profile.content && this.profile.content.text
+          this.profile && this.profile.content && this.profile.content.text,
       },
       {
         hid: 'og:type',
         property: 'og:type',
-        content: 'profile'
+        content: 'profile',
       },
       {
         hid: 'og:title',
         property: 'og:title',
-        content: title
+        content: title,
       },
       {
         property: 'profile:username',
-        content: this.uniqueName
-      }
+        content: this.uniqueName,
+      },
     ]
     const link = [
       getRSSLink(
         `https://api.pnut.io/v0/feed/rss/users/@${this.uniqueName}/posts`
-      )
+      ),
     ]
     return {
       title,
       meta,
-      link
+      link,
     }
   }
 }

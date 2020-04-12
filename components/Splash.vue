@@ -5,8 +5,8 @@
     </h1>
     <p class="lead">
       Web client for
-      <a href="https://pnut.io">
-        pnut.io </a>.
+      <a href="https://pnut.io">pnut.io</a>
+      .
     </p>
     <p>
       <button

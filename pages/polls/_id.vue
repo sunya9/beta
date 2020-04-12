@@ -7,7 +7,7 @@ import PollList from '~/components/PollList.vue'
 
 export default Vue.extend({
   components: {
-    PollList
+    PollList,
   },
   async asyncData({ app: { $resource } }) {
     const options = {}
@@ -15,10 +15,10 @@ export default Vue.extend({
     return {
       data: {
         ...data,
-        data: [data.data]
+        data: [data.data],
       },
-      options
+      options,
     }
-  }
+  },
 })
 </script>

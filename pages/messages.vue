@@ -34,13 +34,13 @@ import Vue from 'vue'
 export default Vue.extend({
   data() {
     return {
-      isPM: null as boolean | null
+      isPM: null as boolean | null,
     }
   },
   watch: {
     '$route.fullPath'() {
       this.isPM = null
-    }
-  }
+    },
+  },
 })
 </script>

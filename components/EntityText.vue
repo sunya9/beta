@@ -22,7 +22,8 @@
             :element="$options.components.NuxtLinkMod"
             :text="replaceLinkText(entity)"
             target="_new"
-          /><span
+          />
+          <span
             v-if="entity.amended_len"
             :key="`links-${i}-domain`"
             v-text="
@@ -30,7 +31,8 @@
                 ? ` [${entity.replace.domain}]`
                 : unicodeSubstring(entity.text, entity.len, entity.amended_len)
             "
-          /><a
+          />
+          <a
             v-if="entity.replace"
             :key="`links-${i}-replaced-icon`"
             :data-content="`<a href='${entity.link}' target='_new'>${entity.link}</a>`"

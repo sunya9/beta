@@ -21,15 +21,15 @@ export default Vue.extend({
   props: {
     error: {
       type: Object,
-      required: true
-    } as PropOptions<NuxtError>
+      required: true,
+    } as PropOptions<NuxtError>,
   },
   layout: 'no-sidebar',
   head() {
     const title = this.error.statusCode ? this.error.statusCode.toString() : ''
     return {
-      title
+      title,
     }
-  }
+  },
 })
 </script>

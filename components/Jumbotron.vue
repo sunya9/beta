@@ -13,6 +13,6 @@ import Vue from 'vue'
 import search from '~/assets/ts/search'
 
 export default Vue.extend({
-  mixins: [search]
+  mixins: [search],
 })
 </script>

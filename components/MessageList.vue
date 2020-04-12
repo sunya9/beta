@@ -24,28 +24,28 @@ import Message from '~/components/Message.vue'
 import keyBinding, { forList } from '~/assets/ts/key-binding'
 
 const keyMap = {
-  del: 'removeModal'
+  del: 'removeModal',
 }
 
 export default Vue.extend({
   components: {
     BaseList,
-    Message
+    Message,
   },
   mixins: [keyBinding(keyMap), forList(keyMap)],
   props: {
     isModerator: {
       type: Boolean,
-      default: false
+      default: false,
     },
     lastReadMessageId: {
       type: String,
-      default: ''
+      default: '',
     },
     channelType: {
       type: String,
-      default: ''
-    }
-  }
+      default: '',
+    },
+  },
 })
 </script>

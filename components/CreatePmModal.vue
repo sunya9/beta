@@ -25,11 +25,11 @@ import MessageCompose from '~/components/MessageCompose.vue'
 export default Vue.extend({
   components: {
     BaseModal,
-    MessageCompose
+    MessageCompose,
   },
   data() {
     return {
-      target: null as User | null
+      target: null as User | null,
     }
   },
   methods: {
@@ -43,7 +43,7 @@ export default Vue.extend({
     },
     hide() {
       this.target = null
-    }
-  }
+    },
+  },
 })
 </script>

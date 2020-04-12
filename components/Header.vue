@@ -25,7 +25,7 @@
             height="32"
             alt="β"
             class="align-center mr-2 d-inline-block"
-          >
+          />
           <span class="d-none d-sm-inline header-title">
             Beta
           </span>
@@ -87,7 +87,7 @@
                 <span class="d-inline d-sm-none">
                   <avatar
                     :avatar="{
-                      link: `https://api.pnut.io/v0/users/@${user.username}/avatar`
+                      link: `https://api.pnut.io/v0/users/@${user.username}/avatar`,
                     }"
                     :size="16"
                     :max-size="16"
@@ -108,7 +108,7 @@
                 <span class="d-none d-sm-inline">
                   Profile
                 </span>
-                <span class="d-inline d-sm-none"> @{{ user.username }} </span>
+                <span class="d-inline d-sm-none">@{{ user.username }}</span>
               </nuxt-link>
               <div class="dropdown-divider d-sm-none" />
               <nuxt-link to="/messages" class="dropdown-item d-sm-none">
@@ -147,7 +147,7 @@
         <app-sidebar
           id="globalNavigation"
           :style="{
-            'max-height': collapseHeight
+            'max-height': collapseHeight,
           }"
           class="collapse scrollable w-100"
         />
@@ -171,24 +171,24 @@ export default Vue.extend({
   components: {
     SearchForm,
     AppSidebar,
-    Avatar
+    Avatar,
   },
   data() {
     return {
       online: true,
       collapseHeight: 0 as number | string,
       dropdown: null as Dropdown | null,
-      collapse: null as Collapse | null
+      collapse: null as Collapse | null,
     }
   },
   computed: {
     user(): User {
       return this.$store.getters.user
-    }
+    },
   },
   mounted() {
     this.online = navigator.onLine
-    networkEvents.forEach(event =>
+    networkEvents.forEach((event) =>
       window.addEventListener(event, this.connectionChanged)
     )
     const { height } = this.$el.children[0].getBoundingClientRect()
@@ -199,7 +199,7 @@ export default Vue.extend({
     this.collapse = new Collapse(this.$refs.toggleButton as Element)
   },
   beforeDestroy() {
-    networkEvents.forEach(event =>
+    networkEvents.forEach((event) =>
       window.removeEventListener(event, this.connectionChanged)
     )
   },
@@ -213,8 +213,8 @@ export default Vue.extend({
     },
     showConnection() {
       this.$toast.show(`You are ${this.online ? 'on' : 'off'}line`).goAway(2000)
-    }
-  }
+    },
+  },
 })
 </script>
 <style scoped lang="scss">
