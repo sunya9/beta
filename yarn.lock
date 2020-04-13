@@ -2078,10 +2078,10 @@
     "@types/webpack" "*"
     terser "^4.3.9"
 
-"@types/twemoji@12.1.0":
-  version "12.1.0"
-  resolved "https://registry.yarnpkg.com/@types/twemoji/-/twemoji-12.1.0.tgz#7056ea3990c1e188bf9fc09e477e67f055b10844"
-  integrity sha512-dTHU1ZE83qUlF3oFWrdxKBmOimM+/3o9hzDBszcKjajmNu5G/DjWgQrRNkq+zxeR+zDN030ciAt5qTH+WXBD8A==
+"@types/twemoji@12.1.1":
+  version "12.1.1"
+  resolved "https://registry.yarnpkg.com/@types/twemoji/-/twemoji-12.1.1.tgz#34c5dcecff438b5be173889a6ee8ad51ba90445f"
+  integrity sha512-dW1B1WHTfrWmEzXb/tp8xsZqQHAyMB9JwLwbBqkIQVzmNUI02R7lJqxUpKFM114ygNZHKA1r74oPugCAiYHt1A==
 
 "@types/uglify-js@*":
   version "3.0.5"
