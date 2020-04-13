@@ -15,7 +15,7 @@
     "sourceMap": true,
     "strict": true,
     "noEmit": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
       "~/*": ["./*"],
       "@/*": ["./*"]
