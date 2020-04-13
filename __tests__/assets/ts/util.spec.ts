@@ -1,5 +1,5 @@
+import { fixtures } from '../../helper'
 import * as util from '~/assets/ts/util'
-import { fixtures } from '~/__tests__/helper'
 import { Post } from '~/models/post'
 import { Channel } from '~/models/channel'
 

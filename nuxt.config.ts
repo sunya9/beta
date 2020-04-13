@@ -11,6 +11,7 @@ const lastModified = fs.statSync('./package.json').mtime
 
 const config: Configuration = {
   buildModules: ['@nuxt/typescript-build'],
+  srcDir: 'src/',
   mode: 'spa',
   head: {
     title: 'Beta',
