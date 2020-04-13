@@ -3,11 +3,14 @@ eslint:
   config:
     extensions:
       - .js
+      - .ts
       - .vue
 ratings:
   paths:
     - '**.js'
+    - '**.ts'
     - '**.vue'
 
 exclude_patterns:
   - '__tests__/'
+  - '__mocks__/'
