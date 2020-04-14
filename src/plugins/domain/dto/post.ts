@@ -3,6 +3,7 @@ import {
   IdsRequest,
   InteractionType,
   SearchType,
+  ReportReasonType,
 } from '~/plugins/domain/dto/common'
 import { UserIdRequest } from '~/plugins/domain/dto/user'
 import { User } from '~/models/user'
@@ -63,7 +64,7 @@ export type DeleteBookmarkRequest = PostIdRequest
 export type PutRepostRequest = PostIdRequest
 export type DeleteRepostRequest = PostIdRequest
 export type PostReportPostRequest = PostIdRequest & {
-  reason: 'account_type' | 'nsfw' | 'soliciting' | 'user_abuse'
+  reason: ReportReasonType
 }
 
 type FilterInteractionType = Extract<
