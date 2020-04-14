@@ -7,3 +7,11 @@ export type Pagination = {
 export type IdsRequest = {
   ids: string[]
 }
+
+export type InteractionType =
+  | 'bookmark'
+  | 'repost'
+  | 'reply'
+  | 'follow'
+  | 'poll_response'
+export type SearchType = 'id' | 'relevance'
