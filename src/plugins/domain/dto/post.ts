@@ -1,4 +1,9 @@
-import { Pagination, IdsRequest } from '~/plugins/domain/dto/common'
+import {
+  Pagination,
+  IdsRequest,
+  InteractionType,
+  SearchType,
+} from '~/plugins/domain/dto/common'
 import { UserIdRequest } from '~/plugins/domain/dto/user'
 import { User } from '~/models/user'
 
@@ -61,20 +66,23 @@ export type PostReportPostRequest = PostIdRequest & {
   reason: 'account_type' | 'nsfw' | 'soliciting' | 'user_abuse'
 }
 
-type InteractionType = 'bookmark' | 'repost' | 'reply'
+type FilterInteractionType = Extract<
+  InteractionType,
+  'bookmark' | 'repost' | 'reply'
+>
 
 export type GetPostInteractionsRequest = PostIdRequest &
   (
     | {
-        filters?: InteractionType[]
+        filters?: FilterInteractionType[]
       }
     | {
-        exclude?: InteractionType[]
+        exclude?: FilterInteractionType[]
       }
   )
 export type SearchPostRequest = {
   q: string
-  order?: 'id' | 'relevance'
+  order?: SearchType
   tags?: string[]
   has_mentions?: boolean
   leading_mentions?: string[]
