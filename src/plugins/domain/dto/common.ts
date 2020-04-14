@@ -15,3 +15,8 @@ export type InteractionType =
   | 'follow'
   | 'poll_response'
 export type SearchType = 'id' | 'relevance'
+export type ReportReasonType =
+  | 'account_type'
+  | 'nsfw'
+  | 'soliciting'
+  | 'user_abuse'
