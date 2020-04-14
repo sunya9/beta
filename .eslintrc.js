@@ -4,14 +4,16 @@ module.exports = {
     browser: true,
     node: true,
     jest: true,
+    'cypress/globals': true,
   },
   extends: [
     '@nuxtjs/eslint-config-typescript',
     'eslint:recommended',
+    'plugin:cypress/recommended',
     'plugin:jest/recommended',
     'prettier',
   ],
-  plugins: ['jest'],
+  plugins: ['jest', 'cypress'],
   // add your custom rules here
   rules: {
     'no-console': [
