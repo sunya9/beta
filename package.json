@@ -36,7 +36,7 @@
     "unicode-substring": "1.0.0",
     "vue-infinite-scroll": "2.0.2",
     "vue-on-click-outside": "1.0.3",
-    "vue-scrollto": "2.18.0",
+    "vue-scrollto": "2.18.1",
     "vuedraggable": "2.23.2",
     "zooming": "2.1.1"
   },
