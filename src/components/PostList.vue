@@ -1,6 +1,7 @@
 <template>
   <base-list
     ref="list"
+    v-slot="{ item, index, lastUpdate, selected, updateItem }"
     v-bind="$attrs"
     :data.sync="data"
     :data-added-hook="added"
@@ -18,7 +19,6 @@
   >
     <post
       :key="item.id"
-      slot-scope="{ item, index, lastUpdate, selected, updateItem }"
       :selected="selected"
       :post="item"
       :last-update="lastUpdate"

@@ -1,8 +1,11 @@
 <template>
-  <base-list v-bind="$attrs" id-field="pagination_id">
+  <base-list
+    v-slot="{ item, lastUpdate }"
+    v-bind="$attrs"
+    id-field="pagination_id"
+  >
     <interaction
       :key="item.pagination_id"
-      slot-scope="{ item, lastUpdate }"
       :interaction="item"
       :last-update="lastUpdate"
     />

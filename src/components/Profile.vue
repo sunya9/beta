@@ -185,26 +185,21 @@
           <nuxt-link v-if="me" to="/polls" class="dropdown-item">
             Your polls
           </nuxt-link>
-          <base-block-button v-if="user && !me" :profile.sync="profile">
-            <a
-              slot-scope="{ toggleBlock }"
-              class="dropdown-item"
-              href="#"
-              @click.prevent="toggleBlock"
-            >
+          <base-block-button
+            v-if="user && !me"
+            v-slot="{ toggleBlock }"
+            :profile.sync="profile"
+          >
+            <a class="dropdown-item" href="#" @click.prevent="toggleBlock">
               {{ blockText }}
             </a>
           </base-block-button>
           <base-mute-button
             v-if="user && !me && !profile.you_blocked"
+            v-slot="{ toggleMute }"
             :profile.sync="profile"
           >
-            <a
-              slot-scope="{ toggleMute }"
-              class="dropdown-item"
-              href="#"
-              @click.prevent="toggleMute"
-            >
+            <a class="dropdown-item" href="#" @click.prevent="toggleMute">
               {{ muteText }}
             </a>
           </base-mute-button>

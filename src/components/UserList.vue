@@ -1,6 +1,6 @@
 <template>
-  <base-list v-bind="$attrs">
-    <user slot-scope="{ item }" :user="item" v-bind="componentOptions" />
+  <base-list v-slot="{ item }" v-bind="$attrs">
+    <user :user="item" v-bind="componentOptions" />
   </base-list>
 </template>
 <script lang="ts">

@@ -1,13 +1,14 @@
 <template>
   <base-modal
     id="post-modal"
+    v-slot="{ ok }"
     :title="title"
     hide-footer
     @show="show"
     @shown="shown"
     @hidden="hidden"
   >
-    <div slot-scope="{ ok }">
+    <div>
       <post v-if="reply && !edit" :post="reply" class="my-3" view-only />
       <compose
         ref="compose"

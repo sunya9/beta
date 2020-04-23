@@ -1,16 +1,12 @@
 <template>
   <base-list
+    v-slot="{ item }"
     v-bind="$attrs"
     :list-item-props="(channel) => listItemProps(channel)"
     :list-item-class="(channel) => listItemClass(channel)"
     list-element="nuxt-link"
   >
-    <channel
-      :key="item.id"
-      slot-scope="{ item }"
-      :channel="item"
-      element="nuxt-link"
-    />
+    <channel :key="item.id" :channel="item" element="nuxt-link" />
   </base-list>
 </template>
 <script lang="ts">
