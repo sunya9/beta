@@ -42,8 +42,14 @@
             name="photos"
             class="d-flex flex-wrap justify-content align-items-center"
           >
-            v-for="(photo, i) in previewPhotos" :key="photo" :original="photo"
-            :thumb="photo" removable class="mr-2" @remove="photos.splice(i, 1)"
+            <thumb
+              v-for="(photo, i) in previewPhotos"
+              :key="photo"
+              :original="photo"
+              :thumb="photo"
+              removable
+              class="mr-2"
+              @remove="photos.splice(i, 1)"
             />
           </transition-group>
         </div>
@@ -179,14 +185,6 @@ import InputLongpost from '~/components/InputLongpost.vue'
 import textCount from '~/assets/ts/text-count'
 import resettable from '~/assets/ts/resettable'
 import { createVideoEmbedRaw } from '~/assets/ts/oembed'
-import { Raw } from '~/models/raw'
-
-function obj2FormData(obj: { [key: string]: string | Blob }) {
-  return Object.keys(obj).reduce((fd, key) => {
-    fd.append(key, obj[key])
-    return fd
-  }, new FormData())
-}
 
 @Component({
   components: {
@@ -490,11 +488,15 @@ export default class Composer extends Vue {
     if (this.promise || this.textOverflow || this.hasNoText) return false
     const option: Post.PostBody = {
       text: this.text,
-      raw: [] as Raw<any>[],
+      raw: [],
     }
     try {
-      if (this.hasPhotos && option.raw) {
-        const raws = await this.uploadPhotos()
+      if (this.hasPhotos) {
+        this.promise = true
+        const { raws } = await this.$interactors.uploadPhotos.run({
+          photos: this.photos,
+        })
+        this.promise = false
         option.raw.push(...raws)
       }
       if (this.replyTarget) {
@@ -566,47 +568,6 @@ export default class Composer extends Vue {
         this.promise = null
         this.$toast.success('Posted!')
       })
-  }
-
-  async uploadPhotos() {
-    const photosPromise = this.photos.map(async (content) => {
-      const data = obj2FormData({
-        type: 'net.unsweets.beta',
-        name: content.name,
-        kind: 'image',
-
-        content,
-        is_public: 'true',
-      })
-      const res = await this.$axios.$post('/files', data, {
-        headers: {
-          'Content-type': 'multipart/form-data',
-        },
-      })
-      return res
-    })
-
-    this.promise = true
-    const photosJson = await Promise.all(photosPromise)
-    const raws = photosJson.map((res) => {
-      const image = res.data
-      const value = {
-        '+io.pnut.core.file': {
-          file_id: image.id,
-          file_token: image.file_token,
-          format: 'oembed',
-        },
-      }
-      return Object.assign(
-        {},
-
-        {
-          type: 'io.pnut.core.oembed',
-        },
-        { value }
-      )
-    })
-    return raws
   }
 
   fileChange(e: Event) {

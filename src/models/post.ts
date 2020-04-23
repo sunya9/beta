@@ -43,7 +43,7 @@ export namespace Post {
   }
   export interface PostBody {
     text: string
-    raw?: Raw<any>[]
+    raw: Raw<any>[]
     is_nsfw?: boolean
     reply_to?: string
   }
