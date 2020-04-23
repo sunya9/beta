@@ -102,6 +102,7 @@ const config: Configuration = {
 
   // plugin settings
   plugins: [
+    '~/plugins/di',
     '~/plugins/bootstrap.client',
     '~/plugins/vue-infinite',
     '~/plugins/mousetrap',
