@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Sidebar from './Sidebar.vue'
 
 export function createAboutMenu(self: Vue) {
-  const { user } = self.$store.getters
+  const { user } = self.$accessor
   return [
     { type: 'heading', label: 'About' },
     {

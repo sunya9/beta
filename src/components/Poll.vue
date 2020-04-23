@@ -93,7 +93,7 @@ export default class extends Vue {
   )
 
   get votable() {
-    return this.$store.getters.user && !this.closed
+    return this.$accessor.user && !this.closed
   }
 
   get finished() {

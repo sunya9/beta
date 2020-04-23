@@ -325,12 +325,12 @@ export default class Composer extends Vue {
     return !!this.photos.length
   }
 
-  get user(): User {
-    return this.$store.getters.user
+  get user(): User | null {
+    return this.$accessor.user
   }
 
   get storage(): Token.Storage {
-    return this.$store.getters.storage
+    return this.$accessor.storage
   }
 
   @Watch('photos')
@@ -356,7 +356,7 @@ export default class Composer extends Vue {
   @Watch('replyTarget', { immediate: true })
   onChangereplyTarget(replyTarget: Post) {
     if (!replyTarget || !replyTarget.user || !replyTarget.content) return
-    const notMe = this.user.username !== replyTarget.user.username
+    const notMe = this.user?.username !== replyTarget.user.username
     if (notMe) {
       this.text = `@${replyTarget.user.username} `
     }
@@ -368,7 +368,7 @@ export default class Composer extends Vue {
         const key = mention.text.toLowerCase()
         const mentionTextWithAt = `@${mention.text}`
         const unique = !memo.includes(mentionTextWithAt)
-        const notMe = key !== this.user.username.toLowerCase()
+        const notMe = key !== this.user?.username.toLowerCase()
         if (unique && notMe) {
           memo.push(mentionTextWithAt)
         }

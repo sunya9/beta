@@ -267,7 +267,7 @@ export default Vue.extend({
   },
   computed: {
     user(): User | null {
-      return this.$store.getters.user
+      return this.$accessor.user
     },
     relation(): string {
       return this.profile.follows_you ? 'Follows you' : ''

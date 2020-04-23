@@ -31,7 +31,7 @@ export default Vue.extend({
     Splash,
   },
   mixins: [refreshAfterAdded],
-  async asyncData({ app: { $resource }, store }) {
+  async asyncData({ app: { $resource, $accessor } }) {
     let streamPath = '/posts/streams/me'
     if (localStorage.unified_timeline === 'true') {
       streamPath = '/posts/streams/unified'
@@ -41,22 +41,22 @@ export default Vue.extend({
         localStorage.hide_directed_posts === 'false' ? 1 : 0,
     }
     const data = await $resource({
-      url: !store.getters.user ? globalPath : streamPath,
+      url: !$accessor.user ? globalPath : streamPath,
       options,
     })
     return { data, options }
   },
   computed: {
     user(): User | null {
-      return this.$store.getters.user
+      return this.$accessor.user
     },
     resource(): string {
       // TODO: ?
-      return !this.$store.getters.user ? convertPageId2ApiPath('global') : ''
+      return !this.$accessor.user ? convertPageId2ApiPath('global') : ''
     },
   },
   head() {
-    const loggedIn = !!this.$store.getters.user
+    const loggedIn = !!this.$accessor.user
     return {
       title: loggedIn ? 'Your Stream' : '',
     }

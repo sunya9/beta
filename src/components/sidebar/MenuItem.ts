@@ -32,7 +32,7 @@ export function getMenus(self: Vue): MenuItem[] {
   const routeName = getRouteName(self)
   return routeName in menus
     ? menus[routeName]()
-    : createAppMenus({ user: self.$store.getters.user, self })
+    : createAppMenus({ user: self.$accessor.user, self })
 }
 
 export function getMenusWithMeta(self: Vue) {

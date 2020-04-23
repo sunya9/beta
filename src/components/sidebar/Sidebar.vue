@@ -106,7 +106,7 @@ export default class Sidebar extends Vue {
   }
 
   get user() {
-    return this.$store.getters.user
+    return this.$accessor.user
   }
 
   get menus(): MenuItem[] {

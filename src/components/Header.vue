@@ -182,8 +182,8 @@ export default Vue.extend({
     }
   },
   computed: {
-    user(): User {
-      return this.$store.getters.user
+    user(): User | null {
+      return this.$accessor.user
     },
   },
   mounted() {

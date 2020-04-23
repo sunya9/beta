@@ -66,11 +66,10 @@ export default class PostList extends Vue {
   data!: PnutResponse<Post[]>
 
   select!: number
-  get user(): User {
-    return this.$store.getters.user
+  get user(): User | null {
+    return this.$accessor.user
   }
 
-  // ...mapGetters(['user']),
   get mainItem(): Post | null {
     return this.data.data.find((item: Post) => item.id === this.main) || null
   }

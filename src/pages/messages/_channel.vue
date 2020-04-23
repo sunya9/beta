@@ -98,7 +98,7 @@ export default Vue.extend({
       return findChatValueRaw(this.channel)
     },
     user(): User | void {
-      return this.$store.getters.user
+      return this.$accessor.user
     },
     isModerator(): boolean {
       return (

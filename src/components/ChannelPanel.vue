@@ -58,8 +58,8 @@ export default Vue.extend({
     } as PropOptions<Channel>,
   },
   computed: {
-    user(): User {
-      return this.$store.getters.user
+    user(): User | null {
+      return this.$accessor.user
     },
   },
   methods: {

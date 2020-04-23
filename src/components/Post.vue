@@ -530,8 +530,8 @@ export default Vue.extend({
     revisions_permalink(): string {
       return `/posts/${this.mainPost.id}/revisions`
     },
-    user(): User | void {
-      return this.$store.getters.user
+    user(): User | null {
+      return this.$accessor.user
     },
   },
   mounted() {

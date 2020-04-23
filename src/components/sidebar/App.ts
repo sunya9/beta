@@ -7,7 +7,7 @@ export function createAppMenus({
   user,
   self,
 }: {
-  user: User
+  user: User | null
   self: Vue
 }): MenuItem[] {
   return [
@@ -110,7 +110,7 @@ export default Vue.extend({
   name: 'AppSidebar',
   extends: Sidebar,
   data() {
-    const { user } = this.$store.getters
+    const { user } = this.$accessor
     const menus = createAppMenus({
       self: this,
       user,
