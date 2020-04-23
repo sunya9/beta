@@ -5,23 +5,23 @@
     </app-header>
     <main class="container main">
       <div class="row">
-        <div
-          v-if="!notLoginIndex && sidebarComp"
-          :class="{
-            'col-md-4 col-lg-3': !notLoginIndex && sidebarComp,
-          }"
-        >
-          <div class="navbar navbar-light p-0">
-            <div class="d-md-block collapse navbar-collapse">
-              <transition name="slide" mode="out-in">
-                <component :is="sidebar" ref="sidebar" />
-              </transition>
+        <transition name="slide" mode="out-in">
+          <div
+            v-if="!notLoginIndex && menusWithMeta.menus.length"
+            :class="{
+              'col-md-4 col-lg-3': !notLoginIndex,
+            }"
+          >
+            <div class="navbar navbar-light p-0">
+              <div class="d-md-block collapse navbar-collapse">
+                <sidebar />
+              </div>
             </div>
           </div>
-        </div>
+        </transition>
         <div
           :class="{
-            'col-md-8 col-lg-9': !notLoginIndex && sidebarComp,
+            'col-md-8 col-lg-9': !notLoginIndex,
           }"
           class="col-12"
         >
@@ -46,7 +46,7 @@
             </div>
 
             <div
-              v-if="sidebar && !isAppSidebar"
+              v-if="menusWithMeta.menus.length && !menusWithMeta.isDefault"
               class="ml-3 d-md-none h4 mb-1 mt-1"
             >
               <a
@@ -61,7 +61,7 @@
             </div>
           </h3>
           <div id="navbarSupportedContent" class="collapse">
-            <component :is="sidebar" v-if="!isAppSidebar" narrow />
+            <sidebar v-if="!menusWithMeta.isDefault" narrow />
           </div>
           <div>
             <nuxt />
@@ -79,8 +79,8 @@
   </div>
 </template>
 <script lang="ts">
-import { VueConstructor } from 'vue'
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { getMenusWithMeta, MenuItem } from '../components/sidebar/MenuItem'
 import AppHeader from '~/components/Header.vue'
 import PostModal from '~/components/PostModal.vue'
 import RemoveModal from '~/components/RemoveModal.vue'
@@ -89,20 +89,9 @@ import ChannelEditModal from '~/components/ChannelEditModal.vue'
 import ChannelMemberEditModal from '~/components/ChannelMemberEditModal.vue'
 import MessageModal from '~/components/MessageModal.vue'
 import HelpModal from '~/components/HelpModal.vue'
-import AppSidebar from '~/components/sidebar/App'
-import SettingsSidebar from '~/components/sidebar/Settings.vue'
-import AboutSidebar from '~/components/sidebar/About.vue'
-import FilesSidebar from '~/components/sidebar/Files.vue'
-import SearchSidebar from '~/components/sidebar/Search.vue'
+import Sidebar from '~/components/sidebar/Sidebar.vue'
 import Jumbotron from '~/components/Jumbotron.vue'
 import { User } from '~/models/user'
-interface MenuItem {
-  type?: string
-  label: string
-  hidden?: boolean
-  icon?: string
-  url?: string
-}
 
 @Component({
   components: {
@@ -114,11 +103,7 @@ interface MenuItem {
     ChannelMemberEditModal,
     MessageModal,
     HelpModal,
-    AppSidebar,
-    SettingsSidebar,
-    AboutSidebar,
-    FilesSidebar,
-    SearchSidebar,
+    Sidebar,
     Jumbotron,
   },
 })
@@ -175,9 +160,6 @@ export default class extends Vue {
   }
 
   bodyClass = ''
-  get isAppSidebar(): boolean {
-    return this.sidebarName === 'AppSidebar'
-  }
 
   get notLoginIndex(): boolean {
     return !this.user && this.$route.name === 'index'
@@ -187,58 +169,16 @@ export default class extends Vue {
     return !!this.$route && !!this.$route.fullPath.match(/^\/search/)
   }
 
+  get menusWithMeta() {
+    return getMenusWithMeta(this)
+  }
+
   get dropdownItems(): MenuItem[] {
-    if (!this.sidebar || !this.sidebarComp) return []
-    const inst = new (Vue.extend({
-      ...this.sidebarComp,
-      router: this.$router,
-      store: this.$store,
-    }))()
-    const items = ((inst as any).menus || []).slice(1)
-    return items
+    return this.menusWithMeta.menus
   }
 
   get selectedDropdownItem(): MenuItem | void {
     return this.dropdownItems.find((item) => item.url === this.$route.path)
-  }
-
-  get routeName(): string {
-    if (!this.$route.name) return ''
-    const matcher = this.$route.name.match(/^[\w@]*/)
-    return matcher ? matcher[0] : ''
-  }
-
-  get sidebar() {
-    return (
-      this.$options.components && this.$options.components[this.sidebarName]
-    )
-  }
-
-  get sidebarName(): string {
-    const name = this.routeName
-    const map: {
-      [key: string]: string
-    } = {
-      settings: 'SettingsSidebar',
-      about: 'AboutSidebar',
-      files: 'FilesSidebar',
-      search: 'SearchSidebar',
-      messages: '',
-      null: '',
-    }
-    return map[name] || 'AppSidebar'
-  }
-
-  get sidebarComp() {
-    const name = this.routeName
-    const map: { [key: string]: VueConstructor<Vue> | null } = {
-      settings: SettingsSidebar,
-      about: AboutSidebar,
-      files: FilesSidebar,
-      search: SearchSidebar,
-      messages: null,
-    }
-    return name in map ? map[name] : AppSidebar
   }
 
   get user(): User | null {

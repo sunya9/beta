@@ -75,35 +75,48 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { mapGetters } from 'vuex'
 import moment from 'moment'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { MenuItem, getMenus } from './MenuItem'
 
-export default Vue.extend({
-  props: {
-    narrow: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    // Vue might recgnize process.env as strings and replace.
-    // So, unable to use destructuring assignment because occurred errors.
-    return {
-      itemClass:
-        'list-group-item list-group-item-action border-left-0 border-bottom-0',
-      npm_package_version: process.env.npm_package_version,
-      npm_package_homepage: process.env.npm_package_homepage,
-      last_modified: moment(process.env.last_modified).format('YYYY-MM-DD'),
-    }
-  },
-  computed: mapGetters(['user']),
-  methods: {
-    active(url: string): string {
-      return this.$route.fullPath === url ? 'active' : ''
-    },
-  },
-})
+@Component
+export default class Sidebar extends Vue {
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  narrow!: boolean
+
+  // Vue might recgnize process.env as strings and replace.
+  // So, unable to use destructuring assignment because occurred errors.
+  get itemClass() {
+    return 'list-group-item list-group-item-action border-left-0 border-bottom-0'
+  }
+
+  get npm_package_version() {
+    return process.env.npm_package_version
+  }
+
+  get npm_package_homepage() {
+    return process.env.npm_package_homepage
+  }
+
+  get last_modified() {
+    return moment(process.env.last_modified).format('YYYY-MM-DD')
+  }
+
+  get user() {
+    return this.$store.getters.user
+  }
+
+  get menus(): MenuItem[] {
+    return getMenus(this)
+  }
+
+  active(url?: string): string {
+    return this.$route.fullPath === url ? 'active' : ''
+  }
+}
 </script>
 <style scoped lang="scss">
 @import '~assets/css/override';
