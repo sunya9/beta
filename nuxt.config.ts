@@ -10,7 +10,7 @@ const { homepage: npm_package_homepage } = pkg
 const lastModified = fs.statSync('./package.json').mtime
 
 const config: Configuration = {
-  buildModules: ['@nuxt/typescript-build'],
+  buildModules: ['@nuxt/typescript-build', 'nuxt-typed-vuex'],
   srcDir: 'src/',
   mode: 'spa',
   head: {
@@ -98,6 +98,7 @@ const config: Configuration = {
         },
       },
     },
+    transpile: [/typed-vuex/],
   },
 
   // plugin settings

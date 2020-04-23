@@ -9030,6 +9030,14 @@ nuxt-property-decorator@2.7.2:
     vuex-class "^0.3.2"
     vuex-module-decorators "^0.16.1"
 
+nuxt-typed-vuex@^0.1.18:
+  version "0.1.18"
+  resolved "https://registry.yarnpkg.com/nuxt-typed-vuex/-/nuxt-typed-vuex-0.1.18.tgz#86373a6b0f8d91ef2015ae5bc4bb0348a8a67c76"
+  integrity sha512-fzUWbkLmlVNtzMGTA6HkhKk1d3HxqkQvXbw3XKKkWfjoHfWAY6iH3qJr3dQ3eVfiMkFtYxs+ofyfpidOIvVhrQ==
+  dependencies:
+    normalize-path "^3.0.0"
+    typed-vuex "0.1.18"
+
 nuxt@2.12.2:
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-2.12.2.tgz#959baa919bfef4adcd9e88f84bc948a49a03edd8"
@@ -12399,6 +12407,11 @@ type-is@~1.6.17, type-is@~1.6.18:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.24"
+
+typed-vuex@0.1.18:
+  version "0.1.18"
+  resolved "https://registry.yarnpkg.com/typed-vuex/-/typed-vuex-0.1.18.tgz#d3d63818d81c5fc85243f65ea2bd0e2e3524bb01"
+  integrity sha512-eOg5VhjcxCK+CYptxhZmOz19id+nrsUVPDfwUh0C6nK2E1DuKwgJrhM7j4g8wXK8jhs8zB37NPrpyX0Lc7nBsg==
 
 typedarray-to-buffer@^3.1.5:
   version "3.1.5"
