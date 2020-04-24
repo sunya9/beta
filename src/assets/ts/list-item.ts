@@ -18,8 +18,8 @@ export default (dateKey: string) =>
         return dateKey.split('.').reduce((obj, key) => obj[key], this as any)
       },
       date(): string {
-        const now = this.$moment(this.lastUpdate)
-        const postDate = this.$moment(this.itemDate)
+        const now = this.$dayjs(this.lastUpdate)
+        const postDate = this.$dayjs(this.itemDate)
         if (now.diff(postDate, 'day') >= 1) {
           const lastYear =
             now.toDate().getFullYear() - postDate.toDate().getFullYear()
@@ -30,7 +30,7 @@ export default (dateKey: string) =>
         }
       },
       absDate(): string {
-        return this.$moment(this.itemDate).format('YYYY/MM/DD HH:mm:ss')
+        return this.$dayjs(this.itemDate).format('YYYY/MM/DD HH:mm:ss')
       },
     },
   })

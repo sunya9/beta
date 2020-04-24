@@ -75,7 +75,6 @@
 </template>
 
 <script lang="ts">
-import moment from 'moment'
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { MenuItem, getMenus } from './MenuItem'
 
@@ -102,7 +101,7 @@ export default class Sidebar extends Vue {
   }
 
   get last_modified() {
-    return moment(process.env.last_modified).format('YYYY-MM-DD')
+    return this.$dayjs(process.env.last_modified).format('YYYY-MM-DD')
   }
 
   get user() {

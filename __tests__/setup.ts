@@ -6,7 +6,7 @@ import '~/plugins/font-awesome'
 import { config, RouterLinkStub } from '@vue/test-utils'
 import '~/plugins/modal'
 import '~/plugins/emojify'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
 
 Vue.use(Vuex)
@@ -64,7 +64,7 @@ Vue.use({
       pause() {},
       unpause() {},
     }
-    Vue.prototype.$moment = moment
+    Vue.prototype.$dayjs = dayjs
     ;[
       // dummy directives
       'on-click-outside',

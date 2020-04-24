@@ -114,7 +114,7 @@ const config: Configuration = {
     '~/plugins/axios/',
     '~/plugins/font-awesome',
     '~/plugins/modal',
-    '~/plugins/moment',
+    '~/plugins/dayjs',
   ],
 
   // router settings
