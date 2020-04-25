@@ -1544,12 +1544,12 @@
     "@types/webpack-dev-middleware" "^3.7.0"
     "@types/webpack-hot-middleware" "^2.25.2"
 
-"@nuxt/typescript-build@0.6.5":
-  version "0.6.5"
-  resolved "https://registry.yarnpkg.com/@nuxt/typescript-build/-/typescript-build-0.6.5.tgz#eb1d208bf217e1d33f8606a78f69ab14743d6afd"
-  integrity sha512-IkuMcPjJh1Vx/fvtA5msA25qqdTMVVoBplD90tGt2ULA8CQ8cCEh7bqe6UhPaWzSOXLEBBNvytqbUz71mpNkiA==
+"@nuxt/typescript-build@0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@nuxt/typescript-build/-/typescript-build-0.6.6.tgz#3eb49aa8e7fbd88f8bc802c5e79de1f62439473e"
+  integrity sha512-UHSETSCMbZcNyGeIDOThGLEY+f4r/Ps+EBGx7FUQglOwB4fOsRIfSW3X+mJxu4Zj8GnsKhwfozRJB/JFVP4tdQ==
   dependencies:
-    "@nuxt/types" "0.7.4"
+    "@nuxt/types" "0.7.5"
     consola "^2.11.3"
     fork-ts-checker-webpack-plugin "^4.1.3"
     ts-loader "^6.2.2"
