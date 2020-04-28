@@ -4,6 +4,7 @@ import {
   authedUserCreateStore,
   baseMountOpts,
   fixtures,
+  authedAccessor,
 } from '../helper'
 import Post from '~/components/Post.vue'
 
@@ -17,6 +18,7 @@ describe('Post component', () => {
       baseMountOpts({
         mocks: {
           $store: authedUserCreateStore(),
+          $accessor: authedAccessor(),
         },
         propsData: {
           post: fixtures('post'),

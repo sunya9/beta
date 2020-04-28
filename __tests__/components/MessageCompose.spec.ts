@@ -5,6 +5,7 @@ import {
   authedUserCreateStore,
   baseMountOpts,
   fixtures,
+  authedAccessor,
 } from '../helper'
 import MessageCompose from '~/components/MessageCompose.vue'
 import { Channel } from '~/models/channel'
@@ -22,6 +23,7 @@ describe('MessageCompose component', () => {
         },
         mocks: {
           $store: authedUserCreateStore(),
+          $accessor: authedAccessor(),
         },
       })
     )
@@ -86,6 +88,7 @@ describe('MessageCompose component', () => {
         },
         mocks: {
           $store: authedUserCreateStore(),
+          $accessor: authedAccessor(),
           $route: {
             params: {
               channel: 1,

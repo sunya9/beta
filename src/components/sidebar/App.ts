@@ -110,13 +110,13 @@ export default Vue.extend({
   name: 'AppSidebar',
   extends: Sidebar,
   data() {
-    const { user } = this.$accessor
-    const menus = createAppMenus({
-      self: this,
-      user,
-    })
+    // const { user } = this.$accessor
+    // const menus = createAppMenus({
+    //   self: this,
+    //   user,
+    // })
     return {
-      menus,
+      // menus,
     }
   },
 })

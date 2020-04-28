@@ -10,9 +10,9 @@ import {
   fixtures,
   createLocalVue,
   sleep,
+  authedAccessor,
 } from '../helper'
 import Profile from '~/components/Profile.vue'
-import CreatePmModal from '~/components/CreatePmModal.vue'
 import { User } from '~/models/user'
 
 type ProfileType = Vue & typeof Profile
@@ -28,12 +28,13 @@ describe('Profile component', () => {
       },
       mocks: {
         $store: authedUserCreateStore(),
+        $accessor: authedAccessor(),
       },
       attachToDocument: true,
       stubs: {
         Thumb: true,
         NuxtLink,
-        CreatePmModal,
+        CreatePmModal: true,
       },
     }
   })

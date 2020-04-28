@@ -300,11 +300,11 @@ export default Vue.extend({
     },
   },
   mounted() {
-    const { width } = this.$el.getBoundingClientRect()
+    // const { width } = this.$el.getBoundingClientRect()
     if (!this.profile.content) return
     // 2 === side border width
-    const ratio = (width - 2) / this.profile.content.cover_image.width
-    this.headerHeight = this.profile.content.cover_image.height * ratio
+    // const ratio = (width - 2) / this.profile.content.cover_image.width
+    // this.headerHeight = this.profile.content.cover_image.height * ratio
     this.dropdown = new Dropdown(this.$refs.dropdown as Element)
   },
   methods: {

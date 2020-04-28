@@ -24,7 +24,7 @@
           >
             <font-awesome-icon :icon="['far', 'smile']" size="lg" />
           </a>
-          <no-ssr>
+          <client-only>
             <picker
               v-show="showEmojiPicker"
               ref="picker"
@@ -34,7 +34,7 @@
               class="emoji-picker"
               @select="addEmoji"
             />
-          </no-ssr>
+          </client-only>
         </div>
         <div v-show="photos.length" class="form-group">
           <transition-group

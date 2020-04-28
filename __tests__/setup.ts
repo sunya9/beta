@@ -8,11 +8,15 @@ import '~/plugins/modal'
 import '~/plugins/emojify'
 import dayjs from 'dayjs'
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
+import { getAccessorType, getterTree } from 'nuxt-typed-vuex'
+import { getters } from '~/store'
+import { authedUserCreateStore } from '~/../__tests__/helper'
+import '~/plugins/dayjs'
 
 Vue.use(Vuex)
 
 config.stubs = {
-  'no-ssr': {
+  'client-only': {
     functional: true,
     render: (h, context) => h('div', context.data, context.children),
   },
@@ -22,6 +26,14 @@ config.stubs = {
   },
   'nuxt-link': RouterLinkStub,
 }
+
+const state = () => authedUserCreateStore().state
+const $accessor = getAccessorType({
+  state,
+  getters: getterTree(state, getters),
+})
+
+if (config.mocks) config.mocks.$accessor = $accessor
 
 Vue.use({
   install(Vue) {
@@ -36,7 +48,8 @@ Vue.use({
       'put',
       'patch',
     ]) {
-      ;(axios as any)[`$${method}`] = function <T>(
+      const axiosmod = axios as any
+      axiosmod[`$${method}`] = function <T>(
         this: NuxtAxiosInstance
       ): Promise<T> {
         return (this as any)[method]
@@ -76,6 +89,7 @@ Vue.use({
         unbind: () => {},
       })
     })
+    Vue.prototype.$accessor = $accessor
     // Vue.prototype.$toast = {
     //   error: jest.fn(),
     //   success: jest.fn()

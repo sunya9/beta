@@ -3,6 +3,7 @@ import {
   fixtures,
   baseMountOpts,
   authedUserCreateStore,
+  authedAccessor,
 } from '../helper'
 import PostList from '~/components/PostList.vue'
 
@@ -24,6 +25,7 @@ describe('PostList component', () => {
           },
           mocks: {
             $store: authedUserCreateStore(),
+            $accessor: authedAccessor(),
           },
         })
       )

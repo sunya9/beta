@@ -1,4 +1,5 @@
-import { getAccessorType, getterTree } from 'typed-vuex'
+import { GetterTree } from 'vuex'
+import { getAccessorType, getterTree } from 'nuxt-typed-vuex'
 import { Auth } from '@nuxtjs/auth'
 import { Token } from '~/models/token'
 import { PnutResponse } from '~/models/pnut-response'
@@ -10,19 +11,21 @@ export type State = {
 
 export const state = (): State => ({})
 
-export const getters = getterTree(state, {
+export const rawGetters: GetterTree<State, any> = {
   user({ auth }): User | null {
     return auth?.user?.data?.user || null
   },
   storage({ auth }): Token.Storage {
     return (
-      auth?.user?.data?.storage || {
+      auth?.user?.data?.storage ?? {
         available: 0,
         total: 0,
       }
     )
   },
-})
+}
+
+export const getters = getterTree(state, rawGetters)
 
 export const accessorType = getAccessorType({
   state,
