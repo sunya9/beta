@@ -18,7 +18,7 @@
     invariant "^2.2.4"
     semver "^5.5.0"
 
-"@babel/core@^7.1.0", "@babel/core@^7.7.5", "@babel/core@^7.9.0":
+"@babel/core@7.9.0", "@babel/core@^7.1.0", "@babel/core@^7.7.5", "@babel/core@^7.9.0":
   version "7.9.0"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.9.0.tgz#ac977b538b77e132ff706f3b8a4dbad09c03c56e"
   integrity sha512-kWc7L0fw1xwvI0zi8OKVBuxRVefwGOrKSQMvrQ3dW+bIIavBY3/NpXmpjMy7bQnLgwgzWQZ8TlM57YHpHNHz4w==
@@ -573,7 +573,7 @@
     "@babel/helper-plugin-utils" "^7.8.3"
     babel-plugin-dynamic-import-node "^2.3.0"
 
-"@babel/plugin-transform-modules-commonjs@^7.9.0":
+"@babel/plugin-transform-modules-commonjs@7.9.0", "@babel/plugin-transform-modules-commonjs@^7.9.0":
   version "7.9.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-modules-commonjs/-/plugin-transform-modules-commonjs-7.9.0.tgz#e3e72f4cbc9b4a260e30be0ea59bdf5a39748940"
   integrity sha512-qzlCrLnKqio4SlgJ6FMMLBe4bySNis8DFn1VkGmOcxG9gqEyPIOzeQrA//u0HAKrWpJlpZbZMPB1n/OPa4+n8g==
@@ -699,7 +699,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.3"
 
-"@babel/plugin-transform-typescript@^7.9.0", "@babel/plugin-transform-typescript@^7.9.4":
+"@babel/plugin-transform-typescript@7.9.4", "@babel/plugin-transform-typescript@^7.9.0":
   version "7.9.4"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-typescript/-/plugin-transform-typescript-7.9.4.tgz#4bb4dde4f10bbf2d787fce9707fb09b483e33359"
   integrity sha512-yeWeUkKx2auDbSxRe8MusAG+n4m9BFY/v+lPjmQDgOFX5qnySkUY5oXzkp6FwPdsYqnKay6lorXYdC0n3bZO7w==
@@ -724,7 +724,7 @@
     core-js "^2.6.5"
     regenerator-runtime "^0.13.4"
 
-"@babel/preset-env@^7.9.0", "@babel/preset-env@^7.9.5":
+"@babel/preset-env@7.9.5", "@babel/preset-env@^7.9.0":
   version "7.9.5"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.9.5.tgz#8ddc76039bc45b774b19e2fc548f6807d8a8919f"
   integrity sha512-eWGYeADTlPJH+wq1F0wNfPbVS1w1wtmMJiYk55Td5Yu28AsdR9AsC97sZ0Qq8fHqQuslVSIYSGJMcblr345GfQ==
@@ -4552,7 +4552,7 @@ date-fns@^1.27.2:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
 
-dayjs@^1.8.25:
+dayjs@1.8.25:
   version "1.8.25"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.25.tgz#d09a8696cee7191bc1289e739f96626391b9c73c"
   integrity sha512-Pk36juDfQQGDCgr0Lqd1kw15w3OS6xt21JaLPE3lCfsEf8KrERGwDNwvK1tRjrjqFC0uZBJncT4smZQ4F+uV5g==
@@ -9030,7 +9030,7 @@ nuxt-property-decorator@2.7.2:
     vuex-class "^0.3.2"
     vuex-module-decorators "^0.16.1"
 
-nuxt-typed-vuex@^0.1.18:
+nuxt-typed-vuex@0.1.18:
   version "0.1.18"
   resolved "https://registry.yarnpkg.com/nuxt-typed-vuex/-/nuxt-typed-vuex-0.1.18.tgz#86373a6b0f8d91ef2015ae5bc4bb0348a8a67c76"
   integrity sha512-fzUWbkLmlVNtzMGTA6HkhKk1d3HxqkQvXbw3XKKkWfjoHfWAY6iH3qJr3dQ3eVfiMkFtYxs+ofyfpidOIvVhrQ==
