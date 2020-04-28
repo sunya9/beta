@@ -1,10 +1,6 @@
 <template>
-  <base-list v-bind="$attrs">
-    <poll
-      slot-scope="{ item, index }"
-      :poll="item"
-      @update:data="(data) => $set(items, index, data)"
-    />
+  <base-list v-slot="{ item, index }" v-bind="$attrs">
+    <poll :poll="item" @update:data="(data) => $set(items, index, data)" />
   </base-list>
 </template>
 <script lang="ts">

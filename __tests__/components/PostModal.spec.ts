@@ -4,6 +4,7 @@ import {
   authedUserCreateStore,
   RouterLinkStub as NuxtLink,
   fixtures,
+  authedAccessor,
 } from '../helper'
 import PostModal from '~/components/PostModal.vue'
 import { Post } from '~/models/post'
@@ -16,6 +17,7 @@ describe('PostModal component', () => {
     wrapper = mount<PostModalType>(PostModal, {
       mocks: {
         $store: authedUserCreateStore(),
+        $accessor: authedAccessor(),
       },
       stubs: {
         Compose: true,

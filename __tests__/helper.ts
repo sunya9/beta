@@ -5,9 +5,10 @@ import {
   RouterLinkStub as NuxtLink,
   ThisTypedMountOptions,
 } from '@vue/test-utils'
+import { useAccessor } from 'nuxt-typed-vuex'
 import axiosMock from './axios-mock'
 import fixtures from './fixtures'
-import { getters, State } from '~/store'
+import { getters, State, accessorType, rawGetters } from '~/store'
 import { User } from '~/models/user'
 
 function createStore() {
@@ -15,8 +16,11 @@ function createStore() {
     getters,
   })
   store.replaceState({
+    ...store.state,
     auth: {
+      ...store.state.auth,
       loggedIn: false,
+      $state: null,
     },
   })
   return store
@@ -25,7 +29,9 @@ function createStore() {
 const authedUserCreateStore = () => {
   const store = createStore()
   store.replaceState({
+    ...store.state,
     auth: {
+      ...store.state.auth,
       loggedIn: true,
       user: {
         data: {
@@ -49,6 +55,20 @@ const authedUserCreateStore = () => {
     },
   })
   return store
+}
+
+export const authedAccessor = () => {
+  const store = authedUserCreateStore()
+  const state = store.state
+  const accessor = useAccessor(store, { state, getters: rawGetters })
+  const accessorMock: {
+    [T in keyof typeof accessorType]: typeof accessorType[T]
+  } = {
+    auth: accessor.auth,
+    user: accessor.user,
+    storage: accessor.storage,
+  }
+  return accessorMock
 }
 
 const sleep = (milliseconds: number) =>

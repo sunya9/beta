@@ -1,8 +1,7 @@
 <template>
-  <promise-modal ref="promiseModal" @show="show" @hide="hide">
+  <promise-modal ref="promiseModal" v-slot="{ ok }" @show="show" @hide="hide">
     <div
       ref="modal"
-      slot-scope="{ ok }"
       class="modal"
       role="dialog"
       tabindex="-1"
@@ -42,7 +41,7 @@
                 type="button"
                 tabindex="1"
                 class="btn btn-secondary"
-                @click="hideRequest(cancelCb())"
+                @click="hideRequest()"
               >
                 Cancel
               </button>

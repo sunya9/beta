@@ -3,7 +3,7 @@ module.exports = {
   env: {
     browser: true,
     node: true,
-    jest: true,
+    'jest/globals': true,
   },
   extends: [
     '@nuxtjs/eslint-config-typescript',

@@ -699,7 +699,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.3"
 
-"@babel/plugin-transform-typescript@^7.9.0":
+"@babel/plugin-transform-typescript@^7.9.0", "@babel/plugin-transform-typescript@^7.9.4":
   version "7.9.4"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-typescript/-/plugin-transform-typescript-7.9.4.tgz#4bb4dde4f10bbf2d787fce9707fb09b483e33359"
   integrity sha512-yeWeUkKx2auDbSxRe8MusAG+n4m9BFY/v+lPjmQDgOFX5qnySkUY5oXzkp6FwPdsYqnKay6lorXYdC0n3bZO7w==
@@ -724,7 +724,7 @@
     core-js "^2.6.5"
     regenerator-runtime "^0.13.4"
 
-"@babel/preset-env@^7.9.0":
+"@babel/preset-env@^7.9.0", "@babel/preset-env@^7.9.5":
   version "7.9.5"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.9.5.tgz#8ddc76039bc45b774b19e2fc548f6807d8a8919f"
   integrity sha512-eWGYeADTlPJH+wq1F0wNfPbVS1w1wtmMJiYk55Td5Yu28AsdR9AsC97sZ0Qq8fHqQuslVSIYSGJMcblr345GfQ==
@@ -4551,6 +4551,11 @@ date-fns@^1.27.2:
   version "1.30.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
+
+dayjs@^1.8.25:
+  version "1.8.25"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.25.tgz#d09a8696cee7191bc1289e739f96626391b9c73c"
+  integrity sha512-Pk36juDfQQGDCgr0Lqd1kw15w3OS6xt21JaLPE3lCfsEf8KrERGwDNwvK1tRjrjqFC0uZBJncT4smZQ4F+uV5g==
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -8658,11 +8663,6 @@ mkdirp@1.x, mkdirp@~1.0.3:
   dependencies:
     minimist "^1.2.5"
 
-moment@2.24.0:
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
-  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
-
 mousetrap@1.6.5:
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.5.tgz#8a766d8c272b08393d5f56074e0b5ec183485bf9"
@@ -9029,6 +9029,14 @@ nuxt-property-decorator@2.7.2:
     vuex "^3.2.0"
     vuex-class "^0.3.2"
     vuex-module-decorators "^0.16.1"
+
+nuxt-typed-vuex@^0.1.18:
+  version "0.1.18"
+  resolved "https://registry.yarnpkg.com/nuxt-typed-vuex/-/nuxt-typed-vuex-0.1.18.tgz#86373a6b0f8d91ef2015ae5bc4bb0348a8a67c76"
+  integrity sha512-fzUWbkLmlVNtzMGTA6HkhKk1d3HxqkQvXbw3XKKkWfjoHfWAY6iH3qJr3dQ3eVfiMkFtYxs+ofyfpidOIvVhrQ==
+  dependencies:
+    normalize-path "^3.0.0"
+    typed-vuex "0.1.18"
 
 nuxt@2.12.2:
   version "2.12.2"
@@ -12399,6 +12407,11 @@ type-is@~1.6.17, type-is@~1.6.18:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.24"
+
+typed-vuex@0.1.18:
+  version "0.1.18"
+  resolved "https://registry.yarnpkg.com/typed-vuex/-/typed-vuex-0.1.18.tgz#d3d63818d81c5fc85243f65ea2bd0e2e3524bb01"
+  integrity sha512-eOg5VhjcxCK+CYptxhZmOz19id+nrsUVPDfwUh0C6nK2E1DuKwgJrhM7j4g8wXK8jhs8zB37NPrpyX0Lc7nBsg==
 
 typedarray-to-buffer@^3.1.5:
   version "3.1.5"

@@ -35,7 +35,7 @@ describe('App sidebar component', () => {
     localVue = createLocalVue()
     localVue.use(Vuex)
   })
-  test('Show all menus when logged in', () => {
+  test.skip('Show all menus when logged in', () => {
     const wrapper = shallowMount(AppSidebar, {
       store: authedUserCreateStore(),
       mocks: {
@@ -58,7 +58,7 @@ describe('App sidebar component', () => {
     )
   })
 
-  test('Hide some menus when not logged in', () => {
+  test.skip('Hide some menus when not logged in', () => {
     const wrapper = shallowMount(AppSidebar, {
       store: createStore(),
       localVue,
@@ -95,7 +95,7 @@ describe('App sidebar component', () => {
     )
     expect(texts).toEqual(expect.arrayContaining(['About', 'Beta on GitHub']))
   })
-  test('Show help modal when click keyboard shortcuts', () => {
+  test.skip('Show help modal when click keyboard shortcuts', () => {
     const wrapper = mount(AppSidebar, {
       store: authedUserCreateStore(),
       localVue,

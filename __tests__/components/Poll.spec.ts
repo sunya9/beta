@@ -1,5 +1,11 @@
 import { Wrapper, ThisTypedMountOptions } from '@vue/test-utils'
-import { mount, createStore, authedUserCreateStore, fixtures } from '../helper'
+import {
+  mount,
+  createStore,
+  authedUserCreateStore,
+  fixtures,
+  authedAccessor,
+} from '../helper'
 import Poll from '~/components/Poll.vue'
 
 describe('Poll component', () => {
@@ -39,6 +45,7 @@ describe('Poll component', () => {
         ...opts,
         mocks: {
           $store: authedUserCreateStore(),
+          $accessor: authedAccessor(),
         },
       })
       expect(wrapper.contains('a.disabled')).toBe(false)

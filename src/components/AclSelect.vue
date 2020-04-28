@@ -55,11 +55,11 @@ export default Vue.extend({
     },
   },
   computed: {
-    user(): User {
-      return this.$store.getters.user
+    user(): User | null {
+      return this.$accessor.user
     },
     isOwner(): boolean {
-      return this.user && this.user.id === this.ownerId
+      return this.user?.id === this.ownerId
     },
     haveFullPermission(): boolean {
       return this.yourPermission === 'full'

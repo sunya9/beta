@@ -1,5 +1,10 @@
 import { Wrapper } from '@vue/test-utils'
-import { mount, authedUserCreateStore, baseMountOpts } from '../helper'
+import {
+  mount,
+  authedUserCreateStore,
+  baseMountOpts,
+  authedAccessor,
+} from '../helper'
 import Compose from '~/components/Compose.vue'
 
 // import noSsr from 'nuxt/lib/app/components/no-ssr'
@@ -13,6 +18,7 @@ describe('Compose component', () => {
       baseMountOpts({
         mocks: {
           $store: authedUserCreateStore(),
+          $accessor: authedAccessor(),
         },
         attachToDocument: true,
       })

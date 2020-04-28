@@ -81,8 +81,8 @@ export default Vue.extend({
     relation(): string {
       return this.user.follows_you ? 'Follows you' : ''
     },
-    me(): User | void {
-      return this.$store.getters.user
+    me(): User | null {
+      return this.$accessor.user
     },
     myself(): boolean {
       return !!this.me && this.user && this.user.id === this.me.id

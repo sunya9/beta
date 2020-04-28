@@ -157,8 +157,8 @@ export default Vue.extend({
     }
   },
   computed: {
-    user(): User {
-      return this.$store.getters.user
+    user(): User | null {
+      return this.$accessor.user
     },
     isOwner(): boolean {
       return !!this.user && !!this.owner && this.user.id === this.owner.id
@@ -173,7 +173,7 @@ export default Vue.extend({
           !!this.owner &&
           !!this.newUser &&
           (user.username === this.newUser.username ||
-            this.user.username === this.newUser.username ||
+            this.user?.username === this.newUser.username ||
             this.owner.username === this.newUser.username)
       )
       return this.disabledAdd || !this.newUser.username || foundSameUser

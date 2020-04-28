@@ -185,26 +185,21 @@
           <nuxt-link v-if="me" to="/polls" class="dropdown-item">
             Your polls
           </nuxt-link>
-          <base-block-button v-if="user && !me" :profile.sync="profile">
-            <a
-              slot-scope="{ toggleBlock }"
-              class="dropdown-item"
-              href="#"
-              @click.prevent="toggleBlock"
-            >
+          <base-block-button
+            v-if="user && !me"
+            v-slot="{ toggleBlock }"
+            :profile.sync="profile"
+          >
+            <a class="dropdown-item" href="#" @click.prevent="toggleBlock">
               {{ blockText }}
             </a>
           </base-block-button>
           <base-mute-button
             v-if="user && !me && !profile.you_blocked"
+            v-slot="{ toggleMute }"
             :profile.sync="profile"
           >
-            <a
-              slot-scope="{ toggleMute }"
-              class="dropdown-item"
-              href="#"
-              @click.prevent="toggleMute"
-            >
+            <a class="dropdown-item" href="#" @click.prevent="toggleMute">
               {{ muteText }}
             </a>
           </base-mute-button>
@@ -272,7 +267,7 @@ export default Vue.extend({
   },
   computed: {
     user(): User | null {
-      return this.$store.getters.user
+      return this.$accessor.user
     },
     relation(): string {
       return this.profile.follows_you ? 'Follows you' : ''
@@ -305,11 +300,11 @@ export default Vue.extend({
     },
   },
   mounted() {
-    const { width } = this.$el.getBoundingClientRect()
+    // const { width } = this.$el.getBoundingClientRect()
     if (!this.profile.content) return
     // 2 === side border width
-    const ratio = (width - 2) / this.profile.content.cover_image.width
-    this.headerHeight = this.profile.content.cover_image.height * ratio
+    // const ratio = (width - 2) / this.profile.content.cover_image.width
+    // this.headerHeight = this.profile.content.cover_image.height * ratio
     this.dropdown = new Dropdown(this.$refs.dropdown as Element)
   },
   methods: {
