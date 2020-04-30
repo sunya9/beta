@@ -1,5 +1,6 @@
 <template>
   <base-list
+    v-slot="{ item, index, lastUpdate, updateItem }"
     v-bind="$attrs"
     list-class="list-unstyled"
     list-item-class="message"
@@ -7,7 +8,6 @@
     <message
       v-if="item"
       :key="item.id"
-      slot-scope="{ item, index, lastUpdate, updateItem }"
       :message.sync="item"
       :last-update="lastUpdate"
       :is-moderator="isModerator"

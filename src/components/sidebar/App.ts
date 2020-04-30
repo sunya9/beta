@@ -1,8 +1,15 @@
 import Vue from 'vue'
 import Sidebar from './Sidebar.vue'
 import { User } from '~/models/user'
+import { MenuItem } from '~/components/sidebar/MenuItem'
 
-function createMenus({ user, self }: { user: User; self: Vue }) {
+export function createAppMenus({
+  user,
+  self,
+}: {
+  user: User | null
+  self: Vue
+}): MenuItem[] {
   return [
     {
       type: 'heading',
@@ -103,13 +110,13 @@ export default Vue.extend({
   name: 'AppSidebar',
   extends: Sidebar,
   data() {
-    const { user } = this.$store.getters
-    const menus = createMenus({
-      self: this,
-      user,
-    })
+    // const { user } = this.$accessor
+    // const menus = createAppMenus({
+    //   self: this,
+    //   user,
+    // })
     return {
-      menus,
+      // menus,
     }
   },
 })

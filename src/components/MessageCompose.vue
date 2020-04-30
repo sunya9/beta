@@ -246,7 +246,7 @@ export default Vue.extend({
       )
     },
     storage(): Token.Storage {
-      return this.$store.getters.storage
+      return this.$accessor.storage
     },
   },
   watch: {

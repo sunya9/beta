@@ -3,6 +3,7 @@ import {
   shallowMount,
   baseMountOpts,
   authedUserCreateStore,
+  authedAccessor,
 } from '../helper'
 import User from '~/components/User.vue'
 
@@ -17,6 +18,7 @@ describe('User', () => {
           },
           mocks: {
             $store: authedUserCreateStore(),
+            $accessor: authedAccessor(),
           },
         })
       )
@@ -33,6 +35,7 @@ describe('User', () => {
           },
           mocks: {
             $store: authedUserCreateStore(),
+            $accessor: authedAccessor(),
           },
         })
       )
@@ -47,6 +50,7 @@ describe('User', () => {
           },
           mocks: {
             $store: authedUserCreateStore(),
+            $accessor: authedAccessor(),
           },
         })
       )
@@ -63,6 +67,7 @@ describe('User', () => {
           },
           mocks: {
             $store: authedUserCreateStore(),
+            $accessor: authedAccessor(),
           },
         })
       )

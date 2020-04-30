@@ -20,7 +20,6 @@
 </template>
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import moment from 'moment'
 import { ModifiedFile } from './file-list.vue'
 export default Vue.extend({
   props: {
@@ -31,7 +30,7 @@ export default Vue.extend({
   },
   computed: {
     date(): string {
-      return moment(this.file.created_at).format('LLL')
+      return this.$dayjs(this.file.created_at).format('LLL')
     },
   },
   methods: {

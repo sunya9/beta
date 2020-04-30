@@ -144,7 +144,7 @@
         </ul>
       </div>
       <div class="container d-md-none">
-        <app-sidebar
+        <sidebar
           id="globalNavigation"
           :style="{
             'max-height': collapseHeight,
@@ -161,7 +161,7 @@
 import Vue from 'vue'
 import { Dropdown, Collapse } from 'bootstrap.native'
 import SearchForm from './SearchForm.vue'
-import AppSidebar from '~/components/sidebar/App'
+import Sidebar from '~/components/sidebar/Sidebar.vue'
 import Avatar from '~/components/Avatar.vue'
 import { User } from '~/models/user'
 
@@ -170,7 +170,7 @@ const networkEvents = ['online', 'offline']
 export default Vue.extend({
   components: {
     SearchForm,
-    AppSidebar,
+    Sidebar,
     Avatar,
   },
   data() {
@@ -182,8 +182,8 @@ export default Vue.extend({
     }
   },
   computed: {
-    user(): User {
-      return this.$store.getters.user
+    user(): User | null {
+      return this.$accessor.user
     },
   },
   mounted() {

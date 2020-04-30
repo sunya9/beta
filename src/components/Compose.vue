@@ -24,7 +24,7 @@
           >
             <font-awesome-icon :icon="['far', 'smile']" size="lg" />
           </a>
-          <no-ssr>
+          <client-only>
             <picker
               v-show="showEmojiPicker"
               ref="picker"
@@ -34,7 +34,7 @@
               class="emoji-picker"
               @select="addEmoji"
             />
-          </no-ssr>
+          </client-only>
         </div>
         <div v-show="photos.length" class="form-group">
           <transition-group
@@ -42,8 +42,14 @@
             name="photos"
             class="d-flex flex-wrap justify-content align-items-center"
           >
-            v-for="(photo, i) in previewPhotos" :key="photo" :original="photo"
-            :thumb="photo" removable class="mr-2" @remove="photos.splice(i, 1)"
+            <thumb
+              v-for="(photo, i) in previewPhotos"
+              :key="photo"
+              :original="photo"
+              :thumb="photo"
+              removable
+              class="mr-2"
+              @remove="photos.splice(i, 1)"
             />
           </transition-group>
         </div>
@@ -179,14 +185,6 @@ import InputLongpost from '~/components/InputLongpost.vue'
 import textCount from '~/assets/ts/text-count'
 import resettable from '~/assets/ts/resettable'
 import { createVideoEmbedRaw } from '~/assets/ts/oembed'
-import { Raw } from '~/models/raw'
-
-function obj2FormData(obj: { [key: string]: string | Blob }) {
-  return Object.keys(obj).reduce((fd, key) => {
-    fd.append(key, obj[key])
-    return fd
-  }, new FormData())
-}
 
 @Component({
   components: {
@@ -327,12 +325,12 @@ export default class Composer extends Vue {
     return !!this.photos.length
   }
 
-  get user(): User {
-    return this.$store.getters.user
+  get user(): User | null {
+    return this.$accessor.user
   }
 
   get storage(): Token.Storage {
-    return this.$store.getters.storage
+    return this.$accessor.storage
   }
 
   @Watch('photos')
@@ -358,7 +356,7 @@ export default class Composer extends Vue {
   @Watch('replyTarget', { immediate: true })
   onChangereplyTarget(replyTarget: Post) {
     if (!replyTarget || !replyTarget.user || !replyTarget.content) return
-    const notMe = this.user.username !== replyTarget.user.username
+    const notMe = this.user?.username !== replyTarget.user.username
     if (notMe) {
       this.text = `@${replyTarget.user.username} `
     }
@@ -370,7 +368,7 @@ export default class Composer extends Vue {
         const key = mention.text.toLowerCase()
         const mentionTextWithAt = `@${mention.text}`
         const unique = !memo.includes(mentionTextWithAt)
-        const notMe = key !== this.user.username.toLowerCase()
+        const notMe = key !== this.user?.username.toLowerCase()
         if (unique && notMe) {
           memo.push(mentionTextWithAt)
         }
@@ -490,11 +488,15 @@ export default class Composer extends Vue {
     if (this.promise || this.textOverflow || this.hasNoText) return false
     const option: Post.PostBody = {
       text: this.text,
-      raw: [] as Raw<any>[],
+      raw: [],
     }
     try {
-      if (this.hasPhotos && option.raw) {
-        const raws = await this.uploadPhotos()
+      if (this.hasPhotos) {
+        this.promise = true
+        const { raws } = await this.$interactors.uploadPhotos.run({
+          photos: this.photos,
+        })
+        this.promise = false
         option.raw.push(...raws)
       }
       if (this.replyTarget) {
@@ -566,47 +568,6 @@ export default class Composer extends Vue {
         this.promise = null
         this.$toast.success('Posted!')
       })
-  }
-
-  async uploadPhotos() {
-    const photosPromise = this.photos.map(async (content) => {
-      const data = obj2FormData({
-        type: 'net.unsweets.beta',
-        name: content.name,
-        kind: 'image',
-
-        content,
-        is_public: 'true',
-      })
-      const res = await this.$axios.$post('/files', data, {
-        headers: {
-          'Content-type': 'multipart/form-data',
-        },
-      })
-      return res
-    })
-
-    this.promise = true
-    const photosJson = await Promise.all(photosPromise)
-    const raws = photosJson.map((res) => {
-      const image = res.data
-      const value = {
-        '+io.pnut.core.file': {
-          file_id: image.id,
-          file_token: image.file_token,
-          format: 'oembed',
-        },
-      }
-      return Object.assign(
-        {},
-
-        {
-          type: 'io.pnut.core.oembed',
-        },
-        { value }
-      )
-    })
-    return raws
   }
 
   fileChange(e: Event) {

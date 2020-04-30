@@ -7,6 +7,7 @@ import {
   authedUserCreateStore,
   RouterLinkStub as NuxtLink,
   stub,
+  authedAccessor,
 } from '../helper'
 import { State } from '~/store'
 import Header from '~/components/Header.vue'
@@ -33,6 +34,7 @@ describe('Header component', () => {
     authOpts = defaultsDeep({}, baseOpts, {
       mocks: {
         $store: authedStore,
+        $accessor: authedAccessor(),
       },
     })
   })

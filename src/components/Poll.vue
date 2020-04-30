@@ -68,7 +68,6 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
-import moment from 'moment'
 import { cloneDeep } from 'lodash'
 import { Poll } from '~/models/poll'
 import { PollNotice } from '~/models/raw/raw/poll-notice'
@@ -93,7 +92,7 @@ export default class extends Vue {
   )
 
   get votable() {
-    return this.$store.getters.user && !this.closed
+    return this.$accessor.user && !this.closed
   }
 
   get finished() {
@@ -101,7 +100,8 @@ export default class extends Vue {
   }
 
   get until() {
-    return moment(this.internalPoll.closed_at).format('llll')
+    return ''
+    // return this.$dayjs(this.internalPoll.closed_at).format('llll')
   }
 
   get closed() {

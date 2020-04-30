@@ -1,4 +1,9 @@
-import { mount, authedUserCreateStore, fixtures } from '../helper'
+import {
+  mount,
+  authedUserCreateStore,
+  fixtures,
+  authedAccessor,
+} from '../helper'
 import Interaction from '~/components/Interaction.vue'
 
 describe('Interaction component', () => {
@@ -6,6 +11,7 @@ describe('Interaction component', () => {
     const wrapper = mount(Interaction, {
       mocks: {
         $store: authedUserCreateStore(),
+        $accessor: authedAccessor(),
       },
       propsData: {
         interaction: fixtures('interaction', 'reply'),
@@ -20,6 +26,7 @@ describe('Interaction component', () => {
     const wrapper = mount(Interaction, {
       mocks: {
         $store: authedUserCreateStore(),
+        $accessor: authedAccessor(),
       },
       propsData: {
         interaction: fixtures('interaction', 'bookmark'),
@@ -34,6 +41,7 @@ describe('Interaction component', () => {
     const wrapper = mount(Interaction, {
       mocks: {
         $store: authedUserCreateStore(),
+        $accessor: authedAccessor(),
       },
       propsData: {
         interaction: fixtures('interaction', 'repost'),
@@ -48,6 +56,7 @@ describe('Interaction component', () => {
     const wrapper = mount(Interaction, {
       mocks: {
         $store: authedUserCreateStore(),
+        $accessor: authedAccessor(),
       },
       propsData: {
         interaction: fixtures('interaction', 'follow'),

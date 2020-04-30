@@ -48,7 +48,7 @@
 </template>
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { mapGetters } from 'vuex'
+import { User } from '../models/user'
 import { PnutResponse } from '~/models/pnut-response'
 import keyBinding from '~/assets/ts/key-binding'
 
@@ -127,7 +127,9 @@ export default Vue.extend({
     }
   },
   computed: {
-    ...mapGetters(['user']),
+    user(): User | null {
+      return this.$accessor.user
+    },
     select: {
       get(): number {
         return this.internalSelect

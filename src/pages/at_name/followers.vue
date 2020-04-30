@@ -10,13 +10,16 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Component } from 'nuxt-property-decorator'
 import UserList from '~/components/UserList.vue'
+import { User } from '~/models/user'
+import { PnutResponse } from '~/models/pnut-response'
 
 type Data = {
   name: string
 }
 
-export default Vue.extend<Data, {}, {}, {}>({
+@Component({
   components: {
     UserList,
   },
@@ -41,10 +44,14 @@ export default Vue.extend<Data, {}, {}, {}>({
       })
     }
   },
-  head() {
+  head(this: Followers) {
     return {
       title: `@${this.name}'s followers`,
     }
   },
 })
+export default class Followers extends Vue {
+  name!: string
+  data!: PnutResponse<User[]>
+}
 </script>

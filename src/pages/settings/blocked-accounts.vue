@@ -23,5 +23,5 @@ import UserList from '~/components/UserList.vue'
     }
   },
 })
-export class BlockedAccounts extends Vue {}
+export default class BlockedAccounts extends Vue {}
 </script>

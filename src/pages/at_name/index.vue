@@ -76,7 +76,7 @@ export default class extends Vue {
   }
 
   get user(): User | null {
-    return this.$store.getters.user
+    return this.$accessor.user
   }
 
   get initialText(): string {

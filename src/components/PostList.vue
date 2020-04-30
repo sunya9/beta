@@ -1,6 +1,7 @@
 <template>
   <base-list
     ref="list"
+    v-slot="{ item, index, lastUpdate, selected, updateItem }"
     v-bind="$attrs"
     :data.sync="data"
     :data-added-hook="added"
@@ -18,7 +19,6 @@
   >
     <post
       :key="item.id"
-      slot-scope="{ item, index, lastUpdate, selected, updateItem }"
       :selected="selected"
       :post="item"
       :last-update="lastUpdate"
@@ -66,11 +66,10 @@ export default class PostList extends Vue {
   data!: PnutResponse<Post[]>
 
   select!: number
-  get user(): User {
-    return this.$store.getters.user
+  get user(): User | null {
+    return this.$accessor.user
   }
 
-  // ...mapGetters(['user']),
   get mainItem(): Post | null {
     return this.data.data.find((item: Post) => item.id === this.main) || null
   }
