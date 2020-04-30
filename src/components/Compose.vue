@@ -165,10 +165,10 @@
 import querystring from 'querystring'
 import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
 import { Cancelable } from 'lodash'
+import { PostPollRequest } from '../plugins/domain/dto/poll'
 import { Token } from '~/models/token'
 import { Post } from '~/models/post'
 import { LongPost } from '~/models/raw/raw/long-post'
-import { Poll } from '~/models/poll'
 import { Spoiler } from '~/models/raw/raw/spoiler'
 import { User } from '~/models/user'
 import {
@@ -250,7 +250,7 @@ export default class Composer extends Vue {
   text: string = this.initialText
   replyStartPos = 0
   showEmojiPicker = false
-  poll: Poll.PostBody | null = null
+  poll: PostPollRequest | null = null
 
   spoiler: Spoiler.Value | null = null
   longpost: LongPost.Value | null = null
@@ -474,14 +474,13 @@ export default class Composer extends Vue {
     textarea.focus()
   }
 
-  async uploadPoll() {
-    if (!this.poll) return
-    this.poll.options = this.poll.options.filter((option) => option.text)
-    const res = await this.$axios.$post('/polls', {
-      ...this.poll,
-      prompt: this.poll.prompt || this.text,
+  async uploadPoll(poll: PostPollRequest) {
+    poll.options = poll.options.filter((option) => option.text)
+    const res = await this.$interactors.postPolls.run({
+      poll,
+      fallbackText: this.text,
     })
-    return res
+    return res.poll
   }
 
   async submit() {
@@ -519,10 +518,8 @@ export default class Composer extends Vue {
           value: this.longpost,
         })
       }
-      if (this.hasPoll && option.raw) {
-        const {
-          data: { id: poll_id, poll_token },
-        } = await this.uploadPoll()
+      if (this.poll && option.raw) {
+        const { id: poll_id, poll_token } = await this.uploadPoll(this.poll)
         option.raw.push({
           type: 'io.pnut.core.poll-notice',
           value: {

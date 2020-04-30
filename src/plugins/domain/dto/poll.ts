@@ -17,7 +17,7 @@ export type PostPollRequest = {
   is_public?: boolean
   is_anonymous?: boolean
   max_options?: number
-} & ({ closed_at: Date } | { duration: Date })
+} & ({ closed_at?: Date } | { duration?: Date })
 
 export type PutPollResponseRequest = {
   poll_id: string

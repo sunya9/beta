@@ -8,6 +8,8 @@ import {
 import { Interaction } from '~/models/interaction'
 import { UserIdRequest } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
+import { PostPollRequest } from '~/plugins/domain/dto/poll'
+import { Poll } from '~/models/poll'
 
 export interface PnutRepository {
   getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
@@ -26,4 +28,8 @@ export interface PnutRepository {
   ): Promise<PnutResponse<Post[]>>
   getGlobal(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
   uploadFile(data: FormData): Promise<PnutResponse<File>>
+  postPoll(
+    poll: PostPollRequest,
+    fallbackText?: string
+  ): Promise<PnutResponse<Poll>>
 }

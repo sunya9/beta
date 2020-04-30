@@ -10,9 +10,21 @@ import {
 import { Interaction } from '~/models/interaction'
 import { UserIdRequest } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
+import { PostPollRequest } from '~/plugins/domain/dto/poll'
+import { Poll } from '~/models/poll'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  postPoll(
+    poll: PostPollRequest,
+    fallbackText?: string
+  ): Promise<PnutResponse<Poll>> {
+    return this.axios.$post('/polls', {
+      ...poll,
+      prompt: poll.prompt || fallbackText,
+    })
+  }
+
   uploadFile(data: FormData): Promise<PnutResponse<File>> {
     return this.axios.$post('/files', data, {
       headers: {

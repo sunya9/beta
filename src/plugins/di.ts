@@ -4,9 +4,14 @@ import {
   UploadPhotosInteractor,
 } from '~/plugins/domain/usecases/uploadPhotos'
 import { PnutRepositoryImpl } from '~/plugins/infrastructure/pnutRepositoryImpl'
+import {
+  PostPollInteractor,
+  PostPollUseCase,
+} from '~/plugins/domain/usecases/postPoll'
 
 interface Interactors {
   uploadPhotos: UploadPhotosUseCase
+  postPolls: PostPollUseCase
 }
 
 const plugin: Plugin = (context, inject) => {
@@ -14,6 +19,9 @@ const plugin: Plugin = (context, inject) => {
   const interactors: Interactors = {
     get uploadPhotos() {
       return new UploadPhotosInteractor(getPnutRepository())
+    },
+    get postPolls() {
+      return new PostPollInteractor(getPnutRepository())
     },
   }
   inject('interactors', interactors)
