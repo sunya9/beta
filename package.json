@@ -33,7 +33,7 @@
     "nuxt-typed-vuex": "0.1.18",
     "sass-loader": "8.0.2",
     "string-length": "4.0.1",
-    "twemoji": "12.1.6",
+    "twemoji": "13.0.0",
     "unicode-substring": "1.0.0",
     "vue-infinite-scroll": "2.0.2",
     "vue-on-click-outside": "1.0.3",
