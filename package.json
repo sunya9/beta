@@ -64,7 +64,7 @@
     "babel-jest": "26.0.1",
     "eslint": "7.0.0",
     "eslint-config-prettier": "6.11.0",
-    "eslint-plugin-jest": "23.10.0",
+    "eslint-plugin-jest": "23.11.0",
     "flush-promises": "1.0.2",
     "husky": "4.2.5",
     "imagemin-lint-staged": "0.4.0",
