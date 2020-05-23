@@ -62,7 +62,7 @@
     "axios-mock-adapter": "1.18.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "26.0.1",
-    "eslint": "7.0.0",
+    "eslint": "7.1.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-jest": "23.13.1",
     "flush-promises": "1.0.2",
