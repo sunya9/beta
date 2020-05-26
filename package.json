@@ -47,7 +47,7 @@
     "@babel/plugin-transform-modules-commonjs": "7.9.6",
     "@babel/plugin-transform-typescript": "7.9.6",
     "@babel/preset-env": "7.9.6",
-    "@nuxt/types": "0.7.6",
+    "@nuxt/types": "0.7.7",
     "@nuxt/typescript-build": "0.6.6",
     "@nuxtjs/eslint-config-typescript": "2.0.0",
     "@types/emoji-regex": "8.0.0",
