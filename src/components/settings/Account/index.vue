@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div v-if="account.content">
       <cover :cover="account.content.cover_image" />
       <avatar :avatar="account.content.avatar_image" />
     </div>
@@ -89,6 +89,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Prop, Component } from 'vue-property-decorator'
 import Cover from './Cover.vue'
 import Avatar from './Avatar.vue'
 import locales from '~/assets/json/locales.json'
@@ -96,64 +97,62 @@ import timezones from '~/assets/json/timezones.json'
 import { PnutResponse } from '~/models/pnut-response'
 import { User } from '~/models/user'
 
-export default Vue.extend({
+@Component({
   components: {
     Cover,
     Avatar,
   },
-  props: {
-    account: {
-      type: Object,
-      required: true,
-      validator: (obj) =>
-        ['name', 'content', 'locale', 'timezone'].every((key) => key in obj),
-    },
-  },
-  data() {
-    return {
-      name: this.account.name,
-      description: this.account.content.text,
-      timezone: this.account.timezone,
-      locale: this.account.locale,
-      locales,
-      timezones,
-      promise: null as Promise<PnutResponse<User>> | null,
-    }
-  },
-  computed: {
-    // TODO
-    submitData(): {
-      name: string
-      content: {
-        text: string
-      }
-      timezone: string
-      locale: string
-    } {
-      return {
-        name: this.name,
-        content: {
-          text: this.description,
-        },
-        timezone: this.timezone,
-        locale: this.locale,
-      }
-    },
-  },
-  methods: {
-    async update() {
-      try {
-        this.promise = this.$axios.$patch<PnutResponse<User>>(
-          '/users/me',
-          this.submitData
-        )
-        await this.promise
-        this.$toast.success('Updated!')
-      } catch (e) {
-        this.$toast.error(e.message)
-      }
-      this.promise = null
-    },
-  },
 })
+export default class AccountView extends Vue {
+  @Prop({
+    type: Object,
+    required: true,
+    validator: (obj) =>
+      ['name', 'content', 'locale', 'timezone'].every((key) => key in obj),
+  })
+  account!: User
+
+  name = this.account.name
+  description = this.account.content?.text || ''
+  timezone = this.account.timezone
+  locale = this.account.locale
+
+  locales = locales
+  timezones = timezones
+
+  promise: Promise<PnutResponse<User>> | null = null
+
+  // TODO
+  get submitData(): {
+    name: string
+    content: {
+      text: string
+    }
+    timezone: string
+    locale: string
+  } {
+    return {
+      name: this.name,
+      content: {
+        text: this.description,
+      },
+      timezone: this.timezone,
+      locale: this.locale,
+    }
+  }
+
+  async update() {
+    try {
+      this.promise = this.$axios.$patch<PnutResponse<User>>(
+        '/users/me',
+        this.submitData
+      )
+      await this.promise
+      this.$toast.success('Updated!')
+    } catch (e) {
+      this.$toast.error(e.message)
+    }
+    this.promise = null
+  }
+}
 </script>

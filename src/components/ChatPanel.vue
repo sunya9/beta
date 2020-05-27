@@ -1,7 +1,7 @@
 <template>
   <channel-panel :channel.sync="channel">
     <template slot="title">
-      <emojify :text="$metaInfo.title" />
+      <emojify :text="chat.name" />
       <button
         v-if="isModerator"
         class="btn btn-link mr-2"
@@ -69,83 +69,86 @@
   </channel-panel>
 </template>
 <script lang="ts">
-import { PropOptions } from 'vue'
 import { upperFirst } from 'lodash'
+import { Component, Prop } from 'vue-property-decorator'
 import ChannelPanel from '~/components/ChannelPanel.vue'
 import { BaseChannelPanel } from '~/components/BaseChannelPanel'
 import ChannelUserList from '~/components/ChannelUserList.vue'
 import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
 import { Channel } from '~/models/channel'
 
-export default BaseChannelPanel.extend({
-  name: 'ChatPanel',
+@Component({
   components: {
     ChannelPanel,
     ChannelUserList,
   },
-  props: {
-    chat: {
-      type: Object,
-      required: true,
-    } as PropOptions<ChatRoomSettings.Value>,
-    isModerator: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  methods: {
-    upperFirst,
-    async memberEditModal() {
-      const acl = await this.$modal.show<Channel.Acl>(
-        'channel-member-edit-modal',
-        this.channel
-      )
-      if (!acl) return
-      this.update({
-        acl,
-      })
-    },
-    async channelEditModal() {
-      if (!this.channel || !this.channel.raw) return
-      const chatRawValue = await this.$modal.show<ChatRoomSettings.Value>(
-        'channel-edit-modal',
-        this.channel
-      )
-      if (!chatRawValue) return
-      const chatRawIndex = this.channel.raw.findIndex(
-        (r) => r.type === 'io.pnut.core.chat-settings'
-      )
-      if (chatRawIndex < 0) return
-      if (!!chatRawValue.categories && !chatRawValue.categories.length)
-        delete chatRawValue.categories
-      const chatRaw = {
-        type: 'io.pnut.core.chat-settings',
-        value: chatRawValue,
-      }
-      const raw = [...this.channel.raw]
-      raw[chatRawIndex] = chatRaw
-      this.$set(this.channel.raw, chatRawIndex, chatRaw)
-      this.update({
-        raw,
-      })
-    },
-    async update(channel: Partial<Channel>) {
-      try {
-        const { data: response } = await this.$axios.$patch(
-          `/channels/${this.channel.id}?include_channel_raw=1&include_limited_users=1`,
-          channel
-        )
-        this.$toast.success('Updated!')
-        this.channel = response
-      } catch (e) {
-        this.$toast.error(e.message)
-      }
-    },
-  },
-  head() {
+  head(this: ChatPanel) {
     return {
       title: this.chat.name,
     }
   },
 })
+export default class ChatPanel extends BaseChannelPanel {
+  @Prop({
+    type: Object,
+    required: true,
+  })
+  chat!: ChatRoomSettings.Value
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isModerator!: boolean
+
+  upperFirst = upperFirst
+  async memberEditModal() {
+    const acl = await this.$modal.show<Channel.Acl>(
+      'channel-member-edit-modal',
+      this.channel
+    )
+    if (!acl) return
+    this.update({
+      acl,
+    })
+  }
+
+  async channelEditModal() {
+    if (!this.channel || !this.channel.raw) return
+    const chatRawValue = await this.$modal.show<ChatRoomSettings.Value>(
+      'channel-edit-modal',
+      this.channel
+    )
+    if (!chatRawValue) return
+    const chatRawIndex = this.channel.raw.findIndex(
+      (r) => r.type === 'io.pnut.core.chat-settings'
+    )
+    if (chatRawIndex < 0) return
+    if (!!chatRawValue.categories && !chatRawValue.categories.length)
+      delete chatRawValue.categories
+    const chatRaw = {
+      type: 'io.pnut.core.chat-settings',
+      value: chatRawValue,
+    }
+    const raw = [...this.channel.raw]
+    raw[chatRawIndex] = chatRaw
+    this.$set(this.channel.raw, chatRawIndex, chatRaw)
+    this.update({
+      raw,
+    })
+  }
+
+  async update(channel: Partial<Channel>) {
+    try {
+      const { data: response } = await this.$axios.$patch(
+        `/channels/${this.channel.id}?include_channel_raw=1&include_limited_users=1`,
+        channel
+      )
+      this.$toast.success('Updated!')
+      this.channel = response
+    } catch (e) {
+      this.$toast.error(e.message)
+    }
+  }
+}
 </script>

@@ -13,18 +13,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Mixins, Component } from 'vue-property-decorator'
 import PostList from '~/components/PostList.vue'
 import { getImageURLs } from '~/assets/ts/util'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 import { PnutResponse } from '~/models/pnut-response'
 import { Post } from '~/models/post'
 
-export default Vue.extend({
+@Component({
   components: {
     PostList,
   },
-  mixins: [refreshAfterAdded],
   async asyncData(ctx) {
     const {
       params: { id },
@@ -35,7 +34,7 @@ export default Vue.extend({
       include_bookmarked_by: 1,
       include_reposted_by: 1,
     }
-    const postPromise: Promise<PnutResponse<Post[]>> = $resource({ options })
+    const postPromise = $resource<Post[]>({ options })
 
     const data = await postPromise
     data.data = data.data ? data.data.reverse() : []
@@ -45,13 +44,10 @@ export default Vue.extend({
       data,
     }
   },
-  validate({ params }) {
-    return /^\w+$/.test(params.name) && /\d+$/.test(params.id)
-  },
-  head() {
-    // TODO
-    const data = (this as any).data as PnutResponse<Post[]>
-    const [post] = data.data.filter((post) => post.id === (this as any).id)
+
+  head(this: Revisions) {
+    const data = this.data
+    const [post] = data.data.filter((post) => post.id === this.id)
     if (post.user && post.content) {
       const name = post.user.name
         ? `${post.user.name}(@${post.user.username})`
@@ -110,7 +106,15 @@ export default Vue.extend({
     }
     return {}
   },
+  validate({ params }) {
+    return /^\w+$/.test(params.name) && /\d+$/.test(params.id)
+  },
 })
+export default class Revisions extends Mixins(refreshAfterAdded) {
+  data!: PnutResponse<Post[]>
+  options!: object // TODO
+  id!: string
+}
 </script>
 
 <style scoped lang="scss">

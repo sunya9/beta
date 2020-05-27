@@ -22,7 +22,7 @@
           <custom-checkbox
             :checked="!channel.has_unread"
             :disabled="!channel.has_unread"
-            @change="markAsRead"
+            @change="() => markAsRead(channel)"
           >
             Mark as read
           </custom-checkbox>
@@ -40,43 +40,42 @@
   </div>
 </template>
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import { Component, Prop, Mixins } from 'vue-property-decorator'
 import markAsRead from '~/assets/ts/mark-as-read'
 import CustomCheckbox from '~/components/CustomCheckbox.vue'
 import { User } from '~/models/user'
 import { Channel } from '~/models/channel'
-export default Vue.extend({
-  name: 'ChannelPanel',
+
+@Component({
   components: {
     CustomCheckbox,
   },
-  mixins: [markAsRead],
-  props: {
-    channel: {
-      type: Object,
-      required: true,
-    } as PropOptions<Channel>,
-  },
-  computed: {
-    user(): User | null {
-      return this.$accessor.user
-    },
-  },
-  methods: {
-    cancelSubscribe(bool: boolean) {
-      if (!bool) return
-      this.$emit('update:channel', {
-        ...this.channel,
-        you_subscribed: false,
-      })
-    },
-    cancelMute(bool: boolean) {
-      if (!bool) return
-      this.$emit('update:channel', {
-        ...this.channel,
-        you_muted: false,
-      })
-    },
-  },
 })
+export default class ChannelPanel extends Mixins(markAsRead) {
+  @Prop({
+    type: Object,
+    required: true,
+  })
+  channel!: Channel
+
+  get user(): User | null {
+    return this.$accessor.user
+  }
+
+  cancelSubscribe(bool: boolean) {
+    if (!bool) return
+    this.$emit('update:channel', {
+      ...this.channel,
+      you_subscribed: false,
+    })
+  }
+
+  cancelMute(bool: boolean) {
+    if (!bool) return
+    this.$emit('update:channel', {
+      ...this.channel,
+      you_muted: false,
+    })
+  }
+}
 </script>

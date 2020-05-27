@@ -28,7 +28,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Mixins, Watch } from 'vue-property-decorator'
+import { PnutResponse } from '../../models/pnut-response'
 import { userIdIsSimpleUser } from '~/util/channel'
 import MessageList from '~/components/MessageList.vue'
 import MessageCompose from '~/components/MessageCompose.vue'
@@ -40,25 +41,26 @@ import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
+import { Message } from '~/models/message'
 
-export default Vue.extend({
+@Component({
   components: {
     MessageList,
     MessageCompose,
     ChatPanel,
     PmPanel,
   },
-  mixins: [refreshAfterAdded, markAsRead],
   validate({ params: { channel } }) {
     return /^\d+$/.test(channel)
   },
-  async asyncData({ app: { $axios, $resource }, params, error }) {
+  async asyncData({ app: { $resource }, params, error }) {
     const options = {
       include_deleted: 1,
     }
-    const messagesPromise = $resource({ options })
-    const channelPromise = $axios.$get(`/channels/${params.channel}`, {
-      params: {
+    const messagesPromise = $resource<Message[]>({ options })
+    const channelPromise = $resource<Channel>({
+      url: `/channels/${params.channel}`,
+      options: {
         include_limited_users: 1,
         include_channel_raw: 1,
       },
@@ -68,9 +70,17 @@ export default Vue.extend({
         messagesPromise,
         channelPromise,
       ])
-      channel.owner = {
-        ...deletedUser,
-        ...channel.owner,
+      if (channel.owner?.content) {
+        channel.owner = {
+          ...deletedUser,
+          ...channel.owner,
+          content: {
+            ...channel.owner.content,
+            avatar_image: {
+              ...channel.owner.content.avatar_image,
+            },
+          },
+        }
       }
       return {
         data,
@@ -85,64 +95,63 @@ export default Vue.extend({
       })
     }
   },
-  data() {
-    return {
-      message: '',
-      // TODO
-      channel: null as Channel | null,
-    }
-  },
-  computed: {
-    chat(): ChatRoomSettings.Value | void {
-      if (!this.channel) return
-      return findChatValueRaw(this.channel)
-    },
-    user(): User | void {
-      return this.$accessor.user
-    },
-    isModerator(): boolean {
-      return (
-        !!this.user &&
-        !!this.channel &&
-        ((this.channel.owner && this.user.id === this.channel.owner.id) ||
-          !!this.channel.acl.full.user_ids
-            .filter(userIdIsSimpleUser)
-            .find((u) => !!this.user && u.id === this.user.id))
-      )
-    },
-    isPM(): boolean {
-      if (!this.channel) return false
-      return this.channel.type === 'io.pnut.core.pm'
-    },
-    canPost(): boolean {
-      if (!this.channel) return false
-      return !!this.user && this.channel.acl.write.you
-    },
-  },
-  watch: {
-    '$route.fullPath': {
-      handler() {
-        this.$emit('updateNav', this.isPM)
-      },
-      immediate: true,
-    },
-  },
-  mounted() {
-    // TODO
-    setTimeout(() => (this as any).markAsRead(), 1000)
-  },
-  head() {
-    if (!this.channel || !this.channel.id) return {}
-    // TODO
-    const id = (this as any).channel.id
-    const link = [
-      getRSSLink(`https://api.pnut.io/v0/feed/rss/channels/${id}/messages`),
-    ]
+  head(this: ChannelView) {
+    const link = [this.rssLink]
     return {
       link,
     }
   },
 })
+export default class ChannelView extends Mixins(refreshAfterAdded, markAsRead) {
+  get rssLink() {
+    const id = this.channel.id
+    return getRSSLink(`https://api.pnut.io/v0/feed/rss/channels/${id}/messages`)
+  }
+
+  message = ''
+  channel!: Channel
+  data!: PnutResponse<Message[]>
+  options!: object
+
+  get chat(): ChatRoomSettings.Value | void {
+    if (!this.channel) return undefined
+    return findChatValueRaw(this.channel)
+  }
+
+  get user(): User | null {
+    return this.$accessor.user
+  }
+
+  get isModerator(): boolean {
+    return (
+      !!this.user &&
+      !!this.channel &&
+      ((this.channel.owner && this.user.id === this.channel.owner.id) ||
+        !!this.channel.acl.full.user_ids
+          .filter(userIdIsSimpleUser)
+          .find((u) => !!this.user && u.id === this.user.id))
+    )
+  }
+
+  get isPM(): boolean {
+    if (!this.channel) return false
+    return this.channel.type === 'io.pnut.core.pm'
+  }
+
+  get canPost(): boolean {
+    if (!this.channel) return false
+    return !!this.user && this.channel.acl.write.you
+  }
+
+  @Watch('$route.fullPath', { immediate: true })
+  onChangeRouteFullPath() {
+    this.$emit('updateNav', this.isPM)
+  }
+
+  mounted() {
+    setTimeout(() => this.markAsRead(this.channel), 1000)
+  }
+}
 </script>
 <style scoped lang="scss">
 @import '~assets/css/mixin';

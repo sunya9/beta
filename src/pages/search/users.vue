@@ -4,15 +4,20 @@
   </user-list>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Mixins } from 'vue-property-decorator'
 import search from '~/assets/ts/search'
 import UserList from '~/components/UserList.vue'
 
-export default Vue.extend({
+@Component({
   components: {
     UserList,
   },
-  mixins: [search],
+  head(this: UserSearch) {
+    const title: string = this.title
+    return {
+      title,
+    }
+  },
   async asyncData({ app: { $resource }, query }) {
     const options = {
       type: 'User',
@@ -24,11 +29,6 @@ export default Vue.extend({
       options,
     }
   },
-  head() {
-    const title: string = (this as any).title
-    return {
-      title,
-    }
-  },
 })
+export default class UserSearch extends Mixins(search) {}
 </script>

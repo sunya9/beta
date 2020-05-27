@@ -74,68 +74,61 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Mixins } from 'vue-property-decorator'
 import { Channel } from '~/models/channel'
 import { PnutResponse } from '~/models/pnut-response'
 import { Raw } from '~/models/raw'
 import resettable from '~/assets/ts/resettable'
 
-export default Vue.extend({
-  name: 'ChannelCompose',
-  mixins: [resettable],
-  data() {
-    return {
-      promise: (null as any) as Promise<PnutResponse<Channel>> | null,
-      chat: {
+@Component({})
+export default class ChannelCompose extends Mixins(resettable) {
+  promise: Promise<PnutResponse<Channel>> | null = null
+  chat = {
+    name: '',
+    description: '',
+    categories: [],
+  }
+
+  get calcDisabled(): boolean {
+    return (
+      !!this.promise ||
+      this.chat.name.length === 0 ||
+      this.chat.name.length > 128 ||
+      this.chat.description.length > 256 ||
+      this.chat.categories.length > 3
+    )
+  }
+
+  async submit() {
+    if (this.promise) return false
+    const channel = {
+      type: 'io.pnut.core.chat',
+      raw: [] as Array<Raw<any>>,
+    }
+    channel.raw.push({
+      type: 'io.pnut.core.chat-settings',
+      value: this.chat,
+    })
+    try {
+      this.promise = this.$axios.$post<PnutResponse<Channel>>(
+        '/channels',
+        channel
+      )
+      const { data: response } = await this.promise
+      this.chat = {
         name: '',
         description: '',
         categories: [],
-      },
+      }
+      this.$router.push(`/messages/${response.id}`)
+      this.$emit('submit')
+      this.reset()
+    } catch (e) {
+      this.$toast.error(e.message)
     }
-  },
-  computed: {
-    calcDisabled(): boolean {
-      return (
-        !!this.promise ||
-        this.chat.name.length === 0 ||
-        this.chat.name.length > 128 ||
-        this.chat.description.length > 256 ||
-        this.chat.categories.length > 3
-      )
-    },
-  },
-  methods: {
-    async submit() {
-      if (this.promise) return false
-      const channel = {
-        type: 'io.pnut.core.chat',
-        raw: [] as Array<Raw<any>>,
-      }
-      channel.raw.push({
-        type: 'io.pnut.core.chat-settings',
-        value: this.chat,
-      })
-      try {
-        this.promise = this.$axios.$post<PnutResponse<Channel>>(
-          '/channels',
-          channel
-        )
-        const { data: response } = await this.promise
-        this.chat = {
-          name: '',
-          description: '',
-          categories: [],
-        }
-        this.$router.push(`/messages/${response.id}`)
-        this.$emit('submit')
-        // TODO: call reset method
-      } catch (e) {
-        this.$toast.error(e.message)
-      }
-      this.promise = null
-    },
-  },
-})
+    this.promise = null
+  }
+}
 </script>
 
 <style scoped lang="scss">

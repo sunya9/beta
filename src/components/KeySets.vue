@@ -19,9 +19,7 @@
             <template v-if="i">
               &nbsp;
             </template>
-            <kbd :key="`${key}-${i}`">
-              {{ key }}
-            </kbd>
+            <kbd :key="`${key}-${i}`">{{ key }}</kbd>
           </template>
         </template>
         <template v-else>
@@ -36,25 +34,27 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
+import { Prop, Component } from 'vue-property-decorator'
 
 type KeyObj = { label: string; key: string }
-export default Vue.extend({
-  props: {
-    keySets: {
-      type: Array,
-      required: true,
-      // TODO
-      validator: (keys: KeyObj[]) =>
-        keys.every(
-          (keyObj: any) =>
-            'label' in keyObj &&
-            typeof keyObj.label === 'string' &&
-            'key' in keyObj &&
-            (typeof keyObj.key === 'string' ||
-              (typeof keyObj.key === 'object' &&
-                keyObj.key.every((k: any) => typeof k === 'string')))
-        ),
-    },
-  },
-})
+
+@Component({})
+export default class extends Vue {
+  @Prop({
+    type: Array,
+    required: true,
+    // TODO
+    validator: (keys: KeyObj[]) =>
+      keys.every(
+        (keyObj: any) =>
+          'label' in keyObj &&
+          typeof keyObj.label === 'string' &&
+          'key' in keyObj &&
+          (typeof keyObj.key === 'string' ||
+            (typeof keyObj.key === 'object' &&
+              keyObj.key.every((k: any) => typeof k === 'string')))
+      ),
+  })
+  keySets!: KeyObj[]
+}
 </script>

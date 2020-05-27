@@ -15,25 +15,22 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Mixins, Prop } from 'vue-property-decorator'
 import { actionable } from '~/assets/ts/actionable'
 
-export default Vue.extend({
-  mixins: [actionable],
-  props: {
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      id: null as string | null,
-    }
-  },
+@Component({})
+export default class extends Mixins(actionable) {
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  disabled!: boolean
+
+  id: string | null = null
+
   mounted() {
     // FIXME
     this.id = `checkbox-${(this as any)._uid}`
-  },
-})
+  }
+}
 </script>

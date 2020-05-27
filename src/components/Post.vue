@@ -18,6 +18,7 @@
       class="p-author h-card"
     >
       <avatar
+        v-if="mainPost.user.content"
         :avatar="mainPost.user.content.avatar_image"
         :alt="mainPost.user.name || mainPost.user.username"
         class="d-flex mr-3 iconSize u-photo"
@@ -36,6 +37,7 @@
     </div>
     <nuxt-link v-else-if="!preview" :to="`/@${mainPost.user.username}`">
       <avatar
+        v-if="mainPost.user.content"
         :avatar="mainPost.user.content.avatar_image"
         :alt="mainPost.user.username"
         class="d-flex mr-3 iconSize"
@@ -197,7 +199,7 @@
       </nsfw>
 
       <footer v-if="!post.is_deleted && !preview">
-        <div v-if="post.repost_of">
+        <div v-if="post.repost_of && post.user">
           <nuxt-link :to="`/@${post.user.username}`" class="text-muted">
             <font-awesome-icon icon="retweet" class="mr-1" />
             <span>Reposted by @{{ post.user.username }}</span>
@@ -257,7 +259,7 @@
               </nuxt-link>
             </li>
           </template>
-          <template v-else-if="post.counts.replies">
+          <template v-else-if="post.counts && post.counts.replies">
             <li class="list-inline-item">
               <nuxt-link
                 :to="permalink"
@@ -305,7 +307,7 @@
       <template v-if="detail">
         <hr />
         <div class="d-flex align-items-center">
-          <ul class="list-inline">
+          <ul v-if="post.counts" class="list-inline">
             <li class="list-inline-item">
               <div class="count">
                 {{ post.counts.replies }}
@@ -338,6 +340,7 @@
               class="list-inline-item"
             >
               <nuxt-link
+                v-if="reactionUser.content"
                 :to="`/@${reactionUser.username}`"
                 :title="`@${reactionUser.username}`"
               >
@@ -372,7 +375,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import { Component, Mixins, Prop } from 'vue-property-decorator'
 import ActionButton from '~/components/ActionButton.vue'
 import Avatar from '~/components/Avatar.vue'
 import Thumb from '~/components/Thumb.vue'
@@ -398,6 +401,7 @@ import {
   AudioForView,
   LongPostValueForView,
   ChannelInviteForView,
+  ImageForView,
 } from '~/assets/ts/util'
 import listItem from '~/assets/ts/list-item'
 import { Spoiler } from '~/models/raw/raw/spoiler'
@@ -406,7 +410,8 @@ function rawIsPollNotice(raw: Raw<any>): raw is PollNotice {
   return raw.type === PollNotice.type
 }
 const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
-export default Vue.extend({
+
+@Component({
   components: {
     ActionButton,
     Thumb,
@@ -416,183 +421,211 @@ export default Vue.extend({
     Poll: PollView,
     Nsfw,
   },
-  mixins: [listItem('post.created_at')],
-  props: {
-    post: {
-      type: Object,
-      required: true,
-    } as PropOptions<Post>,
-    viewOnly: {
-      type: Boolean,
-      default: false,
-    },
-    detail: {
-      type: Boolean,
-      default: false,
-    },
-    preview: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      timer: null as NodeJS.Timer | null,
-      disableEdit: true,
-      showSpoiler: false,
-      showLongpost: false,
-    }
-  },
-  computed: {
-    revised(): boolean {
-      return this.mainPost.is_revised
-    },
-    poll(): PollNotice.Value | void {
-      if (!this.mainPost.raw) return
-      const raw = this.mainPost.raw.find(rawIsPollNotice)
-      if (!raw) return
-      return raw.value
-    },
-    reactionUsers(): User[] {
-      if (!this.detail || this.post.is_deleted) return []
-      const bookmarkedBy = this.mainPost.bookmarked_by || []
-      const repostedBy = this.mainPost.reposted_by || []
-      const users = [...bookmarkedBy, ...repostedBy]
-      // TODO: merge
-      return (
-        users
-          // .slice(0, 10)
-          .reduce((res, user) => {
-            let exist = false
-            for (let i = 0; res.length > i; i++) {
-              if (res[i].id === user.id) {
-                exist = true
-                break
-              }
+})
+export default class PostView extends Mixins(listItem('post.created_at')) {
+  @Prop({
+    type: Object,
+    required: true,
+  })
+  post!: Post
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  viewOnly!: boolean
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  detail!: boolean
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  preview!: boolean
+
+  timer: NodeJS.Timer | null = null
+  disableEdit = true
+  showSpoiler = false
+  showLongpost = false
+
+  get revised(): boolean {
+    return this.mainPost.is_revised
+  }
+
+  get poll(): PollNotice.Value | void {
+    if (!this.mainPost.raw) return undefined
+    const raw = this.mainPost.raw.find(rawIsPollNotice)
+    if (!raw) return undefined
+    return raw.value
+  }
+
+  get reactionUsers(): User[] {
+    if (!this.detail || this.post.is_deleted) return []
+    const bookmarkedBy = this.mainPost.bookmarked_by || []
+    const repostedBy = this.mainPost.reposted_by || []
+    const users = [...bookmarkedBy, ...repostedBy]
+    // TODO: merge
+    return (
+      users
+        // .slice(0, 10)
+        .reduce<User[]>((res, user) => {
+          let exist = false
+          for (let i = 0; res.length > i; i++) {
+            if (res[i].id === user.id) {
+              exist = true
+              break
             }
-            if (!exist) {
-              res.push(user)
-            }
-            return res
-          }, [] as User[])
-      )
-    },
-    // TODO
-    oembedVideos(): any {
-      return getOembedVideo(this.mainPost).map((value) => {
-        const url = getVideoSrcFromHtml(value.html)
-        const type = determineVideoType(url!)
-        const { width, height } = value
-        return {
-          url,
-          type,
-          width,
-          height,
-        }
-      })
-    },
-    // TODO
-    thumbs(): any {
-      return getImageURLs(this.mainPost)
-    },
-    clips(): AudioForView[] | void {
-      return getAudio(this.mainPost)
-    },
-    crosspost(): string | void {
-      return getCrosspostLink(this.mainPost)
-    },
-    spoiler(): Spoiler.Value | void {
-      return getSpoiler(this.mainPost)
-    },
-    longpost(): LongPostValueForView | void {
-      return getLongpost(this.mainPost)
-    },
-    channelInvite(): ChannelInviteForView | void {
-      return getChannelInvite(this.mainPost)
-    },
-    me(): boolean {
-      return (
-        !!this.user && !!this.post.user && this.user.id === this.post.user.id
-      )
-    },
-    mainPost(): Post {
-      return this.post.repost_of || this.post
-    },
-    permalink(): string {
-      const user = this.mainPost.user
-      return user
-        ? `/@${user.username}/posts/${this.mainPost.id}`
-        : `/posts/${this.mainPost.id}`
-    },
-    reply_permalink(): string {
-      return `/posts/${this.mainPost.reply_to}`
-    },
-    revisions_permalink(): string {
-      return `/posts/${this.mainPost.id}/revisions`
-    },
-    user(): User | null {
-      return this.$accessor.user
-    },
-  },
+          }
+          if (!exist) {
+            res.push(user)
+          }
+          return res
+        }, [])
+    )
+  }
+
+  // TODO
+  get oembedVideos(): any {
+    return getOembedVideo(this.mainPost).map((value) => {
+      const url = getVideoSrcFromHtml(value.html)
+      const type = determineVideoType(url!)
+      const { width, height } = value
+      return {
+        url,
+        type,
+        width,
+        height,
+      }
+    })
+  }
+
+  get thumbs(): ImageForView[] {
+    return getImageURLs(this.mainPost)
+  }
+
+  get clips(): AudioForView[] | void {
+    return getAudio(this.mainPost)
+  }
+
+  get crosspost(): string | void {
+    return getCrosspostLink(this.mainPost)
+  }
+
+  get spoiler(): Spoiler.Value | void {
+    return getSpoiler(this.mainPost)
+  }
+
+  get longpost(): LongPostValueForView | void {
+    return getLongpost(this.mainPost)
+  }
+
+  get channelInvite(): ChannelInviteForView | void {
+    return getChannelInvite(this.mainPost)
+  }
+
+  get me(): boolean {
+    return !!this.user && !!this.post.user && this.user.id === this.post.user.id
+  }
+
+  get mainPost(): Post {
+    return this.post.repost_of || this.post
+  }
+
+  get permalink(): string {
+    const user = this.mainPost.user
+    return user
+      ? `/@${user.username}/posts/${this.mainPost.id}`
+      : `/posts/${this.mainPost.id}`
+  }
+
+  get reply_permalink(): string {
+    return `/posts/${this.mainPost.reply_to}`
+  }
+
+  get revisions_permalink(): string {
+    return `/posts/${this.mainPost.id}/revisions`
+  }
+
+  get user(): User | null {
+    return this.$accessor.user
+  }
+
   mounted() {
     if (!this.me) return
     // TODO
-    const diff = Date.now() - new Date((this as any).itemDate).getTime()
+    const diff = Date.now() - new Date(this.itemDate).getTime()
     const over5minutes = diff > FIVE_MINUTES
     if (over5minutes) return
     const remainMilliSeconds = FIVE_MINUTES - diff
     this.disableEdit = false
     this.timer = setTimeout(() => (this.disableEdit = true), remainMilliSeconds)
-  },
+  }
+
   beforeDestroy() {
     if (!this.timer) return
     clearTimeout(this.timer)
-  },
-  methods: {
-    toggleSpoiler() {
-      this.showSpoiler = !this.showSpoiler
-    },
-    toggleLongpost() {
-      this.showLongpost = !this.showLongpost
-    },
-    async editPost() {
-      if (this.mainPost.is_deleted) return
-      try {
-        const newPost = await this.$modal.show('post-modal', this.mainPost, {
-          edit: true,
-        })
-        this.$emit('update:post', newPost)
-      } catch (e) {}
-    },
-    replyModal() {
-      if (this.mainPost.is_deleted) return
-      this.$modal.show('post-modal', this.mainPost)
-    },
-    goPost() {
-      this.$router.push(this.permalink)
-    },
-    favoriteToggle() {
-      if (this.mainPost.is_deleted) return // TODO
-      ;(this.$refs.favorite as any).toggle()
-    },
-    repostToggle() {
-      if (this.me || this.mainPost.is_deleted) return // TODO
-      ;(this.$refs.repost as any).toggle()
-    },
-    async removeModal() {
-      if (!this.me || this.mainPost.is_deleted) return
-      try {
-        await this.$modal.show('remove-modal', this.post)
-        this.remove()
-      } catch (e) {}
-    },
-    async remove() {
-      const { data: post } = await this.$axios.$delete(`/posts/${this.post.id}`)
-      this.$toast.success('Deleted Post!')
-      this.$emit('update:post', post)
-    },
-  },
-})
+  }
+
+  toggleSpoiler() {
+    this.showSpoiler = !this.showSpoiler
+  }
+
+  toggleLongpost() {
+    this.showLongpost = !this.showLongpost
+  }
+
+  async editPost() {
+    if (this.mainPost.is_deleted) return
+    try {
+      const newPost = await this.$modal.show('post-modal', this.mainPost, {
+        edit: true,
+      })
+      this.$emit('update:post', newPost)
+    } catch (e) {}
+  }
+
+  replyModal() {
+    if (this.mainPost.is_deleted) return
+    this.$modal.show('post-modal', this.mainPost)
+  }
+
+  goPost() {
+    this.$router.push(this.permalink)
+  }
+
+  favoriteToggle() {
+    if (this.mainPost.is_deleted) return // TODO
+    this.$refs.favorite.toggle()
+  }
+
+  repostToggle() {
+    if (this.me || this.mainPost.is_deleted) return // TODO
+    this.$refs.repost.toggle()
+  }
+
+  $refs!: {
+    favorite: ActionButton
+    repost: ActionButton
+  }
+
+  async removeModal() {
+    if (!this.me || this.mainPost.is_deleted) return
+    try {
+      await this.$modal.show('remove-modal', this.post)
+      this.remove()
+    } catch (e) {}
+  }
+
+  async remove() {
+    const { data: post } = await this.$axios.$delete(`/posts/${this.post.id}`)
+    this.$toast.success('Deleted Post!')
+    this.$emit('update:post', post)
+  }
+}
 </script>
 <style scoped lang="scss">
 @import '~assets/css/override';

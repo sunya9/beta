@@ -4,11 +4,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
 import Account from '~/components/settings/Account/index.vue'
 import { PnutResponse } from '~/models/pnut-response'
 import { User } from '~/models/user'
 
-export default Vue.extend({
+@Component({
   components: {
     Account,
   },
@@ -24,4 +25,7 @@ export default Vue.extend({
     }
   },
 })
+export default class extends Vue {
+  account!: User
+}
 </script>
