@@ -4,8 +4,7 @@ import { Channel } from '~/models/channel'
 // need channel data
 export default Vue.extend({
   methods: {
-    async markAsRead() {
-      const channel = (this as any).channel as Channel
+    async markAsRead(channel: Channel) {
       if (!channel.has_unread) return false
       const marker = [
         {
