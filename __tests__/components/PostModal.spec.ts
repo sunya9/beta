@@ -9,12 +9,14 @@ import {
 import PostModal from '~/components/PostModal.vue'
 import { Post } from '~/models/post'
 
-type PostModalType = Vue & typeof PostModal & { show: (post: Post) => void }
+type PostModalType = InstanceType<typeof PostModal> & {
+  show: (post: Post) => void
+}
 
 describe('PostModal component', () => {
   let wrapper: Wrapper<PostModalType>
   beforeEach(() => {
-    wrapper = mount<PostModalType>(PostModal, {
+    wrapper = mount(PostModal, {
       mocks: {
         $store: authedUserCreateStore(),
         $accessor: authedAccessor(),
@@ -24,11 +26,11 @@ describe('PostModal component', () => {
         NuxtLink,
         post: true,
       },
-    })
+    }) as Wrapper<PostModalType>
   })
   test('show post when receive post argument', async () => {
     wrapper.vm.show(fixtures('post'))
     await wrapper.vm.$nextTick()
-    expect(wrapper.contains('post-stub')).toBe(true)
+    expect(wrapper.find('post-stub').exists()).toBe(true)
   })
 })

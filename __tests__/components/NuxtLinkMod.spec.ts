@@ -11,7 +11,7 @@ describe('NuxtLinkMod component', () => {
         NuxtLink,
       },
     })
-    const nuxtLinkWrapper = wrapper.find(NuxtLink)
+    const nuxtLinkWrapper = wrapper.findComponent(NuxtLink)
     expect(nuxtLinkWrapper.exists()).toBe(true)
     expect(nuxtLinkWrapper.props().to).toBe('/mentions')
   })

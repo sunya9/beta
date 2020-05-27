@@ -10,12 +10,10 @@ import {
 import MessageCompose from '~/components/MessageCompose.vue'
 import { Channel } from '~/models/channel'
 
-type MessageComposeType = typeof MessageCompose & Vue
-
 describe('MessageCompose component', () => {
-  let wrapper: Wrapper<MessageComposeType>
+  let wrapper: Wrapper<Vue>
   beforeEach(() => {
-    wrapper = mount<MessageComposeType>(
+    wrapper = mount(
       MessageCompose,
       baseMountOpts({
         propsData: {
@@ -98,13 +96,13 @@ describe('MessageCompose component', () => {
       })
     )
     wrapper
-      .find({
+      .findComponent({
         ref: 'textarea',
       })
       .setValue('foo')
     expect(
       wrapper
-        .find({
+        .findComponent({
           ref: 'dropdown',
         })
         .exists()

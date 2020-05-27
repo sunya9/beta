@@ -51,6 +51,7 @@
     "@nuxt/types": "0.7.7",
     "@nuxt/typescript-build": "1.0.1",
     "@nuxtjs/eslint-config-typescript": "2.0.0",
+    "@testing-library/jest-dom": "^5.8.0",
     "@types/emoji-regex": "8.0.0",
     "@types/jest": "25.2.3",
     "@types/lodash": "4.14.154",

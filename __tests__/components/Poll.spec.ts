@@ -6,11 +6,12 @@ import {
   fixtures,
   authedAccessor,
 } from '../helper'
-import Poll from '~/components/Poll.vue'
+import PollView from '~/components/Poll.vue'
+import { Poll } from '~/models/poll'
 
 describe('Poll component', () => {
-  let wrapper: Wrapper<Poll>
-  let opts: ThisTypedMountOptions<Poll>
+  let wrapper: Wrapper<InstanceType<typeof PollView>>
+  let opts: ThisTypedMountOptions<InstanceType<typeof PollView>>
   beforeEach(() => {
     opts = {
       propsData: {
@@ -24,8 +25,8 @@ describe('Poll component', () => {
     }
   })
   test('Poll is shown when passed correct id', () => {
-    wrapper = mount(Poll, opts)
-    expect(wrapper.isEmpty()).toBe(false)
+    wrapper = mount(PollView, opts)
+    expect(wrapper.element).not.toBeNull()
     const text = wrapper.text()
     Array(5)
       .fill(undefined)
@@ -33,27 +34,27 @@ describe('Poll component', () => {
   })
   describe('Voting is held', () => {
     test('Show tilde', () => {
-      wrapper = mount(Poll, opts)
+      wrapper = mount(PollView, opts)
       expect(wrapper.text()).toContain('~')
     })
     test('Disable vote butons when logged out', () => {
-      wrapper = mount(Poll, opts)
-      expect(wrapper.contains('a.disabled')).toBe(true)
+      wrapper = mount(PollView, opts)
+      expect(wrapper.find('a.disabled').exists()).toBe(true)
     })
     test('Enable vote butons when logged in', () => {
-      wrapper = mount(Poll, {
+      wrapper = mount(PollView, {
         ...opts,
         mocks: {
           $store: authedUserCreateStore(),
           $accessor: authedAccessor(),
         },
       })
-      expect(wrapper.contains('a.disabled')).toBe(false)
+      expect(wrapper.find('a.disabled').exists()).toBe(false)
     })
   })
   describe('Voting is over', () => {
     test('Show closed at', () => {
-      wrapper = mount(Poll, {
+      wrapper = mount(PollView, {
         ...opts,
         propsData: {
           ...opts.propsData,
@@ -63,27 +64,27 @@ describe('Poll component', () => {
       expect(wrapper.text()).toContain('Closed at')
     })
     test('Show the result when poll has been closed', () => {
-      wrapper = mount(Poll, {
+      wrapper = mount(PollView, {
         ...opts,
         propsData: {
           ...opts.propsData,
           poll: fixtures<Poll>('poll', 'closed'),
         },
       })
-      expect(wrapper.contains('.progress')).toBe(true)
+      expect(wrapper.find('.progress').exists()).toBe(true)
     })
     test('Show the result and checkmark when you respond', () => {
-      wrapper = mount(Poll, {
+      wrapper = mount(PollView, {
         ...opts,
         propsData: {
           ...opts.propsData,
           poll: fixtures<Poll>('poll', 'detail', 'responded'),
         },
       })
-      expect(wrapper.contains('.fa-check')).toBe(true)
+      expect(wrapper.find('.fa-check').exists()).toBe(true)
     })
     test('Calc percentage and toggle display', () => {
-      wrapper = mount(Poll, {
+      wrapper = mount(PollView, {
         ...opts,
         propsData: {
           ...opts.propsData,
@@ -104,7 +105,7 @@ describe('Poll component', () => {
       expect(wrapper.text()).toContain('0%')
     })
     test('Show total', () => {
-      wrapper = mount(Poll, {
+      wrapper = mount(PollView, {
         ...opts,
         propsData: {
           ...opts.propsData,

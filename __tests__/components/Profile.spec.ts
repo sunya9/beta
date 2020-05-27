@@ -30,7 +30,7 @@ describe('Profile component', () => {
         $store: authedUserCreateStore(),
         $accessor: authedAccessor(),
       },
-      attachToDocument: true,
+      attachTo: document.createElement('div'),
       stubs: {
         Thumb: true,
         NuxtLink,
@@ -53,11 +53,11 @@ describe('Profile component', () => {
           initialProfile: fixtures('user', 'hasVerifiedDomain'),
         },
       })
-      expect(wrapper.contains('#profile-domain')).toBe(true)
+      expect(wrapper.find('#profile-domain').exists()).toBe(true)
     })
     test('Hidden a shield badge when not verified domain', () => {
       const wrapper = mount(Profile, opts)
-      expect(wrapper.contains('#profile-domain')).toBe(false)
+      expect(wrapper.find('#profile-domain').exists()).toBe(false)
     })
     test('Show bio when content.text exists', () => {
       const wrapper = mount(Profile, {
@@ -67,11 +67,11 @@ describe('Profile component', () => {
           initialProfile: fixtures('user', 'hasBio'),
         },
       })
-      expect(wrapper.contains('.description')).toBe(true)
+      expect(wrapper.find('.description').exists()).toBe(true)
     })
     test('Hidden bio when profile.text does not exist', () => {
       const wrapper = mount(Profile, opts)
-      expect(wrapper.contains('.description')).toBe(false)
+      expect(wrapper.find('.description').exists()).toBe(false)
     })
   })
   test('counts', () => {
@@ -85,7 +85,7 @@ describe('Profile component', () => {
   describe('Me', () => {
     test('Not shown follow button', () => {
       const wrapper = shallowMount(Profile, opts)
-      expect(wrapper.contains('follow-button-stub')).toBe(false)
+      expect(wrapper.find('follow-button-stub').exists()).toBe(false)
     })
   })
   describe('Everyone except me', () => {
@@ -100,7 +100,7 @@ describe('Profile component', () => {
       })
     })
     test('Show follow button', () => {
-      expect(wrapper.contains('follow-button-stub')).toBe(true)
+      expect(wrapper.find('follow-button-stub').exists()).toBe(true)
     })
     test('relation is not shown when another user not follow you', () => {
       const $relation = wrapper.find('#profile-relation')
@@ -122,9 +122,9 @@ describe('Profile component', () => {
     test('Show dropdown when three dots is clicked', () => {
       const wrapper = mount(Profile, opts)
       const dropdownWrapper = wrapper.find('#profile-dropdown')
-      expect(dropdownWrapper.is('[aria-expanded="false"]')).toBe(true)
+      expect(dropdownWrapper.attributes('aria-expanded')).toBe('false')
       wrapper.find('#profile-dropdown-trigger').trigger('click')
-      expect(dropdownWrapper.is('[aria-expanded="true"]')).toBe(true)
+      expect(dropdownWrapper.attributes('aria-expanded')).toBe('true')
     })
     test('Not show Block/Mute link in not my profile', () => {
       const wrapper = mount(Profile, {
@@ -242,7 +242,7 @@ describe('Profile component', () => {
           $store: createStore(),
         },
       })
-      expect(wrapper.contains('follow-button-stub')).toBe(false)
+      expect(wrapper.find('follow-button-stub').exists()).toBe(false)
     })
   })
 })
