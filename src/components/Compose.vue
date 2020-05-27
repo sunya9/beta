@@ -165,6 +165,7 @@
 import querystring from 'querystring'
 import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
 import { Cancelable } from 'lodash'
+import { Mixins } from 'vue-property-decorator'
 import { PostPollRequest } from '../plugins/domain/dto/poll'
 import { Token } from '~/models/token'
 import { Post } from '~/models/post'
@@ -194,9 +195,8 @@ import { createVideoEmbedRaw } from '~/assets/ts/oembed'
     InputSpoiler,
     InputLongpost,
   },
-  mixins: [textCount, resettable],
 })
-export default class Composer extends Vue {
+export default class Composer extends Mixins(textCount, resettable) {
   textLength!: number
   debounceCalcTextLength!: (() => number) & Cancelable
   calcTextLength!: () => number
@@ -269,8 +269,7 @@ export default class Composer extends Vue {
   }
 
   get postCounter(): number {
-    // TODO
-    return 256 - (this as any).textLength
+    return 256 - this.textLength
   }
 
   get textOverflow(): boolean {
@@ -278,8 +277,7 @@ export default class Composer extends Vue {
   }
 
   get hasNoText(): boolean {
-    // TODO
-    return !(this as any).textLength
+    return !this.textLength
   }
 
   get disabled(): boolean {

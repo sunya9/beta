@@ -36,8 +36,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import { Component } from 'nuxt-property-decorator'
+import { Mixins } from 'vue-property-decorator'
 import { Channel } from '~/models/channel'
 import MessageCompose from '~/components/MessageCompose.vue'
 import ChannelCompose from '~/components/ChannelCompose.vue'
@@ -53,7 +53,6 @@ import { PnutResponse } from '~/models/pnut-response'
     MessageCompose,
     ChannelCompose,
   },
-  mixins: [refreshAfterAdded],
   async asyncData({ app: { $resource }, query }) {
     const isPrivate = !('public' in query)
     const all = 'all' in query
@@ -105,11 +104,10 @@ import { PnutResponse } from '~/models/pnut-response'
     }
   },
 })
-export default class Messages extends Vue {
+export default class Messages extends Mixins(refreshAfterAdded) {
   resource!: string
   data!: PnutResponse<Channel[]>
   options!: object
-  date!: number
   isPrivate!: boolean
   get isPublic(): boolean {
     return !this.isPrivate
