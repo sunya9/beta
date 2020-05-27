@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'nuxt-property-decorator'
+import { Component, Mixins, Prop } from 'vue-property-decorator'
 import Post from '~/components/Post.vue'
 import Avatar from '~/components/Avatar.vue'
 import listItem from '~/assets/ts/list-item'
@@ -98,10 +98,10 @@ const convert: {
     Post,
     Avatar,
   },
-  name: 'Interaction',
-  mixins: [listItem('interaction.event_date')],
 })
-export default class extends Vue {
+export default class InteractionView extends Mixins(
+  listItem('interaction.event_date')
+) {
   @Prop({ required: true })
   interaction!: Interaction<any>
 
