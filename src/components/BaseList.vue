@@ -47,7 +47,7 @@
   </div>
 </template>
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import { Prop, Watch, Component, Mixins } from 'vue-property-decorator'
 import { User } from '../models/user'
 import { PnutResponse } from '~/models/pnut-response'
 import keyBinding from '~/assets/ts/key-binding'
@@ -60,195 +60,220 @@ const keyMap = {
   '.': 'refresh',
 }
 
-export default Vue.extend({
-  name: 'BaseList',
-  mixins: [keyBinding(keyMap)],
-  props: {
-    dataAddedHook: {
-      type: Function,
-      default: () => () => null,
-    },
-    listClass: {
-      type: String,
-      default: 'list-group mb-4',
-    },
-    listItemClass: {
-      type: [String, Function],
-      default: 'list-group-item list-group-item-action',
-    },
-    listElement: {
-      type: [String, Object, Function],
-      default: 'li',
-    },
-    listItemProps: {
-      type: Function,
-      default: () => ({}),
-    },
-    disableAutoRefresh: {
-      type: Boolean,
-      default: false,
-    },
-    data: {
-      type: Object,
-      validator: (obj) => 'meta' in obj && 'data' in obj,
-      required: true,
-      default: () =>
-        ({
-          meta: {},
-          data: [],
-        } as PropOptions<PnutResponse<any[]>>),
-    },
-    resource: {
-      type: String,
-      default: '',
-    },
-    option: {
-      type: Object,
-      default: () => ({}),
-    },
-    idField: {
-      type: String,
-      default: 'id',
-    },
-    refreshDate: {
-      type: Number,
-      default: Date.now(),
-    },
-  },
-  data() {
-    return {
-      busy: false,
-      internalSelect: -1,
-      items: this.data.data || [],
-      lastUpdate: Date.now(),
-      meta: this.data.meta,
-      refreshing: false,
-      activeElement: (null as any) as Element | null,
+@Component({})
+export default class BaseList extends Mixins(keyBinding(keyMap)) {
+  @Prop({
+    type: Function,
+    default: () => () => null,
+  })
+  dataAddedHook!: (data: any[]) => void
+
+  @Prop({
+    type: String,
+    default: 'list-group mb-4',
+  })
+  listClass!: string
+
+  @Prop({
+    type: [String, Function],
+    default: 'list-group-item list-group-item-action',
+  })
+  listItemClass!: string | ((data: any) => void)
+
+  @Prop({
+    type: [String, Object, Function],
+    default: 'li',
+  })
+  listElement!: string
+
+  @Prop({
+    type: Function,
+    default: () => ({}),
+  })
+  listItemProps!: (data: any) => void
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  disableAutoRefresh!: boolean
+
+  @Prop({
+    type: Object,
+    validator: (obj) => 'meta' in obj && 'data' in obj,
+    required: true,
+    default: () => ({
+      meta: {},
+      data: [],
+    }),
+  })
+  data!: PnutResponse<any[]>
+
+  @Prop({
+    type: String,
+    default: '',
+  })
+  resource!: string
+
+  @Prop({
+    type: Object,
+    default: () => ({}),
+  })
+  option!: () => object
+
+  @Prop({
+    type: String,
+    default: 'id',
+  })
+  idField!: string
+
+  @Prop({
+    type: Number,
+    default: Date.now(),
+  })
+  refreshDate!: number
+
+  busy = false
+  internalSelect = -1
+  items = this.data.data || []
+  lastUpdate = Date.now()
+  meta = this.data.meta
+  refreshing = false
+  activeElement = (null as any) as Element | null
+
+  get user(): User | null {
+    return this.$accessor.user
+  }
+
+  get select(): number {
+    return this.internalSelect
+  }
+
+  set select(v: number) {
+    if (!(this.items.length - 1 < v) && !(v < 0)) {
+      this.internalSelect = v
+      this.$emit('select', this.internalSelect)
     }
-  },
-  computed: {
-    user(): User | null {
-      return this.$accessor.user
-    },
-    select: {
-      get(): number {
-        return this.internalSelect
-      },
-      set(v: number) {
-        if (!(this.items.length - 1 < v) && !(v < 0)) {
-          this.internalSelect = v
-          this.$emit('select', this.internalSelect)
-        }
-      },
-    },
-    moreDisabled(): boolean {
-      return this.busy || !this.more
-    },
-    more(): boolean {
-      return this.meta.more
-    },
-  },
-  watch: {
-    refreshDate(newVal, oldVal) {
-      if (!newVal || newVal <= oldVal) return
-      this.refresh()
-    },
-    data: {
-      handler(data) {
-        this.items = 'data' in data ? data.data : []
-      },
-      deep: true,
-    },
-  },
+  }
+
+  get moreDisabled(): boolean {
+    return this.busy || !this.more
+  }
+
+  get more(): boolean {
+    return !!this.meta.more
+  }
+
+  @Watch('refreshDate')
+  onChangeRefreshDate(
+    newVal: BaseList['refreshDate'],
+    oldVal: BaseList['refreshDate']
+  ) {
+    if (!newVal || newVal <= oldVal) return
+    this.refresh()
+  }
+
+  @Watch('data', { deep: true })
+  onChangeData(data: BaseList['data']) {
+    this.items = 'data' in data ? data.data : []
+  }
+
   mounted() {
     if (this.disableAutoRefresh) return
     const timer = setInterval(this.refresh, INTERVAL)
     this.$once('hook:beforeDestroy', () => clearInterval(timer))
-  },
-  methods: {
-    updateItem(index: number, item: any) {
-      this.$set(this.items, index, item)
-    },
-    updateActiveElement() {
-      this.activeElement = document.activeElement
-    },
-    isSelected(index: number) {
-      if (!this.$el || !this.$el.children[this.select]) return
-      return (
-        index === this.select &&
-        this.$el.children[this.select].contains(this.activeElement)
-      )
-    },
-    focus(e?: Event) {
-      const element = e ? e.target : this.$el.children[this.select]
-      if (!element || !(element instanceof HTMLElement)) return
-      this.activeElement = this.$el.children[this.select]
-      const { top, bottom, height } = element.getBoundingClientRect()
-      if (top < 100) {
-        document.documentElement.scrollTop -= 100 - top
-      } else if (window.innerHeight < bottom + height) {
-        document.documentElement.scrollTop += height
-      }
-      element.focus()
-    },
-    setSelect(index: number) {
-      this.select = index
-      if (this.select < 0) return
-      this.activeElement = this.$el.children[this.select]
-    },
-    scrollDown() {
-      this.select++
-      if (this.select < 0) return
-      this.focus()
-    },
-    scrollUp() {
-      this.select--
-      this.focus()
-    },
-    async fetchMore() {
-      if (this.busy) return
-      this.busy = true
-      try {
-        const options = { ...this.option, before_id: this.meta.min_id }
-        const { data: newItems, meta } = await this.$resource<any[]>({
-          url: this.resource,
-          options,
-        })
-        this.meta = meta
+  }
 
-        if (newItems.length) {
-          this.items = this.items.concat(newItems)
-          // this.$emit('update:data', {
-          //   meta: this.meta,
-          //   data: this.items
-          // })
-        }
-      } catch (e) {
-        console.error(e)
-      }
-      this.busy = false
-    },
-    async refresh() {
-      if (this.refreshing) return
-      this.refreshing = true
-      const options = {
-        ...this.option,
-        since_id: this.items.length && this.items[0].pagination_id,
-      }
-      const { data: newItems } = await this.$resource<any[]>({
+  updateItem(index: number, item: any) {
+    this.$set(this.items, index, item)
+  }
+
+  updateActiveElement() {
+    this.activeElement = document.activeElement
+  }
+
+  isSelected(index: number) {
+    if (!this.$el || !this.$el.children[this.select]) return
+    return (
+      index === this.select &&
+      this.$el.children[this.select].contains(this.activeElement)
+    )
+  }
+
+  focus(e?: Event) {
+    const element = e ? e.target : this.$el.children[this.select]
+    if (!element || !(element instanceof HTMLElement)) return
+    this.activeElement = this.$el.children[this.select]
+    const { top, bottom, height } = element.getBoundingClientRect()
+    if (top < 100) {
+      document.documentElement.scrollTop -= 100 - top
+    } else if (window.innerHeight < bottom + height) {
+      document.documentElement.scrollTop += height
+    }
+    element.focus()
+  }
+
+  setSelect(index: number) {
+    this.select = index
+    if (this.select < 0) return
+    this.activeElement = this.$el.children[this.select]
+  }
+
+  scrollDown() {
+    this.select++
+    if (this.select < 0) return
+    this.focus()
+  }
+
+  scrollUp() {
+    this.select--
+    this.focus()
+  }
+
+  async fetchMore() {
+    if (this.busy) return
+    this.busy = true
+    try {
+      const options = { ...this.option, before_id: this.meta.min_id }
+      const { data: newItems, meta } = await this.$resource<any[]>({
         url: this.resource,
         options,
       })
+      this.meta = meta
+
       if (newItems.length) {
-        this.items = newItems.concat(this.items)
-        this.select += newItems.length
-        this.dataAddedHook(newItems)
+        this.items = this.items.concat(newItems)
+        // this.$emit('update:data', {
+        //   meta: this.meta,
+        //   data: this.items
+        // })
       }
-      this.refreshing = false
-      this.lastUpdate = Date.now()
-    },
-  },
-})
+    } catch (e) {
+      console.error(e)
+    }
+    this.busy = false
+  }
+
+  async refresh() {
+    if (this.refreshing) return
+    this.refreshing = true
+    const options = {
+      ...this.option,
+      since_id: this.items.length && this.items[0].pagination_id,
+    }
+    const { data: newItems } = await this.$resource<any[]>({
+      url: this.resource,
+      options,
+    })
+    if (newItems.length) {
+      this.items = newItems.concat(this.items)
+      this.select += newItems.length
+      this.dataAddedHook(newItems)
+    }
+    this.refreshing = false
+    this.lastUpdate = Date.now()
+  }
+}
 </script>
 <style scoped lang="scss">
 @import '~assets/css/mixin';

@@ -28,67 +28,116 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Component, Prop } from 'vue-property-decorator'
 
-export default Vue.extend({
-  props: {
-    original: {
-      type: String,
-      default: '',
-    },
-    thumb: {
-      type: String,
-      default: '',
-    },
-    originalWidth: {
-      type: Number,
-      default: 0,
-    },
-    originalHeight: {
-      type: Number,
-      default: 0,
-    },
-    removable: {
-      type: Boolean,
-      default: false,
-    },
-    noBorder: {
-      type: Boolean,
-      default: false,
-    },
-    width: {
-      type: Number,
-      default: 96,
-    },
-    height: {
-      type: Number,
-      default: 96,
-    },
-    zoomingOptions: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-  computed: {
-    normalizeOriginal(): string {
-      return this.original.replace(/^https?:/, '')
-    },
-    normalizeThumb(): string {
-      return this.thumb.replace(/^https?:/, '')
-    },
-    style(): { [key: string]: number | string } {
-      const style: {
-        [key: string]: number | string
-      } = {}
-      if (this.height > 0) style['max-height'] = `${this.height}px`
-      if (this.width > 0) style['max-width'] = `${this.width}px`
-      return style
-    },
-  },
+interface ZoomingOptions {
+  bgColor?: string
+  bgOpacity?: number
+  closeOnWindowResize?: boolean
+  customSize?:
+    | {
+        width: number
+        height: number
+      }
+    | string
+  enableGrab?: boolean
+  preloadImage?: boolean
+  scaleBase?: number
+  scaleExtra?: number
+  scrollThreshold?: number
+  transitionDuration?: number
+  transitionTimingFunction?: string
+  zIndex?: number
+  onOpen?: () => void
+  onBeforeGrab?: () => void
+  onGrab?: () => void
+  onMove?: () => void
+  onBeforeRelease?: () => void
+  onRelease?: () => void
+  onBeforeClose?: () => void
+  onClose?: () => void
+  onImageLoading?: () => void
+  onImageLoadded?: () => void
+}
+
+@Component({})
+export default class extends Vue {
+  @Prop({
+    type: String,
+    default: '',
+  })
+  original!: string
+
+  @Prop({
+    type: String,
+    default: '',
+  })
+  thumb!: string
+
+  @Prop({
+    type: Number,
+    default: 0,
+  })
+  originalWidth!: number
+
+  @Prop({
+    type: Number,
+    default: 0,
+  })
+  originalHeight!: number
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  removable!: boolean
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  noBorder!: boolean
+
+  @Prop({
+    type: Number,
+    default: 96,
+  })
+  width!: number
+
+  @Prop({
+    type: Number,
+    default: 96,
+  })
+  height!: number
+
+  @Prop({
+    type: Object,
+    default: () => ({}),
+  })
+  zoomingOptions!: ZoomingOptions
+
+  get normalizeOriginal(): string {
+    return this.original.replace(/^https?:/, '')
+  }
+
+  get normalizeThumb(): string {
+    return this.thumb.replace(/^https?:/, '')
+  }
+
+  get style(): { [key: string]: number | string } {
+    const style: {
+      [key: string]: number | string
+    } = {}
+    if (this.height > 0) style['max-height'] = `${this.height}px`
+    if (this.width > 0) style['max-width'] = `${this.width}px`
+    return style
+  }
+
   mounted() {
     const Zooming = require('zooming').default
     const img = this.$el.querySelector('img')
     if (!img) return
-    const option = {
+    const option: ZoomingOptions = {
       bgColor: '#000',
       zIndex: 99999,
       bgOpacity: 0.5,
@@ -100,23 +149,23 @@ export default Vue.extend({
       },
       ...this.zoomingOptions,
     }
-    const { customSize = {} } = this.zoomingOptions
+    const { customSize } = this.zoomingOptions
     const root = document.documentElement
     if (
-      customSize.width > root.clientWidth ||
-      customSize.height > root.clientHeight
+      typeof customSize !== 'string' &&
+      ((customSize?.width || 0) > root.clientWidth ||
+        (customSize?.height || 0) > root.clientHeight)
     ) {
-      option.customSize = null
+      option.customSize = undefined
     }
     const zooming = new Zooming(option)
     zooming.listen(img)
-  },
-  methods: {
-    remove() {
-      this.$emit('remove')
-    },
-  },
-})
+  }
+
+  remove() {
+    this.$emit('remove')
+  }
+}
 </script>
 
 <style scoped>

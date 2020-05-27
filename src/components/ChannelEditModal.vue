@@ -54,60 +54,62 @@
 <script lang="ts">
 import Vue from 'vue'
 import { cloneDeep } from 'lodash'
+import { Component } from 'vue-property-decorator'
 import { Channel } from '~/models/channel'
 import BaseModal from '~/components/BaseModal.vue'
 import { findChatRaw } from '~/assets/ts/util'
 import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
 
-export default Vue.extend({
-  name: 'ChannelEditModal',
+@Component({
   components: {
     BaseModal,
   },
-  data() {
-    return {
-      chat: null as ChatRoomSettings.Value | null,
-      categories: [
-        'general',
-        'fun',
-        'lifestyle',
-        'profession',
-        'language',
-        'community',
-        'tech',
-        'event',
-      ],
-    }
-  },
-  computed: {
-    calcDisabled(): boolean {
-      return (
-        !this.chat ||
-        this.chat.name.length === 0 ||
-        this.chat.name.length > 128 ||
-        (!!this.chat.description && this.chat.description.length > 256) ||
-        (!!this.chat.categories && this.chat.categories.length > 3)
-      )
-    },
-  },
-  methods: {
-    shown() {
-      // TODO
-      ;(this.$refs.nameInput as HTMLInputElement).focus()
-    },
-    show(channel: Channel) {
-      const chatRaw = findChatRaw(channel)
-      if (!chatRaw) return
-      const chat = chatRaw.value
-      if (!chat || !chat.categories) chat.categories = []
-      this.chat = cloneDeep(chat)
-    },
-    ok() {
-      return this.chat
-    },
-    hidden() {
-      this.chat = null
-    },
-  },
 })
+export default class ChannelEditModal extends Vue {
+  chat: ChatRoomSettings.Value | null = null
+  categories = [
+    'general',
+    'fun',
+    'lifestyle',
+    'profession',
+    'language',
+    'community',
+    'tech',
+    'event',
+  ]
+
+  $refs!: {
+    nameInput: HTMLInputElement
+  }
+
+  get calcDisabled(): boolean {
+    return (
+      !this.chat ||
+      this.chat.name.length === 0 ||
+      this.chat.name.length > 128 ||
+      (!!this.chat.description && this.chat.description.length > 256) ||
+      (!!this.chat.categories && this.chat.categories.length > 3)
+    )
+  }
+
+  shown() {
+    this.$refs.nameInput.focus()
+  }
+
+  show(channel: Channel) {
+    const chatRaw = findChatRaw(channel)
+    if (!chatRaw) return
+    const chat = chatRaw.value
+    if (!chat || !chat.categories) chat.categories = []
+    this.chat = cloneDeep(chat)
+  }
+
+  ok() {
+    return this.chat
+  }
+
+  hidden() {
+    this.chat = null
+  }
+}
 </script>

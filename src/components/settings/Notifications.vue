@@ -17,65 +17,70 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Component, Watch } from 'vue-property-decorator'
 import CustomCheckbox from '../CustomCheckbox.vue'
 
-export default Vue.extend({
+@Component({
   components: {
     CustomCheckbox,
   },
-  data() {
-    return {
-      notification: false,
-      types: {
-        posts: false,
-        mentions: false,
-      },
-      disabledNotification: false,
-      error: null as { type: string; message: string } | null,
+})
+export default class Notifications extends Vue {
+  notification = false
+  types = {
+    posts: false,
+    mentions: false,
+  }
+
+  disabledNotification = false
+  error: { type: string; message: string } | null = null
+
+  @Watch('notification')
+  onChangeNotification(newVal: boolean) {
+    localStorage.setItem('notification', newVal.toString())
+    if (newVal) {
+      Notification.requestPermission(this.checkPermission)
     }
-  },
-  watch: {
-    notification(newVal: boolean) {
-      localStorage.setItem('notification', newVal.toString())
-      if (newVal) {
-        Notification.requestPermission(this.checkPermission)
-      }
-    },
-    'types.posts'(newVal: boolean) {
-      localStorage.setItem('notification:posts', newVal.toString())
-    },
-    'types.mentions'(newVal: boolean) {
-      localStorage.setItem('notification:mentions', newVal.toString())
-    },
-  },
+  }
+
+  @Watch('types.posts')
+  onChangePostType(newVal: boolean) {
+    localStorage.setItem('notification:posts', newVal.toString())
+  }
+
+  @Watch('types.mentions')
+  onChangeMentionType(newVal: boolean) {
+    localStorage.setItem('notification:mentions', newVal.toString())
+  }
+
   mounted() {
     this.checkPermission()
-    Object.keys(this.types).forEach((key) => {
-      // TODO
-      ;(this as any).types[key] =
-        localStorage.getItem(`notification:${key}`) === 'true'
-    })
-  },
-  methods: {
-    checkPermission() {
-      this.disabledNotification =
-        !('Notification' in window) || Notification.permission === 'denied'
-      if (!('Notification' in window)) {
-        this.error = {
-          type: 'warning',
-          message: 'Your browser does not support notification.',
-        }
-      } else if (Notification.permission === 'denied') {
-        this.error = {
-          type: 'danger',
-          message:
-            'You have to unblock notification from your browser settings.',
-        }
+    ;(Object.keys(this.types) as (keyof Notifications['types'])[]).forEach(
+      (key) => {
+        // TODO
+        this.types[key] = localStorage.getItem(`notification:${key}`) === 'true'
       }
-      this.notification =
-        !this.disabledNotification &&
-        localStorage.getItem('notification') === 'true'
-    },
-  },
-})
+    )
+  }
+
+  checkPermission() {
+    this.disabledNotification =
+      !('Notification' in window) || Notification.permission === 'denied'
+    if (!('Notification' in window)) {
+      this.error = {
+        type: 'warning',
+        message: 'Your browser does not support notification.',
+      }
+    } else if (Notification.permission === 'denied') {
+      this.error = {
+        type: 'danger',
+        message: 'You have to unblock notification from your browser settings.',
+      }
+    }
+
+    this.notification =
+      !this.disabledNotification &&
+      localStorage.getItem('notification') === 'true'
+  }
+}
 </script>

@@ -13,18 +13,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Mixins, Component } from 'vue-property-decorator'
 import PostList from '~/components/PostList.vue'
 import { getImageURLs } from '~/assets/ts/util'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 import { Post } from '~/models/post'
 import { PnutResponse } from '~/models/pnut-response'
 
-export default Vue.extend({
+@Component({
   components: {
     PostList,
   },
-  mixins: [refreshAfterAdded],
   async asyncData(ctx) {
     const {
       params: { id },
@@ -59,10 +58,9 @@ export default Vue.extend({
       window.pageYOffset + el.getBoundingClientRect().top - 200
     )
   },
-  head() {
-    // TODO
-    const data: PnutResponse<Post[]> = (this as any).data
-    const id: string = (this as any).id
+  head(this: PostView) {
+    const data: PnutResponse<Post[]> = this.data
+    const id: string = this.id
     const [post] = data.data.filter((post) => post.id === id)
     if (post.user && post.content) {
       const name = post.user.name
@@ -123,6 +121,11 @@ export default Vue.extend({
     return {}
   },
 })
+export default class PostView extends Mixins(refreshAfterAdded) {
+  data!: PnutResponse<Post[]>
+  options!: object // TODO
+  id!: string
+}
 </script>
 
 <style scoped lang="scss">

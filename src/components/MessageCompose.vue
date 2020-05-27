@@ -151,9 +151,9 @@
   </div>
 </template>
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
 import unicodeSubstring from 'unicode-substring'
 import { Dropdown } from 'bootstrap.native'
+import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
 import bus from '../assets/ts/bus'
 import textCount from '~/assets/ts/text-count'
 import Thumb from '~/components/Thumb.vue'
@@ -173,286 +173,308 @@ function obj2FormData(obj: { [key: string]: string | Blob }) {
   }, new FormData())
 }
 
-export default Vue.extend({
+@Component({
   components: {
     Thumb,
     InputSpoiler,
   },
-  mixins: [textCount, resettable],
-  props: {
-    createChannelMode: {
-      type: Boolean,
-      default: false,
-    },
-    noPhoto: {
-      type: Boolean,
-      default: false,
-    },
-    targetUser: {
-      type: String,
-      default: '',
-    },
-    channel: {
-      type: Object,
-      default: null,
-    } as PropOptions<Channel>,
-  },
-  data() {
-    return {
-      // TODO
-      promise: null as Promise<PnutResponse<any>> | null | boolean,
-      channelUsersStr: '',
-      text: '',
-      photos: [] as File[],
-      previewPhotos: [] as string[],
-      spoiler: null as Spoiler.Value | null,
-      pmLookupStatus: null as string | null,
-      dropdown: null as Dropdown | null,
-    }
-  },
-  computed: {
-    canBroadcast(): boolean {
-      return this.channel && this.channel.acl.read.public
-    },
-    calcDisabled(): boolean {
-      const requireTargetValue = this.createChannelMode && !this.channelUsersStr
-      return (
-        requireTargetValue ||
-        !!this.promise ||
-        !this.text ||
-        this.remain < 0 ||
-        (!!this.spoiler && !this.availableSpoiler)
-      )
-    },
-    calcPmLookup(): boolean {
-      return this.createChannelMode && !!this.channelUsersStr && !this.text
-    },
-    remain(): number {
-      // TODO
-      return 2048 - (this as any).textLength
-    },
-    hasPhotos(): boolean {
-      return !!this.photos.length
-    },
-    hasSpoiler(): boolean {
-      return !!this.spoiler
-    },
-    availableSpoiler(): boolean {
-      return (
-        !!this.spoiler &&
-        !!this.spoiler.topic &&
-        this.spoiler.topic.length > 0 &&
-        this.spoiler.topic.length <= 128
-      )
-    },
-    storage(): Token.Storage {
-      return this.$accessor.storage
-    },
-  },
-  watch: {
-    async photos() {
-      const promisePhotos = this.photos.map((file) => {
-        return new Promise<string>((resolve, reject) => {
-          const fr = new FileReader()
-          fr.readAsDataURL(file)
-          fr.onload = (e) => {
-            if (
-              !e.target ||
-              !e.target.result ||
-              typeof e.target.result !== 'string'
-            )
-              return reject(new Error('Failed to load photo'))
-            resolve(e.target.result)
-          }
-        })
+})
+export default class MessageCompose extends Mixins(textCount, resettable) {
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  createChannelMode!: boolean
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  noPhoto!: boolean
+
+  @Prop({
+    type: String,
+    default: '',
+  })
+  targetUser!: string
+
+  @Prop({
+    type: Object,
+    default: null,
+  })
+  channel!: Channel
+
+  $refs!: {
+    file: HTMLInputElement
+    textarea: HTMLTextAreaElement
+    dropdown: HTMLButtonElement
+  }
+
+  promise: Promise<PnutResponse<any>> | null | boolean = null
+  channelUsersStr = ''
+  text = ''
+  photos: File[] = []
+  previewPhotos: string[] = []
+  spoiler: Spoiler.Value | null = null
+  pmLookupStatus: string | null = null
+  dropdown: Dropdown | null = null
+
+  get canBroadcast(): boolean {
+    return this.channel && this.channel.acl.read.public
+  }
+
+  get calcDisabled(): boolean {
+    const requireTargetValue = this.createChannelMode && !this.channelUsersStr
+    return (
+      requireTargetValue ||
+      !!this.promise ||
+      !this.text ||
+      this.remain < 0 ||
+      (!!this.spoiler && !this.availableSpoiler)
+    )
+  }
+
+  get calcPmLookup(): boolean {
+    return this.createChannelMode && !!this.channelUsersStr && !this.text
+  }
+
+  get remain(): number {
+    return 2048 - this.textLength
+  }
+
+  get hasPhotos(): boolean {
+    return !!this.photos.length
+  }
+
+  get hasSpoiler(): boolean {
+    return !!this.spoiler
+  }
+
+  get availableSpoiler(): boolean {
+    return (
+      !!this.spoiler &&
+      !!this.spoiler.topic &&
+      this.spoiler.topic.length > 0 &&
+      this.spoiler.topic.length <= 128
+    )
+  }
+
+  get storage(): Token.Storage {
+    return this.$accessor.storage
+  }
+
+  @Watch('targetUser')
+  onChangeTargetUser(user: MessageCompose['targetUser']) {
+    this.channelUsersStr = user
+  }
+
+  @Watch('photos')
+  async onChangePhotos() {
+    const promisePhotos = this.photos.map((file) => {
+      return new Promise<string>((resolve, reject) => {
+        const fr = new FileReader()
+        fr.readAsDataURL(file)
+        fr.onload = (e) => {
+          if (
+            !e.target ||
+            !e.target.result ||
+            typeof e.target.result !== 'string'
+          )
+            return reject(new Error('Failed to load photo'))
+          resolve(e.target.result)
+        }
       })
-      this.previewPhotos = await Promise.all(promisePhotos)
-    },
-    targetUser(user) {
-      this.channelUsersStr = user
-    },
-  },
+    })
+    this.previewPhotos = await Promise.all(promisePhotos)
+  }
+
   mounted() {
     this.$mousetrap.bind('n', (e) => {
-      ;(this.$refs.textarea as any).focus()
+      this.$refs.textarea.focus()
       e.preventDefault()
     })
     if (!this.$refs.dropdown) return
-    this.dropdown = new Dropdown(this.$refs.dropdown as Element)
-  },
+    this.dropdown = new Dropdown(this.$refs.dropdown)
+  }
+
   beforeDestroy() {
     this.$mousetrap.unbind('n')
-  },
-  methods: {
-    async broadcast() {
-      const option = await this.createGeneralPost()
-      const raw: Raw<any>[] = [
-        {
-          type: 'io.pnut.core.crosspost',
-          value: {
-            // TODO: use rel="canonical" value in the future
-            canonical_url: location.href,
-          },
+  }
+
+  async broadcast() {
+    const option = await this.createGeneralPost()
+    const raw: Raw<any>[] = [
+      {
+        type: 'io.pnut.core.crosspost',
+        value: {
+          // TODO: use rel="canonical" value in the future
+          canonical_url: location.href,
         },
-        {
-          type: 'io.pnut.core.channel.invite',
-          value: {
-            channel_id: this.channel.id,
-          },
+      },
+      {
+        type: 'io.pnut.core.channel.invite',
+        value: {
+          channel_id: this.channel.id,
         },
-      ]
-      option.raw.push(...raw)
-      option.text = `${unicodeSubstring(this.text, 0, 255)}…`
-      const res = await this.$axios.$post('/posts', option)
-      this.promise = true
-      await this.submit(option)
-      return res
-    },
-    toggleSpoiler() {
-      this.spoiler = this.spoiler ? null : getMinimumSpoiler()
-    },
-    resetPmSearch() {
-      this.pmLookupStatus = null
-    },
-    async findExistingPm() {
-      this.pmLookupStatus = 'Searching'
-      try {
-        const destinations = this.channelUsersStr
-          .split(/[,\s]+/g)
-          .map((name) => {
-            return name.startsWith('@') ? name : `@${name}`
-          })
-        this.promise = this.$axios.$get(
-          `/users/me/channels/existing_pm?ids=${destinations.join(',')}`
-        )
-        const { data: channel } = await this.promise
-        if (channel) {
-          this.$router.push(`/messages/${channel.id}`)
-          this.$emit('foundChannel')
-        } else {
-          this.pmLookupStatus = 'Not Found'
-        }
-      } catch (e) {
-        this.pmLookupStatus = 'Not Found'
-      }
-      this.promise = null
-    },
-    async createGeneralPost() {
-      const option = {
-        text: this.text,
-        raw: [] as Raw<any>[],
-      }
-      if (this.hasPhotos) {
-        const raws = await this.uploadPhotos()
-        option.raw.push(...raws)
-      }
-      if (this.spoiler) {
-        option.raw.push({
-          type: 'shawn.spoiler',
-          value: {
-            topic: this.spoiler.topic,
-          },
-        })
-      }
-      return option
-    },
-    async submit(
-      preparedOption: {
-        text: string
-        raw: Raw<any>[]
-      } | null = null
-    ) {
-      if (this.createChannelMode) return this.createChannel()
-      try {
-        const option = preparedOption || (await this.createGeneralPost())
-        option.text = this.text
-        this.promise = this.$axios.$post(
-          `/channels/${this.$route.params.channel}/messages?update_marker=1`,
-          option
-        )
-        const { meta } = await this.promise
-        if (meta.code === 201) {
-          this.$emit('submit')
-        }
-        bus.$emit('post')
-        this.text = ''
-        this.$toast.success('Posted!')
-        this.photos = []
-        this.spoiler = null
-      } catch (e) {
-        console.error(e)
-        this.$toast.error(e.message)
-      }
-      this.promise = null
-    },
-    async createChannel() {
+      },
+    ]
+    option.raw.push(...raw)
+    option.text = `${unicodeSubstring(this.text, 0, 255)}…`
+    const res = await this.$axios.$post('/posts', option)
+    this.promise = true
+    await this.submit(option)
+    return res
+  }
+
+  toggleSpoiler() {
+    this.spoiler = this.spoiler ? null : getMinimumSpoiler()
+  }
+
+  resetPmSearch() {
+    this.pmLookupStatus = null
+  }
+
+  async findExistingPm() {
+    this.pmLookupStatus = 'Searching'
+    try {
       const destinations = this.channelUsersStr.split(/[,\s]+/g).map((name) => {
         return name.startsWith('@') ? name : `@${name}`
       })
-      const option = {
-        text: this.text,
-        destinations,
+      this.promise = this.$axios.$get(
+        `/users/me/channels/existing_pm?ids=${destinations.join(',')}`
+      )
+      const { data: channel } = await this.promise
+      if (channel) {
+        this.$router.push(`/messages/${channel.id}`)
+        this.$emit('foundChannel')
+      } else {
+        this.pmLookupStatus = 'Not Found'
       }
-      const { data: channel } = await this.$axios.$post(
-        '/channels/pm/messages',
+    } catch (e) {
+      this.pmLookupStatus = 'Not Found'
+    }
+    this.promise = null
+  }
+
+  async createGeneralPost() {
+    const option = {
+      text: this.text,
+      raw: [] as Raw<any>[],
+    }
+    if (this.hasPhotos) {
+      const raws = await this.uploadPhotos()
+      option.raw.push(...raws)
+    }
+    if (this.spoiler) {
+      option.raw.push({
+        type: 'shawn.spoiler',
+        value: {
+          topic: this.spoiler.topic,
+        },
+      })
+    }
+    return option
+  }
+
+  async submit(
+    preparedOption: {
+      text: string
+      raw: Raw<any>[]
+    } | null = null
+  ) {
+    if (this.createChannelMode) return this.createChannel()
+    try {
+      const option = preparedOption || (await this.createGeneralPost())
+      option.text = this.text
+      this.promise = this.$axios.$post(
+        `/channels/${this.$route.params.channel}/messages?update_marker=1`,
         option
       )
-      this.channelUsersStr = ''
+      const { meta } = await this.promise
+      if (meta.code === 201) {
+        this.$emit('submit')
+      }
+      bus.$emit('post')
       this.text = ''
+      this.$toast.success('Posted!')
       this.photos = []
-      this.$router.push(`/messages/${channel.channel_id}`)
-      this.$emit('submit')
-    },
-    async uploadPhotos() {
-      const photosPromise = this.photos.map(async (content) => {
-        const data = obj2FormData({
-          type: 'net.unsweets.beta',
-          name: content.name,
-          kind: 'image',
-          content,
-          is_public: 'false',
-        })
-        const res = await this.$axios.$post('/files', data, {
-          headers: {
-            'Content-type': 'multipart/form-data',
-          },
-        })
-        return res
+      this.spoiler = null
+    } catch (e) {
+      console.error(e)
+      this.$toast.error(e.message)
+    }
+    this.promise = null
+  }
+
+  async createChannel() {
+    const destinations = this.channelUsersStr.split(/[,\s]+/g).map((name) => {
+      return name.startsWith('@') ? name : `@${name}`
+    })
+    const option = {
+      text: this.text,
+      destinations,
+    }
+    const { data: channel } = await this.$axios.$post(
+      '/channels/pm/messages',
+      option
+    )
+    this.channelUsersStr = ''
+    this.text = ''
+    this.photos = []
+    this.$router.push(`/messages/${channel.channel_id}`)
+    this.$emit('submit')
+  }
+
+  async uploadPhotos() {
+    const photosPromise = this.photos.map(async (content) => {
+      const data = obj2FormData({
+        type: 'net.unsweets.beta',
+        name: content.name,
+        kind: 'image',
+        content,
+        is_public: 'false',
       })
-      this.promise = true
-      const photosJson = await Promise.all(photosPromise)
-      const raws = photosJson.map((res) => {
-        const image = res.data
-        const value = {
-          '+io.pnut.core.file': {
-            file_id: image.id,
-            file_token: image.file_token,
-            format: 'oembed',
-          },
-        }
-        return Object.assign(
-          {},
-          {
-            type: 'io.pnut.core.oembed',
-          },
-          { value }
-        )
+      const res = await this.$axios.$post('/files', data, {
+        headers: {
+          'Content-type': 'multipart/form-data',
+        },
       })
-      return raws
-    },
-    fileChange(e: Event) {
-      if (!e.target) return
-      const inputEl = e.target as HTMLInputElement
-      if (!inputEl || !inputEl.files || !inputEl.files.length) return
-      const files = inputEl.files
-      const filesAry = Array.from(files)
-      // filesAry
-      this.photos = [...this.photos, ...filesAry] as File[]
-      // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
-      ;(this.$refs.file as any).value = ''
-    },
-  },
-})
+      return res
+    })
+    this.promise = true
+    const photosJson = await Promise.all(photosPromise)
+    const raws = photosJson.map((res) => {
+      const image = res.data
+      const value = {
+        '+io.pnut.core.file': {
+          file_id: image.id,
+          file_token: image.file_token,
+          format: 'oembed',
+        },
+      }
+      return Object.assign(
+        {},
+        {
+          type: 'io.pnut.core.oembed',
+        },
+        { value }
+      )
+    })
+    return raws
+  }
+
+  fileChange(e: Event) {
+    if (!e.target) return
+    const inputEl = e.target as HTMLInputElement
+    if (!inputEl || !inputEl.files || !inputEl.files.length) return
+    const files = inputEl.files
+    const filesAry = Array.from(files)
+    // filesAry
+    this.photos = [...this.photos, ...filesAry] as File[]
+    // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
+    this.$refs.file.value = ''
+  }
+}
 </script>
 
 <style scoped lang="scss">

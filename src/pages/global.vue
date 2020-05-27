@@ -6,18 +6,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Mixins } from 'vue-property-decorator'
+import { PnutResponse } from '../models/pnut-response'
+import { Post } from '../models/post'
 import Compose from '~/components/Compose.vue'
 import PostList from '~/components/PostList.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 
-export default Vue.extend({
+@Component({
   middleware: ['auth'],
   components: {
     PostList,
     Compose,
   },
-  mixins: [refreshAfterAdded],
   async asyncData({ app: { $resource } }) {
     const options = {
       include_directed_posts:
@@ -32,4 +33,8 @@ export default Vue.extend({
     }
   },
 })
+export default class extends Mixins(refreshAfterAdded) {
+  data!: PnutResponse<Post[]>
+  options!: object
+}
 </script>
