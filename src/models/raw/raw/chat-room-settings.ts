@@ -9,14 +9,13 @@ export namespace ChatRoomSettings {
     description?: string
     categories?: Category[]
   }
-  enum Category {
-    fun,
-    lifestyle,
-    profession,
-    language,
-    community,
-    tech,
-    event,
-    general,
-  }
+  type Category =
+    | 'fun'
+    | 'lifestyle'
+    | 'profession'
+    | 'language'
+    | 'community'
+    | 'tech'
+    | 'event'
+    | 'general'
 }

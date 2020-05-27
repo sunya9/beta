@@ -3,8 +3,10 @@ import Vue from 'vue'
 export default Vue.extend({
   methods: {
     reset() {
-      // TODO
-      Object.assign(this.$data, (this as any).$options.data.apply(this))
+      const functionData =
+        typeof this.$options.data === 'function' ? this.$options.data : null
+      if (!functionData) return
+      Object.assign(this.$data, functionData.apply(this))
     },
   },
 })
