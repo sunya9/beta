@@ -10,7 +10,7 @@ describe('ActionButton', () => {
           checked: false,
         },
       })
-      expect(wrapper.contains('.fa-user')).toBe(true)
+      expect(wrapper.find('.fa-user').exists()).toBe(true)
     })
     test('pass array', () => {
       const wrapper = mount(ActionButton, {
@@ -19,16 +19,16 @@ describe('ActionButton', () => {
           checked: false,
         },
       })
-      expect(wrapper.contains('.fa-user')).toBe(true)
-      expect(wrapper.contains('.fa-users')).toBe(false)
+      expect(wrapper.find('.fa-user').exists()).toBe(true)
+      expect(wrapper.find('.fa-users').exists()).toBe(false)
       const wrapper2 = mount(ActionButton, {
         propsData: {
           icon: ['user', 'users'],
           checked: true,
         },
       })
-      expect(wrapper2.contains('.fa-user')).toBe(false)
-      expect(wrapper2.contains('.fa-users')).toBe(true)
+      expect(wrapper2.find('.fa-user').exists()).toBe(false)
+      expect(wrapper2.find('.fa-users').exists()).toBe(true)
     })
   })
 })

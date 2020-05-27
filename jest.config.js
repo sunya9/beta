@@ -14,6 +14,7 @@ module.exports = {
     '^helper$': '<rootDir>/__tests__/helper',
   },
   setupFiles: ['jest-localstorage-mock', '<rootDir>/__tests__/setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/__tests__/setupAfter.ts'],
   testRegex: '(/__tests__/(components|pages)/.*|(\\.|/)(test|spec))\\.[jt]sx?$',
   // transformIgnorePatterns: ['typed-vuex'],
   transformIgnorePatterns: [],

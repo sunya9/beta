@@ -17,7 +17,9 @@ describe('ChatPanel component', () => {
       },
     })
     expect(
-      wrapper.contains('a[href^="https://api.pnut.io/v0/feed/rss/channels/"]')
+      wrapper
+        .find('a[href^="https://api.pnut.io/v0/feed/rss/channels/"]')
+        .exists()
     ).toBe(true)
   })
 })

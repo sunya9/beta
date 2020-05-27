@@ -2,10 +2,8 @@ import { Wrapper } from '@vue/test-utils'
 import { mount } from '../helper'
 import FollowButton from '~/components/FollowButton.vue'
 
-type FollowButtonType = typeof FollowButton & Vue
-
 describe('FollowButton component', () => {
-  let wrapper: Wrapper<FollowButtonType>
+  let wrapper: Wrapper<Vue>
   const baseProfile = {
     you_follow: false,
     id: 1,
@@ -14,7 +12,7 @@ describe('FollowButton component', () => {
 
   describe('not follow', () => {
     beforeEach(() => {
-      wrapper = mount<FollowButtonType>(FollowButton, {
+      wrapper = mount(FollowButton, {
         propsData: {
           profile: {
             ...baseProfile,
@@ -33,7 +31,7 @@ describe('FollowButton component', () => {
   })
   describe('following', () => {
     beforeEach(() => {
-      wrapper = mount<FollowButtonType>(FollowButton, {
+      wrapper = mount(FollowButton, {
         propsData: {
           profile: {
             ...baseProfile,
@@ -53,7 +51,7 @@ describe('FollowButton component', () => {
   })
   describe('Blocked an user', () => {
     beforeEach(() => {
-      wrapper = mount<FollowButtonType>(FollowButton, {
+      wrapper = mount(FollowButton, {
         propsData: {
           profile: {
             ...baseProfile,

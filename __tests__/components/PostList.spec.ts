@@ -31,10 +31,10 @@ describe('PostList component', () => {
       )
     })
     test('highlight the target post when the main post has reply_to', () => {
-      expect(wrapper.contains('.list-group-item-warning')).toBe(true)
+      expect(wrapper.find('.list-group-item-warning').exists()).toBe(true)
     })
     test('main post has vertical margin', () => {
-      expect(wrapper.contains('.list-group-item.my-4')).toBe(true)
+      expect(wrapper.find('.list-group-item.my-4').exists()).toBe(true)
     })
   })
 })

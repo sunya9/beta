@@ -8,12 +8,12 @@ import {
 } from '../helper'
 import Post from '~/components/Post.vue'
 
-type PostType = typeof Post & Vue
+type PostType = InstanceType<typeof Post>
 
 describe('Post component', () => {
   let wrapper: Wrapper<PostType>
   beforeEach(() => {
-    wrapper = mount<PostType>(
+    wrapper = mount(
       Post,
       baseMountOpts({
         mocks: {
@@ -24,7 +24,7 @@ describe('Post component', () => {
           post: fixtures('post'),
         },
       })
-    )
+    ) as Wrapper<PostType>
   })
   describe('a post deleted', () => {
     test('Show [Post deleted]', async () => {
