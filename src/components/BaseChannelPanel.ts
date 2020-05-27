@@ -23,5 +23,3 @@ export const BaseChannelPanel = Vue.extend({
     },
   },
 })
-
-// export default ctor
