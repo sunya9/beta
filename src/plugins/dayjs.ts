@@ -8,6 +8,7 @@ dayjs.extend(relativeTime)
 
 dayjs.updateLocale('en', {
   relativeTime: {
+    ...dayjs.Ls.en.relativeTime,
     s: '%ds',
     m: '1m',
     mm: '%dm',
