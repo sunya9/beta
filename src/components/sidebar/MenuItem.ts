@@ -35,15 +35,15 @@ export function getMenus(self: Vue): MenuItem[] {
     : createAppMenus({ user: self.$accessor.user, self })
 }
 
-export function getMenusWithMeta(self: Vue) {
-  const menus = getMenus(self)
-  const isDefault = ![
-    'settings',
-    'about',
-    'files',
-    'search',
-    'messages',
-  ].includes(getRouteName(self))
+export function getMenusWithMeta(self: Vue, getDefault?: boolean) {
+  const menus = getDefault
+    ? createAppMenus({ user: self.$accessor.user, self })
+    : getMenus(self)
+  const isDefault =
+    getDefault ||
+    !['settings', 'about', 'files', 'search', 'messages'].includes(
+      getRouteName(self)
+    )
   return {
     menus,
     isDefault,

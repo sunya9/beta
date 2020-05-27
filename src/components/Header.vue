@@ -149,6 +149,7 @@
           :style="{
             'max-height': collapseHeight,
           }"
+          always-default
           class="collapse scrollable w-100"
         />
       </div>
