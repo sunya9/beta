@@ -2,7 +2,7 @@
   <div class="media w-100">
     <nuxt-link :to="`/@${user.username}`">
       <avatar
-        :avatar="user.content.avatar_image"
+        :avatar="user.content ? user.content.avatar_image : ''"
         :max-size="64"
         :size="64"
         class="d-flex mr-3"
@@ -45,8 +45,8 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import FollowButton from '~/components/FollowButton.vue'
-import Avatar from '~/components/Avatar.vue'
+import FollowButton from '~/components/atoms/FollowButton.vue'
+import Avatar from '~/components/atoms/Avatar.vue'
 import EntityText from '~/components/EntityText.vue'
 import MuteButton from '~/components/MuteButton.vue'
 import { User } from '~/models/user'

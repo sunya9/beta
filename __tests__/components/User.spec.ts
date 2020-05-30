@@ -5,7 +5,7 @@ import {
   authedUserCreateStore,
   authedAccessor,
 } from '../helper'
-import User from '~/components/User.vue'
+import User from '~/components/molecules/User.vue'
 
 describe('User', () => {
   describe('relation', () => {

@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import ActionButton from '~/components/ActionButton.vue'
+import ActionButton from '~/components/atoms/ActionButton.vue'
 
 describe('ActionButton', () => {
   describe('icon props', () => {

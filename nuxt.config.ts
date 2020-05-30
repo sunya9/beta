@@ -14,7 +14,6 @@ const config: Configuration = {
   srcDir: 'src/',
   mode: 'spa',
   head: {
-    title: 'Beta',
     titleTemplate(partial) {
       return partial ? `${partial} - Beta` : 'Beta'
     },

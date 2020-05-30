@@ -18,7 +18,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, Watch } from 'vue-property-decorator'
-import CustomCheckbox from '../CustomCheckbox.vue'
+import CustomCheckbox from '~/components/atoms/CustomCheckbox.vue'
 
 @Component({
   components: {

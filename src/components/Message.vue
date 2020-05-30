@@ -150,7 +150,7 @@
 
 <script lang="ts">
 import { Component, Mixins, Prop } from 'vue-property-decorator'
-import Avatar from '~/components/Avatar.vue'
+import Avatar from '~/components/atoms/Avatar.vue'
 import Thumb from '~/components/Thumb.vue'
 import EntityText from '~/components/EntityText.vue'
 import listItem from '~/assets/ts/list-item'

@@ -376,8 +376,8 @@
 
 <script lang="ts">
 import { Component, Mixins, Prop } from 'vue-property-decorator'
-import ActionButton from '~/components/ActionButton.vue'
-import Avatar from '~/components/Avatar.vue'
+import ActionButton from '~/components/atoms/ActionButton.vue'
+import Avatar from '~/components/atoms/Avatar.vue'
 import Thumb from '~/components/Thumb.vue'
 import Sound from '~/components/Sound.vue'
 import PollView from '~/components/Poll.vue'

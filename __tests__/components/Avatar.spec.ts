@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import Avatar from '~/components/Avatar.vue'
+import Avatar from '~/components/atoms/Avatar.vue'
 
 describe('Avatar', () => {
   let opts: {

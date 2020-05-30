@@ -60,7 +60,7 @@
 <script lang="ts">
 import { Component, Mixins, Prop } from 'vue-property-decorator'
 import Post from '~/components/Post.vue'
-import Avatar from '~/components/Avatar.vue'
+import Avatar from '~/components/atoms/Avatar.vue'
 import listItem from '~/assets/ts/list-item'
 import { Interaction } from '~/models/interaction'
 

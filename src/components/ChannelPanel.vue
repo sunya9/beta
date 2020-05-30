@@ -42,7 +42,7 @@
 <script lang="ts">
 import { Component, Prop, Mixins } from 'vue-property-decorator'
 import markAsRead from '~/assets/ts/mark-as-read'
-import CustomCheckbox from '~/components/CustomCheckbox.vue'
+import CustomCheckbox from '~/components/atoms/CustomCheckbox.vue'
 import { User } from '~/models/user'
 import { Channel } from '~/models/channel'
 
