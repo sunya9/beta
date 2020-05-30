@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import FollowButton from '~/components/FollowButton.vue'
+import FollowButton from '~/components/atoms/FollowButton.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import EntityText from '~/components/EntityText.vue'
 import MuteButton from '~/components/MuteButton.vue'

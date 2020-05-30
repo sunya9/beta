@@ -227,7 +227,7 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
 import { Dropdown } from 'bootstrap.native'
-import FollowButton from '~/components/FollowButton.vue'
+import FollowButton from '~/components/atoms/FollowButton.vue'
 import Thumb from '~/components/Thumb.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import EntityText from '~/components/EntityText.vue'
