@@ -81,7 +81,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { getMenusWithMeta, MenuItem } from '../components/sidebar/MenuItem'
-import AppHeader from '~/components/Header.vue'
+import AppHeader from '~/components/organisms/Header.vue'
 import PostModal from '~/components/PostModal.vue'
 import RemoveModal from '~/components/RemoveModal.vue'
 import MessageRemoveModal from '~/components/MessageRemoveModal.vue'

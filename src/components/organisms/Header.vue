@@ -161,7 +161,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Dropdown, Collapse } from 'bootstrap.native'
-import SearchForm from './SearchForm.vue'
+import SearchForm from '~/components/SearchForm.vue'
 import Sidebar from '~/components/sidebar/Sidebar.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import { User } from '~/models/user'

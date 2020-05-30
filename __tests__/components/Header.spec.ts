@@ -10,7 +10,7 @@ import {
   authedAccessor,
 } from '../helper'
 import { State } from '~/store'
-import Header from '~/components/Header.vue'
+import Header from '~/components/organisms/Header.vue'
 
 describe('Header component', () => {
   let $store: Vuex.Store<State>
