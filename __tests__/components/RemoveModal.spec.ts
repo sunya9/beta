@@ -17,8 +17,10 @@ describe('Remove modal component', () => {
   let wrapper: Wrapper<RemoveModalType>
   let baseModalWrapper: Wrapper<BaseModalType>
   beforeEach(() => {
-    wrapper = shallowMount<RemoveModalType>(RemoveModal, {})
-    baseModalWrapper = wrapper.find<BaseModalType>(BaseModal)
+    wrapper = shallowMount(RemoveModal, {}) as Wrapper<RemoveModalType>
+    baseModalWrapper = wrapper.findComponent(BaseModal) as Wrapper<
+      BaseModalType
+    >
   })
   describe('Emitted show event from base-modal', () => {
     beforeEach(() => {

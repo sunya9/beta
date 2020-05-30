@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <a :href="$metaInfo.link[0].href">
+      <a :href="rssLink.href">
         <font-awesome-icon icon="rss-square" size="lg" />
         RSS
       </a>
@@ -12,16 +12,15 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import { Mixins, Component } from 'vue-property-decorator'
 import search from '~/assets/ts/search'
 import PostList from '~/components/PostList.vue'
 import { getRSSLink } from '~/assets/ts/util'
 
-export default Vue.extend({
+@Component({
   components: {
     PostList,
   },
-  mixins: [search],
   async asyncData({ app: { $resource }, query }) {
     const options = {
       type: 'Post',
@@ -34,18 +33,18 @@ export default Vue.extend({
       options,
     }
   },
-  head() {
-    const link = [
-      getRSSLink(
-        `https://api.pnut.io/v0/feed/rss/posts/search?q=${this.$route.query.q}&order=id`
-      ),
-    ]
-    // TODO
-    const title: string = (this as any).title
+  head(this: SearchPosts) {
+    const link = [this.rssLink]
+    const title: string = this.title
     return {
       title,
       link,
     }
   },
 })
+export default class SearchPosts extends Mixins(search) {
+  rssLink = getRSSLink(
+    `https://api.pnut.io/v0/feed/rss/posts/search?q=${this.$route.query.q}&order=id`
+  )
+}
 </script>

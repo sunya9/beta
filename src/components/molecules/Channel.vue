@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import Avatar from '~/components/Avatar.vue'
+import Avatar from '~/components/atoms/Avatar.vue'
 import { getSpoiler, findChatValueRaw } from '~/assets/ts/util'
 import { Channel } from '~/models/channel'
 import { Spoiler } from '~/models/raw/raw/spoiler'

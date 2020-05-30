@@ -10,8 +10,8 @@ import Compose from '~/components/Compose.vue'
 // import noSsr from 'nuxt/lib/app/components/no-ssr'
 
 describe('Compose component', () => {
-  let vm: Compose
-  let wrapper: Wrapper<Compose>
+  let vm: InstanceType<typeof Compose>
+  let wrapper: Wrapper<InstanceType<typeof Compose>>
   beforeEach(() => {
     wrapper = mount(
       Compose,
@@ -20,7 +20,7 @@ describe('Compose component', () => {
           $store: authedUserCreateStore(),
           $accessor: authedAccessor(),
         },
-        attachToDocument: true,
+        attachTo: document.createElement('div'),
       })
     )
     vm = wrapper.vm
@@ -123,18 +123,18 @@ describe('Compose component', () => {
   })
   describe('picker button', () => {
     test('is visible', () => {
-      expect(wrapper.find('.open-emoji-picker').isVisible()).toBe(true)
+      expect(wrapper.find('.open-emoji-picker').element).toBeVisible()
     })
     describe('clicked picker button', () => {
       let emojiPicker: Wrapper<Vue>
       beforeEach(() => {
         wrapper.find('.open-emoji-picker').trigger('click')
-        emojiPicker = wrapper.find({
+        emojiPicker = wrapper.findComponent({
           ref: 'picker',
         })
       })
       test('emoji palette is visible', () => {
-        expect(emojiPicker.isVisible()).toBe(true)
+        expect(emojiPicker.element).toBeVisible()
       })
     })
   })

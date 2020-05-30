@@ -8,7 +8,7 @@ import {
 import { useAccessor } from 'nuxt-typed-vuex'
 import axiosMock from './axios-mock'
 import fixtures from './fixtures'
-import { getters, State, accessorType, rawGetters } from '~/store'
+import { getters, State, accessorType } from '~/store'
 import { User } from '~/models/user'
 
 function createStore() {
@@ -20,7 +20,6 @@ function createStore() {
     auth: {
       ...store.state.auth,
       loggedIn: false,
-      $state: null,
     },
   })
   return store
@@ -60,10 +59,11 @@ const authedUserCreateStore = () => {
 export const authedAccessor = () => {
   const store = authedUserCreateStore()
   const state = store.state
-  const accessor = useAccessor(store, { state, getters: rawGetters })
-  const accessorMock: {
-    [T in keyof typeof accessorType]: typeof accessorType[T]
-  } = {
+  const accessor = useAccessor(store, { state, getters })
+  // const accessorMock: {
+  // [T in keyof typeof accessorType]: typeof accessorType[T]
+  // }
+  const accessorMock: Pick<typeof accessorType, 'auth' | 'user' | 'storage'> = {
     auth: accessor.auth,
     user: accessor.user,
     storage: accessor.storage,

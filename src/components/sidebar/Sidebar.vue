@@ -60,7 +60,7 @@
         </template>
       </template>
     </div>
-    <div v-if="$options.name === 'AppSidebar'" class="pb-3">
+    <div v-if="isDefault" class="pb-3">
       <a
         :href="`${npm_package_homepage}/releases/tag/v${npm_package_version}`"
         class="text-muted"
@@ -76,7 +76,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { MenuItem, getMenus } from './MenuItem'
+import { MenuItem, getMenusWithMeta } from './MenuItem'
 
 @Component
 export default class Sidebar extends Vue {
@@ -85,6 +85,12 @@ export default class Sidebar extends Vue {
     default: false,
   })
   narrow!: boolean
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  alwaysDefault!: true
 
   // Vue might recgnize process.env as strings and replace.
   // So, unable to use destructuring assignment because occurred errors.
@@ -109,7 +115,15 @@ export default class Sidebar extends Vue {
   }
 
   get menus(): MenuItem[] {
-    return getMenus(this)
+    return this.menusWithMeta.menus
+  }
+
+  get menusWithMeta() {
+    return getMenusWithMeta(this, this.alwaysDefault)
+  }
+
+  get isDefault() {
+    return this.menusWithMeta.isDefault
   }
 
   active(url?: string): string {

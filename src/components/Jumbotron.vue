@@ -9,10 +9,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Mixins, Component } from 'vue-property-decorator'
 import search from '~/assets/ts/search'
 
-export default Vue.extend({
-  mixins: [search],
-})
+@Component({})
+export default class Jumbotron extends Mixins(search) {}
 </script>

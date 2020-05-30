@@ -5,7 +5,7 @@ import {
   authedUserCreateStore,
   authedAccessor,
 } from '../helper'
-import User from '~/components/User.vue'
+import User from '~/components/molecules/User.vue'
 
 describe('User', () => {
   describe('relation', () => {
@@ -39,7 +39,7 @@ describe('User', () => {
           },
         })
       )
-      expect(wrapper.contains('[data-test-id="relation"]')).toBe(false)
+      expect(wrapper.find('[data-test-id="relation"]').exists()).toBe(false)
     })
     test('Hidden when myself', () => {
       const wrapper = shallowMount(
@@ -54,7 +54,7 @@ describe('User', () => {
           },
         })
       )
-      expect(wrapper.contains('[data-test-id="relation"]')).toBe(false)
+      expect(wrapper.find('[data-test-id="relation"]').exists()).toBe(false)
     })
   })
   describe('Follow button', () => {
@@ -71,7 +71,9 @@ describe('User', () => {
           },
         })
       )
-      expect(wrapper.contains('[data-test-id="follow-button"]')).toBe(false)
+      expect(wrapper.find('[data-test-id="follow-button"]').exists()).toBe(
+        false
+      )
     })
     test('Show when others', () => {
       const wrapper = shallowMount(
@@ -85,7 +87,7 @@ describe('User', () => {
           },
         })
       )
-      expect(wrapper.contains('[data-test-id="follow-button"]')).toBe(true)
+      expect(wrapper.find('[data-test-id="follow-button"]').exists()).toBe(true)
     })
   })
 })

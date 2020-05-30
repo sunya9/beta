@@ -2,12 +2,10 @@ import { Wrapper } from '@vue/test-utils'
 import { shallowMount, stub } from '../../../helper'
 import Index from '~/components/settings/Account/index.vue'
 
-type IndexType = Vue & typeof Index & { update: () => Promise<void> }
-
 describe('settings/Account/index component', () => {
-  let wrapper: Wrapper<IndexType>
+  let wrapper: Wrapper<Vue>
   beforeEach(() => {
-    wrapper = shallowMount<IndexType>(Index, {
+    wrapper = shallowMount(Index, {
       propsData: {
         account: {
           name: 'foo',
@@ -28,7 +26,8 @@ describe('settings/Account/index component', () => {
   })
   test('show success toast', async () => {
     wrapper.vm.$axios.$patch = jest.fn()
-    await wrapper.vm.update()
+    await wrapper.find('form').trigger('submit')
+    expect(wrapper.vm.$axios.$patch).toBeCalled()
     expect(wrapper.vm.$toast.success).toHaveBeenCalled()
     expect(wrapper.vm.$toast.error).not.toHaveBeenCalled()
   })
@@ -36,7 +35,8 @@ describe('settings/Account/index component', () => {
     wrapper.vm.$axios.$patch = jest.fn(() => {
       throw new Error('error')
     })
-    await wrapper.vm.update()
+    await wrapper.find('form').trigger('submit')
+    expect(wrapper.vm.$axios.$patch).toThrow()
     expect(wrapper.vm.$toast.success).not.toHaveBeenCalled()
     expect(wrapper.vm.$toast.error).toHaveBeenCalled()
   })

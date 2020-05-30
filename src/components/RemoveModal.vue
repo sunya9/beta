@@ -13,27 +13,25 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
 import PostView from '~/components/Post.vue'
 import BaseModal from '~/components/BaseModal.vue'
 import { Post } from '~/models/post'
 
-export default Vue.extend({
+@Component({
   components: {
     Post: PostView,
     BaseModal,
   },
-  data() {
-    return {
-      post: null as Post | null,
-    }
-  },
-  methods: {
-    show(post: Post) {
-      this.post = post
-    },
-    hidden() {
-      this.post = null
-    },
-  },
 })
+export default class RemoveModal extends Vue {
+  post: Post | null = null
+  show(post: Post) {
+    this.post = post
+  }
+
+  hidden() {
+    this.post = null
+  }
+}
 </script>

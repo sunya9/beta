@@ -27,7 +27,7 @@
 </template>
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import Avatar from '~/components/Avatar.vue'
+import Avatar from '~/components/atoms/Avatar.vue'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
 

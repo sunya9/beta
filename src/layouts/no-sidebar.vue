@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import AppHeader from '~/components/Header.vue'
+import AppHeader from '~/components/organisms/Header.vue'
 
 export default Vue.extend({
   components: {

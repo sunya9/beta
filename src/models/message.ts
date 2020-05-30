@@ -14,6 +14,7 @@ export interface Message extends HasRaw {
   thread_id: string
   user?: User
   content?: Message.MessageContent
+  deleted_by?: boolean // Really?
 }
 
 export namespace Message {

@@ -2,10 +2,9 @@ import { Wrapper } from '@vue/test-utils'
 import { shallowMount } from '../../../helper'
 import Cover from '~/components/settings/Account/Cover.vue'
 
-type CoverType = Vue &
-  typeof Cover & {
-    coverChanged: (arg: { target: { files: unknown[] } }) => Promise<void>
-  }
+type CoverType = InstanceType<typeof Cover> & {
+  coverChanged: (arg: { target: { files: unknown[] } }) => Promise<void>
+}
 
 describe('Cover component', () => {
   let wrapper: Wrapper<CoverType>
@@ -24,11 +23,11 @@ describe('Cover component', () => {
     is_default: false,
   }
   beforeEach(() => {
-    wrapper = shallowMount<CoverType>(Cover, {
+    wrapper = shallowMount(Cover, {
       propsData: {
         cover: oldCover,
       },
-    })
+    }) as Wrapper<CoverType>
     $input = wrapper.vm.$el.querySelector('input[type="file"]')
     $button = wrapper.vm.$el.querySelector('button')
     wrapper.vm.$toast.error = jest.fn()

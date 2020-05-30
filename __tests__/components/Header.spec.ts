@@ -10,7 +10,7 @@ import {
   authedAccessor,
 } from '../helper'
 import { State } from '~/store'
-import Header from '~/components/Header.vue'
+import Header from '~/components/organisms/Header.vue'
 
 describe('Header component', () => {
   let $store: Vuex.Store<State>
@@ -40,39 +40,39 @@ describe('Header component', () => {
   })
   test('Hide search form when not logged in', () => {
     const wrapper = shallowMount(Header, opts)
-    expect(wrapper.contains('#search-form')).toBe(false)
+    expect(wrapper.find('#search-form').exists()).toBe(false)
   })
   test('Show search form when logged in', () => {
     const wrapper = shallowMount(Header, authOpts)
-    expect(wrapper.contains('#search-form')).toBe(true)
+    expect(wrapper.find('#search-form').exists()).toBe(true)
   })
 
   test('Hide user menu when not logged in', () => {
     const wrapper = shallowMount(Header, opts)
-    expect(wrapper.contains('#user-menu')).toBe(false)
+    expect(wrapper.find('#user-menu').exists()).toBe(false)
   })
   test('Show user menu when logged in', () => {
     const wrapper = shallowMount(Header, authOpts)
-    expect(wrapper.contains('#user-menu')).toBe(true)
+    expect(wrapper.find('#user-menu').exists()).toBe(true)
   })
 
   test('Hide files link when not logged in', () => {
     const wrapper = shallowMount(Header, opts)
-    expect(wrapper.contains('#nav-files')).toBe(false)
+    expect(wrapper.find('#nav-files').exists()).toBe(false)
   })
 
   test('Show files link when logged in', () => {
     const wrapper = shallowMount(Header, authOpts)
-    expect(wrapper.contains('#nav-files')).toBe(true)
+    expect(wrapper.find('#nav-files').exists()).toBe(true)
   })
 
   test('Hide messages link when not logged in', () => {
     const wrapper = shallowMount(Header, opts)
-    expect(wrapper.contains('#nav-messages')).toBe(false)
+    expect(wrapper.find('#nav-messages').exists()).toBe(false)
   })
 
   test('Show messages link when logged in', () => {
     const wrapper = shallowMount(Header, authOpts)
-    expect(wrapper.contains('#nav-messages')).toBe(true)
+    expect(wrapper.find('#nav-messages').exists()).toBe(true)
   })
 })

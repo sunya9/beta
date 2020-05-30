@@ -1,12 +1,15 @@
+import { Wrapper } from '@vue/test-utils'
 import { mount } from '../helper'
 import BaseList from '~/components/BaseList.vue'
 
-type BaseListType = typeof BaseList & Vue & { refresh: () => Promise<void> }
+type BaseListType = InstanceType<typeof BaseList> & {
+  refresh: () => Promise<void>
+}
 
 describe('BaseList component', () => {
   // https://github.com/sunya9/beta/issues/196
   test('Can refresh even when list is empty', async () => {
-    const wrapper = mount<BaseListType>(BaseList, {
+    const wrapper = mount(BaseList, {
       propsData: {
         data: {
           meta: {
@@ -16,7 +19,7 @@ describe('BaseList component', () => {
         },
         resource: '/200',
       },
-    })
+    }) as Wrapper<BaseListType>
     wrapper.vm.$resource = jest.fn().mockReturnValue({
       meta: { more: false },
       data: [],
@@ -28,7 +31,7 @@ describe('BaseList component', () => {
   })
 
   test("Show a message when hasn't any items", () => {
-    const wrapper = mount<BaseListType>(BaseList, {
+    const wrapper = mount(BaseList, {
       propsData: {
         data: {
           meta: {
@@ -38,11 +41,11 @@ describe('BaseList component', () => {
         },
         resource: '/200',
       },
-    })
+    }) as Wrapper<BaseListType>
     expect(wrapper.text().toLowerCase()).toContain('No Items'.toLowerCase())
   })
   test('Calls refersh() when refreshDate is updated', async () => {
-    const wrapper = mount<BaseListType>(BaseList, {
+    const wrapper = mount(BaseList, {
       propsData: {
         data: {
           meta: {
@@ -53,7 +56,7 @@ describe('BaseList component', () => {
         refreshDate: Date.now(),
         resource: '/200',
       },
-    })
+    }) as Wrapper<BaseListType>
     const handler = jest.fn()
     wrapper.vm.refresh = handler
     wrapper.vm.$resource = jest.fn().mockReturnValue({

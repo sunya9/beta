@@ -13,7 +13,7 @@
 import Vue from 'vue'
 import { Channel } from '~/models/channel'
 import BaseList from '~/components/BaseList.vue'
-import ChannelView from '~/components/Channel.vue'
+import ChannelView from '~/components/molecules/Channel.vue'
 export default Vue.extend({
   name: 'ChannelList',
   components: {

@@ -20,7 +20,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Watch, Mixins } from 'vue-property-decorator'
+import { PnutResponse } from '~/models/pnut-response'
+import { Post } from '~/models/post'
 import Profile from '~/components/Profile.vue'
 import Compose from '~/components/Compose.vue'
 import PostList from '~/components/PostList.vue'
@@ -34,7 +36,6 @@ import { User } from '~/models/user'
     Compose,
     PostList,
   },
-  mixins: [refreshAfterAdded],
   async asyncData(ctx) {
     const {
       params,
@@ -67,52 +68,18 @@ import { User } from '~/models/user'
       })
     }
   },
-})
-export default class extends Vue {
-  profile!: User
-  uniqueName!: string
-  $refs!: {
-    list: any
-  }
-
-  get user(): User | null {
-    return this.$accessor.user
-  }
-
-  get initialText(): string {
-    return this.user && this.user.username === this.uniqueName
-      ? ''
-      : `@${this.uniqueName} `
-  }
-
-  get blocked(): boolean {
-    return this.profile.you_blocked
-  }
-
-  @Watch('blocked')
-  async onBlockedChange(after: boolean, before: boolean) {
-    if (before && !after) {
-      await this.$nextTick()
-      // TODO
-      this.$refs.list.fetchMore()
-    }
-  }
-
-  head() {
-    if (!this.profile) return {}
+  head(this: Index) {
     const title = getTitle(this.profile)
     const meta = [
       {
         hid: 'description',
         name: 'description',
-        content:
-          this.profile && this.profile.content && this.profile.content.text,
+        content: this.profile.content?.text || '',
       },
       {
         hid: 'og:description',
         property: 'og:description',
-        content:
-          this.profile && this.profile.content && this.profile.content.text,
+        content: this.profile.content?.text || '',
       },
       {
         hid: 'og:type',
@@ -138,6 +105,38 @@ export default class extends Vue {
       title,
       meta,
       link,
+    }
+  },
+})
+export default class Index extends Mixins(refreshAfterAdded) {
+  profile!: User
+  uniqueName!: string
+  data!: PnutResponse<Post[]>
+  options!: object
+  $refs!: {
+    list: any
+  }
+
+  get user(): User | null {
+    return this.$accessor.user
+  }
+
+  get initialText(): string {
+    return this.user && this.user.username === this.uniqueName
+      ? ''
+      : `@${this.uniqueName} `
+  }
+
+  get blocked(): boolean {
+    return this.profile.you_blocked
+  }
+
+  @Watch('blocked')
+  async onBlockedChange(after: boolean, before: boolean) {
+    if (before && !after) {
+      await this.$nextTick()
+      // TODO
+      this.$refs.list.fetchMore()
     }
   }
 }

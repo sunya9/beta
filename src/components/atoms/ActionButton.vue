@@ -19,32 +19,30 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import { Component, Prop } from 'nuxt-property-decorator'
+import { Mixins } from 'vue-property-decorator'
 import { actionable } from '~/assets/ts/actionable'
 
-export default Vue.extend({
-  name: 'ActionButton',
-  mixins: [actionable],
-  props: {
-    icon: {
-      type: [String, Array],
-      default: '',
-      validator: (val) =>
-        typeof val === 'string' ||
-        (typeof val === 'object' && val.length === 2),
-    } as PropOptions<string | [string, string]>,
-  },
-  computed: {
-    computedIcon(): string {
-      if (typeof this.icon === 'object') {
-        // TODO
-        return this.icon[+(this as any).checked]
-      } else {
-        return this.icon
-      }
-    },
-  },
-})
+@Component({})
+class ActionButton extends Mixins(actionable) {
+  @Prop({
+    type: [String, Array],
+    default: '',
+    validator: (val) =>
+      typeof val === 'string' || (typeof val === 'object' && val.length === 2),
+  })
+  icon!: string | [string, string]
+
+  get computedIcon(): string {
+    if (typeof this.icon === 'object') {
+      return this.icon[+this.checked]
+    } else {
+      return this.icon
+    }
+  }
+}
+
+export default ActionButton
 </script>
 
 <style scoped lang="scss">

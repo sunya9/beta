@@ -3,12 +3,9 @@ import { shallowMount, fixtures } from '../../../helper'
 import Avatar from '~/components/settings/Account/Avatar.vue'
 import { User } from '~/models/user'
 
-type AvatarType = Vue &
-  typeof Avatar & {
-    avatarChanged: (e: {
-      target: { files: { size: number }[] }
-    }) => Promise<void>
-  }
+type AvatarType = InstanceType<typeof Avatar> & {
+  avatarChanged: (e: { target: { files: { size: number }[] } }) => Promise<void>
+}
 
 describe('Avatar component', () => {
   let wrapper: Wrapper<AvatarType>
@@ -17,11 +14,11 @@ describe('Avatar component', () => {
   const oldAvatar = fixtures<User>('user').content?.avatar_image
 
   beforeEach(() => {
-    wrapper = shallowMount<AvatarType>(Avatar, {
+    wrapper = shallowMount(Avatar, {
       propsData: {
         avatar: oldAvatar,
       },
-    })
+    }) as Wrapper<AvatarType>
     $input = wrapper.find('input[type="file"]')
     $image = wrapper.find('img')
     wrapper.vm.$toast.error = jest.fn()

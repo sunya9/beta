@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import Avatar from '~/components/Avatar.vue'
+import Avatar from '~/components/atoms/Avatar.vue'
 
 describe('Avatar', () => {
   let opts: {
@@ -24,14 +24,14 @@ describe('Avatar', () => {
   describe('avatar props', () => {
     test('pass string', () => {
       const wrapper = shallowMount(Avatar, opts)
-      expect(wrapper.contains('img[src="foo.png"]')).toBe(true)
+      expect(wrapper.find('img[src="foo.png"]').exists()).toBe(true)
     })
     test('pass object', () => {
       opts.propsData.avatar = {
         link: 'foo.png',
       }
       const wrapper = shallowMount(Avatar, opts)
-      expect(wrapper.contains('img[src="foo.png"]')).toBe(true)
+      expect(wrapper.find('img[src="foo.png"]').exists()).toBe(true)
     })
     test('When pass the username, show icon using API', () => {
       const wrapper = shallowMount(Avatar, {

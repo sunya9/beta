@@ -149,8 +149,8 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
-import Avatar from '~/components/Avatar.vue'
+import { Component, Mixins, Prop } from 'vue-property-decorator'
+import Avatar from '~/components/atoms/Avatar.vue'
 import Thumb from '~/components/Thumb.vue'
 import EntityText from '~/components/EntityText.vue'
 import listItem from '~/assets/ts/list-item'
@@ -167,81 +167,94 @@ import { User } from '~/models/user'
 import { Message } from '~/models/message'
 import { Spoiler } from '~/models/raw/raw/spoiler'
 
-export default Vue.extend({
+@Component({
   components: {
     Avatar,
     EntityText,
     Thumb,
   },
-  mixins: [listItem('message.created_at')],
-  props: {
-    displayFullView: {
-      type: Boolean,
-      default: false,
-    },
-    message: {
-      type: Object,
-      required: true,
-    } as PropOptions<Message>,
-    isModerator: {
-      type: Boolean,
-      default: false,
-    },
-    channelType: {
-      type: String,
-      default: '',
-    },
-    lastReadMessageId: {
-      type: String,
-      default: '',
-    },
-  },
-  computed: {
-    me(): boolean {
-      return (
-        !!this.user && this.messageUser && this.user.id === this.messageUser.id
-      )
-    },
-    messageUser(): MinimumUser {
-      return this.message.user || deletedUser
-    },
-    canDelete(): boolean {
-      return (
-        !this.message.is_deleted &&
-        (this.me ||
-          (this.channelType !== 'io.pnut.core.pm' && this.isModerator))
-      )
-    },
-    firstUnreadMessage(): boolean {
-      return this.message.id === this.lastReadMessageId
-    },
-    thumbs(): ImageForView[] {
-      return getImageURLs(this.message)
-    },
-    clips(): AudioForView[] | void {
-      return getAudio(this.message)
-    },
-    spoiler(): Spoiler.Value | void {
-      return getSpoiler(this.message)
-    },
-    user(): User | null {
-      return this.$accessor.user
-    },
-  },
-  methods: {
-    removeModal() {
-      this.$modal.show('message-remove-modal', this)
-    },
-    async remove() {
-      if (!this.message) return
-      const { data: message } = await this.$axios.$delete(
-        `/channels/${this.message.channel_id}/messages/${this.message.id}`
-      )
-      this.$toast.success('Deleted Message!')
-      this.$emit('update:message', message)
-    },
-  },
 })
+export default class extends Mixins(listItem('message.created_at')) {
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  displayFullView!: boolean
+
+  @Prop({
+    type: Object,
+    required: true,
+  })
+  message!: Message
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isModerator!: boolean
+
+  @Prop({
+    type: String,
+    default: '',
+  })
+  channelType!: string
+
+  @Prop({
+    type: String,
+    default: '',
+  })
+  lastReadMessageId!: string
+
+  get me(): boolean {
+    return (
+      !!this.user && this.messageUser && this.user.id === this.messageUser.id
+    )
+  }
+
+  get messageUser(): MinimumUser {
+    return this.message.user || deletedUser
+  }
+
+  get canDelete(): boolean {
+    return (
+      !this.message.is_deleted &&
+      (this.me || (this.channelType !== 'io.pnut.core.pm' && this.isModerator))
+    )
+  }
+
+  get firstUnreadMessage(): boolean {
+    return this.message.id === this.lastReadMessageId
+  }
+
+  get thumbs(): ImageForView[] {
+    return getImageURLs(this.message)
+  }
+
+  get clips(): AudioForView[] | void {
+    return getAudio(this.message)
+  }
+
+  get spoiler(): Spoiler.Value | void {
+    return getSpoiler(this.message)
+  }
+
+  get user(): User | null {
+    return this.$accessor.user
+  }
+
+  removeModal() {
+    this.$modal.show('message-remove-modal', this)
+  }
+
+  async remove() {
+    if (!this.message) return
+    const { data: message } = await this.$axios.$delete(
+      `/channels/${this.message.channel_id}/messages/${this.message.id}`
+    )
+    this.$toast.success('Deleted Message!')
+    this.$emit('update:message', message)
+  }
+}
 </script>
 
 <style lang="scss" scoped>

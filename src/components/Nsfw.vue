@@ -23,31 +23,25 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
+import { Component, Prop } from 'vue-property-decorator'
 
-export default Vue.extend({
-  name: 'Nsfw',
-  props: {
-    includeNsfw: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      accept: false,
-    }
-  },
-  computed: {
-    show(): boolean {
-      return this.accept || !this.includeNsfw
-    },
-  },
-  methods: {
-    toggle() {
-      this.accept = !this.accept
-    },
-  },
-})
+@Component({})
+export default class Nsfw extends Vue {
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  includeNsfw!: boolean
+
+  accept = false
+  get show(): boolean {
+    return this.accept || !this.includeNsfw
+  }
+
+  toggle() {
+    this.accept = !this.accept
+  }
+}
 </script>
 <style>
 .fade-enter-active,

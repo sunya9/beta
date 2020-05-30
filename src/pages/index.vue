@@ -14,7 +14,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Mixins, Component } from 'vue-property-decorator'
+import { PnutResponse } from '~/models/pnut-response'
+import { Post } from '~/models/post'
 import Compose from '~/components/Compose.vue'
 import PostList from '~/components/PostList.vue'
 import { convertPageId2ApiPath } from '~/plugins/axios/resources'
@@ -24,13 +26,12 @@ import { User } from '~/models/user'
 
 const globalPath = convertPageId2ApiPath('global')
 
-export default Vue.extend({
+@Component({
   components: {
     Compose,
     PostList,
     Splash,
   },
-  mixins: [refreshAfterAdded],
   async asyncData({ app: { $resource, $accessor } }) {
     let streamPath = '/posts/streams/me'
     if (localStorage.unified_timeline === 'true') {
@@ -46,20 +47,23 @@ export default Vue.extend({
     })
     return { data, options }
   },
-  computed: {
-    user(): User | null {
-      return this.$accessor.user
-    },
-    resource(): string {
-      // TODO: ?
-      return !this.$accessor.user ? convertPageId2ApiPath('global') : ''
-    },
-  },
-  head() {
+  head(this: Index) {
     const loggedIn = !!this.$accessor.user
     return {
       title: loggedIn ? 'Your Stream' : '',
     }
   },
 })
+export default class Index extends Mixins(refreshAfterAdded) {
+  options!: object
+  data!: PnutResponse<Post[]>
+  get user(): User | null {
+    return this.$accessor.user
+  }
+
+  get resource(): string {
+    // TODO: ?
+    return !this.$accessor.user ? convertPageId2ApiPath('global') : ''
+  }
+}
 </script>
