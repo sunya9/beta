@@ -119,7 +119,7 @@
 import Vue from 'vue'
 import { cloneDeep, groupBy } from 'lodash'
 import { Component, Watch } from 'vue-property-decorator'
-import CustomCheckbox from '~/components/CustomCheckbox.vue'
+import CustomCheckbox from '~/components/atoms/CustomCheckbox.vue'
 import BaseModal from '~/components/BaseModal.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import AclSelect from '~/components/AclSelect.vue'

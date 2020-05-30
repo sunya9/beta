@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import CustomCheckbox from '../CustomCheckbox.vue'
+import CustomCheckbox from '~/components/atoms/CustomCheckbox.vue'
 
 export default Vue.extend({
   components: {

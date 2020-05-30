@@ -1,5 +1,5 @@
 import { mount } from '../helper'
-import CustomCheckbox from '~/components/CustomCheckbox.vue'
+import CustomCheckbox from '~/components/atoms/CustomCheckbox.vue'
 
 describe('CustomCheckbox component', () => {
   describe('props', () => {
