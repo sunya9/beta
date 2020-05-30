@@ -74,3 +74,4 @@ dist
 sw.*
 
 .vscode
+.out

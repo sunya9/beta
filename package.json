@@ -135,6 +135,7 @@
     "test": "jest",
     "test:all": "run-p 'test --coverage' lint",
     "format": "prettier --write --ignore-path .gitignore .",
-    "storybook": "start-storybook -p 9191"
+    "storybook": "start-storybook -p 9191",
+    "build-storybook": "build-storybook -c .storybook -o .out"
   }
 }
