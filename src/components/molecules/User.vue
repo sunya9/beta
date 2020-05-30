@@ -2,7 +2,7 @@
   <div class="media w-100">
     <nuxt-link :to="`/@${user.username}`">
       <avatar
-        :avatar="user.content.avatar_image"
+        :avatar="user.content ? user.content.avatar_image : ''"
         :max-size="64"
         :size="64"
         class="d-flex mr-3"
