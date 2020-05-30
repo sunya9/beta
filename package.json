@@ -43,10 +43,10 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "7.10.1",
-    "@babel/core": "7.10.1",
+    "@babel/core": "7.10.2",
     "@babel/plugin-transform-modules-commonjs": "7.10.1",
     "@babel/plugin-transform-typescript": "7.10.1",
-    "@babel/preset-env": "7.10.1",
+    "@babel/preset-env": "7.10.2",
     "@nuxt/types": "0.7.7",
     "@nuxt/typescript-build": "1.0.1",
     "@nuxtjs/eslint-config-typescript": "2.0.0",
