@@ -1,8 +1,8 @@
 const path = require('path')
 const merge = require('webpack-merge')
 
-const srcDir = '../src'
-const rootDir = '../'
+const srcDir = path.resolve(__dirname, '../src')
+const rootDir = path.resolve(__dirname, '../')
 
 module.exports = {
   stories: ['../src/**/*.stories.ts'],
@@ -21,8 +21,9 @@ module.exports = {
 const webpackConfig = {
   resolve: {
     alias: {
-      '~~': path.resolve(__dirname, rootDir),
-      '~': path.resolve(__dirname, srcDir),
+      assets: path.resolve(srcDir, 'assets'),
+      '~~': rootDir,
+      '~': srcDir,
     },
     extensions: ['.ts', '.tsx'],
   },
@@ -44,24 +45,38 @@ const webpackConfig = {
         test: /\.(otf|eot|ttf|woff|woff2)(\?.+)?$/,
         loader: 'url-loader',
       },
+      {
+        test: /\.(scss)$/,
+        loaders: [
+          'vue-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+            },
+          },
+          {
+            loader: `sass-loader`,
+            options: {
+              sassOptions: {
+                includePaths: [path.resolve(__dirname, '../')],
+              },
+            },
+          },
+          // {
+          //   loader: 'sass-resources-loader',
+          //   options: {
+          //     resources: [path.resolve(__dirname, '../src/assets/css/adn_base_variables.scss')],
+          //     include: path.resolve(__dirname, '../')
+          //   }
+          // }
+        ],
+      },
       // {
-      //   test: /\.svg$/,
-      //   loader: 'file-loader',
+      //   test: /\.vue$/,
+      //   use: 'vue-docgen-loader',
+      //   enforce: 'post',
       // },
-      {
-        test: /\.(sass|scss)$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader'],
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-docgen-loader',
-        enforce: 'post',
-      },
-      {
-        test: /\.vue$/,
-        use: 'vue-docgen-loader',
-        enforce: 'post',
-      },
     ],
   },
 }
