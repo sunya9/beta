@@ -26,7 +26,12 @@ before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
-script: yarn run test:all
+  - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"  
+  - git fetch origin
+  - git checkout $TRAVIS_BRANCH || git checkout -b $TRAVIS_BRANCH
+  - yarn build-storybook
+  - yarn screenshot
+script: DIR=$(mktemp) && echo $GCP_KEY_VALUE | base64 -d > $DIR && GOOGLE_APPLICATION_CREDENTIALS=$DIR yarn run test
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
