@@ -76,3 +76,4 @@ sw.*
 .vscode
 .out
 __screenshots__
+.reg
