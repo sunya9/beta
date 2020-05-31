@@ -10603,7 +10603,7 @@ http-proxy@^1.18.0, http-proxy@^1.18.1:
     follow-redirects "^1.0.0"
     requires-port "^1.0.0"
 
-http-server@^0.12.3:
+http-server@0.12.3:
   version "0.12.3"
   resolved "https://registry.yarnpkg.com/http-server/-/http-server-0.12.3.tgz#ba0471d0ecc425886616cb35c4faf279140a0d37"
   integrity sha512-be0dKG6pni92bRjq0kvExtj/NrrAd28/8fCXkaI/4piTwQMSDSLMhWyW0NI1V+DBI3aa1HMlQu46/HjVLfmugA==
@@ -16673,14 +16673,14 @@ reg-gh-app-interface@^1.0.1:
   resolved "https://registry.yarnpkg.com/reg-gh-app-interface/-/reg-gh-app-interface-1.0.6.tgz#6e4f78f2e5c60585dac87b21d1cbc586dbb7f71c"
   integrity sha512-aLI9CpVlSyw3pdJkPS4E7P8pMjJG3DQrEN5bO5ANySxhHndXA7/uTGEe6kcK6V+/+xcYOsvoE6UrRphhkCZy3w==
 
-reg-keygen-git-hash-plugin@^0.8.5:
+reg-keygen-git-hash-plugin@0.8.5:
   version "0.8.5"
   resolved "https://registry.yarnpkg.com/reg-keygen-git-hash-plugin/-/reg-keygen-git-hash-plugin-0.8.5.tgz#8738a964396844de14dbf98f07ac5a5d983b3576"
   integrity sha512-d0Bk8bWnXLaqIl37MVVdZRia87POgLuJ6yOhZBrVGz0Zn41vE+SeS8nuMEwsxvNBrqWvESvzBmetcfTFOEhkxw==
   dependencies:
     reg-suit-util "^0.8.5"
 
-reg-notify-github-plugin@^0.8.5:
+reg-notify-github-plugin@0.8.5:
   version "0.8.5"
   resolved "https://registry.yarnpkg.com/reg-notify-github-plugin/-/reg-notify-github-plugin-0.8.5.tgz#18f6beb8280468ee65d4f95f3249b7bcb5d206e1"
   integrity sha512-4JSJDXuJGHC8NO+uhpibMDptw3Lz0nHduOj/GuxLEUBbio3w9102VvR5fHcgW9hPPKjjwM0B/6WamLNbWWN50A==
@@ -16692,7 +16692,7 @@ reg-notify-github-plugin@^0.8.5:
     request-promise "^4.2.1"
     tiny-commit-walker "^1.1.2"
 
-reg-notify-slack-plugin@^0.8.4:
+reg-notify-slack-plugin@0.8.4:
   version "0.8.4"
   resolved "https://registry.yarnpkg.com/reg-notify-slack-plugin/-/reg-notify-slack-plugin-0.8.4.tgz#de8ca73ee20aed3a5b1a9eeeb4f95532ce723f40"
   integrity sha512-J6peTb2v6jqKmTtLqIColOP0PgtkNyTE6zsPX1MHJSVV+EqcgzhylQ/6iJn/BQqFrBgDBiNaiBwtO/MBqL6CGQ==
@@ -16700,7 +16700,7 @@ reg-notify-slack-plugin@^0.8.4:
     request "^2.81.0"
     request-promise "^4.2.1"
 
-reg-publish-gcs-plugin@^0.9.0:
+reg-publish-gcs-plugin@0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/reg-publish-gcs-plugin/-/reg-publish-gcs-plugin-0.9.0.tgz#8fbf9e4f2e9a357e7af58171be61e48be8a0d500"
   integrity sha512-VxMOTubIhIbINlvUiJJeNblH/JdN48aCBI0C3SbODBOtq51eN1cw36lSusYJoiVt036Sv6BdbKFsjVpp3KmNEg==
@@ -16734,7 +16734,7 @@ reg-suit-util@^0.8.5:
     mime-types "^2.1.15"
     mkdirp "^0.5.1"
 
-reg-suit@^0.10.0:
+reg-suit@0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/reg-suit/-/reg-suit-0.10.0.tgz#9ff86f96ed0a1b661ae931adb6e537150c3e9701"
   integrity sha512-Fum+moxCbv1+z8puUxhInLrEdRaFFl1JFmMOHU/6+MZqzJsWAcrRsrUIVipR/SDouRNJ6JVFWlJ/sUAoNr5Dfg==
@@ -17971,7 +17971,7 @@ store2@^2.7.1:
   resolved "https://registry.yarnpkg.com/store2/-/store2-2.11.2.tgz#a298e5e97b21b3ce7419b732540bc7c79cb007db"
   integrity sha512-TQMKs+C6n9idtzLpxluikmDCYiDJrTbbIGn9LFxMg0BVTu+8JZKSlXTWYRpOFKlfKD5HlDWLVpJJyNGZ2e9l1A==
 
-storycap@^2.3.5:
+storycap@2.3.5:
   version "2.3.5"
   resolved "https://registry.yarnpkg.com/storycap/-/storycap-2.3.5.tgz#152f7d3a70e3b76735ba95195f3baec3927f9525"
   integrity sha512-N87PipdhdVEIjTJ6tth+17zhg3ZXfHWUnmm2NTOhig/iPBa69Ufxl5Buv4SnpGYtMVBoj2lu7BlwNkbilPkAnw==
