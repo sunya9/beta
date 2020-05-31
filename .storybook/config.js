@@ -9,7 +9,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
+import { directive } from 'vue-on-click-outside'
+import ClientOnly from 'vue-client-only'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import updateLocale from 'dayjs/plugin/updateLocale'
@@ -48,4 +49,6 @@ dayjs.updateLocale('en', {
   },
 })
 
+Vue.directive('on-click-outside', directive)
+Vue.component('client-only', ClientOnly)
 Vue.prototype.$dayjs = dayjs
