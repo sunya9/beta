@@ -22,7 +22,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'nuxt-property-decorator'
-import Compose from '~/components/Compose.vue'
+import Compose from '~/components/organisms/Compose.vue'
 
 function getTitle(posted: boolean) {
   return !posted ? 'Share a link' : 'Shared link!'

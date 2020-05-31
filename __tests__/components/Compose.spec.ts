@@ -5,7 +5,7 @@ import {
   baseMountOpts,
   authedAccessor,
 } from '../helper'
-import Compose from '~/components/Compose.vue'
+import Compose from '~/components/organisms/Compose.vue'
 
 // import noSsr from 'nuxt/lib/app/components/no-ssr'
 

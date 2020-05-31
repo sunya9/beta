@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Compose from '~/components/Compose.vue'
+import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/PostList.vue'
 import { Post } from '~/models/post'
 
