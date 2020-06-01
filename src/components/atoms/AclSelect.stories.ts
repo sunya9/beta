@@ -1,13 +1,21 @@
+import Vue from 'vue'
 import { withKnobs, select, boolean } from '@storybook/addon-knobs'
 import AclSelect from './AclSelect.vue'
+import { accessorType } from '~/store'
+import { DeepPartial } from '~/../types'
 export default { title: 'AclSelect', decorators: [withKnobs] }
 
-const base = {
-  components: { AclSelect },
+function base(accessor?: DeepPartial<typeof accessorType>) {
+  Vue.prototype.$accessor = accessor
+  return {
+    components: { AclSelect },
+  }
 }
 
 export const normal = () => ({
-  ...base,
+  ...base({
+    user: { username: 'test' },
+  }),
   props: {
     permission: {
       type: String,
