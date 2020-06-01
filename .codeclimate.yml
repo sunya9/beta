@@ -14,4 +14,4 @@ ratings:
 exclude_patterns:
   - '__tests__/'
   - '__mocks__/'
-  - '*.stories.ts'
+  - '**.stories.ts'
