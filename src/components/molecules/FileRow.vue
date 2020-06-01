@@ -20,7 +20,7 @@
 </template>
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { ModifiedFile } from './file-list.vue'
+import { ModifiedFile } from '~/components/file-list.vue'
 export default Vue.extend({
   props: {
     file: {

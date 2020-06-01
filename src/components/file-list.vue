@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import FileRow from '~/components/file-row.vue'
+import FileRow from '~/components/molecules/FileRow.vue'
 import BaseModal from '~/components/BaseModal.vue'
 import { PnutResponse } from '~/models/pnut-response'
 import { File } from '~/models/file'
