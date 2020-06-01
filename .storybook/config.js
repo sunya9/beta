@@ -12,11 +12,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { directive } from 'vue-on-click-outside'
 import ClientOnly from 'vue-client-only'
 import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import updateLocale from 'dayjs/plugin/updateLocale'
 import '~/plugins/modal'
 import '../src/assets/css/main.scss'
 import './css/main.css'
+import '~/plugins/dayjs'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import Mousetrap from 'mousetrap'
 
@@ -38,20 +37,6 @@ Vue.component('nuxt-link', {
   render: (h, { data, children }) => h('router-link', data, children),
 })
 addDecorator(withScreenshot())
-
-dayjs.extend(updateLocale)
-dayjs.extend(relativeTime)
-
-dayjs.updateLocale('en', {
-  relativeTime: {
-    ...dayjs.Ls.en.relativeTime,
-    s: '%ds',
-    m: '1m',
-    mm: '%dm',
-    h: '1h',
-    hh: '%dh',
-  },
-})
 
 Vue.directive('on-click-outside', directive)
 Vue.component('client-only', ClientOnly)
