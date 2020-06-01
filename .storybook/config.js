@@ -14,10 +14,14 @@ import ClientOnly from 'vue-client-only'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import updateLocale from 'dayjs/plugin/updateLocale'
-
+import '~/plugins/modal'
 import '../src/assets/css/main.scss'
 import './css/main.css'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import Mousetrap from 'mousetrap'
+
+require('imports-loader?Mousetrap=>require("mousetrap")!mousetrap/plugins/pause/mousetrap-pause') // eslint-disable-line
+
 Vue.use(Vuex)
 Vue.use(Router)
 
@@ -52,3 +56,5 @@ dayjs.updateLocale('en', {
 Vue.directive('on-click-outside', directive)
 Vue.component('client-only', ClientOnly)
 Vue.prototype.$dayjs = dayjs
+
+Vue.prototype.$mousetrap = Mousetrap
