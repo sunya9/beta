@@ -17,7 +17,7 @@
 import { Mixins, Component } from 'vue-property-decorator'
 import { PnutResponse } from '~/models/pnut-response'
 import { Post } from '~/models/post'
-import Compose from '~/components/Compose.vue'
+import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/PostList.vue'
 import { convertPageId2ApiPath } from '~/plugins/axios/resources'
 import Splash from '~/components/Splash.vue'

@@ -4,6 +4,7 @@
     title="Keyboard shortcuts"
     suppress-warnings
     hide-footer
+    v-bind="$attrs"
   >
     <div class="row flex-wrap">
       <div class="col-12">
@@ -24,7 +25,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import KeySets from './KeySets.vue'
+import KeySets from '~/components/KeySets.vue'
 import BaseModal from '~/components/BaseModal.vue'
 
 const keyMaps = {

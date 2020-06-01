@@ -25,7 +25,7 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import PostView from '~/components/Post.vue'
-import Compose from '~/components/Compose.vue'
+import Compose from '~/components/organisms/Compose.vue'
 import BaseModal from '~/components/BaseModal.vue'
 import { Post } from '~/models/post'
 

@@ -2,9 +2,11 @@ import dayjs from 'dayjs'
 import { Plugin } from '@nuxt/types'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import updateLocale from 'dayjs/plugin/updateLocale'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 
 dayjs.extend(updateLocale)
 dayjs.extend(relativeTime)
+dayjs.extend(localizedFormat)
 
 dayjs.updateLocale('en', {
   relativeTime: {
