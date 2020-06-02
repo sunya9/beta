@@ -7,6 +7,7 @@
     :width="size"
     :height="size"
     :srcset="srcset"
+    :src="src"
     v-bind="$attrs"
   />
 </template>
@@ -81,6 +82,7 @@ export default class Avatar extends Vue {
   }
 
   get srcset(): string {
+    if (!this.url) return ''
     return `${this.url}?w=${(+this.size || +this.maxSize) * 2} 2x`
   }
 
