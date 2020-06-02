@@ -1,6 +1,6 @@
 <template>
   <button
-    v-if="!blocking"
+    v-if="user && user.id !== profile.id && !blocking"
     :class="btnClass"
     :disabled="busy"
     class="btn"
@@ -8,7 +8,12 @@
   >
     {{ text }}
   </button>
-  <button v-else :disabled="busy" class="btn btn-danger" @click="unblock">
+  <button
+    v-else-if="blocking"
+    :disabled="busy"
+    class="btn btn-danger"
+    @click="unblock"
+  >
     Unblock
   </button>
 </template>
@@ -27,8 +32,14 @@ export default class FollowButton extends Vue {
   profile!: User
 
   busy = false
-  following = this.profile.you_follow
-  blocking = this.profile.you_blocked
+  get following() {
+    return this.profile.you_follow
+  }
+
+  get blocking() {
+    return this.profile.you_blocked
+  }
+
   get text(): string {
     return this.following ? 'Following' : 'Follow'
   }
@@ -51,14 +62,12 @@ export default class FollowButton extends Vue {
     } catch (e) {
       this.$toast.error(e.message)
       this.updateProfile({ you_follow: prev })
+    } finally {
+      this.busy = false
     }
-    this.busy = false
   }
 
   updateProfile(newProfile: Partial<User>) {
-    // TODO
-    this.following = newProfile.you_follow || false
-    this.blocking = newProfile.you_blocked || false
     this.$emit('update:profile', { ...this.profile, ...newProfile })
   }
 
@@ -75,6 +84,10 @@ export default class FollowButton extends Vue {
       this.updateProfile({ you_blocked: true })
     }
     this.busy = false
+  }
+
+  get user() {
+    return this.$accessor.user
   }
 }
 </script>
