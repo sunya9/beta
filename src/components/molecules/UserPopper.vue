@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-popover
-      v-if="user.content"
+      v-if="user && user.content"
       triggers="hover"
       :target="() => target()"
       placement="top"
@@ -45,9 +45,9 @@ import RelationBadge from '~/components/atoms/RelationBadge.vue'
 export default class extends Vue {
   @Prop({
     type: Object,
-    required: true,
+    required: false,
   })
-  user!: User
+  user!: User | null
 
   target() {
     return this.$children[1]?.$el

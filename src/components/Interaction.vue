@@ -8,13 +8,15 @@
         <ul class="list-inline">
           <template v-for="user in filteredUsers">
             <li v-if="user.content" :key="user.id" class="list-inline-item">
-              <nuxt-link :to="`@${user.username}`">
-                <avatar
-                  :avatar="user.content.avatar_image"
-                  size="32"
-                  max-size="64"
-                />
-              </nuxt-link>
+              <user-popper :user="user">
+                <nuxt-link :to="`@${user.username}`">
+                  <avatar
+                    :avatar="user.content.avatar_image"
+                    size="32"
+                    max-size="64"
+                  />
+                </nuxt-link>
+              </user-popper>
             </li>
           </template>
         </ul>
@@ -61,6 +63,7 @@
 import { Component, Mixins, Prop } from 'vue-property-decorator'
 import Post from '~/components/Post.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
+import UserPopper from '~/components/molecules/UserPopper.vue'
 import listItem from '~/assets/ts/list-item'
 import { Interaction } from '~/models/interaction'
 
@@ -97,6 +100,7 @@ const convert: {
   components: {
     Post,
     Avatar,
+    UserPopper,
   },
 })
 export default class InteractionView extends Mixins(

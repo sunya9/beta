@@ -342,13 +342,15 @@
               :key="reactionUser.id"
               class="list-inline-item"
             >
-              <nuxt-link
-                v-if="reactionUser.content"
-                :to="`/@${reactionUser.username}`"
-                :title="`@${reactionUser.username}`"
-              >
-                <avatar :avatar="reactionUser.content.avatar_image" />
-              </nuxt-link>
+              <user-popper :user="reactionUser">
+                <nuxt-link
+                  v-if="reactionUser.content"
+                  :to="`/@${reactionUser.username}`"
+                  :title="`@${reactionUser.username}`"
+                >
+                  <avatar :avatar="reactionUser.content.avatar_image" />
+                </nuxt-link>
+              </user-popper>
             </li>
           </ul>
         </div>
