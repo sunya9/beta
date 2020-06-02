@@ -24,6 +24,6 @@ export const normal = () => {
         default: () => getFixtures('user'),
       },
     },
-    template: '<span>{{user.created_at}}</span>',
+    template: '<user-popper-inner :user="user" />',
   }
 }
