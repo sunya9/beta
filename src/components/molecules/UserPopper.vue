@@ -1,31 +1,12 @@
 <template>
   <div>
     <b-popover
-      v-if="user && user.content"
+      v-if="user"
       triggers="hover"
       :target="() => target()"
       placement="top"
     >
-      <div class="media justify-content-start align-items-center">
-        <avatar :avatar="user.content.avatar_image" size="64" />
-        <div class="ml-auto text-center">
-          <div class="mb-1">
-            <follow-button :profile="user" @update:profile="update" />
-          </div>
-          <div>
-            <relation-badge :user="user" />
-          </div>
-        </div>
-      </div>
-      <h6 class="mt-1">
-        <nuxt-link :to="`/@${user.username}`">
-          {{ user.username }}
-        </nuxt-link>
-        <small>{{ user.name }}</small>
-      </h6>
-      <p v-if="user.content">
-        <entity-text :content="user.content" />
-      </p>
+      <user-popper-inner :user="user" @update:user="update" />
     </b-popover>
     <slot />
   </div>
@@ -33,16 +14,13 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
+import UserPopperInner from './UserPopperInner.vue'
 import { User } from '~/models/user'
-import Avatar from '~/components/atoms/Avatar.vue'
-import EntityText from '~/components/EntityText.vue'
-import FollowButton from '~/components/atoms/FollowButton.vue'
-import RelationBadge from '~/components/atoms/RelationBadge.vue'
 
 @Component({
-  components: { Avatar, EntityText, FollowButton, RelationBadge },
+  components: { UserPopperInner },
 })
-export default class extends Vue {
+export default class UserPopper extends Vue {
   @Prop({
     type: Object,
     required: false,
