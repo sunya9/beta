@@ -36,14 +36,17 @@
       />
     </div>
     <nuxt-link v-else-if="!preview" :to="`/@${mainPost.user.username}`">
-      <avatar
-        v-if="mainPost.user.content"
-        :avatar="mainPost.user.content.avatar_image"
-        :alt="mainPost.user.username"
-        class="d-flex mr-3 iconSize"
-        size="64"
-        max-size="64"
-      />
+      <user-popper :user="mainPost.user">
+        <avatar
+          v-if="mainPost.user.content"
+          :avatar="mainPost.user.content.avatar_image"
+          :alt="mainPost.user.username"
+          class="d-flex mr-3 iconSize"
+          size="64"
+          max-size="64"
+          :user="mainPost.user"
+        />
+      </user-popper>
     </nuxt-link>
     <div class="media-body">
       <h6 class="mt-1">
@@ -378,6 +381,7 @@
 import { Component, Mixins, Prop } from 'vue-property-decorator'
 import ActionButton from '~/components/atoms/ActionButton.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
+import UserPopper from '~/components/molecules/UserPopper.vue'
 import Thumb from '~/components/Thumb.vue'
 import Sound from '~/components/Sound.vue'
 import PollView from '~/components/Poll.vue'
@@ -420,6 +424,7 @@ const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
     EntityText,
     Poll: PollView,
     Nsfw,
+    UserPopper,
   },
 })
 export default class PostView extends Mixins(listItem('post.created_at')) {
