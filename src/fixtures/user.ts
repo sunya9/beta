@@ -1,5 +1,4 @@
 import { Factory } from 'rosie'
-import Faker from 'faker'
 import { User } from '~/models/user'
 
 Factory.define<User>('user')
@@ -47,7 +46,7 @@ Factory.define<User>('user')
       posts: 5,
       users: 6,
     },
-    created_at: Faker.date.past(),
+    created_at: new Date('2020-01-01'),
     username: 'test',
     follows_you: true,
     you_blocked: false,
