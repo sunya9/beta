@@ -13,7 +13,7 @@ export default class Search extends Vue {
     q: '',
   }
 
-  data: PnutResponse<Post[] | User[]> | null = null
+  data!: PnutResponse<Post[] | User[]> | null
 
   get title(): string {
     if (!this.$route || !this.$route.path || !this.$route.query) return ''
