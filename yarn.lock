@@ -4074,6 +4074,11 @@
     "@types/glob" "*"
     "@types/node" "*"
 
+"@types/rosie@^0.0.37":
+  version "0.0.37"
+  resolved "https://registry.yarnpkg.com/@types/rosie/-/rosie-0.0.37.tgz#b3829baca3748b3a2a95c5d027d65c3ac54d0ef4"
+  integrity sha512-ZjeBPOz2ny50513sxtGpI9iIyH8+N/Ac1F9MIxzPJsyf6nSTdVuzsCEMzEbKqCubru/u1uvBiQa4lUBptvdIUw==
+
 "@types/serve-static@*", "@types/serve-static@^1.13.4":
   version "1.13.4"
   resolved "https://registry.yarnpkg.com/@types/serve-static/-/serve-static-1.13.4.tgz#6662a93583e5a6cabca1b23592eb91e12fa80e7c"
@@ -17191,6 +17196,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+rosie@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/rosie/-/rosie-2.0.1.tgz#c250c4787ce450b72aa9eff26509f68589814fa2"
+  integrity sha1-wlDEeHzkULcqqe/yZQn2hYmBT6I=
 
 rsvp@^4.8.4:
   version "4.8.5"
