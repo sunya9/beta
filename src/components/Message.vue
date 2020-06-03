@@ -15,17 +15,19 @@
         :class="{ 'disabled-link': !messageUser.id }"
         class="mt-4"
       >
-        <avatar
-          :avatar="messageUser.content && messageUser.content.avatar_image"
-          :class="{
-            'mr-4': !me,
-            'ml-4': me,
-          }"
-          :alt="messageUser.username"
-          class="d-flex"
-          size="32"
-          max-size="32"
-        />
+        <user-popper :user="messageUser">
+          <avatar
+            :avatar="authorAvatar"
+            :class="{
+              'mr-4': !me,
+              'ml-4': me,
+            }"
+            :alt="messageUser.username"
+            class="d-flex"
+            size="32"
+            max-size="32"
+          />
+        </user-popper>
       </nuxt-link>
       <div class="media-body">
         <h6
@@ -151,6 +153,7 @@
 <script lang="ts">
 import { Component, Mixins, Prop } from 'vue-property-decorator'
 import Avatar from '~/components/atoms/Avatar.vue'
+import UserPopper from '~/components/molecules/UserPopper.vue'
 import Thumb from '~/components/Thumb.vue'
 import EntityText from '~/components/EntityText.vue'
 import listItem from '~/assets/ts/list-item'
@@ -172,6 +175,7 @@ import { Spoiler } from '~/models/raw/raw/spoiler'
     Avatar,
     EntityText,
     Thumb,
+    UserPopper,
   },
 })
 export default class extends Mixins(listItem('message.created_at')) {
@@ -240,6 +244,10 @@ export default class extends Mixins(listItem('message.created_at')) {
 
   get user(): User | null {
     return this.$accessor.user
+  }
+
+  get authorAvatar() {
+    return this.messageUser.content?.avatar_image
   }
 
   removeModal() {

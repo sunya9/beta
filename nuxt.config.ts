@@ -138,6 +138,7 @@ const config: Configuration = {
         keepDefaultRouter: true,
       },
     ],
+    'bootstrap-vue/nuxt',
   ],
   'google-analytics': {
     id: 'UA-10104011-16',
@@ -206,6 +207,10 @@ const config: Configuration = {
   },
   typescript: {
     ignoreNotFoundWarnings: true,
+  },
+  bootstrapVue: {
+    bootstrapCSS: false,
+    bootstrapVueCSS: true,
   },
 }
 

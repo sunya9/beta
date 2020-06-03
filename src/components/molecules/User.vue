@@ -1,12 +1,14 @@
 <template>
   <div class="media w-100">
     <nuxt-link :to="`/@${user.username}`">
-      <avatar
-        :avatar="user.content ? user.content.avatar_image : ''"
-        :max-size="64"
-        :size="64"
-        class="d-flex mr-3"
-      />
+      <user-popper :user.sync="internalUser">
+        <avatar
+          :avatar="user.content ? user.content.avatar_image : ''"
+          :max-size="64"
+          :size="64"
+          class="d-flex mr-3"
+        />
+      </user-popper>
     </nuxt-link>
     <div class="media-body">
       <div class="d-flex justify-content-between align-items-center mb-2">
@@ -50,6 +52,7 @@ import Avatar from '~/components/atoms/Avatar.vue'
 import EntityText from '~/components/EntityText.vue'
 import MuteButton from '~/components/MuteButton.vue'
 import { User } from '~/models/user'
+import UserPopper from '~/components/molecules/UserPopper.vue'
 
 export default Vue.extend({
   components: {
@@ -57,6 +60,7 @@ export default Vue.extend({
     Avatar,
     EntityText,
     MuteButton,
+    UserPopper,
   },
   props: {
     user: {

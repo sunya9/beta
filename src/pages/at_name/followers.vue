@@ -20,6 +20,7 @@ type Data = {
 }
 
 @Component({
+  middleware: 'auth',
   components: {
     UserList,
   },

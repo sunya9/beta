@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <a :href="rssLink.href">
+      <a :href="rssLink">
         <font-awesome-icon icon="rss-square" size="lg" />
         RSS
       </a>
@@ -43,8 +43,10 @@ import { getRSSLink } from '~/assets/ts/util'
   },
 })
 export default class SearchPosts extends Mixins(search) {
-  rssLink = getRSSLink(
-    `https://api.pnut.io/v0/feed/rss/posts/search?q=${this.$route.query.q}&order=id`
-  )
+  get rssLink() {
+    return getRSSLink(
+      `https://api.pnut.io/v0/feed/rss/posts/search?q=${this.$route.query.q}&order=id`
+    )
+  }
 }
 </script>

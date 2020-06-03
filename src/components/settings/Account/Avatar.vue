@@ -36,60 +36,57 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import Vue from 'vue'
+import { Component, Prop } from 'vue-property-decorator'
 import { User } from '~/models/user'
 import { PnutResponse } from '~/models/pnut-response'
 
-export default Vue.extend({
-  props: {
-    avatar: {
-      type: Object,
-      required: true,
-      validator: (obj: object) =>
-        ['is_default', 'height', 'link', 'width'].every((key) => key in obj),
-    } as PropOptions<User.UserImage>,
-  },
-  data() {
-    return {
-      promise: null as Promise<PnutResponse<User>> | null,
-      internalAvatar: this.avatar,
+@Component
+export default class Avatar extends Vue {
+  @Prop({
+    type: Object,
+    required: true,
+    validator: (obj: object) =>
+      ['is_default', 'height', 'link', 'width'].every((key) => key in obj),
+  })
+  avatar!: User.UserImage
+
+  promise: Promise<PnutResponse<User>> | null = null
+  internalAvatar = this.avatar
+  changeAvatar() {
+    // TODO
+    ;(this.$refs.avatarFileInput as HTMLInputElement).click()
+  }
+
+  async avatarChanged(e: Event) {
+    if (!e.target) return
+    const target = e.target as HTMLInputElement
+    if (!target.files || !target.files.length) return false
+    const file = target.files[0]
+    if (file.size > 2097000) {
+      this.$toast.error('Over 2MiB.')
+      return
     }
-  },
-  methods: {
-    changeAvatar() {
-      // TODO
-      ;(this.$refs.avatarFileInput as HTMLInputElement).click()
-    },
-    async avatarChanged(e: Event) {
-      if (!e.target) return
-      const target = e.target as HTMLInputElement
-      if (!target.files || !target.files.length) return false
-      const file = target.files[0]
-      if (file.size > 2097000) {
-        this.$toast.error('Over 2MiB.')
-        return
-      }
-      const fd = new FormData()
-      fd.append('avatar', file)
-      try {
-        this.promise = this.$axios
-          .$post<PnutResponse<User>>('/users/me/avatar', fd, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          })
-          .catch((err) => {
-            throw new Error(err.response.data.meta.error_message)
-          })
-        const response = await this.promise
-        if (!response.data.content) return // TODO: improve error handling
-        this.internalAvatar = response.data.content.avatar_image
-        this.$toast.success('Changed!')
-      } catch (err) {
-        this.$toast.error(err.message)
-      }
-      this.promise = null
-    },
-  },
-})
+    const fd = new FormData()
+    fd.append('avatar', file)
+    try {
+      this.promise = this.$axios
+        .$post<PnutResponse<User>>('/users/me/avatar', fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .catch((err) => {
+          throw new Error(err.response.data.meta.error_message)
+        })
+      const response = await this.promise
+      if (!response.data.content) return // TODO: improve error handling
+      this.internalAvatar = response.data.content.avatar_image
+      this.$toast.success('Changed!')
+    } catch (err) {
+      this.$toast.error(err.message)
+    }
+    this.promise = null
+  }
+}
 </script>
