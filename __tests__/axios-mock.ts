@@ -20,6 +20,12 @@ mock.onDelete(/\/users\/\d+\/follow/).reply(200, {
     you_follow: false,
   },
 })
+mock.onDelete(/\/users\/\d+\/block/).reply(200, {
+  data: {
+    you_follow: false,
+    you_blocked: false,
+  },
+})
 mock.onAny(/\/users\/\d+\//).reply(200, {
   data: {},
 })
