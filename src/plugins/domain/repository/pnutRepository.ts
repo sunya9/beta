@@ -10,6 +10,7 @@ import { UserIdRequest } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
 import { PostPollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
+import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
 
 export interface PnutRepository {
   getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
@@ -32,4 +33,9 @@ export interface PnutRepository {
     poll: PostPollRequest,
     fallbackText?: string
   ): Promise<PnutResponse<Poll>>
+
+  getFile(
+    file: FileIdRequest,
+    params?: GeneralFileParameters
+  ): Promise<PnutResponse<File>>
 }
