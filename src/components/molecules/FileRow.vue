@@ -5,9 +5,9 @@
     </td>
     <td>
       <div class="d-flex">
-        <a :href="file.link" target="_new" class="" @click.stop>
+        <nuxt-link :to="`/files/${file.id}`">
           {{ file.name }}
-        </a>
+        </nuxt-link>
       </div>
     </td>
     <td>{{ date }}</td>
