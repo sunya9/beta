@@ -1,29 +1,27 @@
-import { Plugin } from '@nuxt/types'
-import {
-  UploadPhotosUseCase,
-  UploadPhotosInteractor,
-} from '~/plugins/domain/usecases/uploadPhotos'
+import { Plugin, Context } from '@nuxt/types'
+import { UploadPhotosInteractor } from '~/plugins/domain/usecases/uploadPhotos'
 import { PnutRepositoryImpl } from '~/plugins/infrastructure/pnutRepositoryImpl'
-import {
-  PostPollInteractor,
-  PostPollUseCase,
-} from '~/plugins/domain/usecases/postPoll'
+import { PostPollInteractor } from '~/plugins/domain/usecases/postPoll'
+import { GetFileInteractor } from '~/plugins/domain/usecases/getFile'
 
-interface Interactors {
-  uploadPhotos: UploadPhotosUseCase
-  postPolls: PostPollUseCase
-}
-
-const plugin: Plugin = (context, inject) => {
+function getInteractors(context: Context) {
   const getPnutRepository = () => new PnutRepositoryImpl(context.$axios)
-  const interactors: Interactors = {
+  const interactors = {
     get uploadPhotos() {
       return new UploadPhotosInteractor(getPnutRepository())
     },
     get postPolls() {
       return new PostPollInteractor(getPnutRepository())
     },
-  }
+    get getFile() {
+      return new GetFileInteractor(getPnutRepository())
+    },
+  } as const
+  return interactors
+}
+
+const plugin: Plugin = (context, inject) => {
+  const interactors = getInteractors(context)
   inject('interactors', interactors)
 }
 
@@ -31,18 +29,18 @@ export default plugin
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $interactors: Interactors
+    $interactors: ReturnType<typeof getInteractors>
   }
 }
 
 declare module '@nuxt/types' {
   interface NuxtAppOptions {
-    $interactors: Interactors
+    $interactors: ReturnType<typeof getInteractors>
   }
 }
 
 declare module 'vuex/types/index' {
   interface Store<S> {
-    $interactors: Interactors
+    $interactors: ReturnType<typeof getInteractors>
   }
 }

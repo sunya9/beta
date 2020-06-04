@@ -12,9 +12,19 @@ import { UserIdRequest } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
 import { PostPollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
+import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getFile(
+    fileIdRequest: FileIdRequest,
+    params?: GeneralFileParameters
+  ): Promise<PnutResponse<File>> {
+    return this.axios.$get(`/files/${fileIdRequest.file_id}`, {
+      params,
+    })
+  }
+
   postPoll(
     poll: PostPollRequest,
     fallbackText?: string
