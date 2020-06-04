@@ -48,9 +48,5 @@ export interface File {
 }
 
 export namespace File {
-  export enum Kind {
-    audio,
-    image,
-    other,
-  }
+  export type Kind = 'audio' | 'image' | 'other'
 }
