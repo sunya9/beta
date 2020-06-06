@@ -4074,7 +4074,7 @@
     "@types/glob" "*"
     "@types/node" "*"
 
-"@types/rosie@^0.0.37":
+"@types/rosie@0.0.37":
   version "0.0.37"
   resolved "https://registry.yarnpkg.com/@types/rosie/-/rosie-0.0.37.tgz#b3829baca3748b3a2a95c5d027d65c3ac54d0ef4"
   integrity sha512-ZjeBPOz2ny50513sxtGpI9iIyH8+N/Ac1F9MIxzPJsyf6nSTdVuzsCEMzEbKqCubru/u1uvBiQa4lUBptvdIUw==
@@ -5856,7 +5856,7 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-bootstrap-vue@^2.15.0:
+bootstrap-vue@2.15.0:
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/bootstrap-vue/-/bootstrap-vue-2.15.0.tgz#0dfc12c054496c0f10efed510da1def41697cf3c"
   integrity sha512-ncxWkDG0mKFVot314wWKJELi+ESO7k6ngV//qvJFs9iVzlFI8Hx3rBVbpcPW2vrJ+0vitH8N2SOwn4fdQ3frMQ==
@@ -17197,7 +17197,7 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rosie@^2.0.1:
+rosie@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/rosie/-/rosie-2.0.1.tgz#c250c4787ce450b72aa9eff26509f68589814fa2"
   integrity sha1-wlDEeHzkULcqqe/yZQn2hYmBT6I=
