@@ -1,7 +1,7 @@
 <template>
   <tr :class="{ 'table-active': file.select }" @click="toggleSelect">
     <td class="text-center">
-      <input v-model="file.select" type="checkbox" @click.stop />
+      <input type="checkbox" :checked="file.select" />
     </td>
     <td>
       <div class="d-flex">
@@ -35,7 +35,10 @@ export default Vue.extend({
   },
   methods: {
     toggleSelect() {
-      this.file.select = !this.file.select
+      this.$emit('update:file', {
+        ...this.file,
+        select: !this.file.select,
+      })
     },
   },
 })
