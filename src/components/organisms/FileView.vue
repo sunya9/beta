@@ -8,14 +8,30 @@
         style="max-height: 50vh;"
       />
     </div>
-    <div v-if="file.video_info">
-      <div class="embed-responsive embed-responsive-16by9">
-        <video class="embed-responsive-item" controls>
-          <source :src="file.link" />
-          <p>You should have use a broswers which supports video element.</p>
-        </video>
-      </div>
+
+    <div
+      v-else-if="file.video_info"
+      class="embed-responsive embed-responsive-16by9"
+    >
+      <video class="embed-responsive-item" controls>
+        <source :src="file.link" />
+        <p>
+          Your browser does not support the
+          <code>video</code>
+          element.
+        </p>
+      </video>
     </div>
+    <div v-else-if="file.audio_info">
+      <audio :src="file.link" controls class="w-100">
+        <p>
+          Your browser does not support the
+          <code>audio</code>
+          element.
+        </p>
+      </audio>
+    </div>
+
     <div class="card mt-3">
       <div class="card-body">
         <div class="table-responsive">

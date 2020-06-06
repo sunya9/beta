@@ -4,6 +4,7 @@ import { User } from './user'
 export interface File {
   audio_info?: {
     duration: number
+    duration_string: string
     bitrate: number
   }
   created_at: Date
