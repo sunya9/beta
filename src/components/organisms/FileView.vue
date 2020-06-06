@@ -1,7 +1,20 @@
 <template>
   <div>
     <div v-if="file.image_info" class="text-center">
-      <img :src="file.link" alt="" class="img-fluid img-thumbnail" />
+      <img
+        :src="file.link"
+        alt=""
+        class="img-fluid img-thumbnail"
+        style="max-height: 50vh;"
+      />
+    </div>
+    <div v-if="file.video_info">
+      <div class="embed-responsive embed-responsive-16by9">
+        <video class="embed-responsive-item" controls>
+          <source :src="file.link" />
+          <p>You should have use a broswers which supports video element.</p>
+        </video>
+      </div>
     </div>
     <div class="card mt-3">
       <div class="card-body">
@@ -36,6 +49,48 @@
                 <tr>
                   <th>Height</th>
                   <td>{{ file.image_info.height }}px</td>
+                </tr>
+              </template>
+              <template v-if="file.video_info">
+                <tr>
+                  <th>
+                    bitrate
+                  </th>
+                  <td>
+                    {{ file.video_info.bitrate }}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    duration
+                  </th>
+                  <td>
+                    {{ file.video_info.duration }}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    duration_string
+                  </th>
+                  <td>
+                    {{ file.video_info.duration_string }}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    height
+                  </th>
+                  <td>
+                    {{ file.video_info.height }}
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    width
+                  </th>
+                  <td>
+                    {{ file.video_info.width }}
+                  </td>
                 </tr>
               </template>
               <tr>
@@ -81,10 +136,6 @@
               <tr>
                 <th>type</th>
                 <td>{{ file.type }}</td>
-              </tr>
-              <tr>
-                <th>derivative_files</th>
-                <td>{{ file.derivative_files }}</td>
               </tr>
             </tbody>
           </table>

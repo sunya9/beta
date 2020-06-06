@@ -14,6 +14,13 @@ export interface File {
     height: number
     width: number
   }
+  video_info?: {
+    bitrate: number
+    duration: number
+    duration_string: string
+    height: number
+    width: number
+  }
   is_complete: boolean
   is_public: boolean
   kind: File.Kind
