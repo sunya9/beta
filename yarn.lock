@@ -2974,13 +2974,13 @@
     ts-loader "^7.0.5"
     typescript "~3.8"
 
-"@nuxt/typescript-runtime@0.4.8":
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/@nuxt/typescript-runtime/-/typescript-runtime-0.4.8.tgz#4815fff6c3682cca013f325e15999be2014ea4a1"
-  integrity sha512-iMWe6rZNi/ygYSXNMhsnqNT92uIziXhqE85ic8WWIMJ/J7oaKvEqo25Elyjw/T1+VXjl58SF0znlItxiFub5fw==
+"@nuxt/typescript-runtime@0.4.9":
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/@nuxt/typescript-runtime/-/typescript-runtime-0.4.9.tgz#05b9d0368a4d37d618d1cae3ada69f886efa1bbd"
+  integrity sha512-6OdpZ56X71cdE+AKMG2h75v3kdGpuiQDEMKSSS6OCL75+uIZ4Z3spJaYODOHQWq+4aTpOfls4dQDFqbO1NwdPw==
   dependencies:
-    "@nuxt/types" "0.7.7"
-    ts-node "^8.10.1"
+    "@nuxt/types" "0.7.8"
+    ts-node "^8.10.2"
     typescript "~3.8"
 
 "@nuxt/utils@2.12.2":
@@ -18965,10 +18965,10 @@ ts-map@^1.0.3:
   resolved "https://registry.yarnpkg.com/ts-map/-/ts-map-1.0.3.tgz#1c4d218dec813d2103b7e04e4bcf348e1471c1ff"
   integrity sha512-vDWbsl26LIcPGmDpoVzjEP6+hvHZkBkLW7JpvwbCv/5IYPJlsbzCVXY3wsCeAxAUeTclNOUZxnLdGh3VBD/J6w==
 
-ts-node@^8.10.1:
-  version "8.10.1"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.10.1.tgz#77da0366ff8afbe733596361d2df9a60fc9c9bd3"
-  integrity sha512-bdNz1L4ekHiJul6SHtZWs1ujEKERJnHs4HxN7rjTyyVOFf3HaJ6sLqe6aPG62XTzAB/63pKRh5jTSWL0D7bsvw==
+ts-node@^8.10.2:
+  version "8.10.2"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.10.2.tgz#eee03764633b1234ddd37f8db9ec10b75ec7fb8d"
+  integrity sha512-ISJJGgkIpDdBhWVu3jufsWpK3Rzo7bdiIXJjQc0ynKxVOVcg2oIrf2H2cejminGrptVc6q6/uynAHNCuWGbpVA==
   dependencies:
     arg "^4.1.0"
     diff "^4.0.1"
