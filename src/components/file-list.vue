@@ -77,13 +77,16 @@ export default Vue.extend({
       type: Object,
       required: true,
     } as PropOptions<PnutResponse<File[]>>,
+    options: {
+      type: Object,
+      required: true,
+    } as PropOptions<object>,
   },
   data() {
     return {
       busy: false,
       meta: this.data.meta,
       files: this.data.data.map(addSelectField),
-      modal: null,
     }
   },
   computed: {
@@ -100,12 +103,10 @@ export default Vue.extend({
   methods: {
     async fetchMore() {
       this.busy = true
-      const options = Object.assign(
-        {},
-        {
-          before_id: this.meta.min_id,
-        }
-      )
+      const options = {
+        ...this.options,
+        before_id: this.meta.min_id,
+      }
       const { data: newItems, meta } = await this.$resource<File[]>({ options })
       this.meta = meta
 
