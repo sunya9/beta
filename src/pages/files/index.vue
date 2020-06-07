@@ -19,12 +19,12 @@ const map: { [key in File.Kind]: string } = {
   other: '',
 } as const
 
-function isKind(kindStr: string): kindStr is File.Kind {
-  return Object.keys(map).includes(kindStr)
+function isKind(kindStr?: string): kindStr is File.Kind {
+  return !!kindStr && Object.keys(map).includes(kindStr)
 }
 
-function kind2mimeTypes(kindStr: string) {
-  return isKind(kindStr) ? map[kindStr] : ''
+function kind2mimeTypes(kindStr?: string) {
+  return isKind(kindStr) ? map[kindStr] : undefined
 }
 
 export default Vue.extend({
@@ -38,7 +38,7 @@ export default Vue.extend({
     },
   }) {
     const options = {
-      mime_types: kind ? kind2mimeTypes(kind.toString()) : undefined,
+      mime_types: kind2mimeTypes(kind?.toString()),
     }
     const data = await $resource({ options })
     return {
