@@ -4,6 +4,7 @@ import {
   InteractionType,
   SearchType,
   ReportReasonType,
+  RawRequest,
 } from '~/plugins/domain/dto/common'
 import { UserIdRequest } from '~/plugins/domain/dto/user'
 import { User } from '~/models/user'
@@ -25,7 +26,7 @@ export type GeneralPostParameters = Pagination & {
   include_post_raw?: boolean
 }
 
-export type PostPostRequest = {
+export type CreatePostRequest = {
   text: string
   reply_to?: string
   is_nsfw?: boolean
@@ -33,7 +34,7 @@ export type PostPostRequest = {
     parse_links?: boolean
     parse_markdown_links?: boolean
   }
-}
+} & RawRequest
 
 export type PostIdRequest = {
   post_id: string
