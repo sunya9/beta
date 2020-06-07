@@ -1,20 +1,29 @@
 <template>
-  <tr :class="{ 'table-active': file.select }" @click="toggleSelect">
+  <tr :class="{ 'table-active': file.select }" @click.stop="toggleSelect">
     <td class="text-center">
       <input type="checkbox" :checked="file.select" />
     </td>
     <td>
       <div class="d-flex">
-        <nuxt-link :to="`/files/${file.id}`">
+        <nuxt-link :to="`/files/${file.id}`" @click.native.stop>
           {{ file.name }}
         </nuxt-link>
       </div>
     </td>
     <td>{{ date }}</td>
-    <td>
-      <span class="thumb ml-auto">
-        <img v-if="file.image_info" :src="file.link" height="24" />
+    <td class="text-center text-light">
+      <span v-if="file.image_info" class="thumb ml-auto">
+        <img :src="file.link" height="24" />
       </span>
+      <font-awesome-icon
+        v-else-if="file.video_info"
+        :icon="['far', 'file-video']"
+      />
+      <font-awesome-icon
+        v-else-if="file.audio_info"
+        :icon="['far', 'file-audio']"
+      />
+      <font-awesome-icon v-else :icon="['far', 'file']" />
     </td>
   </tr>
 </template>
