@@ -2963,14 +2963,14 @@
     "@types/webpack-dev-middleware" "^3.7.1"
     "@types/webpack-hot-middleware" "^2.25.3"
 
-"@nuxt/typescript-build@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@nuxt/typescript-build/-/typescript-build-1.0.1.tgz#58accc3c84f369945f554622063084c37bd7d5c4"
-  integrity sha512-+xrWCItd4MrE/6XKmKS8lgX65p5lxvOuzUVJgPCsPOxqgjmHJtFak5yjdbbDzxxuxoVuUbfxfjrYTCVwuydt1A==
+"@nuxt/typescript-build@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@nuxt/typescript-build/-/typescript-build-1.0.2.tgz#23ec5c32136b766ff51aafeca26dcf0ab9017f8d"
+  integrity sha512-rlYoGSxm91w+5tzlh2t1Y+RhWoQN8N0BRiCqxh/l13TcP7oofXZtNdBjhXd1g/HIwzR/VLCuXfFYgvg9mJOKfg==
   dependencies:
-    "@nuxt/types" "0.7.7"
-    consola "^2.12.1"
-    fork-ts-checker-webpack-plugin "^4.1.5"
+    "@nuxt/types" "0.7.8"
+    consola "^2.12.2"
+    fork-ts-checker-webpack-plugin "^4.1.6"
     ts-loader "^7.0.5"
     typescript "~3.8"
 
@@ -7083,7 +7083,7 @@ consola@^2.10.0, consola@^2.10.1, consola@^2.11.3, consola@^2.5.6, consola@^2.6.
   resolved "https://registry.yarnpkg.com/consola/-/consola-2.12.1.tgz#88e9311a02cb88a7f6f9488239dd30b6ba99cbb0"
   integrity sha512-aEkkju9ZcEa9y2MhzNhfmTUws/CEZZ0LKu0FxftSU3HygPfVMMIMSYyYct+xBN6XNRhsaDZjw2HAv3m2ammXSA==
 
-consola@^2.12.1:
+consola@^2.12.2:
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/consola/-/consola-2.12.2.tgz#9610f158e7b0a9ecc8f8bb0c4fc8e7c52bf41d05"
   integrity sha512-c9mzemrAk57s3UIjepn8KKkuEH5fauMdot5kFSJUnqHcnApVS9Db8Rbv5AZ1Iz6lXzaGe9z1crQXhJtGX4h/Og==
@@ -9543,23 +9543,10 @@ fork-ts-checker-webpack-plugin@1.5.0:
     tapable "^1.0.0"
     worker-rpc "^0.1.0"
 
-fork-ts-checker-webpack-plugin@^4.1.0:
+fork-ts-checker-webpack-plugin@^4.1.0, fork-ts-checker-webpack-plugin@^4.1.6:
   version "4.1.6"
   resolved "https://registry.yarnpkg.com/fork-ts-checker-webpack-plugin/-/fork-ts-checker-webpack-plugin-4.1.6.tgz#5055c703febcf37fa06405d400c122b905167fc5"
   integrity sha512-DUxuQaKoqfNne8iikd14SAkh5uw4+8vNifp6gmA73yYNS6ywLIWSLD/n/mBzHQRpW3J7rbATEakmiA8JvkTyZw==
-  dependencies:
-    "@babel/code-frame" "^7.5.5"
-    chalk "^2.4.1"
-    micromatch "^3.1.10"
-    minimatch "^3.0.4"
-    semver "^5.6.0"
-    tapable "^1.0.0"
-    worker-rpc "^0.1.0"
-
-fork-ts-checker-webpack-plugin@^4.1.5:
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/fork-ts-checker-webpack-plugin/-/fork-ts-checker-webpack-plugin-4.1.5.tgz#780d52c65183742d8c885fff42a9ec9ea7006672"
-  integrity sha512-nuD4IDqoOfkEIlS6shhjLGaLBDSNyVJulAlr5lFbPe0saGqlsTo+/HmhtIrs/cNLFtmaudL10byivhxr+Qhh4w==
   dependencies:
     "@babel/code-frame" "^7.5.5"
     chalk "^2.4.1"
