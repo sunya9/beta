@@ -4,11 +4,12 @@ import {
   GeneralPostParameters,
   GetExploreStreamRequest,
   PostIdRequest,
+  CreatePostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
 import { UserIdRequest } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
-import { PostPollRequest } from '~/plugins/domain/dto/poll'
+import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
 import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
 
@@ -30,7 +31,7 @@ export interface PnutRepository {
   getGlobal(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
   uploadFile(data: FormData): Promise<PnutResponse<File>>
   postPoll(
-    poll: PostPollRequest,
+    poll: CreatePollRequest,
     fallbackText?: string
   ): Promise<PnutResponse<Poll>>
 
@@ -38,4 +39,9 @@ export interface PnutRepository {
     file: FileIdRequest,
     params?: GeneralFileParameters
   ): Promise<PnutResponse<File>>
+
+  createPost(
+    createPostRequest: CreatePostRequest,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post>>
 }

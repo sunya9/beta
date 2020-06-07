@@ -7,7 +7,7 @@ export type GeneralPollParameters = {
   include_poll_raw?: boolean
 }
 
-export type PostPollRequest = {
+export type CreatePollRequest = {
   prompt: string
   type: string
   options: {

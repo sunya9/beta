@@ -72,7 +72,7 @@
                 ref="file"
                 type="file"
                 multiple
-                accept="image/*"
+                accept="image/*,video/*,audio/*"
                 style="display: none;"
                 @change="fileChange"
               />
@@ -162,11 +162,9 @@
 </template>
 
 <script lang="ts">
-import querystring from 'querystring'
 import { Vue, Component, Prop, Watch } from 'nuxt-property-decorator'
-import { Cancelable } from 'lodash'
 import { Mixins } from 'vue-property-decorator'
-import { PostPollRequest } from '~/plugins/domain/dto/poll'
+import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Token } from '~/models/token'
 import { Post } from '~/models/post'
 import { LongPost } from '~/models/raw/raw/long-post'
@@ -185,7 +183,6 @@ import InputSpoiler from '~/components/InputSpoiler.vue'
 import InputLongpost from '~/components/InputLongpost.vue'
 import textCount from '~/assets/ts/text-count'
 import resettable from '~/assets/ts/resettable'
-import { createVideoEmbedRaw } from '~/assets/ts/oembed'
 
 @Component({
   components: {
@@ -197,10 +194,6 @@ import { createVideoEmbedRaw } from '~/assets/ts/oembed'
   },
 })
 export default class Composer extends Mixins(textCount, resettable) {
-  textLength!: number
-  debounceCalcTextLength!: (() => number) & Cancelable
-  calcTextLength!: () => number
-
   @Prop({
     type: String,
     default: '',
@@ -250,7 +243,7 @@ export default class Composer extends Mixins(textCount, resettable) {
   text: string = this.initialText
   replyStartPos = 0
   showEmojiPicker = false
-  poll: PostPollRequest | null = null
+  poll: CreatePollRequest | null = null
 
   spoiler: Spoiler.Value | null = null
   longpost: LongPost.Value | null = null
@@ -317,10 +310,6 @@ export default class Composer extends Mixins(textCount, resettable) {
       this.longpost.body.length <= 6144 &&
       (!this.longpost.title || this.longpost.title.length < 128)
     )
-  }
-
-  get hasPhotos(): boolean {
-    return !!this.photos.length
   }
 
   get user(): User | null {
@@ -400,7 +389,7 @@ export default class Composer extends Mixins(textCount, resettable) {
   }
 
   insertText(text: string) {
-    const textarea = this.$refs.textarea as HTMLTextAreaElement
+    const textarea = this.$refs.textarea
     const getSelection = document.getSelection()
     if (getSelection) {
       textarea.focus()
@@ -472,92 +461,21 @@ export default class Composer extends Mixins(textCount, resettable) {
     textarea.focus()
   }
 
-  async uploadPoll(poll: PostPollRequest) {
-    poll.options = poll.options.filter((option) => option.text)
-    const res = await this.$interactors.postPolls.run({
-      poll,
-      fallbackText: this.text,
-    })
-    return res.poll
-  }
-
-  async submit() {
-    if (this.promise || this.textOverflow || this.hasNoText) return false
-    const option: Post.PostBody = {
-      text: this.text,
-      raw: [],
-    }
-    try {
-      if (this.hasPhotos) {
-        this.promise = true
-        const { raws } = await this.$interactors.uploadPhotos.run({
-          photos: this.photos,
-        })
-        this.promise = false
-        option.raw.push(...raws)
-      }
-      if (this.replyTarget) {
-        option.reply_to = this.replyTarget.id
-      }
-      if (this.nsfw) {
-        option.is_nsfw = true
-      }
-      if (this.spoiler && option.raw) {
-        option.raw.push({
-          type: 'shawn.spoiler',
-          value: {
-            topic: this.spoiler.topic,
-          },
-        })
-      }
-      if (this.longpost && option.raw) {
-        option.raw.push({
-          type: 'nl.chimpnut.blog.post',
-          value: this.longpost,
-        })
-      }
-      if (this.poll && option.raw) {
-        const { id: poll_id, poll_token } = await this.uploadPoll(this.poll)
-        option.raw.push({
-          type: 'io.pnut.core.poll-notice',
-          value: {
-            '+io.pnut.core.poll': {
-              poll_token,
-              poll_id,
-            },
-          },
-        })
-      }
-      if (option.raw) {
-        option.raw.push(...createVideoEmbedRaw(option.text))
-      }
-    } catch (e) {
-      console.error(e)
-
-      this.$toast.error(e.message)
-      return
-    }
-    const method = this.editPost ? '$put' : '$post'
-    const endpoint = this.editPost ? `/posts/${this.editPost.id}` : '/posts'
-    const queries = {
-      include_raw: 1,
-    }
-    this.promise = this.$axios[method](
-      `${endpoint}?${querystring.stringify(queries)}`,
-      option
-    )
-    await this.$nextTick()
-    return this.promise
+  createPost() {
+    return this.$interactors.createPost
+      .run({
+        text: this.text,
+        isNsfw: this.nsfw,
+        reply: this.replyTarget,
+        longpost: this.longpost,
+        spoiler: this.spoiler,
+        files: this.photos,
+        pollRequest: this.poll,
+      })
       .then((res) => {
-        this.promise = null
-        bus.$emit('post', res.data)
-        this.$emit('post', res.data)
-        this.text = ''
-        this.photos = []
-        this.poll = null
-        this.spoiler = null
-        this.longpost = null
-        this.nsfw = false
+        bus.$emit('post', res.res.data)
+        this.$emit('post', res.res.data)
+        this.initialize()
       })
       .finally(() => {
         this.promise = null
@@ -565,15 +483,41 @@ export default class Composer extends Mixins(textCount, resettable) {
       })
   }
 
+  async submit() {
+    if (this.promise || this.textOverflow || this.hasNoText) return
+    try {
+      if (this.editPost) {
+        // TODO
+      } else {
+        await this.createPost()
+      }
+    } catch (e) {
+      console.error(e)
+      this.$toast.error(e.message)
+    }
+  }
+
+  initialize() {
+    this.text = ''
+    this.photos = []
+    this.poll = null
+    this.spoiler = null
+    this.longpost = null
+    this.nsfw = false
+  }
+
   fileChange(e: Event) {
-    if (!e.target) return
-    const target = e.target as HTMLInputElement
-    if (!target || !target.files || !target.files.length) return
-    ;[].unshift()
+    const { target } = e
+    if (
+      !(target instanceof HTMLInputElement) ||
+      !target.files ||
+      !target.files.length
+    )
+      return
     const newPhotos = Array.from(target.files)
-    this.photos = [...this.photos, ...newPhotos] as File[]
+    this.photos = [...this.photos, ...newPhotos]
     // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
-    ;(this.$refs.file as HTMLInputElement).value = ''
+    this.$refs.file.value = ''
   }
 
   // TODO
@@ -582,11 +526,17 @@ export default class Composer extends Mixins(textCount, resettable) {
     this.closeEmojiPalette()
   }
 
+  $refs!: {
+    picker: Vue
+    textarea: HTMLTextAreaElement
+    file: HTMLInputElement
+  }
+
   async toggleEmojiPalette() {
     this.showEmojiPicker = !this.showEmojiPicker
     if (!this.showEmojiPicker) return
     await this.$nextTick()
-    const input = (this.$refs.picker as Vue).$el.querySelector('input')
+    const input = this.$refs.picker.$el.querySelector('input')
     if (!input) return
     input.focus()
   }

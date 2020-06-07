@@ -1,23 +1,70 @@
+import querystring from 'querystring'
 import { Plugin, Context } from '@nuxt/types'
-import { UploadPhotosInteractor } from '~/plugins/domain/usecases/uploadPhotos'
+import { NuxtAxiosInstance } from '@nuxtjs/axios'
+import {
+  CreateFileInteractor,
+  CreateFileUseCase,
+} from '~/plugins/domain/usecases/createFile'
 import { PnutRepositoryImpl } from '~/plugins/infrastructure/pnutRepositoryImpl'
-import { PostPollInteractor } from '~/plugins/domain/usecases/postPoll'
-import { GetFileInteractor } from '~/plugins/domain/usecases/getFile'
+import {
+  CreatePollInteractor,
+  CreatePollUseCase,
+} from '~/plugins/domain/usecases/createPoll'
+import {
+  GetFileInteractor,
+  GetFileUseCase,
+} from '~/plugins/domain/usecases/getFile'
+import {
+  CreatePostInteractor,
+  CreatePostUseCase,
+} from '~/plugins/domain/usecases/createPost'
 
-function getInteractors(context: Context) {
-  const getPnutRepository = () => new PnutRepositoryImpl(context.$axios)
-  const interactors = {
-    get uploadPhotos() {
-      return new UploadPhotosInteractor(getPnutRepository())
+type InteractorType = Readonly<{
+  createFile: CreateFileUseCase
+  createPoll: CreatePollUseCase
+  getFile: GetFileUseCase
+  createPost: CreatePostUseCase
+}>
+
+function customizeAxios(axios: NuxtAxiosInstance) {
+  axios.onRequest((config) => {
+    config.paramsSerializer = (params) => {
+      const entries = Object.entries(params).reduce<[string, any][]>(
+        (obj, [key, value]) => {
+          if (typeof value === 'undefined') return obj
+          const newValue = typeof value === 'boolean' ? +value : value
+          return obj.concat([[key, newValue]])
+        },
+        []
+      )
+      const obj = Object.fromEntries(entries)
+      return querystring.stringify(obj)
+    }
+  })
+}
+
+function getInteractors(context: Context): InteractorType {
+  customizeAxios(context.$axios)
+  const getPnutRepository = () => {
+    return new PnutRepositoryImpl(context.$axios)
+  }
+  return {
+    get createFile() {
+      return new CreateFileInteractor(getPnutRepository())
     },
-    get postPolls() {
-      return new PostPollInteractor(getPnutRepository())
+    get createPoll() {
+      return new CreatePollInteractor(getPnutRepository())
     },
     get getFile() {
       return new GetFileInteractor(getPnutRepository())
     },
-  } as const
-  return interactors
+    get createPost() {
+      const pnutRepo = getPnutRepository()
+      const postPolls = new CreatePollInteractor(pnutRepo)
+      const uploadPhotos = new CreateFileInteractor(pnutRepo)
+      return new CreatePostInteractor(pnutRepo, uploadPhotos, postPolls)
+    },
+  }
 }
 
 const plugin: Plugin = (context, inject) => {
@@ -29,18 +76,18 @@ export default plugin
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $interactors: ReturnType<typeof getInteractors>
+    $interactors: InteractorType
   }
 }
 
 declare module '@nuxt/types' {
   interface NuxtAppOptions {
-    $interactors: ReturnType<typeof getInteractors>
+    $interactors: InteractorType
   }
 }
 
 declare module 'vuex/types/index' {
   interface Store<S> {
-    $interactors: ReturnType<typeof getInteractors>
+    $interactors: InteractorType
   }
 }

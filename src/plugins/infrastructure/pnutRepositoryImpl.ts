@@ -6,16 +6,29 @@ import {
   GeneralPostParameters,
   GetExploreStreamRequest,
   PostIdRequest,
+  CreatePostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
 import { UserIdRequest } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
-import { PostPollRequest } from '~/plugins/domain/dto/poll'
+import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
 import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+
+  private post(url: string, data: any, params?: any) {
+    return this.axios.$post(url, data, { params })
+  }
+
+  createPost(
+    createPostRequest: CreatePostRequest,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post>> {
+    return this.post('/posts', createPostRequest, params)
+  }
+
   getFile(
     fileIdRequest: FileIdRequest,
     params?: GeneralFileParameters
@@ -26,7 +39,7 @@ export class PnutRepositoryImpl implements PnutRepository {
   }
 
   postPoll(
-    poll: PostPollRequest,
+    poll: CreatePollRequest,
     fallbackText?: string
   ): Promise<PnutResponse<Poll>> {
     return this.axios.$post('/polls', {
