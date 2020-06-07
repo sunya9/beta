@@ -56,5 +56,5 @@ export interface File {
 }
 
 export namespace File {
-  export type Kind = 'audio' | 'image' | 'other'
+  export type Kind = 'audio' | 'image' | 'video' | 'other'
 }

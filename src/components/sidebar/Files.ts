@@ -10,6 +10,21 @@ export function createFileMenu(): MenuItem[] {
       icon: ['far', 'copy'],
       url: '/files',
     },
+    {
+      label: 'Images',
+      icon: ['far', 'file-image'],
+      url: '/files?kind=image',
+    },
+    {
+      label: 'Audio',
+      icon: ['far', 'file-audio'],
+      url: '/files?kind=audio',
+    },
+    {
+      label: 'Videos',
+      icon: ['far', 'file-video'],
+      url: '/files?kind=video',
+    },
   ]
 }
 
