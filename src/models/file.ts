@@ -1,5 +1,6 @@
 import { Client } from './client'
 import { User } from './user'
+import { Raw } from '~/models/raw'
 
 export interface File {
   audio_info?: {
@@ -57,4 +58,28 @@ export interface File {
 
 export namespace File {
   export type Kind = 'audio' | 'image' | 'video' | 'other'
+  export interface Replacement {
+    '+io.pnut.core.file': {
+      file_token: string
+      format: 'oembed' // TODO: support metadata, url?
+      file_id: string
+    }
+  }
+
+  export function createFileReplacementRaw(
+    file?: File
+  ): Raw<File.Replacement> | undefined {
+    if (!file) return
+    const { id: file_id, file_token } = file
+    return {
+      type: 'io.pnut.core.oembed',
+      value: {
+        '+io.pnut.core.file': {
+          file_id,
+          file_token,
+          format: 'oembed',
+        },
+      },
+    }
+  }
 }
