@@ -237,7 +237,7 @@ export default class Composer extends Mixins(textCount, resettable) {
   })
   editPost!: Post | null
 
-  promise: Promise<any> | null | boolean = null
+  promise: Promise<any> | null = null
   photos: File[] = []
   previewPhotos: string[] = []
   text: string = this.initialText
@@ -483,17 +483,41 @@ export default class Composer extends Mixins(textCount, resettable) {
       })
   }
 
-  async submit() {
-    if (this.promise || this.textOverflow || this.hasNoText) return
+  updatePost(postId: string) {
+    return this.$interactors.updatePost
+      .run({
+        text: this.text,
+        isNsfw: this.nsfw,
+        postId,
+      })
+      .then((res) => {
+        bus.$emit('post', res.res.data)
+        this.$emit('post', res.res.data)
+        this.initialize()
+      })
+      .finally(() => {
+        this.promise = null
+        this.$toast.success('Updated!')
+      })
+  }
+
+  get cannotSubmit() {
+    return this.promise || this.textOverflow || this.hasNoText
+  }
+
+  submit() {
+    if (this.cannotSubmit) return
     try {
       if (this.editPost) {
-        // TODO
+        this.promise = this.updatePost(this.editPost.id)
       } else {
-        await this.createPost()
+        this.promise = this.createPost()
       }
     } catch (e) {
       console.error(e)
       this.$toast.error(e.message)
+    } finally {
+      this.promise = null
     }
   }
 

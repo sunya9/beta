@@ -7,6 +7,7 @@ import {
   GetExploreStreamRequest,
   PostIdRequest,
   CreatePostRequest,
+  UpdatePostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
 import { UserIdRequest } from '~/plugins/domain/dto/user'
@@ -17,6 +18,17 @@ import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  updatePost(
+    postId: string,
+    updatePostRequest: UpdatePostRequest,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post>> {
+    return this.put(`/posts/${postId}`, updatePostRequest, { params })
+  }
+
+  private put(url: string, data: any, params?: any) {
+    return this.axios.$put(url, data, { params })
+  }
 
   private post(url: string, data: any, params?: any) {
     return this.axios.$post(url, data, { params })

@@ -36,6 +36,8 @@ export type CreatePostRequest = {
   }
 } & RawRequest
 
+export type UpdatePostRequest = Pick<CreatePostRequest, 'text' | 'is_nsfw'>
+
 export type PostIdRequest = {
   post_id: string
 }

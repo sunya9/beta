@@ -5,6 +5,7 @@ import {
   GetExploreStreamRequest,
   PostIdRequest,
   CreatePostRequest,
+  UpdatePostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
 import { UserIdRequest } from '~/plugins/domain/dto/user'
@@ -42,6 +43,12 @@ export interface PnutRepository {
 
   createPost(
     createPostRequest: CreatePostRequest,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post>>
+
+  updatePost(
+    postId: string,
+    updatePostRequest: UpdatePostRequest,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post>>
 }
