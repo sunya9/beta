@@ -45,12 +45,12 @@ function getTitle(posted: boolean) {
   },
   head(this: PostIntent) {
     return {
-      // TODO
       title: getTitle(this.posted),
     }
   },
 })
 export default class PostIntent extends Vue {
+  message!: string
   posted = false
   get title(): string {
     return getTitle(this.posted)
