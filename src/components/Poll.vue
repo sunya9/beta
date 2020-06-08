@@ -100,8 +100,7 @@ export default class extends Vue {
   }
 
   get until() {
-    return ''
-    // return this.$dayjs(this.internalPoll.closed_at).format('llll')
+    return this.$dayjs(this.internalPoll.closed_at).format('llll')
   }
 
   get closed() {
