@@ -127,6 +127,7 @@
       <span class="card-link" append>{{ profile.counts.posts }} Posts</span>
       <nuxt-link
         :tag="user ? 'a' : 'span'"
+        :event="user ? 'click' : ''"
         class="card-link"
         to="follows"
         append
@@ -135,6 +136,7 @@
       </nuxt-link>
       <nuxt-link
         :tag="user ? 'a' : 'span'"
+        :event="user ? 'click' : ''"
         class="card-link"
         to="followers"
         append
@@ -143,6 +145,7 @@
       </nuxt-link>
       <nuxt-link
         :tag="user ? 'a' : 'span'"
+        :event="user ? 'click' : ''"
         class="card-link"
         to="starred"
         append
