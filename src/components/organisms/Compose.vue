@@ -78,20 +78,7 @@
                 Poll
               </span>
             </button>
-            <button
-              :class="{
-                'text-dark': !hasSpoiler,
-                'btn-primary': hasSpoiler,
-              }"
-              class="btn btn-link add-spoiler mr-2"
-              type="button"
-              @click="toggleSpoiler"
-            >
-              <font-awesome-icon :icon="['far', 'bell']" />
-              <span class="d-none d-lg-inline ml-2">
-                Spoiler
-              </span>
-            </button>
+            <toggle-spoiler v-model="spoiler" class="mr-2" />
             <toggle-longpost
               class="mr-2"
               :value="!!longpost"
@@ -140,6 +127,7 @@ import InputLongpost from '~/components/InputLongpost.vue'
 import resettable from '~/assets/ts/resettable'
 import ToggleNsfw from '~/components/atoms/ToggleNsfw.vue'
 import ToggleLongpost from '~/components/atoms/ToggleLongpost.vue'
+import ToggleSpoiler from '~/components/atoms/ToggleSpoiler.vue'
 import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
 
 @Component({
@@ -152,6 +140,7 @@ import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
     ToggleNsfw,
     ToggleLongpost,
     FilePreviewList,
+    ToggleSpoiler,
   },
 })
 export default class Compose extends Mixins(
