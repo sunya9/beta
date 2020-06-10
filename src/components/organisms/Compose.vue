@@ -36,17 +36,10 @@
             />
           </client-only>
         </div>
-        <div v-show="files.length" class="form-group">
-          <transition-group tag="div" name="file" class="d-flex flex-wrap">
-            <file-preview
-              v-for="(fileWrapper, i) in fileWrappers"
-              :key="fileWrapper.id"
-              :file="fileWrapper.file"
-              class="mr-2"
-              @remove="fileWrappers.splice(i, 1)"
-            />
-          </transition-group>
-        </div>
+        <file-preview-list
+          :file-wrappers="fileWrappers"
+          @remove="fileWrappers.splice($event, 1)"
+        />
         <div class="d-flex justify-content-between align-items-center">
           <strong class="text-muted" data-test-id="post-counter">
             {{ postCounter }}
@@ -147,7 +140,7 @@ import InputLongpost from '~/components/InputLongpost.vue'
 import resettable from '~/assets/ts/resettable'
 import ToggleNsfw from '~/components/atoms/ToggleNsfw.vue'
 import ToggleLongpost from '~/components/atoms/ToggleLongpost.vue'
-import FilePreview from '~/components/molecules/FilePreview/FilePreview.vue'
+import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
 
 @Component({
   components: {
@@ -158,7 +151,7 @@ import FilePreview from '~/components/molecules/FilePreview/FilePreview.vue'
     InputLongpost,
     ToggleNsfw,
     ToggleLongpost,
-    FilePreview,
+    FilePreviewList,
   },
 })
 export default class Compose extends Mixins(
@@ -306,20 +299,6 @@ export default class Compose extends Mixins(
   .textarea {
     font-size: 16px;
   }
-}
-.file-enter-active,
-.file-leave-to {
-  transition: all 0.5s ease;
-}
-
-.file-enter,
-.file-leave-to {
-  opacity: 0;
-  transform: scale(0);
-}
-
-.file-move {
-  transition: transform 0.5s;
 }
 
 .relative {

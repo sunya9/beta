@@ -8,7 +8,7 @@ import { getMinimumPoll, getMinimumSpoiler } from '~/util/minimum-entities'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Token } from '~/models/token'
 
-interface FileWrapper {
+export interface FileWrapper {
   file: File
   id: string
 }
