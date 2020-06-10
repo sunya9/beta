@@ -4,7 +4,6 @@ import { User } from '~/models/user'
 import { Spoiler } from '~/models/raw/raw/spoiler'
 import { LongPost } from '~/models/raw/raw/long-post'
 import textCount from '~/assets/ts/text-count'
-import { getMinimumPoll, getMinimumSpoiler } from '~/util/minimum-entities'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Token } from '~/models/token'
 
@@ -174,14 +173,6 @@ export function createCompose(composeOptions: ComposeOptions) {
         range.select()
       }
       textarea.focus()
-    }
-
-    togglePoll() {
-      this.poll = this.poll ? null : getMinimumPoll()
-    }
-
-    toggleSpoiler() {
-      this.spoiler = this.spoiler ? null : getMinimumSpoiler()
     }
 
     getSheet() {

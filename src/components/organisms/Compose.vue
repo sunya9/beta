@@ -64,20 +64,7 @@
                 @change="fileChange"
               />
             </label>
-            <button
-              :class="{
-                'text-dark': !hasPoll,
-                'btn-primary': hasPoll,
-              }"
-              class="btn btn-link add-poll mr-2"
-              type="button"
-              @click="togglePoll"
-            >
-              <font-awesome-icon icon="chart-bar" />
-              <span class="d-none d-lg-inline ml-2">
-                Poll
-              </span>
-            </button>
+            <toggle-poll v-model="poll" class="mr-2" />
             <toggle-spoiler v-model="spoiler" class="mr-2" />
             <toggle-longpost v-model="longpost" class="mr-2" />
             <toggle-nsfw v-model="nsfw" class="mr-2" />
@@ -124,6 +111,7 @@ import resettable from '~/assets/ts/resettable'
 import ToggleNsfw from '~/components/atoms/ToggleNsfw.vue'
 import ToggleLongpost from '~/components/atoms/ToggleLongpost.vue'
 import ToggleSpoiler from '~/components/atoms/ToggleSpoiler.vue'
+import TogglePoll from '~/components/atoms/TogglePoll.vue'
 import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
 
 @Component({
@@ -137,6 +125,7 @@ import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
     ToggleLongpost,
     FilePreviewList,
     ToggleSpoiler,
+    TogglePoll,
   },
 })
 export default class Compose extends Mixins(
