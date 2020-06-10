@@ -353,3 +353,11 @@ body.dark {
 .break-all {
   word-break: break-all;
 }
+
+.medium-zoom-overlay {
+  z-index: 1040;
+}
+
+.medium-zoom-image--opened {
+  z-index: 1050;
+}

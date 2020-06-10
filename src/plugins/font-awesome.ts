@@ -65,6 +65,7 @@ import {
   faFileAudio,
   faFile,
   faFileImage,
+  faPlayCircle,
 } from '@fortawesome/free-regular-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -133,7 +134,8 @@ library.add(
   faFileVideo,
   faFileAudio,
   faFile,
-  faFileImage
+  faFileImage,
+  faPlayCircle
 )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)

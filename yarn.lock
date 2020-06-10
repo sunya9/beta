@@ -13419,6 +13419,11 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
+medium-zoom@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/medium-zoom/-/medium-zoom-1.0.5.tgz#81413dda20ccdd857141ff420cfab788dd32e20e"
+  integrity sha512-aLGa6WlTuFKWvH88bqTrY5ztJMN+D0hd8UX6BYc4YSoPayppzETjZUcdVcksgaoQEMg4cZSmXPg846fTp2rjRQ==
+
 mem@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/mem/-/mem-1.1.0.tgz#5edd52b485ca1d900fe64895505399a0dfa45f76"
@@ -14280,6 +14285,13 @@ nuxt-typed-vuex@0.1.18:
   dependencies:
     normalize-path "^3.0.0"
     typed-vuex "0.1.18"
+
+nuxt-uid-module@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/nuxt-uid-module/-/nuxt-uid-module-0.2.0.tgz#18fdc6ccdddc98de36e203a4b2bb24f9680e3cb8"
+  integrity sha512-EqEJH0BK7jrIxrSuR9Skfppx3OI8h59xmUQZ/iQruv8MK0soS8eiNBSmGpfHj+vpEuwEDGKwKM9l9Ed+EqdjFQ==
+  dependencies:
+    vue-uid "^0.4.0"
 
 nuxt@2.12.2:
   version "2.12.2"
@@ -19906,6 +19918,11 @@ vue-toasted@^1.1.27:
   version "1.1.28"
   resolved "https://registry.yarnpkg.com/vue-toasted/-/vue-toasted-1.1.28.tgz#dbabb83acc89f7a9e8765815e491d79f0dc65c26"
   integrity sha512-UUzr5LX51UbbiROSGZ49GOgSzFxaMHK6L00JV8fir/CYNJCpIIvNZ5YmS4Qc8Y2+Z/4VVYRpeQL2UO0G800Raw==
+
+vue-uid@^0.4.0:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/vue-uid/-/vue-uid-0.4.5.tgz#7e44ff7669c6043e19e32e9fc6caea0ad3f8be15"
+  integrity sha512-Rtb2MLRDkPM5VEmYSDcH2oSmcoGsQ/YQDya1j1TlaJyK5MMZntjfQtlNOyTp7yPIWkwVfPBUb19FyQ//ytNHxw==
 
 vue@^2.6.10, vue@^2.6.11:
   version "2.6.11"

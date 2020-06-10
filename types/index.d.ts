@@ -10,6 +10,7 @@ declare module 'vue/types/vue' {
     $dayjs: typeof dayjs
     $mousetrap: typeof Mousetrap
     $accessor: typeof accessorType
+    $_uid: number
   }
 }
 
