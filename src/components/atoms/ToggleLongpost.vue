@@ -1,9 +1,9 @@
 <template>
-  <toggle-button icon="plus" text="Long" :value="value" @input="toggle" />
+  <toggle-button icon="plus" text="Long" :value="!!value" @input="toggle" />
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { Component, Model } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
 import ToggleButton from './ToggleButton.vue'
 import { getMinimumLongPost } from '~/util/minimum-entities'
 
@@ -11,8 +11,8 @@ import { getMinimumLongPost } from '~/util/minimum-entities'
   components: { ToggleButton },
 })
 export default class ToggleLongpost extends Vue {
-  @Model('input', { type: Boolean, required: false, default: true })
-  value!: boolean
+  @Prop({ type: Object, required: false, default: true })
+  value!: object
 
   toggle(state: boolean) {
     this.$emit('input', state ? getMinimumLongPost() : null)

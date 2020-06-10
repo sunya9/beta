@@ -79,11 +79,7 @@
               </span>
             </button>
             <toggle-spoiler v-model="spoiler" class="mr-2" />
-            <toggle-longpost
-              class="mr-2"
-              :value="!!longpost"
-              @input="longpost = $event"
-            />
+            <toggle-longpost v-model="longpost" class="mr-2" />
             <toggle-nsfw v-model="nsfw" class="mr-2" />
             <button
               :disabled="disabled"
