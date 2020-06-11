@@ -15,9 +15,21 @@ import { File } from '~/models/file'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
 import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
+import {
+  CreateMessageRequest,
+  GeneralMessageParameters,
+} from '~/plugins/domain/dto/message'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  createMessage(
+    channelId: string,
+    message: CreateMessageRequest,
+    params?: GeneralMessageParameters
+  ): Promise<PnutResponse<import('../../models/message').Message>> {
+    return this.post(`/channels/${channelId}`, message, { params })
+  }
+
   updatePost(
     postId: string,
     updatePostRequest: UpdatePostRequest,

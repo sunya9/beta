@@ -1,4 +1,8 @@
-import { ReportReasonType, SearchType } from '~/plugins/domain/dto/common'
+import {
+  ReportReasonType,
+  SearchType,
+  RawRequest,
+} from '~/plugins/domain/dto/common'
 import { User } from '~/models/user'
 
 export type GeneralMessageParameters = {
@@ -10,7 +14,7 @@ export type GeneralMessageParameters = {
   include_client?: boolean
 }
 
-export type PostMessageRequest = {
+export type CreateMessageRequest = {
   text: string
   reply_to?: string
   is_nsfw?: boolean
@@ -18,7 +22,7 @@ export type PostMessageRequest = {
     parse_links?: boolean
     parse_markdown_links?: boolean
   }
-}
+} & RawRequest
 
 export type MessageIdRequest = { message_id: string }
 export type ReportMessageRequest = {

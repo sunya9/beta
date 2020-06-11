@@ -13,6 +13,11 @@ import { File } from '~/models/file'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
 import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
+import {
+  CreateMessageRequest,
+  GeneralMessageParameters,
+} from '~/plugins/domain/dto/message'
+import { Message } from '~/models/message'
 
 export interface PnutRepository {
   getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
@@ -51,4 +56,10 @@ export interface PnutRepository {
     updatePostRequest: UpdatePostRequest,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post>>
+
+  createMessage(
+    channelId: string,
+    message: CreateMessageRequest,
+    params?: GeneralMessageParameters
+  ): Promise<PnutResponse<Message>>
 }
