@@ -5,7 +5,6 @@ import { Spoiler } from '~/models/raw/raw/spoiler'
 import { LongPost } from '~/models/raw/raw/long-post'
 import textCount from '~/assets/ts/text-count'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
-import { Token } from '~/models/token'
 
 export interface FileWrapper {
   file: File
@@ -69,18 +68,6 @@ export function createCompose(composeOptions: ComposeOptions) {
     $refs!: {
       picker: Vue
       textarea: HTMLTextAreaElement
-      file: HTMLInputElement
-    }
-
-    fileChange(e: Event) {
-      const { target } = e
-      if (!(target instanceof HTMLInputElement) || !target.files?.length) return
-      const newFileWrappers: FileWrapper[] = Array.from(
-        target.files
-      ).map((file, i) => ({ file, id: `${new Date().getTime()}-${i}` }))
-      this.fileWrappers = [...this.fileWrappers, ...newFileWrappers]
-      // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
-      this.$refs.file.value = ''
     }
 
     get user(): User | null {
@@ -209,10 +196,6 @@ export function createCompose(composeOptions: ComposeOptions) {
     // TODO
     addEmoji(emoji: string) {
       this.insertText(emoji)
-    }
-
-    get storage(): Token.Storage {
-      return this.$accessor.storage
     }
   }
   return ComposeAbstract

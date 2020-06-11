@@ -27,29 +27,19 @@
             {{ postCounter }}
           </strong>
           <div>
-            <label
-              v-show="!noPhoto"
-              v-if="storage.available"
+            <add-file v-model="fileWrappers" :disabled="promise" class="mr-2" />
+            <toggle-poll v-model="poll" :disabled="promise" class="mr-2" />
+            <toggle-spoiler
+              v-model="spoiler"
               :disabled="promise"
-              class="btn btn-link text-dark mb-0 mr-2"
-            >
-              <font-awesome-icon :icon="['far', 'image']" />
-              <span class="d-none d-lg-inline ml-2">
-                File
-              </span>
-              <input
-                ref="file"
-                type="file"
-                multiple
-                accept="image/*,video/*,audio/*"
-                style="display: none;"
-                @change="fileChange"
-              />
-            </label>
-            <toggle-poll v-model="poll" class="mr-2" />
-            <toggle-spoiler v-model="spoiler" class="mr-2" />
-            <toggle-longpost v-model="longpost" class="mr-2" />
-            <toggle-nsfw v-model="nsfw" class="mr-2" />
+              class="mr-2"
+            />
+            <toggle-longpost
+              v-model="longpost"
+              :disabled="promise"
+              class="mr-2"
+            />
+            <toggle-nsfw v-model="nsfw" :disabled="promise" class="mr-2" />
             <button
               :disabled="disabled"
               type="submit"
@@ -95,6 +85,7 @@ import ToggleSpoiler from '~/components/atoms/ToggleSpoiler.vue'
 import TogglePoll from '~/components/atoms/TogglePoll.vue'
 import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
 import EmojiPicker from '~/components/molecules/EmojiPicker.vue'
+import AddFile from '~/components/atoms/AddFile.vue'
 @Component({
   components: {
     Thumb,
@@ -107,6 +98,7 @@ import EmojiPicker from '~/components/molecules/EmojiPicker.vue'
     ToggleSpoiler,
     TogglePoll,
     EmojiPicker,
+    AddFile,
   },
 })
 export default class Compose extends Mixins(
