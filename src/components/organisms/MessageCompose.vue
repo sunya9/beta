@@ -71,13 +71,13 @@
             >
               <font-awesome-icon :icon="['far', 'image']" />
               <span class="d-none d-sm-inline ml-2">
-                Photo
+                File
               </span>
               <input
                 ref="file"
                 type="file"
                 multiple
-                accept="image/*"
+                accept="image/*,video/*,audio/*"
                 style="display: none;"
                 @change="fileChange"
               />
@@ -153,17 +153,15 @@
 <script lang="ts">
 import unicodeSubstring from 'unicode-substring'
 import { Dropdown } from 'bootstrap.native'
-import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
-import bus from '../assets/ts/bus'
-import textCount from '~/assets/ts/text-count'
+import { Component, Prop, Watch } from 'vue-property-decorator'
+import { createCompose } from './ComposeAbstract'
+import bus from '~/assets/ts/bus'
 import Thumb from '~/components/Thumb.vue'
 import InputSpoiler from '~/components/InputSpoiler.vue'
-import resettable from '~/assets/ts/resettable'
 import { Spoiler } from '~/models/raw/raw/spoiler'
 import { Channel } from '~/models/channel'
 import { Token } from '~/models/token'
 import { Raw } from '~/models/raw'
-import { PnutResponse } from '~/models/pnut-response'
 import { getMinimumSpoiler } from '~/util/minimum-entities'
 
 function obj2FormData(obj: { [key: string]: string | Blob }) {
@@ -179,7 +177,7 @@ function obj2FormData(obj: { [key: string]: string | Blob }) {
     InputSpoiler,
   },
 })
-export default class MessageCompose extends Mixins(textCount, resettable) {
+export default class MessageCompose extends createCompose({ textCount: 2048 }) {
   @Prop({
     type: Boolean,
     default: false,
@@ -205,12 +203,9 @@ export default class MessageCompose extends Mixins(textCount, resettable) {
   channel!: Channel
 
   $refs!: {
-    file: HTMLInputElement
-    textarea: HTMLTextAreaElement
     dropdown: HTMLButtonElement
-  }
+  } & InstanceType<ReturnType<typeof createCompose>>['$refs']
 
-  promise: Promise<PnutResponse<any>> | null | boolean = null
   channelUsersStr = ''
   text = ''
   photos: File[] = []

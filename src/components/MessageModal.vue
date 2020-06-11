@@ -71,7 +71,7 @@
 <script lang="ts">
 import { Tab } from 'bootstrap.native'
 import { Vue, Component } from 'nuxt-property-decorator'
-import MessageCompose from '~/components/MessageCompose.vue'
+import MessageCompose from '~/components/organisms/MessageCompose.vue'
 import ChannelCompose from '~/components/ChannelCompose.vue'
 import BaseModal from '~/components/BaseModal.vue'
 

@@ -7,7 +7,7 @@ import {
   fixtures,
   authedAccessor,
 } from '../helper'
-import MessageCompose from '~/components/MessageCompose.vue'
+import MessageCompose from '~/components/organisms/MessageCompose.vue'
 import { Channel } from '~/models/channel'
 
 describe('MessageCompose component', () => {

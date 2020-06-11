@@ -39,7 +39,7 @@
 import { Component } from 'nuxt-property-decorator'
 import { Mixins } from 'vue-property-decorator'
 import { Channel } from '~/models/channel'
-import MessageCompose from '~/components/MessageCompose.vue'
+import MessageCompose from '~/components/organisms/MessageCompose.vue'
 import ChannelCompose from '~/components/ChannelCompose.vue'
 import ChannelList from '~/components/ChannelList.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
