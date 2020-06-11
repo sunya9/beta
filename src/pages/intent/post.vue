@@ -4,12 +4,7 @@
       {{ title }}
     </h1>
     <div v-if="!posted">
-      <compose
-        :initial-text="message"
-        :focus="true"
-        no-photo
-        @post="finishPosting"
-      />
+      <compose :initial-text="message" :focus="true" @post="finishPosting" />
     </div>
     <div v-else>
       <button class="btn btn-primary my-2" autofocus @click="close">
