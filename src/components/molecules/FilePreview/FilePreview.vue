@@ -1,6 +1,6 @@
 <template>
   <div v-show="hasAnyPreview" class="img-thumbnail d-flex align-items-center">
-    <button class="remove" @click="remove">
+    <button class="remove" type="button" @click="remove">
       <font-awesome-icon icon="times" />
     </button>
     <div class="thumbnail">
