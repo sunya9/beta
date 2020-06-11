@@ -96,7 +96,7 @@
                 />
               </div>
               <div
-                v-if="clips"
+                v-if="clips.length"
                 class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
               >
                 <sound
@@ -178,7 +178,9 @@ import { Spoiler } from '~/models/raw/raw/spoiler'
     UserPopper,
   },
 })
-export default class extends Mixins(listItem('message.created_at')) {
+export default class MessageView extends Mixins(
+  listItem('message.created_at')
+) {
   @Prop({
     type: Boolean,
     default: false,
@@ -234,8 +236,8 @@ export default class extends Mixins(listItem('message.created_at')) {
     return getImageURLs(this.message)
   }
 
-  get clips(): AudioForView[] | void {
-    return getAudio(this.message)
+  get clips(): AudioForView[] {
+    return getAudio(this.message) || []
   }
 
   get spoiler(): Spoiler.Value | void {
