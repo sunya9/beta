@@ -26,7 +26,7 @@ import { FileWrapper } from '~/components/organisms/ComposeAbstract'
 import { Token } from '~/models/token'
 
 @Component({})
-export default class ToggleSpoiler extends Vue {
+export default class AddFile extends Vue {
   @Prop({ type: Array, required: false, default: true })
   value!: FileWrapper[]
 
