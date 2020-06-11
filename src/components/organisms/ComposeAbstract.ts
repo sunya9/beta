@@ -74,18 +74,6 @@ export function createCompose(composeOptions: ComposeOptions) {
       return this.$accessor.user
     }
 
-    get hasPoll(): boolean {
-      return !!this.poll
-    }
-
-    get hasSpoiler(): boolean {
-      return !!this.spoiler
-    }
-
-    get hasLongpost(): boolean {
-      return !!this.longpost
-    }
-
     poll: CreatePollRequest | null = null
 
     get disabled(): boolean {
