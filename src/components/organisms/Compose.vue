@@ -15,26 +15,8 @@
             class="form-control textarea"
             @keydown.ctrl.enter="submit"
             @keydown.meta.enter="submit"
-            @submit="submit"
           />
-          <a
-            href="#"
-            class="open-emoji-picker text-dark"
-            @click.prevent.stop="toggleEmojiPalette"
-          >
-            <font-awesome-icon :icon="['far', 'smile']" size="lg" />
-          </a>
-          <client-only>
-            <picker
-              v-show="showEmojiPicker"
-              ref="picker"
-              v-on-click-outside="closeEmojiPalette"
-              :background-image-fn="getSheet"
-              set="twitter"
-              class="emoji-picker"
-              @select="addEmoji"
-            />
-          </client-only>
+          <emoji-picker @select="addEmoji" />
         </div>
         <file-preview-list
           :file-wrappers="fileWrappers"
@@ -103,7 +85,6 @@ import { createCompose } from './ComposeAbstract'
 import { Post } from '~/models/post'
 import bus from '~/assets/ts/bus'
 import Thumb from '~/components/Thumb.vue'
-import { Picker } from '~/plugins/emoji'
 import InputPoll from '~/components/InputPoll.vue'
 import InputSpoiler from '~/components/InputSpoiler.vue'
 import InputLongpost from '~/components/InputLongpost.vue'
@@ -113,11 +94,10 @@ import ToggleLongpost from '~/components/atoms/ToggleLongpost.vue'
 import ToggleSpoiler from '~/components/atoms/ToggleSpoiler.vue'
 import TogglePoll from '~/components/atoms/TogglePoll.vue'
 import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
-
+import EmojiPicker from '~/components/molecules/EmojiPicker.vue'
 @Component({
   components: {
     Thumb,
-    Picker,
     InputPoll,
     InputSpoiler,
     InputLongpost,
@@ -126,6 +106,7 @@ import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
     FilePreviewList,
     ToggleSpoiler,
     TogglePoll,
+    EmojiPicker,
   },
 })
 export default class Compose extends Mixins(
@@ -279,21 +260,8 @@ export default class Compose extends Mixins(
   position: relative;
 }
 
-.open-emoji-picker {
-  position: absolute;
-  right: 0.5rem;
-  top: 0.5rem;
-}
-
 .textarea {
   padding-right: 1.7rem;
   min-height: 7rem;
-}
-
-.emoji-picker {
-  position: absolute;
-  right: 0;
-  top: 2rem;
-  z-index: 3;
 }
 </style>

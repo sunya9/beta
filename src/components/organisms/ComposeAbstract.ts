@@ -175,17 +175,12 @@ export function createCompose(composeOptions: ComposeOptions) {
       textarea.focus()
     }
 
-    getSheet() {
-      return require('emoji-datasource-twitter/img/twitter/sheets-128/64.png')
-    }
-
     insertText(text: string) {
       const textarea = this.$refs.textarea
-      const getSelection = document.getSelection()
-      if (getSelection) {
+      const selection = (document as any).selection
+      if (selection) {
         textarea.focus()
-
-        const sel = (getSelection as any).createRange()
+        const sel = (selection as any).createRange()
         sel.text = text
         textarea.focus()
       } else if (textarea.selectionStart || textarea.selectionStart === 0) {
@@ -212,22 +207,8 @@ export function createCompose(composeOptions: ComposeOptions) {
     }
 
     // TODO
-    addEmoji(emoji: any) {
-      this.insertText(emoji.native)
-      this.closeEmojiPalette()
-    }
-
-    async toggleEmojiPalette() {
-      this.showEmojiPicker = !this.showEmojiPicker
-      if (!this.showEmojiPicker) return
-      await this.$nextTick()
-      const input = this.$refs.picker.$el.querySelector('input')
-      if (!input) return
-      input.focus()
-    }
-
-    closeEmojiPalette() {
-      this.showEmojiPicker = false
+    addEmoji(emoji: string) {
+      this.insertText(emoji)
     }
 
     get storage(): Token.Storage {
