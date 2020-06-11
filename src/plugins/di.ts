@@ -22,6 +22,10 @@ import {
   UpdatePostInteractor,
   UpdatePostUseCase,
 } from '~/plugins/domain/usecases/editPost'
+import {
+  CreateMessageUseCase,
+  CreateMessageInteractor,
+} from '~/plugins/domain/usecases/createMessage'
 
 type InteractorType = Readonly<{
   createFile: CreateFileUseCase
@@ -29,6 +33,7 @@ type InteractorType = Readonly<{
   getFile: GetFileUseCase
   createPost: CreatePostUseCase
   updatePost: UpdatePostUseCase
+  createMessage: CreateMessageUseCase
 }>
 
 function customizeAxios(axios: NuxtAxiosInstance) {
@@ -71,6 +76,12 @@ function getInteractors(context: Context): InteractorType {
     },
     get updatePost() {
       return new UpdatePostInteractor(getPnutRepository())
+    },
+    get createMessage() {
+      const pnutRepo = getPnutRepository()
+      const postPolls = new CreatePollInteractor(pnutRepo)
+      const uploadPhotos = new CreateFileInteractor(pnutRepo)
+      return new CreateMessageInteractor(pnutRepo, uploadPhotos, postPolls)
     },
   }
 }
