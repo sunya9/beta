@@ -2915,30 +2915,6 @@
     serve-static "^1.14.1"
     server-destroy "^1.0.1"
 
-"@nuxt/types@0.7.7":
-  version "0.7.7"
-  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-0.7.7.tgz#819bfbb08a27af2eca9c66fefdf87e6ec5c9548b"
-  integrity sha512-cfMV7CZJpy0ePOUiqXvMPoxclluWxmY4BEIvrt4f4QaK4uklQRDbfHhYRiuFNFOli+0znEDTSLCK6OHQnOfZ/g==
-  dependencies:
-    "@types/autoprefixer" "^9.7.2"
-    "@types/babel__core" "^7.1.7"
-    "@types/compression" "^1.7.0"
-    "@types/connect" "^3.4.33"
-    "@types/etag" "^1.8.0"
-    "@types/file-loader" "^4.2.0"
-    "@types/html-minifier" "^3.5.3"
-    "@types/less" "^3.0.1"
-    "@types/node" "^12.12.42"
-    "@types/node-sass" "^4.11.1"
-    "@types/optimize-css-assets-webpack-plugin" "^5.0.1"
-    "@types/pug" "^2.0.4"
-    "@types/serve-static" "^1.13.4"
-    "@types/terser-webpack-plugin" "^2.2.0"
-    "@types/webpack" "^4.41.13"
-    "@types/webpack-bundle-analyzer" "^3.8.0"
-    "@types/webpack-dev-middleware" "^3.7.1"
-    "@types/webpack-hot-middleware" "^2.25.3"
-
 "@nuxt/types@0.7.8":
   version "0.7.8"
   resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-0.7.8.tgz#0d5ae4b6b12c7764c98588a66a603698f1ad9114"
@@ -2953,6 +2929,30 @@
     "@types/html-minifier" "^3.5.3"
     "@types/less" "^3.0.1"
     "@types/node" "^12.12.44"
+    "@types/node-sass" "^4.11.1"
+    "@types/optimize-css-assets-webpack-plugin" "^5.0.1"
+    "@types/pug" "^2.0.4"
+    "@types/serve-static" "^1.13.4"
+    "@types/terser-webpack-plugin" "^2.2.1"
+    "@types/webpack" "^4.41.17"
+    "@types/webpack-bundle-analyzer" "^3.8.0"
+    "@types/webpack-dev-middleware" "^3.7.1"
+    "@types/webpack-hot-middleware" "^2.25.3"
+
+"@nuxt/types@0.7.9":
+  version "0.7.9"
+  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-0.7.9.tgz#a6bc6911672a812063cbb17726304cb536f58a3d"
+  integrity sha512-AsKj+iVV+XlCKKdpfYuLjUCUUNgL+7SzaQPp6/Z6WMqndIXegVMXn2Iu9Ixo+Qd7Y4U1Cvy4e3LYHMj0QNH+Lg==
+  dependencies:
+    "@types/autoprefixer" "^9.7.2"
+    "@types/babel__core" "^7.1.8"
+    "@types/compression" "^1.7.0"
+    "@types/connect" "^3.4.33"
+    "@types/etag" "^1.8.0"
+    "@types/file-loader" "^4.2.0"
+    "@types/html-minifier" "^3.5.3"
+    "@types/less" "^3.0.1"
+    "@types/node" "^12.12.47"
     "@types/node-sass" "^4.11.1"
     "@types/optimize-css-assets-webpack-plugin" "^5.0.1"
     "@types/pug" "^2.0.4"
@@ -4007,15 +4007,20 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.5.tgz#3d03acd3b3414cf67faf999aed11682ed121f22b"
   integrity sha512-90hiq6/VqtQgX8Sp0EzeIsv3r+ellbGj4URKj5j30tLlZvRUpnAe9YbYnjl3pJM93GyXU0tghHhvXHq+5rnCKA==
 
-"@types/node@^12.12.42", "@types/node@^12.6.8":
-  version "12.12.42"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.42.tgz#d0d1149336bd07540dd1ea576692829d575dec34"
-  integrity sha512-R/9QdYFLL9dE9l5cWWzWIZByVGFd7lk7JVOJ7KD+E1SJ4gni7XJRLz9QTjyYQiHIqEAgku9VgxdLjMlhhUaAFg==
-
 "@types/node@^12.12.44":
   version "12.12.44"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.44.tgz#0d400a1453adcb359b133acceae4dd8bb0e0a159"
   integrity sha512-jM6QVv0Sm5d3nW+nUD5jSzPcO6oPqboitSNcwgBay9hifVq/Rauq1PYnROnsmuw45JMBiTnsPAno0bKu2e2xrg==
+
+"@types/node@^12.12.47":
+  version "12.12.47"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.47.tgz#5007b8866a2f9150de82335ca7e24dd1d59bdfb5"
+  integrity sha512-yzBInQFhdY8kaZmqoL2+3U5dSTMrKaYcb561VU+lDzAYvqt+2lojvBEy+hmpSNuXnPTx7m9+04CzWYOUqWME2A==
+
+"@types/node@^12.6.8":
+  version "12.12.42"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.42.tgz#d0d1149336bd07540dd1ea576692829d575dec34"
+  integrity sha512-R/9QdYFLL9dE9l5cWWzWIZByVGFd7lk7JVOJ7KD+E1SJ4gni7XJRLz9QTjyYQiHIqEAgku9VgxdLjMlhhUaAFg==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -4171,14 +4176,6 @@
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.5.tgz#9adbc12950582aa65ead76bffdf39fe0c27a3c02"
   integrity sha512-/gG2M/Imw7cQFp8PGvz/SwocNrmKFjFsm5Pb8HdbHkZ1K8pmuPzOX4VeVoiEecFCVf4CsN1r3/BRvx+6sNqwtQ==
 
-"@types/terser-webpack-plugin@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@types/terser-webpack-plugin/-/terser-webpack-plugin-2.2.0.tgz#b1561e3118b9319d80ff65798c345877669b3e12"
-  integrity sha512-ywqEfTm7KdKoX9aYx0zYtiFU1z6IHrIYW9FJqeay2Ea58rTPML1J0hvoztGal2Jow3bkgGKcAmEZNL+8LqUVrA==
-  dependencies:
-    "@types/webpack" "*"
-    terser "^4.3.9"
-
 "@types/terser-webpack-plugin@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@types/terser-webpack-plugin/-/terser-webpack-plugin-2.2.1.tgz#d6687ed29026532764b031209a5d6dc6d44b33f2"
@@ -4255,7 +4252,7 @@
     "@types/source-list-map" "*"
     source-map "^0.6.1"
 
-"@types/webpack@*", "@types/webpack@^4.41.13", "@types/webpack@^4.41.8":
+"@types/webpack@*", "@types/webpack@^4.41.8":
   version "4.41.13"
   resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.41.13.tgz#988d114c8913d039b8a0e0502a7fe4f1f84f3d5e"
   integrity sha512-RYmIHOWSxnTTa765N6jJBVE45pd2SYNblEYshVDduLw6RhocazNmRzE5/ytvBD8IkDMH6DI+bcrqxh8NILimBA==
