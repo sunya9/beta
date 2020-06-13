@@ -62,7 +62,7 @@
     "@storybook/vue": "5.3.19",
     "@testing-library/jest-dom": "5.10.0",
     "@types/emoji-regex": "8.0.0",
-    "@types/jest": "25.2.3",
+    "@types/jest": "26.0.0",
     "@types/lodash": "4.14.155",
     "@types/mousetrap": "1.6.3",
     "@types/nuxtjs__auth": "4.8.4",
