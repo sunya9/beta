@@ -19747,7 +19747,12 @@ vue-on-click-outside@1.0.3:
   resolved "https://registry.yarnpkg.com/vue-on-click-outside/-/vue-on-click-outside-1.0.3.tgz#6b7200c2b50fa45eb77dce2daad7ab436d9dd611"
   integrity sha1-a3IAwrUPpF63fc4tqterQ22d1hE=
 
-vue-property-decorator@8.4.2, vue-property-decorator@^8.4.1:
+vue-property-decorator@8.5.0:
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-8.5.0.tgz#9af64c5301413f4732640cc0d046879417e64994"
+  integrity sha512-0RueJN/shPWf5gM8GLUD6bYiXr+q7bu+S1tgr7XwgBSng10H5DLQjVYfJ5XHAOPFo7fBfY1nxljBQ95qryAiWg==
+
+vue-property-decorator@^8.4.1:
   version "8.4.2"
   resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-8.4.2.tgz#016e17f259f73bc547e77a50ce282ba18db4ee41"
   integrity sha512-IqbARlvgPE2pzKfbecKxsu2yEH0Wv7hfHR6m4eZA3LTnNw9hveAX77vDfLFyTeMISS5N7Kucp/xRSHjcQ6bAfQ==
