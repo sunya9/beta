@@ -41,61 +41,28 @@
             @keydown.meta.enter="submit()"
           />
         </div>
-        <div v-show="photos.length" class="form-group">
-          <transition-group
-            tag="div"
-            name="photos"
-            class="d-flex flex-wrap justify-content align-items-center"
-          >
-            <thumb
-              v-for="(photo, i) in previewPhotos"
-              :key="photo.data"
-              :original="photo.data"
-              :thumb="photo.data"
-              removable
-              class="mr-2"
-              @remove="photos.splice(i, 1)"
-            />
-          </transition-group>
-        </div>
+        <file-preview-list
+          :file-wrappers="fileWrappers"
+          @remove="fileWrappers.splice($event, 1)"
+        />
         <div class="d-flex justify-content-between align-items-center">
           <span data-test-id="message-counter">
-            {{ remain }}
+            {{ postCounter }}
           </span>
           <div>
-            <label
-              v-show="!noPhoto"
-              v-if="storage.available"
+            <add-file v-model="fileWrappers" :disabled="promise" class="mr-2" />
+            <toggle-poll v-model="poll" :disabled="promise" class="mr-2" />
+            <toggle-spoiler
+              v-model="spoiler"
               :disabled="promise"
-              class="btn btn-link text-dark add-photo mr-3"
-            >
-              <font-awesome-icon :icon="['far', 'image']" />
-              <span class="d-none d-sm-inline ml-2">
-                File
-              </span>
-              <input
-                ref="file"
-                type="file"
-                multiple
-                accept="image/*,video/*,audio/*"
-                style="display: none;"
-                @change="fileChange"
-              />
-            </label>
-            <button
-              :class="{
-                'text-dark': !hasSpoiler,
-                'btn-primary': hasSpoiler,
-              }"
-              class="btn btn-link add-spoiler mr-3"
-              type="button"
-              @click="toggleSpoiler"
-            >
-              <font-awesome-icon :icon="['far', 'bell']" />
-              <span class="d-none d-sm-inline ml-2">
-                Spoiler
-              </span>
-            </button>
+              class="mr-2"
+            />
+            <toggle-longpost
+              v-model="longpost"
+              :disabled="promise"
+              class="mr-2"
+            />
+            <toggle-nsfw v-model="nsfw" :disabled="promise" class="mr-2" />
             <span :class="{ 'btn-group': canBroadcast }">
               <button
                 :disabled="calcDisabled"
@@ -158,23 +125,26 @@ import { createCompose } from './ComposeAbstract'
 import bus from '~/assets/ts/bus'
 import Thumb from '~/components/Thumb.vue'
 import InputSpoiler from '~/components/InputSpoiler.vue'
-import { Spoiler } from '~/models/raw/raw/spoiler'
 import { Channel } from '~/models/channel'
 import { Token } from '~/models/token'
 import { Raw } from '~/models/raw'
-import { getMinimumSpoiler } from '~/util/minimum-entities'
-
-function obj2FormData(obj: { [key: string]: string | Blob }) {
-  return Object.keys(obj).reduce((fd, key) => {
-    fd.append(key, obj[key])
-    return fd
-  }, new FormData())
-}
+import AddFile from '~/components/atoms/AddFile.vue'
+import ToggleNsfw from '~/components/atoms/ToggleNsfw.vue'
+import ToggleLongpost from '~/components/atoms/ToggleLongpost.vue'
+import ToggleSpoiler from '~/components/atoms/ToggleSpoiler.vue'
+import TogglePoll from '~/components/atoms/TogglePoll.vue'
+import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
 
 @Component({
   components: {
     Thumb,
     InputSpoiler,
+    AddFile,
+    ToggleNsfw,
+    ToggleLongpost,
+    ToggleSpoiler,
+    TogglePoll,
+    FilePreviewList,
   },
 })
 export default class MessageCompose extends createCompose({ textCount: 2048 }) {
@@ -183,12 +153,6 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
     default: false,
   })
   createChannelMode!: boolean
-
-  @Prop({
-    type: Boolean,
-    default: false,
-  })
-  noPhoto!: boolean
 
   @Prop({
     type: String,
@@ -208,9 +172,6 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
 
   channelUsersStr = ''
   text = ''
-  photos: File[] = []
-  previewPhotos: string[] = []
-  spoiler: Spoiler.Value | null = null
   pmLookupStatus: string | null = null
   dropdown: Dropdown | null = null
 
@@ -224,25 +185,13 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
       requireTargetValue ||
       !!this.promise ||
       !this.text ||
-      this.remain < 0 ||
+      this.postCounter < 0 ||
       (!!this.spoiler && !this.availableSpoiler)
     )
   }
 
   get calcPmLookup(): boolean {
     return this.createChannelMode && !!this.channelUsersStr && !this.text
-  }
-
-  get remain(): number {
-    return 2048 - this.textLength
-  }
-
-  get hasPhotos(): boolean {
-    return !!this.photos.length
-  }
-
-  get hasSpoiler(): boolean {
-    return !!this.spoiler
   }
 
   get availableSpoiler(): boolean {
@@ -263,26 +212,6 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
     this.channelUsersStr = user
   }
 
-  @Watch('photos')
-  async onChangePhotos() {
-    const promisePhotos = this.photos.map((file) => {
-      return new Promise<string>((resolve, reject) => {
-        const fr = new FileReader()
-        fr.readAsDataURL(file)
-        fr.onload = (e) => {
-          if (
-            !e.target ||
-            !e.target.result ||
-            typeof e.target.result !== 'string'
-          )
-            return reject(new Error('Failed to load photo'))
-          resolve(e.target.result)
-        }
-      })
-    })
-    this.previewPhotos = await Promise.all(promisePhotos)
-  }
-
   mounted() {
     this.$mousetrap.bind('n', (e) => {
       this.$refs.textarea.focus()
@@ -297,7 +226,7 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
   }
 
   async broadcast() {
-    const option = await this.createGeneralPost()
+    const option = this.createGeneralPost()
     const raw: Raw<any>[] = [
       {
         type: 'io.pnut.core.crosspost',
@@ -315,14 +244,10 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
     ]
     option.raw.push(...raw)
     option.text = `${unicodeSubstring(this.text, 0, 255)}…`
-    const res = await this.$axios.$post('/posts', option)
-    this.promise = true
+    this.promise = this.$axios.$post('/posts', option)
+    const res = await this.promise
     await this.submit(option)
     return res
-  }
-
-  toggleSpoiler() {
-    this.spoiler = this.spoiler ? null : getMinimumSpoiler()
   }
 
   resetPmSearch() {
@@ -351,48 +276,50 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
     this.promise = null
   }
 
-  async createGeneralPost() {
+  createGeneralPost() {
     const option = {
       text: this.text,
       raw: [] as Raw<any>[],
     }
-    if (this.hasPhotos) {
-      const raws = await this.uploadPhotos()
-      option.raw.push(...raws)
-    }
-    if (this.spoiler) {
-      option.raw.push({
-        type: 'shawn.spoiler',
-        value: {
-          topic: this.spoiler.topic,
-        },
-      })
-    }
+    // if (this.hasPhotos) {
+    //   const raws = await this.uploadPhotos()
+    //   option.raw.push(...raws)
+    // }
+    // if (this.spoiler) {
+    //   option.raw.push({
+    //     type: 'shawn.spoiler',
+    //     value: {
+    //       topic: this.spoiler.topic,
+    //     },
+    //   })
+    // }
     return option
   }
 
-  async submit(
-    preparedOption: {
-      text: string
-      raw: Raw<any>[]
-    } | null = null
-  ) {
-    if (this.createChannelMode) return this.createChannel()
+  async submit(broadcast?: boolean) {
+    const channelId = this.$route.params.channel
     try {
-      const option = preparedOption || (await this.createGeneralPost())
-      option.text = this.text
-      this.promise = this.$axios.$post(
-        `/channels/${this.$route.params.channel}/messages?update_marker=1`,
-        option
-      )
-      const { meta } = await this.promise
+      const promise = await this.$interactors.createMessage.run({
+        channelId,
+        text: this.text,
+        isNsfw: this.nsfw,
+        files: this.files,
+        spoiler: this.spoiler,
+        longpost: this.longpost,
+        pollRequest: this.poll,
+        broadcast,
+        // replyTo: this.reply,
+      })
+      if (this.createChannelMode) return this.createChannel()
+      const {
+        res: { meta },
+      } = await promise
       if (meta.code === 201) {
         this.$emit('submit')
       }
       bus.$emit('post')
       this.text = ''
       this.$toast.success('Posted!')
-      this.photos = []
       this.spoiler = null
     } catch (e) {
       console.error(e)
@@ -405,6 +332,9 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
     const destinations = this.channelUsersStr.split(/[,\s]+/g).map((name) => {
       return name.startsWith('@') ? name : `@${name}`
     })
+    // this.$interactors.createChannel.run({
+    //   name: this.
+    // })
     const option = {
       text: this.text,
       destinations,
@@ -414,60 +344,9 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
       option
     )
     this.channelUsersStr = ''
-    this.text = ''
-    this.photos = []
+    this.initialize()
     this.$router.push(`/messages/${channel.channel_id}`)
     this.$emit('submit')
-  }
-
-  async uploadPhotos() {
-    const photosPromise = this.photos.map(async (content) => {
-      const data = obj2FormData({
-        type: 'net.unsweets.beta',
-        name: content.name,
-        kind: 'image',
-        content,
-        is_public: 'false',
-      })
-      const res = await this.$axios.$post('/files', data, {
-        headers: {
-          'Content-type': 'multipart/form-data',
-        },
-      })
-      return res
-    })
-    this.promise = true
-    const photosJson = await Promise.all(photosPromise)
-    const raws = photosJson.map((res) => {
-      const image = res.data
-      const value = {
-        '+io.pnut.core.file': {
-          file_id: image.id,
-          file_token: image.file_token,
-          format: 'oembed',
-        },
-      }
-      return Object.assign(
-        {},
-        {
-          type: 'io.pnut.core.oembed',
-        },
-        { value }
-      )
-    })
-    return raws
-  }
-
-  fileChange(e: Event) {
-    if (!e.target) return
-    const inputEl = e.target as HTMLInputElement
-    if (!inputEl || !inputEl.files || !inputEl.files.length) return
-    const files = inputEl.files
-    const filesAry = Array.from(files)
-    // filesAry
-    this.photos = [...this.photos, ...filesAry] as File[]
-    // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
-    this.$refs.file.value = ''
   }
 }
 </script>
