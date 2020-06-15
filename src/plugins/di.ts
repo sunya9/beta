@@ -26,6 +26,10 @@ import {
   CreateMessageUseCase,
   CreateMessageInteractor,
 } from '~/plugins/domain/usecases/createMessage'
+import {
+  CreateChannelUseCase,
+  CreateChannelInteractor,
+} from '~/plugins/domain/usecases/createChannel'
 
 type InteractorType = Readonly<{
   createFile: CreateFileUseCase
@@ -34,6 +38,7 @@ type InteractorType = Readonly<{
   createPost: CreatePostUseCase
   updatePost: UpdatePostUseCase
   createMessage: CreateMessageUseCase
+  createChannel: CreateChannelUseCase
 }>
 
 function customizeAxios(axios: NuxtAxiosInstance) {
@@ -79,9 +84,23 @@ function getInteractors(context: Context): InteractorType {
     },
     get createMessage() {
       const pnutRepo = getPnutRepository()
-      const postPolls = new CreatePollInteractor(pnutRepo)
-      const uploadPhotos = new CreateFileInteractor(pnutRepo)
-      return new CreateMessageInteractor(pnutRepo, uploadPhotos, postPolls)
+      const createPoll = new CreatePollInteractor(pnutRepo)
+      const createFile = new CreateFileInteractor(pnutRepo)
+      const createPost = new CreatePostInteractor(
+        pnutRepo,
+        createFile,
+        createPoll
+      )
+      return new CreateMessageInteractor(
+        pnutRepo,
+        createFile,
+        createPoll,
+        createPost
+      )
+    },
+
+    get createChannel() {
+      return new CreateChannelInteractor(getPnutRepository())
     },
   }
 }

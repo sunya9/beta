@@ -6,7 +6,7 @@
           <div class="form-group">
             <input
               v-model="chat.name"
-              :disabled="promise"
+              :disabled="processing"
               type="text"
               placeholder="Name"
               class="form-control"
@@ -17,7 +17,7 @@
           <div class="form-group">
             <textarea
               v-model="chat.description"
-              :disabled="promise"
+              :disabled="processing"
               class="form-control"
               placeholder="Room description"
               maxlength="256"
@@ -27,7 +27,7 @@
           <div class="form-group">
             <select
               v-model="chat.categories"
-              :disabled="promise"
+              :disabled="processing"
               class="form-control"
               multiple
             >
@@ -59,7 +59,7 @@
               class="ml-1 btn text-uppercase btn-primary"
             >
               <font-awesome-icon
-                v-show="promise"
+                v-show="processing"
                 spin
                 fixed-icon
                 icon="sync"
@@ -75,14 +75,11 @@
 </template>
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator'
-import { Channel } from '~/models/channel'
-import { PnutResponse } from '~/models/pnut-response'
-import { Raw } from '~/models/raw'
 import resettable from '~/assets/ts/resettable'
 
 @Component({})
 export default class ChannelCompose extends Mixins(resettable) {
-  promise: Promise<PnutResponse<Channel>> | null = null
+  processing: boolean = false
   chat = {
     name: '',
     description: '',
@@ -91,7 +88,7 @@ export default class ChannelCompose extends Mixins(resettable) {
 
   get calcDisabled(): boolean {
     return (
-      !!this.promise ||
+      !!this.processing ||
       this.chat.name.length === 0 ||
       this.chat.name.length > 128 ||
       this.chat.description.length > 256 ||
@@ -100,33 +97,24 @@ export default class ChannelCompose extends Mixins(resettable) {
   }
 
   async submit() {
-    if (this.promise) return false
-    const channel = {
-      type: 'io.pnut.core.chat',
-      raw: [] as Array<Raw<any>>,
-    }
-    channel.raw.push({
-      type: 'io.pnut.core.chat-settings',
-      value: this.chat,
-    })
+    if (this.processing) return false
+    this.processing = true
     try {
-      this.promise = this.$axios.$post<PnutResponse<Channel>>(
-        '/channels',
-        channel
-      )
-      const { data: response } = await this.promise
-      this.chat = {
-        name: '',
-        description: '',
-        categories: [],
-      }
+      const {
+        res: { data: response },
+      } = await this.$interactors.createChannel.run({
+        name: this.chat.name,
+        description: this.chat.description,
+        categories: this.chat.categories,
+      })
       this.$router.push(`/messages/${response.id}`)
       this.$emit('submit')
       this.reset()
     } catch (e) {
       this.$toast.error(e.message)
+    } finally {
+      this.processing = false
     }
-    this.promise = null
   }
 }
 </script>
