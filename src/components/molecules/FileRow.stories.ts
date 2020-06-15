@@ -1,12 +1,13 @@
+import Router from 'vue-router'
 import FileRow from './FileRow.vue'
 import { File } from '~/models/file'
 import { DeepPartial } from '~/../types'
-
 export default { title: 'FileRow' }
 
 function base() {
   return {
     components: { FileRow },
+    router: new Router(),
   }
 }
 

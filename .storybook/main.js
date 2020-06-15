@@ -1,5 +1,6 @@
 const path = require('path')
 const merge = require('webpack-merge')
+const StoryRouter = require('storybook-vue-router')
 
 const srcDir = path.resolve(__dirname, '../src')
 const rootDir = path.resolve(__dirname, '../')
