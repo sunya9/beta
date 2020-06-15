@@ -139,6 +139,7 @@ const config: Configuration = {
       },
     ],
     'bootstrap-vue/nuxt',
+    'nuxt-uid-module',
   ],
   'google-analytics': {
     id: 'UA-10104011-16',

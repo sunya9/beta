@@ -130,12 +130,7 @@ export function getLongpost(
   if (!longpost) return
   return {
     body: longpost.value.body,
-    title:
-      longpost.value.title &&
-      longpost.value.title !==
-        longpost.value.body.substr(0, longpost.value.title.length)
-        ? longpost.value.title
-        : '',
+    title: longpost.value.title,
   }
 }
 
@@ -259,4 +254,31 @@ export function determineVideoType(src: string) {
   const found = iframeVideoProviderRegexpList.find((regex) => regex.test(src))
   if (found) return 'iframe'
   return 'video'
+}
+
+const failedToCaptureError = new Error('Failed to thumbnail from video')
+export async function getVideoThumbURL(objectURL: string): Promise<string> {
+  const videoEl = document.createElement('video')
+  const sourceEl = document.createElement('source')
+  sourceEl.src = objectURL
+  videoEl.autoplay = true
+  videoEl.currentTime = 0.5
+  videoEl.appendChild(sourceEl)
+
+  const canvasEl = document.createElement('canvas')
+  await new Promise((resolve, reject) => {
+    videoEl.addEventListener('loadeddata', resolve)
+    videoEl.addEventListener('error', reject)
+    videoEl.addEventListener('abort', reject)
+  })
+  canvasEl.width = videoEl.videoWidth
+  canvasEl.height = videoEl.videoHeight
+  const ctx = canvasEl.getContext('2d')
+  if (!ctx) throw failedToCaptureError
+  ctx.drawImage(videoEl, 0, 0, videoEl.videoWidth, videoEl.videoHeight)
+  const blob = await new Promise<Blob | null>((resolve) => {
+    canvasEl.toBlob(resolve, 'image/png')
+  })
+  if (!blob) throw failedToCaptureError
+  return URL.createObjectURL(blob)
 }

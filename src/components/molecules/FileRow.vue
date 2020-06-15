@@ -1,20 +1,29 @@
 <template>
-  <tr :class="{ 'table-active': file.select }" @click="toggleSelect">
+  <tr :class="{ 'table-active': file.select }" @click.stop="toggleSelect">
     <td class="text-center">
-      <input v-model="file.select" type="checkbox" @click.stop />
+      <input type="checkbox" :checked="file.select" />
     </td>
     <td>
       <div class="d-flex">
-        <a :href="file.link" target="_new" class="" @click.stop>
+        <nuxt-link :to="`/files/${file.id}`" @click.native.stop>
           {{ file.name }}
-        </a>
+        </nuxt-link>
       </div>
     </td>
     <td>{{ date }}</td>
-    <td>
-      <span class="thumb ml-auto">
-        <img v-if="file.image_info" :src="file.link" height="24" />
+    <td class="text-center text-light">
+      <span v-if="file.image_info" class="thumb ml-auto">
+        <img :src="file.link" height="24" />
       </span>
+      <font-awesome-icon
+        v-else-if="file.video_info"
+        :icon="['far', 'file-video']"
+      />
+      <font-awesome-icon
+        v-else-if="file.audio_info"
+        :icon="['far', 'file-audio']"
+      />
+      <font-awesome-icon v-else :icon="['far', 'file']" />
     </td>
   </tr>
 </template>
@@ -35,7 +44,10 @@ export default Vue.extend({
   },
   methods: {
     toggleSelect() {
-      this.file.select = !this.file.select
+      this.$emit('update:file', {
+        ...this.file,
+        select: !this.file.select,
+      })
     },
   },
 })

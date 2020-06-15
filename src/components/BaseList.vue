@@ -119,7 +119,7 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
     type: Object,
     default: () => ({}),
   })
-  option!: () => object
+  option!: object
 
   @Prop({
     type: String,

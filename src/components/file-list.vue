@@ -26,7 +26,12 @@
           </tr>
         </thead>
         <tbody>
-          <file-row v-for="file in modifiedFiles" :key="file.id" :file="file" />
+          <file-row
+            v-for="(file, index) in files"
+            :key="file.id"
+            :file.sync="file"
+            @update:file="(newFile) => $set(files, index, newFile)"
+          />
         </tbody>
       </table>
     </div>
@@ -54,6 +59,14 @@ export interface ModifiedFile extends File {
   select: boolean
 }
 
+function addSelectField(file: File) {
+  const modifiedFile = {
+    ...file,
+    select: false,
+  }
+  return modifiedFile
+}
+
 export default Vue.extend({
   components: {
     BaseModal,
@@ -64,49 +77,41 @@ export default Vue.extend({
       type: Object,
       required: true,
     } as PropOptions<PnutResponse<File[]>>,
+    options: {
+      type: Object,
+      required: true,
+    } as PropOptions<object>,
   },
   data() {
     return {
       busy: false,
       meta: this.data.meta,
-      files: this.data.data,
-      modal: null,
+      files: this.data.data.map(addSelectField),
     }
   },
   computed: {
     isSelected(): boolean {
-      return this.modifiedFiles.some((file) => file.select)
+      return this.files.some((file) => file.select)
     },
     selectedFiles(): ModifiedFile[] {
-      return this.modifiedFiles.filter((file) => file.select)
+      return this.files.filter((file) => file.select)
     },
     moreDisabled(): boolean {
       return this.busy || !this.meta.more
-    },
-    modifiedFiles(): ModifiedFile[] {
-      return this.files.map((file) => {
-        const modifiedFile = {
-          ...file,
-          select: false,
-        }
-        return modifiedFile
-      })
     },
   },
   methods: {
     async fetchMore() {
       this.busy = true
-      const options = Object.assign(
-        {},
-        {
-          before_id: this.meta.min_id,
-        }
-      )
+      const options = {
+        ...this.options,
+        before_id: this.meta.min_id,
+      }
       const { data: newItems, meta } = await this.$resource<File[]>({ options })
       this.meta = meta
 
       if (newItems.length) {
-        this.files = this.files.concat(newItems)
+        this.files = this.files.concat(newItems.map(addSelectField))
       }
       this.busy = false
     },
@@ -119,7 +124,7 @@ export default Vue.extend({
         return res
       })
       await Promise.all(deletePromises)
-      this.files = this.modifiedFiles.filter((file) => !file.select)
+      this.files = this.files.filter((file) => !file.select)
     },
   },
 })

@@ -61,6 +61,11 @@ import {
   faComments as faCommentsR,
   faCheckCircle,
   faCopy,
+  faFileVideo,
+  faFileAudio,
+  faFile,
+  faFileImage,
+  faPlayCircle,
 } from '@fortawesome/free-regular-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -125,7 +130,12 @@ library.add(
   faPaintBrush,
   faBellR,
   faCircleNotch,
-  faExclamationCircle
+  faExclamationCircle,
+  faFileVideo,
+  faFileAudio,
+  faFile,
+  faFileImage,
+  faPlayCircle
 )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)

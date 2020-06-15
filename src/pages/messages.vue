@@ -32,6 +32,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
+  layout: 'no-sidebar',
   data() {
     return {
       isPM: null as boolean | null,

@@ -53,7 +53,8 @@ body {
 }
 
 .btn,
-.custom-control-label {
+.custom-control-label,
+.pointer {
   cursor: pointer;
 }
 
@@ -348,4 +349,16 @@ body.dark {
 
 .popover {
   min-width: 276px !important;
+}
+
+.break-all {
+  word-break: break-all;
+}
+
+.medium-zoom-overlay {
+  z-index: 1040;
+}
+
+.medium-zoom-image--opened {
+  z-index: 1050;
 }

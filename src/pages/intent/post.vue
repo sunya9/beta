@@ -4,12 +4,7 @@
       {{ title }}
     </h1>
     <div v-if="!posted">
-      <compose
-        :initial-text="message"
-        :focus="true"
-        no-photo
-        @post="finishPosting"
-      />
+      <compose :initial-text="message" :focus="true" @post="finishPosting" />
     </div>
     <div v-else>
       <button class="btn btn-primary my-2" autofocus @click="close">
@@ -45,12 +40,12 @@ function getTitle(posted: boolean) {
   },
   head(this: PostIntent) {
     return {
-      // TODO
       title: getTitle(this.posted),
     }
   },
 })
 export default class PostIntent extends Vue {
+  message!: string
   posted = false
   get title(): string {
     return getTitle(this.posted)

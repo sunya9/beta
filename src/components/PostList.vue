@@ -15,6 +15,7 @@
       ]
     "
     tabindex="-1"
+    :option="option"
     @select="select = $event"
   >
     <post
@@ -64,6 +65,9 @@ export default class PostList extends Vue {
 
   @Prop({ type: Object, required: true })
   data!: PnutResponse<Post[]>
+
+  @Prop({ type: Object, required: true })
+  option!: object
 
   select!: number
   get user(): User | null {

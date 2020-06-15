@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import flushPromises from 'flush-promises'
 import { Wrapper } from '@vue/test-utils'
 import {
@@ -7,7 +8,7 @@ import {
   fixtures,
   authedAccessor,
 } from '../helper'
-import MessageCompose from '~/components/MessageCompose.vue'
+import MessageCompose from '~/components/organisms/MessageCompose.vue'
 import { Channel } from '~/models/channel'
 
 describe('MessageCompose component', () => {
@@ -108,10 +109,11 @@ describe('MessageCompose component', () => {
         .exists()
     ).toBe(true)
     const handler = jest.fn()
-    wrapper.vm.$toast.success = handler
-    wrapper.find('[data-test-id="broadcast"]').trigger('click')
+    Vue.prototype.$interactors = {
+      createMessage: { run: handler },
+    }
+    await wrapper.find('[data-test-id="broadcast"]').trigger('click')
     await flushPromises()
     expect(handler).toHaveBeenCalled()
-    expect(wrapper.emitted().submit).toBeTruthy()
   })
 })

@@ -5,10 +5,10 @@ import { File as PnutFile } from '~/models/file'
 import { Usecase } from '~/plugins/domain/usecases/usecase'
 
 interface Input {
-  photos: File[]
+  files: File[]
 }
 interface Output {
-  raws: Raw<any>[]
+  fileRawList: Raw<PnutFile.Replacement>[]
 }
 
 function obj2FormData(obj: { [key: string]: string | Blob }) {
@@ -18,7 +18,9 @@ function obj2FormData(obj: { [key: string]: string | Blob }) {
   }, new FormData())
 }
 
-function file2ReplacedRaw(fileRes: PnutResponse<PnutFile>) {
+function file2ReplacedRaw(
+  fileRes: PnutResponse<PnutFile>
+): Raw<PnutFile.Replacement> {
   const image = fileRes.data
   const value = {
     '+io.pnut.core.file': {
@@ -26,25 +28,25 @@ function file2ReplacedRaw(fileRes: PnutResponse<PnutFile>) {
       file_token: image.file_token,
       format: 'oembed',
     },
-  }
+  } as const
   return {
     type: 'io.pnut.core.oembed',
     value,
   }
 }
 
-export interface UploadPhotosUseCase extends Usecase<Input, Promise<Output>> {}
+export interface CreateFileUseCase extends Usecase<Input, Promise<Output>> {}
 
-export class UploadPhotosInteractor implements UploadPhotosUseCase {
+export class CreateFileInteractor implements CreateFileUseCase {
   constructor(private readonly pnutRepository: PnutRepository) {}
 
   async run(input: Input): Promise<Output> {
-    const photosPromise = input.photos.map(this.wrapWithUploadFilePromise)
+    const photosPromise = input.files.map(this.wrapWithUploadFilePromise)
 
     const photosJson = await Promise.all(photosPromise)
     const raws = photosJson.map(file2ReplacedRaw)
     return {
-      raws,
+      fileRawList: raws,
     }
   }
 
@@ -52,7 +54,6 @@ export class UploadPhotosInteractor implements UploadPhotosUseCase {
     const data = obj2FormData({
       type: 'net.unsweets.beta',
       name: content.name,
-      kind: 'image',
       content,
       is_public: 'true',
     })

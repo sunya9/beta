@@ -1,3 +1,5 @@
+import { Raw } from '~/models/raw'
+
 export type Pagination = {
   since_id?: string
   before_id?: string
@@ -20,3 +22,7 @@ export type ReportReasonType =
   | 'nsfw'
   | 'soliciting'
   | 'user_abuse'
+
+export type RawRequest = {
+  raw?: Raw<any>[]
+}

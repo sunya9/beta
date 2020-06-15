@@ -8,4 +8,13 @@ export namespace Spoiler {
     topic: string
     expired_at?: string
   }
+  export function createSpoilerRaw(
+    value: Spoiler.Value | null
+  ): Spoiler | undefined {
+    if (!value) return
+    return {
+      type: 'shawn.spoiler',
+      value,
+    }
+  }
 }

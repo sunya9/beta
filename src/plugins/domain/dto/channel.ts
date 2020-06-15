@@ -1,3 +1,6 @@
+import { CreateMessageRequest } from './message'
+import { RawRequest } from '~/plugins/domain/dto/common'
+
 export type GeneralChannelParameters = {
   include_read?: boolean
   channel_types?: string[]
@@ -33,4 +36,30 @@ export type SearchChannelRequest = {
   is_private?: boolean
   is_public?: boolean
   owner_id?: string
+}
+
+export type CreateChannelRequest = {
+  type: string
+  acl?: {
+    full?: {
+      user_ids: string[]
+      immutable?: boolean
+    }
+    write?: {
+      user_ids: string[]
+      immutable?: boolean
+    }
+    read?: {
+      user_ids?: string[]
+      immutable?: boolean
+      public?: boolean
+    }
+  }
+} & RawRequest
+
+export type CreatePrivateChannelRequest = Pick<
+  CreateMessageRequest,
+  'text' | 'entities' | 'is_nsfw' | 'raw'
+> & {
+  destinations: string[]
 }

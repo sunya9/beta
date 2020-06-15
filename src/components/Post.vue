@@ -498,7 +498,7 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
   // TODO
   get oembedVideos(): any {
     return getOembedVideo(this.mainPost).map((value) => {
-      const url = getVideoSrcFromHtml(value.html)
+      const url = getVideoSrcFromHtml(value.html) || value.embeddable_url
       const type = determineVideoType(url!)
       const { width, height } = value
       return {

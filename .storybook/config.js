@@ -19,9 +19,11 @@ import '~/plugins/dayjs'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import Mousetrap from 'mousetrap'
 import '~/plugins/emojify'
+import { BootstrapVue } from 'bootstrap-vue'
 require('imports-loader?Mousetrap=>require("mousetrap")!mousetrap/plugins/pause/mousetrap-pause') // eslint-disable-line
 
 Vue.use(Vuex)
+const router = new Router()
 Vue.use(Router)
 
 // font awesome
@@ -32,10 +34,12 @@ library.add(far)
 library.add(fab)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-Vue.component('nuxt-link', {
+const nuxtLink = {
   functional: true,
+  router,
   render: (h, { data, children }) => h('router-link', data, children),
-})
+}
+Vue.component('nuxt-link', nuxtLink)
 addDecorator(withScreenshot())
 
 Vue.directive('on-click-outside', directive)
@@ -43,3 +47,4 @@ Vue.component('client-only', ClientOnly)
 Vue.prototype.$dayjs = dayjs
 
 Vue.prototype.$mousetrap = Mousetrap
+Vue.use(BootstrapVue)

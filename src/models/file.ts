@@ -1,9 +1,11 @@
 import { Client } from './client'
 import { User } from './user'
+import { Raw } from '~/models/raw'
 
 export interface File {
   audio_info?: {
     duration: number
+    duration_string: string
     bitrate: number
   }
   created_at: Date
@@ -11,6 +13,13 @@ export interface File {
   file_token_read?: string
   id: string
   image_info?: {
+    height: number
+    width: number
+  }
+  video_info?: {
+    bitrate: number
+    duration: number
+    duration_string: string
     height: number
     width: number
   }
@@ -48,9 +57,29 @@ export interface File {
 }
 
 export namespace File {
-  export enum Kind {
-    audio,
-    image,
-    other,
+  export type Kind = 'audio' | 'image' | 'video' | 'other'
+  export interface Replacement {
+    '+io.pnut.core.file': {
+      file_token: string
+      format: 'oembed' // TODO: support metadata, url?
+      file_id: string
+    }
+  }
+
+  export function createFileReplacementRaw(
+    file?: File
+  ): Raw<File.Replacement> | undefined {
+    if (!file) return
+    const { id: file_id, file_token } = file
+    return {
+      type: 'io.pnut.core.oembed',
+      value: {
+        '+io.pnut.core.file': {
+          file_id,
+          file_token,
+          format: 'oembed',
+        },
+      },
+    }
   }
 }

@@ -9,4 +9,13 @@ export namespace LongPost {
     title?: string
     tstamp: string
   }
+  export function createLongpostRaw(
+    value: LongPost.Value | null
+  ): LongPost | undefined {
+    if (!value) return
+    return {
+      type: 'nl.chimpnut.blog.post',
+      value,
+    }
+  }
 }
