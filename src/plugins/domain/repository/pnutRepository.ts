@@ -21,6 +21,7 @@ import { Message } from '~/models/message'
 import {
   CreateChannelRequest,
   GeneralChannelParameters,
+  CreatePrivateChannelRequest,
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
 
@@ -72,4 +73,9 @@ export interface PnutRepository {
     createChannelRequest: CreateChannelRequest,
     params?: GeneralChannelParameters
   ): Promise<PnutResponse<Channel>>
+
+  createPrivateChannel(
+    createPrivateChannelRequest: CreatePrivateChannelRequest,
+    params?: GeneralChannelParameters
+  ): Promise<PnutResponse<Message>>
 }

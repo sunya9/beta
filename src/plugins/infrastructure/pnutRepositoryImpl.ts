@@ -23,11 +23,21 @@ import { Message } from '~/models/message'
 import {
   CreateChannelRequest,
   GeneralChannelParameters,
+  CreatePrivateChannelRequest,
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  createPrivateChannel(
+    createPrivateChannelRequest: CreatePrivateChannelRequest,
+    params?: GeneralChannelParameters
+  ): Promise<PnutResponse<Message>> {
+    return this.post('/channels/pm/messages', createPrivateChannelRequest, {
+      params,
+    })
+  }
+
   createChannel(
     createChannelRequest: CreateChannelRequest,
     params?: GeneralChannelParameters

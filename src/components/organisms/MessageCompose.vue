@@ -20,7 +20,6 @@
               :disabled="pmLookupStatus"
               type="button"
               class="ml-3 btn text-uppercase btn-primary"
-              @click="findExistingPm"
             >
               <span v-show="promise">
                 <font-awesome-icon class="mr-2" icon="sync" spin fixed-width />
@@ -118,7 +117,6 @@
   </div>
 </template>
 <script lang="ts">
-import unicodeSubstring from 'unicode-substring'
 import { Dropdown } from 'bootstrap.native'
 import { Component, Prop, Watch } from 'vue-property-decorator'
 import { createCompose } from './ComposeAbstract'
@@ -127,7 +125,6 @@ import Thumb from '~/components/Thumb.vue'
 import InputSpoiler from '~/components/InputSpoiler.vue'
 import { Channel } from '~/models/channel'
 import { Token } from '~/models/token'
-import { Raw } from '~/models/raw'
 import AddFile from '~/components/atoms/AddFile.vue'
 import ToggleNsfw from '~/components/atoms/ToggleNsfw.vue'
 import ToggleLongpost from '~/components/atoms/ToggleLongpost.vue'
@@ -226,96 +223,59 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
   }
 
   async broadcast() {
-    const option = this.createGeneralPost()
-    const raw: Raw<any>[] = [
-      {
-        type: 'io.pnut.core.crosspost',
-        value: {
-          // TODO: use rel="canonical" value in the future
-          canonical_url: location.href,
-        },
-      },
-      {
-        type: 'io.pnut.core.channel.invite',
-        value: {
-          channel_id: this.channel.id,
-        },
-      },
-    ]
-    option.raw.push(...raw)
-    option.text = `${unicodeSubstring(this.text, 0, 255)}…`
-    this.promise = this.$axios.$post('/posts', option)
-    const res = await this.promise
-    await this.submit(option)
-    return res
+    await this.submit(true)
   }
 
   resetPmSearch() {
     this.pmLookupStatus = null
   }
 
-  async findExistingPm() {
-    this.pmLookupStatus = 'Searching'
-    try {
-      const destinations = this.channelUsersStr.split(/[,\s]+/g).map((name) => {
-        return name.startsWith('@') ? name : `@${name}`
-      })
-      this.promise = this.$axios.$get(
-        `/users/me/channels/existing_pm?ids=${destinations.join(',')}`
-      )
-      const { data: channel } = await this.promise
-      if (channel) {
-        this.$router.push(`/messages/${channel.id}`)
-        this.$emit('foundChannel')
-      } else {
-        this.pmLookupStatus = 'Not Found'
-      }
-    } catch (e) {
-      this.pmLookupStatus = 'Not Found'
-    }
-    this.promise = null
-  }
-
-  createGeneralPost() {
-    const option = {
-      text: this.text,
-      raw: [] as Raw<any>[],
-    }
-    // if (this.hasPhotos) {
-    //   const raws = await this.uploadPhotos()
-    //   option.raw.push(...raws)
-    // }
-    // if (this.spoiler) {
-    //   option.raw.push({
-    //     type: 'shawn.spoiler',
-    //     value: {
-    //       topic: this.spoiler.topic,
-    //     },
-    //   })
-    // }
-    return option
-  }
+  // async findExistingPm() {
+  //   this.pmLookupStatus = 'Searching'
+  //   try {
+  //     const destinations = this.channelUsersStr.split(/[,\s]+/g).map((name) => {
+  //       return name.startsWith('@') ? name : `@${name}`
+  //     })
+  //     this.promise = this.$axios.$get(
+  //       `/users/me/channels/existing_pm?ids=${destinations.join(',')}`
+  //     )
+  //     const { data: channel } = await this.promise
+  //     if (channel) {
+  //       this.$router.push(`/messages/${channel.id}`)
+  //       this.$emit('foundChannel')
+  //     } else {
+  //       this.pmLookupStatus = 'Not Found'
+  //     }
+  //   } catch (e) {
+  //     this.pmLookupStatus = 'Not Found'
+  //   }
+  //   this.promise = null
+  // }
 
   async submit(broadcast?: boolean) {
+    if (this.promise) return
     const channelId = this.$route.params.channel
+    this.promise = true
     try {
-      const promise = await this.$interactors.createMessage.run({
-        channelId,
-        text: this.text,
-        isNsfw: this.nsfw,
-        files: this.files,
-        spoiler: this.spoiler,
-        longpost: this.longpost,
-        pollRequest: this.poll,
-        broadcast,
-        // replyTo: this.reply,
-      })
-      if (this.createChannelMode) return this.createChannel()
-      const {
-        res: { meta },
-      } = await promise
-      if (meta.code === 201) {
-        this.$emit('submit')
+      if (this.createChannelMode) this.createChannel()
+      else {
+        const promise = await this.$interactors.createMessage.run({
+          channelId,
+          text: this.text,
+          isNsfw: this.nsfw,
+          files: this.files,
+          spoiler: this.spoiler,
+          longpost: this.longpost,
+          pollRequest: this.poll,
+          broadcast,
+          // replyTo: this.reply,
+        })
+        const {
+          res: { meta },
+        } = await promise
+        if (meta.code === 201) {
+          this.$emit('submit')
+        }
       }
       bus.$emit('post')
       this.text = ''
@@ -325,28 +285,28 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
       console.error(e)
       this.$toast.error(e.message)
     }
-    this.promise = null
+    this.promise = false
   }
 
   async createChannel() {
-    const destinations = this.channelUsersStr.split(/[,\s]+/g).map((name) => {
-      return name.startsWith('@') ? name : `@${name}`
-    })
-    // this.$interactors.createChannel.run({
-    //   name: this.
-    // })
-    const option = {
-      text: this.text,
-      destinations,
+    try {
+      const {
+        res: { data: message },
+      } = await this.$interactors.createPrivateChannel.run({
+        destinations: this.channelUsersStr,
+        text: this.text,
+        isNsfw: this.nsfw,
+        files: this.files,
+        spoiler: this.spoiler,
+        longpost: this.longpost,
+        pollRequest: this.poll,
+      })
+      this.initialize()
+      this.$router.push(`/messages/${message.channel_id}`)
+      this.$emit('submit')
+    } catch (e) {
+      console.error(e)
     }
-    const { data: channel } = await this.$axios.$post(
-      '/channels/pm/messages',
-      option
-    )
-    this.channelUsersStr = ''
-    this.initialize()
-    this.$router.push(`/messages/${channel.channel_id}`)
-    this.$emit('submit')
   }
 }
 </script>

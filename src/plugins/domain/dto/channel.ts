@@ -1,3 +1,4 @@
+import { CreateMessageRequest } from './message'
 import { RawRequest } from '~/plugins/domain/dto/common'
 
 export type GeneralChannelParameters = {
@@ -55,3 +56,10 @@ export type CreateChannelRequest = {
     }
   }
 } & RawRequest
+
+export type CreatePrivateChannelRequest = Pick<
+  CreateMessageRequest,
+  'text' | 'entities' | 'is_nsfw' | 'raw'
+> & {
+  destinations: string[]
+}
