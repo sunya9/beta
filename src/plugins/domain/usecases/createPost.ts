@@ -4,12 +4,16 @@ import {
   AbstractInput,
   AbstractCreatePostUseCase,
   AbstractCreatePostInteractor,
-  PostBody,
 } from '~/plugins/domain/usecases/abstractCreatePost'
 
 interface Output {
   res: PnutResponse<Post>
 }
+
+export type PostBody = Pick<
+  AbstractInput,
+  'text' | 'replyTo' | 'isNsfw' | 'raw'
+>
 
 export interface CreatePostUseCase
   extends AbstractCreatePostUseCase<AbstractInput, Promise<Output>> {}

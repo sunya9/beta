@@ -18,11 +18,10 @@ export interface AbstractInput {
   spoiler: Spoiler.Value | null
   longpost: LongPost.Value | null
   pollRequest: CreatePollRequest | null
+  raw?: Raw<any>[]
+  passRawHandling?: boolean
 }
 
-export type PostBody = Pick<AbstractInput, 'text' | 'replyTo' | 'isNsfw'> & {
-  raw: Raw<any>[]
-}
 export interface AbstractCreatePostUseCase<Input, Output>
   extends Usecase<Input, Output> {}
 
@@ -37,7 +36,19 @@ export abstract class AbstractCreatePostInteractor<
   ) {}
 
   async run(input: Input): Promise<Output> {
-    const { text, spoiler, longpost, files, pollRequest } = input
+    const additionalRaw: Raw<any>[] = !input.passRawHandling
+      ? await this.handleRaw(input)
+      : input.raw || []
+    const res = this.post({
+      ...input,
+      raw: additionalRaw,
+    })
+    return res
+  }
+
+  async handleRaw(input: Input): Promise<Raw<any>[]> {
+    const { text, spoiler, longpost, files, pollRequest, raw: inputRaw } = input
+
     const createFilePromise = this.createFileUseCase.run({
       files,
     })
@@ -59,11 +70,7 @@ export abstract class AbstractCreatePostInteractor<
       ...fileRawList,
       PollNotice.createPollNoticeReplecementRaw(createPollResult?.poll)
     )
-    const res = this.post({
-      ...input,
-      raw,
-    })
-    return res
+    return raw.concat(inputRaw || [])
   }
 
   abstract post(input: Input & { raw: Raw<any>[] }): Promise<Output>
