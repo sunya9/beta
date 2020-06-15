@@ -6,10 +6,11 @@
     @click="() => $refs.file.click()"
   >
     <font-awesome-icon :icon="['far', 'image']" />
-    <span class="d-none d-lg-inline ml-2">
+    <label class="d-none d-lg-inline ml-2 pointer" :for="id" @click.prevent>
       File
-    </span>
+    </label>
     <input
+      :id="id"
       ref="file"
       type="file"
       multiple
@@ -32,6 +33,10 @@ export default class AddFile extends Vue {
 
   $refs!: {
     file: HTMLInputElement
+  }
+
+  get id() {
+    return `add-file-${this.$_uid}`
   }
 
   get storage(): Token.Storage {
