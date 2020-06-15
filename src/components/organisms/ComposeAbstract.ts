@@ -31,7 +31,7 @@ export function createCompose(composeOptions: ComposeOptions) {
     focus!: boolean
 
     fileWrappers: FileWrapper[] = []
-    promise: Promise<any> | null = null
+    promise: boolean = false
     text: string = this.initialText
     replyStartPos = 0
     showEmojiPicker = false

@@ -187,7 +187,7 @@ export default class Compose extends Mixins(
         this.initialize()
       })
       .finally(() => {
-        this.promise = null
+        this.promise = false
         this.$toast.success('Posted!')
       })
   }
@@ -205,7 +205,7 @@ export default class Compose extends Mixins(
         this.initialize()
       })
       .finally(() => {
-        this.promise = null
+        this.promise = false
         this.$toast.success('Updated!')
       })
   }
@@ -218,15 +218,16 @@ export default class Compose extends Mixins(
     if (this.cannotSubmit) return
     try {
       if (this.editPost) {
-        this.promise = this.updatePost(this.editPost.id)
+        this.promise = true
+        this.updatePost(this.editPost.id)
       } else {
-        this.promise = this.createPost()
+        this.createPost()
       }
     } catch (e) {
       console.error(e)
       this.$toast.error(e.message)
     } finally {
-      this.promise = null
+      this.promise = false
     }
   }
 }
