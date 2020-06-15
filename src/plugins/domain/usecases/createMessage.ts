@@ -13,12 +13,8 @@ import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { CreateFileUseCase } from '~/plugins/domain/usecases/createFile'
 import { Raw } from '~/models/raw'
 
-interface Input extends AbstractInput {
-  text: string
-  isNsfw: boolean
-  replyTo?: string
+export interface Input extends AbstractInput {
   channelId: string
-  raw?: Raw<any>[]
   broadcast?: boolean
 }
 interface Output {
