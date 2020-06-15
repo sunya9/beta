@@ -29,7 +29,7 @@
             </button>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group position-relative">
           <textarea
             ref="textarea"
             v-model="text"
@@ -39,6 +39,7 @@
             @keydown.ctrl.enter="submit()"
             @keydown.meta.enter="submit()"
           />
+          <emoji-picker @select="addEmoji" />
         </div>
         <file-preview-list
           :file-wrappers="fileWrappers"
@@ -131,6 +132,7 @@ import ToggleLongpost from '~/components/atoms/ToggleLongpost.vue'
 import ToggleSpoiler from '~/components/atoms/ToggleSpoiler.vue'
 import TogglePoll from '~/components/atoms/TogglePoll.vue'
 import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
+import EmojiPicker from '~/components/molecules/EmojiPicker.vue'
 
 @Component({
   components: {
@@ -142,6 +144,7 @@ import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
     ToggleSpoiler,
     TogglePoll,
     FilePreviewList,
+    EmojiPicker,
   },
 })
 export default class MessageCompose extends createCompose({ textCount: 2048 }) {

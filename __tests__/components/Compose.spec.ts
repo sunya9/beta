@@ -6,6 +6,7 @@ import {
   authedAccessor,
 } from '../helper'
 import Compose from '~/components/organisms/Compose.vue'
+import EmojiPicker from '~/components/molecules/EmojiPicker.vue'
 
 // import noSsr from 'nuxt/lib/app/components/no-ssr'
 
@@ -129,9 +130,7 @@ describe('Compose component', () => {
       let emojiPicker: Wrapper<Vue>
       beforeEach(() => {
         wrapper.find('.open-emoji-picker').trigger('click')
-        emojiPicker = wrapper.findComponent({
-          ref: 'picker',
-        })
+        emojiPicker = wrapper.findComponent(EmojiPicker)
       })
       test('emoji palette is visible', () => {
         expect(emojiPicker.element).toBeVisible()
