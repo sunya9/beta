@@ -19,15 +19,33 @@ import {
   CreateMessageRequest,
   GeneralMessageParameters,
 } from '~/plugins/domain/dto/message'
+import { Message } from '~/models/message'
+import {
+  CreateChannelRequest,
+  GeneralChannelParameters,
+} from '~/plugins/domain/dto/channel'
+import { Channel } from '~/models/channel'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  createChannel(
+    createChannelRequest: CreateChannelRequest,
+    params?: GeneralChannelParameters
+  ): Promise<PnutResponse<Channel>> {
+    return this.post('/channels', createChannelRequest, { params })
+  }
+
   createMessage(
     channelId: string,
     message: CreateMessageRequest,
     params?: GeneralMessageParameters
-  ): Promise<PnutResponse<import('../../models/message').Message>> {
-    return this.post(`/channels/${channelId}`, message, { params })
+  ): Promise<PnutResponse<Message>> {
+    return this.post(`/channels/${channelId}/messages`, message, {
+      params: {
+        ...params,
+        update_marker: true,
+      },
+    })
   }
 
   updatePost(

@@ -1,3 +1,5 @@
+import { RawRequest } from '~/plugins/domain/dto/common'
+
 export type GeneralChannelParameters = {
   include_read?: boolean
   channel_types?: string[]
@@ -34,3 +36,22 @@ export type SearchChannelRequest = {
   is_public?: boolean
   owner_id?: string
 }
+
+export type CreateChannelRequest = {
+  type: string
+  acl?: {
+    full?: {
+      user_ids: string[]
+      immutable?: boolean
+    }
+    write?: {
+      user_ids: string[]
+      immutable?: boolean
+    }
+    read?: {
+      user_ids?: string[]
+      immutable?: boolean
+      public?: boolean
+    }
+  }
+} & RawRequest

@@ -18,6 +18,11 @@ import {
   GeneralMessageParameters,
 } from '~/plugins/domain/dto/message'
 import { Message } from '~/models/message'
+import {
+  CreateChannelRequest,
+  GeneralChannelParameters,
+} from '~/plugins/domain/dto/channel'
+import { Channel } from '~/models/channel'
 
 export interface PnutRepository {
   getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
@@ -62,4 +67,9 @@ export interface PnutRepository {
     message: CreateMessageRequest,
     params?: GeneralMessageParameters
   ): Promise<PnutResponse<Message>>
+
+  createChannel(
+    createChannelRequest: CreateChannelRequest,
+    params?: GeneralChannelParameters
+  ): Promise<PnutResponse<Channel>>
 }
