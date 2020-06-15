@@ -175,7 +175,7 @@ export default class Compose extends Mixins(
       .run({
         text: this.text,
         isNsfw: this.nsfw,
-        reply: this.replyTarget,
+        replyTo: this.replyTarget?.id,
         longpost: this.longpost,
         spoiler: this.spoiler,
         files: this.files,
