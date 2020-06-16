@@ -13,20 +13,7 @@
               type="text"
               class="form-control"
               placeholder="usernames (comma or space delimited)"
-              @input="resetPmSearch"
             />
-            <button
-              v-if="calcPmLookup && !targetUser"
-              :disabled="pmLookupStatus"
-              type="button"
-              class="ml-3 btn text-uppercase btn-primary"
-            >
-              <span v-show="promise">
-                <font-awesome-icon class="mr-2" icon="sync" spin fixed-width />
-              </span>
-              <font-awesome-icon icon="search" class="mr-2" />
-              {{ pmLookupStatus ? pmLookupStatus : 'Find Existing' }}
-            </button>
           </div>
         </div>
         <div class="form-group position-relative">
@@ -172,7 +159,6 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
 
   channelUsersStr = ''
   text = ''
-  pmLookupStatus: string | null = null
   dropdown: Dropdown | null = null
 
   get canBroadcast(): boolean {
@@ -228,32 +214,6 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
   async broadcast() {
     await this.submit(true)
   }
-
-  resetPmSearch() {
-    this.pmLookupStatus = null
-  }
-
-  // async findExistingPm() {
-  //   this.pmLookupStatus = 'Searching'
-  //   try {
-  //     const destinations = this.channelUsersStr.split(/[,\s]+/g).map((name) => {
-  //       return name.startsWith('@') ? name : `@${name}`
-  //     })
-  //     this.promise = this.$axios.$get(
-  //       `/users/me/channels/existing_pm?ids=${destinations.join(',')}`
-  //     )
-  //     const { data: channel } = await this.promise
-  //     if (channel) {
-  //       this.$router.push(`/messages/${channel.id}`)
-  //       this.$emit('foundChannel')
-  //     } else {
-  //       this.pmLookupStatus = 'Not Found'
-  //     }
-  //   } catch (e) {
-  //     this.pmLookupStatus = 'Not Found'
-  //   }
-  //   this.promise = null
-  // }
 
   async submit(broadcast?: boolean) {
     if (this.promise) return
