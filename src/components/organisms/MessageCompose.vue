@@ -45,6 +45,7 @@
               :no-caret="!canBroadcast"
               :disabled="calcDisabled"
               variant="primary"
+              right
               class="ml-1 text-uppercase"
               split-button-type="submit"
             >
