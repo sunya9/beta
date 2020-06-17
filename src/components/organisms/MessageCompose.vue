@@ -219,6 +219,7 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
       bus.$emit('post')
       this.text = ''
       this.$toast.success('Posted!')
+      this.initialize()
       this.spoiler = null
     } catch (e) {
       console.error(e)
@@ -240,7 +241,6 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
         longpost: this.longpost,
         pollRequest: this.poll,
       })
-      this.initialize()
       this.$router.push(`/channels/${message.channel_id}`)
       this.$emit('submit')
     } catch (e) {
