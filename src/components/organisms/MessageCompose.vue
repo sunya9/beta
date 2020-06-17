@@ -3,18 +3,9 @@
     <div class="card-body">
       <form @submit.prevent="submit()">
         <div v-if="createChannelMode" class="form-group">
-          <div
-            :class="{
-              'd-flex justify-content-between align-items-center': calcPmLookup,
-            }"
-          >
-            <input
-              v-model="channelUsersStr"
-              type="text"
-              class="form-control"
-              placeholder="usernames (comma or space delimited)"
-            />
-          </div>
+          <suggest-users
+            @update:users="newUsers => users = newUsers"
+          />
         </div>
         <div class="form-group position-relative">
           <textarea
@@ -107,6 +98,7 @@
 <script lang="ts">
 import { Dropdown } from 'bootstrap.native'
 import { Component, Prop, Watch } from 'vue-property-decorator'
+import { User } from '../../models/user'
 import { createCompose } from './ComposeAbstract'
 import bus from '~/assets/ts/bus'
 import Thumb from '~/components/Thumb.vue'
@@ -120,6 +112,7 @@ import ToggleSpoiler from '~/components/atoms/ToggleSpoiler.vue'
 import TogglePoll from '~/components/atoms/TogglePoll.vue'
 import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
 import EmojiPicker from '~/components/molecules/EmojiPicker.vue'
+import SuggestUsers from '~/components/organisms/SuggestUsers.vue'
 
 @Component({
   components: {
@@ -132,6 +125,7 @@ import EmojiPicker from '~/components/molecules/EmojiPicker.vue'
     TogglePoll,
     FilePreviewList,
     EmojiPicker,
+    SuggestUsers
   },
 })
 export default class MessageCompose extends createCompose({ textCount: 2048 }) {
@@ -157,7 +151,7 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
     dropdown: HTMLButtonElement
   } & InstanceType<ReturnType<typeof createCompose>>['$refs']
 
-  channelUsersStr = ''
+  users: User[] = []
   text = ''
   dropdown: Dropdown | null = null
 
@@ -166,7 +160,7 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
   }
 
   get calcDisabled(): boolean {
-    const requireTargetValue = this.createChannelMode && !this.channelUsersStr
+    const requireTargetValue = this.createChannelMode && !this.users.length
     return (
       requireTargetValue ||
       !!this.promise ||
@@ -177,7 +171,7 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
   }
 
   get calcPmLookup(): boolean {
-    return this.createChannelMode && !!this.channelUsersStr && !this.text
+    return this.createChannelMode && !!this.users.length && !this.text
   }
 
   get availableSpoiler(): boolean {
@@ -194,8 +188,8 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
   }
 
   @Watch('targetUser')
-  onChangeTargetUser(user: MessageCompose['targetUser']) {
-    this.channelUsersStr = user
+  onChangeTargetUser(user: User) {
+    this.users = [user]
   }
 
   mounted() {
@@ -256,7 +250,7 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
       const {
         res: { data: message },
       } = await this.$interactors.createPrivateChannel.run({
-        destinations: this.channelUsersStr,
+        users: this.users,
         text: this.text,
         isNsfw: this.nsfw,
         files: this.files,
