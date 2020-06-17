@@ -39,49 +39,34 @@
               class="mr-2"
             />
             <toggle-nsfw v-model="nsfw" :disabled="promise" class="mr-2" />
-            <span :class="{ 'btn-group': canBroadcast }">
-              <button
-                :disabled="calcDisabled"
-                type="submit"
-                data-test-id="submitButton"
-                class="ml-1 btn text-uppercase btn-primary"
-              >
-                <span v-show="promise">
+
+            <b-dropdown
+              :split="canBroadcast"
+              :no-caret="!canBroadcast"
+              :disabled="calcDisabled"
+              variant="primary"
+              class="ml-1 text-uppercase"
+              split-button-type="submit"
+            >
+              <template v-slot:button-content>
+                <span class="text-uppercase">
                   <font-awesome-icon
+                    v-show="promise"
                     icon="sync"
                     spin
                     fixed-width
                     class="mr-2"
                   />
+                  Send
                 </span>
-                <span>Send</span>
-              </button>
-              <button
-                v-if="canBroadcast"
-                ref="dropdown"
-                :disabled="calcDisabled"
-                data-test-id="broadcastButton"
-                type="button"
-                class="btn btn-danger dropdown-toggle dropdown-toggle-split"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
+              </template>
+              <b-dropdown-item-button
+                data-test-id="broadcast"
+                @click.prevent="broadcast"
               >
-                <span class="sr-only">
-                  Toggle Dropdown
-                </span>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a
-                  data-test-id="broadcast"
-                  class="dropdown-item"
-                  href="#"
-                  @click.prevent="broadcast"
-                >
-                  Broadcast
-                </a>
-              </div>
-            </span>
+                Broadcast
+              </b-dropdown-item-button>
+            </b-dropdown>
           </div>
         </div>
         <input-spoiler
@@ -94,7 +79,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Dropdown } from 'bootstrap.native'
 import { Component, Prop, Watch } from 'vue-property-decorator'
 import { User } from '../../models/user'
 import { createCompose } from './ComposeAbstract'
@@ -144,13 +128,8 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
   })
   channel!: Channel
 
-  $refs!: {
-    dropdown: HTMLButtonElement
-  } & InstanceType<ReturnType<typeof createCompose>>['$refs']
-
   users: User[] = []
   text = ''
-  dropdown: Dropdown | null = null
 
   get canBroadcast(): boolean {
     return this.channel && this.channel.acl.read.public
@@ -186,8 +165,6 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
       this.$refs.textarea.focus()
       e.preventDefault()
     })
-    if (!this.$refs.dropdown) return
-    this.dropdown = new Dropdown(this.$refs.dropdown)
   }
 
   beforeDestroy() {
