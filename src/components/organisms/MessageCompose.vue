@@ -3,9 +3,7 @@
     <div class="card-body">
       <form @submit.prevent="submit()">
         <div v-if="createChannelMode" class="form-group">
-          <suggest-users
-            @update:users="newUsers => users = newUsers"
-          />
+          <suggest-users @update:users="(newUsers) => (users = newUsers)" />
         </div>
         <div class="form-group position-relative">
           <textarea
@@ -48,7 +46,7 @@
                 data-test-id="submitButton"
                 class="ml-1 btn text-uppercase btn-primary"
               >
-                <span v-show="promise && !calcPmLookup">
+                <span v-show="promise">
                   <font-awesome-icon
                     icon="sync"
                     spin
@@ -104,7 +102,6 @@ import bus from '~/assets/ts/bus'
 import Thumb from '~/components/Thumb.vue'
 import InputSpoiler from '~/components/InputSpoiler.vue'
 import { Channel } from '~/models/channel'
-import { Token } from '~/models/token'
 import AddFile from '~/components/atoms/AddFile.vue'
 import ToggleNsfw from '~/components/atoms/ToggleNsfw.vue'
 import ToggleLongpost from '~/components/atoms/ToggleLongpost.vue'
@@ -125,7 +122,7 @@ import SuggestUsers from '~/components/organisms/SuggestUsers.vue'
     TogglePoll,
     FilePreviewList,
     EmojiPicker,
-    SuggestUsers
+    SuggestUsers,
   },
 })
 export default class MessageCompose extends createCompose({ textCount: 2048 }) {
@@ -170,10 +167,6 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
     )
   }
 
-  get calcPmLookup(): boolean {
-    return this.createChannelMode && !!this.users.length && !this.text
-  }
-
   get availableSpoiler(): boolean {
     return (
       !!this.spoiler &&
@@ -181,10 +174,6 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
       this.spoiler.topic.length > 0 &&
       this.spoiler.topic.length <= 128
     )
-  }
-
-  get storage(): Token.Storage {
-    return this.$accessor.storage
   }
 
   @Watch('targetUser')
