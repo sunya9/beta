@@ -72,7 +72,7 @@ export default Vue.extend({
   },
   computed: {
     actions(): { key: string[] | string; label: string }[] {
-      return this.$route.name && this.$route.name.startsWith('messages')
+      return this.$route.name && this.$route.name.startsWith('channels')
         ? keyMaps.messageActions
         : keyMaps.streamActions
     },

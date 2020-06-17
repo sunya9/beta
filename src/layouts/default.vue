@@ -146,7 +146,7 @@ export default class extends Vue {
     },
   }
 
-  messagesShortcuts = {
+  channelsShortcuts = {
     m(this: Vue) {
       this.$modal.show('message-modal', {
         isPrivate: true,
@@ -218,8 +218,8 @@ export default class extends Vue {
     this.$mousetrap.reset()
     if (unbind) return
     const context =
-      this.$route.name && this.$route.name.startsWith('messages')
-        ? 'messages'
+      this.$route.name && this.$route.name.startsWith('channels')
+        ? 'channels'
         : 'streams'
     this.keyboardBinding()
     this.keyboardBinding(context)

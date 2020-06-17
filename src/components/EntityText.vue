@@ -77,7 +77,7 @@ interface DefinitelyModifiedLink extends ModifiedLink {
 const ReplaceUrls = [
   {
     test: /^https?:\/\/patter.chat\/room\/(\d+)/,
-    replace: 'https://beta.pnut.io/messages/$1',
+    replace: 'https://beta.pnut.io/channels/$1',
     domain: 'beta.pnut.io',
   },
 ]

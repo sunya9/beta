@@ -196,8 +196,8 @@ describe('Profile component', () => {
       const router = new VueRouter({
         routes: [
           {
-            path: '/messages/:channel',
-            name: 'messages-channel',
+            path: '/channels/:channel',
+            name: 'channels-channel',
           },
         ],
       })
@@ -213,7 +213,7 @@ describe('Profile component', () => {
       wrapper.find('[data-test-send-message]').trigger('click')
       await sleep(0)
 
-      expect(wrapper.vm.$route.fullPath).toBe('/messages/1')
+      expect(wrapper.vm.$route.fullPath).toBe('/channels/1')
     })
     test('Show modal when pm not exist', async () => {
       const wrapper = mount(Profile, {

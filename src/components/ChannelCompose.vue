@@ -107,7 +107,7 @@ export default class ChannelCompose extends Mixins(resettable) {
         description: this.chat.description,
         categories: this.chat.categories,
       })
-      this.$router.push(`/messages/${response.id}`)
+      this.$router.push(`/channels/${response.id}`)
       this.$emit('submit')
       this.reset()
     } catch (e) {

@@ -226,7 +226,7 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
         pollRequest: this.poll,
       })
       this.initialize()
-      this.$router.push(`/messages/${message.channel_id}`)
+      this.$router.push(`/channels/${message.channel_id}`)
       this.$emit('submit')
     } catch (e) {
       console.error(e)

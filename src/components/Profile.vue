@@ -318,9 +318,9 @@ export default Vue.extend({
         )
         const { data } = await this.messagePromise
         // found
-        this.$router.push(`/messages/${data.id}`)
+        this.$router.push(`/channels/${data.id}`)
       } catch (e) {
-        // not found and transition to /messages
+        // not found and transition to /channels
         this.$modal.show('create-pm-modal', {
           isPrivate: true,
           target: this.profile.username,

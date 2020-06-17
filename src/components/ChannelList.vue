@@ -23,7 +23,7 @@ export default Vue.extend({
   methods: {
     listItemProps(channel: Channel) {
       return {
-        to: `/messages/${channel.id}`,
+        to: `/channels/${channel.id}`,
       }
     },
     listItemClass(channel: Channel) {
