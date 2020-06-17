@@ -53,11 +53,12 @@ import { Message } from '~/models/message'
   validate({ params: { channel } }) {
     return /^\d+$/.test(channel)
   },
-  async asyncData({ app: { $resource }, params, error }) {
+  async asyncData({ app: { $resource, $interactors }, params, error }) {
     const options = {
       include_deleted: 1,
     }
-    const messagesPromise = $resource<Message[]>({ options })
+    const { channel } = params
+    const messagesPromise = $interactors.getMessages.run({ channelId: channel })
     const channelPromise = $resource<Channel>({
       url: `/channels/${params.channel}`,
       options: {
@@ -66,7 +67,7 @@ import { Message } from '~/models/message'
       },
     })
     try {
-      const [data, { data: channel }] = await Promise.all([
+      const [{ res: data }, { data: channel }] = await Promise.all([
         messagesPromise,
         channelPromise,
       ])

@@ -2,6 +2,7 @@ import {
   ReportReasonType,
   SearchType,
   RawRequest,
+  Pagination,
 } from '~/plugins/domain/dto/common'
 import { User } from '~/models/user'
 
@@ -12,7 +13,7 @@ export type GeneralMessageParameters = {
   include_raw?: boolean
   include_message_raw?: boolean
   include_client?: boolean
-}
+} & Pagination
 
 export type CreateMessageRequest = {
   text: string

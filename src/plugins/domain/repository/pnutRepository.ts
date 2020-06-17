@@ -81,4 +81,8 @@ export interface PnutRepository {
   ): Promise<PnutResponse<Message>>
 
   searchUsers(params: SearchUsersRequest): Promise<PnutResponse<User[]>>
+  getMessages(
+    channelId: string,
+    params?: GeneralMessageParameters
+  ): Promise<PnutResponse<Message[]>>
 }
