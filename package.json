@@ -153,7 +153,7 @@
     "storybook": "start-storybook -p 9001",
     "storybook:server": "http-server .out",
     "build-storybook": "build-storybook -c .storybook -o .out",
-    "screenshot": "run-p -r 'storybook:server -s' screenshot:internal",
-    "screenshot:internal": "storycap http://localhost:8080"
+    "screenshot": "run-p -r 'storybook:server -p 9001' screenshot:internal",
+    "screenshot:internal": "storycap http://localhost:9001"
   }
 }

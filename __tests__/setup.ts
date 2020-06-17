@@ -9,11 +9,13 @@ import '~/plugins/emojify'
 import dayjs from 'dayjs'
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
 import { getAccessorType, getterTree } from 'nuxt-typed-vuex'
+import { BootstrapVue } from 'bootstrap-vue'
 import { getters } from '~/store'
 import { authedUserCreateStore } from '~/../__tests__/helper'
 import '~/plugins/dayjs'
 
 Vue.use(Vuex)
+Vue.use(BootstrapVue)
 
 config.stubs = {
   'client-only': {

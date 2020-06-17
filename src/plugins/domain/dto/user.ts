@@ -2,6 +2,7 @@ import {
   IdsRequest,
   InteractionType,
   SearchType,
+  Pagination,
 } from '~/plugins/domain/dto/common'
 import { User } from '~/models/user'
 
@@ -56,10 +57,11 @@ export type GetUserIntractionsRequest =
   | {
       exclude: InteractionType[]
     }
-export type SearchUserRequest = {
+export type SearchUsersRequest = {
   q: string
   order?: SearchType
   locale?: string
   timezone?: string
   types?: User.UserType[]
-}
+} & GeneralUserParameters &
+  Pagination

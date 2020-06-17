@@ -3,31 +3,7 @@
     <div class="card-body">
       <form @submit.prevent="submit()">
         <div v-if="createChannelMode" class="form-group">
-          <div
-            :class="{
-              'd-flex justify-content-between align-items-center': calcPmLookup,
-            }"
-          >
-            <input
-              v-model="channelUsersStr"
-              type="text"
-              class="form-control"
-              placeholder="usernames (comma or space delimited)"
-              @input="resetPmSearch"
-            />
-            <button
-              v-if="calcPmLookup && !targetUser"
-              :disabled="pmLookupStatus"
-              type="button"
-              class="ml-3 btn text-uppercase btn-primary"
-            >
-              <span v-show="promise">
-                <font-awesome-icon class="mr-2" icon="sync" spin fixed-width />
-              </span>
-              <font-awesome-icon icon="search" class="mr-2" />
-              {{ pmLookupStatus ? pmLookupStatus : 'Find Existing' }}
-            </button>
-          </div>
+          <suggest-users @update:users="(newUsers) => (users = newUsers)" />
         </div>
         <div class="form-group position-relative">
           <textarea
@@ -63,49 +39,35 @@
               class="mr-2"
             />
             <toggle-nsfw v-model="nsfw" :disabled="promise" class="mr-2" />
-            <span :class="{ 'btn-group': canBroadcast }">
-              <button
-                :disabled="calcDisabled"
-                type="submit"
-                data-test-id="submitButton"
-                class="ml-1 btn text-uppercase btn-primary"
-              >
-                <span v-show="promise && !calcPmLookup">
+
+            <b-dropdown
+              :split="canBroadcast"
+              :no-caret="!canBroadcast"
+              :disabled="calcDisabled"
+              variant="primary"
+              right
+              class="ml-1 text-uppercase"
+              split-button-type="submit"
+            >
+              <template v-slot:button-content>
+                <span class="text-uppercase">
                   <font-awesome-icon
+                    v-show="promise"
                     icon="sync"
                     spin
                     fixed-width
                     class="mr-2"
                   />
+                  Send
                 </span>
-                <span>Send</span>
-              </button>
-              <button
-                v-if="canBroadcast"
-                ref="dropdown"
-                :disabled="calcDisabled"
-                data-test-id="broadcastButton"
-                type="button"
-                class="btn btn-danger dropdown-toggle dropdown-toggle-split"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
+              </template>
+              <b-dropdown-item-button
+                data-test-id="broadcast"
+                @click.prevent="broadcast"
               >
-                <span class="sr-only">
-                  Toggle Dropdown
-                </span>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a
-                  data-test-id="broadcast"
-                  class="dropdown-item"
-                  href="#"
-                  @click.prevent="broadcast"
-                >
-                  Broadcast
-                </a>
-              </div>
-            </span>
+                Broadcast
+              </b-dropdown-item-button>
+            </b-dropdown>
           </div>
         </div>
         <input-spoiler
@@ -118,14 +80,13 @@
   </div>
 </template>
 <script lang="ts">
-import { Dropdown } from 'bootstrap.native'
 import { Component, Prop, Watch } from 'vue-property-decorator'
+import { User } from '../../models/user'
 import { createCompose } from './ComposeAbstract'
 import bus from '~/assets/ts/bus'
 import Thumb from '~/components/Thumb.vue'
 import InputSpoiler from '~/components/InputSpoiler.vue'
 import { Channel } from '~/models/channel'
-import { Token } from '~/models/token'
 import AddFile from '~/components/atoms/AddFile.vue'
 import ToggleNsfw from '~/components/atoms/ToggleNsfw.vue'
 import ToggleLongpost from '~/components/atoms/ToggleLongpost.vue'
@@ -133,6 +94,7 @@ import ToggleSpoiler from '~/components/atoms/ToggleSpoiler.vue'
 import TogglePoll from '~/components/atoms/TogglePoll.vue'
 import FilePreviewList from '~/components/organisms/FilePreviewList.vue'
 import EmojiPicker from '~/components/molecules/EmojiPicker.vue'
+import SuggestUsers from '~/components/organisms/SuggestUsers.vue'
 
 @Component({
   components: {
@@ -145,6 +107,7 @@ import EmojiPicker from '~/components/molecules/EmojiPicker.vue'
     TogglePoll,
     FilePreviewList,
     EmojiPicker,
+    SuggestUsers,
   },
 })
 export default class MessageCompose extends createCompose({ textCount: 2048 }) {
@@ -166,21 +129,15 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
   })
   channel!: Channel
 
-  $refs!: {
-    dropdown: HTMLButtonElement
-  } & InstanceType<ReturnType<typeof createCompose>>['$refs']
-
-  channelUsersStr = ''
+  users: User[] = []
   text = ''
-  pmLookupStatus: string | null = null
-  dropdown: Dropdown | null = null
 
   get canBroadcast(): boolean {
     return this.channel && this.channel.acl.read.public
   }
 
   get calcDisabled(): boolean {
-    const requireTargetValue = this.createChannelMode && !this.channelUsersStr
+    const requireTargetValue = this.createChannelMode && !this.users.length
     return (
       requireTargetValue ||
       !!this.promise ||
@@ -188,10 +145,6 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
       this.postCounter < 0 ||
       (!!this.spoiler && !this.availableSpoiler)
     )
-  }
-
-  get calcPmLookup(): boolean {
-    return this.createChannelMode && !!this.channelUsersStr && !this.text
   }
 
   get availableSpoiler(): boolean {
@@ -203,13 +156,9 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
     )
   }
 
-  get storage(): Token.Storage {
-    return this.$accessor.storage
-  }
-
   @Watch('targetUser')
-  onChangeTargetUser(user: MessageCompose['targetUser']) {
-    this.channelUsersStr = user
+  onChangeTargetUser(user: User) {
+    this.users = [user]
   }
 
   mounted() {
@@ -217,8 +166,6 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
       this.$refs.textarea.focus()
       e.preventDefault()
     })
-    if (!this.$refs.dropdown) return
-    this.dropdown = new Dropdown(this.$refs.dropdown)
   }
 
   beforeDestroy() {
@@ -228,32 +175,6 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
   async broadcast() {
     await this.submit(true)
   }
-
-  resetPmSearch() {
-    this.pmLookupStatus = null
-  }
-
-  // async findExistingPm() {
-  //   this.pmLookupStatus = 'Searching'
-  //   try {
-  //     const destinations = this.channelUsersStr.split(/[,\s]+/g).map((name) => {
-  //       return name.startsWith('@') ? name : `@${name}`
-  //     })
-  //     this.promise = this.$axios.$get(
-  //       `/users/me/channels/existing_pm?ids=${destinations.join(',')}`
-  //     )
-  //     const { data: channel } = await this.promise
-  //     if (channel) {
-  //       this.$router.push(`/messages/${channel.id}`)
-  //       this.$emit('foundChannel')
-  //     } else {
-  //       this.pmLookupStatus = 'Not Found'
-  //     }
-  //   } catch (e) {
-  //     this.pmLookupStatus = 'Not Found'
-  //   }
-  //   this.promise = null
-  // }
 
   async submit(broadcast?: boolean) {
     if (this.promise) return
@@ -296,7 +217,7 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
       const {
         res: { data: message },
       } = await this.$interactors.createPrivateChannel.run({
-        destinations: this.channelUsersStr,
+        users: this.users,
         text: this.text,
         isNsfw: this.nsfw,
         files: this.files,
