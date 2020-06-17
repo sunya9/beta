@@ -10,7 +10,7 @@ import {
   UpdatePostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
-import { UserIdRequest } from '~/plugins/domain/dto/user'
+import { UserIdRequest, SearchUsersRequest } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
@@ -26,23 +26,30 @@ import {
   CreatePrivateChannelRequest,
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
+import { User } from '~/models/user'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  searchUsers(params: SearchUsersRequest): Promise<PnutResponse<User[]>> {
+    return this.get('/users/search', params)
+  }
+
   createPrivateChannel(
     createPrivateChannelRequest: CreatePrivateChannelRequest,
     params?: GeneralChannelParameters
   ): Promise<PnutResponse<Message>> {
-    return this.post('/channels/pm/messages', createPrivateChannelRequest, {
-      params,
-    })
+    return this.post(
+      '/channels/pm/messages',
+      createPrivateChannelRequest,
+      params
+    )
   }
 
   createChannel(
     createChannelRequest: CreateChannelRequest,
     params?: GeneralChannelParameters
   ): Promise<PnutResponse<Channel>> {
-    return this.post('/channels', createChannelRequest, { params })
+    return this.post('/channels', createChannelRequest, params)
   }
 
   createMessage(
@@ -51,10 +58,8 @@ export class PnutRepositoryImpl implements PnutRepository {
     params?: GeneralMessageParameters
   ): Promise<PnutResponse<Message>> {
     return this.post(`/channels/${channelId}/messages`, message, {
-      params: {
-        ...params,
-        update_marker: true,
-      },
+      ...params,
+      update_marker: true,
     })
   }
 
@@ -63,7 +68,7 @@ export class PnutRepositoryImpl implements PnutRepository {
     updatePostRequest: UpdatePostRequest,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post>> {
-    return this.put(`/posts/${postId}`, updatePostRequest, { params })
+    return this.put(`/posts/${postId}`, updatePostRequest, params)
   }
 
   private put(url: string, data: any, params?: any) {
@@ -72,6 +77,10 @@ export class PnutRepositoryImpl implements PnutRepository {
 
   private post(url: string, data: any, params?: any) {
     return this.axios.$post(url, data, { params })
+  }
+
+  private get(url: string, params?: any) {
+    return this.axios.$get(url, { params })
   }
 
   createPost(

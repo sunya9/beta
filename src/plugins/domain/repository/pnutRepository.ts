@@ -8,7 +8,7 @@ import {
   UpdatePostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
-import { UserIdRequest } from '~/plugins/domain/dto/user'
+import { UserIdRequest, SearchUsersRequest } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
@@ -24,6 +24,7 @@ import {
   CreatePrivateChannelRequest,
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
+import { User } from '~/models/user'
 
 export interface PnutRepository {
   getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
@@ -78,4 +79,6 @@ export interface PnutRepository {
     createPrivateChannelRequest: CreatePrivateChannelRequest,
     params?: GeneralChannelParameters
   ): Promise<PnutResponse<Message>>
+
+  searchUsers(params: SearchUsersRequest): Promise<PnutResponse<User[]>>
 }
