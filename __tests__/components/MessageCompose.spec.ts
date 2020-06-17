@@ -29,11 +29,11 @@ describe('MessageCompose component', () => {
   })
 
   function getBroadcastButtonWrapper() {
-    return wrapper.find('[data-test-id="broadcastButton"]')
+    return wrapper.find('[data-test-id="broadcast"]')
   }
 
   function getSubmitButtonWrapper() {
-    return wrapper.find('[data-test-id="submitButton"]')
+    return wrapper.find('[type="submit"]')
   }
 
   function getTextareaWrapper() {
@@ -41,12 +41,12 @@ describe('MessageCompose component', () => {
   }
 
   test('disabled submit button when empty textarea', () => {
-    expect(getBroadcastButtonWrapper().attributes().disabled).toBe('disabled')
+    expect(getSubmitButtonWrapper().attributes().disabled).toBe('disabled')
   })
   test('disabled when sending message', () => {
     // vm.promise = true
     getTextareaWrapper().setValue('test')
-    expect(getBroadcastButtonWrapper().attributes().disabled).toBe('disabled')
+    expect(getSubmitButtonWrapper().attributes().disabled).toBe('disabled')
   })
   test('disabled when has text over 2048 characters', async () => {
     getTextareaWrapper().setValue('a'.repeat(2058))
@@ -96,19 +96,9 @@ describe('MessageCompose component', () => {
         },
       })
     )
-    wrapper
-      .findComponent({
-        ref: 'textarea',
-      })
-      .setValue('foo')
-    expect(
-      wrapper
-        .findComponent({
-          ref: 'dropdown',
-        })
-        .exists()
-    ).toBe(true)
-    const handler = jest.fn()
+    getTextareaWrapper().setValue('foo')
+    expect(getBroadcastButtonWrapper().exists()).toBe(true)
+    const handler = jest.fn().mockReturnValue({ res: { meta: {} } })
     Vue.prototype.$interactors = {
       createMessage: { run: handler },
     }
