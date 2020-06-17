@@ -6,8 +6,9 @@ import {
 } from '~/plugins/domain/usecases/abstractCreatePost'
 import { Raw } from '~/models/raw'
 import { Message } from '~/models/message'
+import { User } from '~/models/user'
 interface Input extends AbstractInput {
-  destinations: string
+  users: User[]
 }
 interface Output {
   res: PnutResponse<Message>
@@ -20,11 +21,9 @@ export class CreatePrivateChannelInteractor
   extends AbstractCreatePostInteractor<Input, Output>
   implements CreatePrivateChannelUseCase {
   async post(input: Input & { raw: Raw<any>[] }): Promise<Output> {
-    const { destinations, isNsfw, raw, text } = input
+    const { users, isNsfw, raw, text } = input
     const res = await this.pnutRepository.createPrivateChannel({
-      destinations: destinations.split(/[,\s]+/g).map((name) => {
-        return name.startsWith('@') ? name : `@${name}`
-      }),
+      destinations: users.map((user) => user.id),
       is_nsfw: isNsfw,
       raw,
       text,
