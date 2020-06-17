@@ -50,17 +50,17 @@ import { Message } from '~/models/message'
     ChatPanel,
     PmPanel,
   },
-  validate({ params: { channel } }) {
-    return /^\d+$/.test(channel)
+  validate({ params: { channelId } }) {
+    return /^\d+$/.test(channelId)
   },
   async asyncData({ app: { $resource, $interactors }, params, error }) {
     const options = {
       include_deleted: 1,
     }
-    const { channel } = params
-    const messagesPromise = $interactors.getMessages.run({ channelId: channel })
+    const { channelId } = params
+    const messagesPromise = $interactors.getMessages.run({ channelId })
     const channelPromise = $resource<Channel>({
-      url: `/channels/${params.channel}`,
+      url: `/channels/${channelId}`,
       options: {
         include_limited_users: 1,
         include_channel_raw: 1,

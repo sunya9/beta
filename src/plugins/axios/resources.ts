@@ -39,7 +39,8 @@ const map: {
   channels: () => '/channels/search',
   'channels-public': () => '/users/me/channels/subscribed',
   'channels-public-all': () => '/channels/search',
-  'channels-channel': ({ params }) => `/channels/${params.channel}/messages`,
+  'channels-channelId': ({ params }) =>
+    `/channels/${params.channelId}/messages`,
   'about-stats': () => '/sys/stats',
   newcomers: () => '/posts/streams/explore/newcomers',
   polls: () => '/users/me/polls',
