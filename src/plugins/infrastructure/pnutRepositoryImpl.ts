@@ -4,10 +4,10 @@ import { PnutResponse } from '~/models/pnut-response'
 import { Post } from '~/models/post'
 import {
   GeneralPostParameters,
-  GetExploreStreamRequest,
   PostIdRequest,
   CreatePostRequest,
   UpdatePostRequest,
+  ExploreSlugType,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
 import { SearchUsersRequest } from '~/plugins/domain/dto/user'
@@ -147,10 +147,10 @@ export class PnutRepositoryImpl implements PnutRepository {
   }
 
   getExplore(
-    explore: GetExploreStreamRequest,
+    slug: ExploreSlugType,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>> {
-    return this.axios.$get(`/posts/streams/explore/${explore.slug}`, { params })
+    return this.axios.$get(`/posts/streams/explore/${slug}`, { params })
   }
 
   getGlobal(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>> {

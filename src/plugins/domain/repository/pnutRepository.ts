@@ -2,7 +2,7 @@ import { PnutResponse } from '~/models/pnut-response'
 import { Post } from '~/models/post'
 import {
   GeneralPostParameters,
-  GetExploreStreamRequest,
+  ExploreSlugType,
   PostIdRequest,
   CreatePostRequest,
   UpdatePostRequest,
@@ -38,7 +38,7 @@ export interface PnutRepository {
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
   getExplore(
-    explore: GetExploreStreamRequest,
+    slug: ExploreSlugType,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
   getGlobal(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
