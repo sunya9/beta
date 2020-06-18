@@ -1,5 +1,5 @@
 <template>
-  <base-list v-slot="{ item }" v-bind="$attrs">
+  <base-list v-slot="{ item }" v-bind="$attrs" v-on="$listeners">
     <user :user="item" v-bind="componentOptions" />
   </base-list>
 </template>
@@ -9,6 +9,7 @@ import BaseList from '~/components/BaseList.vue'
 import User from '~/components/molecules/User.vue'
 
 @Component({
+  inheritAttrs: false,
   components: {
     BaseList,
     User,

@@ -14,7 +14,7 @@ export type GeneralUserParameters = {
   include_presense?: boolean
   include_raw?: boolean
   include_user_raw?: boolean
-}
+} & Pagination
 
 export type UserIdRequest = {
   user_id: string

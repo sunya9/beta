@@ -4,7 +4,7 @@
       <nuxt-link to=".">@{{ name }}</nuxt-link>
       's following
     </h3>
-    <user-list :data="data" />
+    <user-list :list-info="listInfo" />
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import Vue from 'vue'
 import { Component } from 'nuxt-property-decorator'
 import { User } from '~/models/user'
 import UserList from '~/components/UserList.vue'
-import { PnutResponse } from '~/models/pnut-response'
+import { ListInfo } from '~/plugins/domain/usecases/getList'
 
 @Component({
   components: {
@@ -22,22 +22,16 @@ import { PnutResponse } from '~/models/pnut-response'
   async asyncData(ctx) {
     const {
       params,
-      app: { $resource },
-      error,
+      app: { $interactors },
     } = ctx
     const { name } = params
-    try {
-      const data = await $resource()
-      return {
-        data,
-        name,
-      }
-    } catch (e) {
-      const { meta } = e.response.data
-      error({
-        statusCode: meta.code,
-        message: meta.error_message,
-      })
+    const { listInfo } = await $interactors.getUsers.run({
+      type: 'following',
+      username: `@${name}`,
+    })
+    return {
+      listInfo,
+      name,
     }
   },
   head(this: Follows) {
@@ -48,6 +42,6 @@ import { PnutResponse } from '~/models/pnut-response'
 })
 export default class Follows extends Vue {
   name!: string
-  data!: PnutResponse<User[]>
+  listInfo!: ListInfo<User>
 }
 </script>

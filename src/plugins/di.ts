@@ -54,6 +54,10 @@ import {
   GetInteractionsUseCase,
   GetInteractionsInteractor,
 } from '~/plugins/domain/usecases/getInteractions'
+import {
+  GetUsersUseCase,
+  GetUsersIntereactor,
+} from '~/plugins/domain/usecases/getUsers'
 
 type InteractorType = Readonly<{
   createFile: CreateFileUseCase
@@ -69,6 +73,7 @@ type InteractorType = Readonly<{
   getPosts: GetPostsUseCase
   getProfileWithPosts: GetProfileWithPostsUseCase
   getInteractions: GetInteractionsUseCase
+  getUsers: GetUsersUseCase
 }>
 
 function customizeAxios(axios: NuxtAxiosInstance) {
@@ -160,6 +165,9 @@ function getInteractors(context: Context): InteractorType {
     },
     get getInteractions() {
       return new GetInteractionsInteractor(getPnutRepository())
+    },
+    get getUsers() {
+      return new GetUsersIntereactor(getPnutRepository())
     },
   }
 }
