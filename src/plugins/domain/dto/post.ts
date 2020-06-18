@@ -47,7 +47,7 @@ export type DeletePostRequest = PostIdRequest
 export type GetPostRequest = PostIdRequest
 export type GetPostsRequest = IdsRequest
 export type GetPostRevisionsRequest = PostIdRequest
-type ExploreSlugType =
+export type ExploreSlugType =
   | 'conversations'
   | 'missed_conversations'
   | 'newcomers'
