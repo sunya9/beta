@@ -9,7 +9,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { File } from '../../models/file'
+import { File } from '~/models/file'
 import FileList from '~/components/file-list.vue'
 
 const map: { [key in File.Kind]: string } = {

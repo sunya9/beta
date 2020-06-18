@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { Mixins, Component } from 'vue-property-decorator'
-import { ListInfo } from '../plugins/domain/usecases/getList'
+import { ListInfo } from '~/plugins/domain/usecases/getList'
 import { StreamType } from '~/plugins/domain/dto/streamType'
 import { Post } from '~/models/post'
 import Compose from '~/components/organisms/Compose.vue'

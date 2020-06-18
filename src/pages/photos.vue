@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator'
-import { Post } from '../models/post'
+import { Post } from '~/models/post'
 import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/PostList.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'

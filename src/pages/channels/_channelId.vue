@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { Component, Mixins, Watch } from 'vue-property-decorator'
-import { PnutResponse } from '../../models/pnut-response'
+import { PnutResponse } from '~/models/pnut-response'
 import { userIdIsSimpleUser } from '~/util/channel'
 import MessageList from '~/components/MessageList.vue'
 import MessageCompose from '~/components/organisms/MessageCompose.vue'
