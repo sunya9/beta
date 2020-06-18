@@ -152,76 +152,64 @@
       >
         {{ profile.counts.bookmarks }} Starred
       </nuxt-link>
-      <div
-        id="profile-dropdown"
-        ref="dropdown"
-        class="dropdown card-link"
-        aria-expanded="false"
+      <b-dropdown
+        no-caret
+        right
+        class="card-link"
+        toggle-class="p-0 border-0"
+        variant="link"
       >
-        <a
-          id="profile-dropdown-trigger"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          href="#"
-        >
+        <template v-slot:button-content>
           <font-awesome-icon icon="ellipsis-h" />
-        </a>
-        <div
-          class="dropdown-menu dropdown-menu-right"
-          aria-labelledby="profile-dropdown-trigger"
-        >
-          <template v-if="!me && user && !profile.you_blocked">
-            <a
-              :class="{ 'disabled text-center': messagePromise }"
-              href="#"
-              class="dropdown-item"
-              data-test-send-message
-              @click.prevent.stop="sendMessage"
-            >
-              <span v-if="!messagePromise">
-                Send a Message
-              </span>
-              <font-awesome-icon v-else icon="circle-notch" fixed-width spin />
-            </a>
-            <div class="dropdown-divider" />
-          </template>
-          <nuxt-link v-if="me" to="/polls" class="dropdown-item">
-            Your polls
-          </nuxt-link>
-          <base-block-button
-            v-if="user && !me"
-            v-slot="{ toggleBlock }"
-            :profile.sync="profile"
+        </template>
+        <template v-if="!me && user && !profile.you_blocked">
+          <b-dropdown-item-button
+            :class="{ 'disabled text-center': messagePromise }"
+            data-test-send-message
+            @click.prevent.stop="sendMessage"
           >
-            <a class="dropdown-item" href="#" @click.prevent="toggleBlock">
-              {{ blockText }}
-            </a>
-          </base-block-button>
-          <base-mute-button
-            v-if="user && !me && !profile.you_blocked"
-            v-slot="{ toggleMute }"
-            :profile.sync="profile"
-          >
-            <a class="dropdown-item" href="#" @click.prevent="toggleMute">
-              {{ muteText }}
-            </a>
-          </base-mute-button>
+            <span v-if="!messagePromise">
+              Send a Message
+            </span>
+            <font-awesome-icon v-else icon="circle-notch" fixed-width spin />
+          </b-dropdown-item-button>
           <div class="dropdown-divider" />
-          <a
-            :href="
-              'https://api.pnut.io/v0/feed/rss/users/' + profile.id + '/posts'
-            "
-            class="dropdown-item"
-          >
-            <font-awesome-icon
-              icon="rss-square"
-              class="mr-2"
-              aria-hidden="true"
-            />
-            <span>RSS</span>
-          </a>
-        </div>
-      </div>
+        </template>
+        <b-dropdown-item v-if="me" to="/polls">
+          Your polls
+        </b-dropdown-item>
+        <base-block-button
+          v-if="user && !me"
+          v-slot="{ toggleBlock }"
+          :profile.sync="profile"
+        >
+          <b-dropdown-item-button href="#" @click.prevent="toggleBlock">
+            {{ blockText }}
+          </b-dropdown-item-button>
+        </base-block-button>
+        <base-mute-button
+          v-if="user && !me && !profile.you_blocked"
+          v-slot="{ toggleMute }"
+          :profile.sync="profile"
+        >
+          <b-dropdown-item-button href="#" @click.prevent="toggleMute">
+            {{ muteText }}
+          </b-dropdown-item-button>
+        </base-mute-button>
+        <b-dropdown-divider />
+        <b-dropdown-item
+          :href="
+            'https://api.pnut.io/v0/feed/rss/users/' + profile.id + '/posts'
+          "
+        >
+          <font-awesome-icon
+            icon="rss-square"
+            class="mr-2"
+            aria-hidden="true"
+          />
+          <span>RSS</span>
+        </b-dropdown-item>
+      </b-dropdown>
     </div>
     <create-pm-modal />
   </div>
@@ -229,7 +217,6 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { Dropdown } from 'bootstrap.native'
 import FollowButton from '~/components/atoms/FollowButton.vue'
 import Thumb from '~/components/Thumb.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
@@ -265,7 +252,6 @@ export default Vue.extend({
       loaded: false,
       profile: this.initialProfile,
       messagePromise: null as Promise<PnutResponse<Channel>> | null,
-      dropdown: null as Dropdown | null,
     }
   },
   computed: {
@@ -303,12 +289,11 @@ export default Vue.extend({
     },
   },
   mounted() {
-    // const { width } = this.$el.getBoundingClientRect()
+    const { width } = this.$el.getBoundingClientRect()
     if (!this.profile.content) return
     // 2 === side border width
-    // const ratio = (width - 2) / this.profile.content.cover_image.width
-    // this.headerHeight = this.profile.content.cover_image.height * ratio
-    this.dropdown = new Dropdown(this.$refs.dropdown as Element)
+    const ratio = (width - 2) / this.profile.content.cover_image.width
+    this.headerHeight = this.profile.content.cover_image.height * ratio
   },
   methods: {
     async sendMessage() {
@@ -326,7 +311,6 @@ export default Vue.extend({
           target: this.profile.username,
         })
       }
-      if (this.dropdown) this.dropdown.toggle()
       this.messagePromise = null
     },
   },
