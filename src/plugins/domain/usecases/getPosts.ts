@@ -2,41 +2,42 @@ import { PnutResponse } from '~/models/pnut-response'
 import { Post } from '~/models/post'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
 import { StreamType } from '~/plugins/domain/dto/streamType'
-import { composeList, getInserPosition } from '~/plugins/domain/util/util'
+import {
+  GetListBaseInput,
+  GetListBaseOutput,
+  GetListUseCase,
+  GetListInteractor,
+} from '~/plugins/domain/usecases/getList'
 
-interface Input {
+interface Input extends GetListBaseInput {
   streamType: StreamType
   params?: GeneralPostParameters
   data?: PnutResponse<Post[]>
 }
 
-interface Output {
-  res: PnutResponse<Post[]>
-}
+interface Output extends GetListBaseOutput<Post> {}
 
-export interface GetPostsUseCase extends Usecase<Input, Promise<Output>> {}
+export interface GetPostsUseCase
+  extends GetListUseCase<Post, Input, Promise<Output>> {}
 
-export class GetPostsInteractor implements GetPostsUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
-  async run(input: Input): Promise<Output> {
-    const res = await this.getPosts(input)
-    const data = composeList({
-      newData: res.data,
-      data: input.data?.data,
-      insertPosition: getInserPosition(input.params),
-    })
-    return {
-      res: {
-        meta: res.meta,
-        data,
-      },
-    }
+export class GetPostsInteractor
+  extends GetListInteractor<Post, Input, Promise<Output>>
+  implements GetPostsUseCase {
+  constructor(private readonly pnutRepository: PnutRepository) {
+    super()
+  }
+
+  getList(input: Input): Promise<PnutResponse<Post[]>> {
+    return this.getPosts(input)
   }
 
   private getPosts(input: Input) {
-    const { streamType, params } = input
+    const { streamType } = input
+    const params: Input['params'] = {
+      include_deleted: false,
+      ...input.params,
+    }
     switch (streamType.type) {
       case 'home':
         return this.getHome(streamType.unified, params)
@@ -56,10 +57,9 @@ export class GetPostsInteractor implements GetPostsUseCase {
   }
 
   private getHome(unified: boolean, params?: GeneralPostParameters) {
-    if (unified) {
-      return this.pnutRepository.getUnifiedStream(params)
-    } else {
-      return this.pnutRepository.getHomeStream(params)
-    }
+    const method: keyof PnutRepository = unified
+      ? 'getUnifiedStream'
+      : 'getHomeStream'
+    return this.pnutRepository[method](params)
   }
 }
