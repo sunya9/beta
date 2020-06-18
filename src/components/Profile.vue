@@ -121,6 +121,7 @@
       </p>
     </div>
     <div
+      v-if="profile.counts"
       id="profile-counts"
       class="card-body d-flex justify-content-between justify-content-md-end"
     >
