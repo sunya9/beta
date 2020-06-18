@@ -31,6 +31,13 @@ import { UserId } from '~/plugins/domain/dto/common'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getTaggedPosts(
+    tag: string,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>> {
+    return this.get(`/posts/tags/${tag}`, params)
+  }
+
   getUserPosts(
     userId: UserId,
     params?: GeneralPostParameters

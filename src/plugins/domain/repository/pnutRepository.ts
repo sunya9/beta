@@ -90,4 +90,9 @@ export interface PnutRepository {
     userId: UserId,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
+
+  getTaggedPosts(
+    tag: string,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>>
 }
