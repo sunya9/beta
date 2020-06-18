@@ -10,7 +10,10 @@ import {
   ExploreSlugType,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
-import { SearchUsersRequest } from '~/plugins/domain/dto/user'
+import {
+  SearchUsersRequest,
+  GeneralUserParameters,
+} from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
@@ -31,6 +34,13 @@ import { UserId } from '~/plugins/domain/dto/common'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getUser(
+    userId: UserId,
+    params?: GeneralUserParameters
+  ): Promise<PnutResponse<User>> {
+    return this.get(`/users/${userId}`, params)
+  }
+
   getUnifiedStream(
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>> {
@@ -48,7 +58,7 @@ export class PnutRepositoryImpl implements PnutRepository {
     userId: UserId,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>> {
-    return this.get(`/users/${userId}/`, params)
+    return this.get(`/users/${userId}/posts`, params)
   }
 
   getMessages(

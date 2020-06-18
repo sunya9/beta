@@ -8,7 +8,10 @@ import {
   UpdatePostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
-import { SearchUsersRequest } from '~/plugins/domain/dto/user'
+import {
+  SearchUsersRequest,
+  GeneralUserParameters,
+} from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
@@ -98,4 +101,8 @@ export interface PnutRepository {
   getUnifiedStream(
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
+  getUser(
+    userId: UserId,
+    params?: GeneralUserParameters
+  ): Promise<PnutResponse<User>>
 }
