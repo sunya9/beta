@@ -39,11 +39,15 @@ export interface DefinitelyUser extends User {
 }
 
 export namespace User {
-  export enum UserType {
-    human,
-    feed,
-    bot,
+  export namespace UserType {
+    export const human = 'human' as const
+    export const feed = 'feed' as const
+    export const bot = 'bot' as const
   }
+  export type UserType =
+    | typeof UserType.human
+    | typeof UserType.feed
+    | typeof UserType.bot
   export interface UserContent extends Entity.HaveEntity {
     avatar_image: UserImage
     cover_image: UserImage
