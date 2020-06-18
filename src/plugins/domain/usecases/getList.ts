@@ -9,8 +9,8 @@ export interface GetListBaseInput {
 export interface ListInfo<T> {
   newerMeta: PnutResponse.Meta
   olderMeta: PnutResponse.Meta
-  getNewer: () => Promise<FetchMoreResult>
-  getOlder: () => Promise<FetchMoreResult>
+  getNewer: () => Promise<FetchMoreResult<T>>
+  getOlder: () => Promise<FetchMoreResult<T>>
   data: T[]
 }
 
@@ -85,6 +85,7 @@ export abstract class GetListInteractor<
       Object.assign(firstMeta, meta)
       return {
         size: data.length,
+        data,
       }
     }
   }
@@ -111,6 +112,7 @@ export abstract class GetListInteractor<
       Object.assign(firstMeta, meta)
       return {
         size: data.length,
+        data,
       }
     }
   }

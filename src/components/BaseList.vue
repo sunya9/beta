@@ -5,7 +5,7 @@
     v-infinite-scroll="fetchMore"
     :class="listClass"
     infinite-scroll-disabled="moreDisabled"
-    infinite-scroll-distance="100"
+    infinite-scroll-distance="1000"
   >
     <component
       :is="listElement"
@@ -48,9 +48,8 @@
 </template>
 <script lang="ts">
 import { Prop, Watch, Component, Mixins } from 'vue-property-decorator'
-import { User } from '../models/user'
-import { PnutResponse } from '~/models/pnut-response'
 import keyBinding from '~/assets/ts/key-binding'
+import { ListInfo } from '~/plugins/domain/usecases/getList'
 
 const INTERVAL = 1000 * 30 // 30sec
 
@@ -60,13 +59,20 @@ const keyMap = {
   '.': 'refresh',
 }
 
+export interface GetMoreProps {
+  sinceId?: string
+  beforeId?: string
+}
+
 @Component({})
-export default class BaseList extends Mixins(keyBinding(keyMap)) {
+export default class BaseList<T extends object = object> extends Mixins(
+  keyBinding(keyMap)
+) {
   @Prop({
     type: Function,
     default: () => () => null,
   })
-  dataAddedHook!: (data: any[]) => void
+  dataAddedHook!: (data: T[]) => void
 
   @Prop({
     type: String,
@@ -99,17 +105,6 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
   disableAutoRefresh!: boolean
 
   @Prop({
-    type: Object,
-    validator: (obj) => 'meta' in obj && 'data' in obj,
-    required: true,
-    default: () => ({
-      meta: {},
-      data: [],
-    }),
-  })
-  data!: PnutResponse<any[]>
-
-  @Prop({
     type: String,
     default: '',
   })
@@ -133,17 +128,33 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
   })
   refreshDate!: number
 
+  @Prop({
+    type: Object,
+    required: true,
+  })
+  listInfo!: ListInfo<T>
+
+  get getOlder() {
+    return this.listInfo.getOlder
+  }
+
+  get getNewer() {
+    return this.listInfo.getNewer
+  }
+
+  get olderMeta() {
+    return this.listInfo.olderMeta
+  }
+
   busy = false
   internalSelect = -1
-  items = this.data.data || []
-  lastUpdate = Date.now()
-  meta = this.data.meta
-  refreshing = false
-  activeElement = (null as any) as Element | null
+  activeElement: Element | null = null
 
-  get user(): User | null {
-    return this.$accessor.user
+  get items(): T[] {
+    return this.listInfo.data
   }
+
+  lastUpdate = Date.now()
 
   get select(): number {
     return this.internalSelect
@@ -161,7 +172,7 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
   }
 
   get more(): boolean {
-    return !!this.meta.more
+    return !!this.olderMeta.more
   }
 
   @Watch('refreshDate')
@@ -173,18 +184,13 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
     this.refresh()
   }
 
-  @Watch('data', { deep: true })
-  onChangeData(data: BaseList['data']) {
-    this.items = 'data' in data ? data.data : []
-  }
-
   mounted() {
     if (this.disableAutoRefresh) return
     const timer = setInterval(this.refresh, INTERVAL)
     this.$once('hook:beforeDestroy', () => clearInterval(timer))
   }
 
-  updateItem(index: number, item: any) {
+  updateItem(index: number, item: T) {
     this.$set(this.items, index, item)
   }
 
@@ -234,44 +240,27 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
     if (this.busy) return
     this.busy = true
     try {
-      const options = { ...this.option, before_id: this.meta.min_id }
-      const { data: newItems, meta } = await this.$resource<any[]>({
-        url: this.resource,
-        options,
-      })
-      this.meta = meta
-
-      if (newItems.length) {
-        this.items = this.items.concat(newItems)
-        // this.$emit('update:data', {
-        //   meta: this.meta,
-        //   data: this.items
-        // })
-      }
+      await this.getOlder()
     } catch (e) {
       console.error(e)
+    } finally {
+      this.busy = false
     }
-    this.busy = false
   }
 
   async refresh() {
-    if (this.refreshing) return
-    this.refreshing = true
-    const options = {
-      ...this.option,
-      since_id: this.items.length && this.items[0].pagination_id,
+    if (this.busy) return
+    this.busy = true
+    try {
+      const { size, data } = await this.getNewer()
+      this.lastUpdate = Date.now()
+      this.select += size
+      this.dataAddedHook(data)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      this.busy = false
     }
-    const { data: newItems } = await this.$resource<any[]>({
-      url: this.resource,
-      options,
-    })
-    if (newItems.length) {
-      this.items = newItems.concat(this.items)
-      this.select += newItems.length
-      this.dataAddedHook(newItems)
-    }
-    this.refreshing = false
-    this.lastUpdate = Date.now()
   }
 }
 </script>

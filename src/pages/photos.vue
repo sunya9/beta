@@ -1,26 +1,31 @@
 <template>
   <div>
     <compose />
-    <post-list :data="data" :refresh-date="date" />
+    <post-list :list-info="listInfo" :refresh-date="date" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator'
-import { PnutResponse } from '../models/pnut-response'
 import { Post } from '../models/post'
 import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/PostList.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
+import { ListInfo } from '~/plugins/domain/usecases/getList'
 
 @Component({
   components: {
     PostList,
     Compose,
   },
-  async asyncData({ app: { $resource } }) {
-    const data = await $resource()
-    return { data }
+  async asyncData({ app: { $interactors } }) {
+    const { listInfo } = await $interactors.getPosts.run({
+      streamType: { type: 'explore', slug: 'photos' },
+      params: {
+        include_directed_posts: localStorage.hide_directed_posts === 'false',
+      },
+    })
+    return { listInfo }
   },
   head() {
     return {
@@ -29,6 +34,6 @@ import refreshAfterAdded from '~/assets/ts/refresh-after-added'
   },
 })
 export default class extends Mixins(refreshAfterAdded) {
-  data!: PnutResponse<Post[]>
+  listInfo!: ListInfo<Post>
 }
 </script>

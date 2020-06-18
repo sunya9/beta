@@ -29,6 +29,7 @@ export type RawRequest = {
 
 export type UserId = string | 'me'
 
-export interface FetchMoreResult {
+export interface FetchMoreResult<T> {
   size: number
+  data: T[]
 }
