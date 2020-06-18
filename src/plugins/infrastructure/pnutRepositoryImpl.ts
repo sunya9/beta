@@ -27,9 +27,17 @@ import {
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
+import { UserId } from '~/plugins/domain/dto/common'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getUserPosts(
+    userId: UserId,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>> {
+    return this.get(`/users/${userId}/`, params)
+  }
+
   getMessages(
     channelId: string,
     params?: GeneralMessageParameters

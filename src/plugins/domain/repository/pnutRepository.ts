@@ -25,6 +25,7 @@ import {
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
+import { UserId } from '~/plugins/domain/dto/common'
 
 export interface PnutRepository {
   getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
@@ -85,4 +86,8 @@ export interface PnutRepository {
     channelId: string,
     params?: GeneralMessageParameters
   ): Promise<PnutResponse<Message[]>>
+  getUserPosts(
+    userId: UserId,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>>
 }

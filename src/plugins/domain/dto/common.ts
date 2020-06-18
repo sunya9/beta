@@ -26,3 +26,5 @@ export type ReportReasonType =
 export type RawRequest = {
   raw?: Raw<any>[]
 }
+
+export type UserId = string | 'me'
