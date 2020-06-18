@@ -1,6 +1,7 @@
 import VueRouter from 'vue-router'
 import Vue from 'vue'
 import { ThisTypedMountOptions, Wrapper } from '@vue/test-utils'
+import flushPromises from 'flush-promises'
 import {
   mount,
   createStore,
@@ -9,7 +10,6 @@ import {
   shallowMount,
   fixtures,
   createLocalVue,
-  sleep,
   authedAccessor,
 } from '../helper'
 import Profile from '~/components/Profile.vue'
@@ -119,12 +119,14 @@ describe('Profile component', () => {
     })
   })
   describe('more dropdown', () => {
-    test('Show dropdown when three dots is clicked', () => {
+    test.skip('Show dropdown when three dots is clicked', async () => {
       const wrapper = mount(Profile, opts)
-      const dropdownWrapper = wrapper.find('#profile-dropdown')
-      expect(dropdownWrapper.attributes('aria-expanded')).toBe('false')
-      wrapper.find('#profile-dropdown-trigger').trigger('click')
-      expect(dropdownWrapper.attributes('aria-expanded')).toBe('true')
+      const dropdownWrapper = wrapper.find('[data-test-id="profile-dropdown"]')
+      expect(dropdownWrapper.classes()).not.toContain('show')
+      await dropdownWrapper.find('.dropdown-toggle').element.click()
+      await wrapper.vm.$nextTick()
+      await flushPromises()
+      expect(dropdownWrapper.classes()).toContain('show')
     })
     test('Not show Block/Mute link in not my profile', () => {
       const wrapper = mount(Profile, {
@@ -164,10 +166,10 @@ describe('Profile component', () => {
           initialProfile: fixtures('user', 'notMe'),
         },
       })
-      expect(wrapper.find('[data-test-send-message]').exists()).toBe(true)
+      expect(wrapper.find('[data-test-id="send-message"]').exists()).toBe(true)
     })
     test('Hidden the button when logged out or block or myself', () => {
-      const selector = '[data-test-send-message]'
+      const selector = '[data-test-id="send-message"]'
       const myselfWrapper = shallowMount(Profile, opts)
       expect(myselfWrapper.find(selector).exists()).toBe(false)
       const blockedWrapper = shallowMount(Profile, {
@@ -201,7 +203,7 @@ describe('Profile component', () => {
           },
         ],
       })
-      const wrapper = shallowMount(Profile, {
+      const wrapper = mount(Profile, {
         ...opts,
         propsData: {
           ...opts.propsData,
@@ -210,8 +212,8 @@ describe('Profile component', () => {
         router,
         localVue,
       })
-      wrapper.find('[data-test-send-message]').trigger('click')
-      await sleep(0)
+      await wrapper.find('[data-test-id="send-message"]').trigger('click')
+      await flushPromises()
 
       expect(wrapper.vm.$route.fullPath).toBe('/channels/1')
     })
@@ -225,8 +227,8 @@ describe('Profile component', () => {
       })
       const fn = jest.fn()
       wrapper.vm.$modal.show = fn
-      wrapper.find('[data-test-send-message]').trigger('click')
-      await sleep(0)
+      await wrapper.find('[data-test-id="send-message"]').trigger('click')
+      await flushPromises()
       expect(fn).toHaveBeenCalled()
     })
   })

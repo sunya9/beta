@@ -158,6 +158,7 @@
         right
         class="card-link"
         toggle-class="p-0 border-0"
+        data-test-id="profile-dropdown"
         variant="link"
       >
         <template v-slot:button-content>
@@ -166,7 +167,7 @@
         <template v-if="!me && user && !profile.you_blocked">
           <b-dropdown-item-button
             :class="{ 'disabled text-center': messagePromise }"
-            data-test-send-message
+            data-test-id="send-message"
             @click.prevent.stop="sendMessage"
           >
             <span v-if="!messagePromise">
