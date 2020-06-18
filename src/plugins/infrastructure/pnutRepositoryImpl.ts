@@ -31,6 +31,12 @@ import { UserId } from '~/plugins/domain/dto/common'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getUnifiedStream(
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>> {
+    return this.get('/posts/streams/unified', params)
+  }
+
   getTaggedPosts(
     tag: string,
     params?: GeneralPostParameters

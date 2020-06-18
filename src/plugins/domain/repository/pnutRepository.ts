@@ -95,4 +95,7 @@ export interface PnutRepository {
     tag: string,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
+  getUnifiedStream(
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>>
 }
