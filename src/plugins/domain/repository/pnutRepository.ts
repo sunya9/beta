@@ -8,7 +8,7 @@ import {
   UpdatePostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
-import { UserIdRequest, SearchUsersRequest } from '~/plugins/domain/dto/user'
+import { SearchUsersRequest } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
@@ -34,7 +34,7 @@ export interface PnutRepository {
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Interaction<any>[]>>
   getBookmarks(
-    userIdRequest: UserIdRequest,
+    userId: string,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
   getExplore(

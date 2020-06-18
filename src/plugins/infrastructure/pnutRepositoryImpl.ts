@@ -10,7 +10,7 @@ import {
   UpdatePostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
-import { UserIdRequest, SearchUsersRequest } from '~/plugins/domain/dto/user'
+import { SearchUsersRequest } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
@@ -138,10 +138,10 @@ export class PnutRepositoryImpl implements PnutRepository {
   }
 
   getBookmarks(
-    userIdRequest: UserIdRequest,
+    userId: string,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>> {
-    return this.axios.$get(`/users/${userIdRequest.user_id}/bookmarks`, {
+    return this.axios.$get(`/users/${userId}/bookmarks`, {
       params,
     })
   }
