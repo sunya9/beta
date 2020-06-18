@@ -4,15 +4,17 @@
       <profile v-if="profile" :initial-profile.sync="profile" class="mb-4" />
     </div>
     <div>
-      <compose :key="`${uniqueName}-compose`" :initial-text="initialText" />
+      <compose
+        :key="`${$route.params.name}-compose`"
+        :initial-text="initialText"
+      />
     </div>
     <div>
       <post-list
         v-if="!blocked"
         ref="list"
-        :key="`${uniqueName}-posts`"
-        :data="data"
-        :option="options"
+        :key="`${$route.params.name}-posts`"
+        :list-info="listInfo"
         :refresh-date="date"
       />
     </div>
@@ -21,7 +23,6 @@
 
 <script lang="ts">
 import { Component, Watch, Mixins } from 'vue-property-decorator'
-import { PnutResponse } from '~/models/pnut-response'
 import { Post } from '~/models/post'
 import Profile from '~/components/Profile.vue'
 import Compose from '~/components/organisms/Compose.vue'
@@ -29,6 +30,7 @@ import PostList from '~/components/PostList.vue'
 import { getTitle, getRSSLink } from '~/assets/ts/util'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 import { User } from '~/models/user'
+import { ListInfo } from '~/plugins/domain/usecases/getList'
 
 @Component({
   components: {
@@ -36,36 +38,25 @@ import { User } from '~/models/user'
     Compose,
     PostList,
   },
+  validate({ params: { name } }) {
+    return /^\w+$/.test(name)
+  },
   async asyncData(ctx) {
     const {
       params,
-      error,
-      app: { $axios, $resource },
+      app: { $interactors },
     } = ctx
     const { name } = params
-    const options = {
-      include_directed_posts: 1,
-    }
-    try {
-      const data = await $resource({ options }).catch(() => ({
-        meta: { code: 404 },
-      }))
-      const { data: profile } = await $axios.$get(`/users/@${name}`)
-      return {
-        data: data || {
-          meta: {},
-          data: [],
-        },
-        profile,
-        uniqueName: name,
-        options,
-      }
-    } catch (e) {
-      const { meta } = e.response.data
-      error({
-        statusCode: meta.code,
-        message: meta.error_message,
-      })
+    const { listInfo, user } = await $interactors.getProfileWithPosts.run({
+      username: `@${name}`,
+      postParams: {
+        include_directed_posts: true,
+      },
+    })
+    return {
+      listInfo,
+      profile: user.data,
+      uniqueName: name,
     }
   },
   head(this: Index) {
@@ -93,12 +84,12 @@ import { User } from '~/models/user'
       },
       {
         property: 'profile:username',
-        content: this.uniqueName,
+        content: this.$route.params.name,
       },
     ]
     const link = [
       getRSSLink(
-        `https://api.pnut.io/v0/feed/rss/users/@${this.uniqueName}/posts`
+        `https://api.pnut.io/v0/feed/rss/users/@${this.$route.params.name}/posts`
       ),
     ]
     return {
@@ -110,9 +101,7 @@ import { User } from '~/models/user'
 })
 export default class Index extends Mixins(refreshAfterAdded) {
   profile!: User
-  uniqueName!: string
-  data!: PnutResponse<Post[]>
-  options!: object
+  listInfo!: ListInfo<Post>
   $refs!: {
     list: any
   }
@@ -122,9 +111,9 @@ export default class Index extends Mixins(refreshAfterAdded) {
   }
 
   get initialText(): string {
-    return this.user && this.user.username === this.uniqueName
+    return this.user?.username === this.$route.params.name
       ? ''
-      : `@${this.uniqueName} `
+      : `@${this.$route.params.name} `
   }
 
   get blocked(): boolean {

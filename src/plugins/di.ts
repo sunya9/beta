@@ -46,6 +46,10 @@ import {
   GetPostsUseCase,
   GetPostsInteractor,
 } from '~/plugins/domain/usecases/getPosts'
+import {
+  GetProfileWithPostsUseCase,
+  GetProfileWithPostsInteractor,
+} from '~/plugins/domain/usecases/getProfileWithPosts'
 
 type InteractorType = Readonly<{
   createFile: CreateFileUseCase
@@ -59,6 +63,7 @@ type InteractorType = Readonly<{
   suggestUsers: SuggestUsersUseCase
   getMessages: GetMessagesUseCase
   getPosts: GetPostsUseCase
+  getProfileWithPosts: GetProfileWithPostsUseCase
 }>
 
 function customizeAxios(axios: NuxtAxiosInstance) {
@@ -140,6 +145,13 @@ function getInteractors(context: Context): InteractorType {
     },
     get getPosts() {
       return new GetPostsInteractor(getPnutRepository())
+    },
+    get getProfileWithPosts() {
+      const getPostsUseCase = new GetPostsInteractor(getPnutRepository())
+      return new GetProfileWithPostsInteractor(
+        getPnutRepository(),
+        getPostsUseCase
+      )
     },
   }
 }
