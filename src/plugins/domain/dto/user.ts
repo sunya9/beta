@@ -65,3 +65,9 @@ export type SearchUsersRequest = {
   types?: User.UserType[]
 } & GeneralUserParameters &
   Pagination
+
+export type GetInteractionParameters = {
+  filters?: string
+  exclude?: string
+} & GeneralUserParameters &
+  Pagination

@@ -13,6 +13,7 @@ import { Interaction } from '~/models/interaction'
 import {
   SearchUsersRequest,
   GeneralUserParameters,
+  GetInteractionParameters,
 } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
@@ -34,6 +35,12 @@ import { UserId } from '~/plugins/domain/dto/common'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getInteractions(
+    params?: GetInteractionParameters
+  ): Promise<PnutResponse<Interaction<any>[]>> {
+    return this.get('/users/me/interactions', params)
+  }
+
   getUser(
     userId: UserId,
     params?: GeneralUserParameters
@@ -159,7 +166,7 @@ export class PnutRepositoryImpl implements PnutRepository {
     return this.axios.$get('/users/me/mentions', { params })
   }
 
-  getInteractions(
+  getPostInteractions(
     postIdRequest: PostIdRequest,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Interaction<any>[]>> {

@@ -11,6 +11,7 @@ import { Interaction } from '~/models/interaction'
 import {
   SearchUsersRequest,
   GeneralUserParameters,
+  GetInteractionParameters,
 } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
@@ -33,7 +34,7 @@ import { UserId } from '~/plugins/domain/dto/common'
 export interface PnutRepository {
   getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
   getMentions(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
-  getInteractions(
+  getPostInteractions(
     postIdRequest: PostIdRequest,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Interaction<any>[]>>
@@ -105,4 +106,7 @@ export interface PnutRepository {
     userId: UserId,
     params?: GeneralUserParameters
   ): Promise<PnutResponse<User>>
+  getInteractions(
+    params?: GetInteractionParameters
+  ): Promise<PnutResponse<Interaction<any>[]>>
 }
