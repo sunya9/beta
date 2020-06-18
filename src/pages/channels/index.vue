@@ -13,12 +13,12 @@
       </h2>
       <ul v-if="isPublic" class="nav nav-pills my-3">
         <li class="nav-item">
-          <nuxt-link class="nav-link" to="/messages?public" exact>
+          <nuxt-link class="nav-link" to="/channels?public" exact>
             Subscribed
           </nuxt-link>
         </li>
         <li class="nav-item">
-          <nuxt-link class="nav-link" to="/messages?public&amp;all">
+          <nuxt-link class="nav-link" to="/channels?public&amp;all">
             All
           </nuxt-link>
         </li>

@@ -11,7 +11,7 @@ describe('EntityText component', () => {
         content,
       },
     })
-    expect(wrapper.text().includes('https://beta.pnut.io/messages/0')).toBe(
+    expect(wrapper.text().includes('https://beta.pnut.io/channels/0')).toBe(
       true
     )
   })

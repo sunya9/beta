@@ -40,9 +40,24 @@
             />
             <toggle-nsfw v-model="nsfw" :disabled="promise" class="mr-2" />
 
+            <button
+              v-if="!canBroadcast"
+              type="submit"
+              :disabled="calcDisabled"
+              class="ml-1 btn btn-primary text-uppercase"
+            >
+              <font-awesome-icon
+                v-show="promise"
+                icon="sync"
+                spin
+                fixed-width
+                class="mr-2"
+              />
+              Send
+            </button>
             <b-dropdown
-              :split="canBroadcast"
-              :no-caret="!canBroadcast"
+              v-else
+              split
               :disabled="calcDisabled"
               variant="primary"
               right
@@ -204,6 +219,7 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
       bus.$emit('post')
       this.text = ''
       this.$toast.success('Posted!')
+      this.initialize()
       this.spoiler = null
     } catch (e) {
       console.error(e)
@@ -225,8 +241,7 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
         longpost: this.longpost,
         pollRequest: this.poll,
       })
-      this.initialize()
-      this.$router.push(`/messages/${message.channel_id}`)
+      this.$router.push(`/channels/${message.channel_id}`)
       this.$emit('submit')
     } catch (e) {
       console.error(e)

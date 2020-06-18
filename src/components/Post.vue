@@ -192,7 +192,7 @@
         </div>
         <p v-if="channelInvite">
           <nuxt-link
-            :to="`/messages/${channelInvite.channel_id}`"
+            :to="`/channels/${channelInvite.channel_id}`"
             class="btn btn-outline-primary"
           >
             Go to

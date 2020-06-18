@@ -38,6 +38,10 @@ import {
   SuggestUsersInteracator,
   SuggestUsersUseCase,
 } from '~/plugins/domain/usecases/suggestUsers'
+import {
+  GetMessagesUseCase,
+  GetMessagesInteractor,
+} from '~/plugins/domain/usecases/getMessages'
 
 type InteractorType = Readonly<{
   createFile: CreateFileUseCase
@@ -49,6 +53,7 @@ type InteractorType = Readonly<{
   createChannel: CreateChannelUseCase
   createPrivateChannel: CreatePrivateChannelUseCase
   suggestUsers: SuggestUsersUseCase
+  getMessages: GetMessagesUseCase
 }>
 
 function customizeAxios(axios: NuxtAxiosInstance) {
@@ -124,6 +129,9 @@ function getInteractors(context: Context): InteractorType {
     },
     get suggestUsers() {
       return new SuggestUsersInteracator(getPnutRepository())
+    },
+    get getMessages() {
+      return new GetMessagesInteractor(getPnutRepository())
     },
   }
 }

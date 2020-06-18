@@ -50,23 +50,24 @@ import { Message } from '~/models/message'
     ChatPanel,
     PmPanel,
   },
-  validate({ params: { channel } }) {
-    return /^\d+$/.test(channel)
+  validate({ params: { channelId } }) {
+    return /^\d+$/.test(channelId)
   },
-  async asyncData({ app: { $resource }, params, error }) {
+  async asyncData({ app: { $resource, $interactors }, params, error }) {
     const options = {
       include_deleted: 1,
     }
-    const messagesPromise = $resource<Message[]>({ options })
+    const { channelId } = params
+    const messagesPromise = $interactors.getMessages.run({ channelId })
     const channelPromise = $resource<Channel>({
-      url: `/channels/${params.channel}`,
+      url: `/channels/${channelId}`,
       options: {
         include_limited_users: 1,
         include_channel_raw: 1,
       },
     })
     try {
-      const [data, { data: channel }] = await Promise.all([
+      const [{ res: data }, { data: channel }] = await Promise.all([
         messagesPromise,
         channelPromise,
       ])

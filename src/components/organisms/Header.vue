@@ -49,7 +49,7 @@
           <nuxt-link
             v-if="user"
             id="nav-messages"
-            to="/messages"
+            to="/channels"
             tag="li"
             class="nav-item d-none d-sm-block"
             title="Messages"
@@ -111,7 +111,7 @@
                 <span class="d-inline d-sm-none">@{{ user.username }}</span>
               </nuxt-link>
               <div class="dropdown-divider d-sm-none" />
-              <nuxt-link to="/messages" class="dropdown-item d-sm-none">
+              <nuxt-link to="/channels" class="dropdown-item d-sm-none">
                 Messages
               </nuxt-link>
               <nuxt-link class="dropdown-item d-sm-none" to="/files">

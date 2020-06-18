@@ -30,6 +30,13 @@ import { User } from '~/models/user'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getMessages(
+    channelId: string,
+    params?: GeneralMessageParameters
+  ): Promise<PnutResponse<Message[]>> {
+    return this.get(`/channels/${channelId}/messages`, params)
+  }
+
   searchUsers(params: SearchUsersRequest): Promise<PnutResponse<User[]>> {
     return this.get('/users/search', params)
   }

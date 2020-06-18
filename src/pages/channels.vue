@@ -6,7 +6,7 @@
           <li class="nav-item">
             <nuxt-link
               :class="{ active: isPM === true }"
-              to="/messages"
+              to="/channels"
               class="nav-link"
               exact
             >
@@ -16,7 +16,7 @@
           <li class="nav-item">
             <nuxt-link
               :class="{ active: isPM === false }"
-              to="/messages?public"
+              to="/channels?public"
               class="nav-link"
             >
               Chat Rooms

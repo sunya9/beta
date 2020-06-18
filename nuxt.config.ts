@@ -140,6 +140,7 @@ const config: Configuration = {
     ],
     'bootstrap-vue/nuxt',
     'nuxt-uid-module',
+    '@nuxtjs/redirect-module',
   ],
   'google-analytics': {
     id: 'UA-10104011-16',
@@ -212,6 +213,9 @@ const config: Configuration = {
   bootstrapVue: {
     bootstrapCSS: false,
     bootstrapVueCSS: true,
+  },
+  redirect: {
+    rules: [{ from: '^/messages(.*)$', to: '/channels$1' }],
   },
 }
 

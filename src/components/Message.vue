@@ -169,6 +169,7 @@ import {
 import { User } from '~/models/user'
 import { Message } from '~/models/message'
 import { Spoiler } from '~/models/raw/raw/spoiler'
+import Sound from '~/components/Sound.vue'
 
 @Component({
   components: {
@@ -176,6 +177,7 @@ import { Spoiler } from '~/models/raw/raw/spoiler'
     EntityText,
     Thumb,
     UserPopper,
+    Sound,
   },
 })
 export default class MessageView extends Mixins(
