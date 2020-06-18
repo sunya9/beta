@@ -42,6 +42,10 @@ import {
   GetMessagesUseCase,
   GetMessagesInteractor,
 } from '~/plugins/domain/usecases/getMessages'
+import {
+  GetPostsUseCase,
+  GetPostsInteractor,
+} from '~/plugins/domain/usecases/getPosts'
 
 type InteractorType = Readonly<{
   createFile: CreateFileUseCase
@@ -54,6 +58,7 @@ type InteractorType = Readonly<{
   createPrivateChannel: CreatePrivateChannelUseCase
   suggestUsers: SuggestUsersUseCase
   getMessages: GetMessagesUseCase
+  getPosts: GetPostsUseCase
 }>
 
 function customizeAxios(axios: NuxtAxiosInstance) {
@@ -132,6 +137,9 @@ function getInteractors(context: Context): InteractorType {
     },
     get getMessages() {
       return new GetMessagesInteractor(getPnutRepository())
+    },
+    get getPosts() {
+      return new GetPostsInteractor(getPnutRepository())
     },
   }
 }
