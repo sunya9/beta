@@ -35,6 +35,20 @@ import { UserId } from '~/plugins/domain/dto/common'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getFollowers(
+    userId: string,
+    params?: GeneralUserParameters
+  ): Promise<PnutResponse<User[]>> {
+    return this.get(`/users/${userId}/followers`, params)
+  }
+
+  getFollowing(
+    userId: string,
+    params?: GeneralUserParameters
+  ): Promise<PnutResponse<User[]>> {
+    return this.get(`/users/${userId}/following`, params)
+  }
+
   getInteractions(
     params?: GetInteractionParameters
   ): Promise<PnutResponse<Interaction<any>[]>> {

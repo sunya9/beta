@@ -109,4 +109,12 @@ export interface PnutRepository {
   getInteractions(
     params?: GetInteractionParameters
   ): Promise<PnutResponse<Interaction<any>[]>>
+  getFollowers(
+    userId: UserId,
+    params?: GeneralUserParameters
+  ): Promise<PnutResponse<User[]>>
+  getFollowing(
+    userId: UserId,
+    params?: GeneralUserParameters
+  ): Promise<PnutResponse<User[]>>
 }
