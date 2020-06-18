@@ -15,8 +15,9 @@
           :text="`#${entity.text}`"
           element="nuxt-link"
         />
-        <template v-else-if="entity.type === 'links'">
+        <template v-else-if="isLinks(entity)">
           <emojify
+            v-if="$options.components"
             :key="`links-${i}`"
             :to="entity.replace ? entity.replace.link : entity.link"
             :element="$options.components.NuxtLinkMod"
@@ -225,6 +226,9 @@ export default Vue.extend({
       // Unsubstituted link
       if (!entityIsDefinitelyModifiedLink(entity) || !isURLLiteral) return text
       return entity.replace.link
+    },
+    isLinks(entity: TypedEntity): entity is ModifiedLink & TypedEntity {
+      return entity.type === 'links'
     },
   },
 })
