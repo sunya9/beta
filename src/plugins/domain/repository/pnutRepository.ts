@@ -31,6 +31,7 @@ import {
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
 import { UserId, Pagination } from '~/plugins/domain/dto/common'
+import { Stats } from '~/models/stats'
 
 export interface PnutRepository {
   getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
@@ -138,4 +139,6 @@ export interface PnutRepository {
   getMutedUsers(
     params?: GeneralChannelParameters & Pagination
   ): Promise<PnutResponse<User[]>>
+
+  getStats(): Promise<PnutResponse<Stats>>
 }
