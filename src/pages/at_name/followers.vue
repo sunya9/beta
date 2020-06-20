@@ -27,8 +27,10 @@ import { User } from '~/models/user'
     } = ctx
     const { name } = params
     const { listInfo } = await $interactors.getUsers.run({
-      type: 'followers',
-      username: `@${name}`,
+      type: {
+        type: 'followers',
+        userId: `@${name}`,
+      },
     })
     return {
       listInfo,

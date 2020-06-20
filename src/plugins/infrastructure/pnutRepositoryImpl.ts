@@ -32,10 +32,22 @@ import {
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
-import { UserId } from '~/plugins/domain/dto/common'
+import { UserId, Pagination } from '~/plugins/domain/dto/common'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getMutedUsers(
+    params?: GeneralChannelParameters & Pagination
+  ): Promise<PnutResponse<User[]>> {
+    return this.get('/users/me/muted', params)
+  }
+
+  getBlockedUsers(
+    params?: GeneralChannelParameters & Pagination
+  ): Promise<PnutResponse<User[]>> {
+    return this.get('/users/me/blocked', params)
+  }
+
   getChannel(
     channelId: string,
     params?: GeneralChannelParameters

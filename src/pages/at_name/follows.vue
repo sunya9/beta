@@ -26,8 +26,10 @@ import { ListInfo } from '~/plugins/domain/util/util'
     } = ctx
     const { name } = params
     const { listInfo } = await $interactors.getUsers.run({
-      type: 'following',
-      username: `@${name}`,
+      type: {
+        type: 'following',
+        userId: `@${name}`,
+      },
     })
     return {
       listInfo,

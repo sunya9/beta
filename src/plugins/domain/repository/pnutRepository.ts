@@ -30,7 +30,7 @@ import {
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
-import { UserId } from '~/plugins/domain/dto/common'
+import { UserId, Pagination } from '~/plugins/domain/dto/common'
 
 export interface PnutRepository {
   getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
@@ -130,4 +130,12 @@ export interface PnutRepository {
     channelId: string,
     params?: GeneralChannelParameters
   ): Promise<PnutResponse<Channel>>
+
+  getBlockedUsers(
+    params?: GeneralChannelParameters & Pagination
+  ): Promise<PnutResponse<User[]>>
+
+  getMutedUsers(
+    params?: GeneralChannelParameters & Pagination
+  ): Promise<PnutResponse<User[]>>
 }

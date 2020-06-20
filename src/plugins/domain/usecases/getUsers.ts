@@ -5,9 +5,20 @@ import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { Usecase } from '~/plugins/domain/usecases/usecase'
 import { createListInfo, ListInfo } from '~/plugins/domain/util/util'
 
+type UserType =
+  | {
+      type: 'following'
+      userId: UserId
+    }
+  | {
+      type: 'followers'
+      userId: UserId
+    }
+  | { type: 'blocked' }
+  | { type: 'muted' }
+
 interface Input {
-  username: UserId
-  type: 'following' | 'followers'
+  type: UserType
   params?: GeneralUserParameters
 }
 
@@ -21,16 +32,29 @@ export class GetUsersIntereactor implements GetUsersUseCase {
   constructor(private readonly pnutRepository: PnutRepository) {}
 
   async run(input: Input): Promise<Output> {
-    const listInfo = await createListInfo((params) => {
-      const method: keyof PnutRepository =
-        input.type === 'following' ? 'getFollowing' : 'getFollowing'
-      return this.pnutRepository[method](input.username, {
-        ...input.params,
-        ...params,
-      })
-    }, input.params)
+    const listInfo = await this.createListInfo(input)
     return {
       listInfo,
     }
+  }
+
+  private createListInfo(input: Input) {
+    const { type } = input
+    return createListInfo((newParams) => {
+      const params = {
+        ...input.params,
+        ...newParams,
+      }
+      switch (type.type) {
+        case 'followers':
+          return this.pnutRepository.getFollowers(type.userId, params)
+        case 'following':
+          return this.pnutRepository.getFollowing(type.userId, params)
+        case 'blocked':
+          return this.pnutRepository.getBlockedUsers(params)
+        case 'muted':
+          return this.pnutRepository.getMutedUsers(params)
+      }
+    }, input.params)
   }
 }
