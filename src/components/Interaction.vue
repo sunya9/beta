@@ -107,7 +107,7 @@ export default class InteractionView extends Mixins(
   listItem('interaction.event_date')
 ) {
   @Prop({ required: true })
-  interaction!: Interaction<any>
+  interaction!: Interaction
 
   get actionBy() {
     return `${convert[this.interaction.action].text} by`

@@ -51,7 +51,7 @@ export class PnutRepositoryImpl implements PnutRepository {
 
   getInteractions(
     params?: GetInteractionParameters
-  ): Promise<PnutResponse<Interaction<any>[]>> {
+  ): Promise<PnutResponse<Interaction[]>> {
     return this.get('/users/me/interactions', params)
   }
 
@@ -183,7 +183,7 @@ export class PnutRepositoryImpl implements PnutRepository {
   getPostInteractions(
     postIdRequest: PostIdRequest,
     params?: GeneralPostParameters
-  ): Promise<PnutResponse<Interaction<any>[]>> {
+  ): Promise<PnutResponse<Interaction[]>> {
     return this.axios.$get(`/posts/${postIdRequest.post_id}/interactions`, {
       params,
     })

@@ -84,7 +84,7 @@ import InteractionList from '~/components/InteractionList.vue'
   watchQuery: ['filters'],
 })
 export default class Interactions extends Vue {
-  listInfo!: ListInfo<Interaction<any>>
+  listInfo!: ListInfo<Interaction>
   reply = false
   repost = true
   bookmark = true

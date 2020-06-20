@@ -1,13 +1,19 @@
 import { Pageable } from './pageable'
 import { Post } from './post'
 import { User } from './user'
+import { Poll } from '~/models/poll'
 
-export interface Interaction<T> extends Pageable {
+interface BaseInteraction<T> extends Pageable {
   event_date: Date
   action: Interaction.ActionType
   objects: T[]
-  users?: User[]
 }
+export type Interaction =
+  | Interaction.Bookmark
+  | Interaction.Reply
+  | Interaction.Repost
+  | Interaction.Follow
+  | Interaction.PollResponse
 
 export namespace Interaction {
   export type ActionType =
@@ -16,5 +22,23 @@ export namespace Interaction {
     | 'repost'
     | 'follow'
     | 'poll_response'
-  export interface PostInteraction extends Interaction<Post> {}
+  export interface Bookmark extends BaseInteraction<Post> {
+    action: 'bookmark'
+  }
+
+  export interface Reply extends BaseInteraction<Post> {
+    action: 'reply'
+  }
+
+  export interface Repost extends BaseInteraction<Post> {
+    action: 'repost'
+  }
+
+  export interface Follow extends BaseInteraction<User> {
+    action: 'follow'
+  }
+
+  export interface PollResponse extends BaseInteraction<Poll> {
+    action: 'poll_response'
+  }
 }

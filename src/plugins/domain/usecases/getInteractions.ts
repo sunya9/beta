@@ -11,7 +11,7 @@ interface Input {
 }
 
 interface Output {
-  listInfo: ListInfo<Interaction<any>>
+  listInfo: ListInfo<Interaction>
 }
 
 export interface GetInteractionsUseCase

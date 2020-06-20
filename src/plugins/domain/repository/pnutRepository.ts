@@ -37,7 +37,7 @@ export interface PnutRepository {
   getPostInteractions(
     postIdRequest: PostIdRequest,
     params?: GeneralPostParameters
-  ): Promise<PnutResponse<Interaction<any>[]>>
+  ): Promise<PnutResponse<Interaction[]>>
   getBookmarks(
     userId: string,
     params?: GeneralPostParameters
@@ -108,7 +108,7 @@ export interface PnutRepository {
   ): Promise<PnutResponse<User>>
   getInteractions(
     params?: GetInteractionParameters
-  ): Promise<PnutResponse<Interaction<any>[]>>
+  ): Promise<PnutResponse<Interaction[]>>
   getFollowers(
     userId: UserId,
     params?: GeneralUserParameters
