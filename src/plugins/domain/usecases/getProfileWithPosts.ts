@@ -1,4 +1,4 @@
-import { ListInfo } from '~/plugins/domain/usecases/getList'
+import { ListInfo } from '~/plugins/domain/util/util'
 import { Post } from '~/models/post'
 import { User } from '~/models/user'
 import { PnutResponse } from '~/models/pnut-response'
@@ -30,8 +30,7 @@ export class GetProfileWithPostsInteractor
   ) {}
 
   async run(input: Input): Promise<Output> {
-    // TODO: fix me
-    const p1 = await this.getPostsUseCase.run({
+    const p1 = this.getPostsUseCase.run({
       streamType: { type: 'user', userId: input.username },
       params: input.postParams,
     })

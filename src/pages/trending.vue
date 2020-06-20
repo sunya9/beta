@@ -11,7 +11,7 @@ import { Component } from 'vue-property-decorator'
 import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/PostList.vue'
 import { Post } from '~/models/post'
-import { ListInfo } from '~/plugins/domain/usecases/getList'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 @Component({
   components: {

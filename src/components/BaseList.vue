@@ -49,7 +49,7 @@
 <script lang="ts">
 import { Prop, Watch, Component, Mixins } from 'vue-property-decorator'
 import keyBinding from '~/assets/ts/key-binding'
-import { ListInfo } from '~/plugins/domain/usecases/getList'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 const INTERVAL = 1000 * 30 // 30sec
 

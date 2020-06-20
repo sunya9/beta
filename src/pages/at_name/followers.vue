@@ -11,7 +11,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'nuxt-property-decorator'
-import { ListInfo } from '~/plugins/domain/usecases/getList'
+import { ListInfo } from '~/plugins/domain/util/util'
 import UserList from '~/components/UserList.vue'
 import { User } from '~/models/user'
 

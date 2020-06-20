@@ -3,33 +3,39 @@ import { Post } from '~/models/post'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'
 import { StreamType } from '~/plugins/domain/dto/streamType'
-import {
-  GetListBaseInput,
-  GetListBaseOutput,
-  GetListUseCase,
-  GetListInteractor,
-} from '~/plugins/domain/usecases/getList'
+import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { createListInfo, ListInfo } from '~/plugins/domain/util/util'
 
-interface Input extends GetListBaseInput {
+interface Input {
   streamType: StreamType
   params?: GeneralPostParameters
   data?: PnutResponse<Post[]>
 }
 
-interface Output extends GetListBaseOutput<Post> {}
+interface Output {
+  listInfo: ListInfo<Post>
+}
 
-export interface GetPostsUseCase
-  extends GetListUseCase<Post, Input, Promise<Output>> {}
+export interface GetPostsUseCase extends Usecase<Input, Promise<Output>> {}
 
-export class GetPostsInteractor
-  extends GetListInteractor<Post, Input, Promise<Output>>
-  implements GetPostsUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {
-    super()
-  }
+export class GetPostsInteractor implements GetPostsUseCase {
+  constructor(private readonly pnutRepository: PnutRepository) {}
 
-  getList(input: Input): Promise<PnutResponse<Post[]>> {
-    return this.getPosts(input)
+  async run(input: Input): Promise<Output> {
+    const listInfo = await createListInfo(
+      (paging) =>
+        this.getPosts({
+          ...input,
+          params: {
+            ...input.params,
+            ...paging,
+          },
+        }),
+      input.params
+    )
+    return {
+      listInfo,
+    }
   }
 
   private getPosts(input: Input) {

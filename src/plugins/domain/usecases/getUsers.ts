@@ -1,36 +1,36 @@
 import { UserId } from '~/plugins/domain/dto/common'
-import {
-  GetListBaseOutput,
-  GetListBaseInput,
-  GetListUseCase,
-  GetListInteractor,
-} from '~/plugins/domain/usecases/getList'
 import { User } from '~/models/user'
 import { GeneralUserParameters } from '~/plugins/domain/dto/user'
-import { PnutResponse } from '~/models/pnut-response'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
+import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { createListInfo, ListInfo } from '~/plugins/domain/util/util'
 
-interface Input extends GetListBaseInput {
+interface Input {
   username: UserId
   type: 'following' | 'followers'
   params?: GeneralUserParameters
 }
 
-interface Output extends GetListBaseOutput<User> {}
+interface Output {
+  listInfo: ListInfo<User>
+}
 
-export interface GetUsersUseCase
-  extends GetListUseCase<User, Input, Promise<Output>> {}
+export interface GetUsersUseCase extends Usecase<Input, Promise<Output>> {}
 
-export class GetUsersIntereactor
-  extends GetListInteractor<User, Input, Promise<Output>>
-  implements GetUsersUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {
-    super()
-  }
+export class GetUsersIntereactor implements GetUsersUseCase {
+  constructor(private readonly pnutRepository: PnutRepository) {}
 
-  getList(input: Input): Promise<PnutResponse<User[]>> {
-    const method: keyof PnutRepository =
-      input.type === 'following' ? 'getFollowing' : 'getFollowing'
-    return this.pnutRepository[method](input.username, input.params)
+  async run(input: Input): Promise<Output> {
+    const listInfo = await createListInfo((params) => {
+      const method: keyof PnutRepository =
+        input.type === 'following' ? 'getFollowing' : 'getFollowing'
+      return this.pnutRepository[method](input.username, {
+        ...input.params,
+        ...params,
+      })
+    }, input.params)
+    return {
+      listInfo,
+    }
   }
 }

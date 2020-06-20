@@ -1,45 +1,44 @@
 import { Interaction } from '~/models/interaction'
-import { PnutResponse } from '~/models/pnut-response'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { InteractionType } from '~/plugins/domain/dto/common'
-import {
-  GetListBaseInput,
-  GetListBaseOutput,
-  GetListUseCase,
-  GetListInteractor,
-} from '~/plugins/domain/usecases/getList'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'
+import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { createListInfo, ListInfo } from '~/plugins/domain/util/util'
 
-interface Input extends GetListBaseInput {
+interface Input {
   interactionType?: InteractionType[] | string | Array<string | null>
   params?: GeneralPostParameters
 }
 
-interface Output extends GetListBaseOutput<Interaction<any>> {
-  filters: { [K in InteractionType]: boolean }
+interface Output {
+  listInfo: ListInfo<Interaction<any>>
 }
 
 export interface GetInteractionsUseCase
-  extends GetListUseCase<Interaction<any>, Input, Promise<Output>> {}
+  extends Usecase<Input, Promise<Output>> {}
 
-export class GetInteractionsInteractor
-  extends GetListInteractor<Interaction<any>, Input, Promise<Output>>
-  implements GetInteractionsUseCase {
+export class GetInteractionsInteractor implements GetInteractionsUseCase {
   private getInteractionString(interactionType: Input['interactionType']) {
     return typeof interactionType === 'string'
       ? interactionType
       : interactionType?.join(',') || ''
   }
 
-  getList(input: Input): Promise<PnutResponse<Interaction<any>[]>> {
-    const { interactionType } = input
-    return this.pnutRepository.getInteractions({
-      ...input.params,
-      filters: this.getInteractionString(interactionType),
-    })
-  }
+  constructor(private readonly pnutRepository: PnutRepository) {}
 
-  constructor(private readonly pnutRepository: PnutRepository) {
-    super()
+  async run(input: Input): Promise<Output> {
+    const { interactionType } = input
+    const listInfo = await createListInfo(
+      (params) =>
+        this.pnutRepository.getInteractions({
+          ...input.params,
+          filters: this.getInteractionString(interactionType),
+          ...params,
+        }),
+      input.params
+    )
+    return {
+      listInfo,
+    }
   }
 }

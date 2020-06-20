@@ -37,7 +37,7 @@ import {
 } from '~/assets/ts/notification-wrapper'
 import keyBinding, { forList } from '~/assets/ts/key-binding'
 import { Post } from '~/models/post'
-import { ListInfo } from '~/plugins/domain/usecases/getList'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 const keyMap = {
   r: 'replyModal',

@@ -61,7 +61,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
-import { ListInfo } from '~/plugins/domain/usecases/getList'
+import { ListInfo } from '~/plugins/domain/util/util'
 import { Interaction } from '~/models/interaction'
 import InteractionList from '~/components/InteractionList.vue'
 

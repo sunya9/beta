@@ -30,7 +30,7 @@ import PostList from '~/components/PostList.vue'
 import { getTitle, getRSSLink } from '~/assets/ts/util'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 import { User } from '~/models/user'
-import { ListInfo } from '~/plugins/domain/usecases/getList'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 @Component({
   components: {

@@ -11,7 +11,7 @@ import { Post } from '~/models/post'
 import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/PostList.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
-import { ListInfo } from '~/plugins/domain/usecases/getList'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 @Component({
   middleware: ['auth'],
