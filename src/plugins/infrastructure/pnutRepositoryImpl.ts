@@ -36,6 +36,13 @@ import { UserId } from '~/plugins/domain/dto/common'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getChannel(
+    channelId: string,
+    params?: GeneralChannelParameters
+  ): Promise<PnutResponse<Channel>> {
+    return this.get(`/channels/${channelId}`, params)
+  }
+
   searchChannels(
     params?: SearchChannelRequest
   ): Promise<PnutResponse<Channel[]>> {

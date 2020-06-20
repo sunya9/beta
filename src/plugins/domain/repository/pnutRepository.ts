@@ -126,4 +126,8 @@ export interface PnutRepository {
   searchChannels(
     params?: SearchChannelRequest
   ): Promise<PnutResponse<Channel[]>>
+  getChannel(
+    channelId: string,
+    params?: GeneralChannelParameters
+  ): Promise<PnutResponse<Channel>>
 }
