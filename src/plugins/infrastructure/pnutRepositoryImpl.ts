@@ -28,6 +28,7 @@ import {
   CreateChannelRequest,
   GeneralChannelParameters,
   CreatePrivateChannelRequest,
+  SearchChannelRequest,
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
@@ -35,6 +36,18 @@ import { UserId } from '~/plugins/domain/dto/common'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  searchChannels(
+    params?: SearchChannelRequest
+  ): Promise<PnutResponse<Channel[]>> {
+    return this.get('/channels/search', params)
+  }
+
+  getSubscribedChannels(
+    params?: GeneralChannelParameters
+  ): Promise<PnutResponse<Channel[]>> {
+    return this.get('/users/me/channels/subscribed', params)
+  }
+
   getFollowers(
     userId: string,
     params?: GeneralUserParameters

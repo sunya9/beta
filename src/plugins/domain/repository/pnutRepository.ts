@@ -26,6 +26,7 @@ import {
   CreateChannelRequest,
   GeneralChannelParameters,
   CreatePrivateChannelRequest,
+  SearchChannelRequest,
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
@@ -117,4 +118,12 @@ export interface PnutRepository {
     userId: UserId,
     params?: GeneralUserParameters
   ): Promise<PnutResponse<User[]>>
+
+  getSubscribedChannels(
+    params?: GeneralChannelParameters
+  ): Promise<PnutResponse<Channel[]>>
+
+  searchChannels(
+    params?: SearchChannelRequest
+  ): Promise<PnutResponse<Channel[]>>
 }
