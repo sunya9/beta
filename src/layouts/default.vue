@@ -71,10 +71,7 @@
     </main>
     <post-modal />
     <remove-modal />
-    <message-remove-modal />
     <message-modal />
-    <channel-edit-modal />
-    <channel-member-edit-modal />
     <help-modal />
   </div>
 </template>
@@ -84,9 +81,7 @@ import { getMenusWithMeta, MenuItem } from '~/components/sidebar/MenuItem'
 import AppHeader from '~/components/organisms/Header.vue'
 import PostModal from '~/components/PostModal.vue'
 import RemoveModal from '~/components/RemoveModal.vue'
-import MessageRemoveModal from '~/components/MessageRemoveModal.vue'
-import ChannelEditModal from '~/components/ChannelEditModal.vue'
-import ChannelMemberEditModal from '~/components/ChannelMemberEditModal.vue'
+
 import MessageModal from '~/components/MessageModal.vue'
 import HelpModal from '~/components/organisms/HelpModal.vue'
 import Sidebar from '~/components/sidebar/Sidebar.vue'
@@ -98,9 +93,6 @@ import { User } from '~/models/user'
     AppHeader,
     PostModal,
     RemoveModal,
-    MessageRemoveModal,
-    ChannelEditModal,
-    ChannelMemberEditModal,
     MessageModal,
     HelpModal,
     Sidebar,

@@ -1,28 +1,33 @@
 <template>
-  <div :key="$route.fullPath" class="row">
-    <div class="col-md-4 order-md-2">
-      <chat-panel
-        v-if="chat"
-        :chat="chat"
-        :is-moderator="isModerator"
-        :initial-channel.sync="channel"
-      />
-      <pm-panel v-else :initial-channel.sync="channel" />
-    </div>
-    <div class="col-md-8 order-md-1">
-      <message-compose v-if="canPost" v-model="message" :channel="channel" />
-      <div class="card">
-        <div class="card-body">
-          <message-list
-            :list-info="listInfo"
-            :refresh-date="date"
-            :is-moderator="isModerator"
-            :channel-type="channel.type"
-            :last-read-message-id="markerId"
-          />
+  <div>
+    <div :key="$route.fullPath" class="row">
+      <div class="col-md-4 order-md-2">
+        <chat-panel
+          v-if="chat"
+          :chat="chat"
+          :is-moderator="isModerator"
+          :initial-channel.sync="channel"
+        />
+        <pm-panel v-else :initial-channel.sync="channel" />
+      </div>
+      <div class="col-md-8 order-md-1">
+        <message-compose v-if="canPost" v-model="message" :channel="channel" />
+        <div class="card">
+          <div class="card-body">
+            <message-list
+              :list-info="listInfo"
+              :refresh-date="date"
+              :is-moderator="isModerator"
+              :channel-type="channel.type"
+              :last-read-message-id="markerId"
+            />
+          </div>
         </div>
       </div>
     </div>
+    <channel-edit-modal />
+    <channel-member-edit-modal />
+    <message-remove-modal />
   </div>
 </template>
 
@@ -41,6 +46,9 @@ import { User } from '~/models/user'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 import { Message } from '~/models/message'
 import { ListInfo } from '~/plugins/domain/util/util'
+import ChannelEditModal from '~/components/ChannelEditModal.vue'
+import ChannelMemberEditModal from '~/components/ChannelMemberEditModal.vue'
+import MessageRemoveModal from '~/components/MessageRemoveModal.vue'
 
 @Component({
   components: {
@@ -48,6 +56,9 @@ import { ListInfo } from '~/plugins/domain/util/util'
     MessageCompose,
     ChatPanel,
     PmPanel,
+    ChannelEditModal,
+    ChannelMemberEditModal,
+    MessageRemoveModal,
   },
   validate({ params: { channelId } }) {
     return /^\d+$/.test(channelId)
