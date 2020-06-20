@@ -4,7 +4,7 @@ import { RawRequest } from '~/plugins/domain/dto/common'
 export type GeneralChannelParameters = {
   include_read?: boolean
   channel_types?: string[]
-  exclude_channel_types: string[]
+  exclude_channel_types?: string[]
   include_marker?: boolean
   include_inactive?: boolean
   include_raw?: boolean
@@ -28,7 +28,7 @@ type ChannelCategory =
   | 'general'
 export type SearchChannelRequest = {
   order?: 'activity' | 'id' | 'popularity'
-  q: string
+  q?: string
   categories?: ChannelCategory[]
   channel_types?: string[]
   raw_types?: string[]
@@ -36,7 +36,7 @@ export type SearchChannelRequest = {
   is_private?: boolean
   is_public?: boolean
   owner_id?: string
-}
+} & GeneralChannelParameters
 
 export type CreateChannelRequest = {
   type: string
