@@ -7,6 +7,7 @@ interface BaseInteraction<T> extends Pageable {
   event_date: Date
   action: Interaction.ActionType
   objects: T[]
+  users: User[]
 }
 export type Interaction =
   | Interaction.Bookmark

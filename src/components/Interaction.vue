@@ -22,7 +22,10 @@
         </ul>
       </h6>
       <div class="my-3">
-        <nuxt-link v-if="post" :to="`@${post.user.username}/posts/${post.id}`">
+        <nuxt-link
+          v-if="post && post.user"
+          :to="`@${post.user.username}/posts/${post.id}`"
+        >
           This post
         </nuxt-link>
         {{ actionBy }}
