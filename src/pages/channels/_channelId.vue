@@ -14,12 +14,11 @@
       <div class="card">
         <div class="card-body">
           <message-list
-            :data="data"
-            :option="options"
+            :list-info="listInfo"
             :refresh-date="date"
             :is-moderator="isModerator"
             :channel-type="channel.type"
-            :last-read-message-id="data.meta.marker && data.meta.marker.id"
+            :last-read-message-id="markerId"
           />
         </div>
       </div>
@@ -29,19 +28,19 @@
 
 <script lang="ts">
 import { Component, Mixins, Watch } from 'vue-property-decorator'
-import { PnutResponse } from '~/models/pnut-response'
 import { userIdIsSimpleUser } from '~/util/channel'
 import MessageList from '~/components/MessageList.vue'
 import MessageCompose from '~/components/organisms/MessageCompose.vue'
 import ChatPanel from '~/components/ChatPanel.vue'
 import PmPanel from '~/components/PmPanel.vue'
 import markAsRead from '~/assets/ts/mark-as-read'
-import { getRSSLink, deletedUser, findChatValueRaw } from '~/assets/ts/util'
+import { getRSSLink, findChatValueRaw } from '~/assets/ts/util'
 import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 import { Message } from '~/models/message'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 @Component({
   components: {
@@ -53,41 +52,13 @@ import { Message } from '~/models/message'
   validate({ params: { channelId } }) {
     return /^\d+$/.test(channelId)
   },
-  async asyncData({ app: { $resource, $interactors }, params, error }) {
-    const options = {
-      include_deleted: 1,
-    }
+  async asyncData({ app: { $interactors }, params, error }) {
     const { channelId } = params
-    const messagesPromise = $interactors.getMessages.run({ channelId })
-    const channelPromise = $resource<Channel>({
-      url: `/channels/${channelId}`,
-      options: {
-        include_limited_users: 1,
-        include_channel_raw: 1,
-      },
+    const { listInfo, channel } = await $interactors.getMessages.run({
+      channelId,
     })
     try {
-      const [{ res: data }, { data: channel }] = await Promise.all([
-        messagesPromise,
-        channelPromise,
-      ])
-      if (channel.owner?.content) {
-        channel.owner = {
-          ...deletedUser,
-          ...channel.owner,
-          content: {
-            ...channel.owner.content,
-            avatar_image: {
-              ...channel.owner.content.avatar_image,
-            },
-          },
-        }
-      }
-      return {
-        data,
-        channel,
-        options,
-      }
+      return { listInfo, channel, markerId: listInfo.newerMeta.marker?.id }
     } catch (e) {
       const { code, error_message } = e.response.data.meta
       return error({
@@ -111,8 +82,8 @@ export default class ChannelView extends Mixins(refreshAfterAdded, markAsRead) {
 
   message = ''
   channel!: Channel
-  data!: PnutResponse<Message[]>
-  options!: object
+  listInfo!: ListInfo<Message>
+  markerId!: string
 
   get chat(): ChatRoomSettings.Value | void {
     if (!this.channel) return undefined
