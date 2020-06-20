@@ -2167,7 +2167,7 @@
     "@nuxtjs/meta" "^2.6.0"
     "@nuxtjs/workbox" "^2.6.0"
 
-"@nuxtjs/redirect-module@^0.3.1":
+"@nuxtjs/redirect-module@0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@nuxtjs/redirect-module/-/redirect-module-0.3.1.tgz#90a6986882337401cb0576cdf9479d4e3b552cce"
   integrity sha512-yL2unrYfUSqs+4cUtkQvEQMsuTeCOlQd+Y5sTqMZzWBadF8h01tCVDG95zmOTNIiCupb+sQho2Tixwl1f826aw==
@@ -2789,7 +2789,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/convert-units@^2.3.1":
+"@types/convert-units@2.3.1":
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/@types/convert-units/-/convert-units-2.3.1.tgz#7e70c011e9b9ae4af2dfc3c67086993b0178ad4e"
   integrity sha512-AHEgoIlF2BsJLyT4FMskeWSKYTX5kKb2Huy1ER91N2CU97+lbMNV3BjKPrfMoEovtVIAVKQfxhdv6+HMaOF5+g==
@@ -6087,7 +6087,7 @@ convert-source-map@^1.4.0, convert-source-map@^1.5.0, convert-source-map@^1.6.0,
   dependencies:
     safe-buffer "~5.1.1"
 
-convert-units@^2.3.4:
+convert-units@2.3.4:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/convert-units/-/convert-units-2.3.4.tgz#a279f4b3cb9b5d5094beba61abc742dcb46a180d"
   integrity sha512-ERHfdA0UhHJp1IpwE6PnFJx8LqG7B1ZjJ20UvVCmopEnVCfER68Tbe3kvN63dLbYXDA2xFWRE6zd4Wsf0w7POg==
@@ -12378,7 +12378,7 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-medium-zoom@^1.0.5:
+medium-zoom@1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/medium-zoom/-/medium-zoom-1.0.5.tgz#81413dda20ccdd857141ff420cfab788dd32e20e"
   integrity sha512-aLGa6WlTuFKWvH88bqTrY5ztJMN+D0hd8UX6BYc4YSoPayppzETjZUcdVcksgaoQEMg4cZSmXPg846fTp2rjRQ==
@@ -13235,7 +13235,7 @@ nuxt-typed-vuex@0.1.19:
     normalize-path "^3.0.0"
     typed-vuex "0.1.19"
 
-nuxt-uid-module@^0.2.0:
+nuxt-uid-module@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/nuxt-uid-module/-/nuxt-uid-module-0.2.0.tgz#18fdc6ccdddc98de36e203a4b2bb24f9680e3cb8"
   integrity sha512-EqEJH0BK7jrIxrSuR9Skfppx3OI8h59xmUQZ/iQruv8MK0soS8eiNBSmGpfHj+vpEuwEDGKwKM9l9Ed+EqdjFQ==
