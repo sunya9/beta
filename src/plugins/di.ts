@@ -58,6 +58,10 @@ import {
   GetUsersUseCase,
   GetUsersIntereactor,
 } from '~/plugins/domain/usecases/getUsers'
+import {
+  GetChannelsUseCase,
+  GetChannelsInteractor,
+} from '~/plugins/domain/usecases/getChannels'
 
 type InteractorType = Readonly<{
   createFile: CreateFileUseCase
@@ -74,6 +78,7 @@ type InteractorType = Readonly<{
   getProfileWithPosts: GetProfileWithPostsUseCase
   getInteractions: GetInteractionsUseCase
   getUsers: GetUsersUseCase
+  getChannels: GetChannelsUseCase
 }>
 
 function customizeAxios(axios: NuxtAxiosInstance) {
@@ -168,6 +173,9 @@ function getInteractors(context: Context): InteractorType {
     },
     get getUsers() {
       return new GetUsersIntereactor(getPnutRepository())
+    },
+    get getChannels() {
+      return new GetChannelsInteractor(getPnutRepository())
     },
   }
 }
