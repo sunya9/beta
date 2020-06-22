@@ -85,7 +85,7 @@ export type GetPostInteractionsRequest = PostIdRequest &
       }
   )
 export type SearchPostRequest = {
-  q: string
+  q?: string
   order?: SearchType
   tags?: string[]
   has_mentions?: boolean
@@ -101,5 +101,5 @@ export type SearchPostRequest = {
   reply_to?: string
   thread_id?: string
   user_types?: User.UserType[]
-  raw_types: string[]
+  raw_types?: string[]
 }

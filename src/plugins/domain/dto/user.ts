@@ -58,7 +58,7 @@ export type GetUserIntractionsRequest =
       exclude: InteractionType[]
     }
 export type SearchUsersRequest = {
-  q: string
+  q?: string
   order?: SearchType
   locale?: string
   timezone?: string
