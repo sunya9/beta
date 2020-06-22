@@ -3,22 +3,21 @@
     <post-list
       :key="`post-${id}`"
       :main="id"
-      :data="data"
-      :option="options"
+      :list-info="listInfo"
       :refresh-date="date"
       disable-auto-refresh
       all
+      reverse
     />
   </div>
 </template>
 
 <script lang="ts">
 import { Mixins, Component } from 'vue-property-decorator'
+import { ListInfo } from '~/plugins/domain/util/util'
 import PostList from '~/components/PostList.vue'
-import { getImageURLs } from '~/assets/ts/util'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 import { Post } from '~/models/post'
-import { PnutResponse } from '~/models/pnut-response'
 
 @Component({
   components: {
@@ -27,104 +26,54 @@ import { PnutResponse } from '~/models/pnut-response'
   async asyncData(ctx) {
     const {
       params: { id },
-      app: { $resource },
+      app: { $interactors },
     } = ctx
-    const options = {
-      include_directed_posts: 1,
-      include_bookmarked_by: 1,
-      include_reposted_by: 1,
-      include_deleted: 1,
-    }
     try {
-      const postPromise: Promise<PnutResponse<Post[]>> = $resource({ options })
-      const data = await postPromise
-      data.data = data.data ? data.data.reverse() : []
+      const { listInfo, title, meta } = await $interactors.getThread.run({
+        postId: id,
+        params: {
+          include_directed_posts: true,
+          include_bookmarked_by: true,
+          include_reposted_by: true,
+          include_deleted: true,
+        },
+      })
       return {
         id,
-        options,
-        data,
+        title,
+        meta,
+        listInfo,
       }
     } catch (e) {}
   },
   validate({ params }) {
     return /^\w+$/.test(params.name) && /\d+$/.test(params.id)
   },
+  head(this: PostView) {
+    return {
+      title: this.title,
+      meta: this.meta,
+    }
+  },
+})
+export default class PostView extends Mixins(refreshAfterAdded) {
+  readonly listInfo!: ListInfo<Post>
+  readonly title!: string
+  readonly meta!: any[]
+  readonly id!: string
   async mounted() {
     await this.$nextTick()
+    this.scrollToMainPost()
+  }
+
+  scrollToMainPost() {
     const el = document.querySelector(`#post-${this.$route.params.id}`)
     if (!el) return
     window.scrollTo(
       0,
       window.pageYOffset + el.getBoundingClientRect().top - 200
     )
-  },
-  head(this: PostView) {
-    const data: PnutResponse<Post[]> = this.data
-    const id: string = this.id
-    const [post] = data.data.filter((post) => post.id === id)
-    if (post.user && post.content) {
-      const name = post.user.name
-        ? `${post.user.name}(@${post.user.username})`
-        : `@${post.user.username}`
-      const fullTitle = `${name}: ${post.content.text}`
-      const title =
-        fullTitle.length > 50 ? `${fullTitle.substr(0, 50)}…` : fullTitle
-      const meta = [
-        { hid: 'description', name: 'description', content: fullTitle },
-        {
-          hid: 'og:description',
-          property: 'og:description',
-          content: fullTitle,
-        },
-        { hid: 'og:title', property: 'og:title', content: title },
-      ]
-      const [photo] = getImageURLs(post, true)
-      if (photo) {
-        meta.push(
-          {
-            hid: 'og:image',
-            property: 'og:image',
-            content: photo.original,
-          },
-          {
-            hid: 'og:image:width',
-            property: 'og:image:width',
-            content: photo.width.toString(),
-          },
-          {
-            hid: 'og:image:height',
-            property: 'og:image:height',
-            content: photo.height.toString(),
-          },
-          {
-            hid: 'og:type',
-            property: 'og:type',
-            content: 'article',
-          },
-          {
-            hid: 'article:published_time',
-            property: 'article:published_time',
-            content: post.created_at.toString(),
-          },
-          {
-            hid: 'article:author',
-            property: 'article:author',
-            content: post.user.username,
-          }
-        )
-      }
-      return {
-        title,
-        meta,
-      }
-    }
-    return {}
-  },
-})
-export default class PostView extends Mixins(refreshAfterAdded) {
-  data!: PnutResponse<Post[]>
-  options!: object // TODO
-  id!: string
+  }
 }
 </script>
 
