@@ -1,12 +1,19 @@
 <template>
-  <user-list :key="options.q" :data="data" :option="options">
-    <span slot="empty">No results for {{ options.q }}</span>
-  </user-list>
+  <div>
+    <h1>
+      {{ title }}
+    </h1>
+    <user-list :list-info="listInfo">
+      <span slot="empty">No results for {{ keyword }}</span>
+    </user-list>
+  </div>
 </template>
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator'
-import search from '~/assets/ts/search'
+import { Search } from '~/assets/ts/search'
 import UserList from '~/components/UserList.vue'
+import { User } from '~/models/user'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 @Component({
   components: {
@@ -18,17 +25,20 @@ import UserList from '~/components/UserList.vue'
       title,
     }
   },
-  async asyncData({ app: { $resource }, query }) {
-    const options = {
-      type: 'User',
-      q: query.q,
-    }
-    const data = await $resource({ options })
+  async asyncData({ app: { $interactors }, query }) {
+    const keyword = query.q.toString()
+    const { listInfo, title } = await $interactors.search.run({
+      type: 'user',
+      params: { q: keyword },
+    })
     return {
-      data,
-      options,
+      listInfo,
+      title,
+      keyword,
     }
   },
 })
-export default class UserSearch extends Mixins(search) {}
+export default class UserSearch extends Mixins(Search) {
+  readonly listInfo!: ListInfo<User>
+}
 </script>
