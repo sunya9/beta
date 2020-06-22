@@ -74,6 +74,14 @@ import {
   GetThreadUseCase,
   GetThreadInteractor,
 } from '~/plugins/domain/usecases/getThread'
+import {
+  GetFilesUseCase,
+  GetFilesInteractor,
+} from '~/plugins/domain/usecases/getFiles'
+import {
+  GetPollsInteractor,
+  GetPollsUseCase,
+} from '~/plugins/domain/usecases/getPolls'
 
 type InteractorType = Readonly<{
   createFile: CreateFileUseCase
@@ -94,6 +102,8 @@ type InteractorType = Readonly<{
   getStats: GetStatsUseCase
   search: SearchUseCase
   getThread: GetThreadUseCase
+  getFiles: GetFilesUseCase
+  getPolls: GetPollsUseCase
 }>
 
 function customizeAxios(axios: NuxtAxiosInstance) {
@@ -200,6 +210,12 @@ function getInteractors(context: Context): InteractorType {
     },
     get getThread() {
       return new GetThreadInteractor(getPnutRepository())
+    },
+    get getFiles() {
+      return new GetFilesInteractor(getPnutRepository())
+    },
+    get getPolls() {
+      return new GetPollsInteractor(getPnutRepository())
     },
   }
 }

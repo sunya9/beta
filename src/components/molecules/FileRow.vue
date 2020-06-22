@@ -29,7 +29,8 @@
 </template>
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { ModifiedFile } from '~/components/file-list.vue'
+import { ModifiedFile } from '~/plugins/domain/usecases/getFiles'
+
 export default Vue.extend({
   props: {
     file: {

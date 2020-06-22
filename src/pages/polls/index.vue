@@ -3,21 +3,24 @@
     <h3 class="d-flex align-items-center mb-4">
       Your polls
     </h3>
-    <poll-list :data="data" />
+    <poll-list :list-info="listInfo" />
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
 import PollList from '~/components/PollList.vue'
+import { ListInfo } from '~/plugins/domain/util/util'
+import { Poll } from '~/models/poll'
 
-export default Vue.extend({
+@Component({
   middleware: ['auth'],
   components: {
     PollList,
   },
-  async asyncData({ app: { $resource } }) {
-    const data = await $resource()
-    return { data }
+  async asyncData({ app: { $interactors } }) {
+    const { listInfo } = await $interactors.getPolls.run({})
+    return { listInfo }
   },
   head() {
     return {
@@ -25,4 +28,7 @@ export default Vue.extend({
     }
   },
 })
+export default class Polls extends Vue {
+  readonly listInfo!: ListInfo<Poll>
+}
 </script>
