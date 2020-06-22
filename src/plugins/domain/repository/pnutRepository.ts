@@ -15,7 +15,10 @@ import {
   GetInteractionParameters,
 } from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
-import { CreatePollRequest } from '~/plugins/domain/dto/poll'
+import {
+  CreatePollRequest,
+  GeneralPollParameters,
+} from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
 import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
 import {
@@ -153,4 +156,8 @@ export interface PnutRepository {
   getFiles(
     params?: GeneralFileParameters & Pagination
   ): Promise<PnutResponse<File[]>>
+
+  getPolls(
+    params?: GeneralPollParameters & Pagination
+  ): Promise<PnutResponse<Poll[]>>
 }
