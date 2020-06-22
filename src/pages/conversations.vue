@@ -20,7 +20,8 @@ import { ListInfo } from '~/plugins/domain/util/util'
   },
   async asyncData({ app: { $interactors } }) {
     const { listInfo } = await $interactors.getPosts.run({
-      streamType: { type: 'explore', slug: 'conversations' },
+      type: 'explore',
+      slug: 'conversations',
       params: {
         include_directed_posts: localStorage.hide_directed_posts === 'false',
       },

@@ -31,7 +31,8 @@ export class GetProfileWithPostsInteractor
 
   async run(input: Input): Promise<Output> {
     const p1 = this.getPostsUseCase.run({
-      streamType: { type: 'user', userId: input.username },
+      type: 'user',
+      userId: input.username,
       params: input.postParams,
     })
     const p2 = this.pnutRepository.getUser(input.username, input.userParams)

@@ -25,7 +25,8 @@ import { Post } from '~/models/post'
   },
   async asyncData({ app: { $interactors } }) {
     const { listInfo } = await $interactors.getPosts.run({
-      streamType: { type: 'bookmark', userId: 'me' },
+      type: 'bookmark',
+      userId: 'me',
     })
     return { listInfo }
   },

@@ -21,7 +21,7 @@ import { ListInfo } from '~/plugins/domain/util/util'
   },
   async asyncData({ app: { $interactors } }) {
     const { listInfo } = await $interactors.getPosts.run({
-      streamType: { type: 'mentions' },
+      type: 'mentions',
       params: {
         include_directed_posts: localStorage.hide_directed_posts === 'true',
       },

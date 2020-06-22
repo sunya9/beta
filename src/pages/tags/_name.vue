@@ -26,7 +26,8 @@ import { ListInfo } from '~/plugins/domain/util/util'
   async asyncData({ app: { $interactors }, params }) {
     const { name } = params
     const { listInfo } = await $interactors.getPosts.run({
-      streamType: { type: 'hashtag', tag: name },
+      type: 'hashtag',
+      tag: name,
     })
     return {
       listInfo,
