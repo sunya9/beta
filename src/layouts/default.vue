@@ -1,8 +1,6 @@
 <template>
   <div id="wrapper" :style="`margin-top: 48px`" class="wrapper mb-3">
-    <app-header ref="header">
-      <jumbotron v-if="searchPage" slot="jumbotron" class="jumbotron" />
-    </app-header>
+    <app-header ref="header" />
     <main class="container main">
       <div class="row">
         <transition name="slide" mode="out-in">
@@ -85,7 +83,6 @@ import RemoveModal from '~/components/RemoveModal.vue'
 import MessageModal from '~/components/MessageModal.vue'
 import HelpModal from '~/components/organisms/HelpModal.vue'
 import Sidebar from '~/components/sidebar/Sidebar.vue'
-import Jumbotron from '~/components/Jumbotron.vue'
 import { User } from '~/models/user'
 
 @Component({
@@ -96,7 +93,6 @@ import { User } from '~/models/user'
     MessageModal,
     HelpModal,
     Sidebar,
-    Jumbotron,
   },
 })
 export default class extends Vue {
