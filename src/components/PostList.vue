@@ -4,27 +4,29 @@
     v-bind="$attrs"
     :list-info="listInfo"
     :data-added-hook="added"
-    :list-item-class="
-      (item, index) => [
+    tabindex="-1"
+    v-on="$listeners"
+  >
+    <li
+      tabindex="-1"
+      :class="[
         'list-group-item list-group-item-action',
         {
           'mt-4': item.id === main && index !== listInfo.data.length - 1,
           'mb-4': item.id === main,
           'list-group-item-warning': isTarget(item),
         },
-      ]
-    "
-    tabindex="-1"
-    v-on="$listeners"
-  >
-    <post
-      :key="item.id"
-      :selected="selected"
-      :post="item"
-      :last-update="lastUpdate"
-      :detail="item.id === main"
-      @update:post="updateItem(index, $event)"
-    />
+      ]"
+    >
+      <post
+        :key="item.id"
+        :selected="selected"
+        :post="item"
+        :last-update="lastUpdate"
+        :detail="item.id === main"
+        @update:post="updateItem(index, $event)"
+      />
+    </li>
   </base-list>
 </template>
 <script lang="ts">

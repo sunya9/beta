@@ -1,15 +1,16 @@
 <template>
-  <base-list
-    v-slot="{ item, lastUpdate }"
-    v-bind="$attrs"
-    id-field="pagination_id"
-    v-on="$listeners"
-  >
-    <interaction
+  <base-list v-slot="{ item, lastUpdate }" v-bind="$attrs" v-on="$listeners">
+    <li
       :key="item.pagination_id"
-      :interaction="item"
-      :last-update="lastUpdate"
-    />
+      tabindex="-1"
+      class="list-group-item list-group-item-action"
+    >
+      <interaction
+        :key="item.pagination_id"
+        :interaction="item"
+        :last-update="lastUpdate"
+      />
+    </li>
   </base-list>
 </template>
 <script lang="ts">

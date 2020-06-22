@@ -1,6 +1,8 @@
 <template>
   <base-list v-slot="{ item, index }" v-bind="$attrs">
-    <poll :poll="item" @update:data="(data) => $set(items, index, data)" />
+    <li class="list-group-item list-group-item-action" tabindex="-1">
+      <poll :poll="item" @update:data="(data) => $set(items, index, data)" />
+    </li>
   </base-list>
 </template>
 <script lang="ts">

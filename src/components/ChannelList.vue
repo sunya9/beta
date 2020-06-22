@@ -1,12 +1,15 @@
 <template>
-  <base-list
-    v-slot="{ item }"
-    v-bind="$attrs"
-    :list-item-props="(channel) => listItemProps(channel)"
-    :list-item-class="(channel) => listItemClass(channel)"
-    list-element="nuxt-link"
-  >
-    <channel :key="item.id" :channel="item" element="nuxt-link" />
+  <base-list v-slot="{ item }" v-bind="$attrs" v-on="$listeners">
+    <nuxt-link
+      :to="`/channels/${item.id}`"
+      tabindex="-1"
+      class="list-group-item list-group-item-action"
+      tag="li"
+    >
+      <a style="color: inherit;">
+        <channel :key="item.id" :channel="item" />
+      </a>
+    </nuxt-link>
   </base-list>
 </template>
 <script lang="ts">

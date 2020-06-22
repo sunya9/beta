@@ -1,5 +1,6 @@
 <template>
-  <ul
+  <component
+    :is="tag"
     v-if="items.length"
     v-on-click-outside="updateActiveElement"
     v-infinite-scroll="fetchMore"
@@ -7,44 +8,34 @@
     infinite-scroll-disabled="moreDisabled"
     infinite-scroll-distance="1000"
   >
-    <component
-      :is="listElement"
-      v-for="(item, index) in items"
-      :key="item[idField]"
-      :class="
-        typeof listItemClass === 'function'
-          ? listItemClass(item, index)
-          : listItemClass
-      "
-      v-bind="listItemProps(item)"
-      class="item"
-      tabindex="-1"
-      @click="setSelect(index)"
-    >
+    <template v-for="(item, index) in items">
       <slot
+        tabindex="-1"
         :item="item"
         :index="index"
         :selected="isSelected(index)"
         :last-update="lastUpdate"
         :update-item="updateItem"
+        @click="setSelect(index)"
       />
-    </component>
-    <li
+    </template>
+    <component
+      :is="listElement"
       v-show="more"
       :class="{ 'list-group-item': listClass !== 'list-unstyled' }"
     >
       <div class="text-center w-100 text-muted my-2">
         <font-awesome-icon spin fixed-width size="2x" icon="sync" />
       </div>
-    </li>
-  </ul>
-  <div v-else class="text-center my-3">
+    </component>
+  </component>
+  <component :is="tag" v-else class="text-center my-3">
     <slot name="empty">
-      <div class="list-group-item py-4">
+      <component :is="listElement" class="list-group-item py-4">
         No Items
-      </div>
+      </component>
     </slot>
-  </div>
+  </component>
 </template>
 <script lang="ts">
 import { Prop, Watch, Component, Mixins } from 'vue-property-decorator'
@@ -81,46 +72,16 @@ export default class BaseList<T extends object = object> extends Mixins(
   listClass!: string
 
   @Prop({
-    type: [String, Function],
-    default: 'list-group-item list-group-item-action',
-  })
-  listItemClass!: string | ((data: T, index?: number) => void)
-
-  @Prop({
     type: [String, Object, Function],
     default: 'li',
   })
   listElement!: string
 
   @Prop({
-    type: Function,
-    default: () => ({}),
-  })
-  listItemProps!: (data: any) => void
-
-  @Prop({
     type: Boolean,
     default: false,
   })
   disableAutoRefresh!: boolean
-
-  @Prop({
-    type: String,
-    default: '',
-  })
-  resource!: string
-
-  @Prop({
-    type: Object,
-    default: () => ({}),
-  })
-  option!: object
-
-  @Prop({
-    type: String,
-    default: 'id',
-  })
-  idField!: string
 
   @Prop({
     type: Number,
@@ -140,6 +101,13 @@ export default class BaseList<T extends object = object> extends Mixins(
     default: false,
   })
   reverse!: boolean
+
+  @Prop({
+    type: String,
+    required: false,
+    default: 'ul',
+  })
+  tag!: string
 
   get getOlder() {
     return this.listInfo.getOlder
@@ -288,7 +256,10 @@ export default class BaseList<T extends object = object> extends Mixins(
     flex-direction: column-reverse;
     .item:not(.message) {
       &:only-child,
-      &:first-of-type {
+      &:first-child {
+        margin-top: 0 !important;
+      }
+      &:first-child:not(:only-child) {
         border-top: 0;
       }
     }

@@ -1,6 +1,8 @@
 <template>
   <base-list v-slot="{ item }" v-bind="$attrs" v-on="$listeners">
-    <user :user="item" v-bind="componentOptions" />
+    <li tabindex="-1" class="list-group-item list-group-item-action">
+      <user :user="item" v-bind="componentOptions" />
+    </li>
   </base-list>
 </template>
 <script lang="ts">
