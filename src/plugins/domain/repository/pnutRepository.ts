@@ -6,6 +6,7 @@ import {
   PostIdRequest,
   CreatePostRequest,
   UpdatePostRequest,
+  SearchPostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
 import {
@@ -141,4 +142,7 @@ export interface PnutRepository {
   ): Promise<PnutResponse<User[]>>
 
   getStats(): Promise<PnutResponse<Stats>>
+  searchPosts(
+    params?: SearchPostRequest & GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>>
 }

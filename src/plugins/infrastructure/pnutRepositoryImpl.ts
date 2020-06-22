@@ -8,6 +8,7 @@ import {
   CreatePostRequest,
   UpdatePostRequest,
   ExploreSlugType,
+  SearchPostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
 import {
@@ -37,6 +38,12 @@ import { Stats } from '~/models/stats'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  searchPosts(
+    params?: SearchPostRequest & Pagination
+  ): Promise<PnutResponse<Post[]>> {
+    return this.get('/posts/search', params)
+  }
+
   getStats(): Promise<PnutResponse<Stats>> {
     return this.get('/sys/stats')
   }

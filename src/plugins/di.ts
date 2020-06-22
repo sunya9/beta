@@ -66,6 +66,10 @@ import {
   GetStatsUseCase,
   GetStatsInteractor,
 } from '~/plugins/domain/usecases/getStats'
+import {
+  SearchUseCase,
+  SearchInteractors,
+} from '~/plugins/domain/usecases/search'
 
 type InteractorType = Readonly<{
   createFile: CreateFileUseCase
@@ -84,6 +88,7 @@ type InteractorType = Readonly<{
   getUsers: GetUsersUseCase
   getChannels: GetChannelsUseCase
   getStats: GetStatsUseCase
+  search: SearchUseCase
 }>
 
 function customizeAxios(axios: NuxtAxiosInstance) {
@@ -184,6 +189,9 @@ function getInteractors(context: Context): InteractorType {
     },
     get getStats() {
       return new GetStatsInteractor(getPnutRepository())
+    },
+    get search() {
+      return new SearchInteractors(getPnutRepository())
     },
   }
 }
