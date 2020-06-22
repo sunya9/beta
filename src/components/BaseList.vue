@@ -3,7 +3,7 @@
     v-if="items.length"
     v-on-click-outside="updateActiveElement"
     v-infinite-scroll="fetchMore"
-    :class="listClass"
+    :class="[listClass, { reverse }]"
     infinite-scroll-disabled="moreDisabled"
     infinite-scroll-distance="1000"
   >
@@ -13,7 +13,7 @@
       :key="item[idField]"
       :class="
         typeof listItemClass === 'function'
-          ? listItemClass(item)
+          ? listItemClass(item, index)
           : listItemClass
       "
       v-bind="listItemProps(item)"
@@ -84,7 +84,7 @@ export default class BaseList<T extends object = object> extends Mixins(
     type: [String, Function],
     default: 'list-group-item list-group-item-action',
   })
-  listItemClass!: string | ((data: any) => void)
+  listItemClass!: string | ((data: T, index?: number) => void)
 
   @Prop({
     type: [String, Object, Function],
@@ -133,6 +133,13 @@ export default class BaseList<T extends object = object> extends Mixins(
     required: true,
   })
   listInfo!: ListInfo<T>
+
+  @Prop({
+    type: Boolean,
+    required: false,
+    default: false,
+  })
+  reverse!: boolean
 
   get getOlder() {
     return this.listInfo.getOlder
@@ -225,14 +232,20 @@ export default class BaseList<T extends object = object> extends Mixins(
     this.activeElement = this.$el.children[this.select]
   }
 
-  scrollDown() {
+  scrollDown(ignoreReverse?: boolean): void {
+    if (this.reverse && !ignoreReverse) return this.scrollUp(true)
     this.select++
     if (this.select < 0) return
     this.focus()
   }
 
-  scrollUp() {
-    this.select--
+  scrollUp(ignoreReverse?: boolean): void {
+    if (this.reverse && !ignoreReverse) return this.scrollDown(true)
+    if (this.reverse && this.select < 0) {
+      this.select = this.listInfo.data.length - 1
+    } else {
+      this.select--
+    }
     this.focus()
   }
 
@@ -269,6 +282,17 @@ export default class BaseList<T extends object = object> extends Mixins(
 
 .list-group {
   @include no-gutter-xs;
+  display: flex;
+  flex-direction: column;
+  &.reverse {
+    flex-direction: column-reverse;
+    .item:not(.message) {
+      &:only-child,
+      &:first-of-type {
+        border-top: 0;
+      }
+    }
+  }
 }
 
 // workaround for zooming
@@ -279,7 +303,7 @@ export default class BaseList<T extends object = object> extends Mixins(
 .item:not(.message) {
   &:only-child,
   &:first-child {
-    margin-top: 0 !important;
+    /* margin-top: 0 !important; */
   }
 }
 </style>

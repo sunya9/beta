@@ -5,10 +5,11 @@
     :list-info="listInfo"
     :data-added-hook="added"
     :list-item-class="
-      (item) => [
+      (item, index) => [
         'list-group-item list-group-item-action',
         {
-          'my-4': item.id === main,
+          'mt-4': item.id === main && index !== listInfo.data.length - 1,
+          'mb-4': item.id === main,
           'list-group-item-warning': isTarget(item),
         },
       ]
