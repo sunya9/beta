@@ -4,13 +4,15 @@
       <nuxt-link to=".">@{{ name }}</nuxt-link>
       's Starred
     </h3>
-    <post-list :data="data" />
+    <post-list :list-info="listInfo" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import PostList from '~/components/PostList.vue'
+import { ListInfo } from '~/plugins/domain/util/util'
+import { Post } from '~/models/post'
 
 @Component({
   components: {
@@ -19,14 +21,17 @@ import PostList from '~/components/PostList.vue'
   async asyncData(ctx) {
     const {
       params,
-      app: { $resource },
+      app: { $interactors },
       error,
     } = ctx
     const { name } = params
     try {
-      const data = await $resource()
+      const { listInfo } = await $interactors.getPosts.run({
+        type: 'bookmark',
+        userId: `@${name}`,
+      })
       return {
-        data,
+        listInfo,
         name,
       }
     } catch (e) {
@@ -40,6 +45,7 @@ import PostList from '~/components/PostList.vue'
 })
 export default class extends Vue {
   name!: string
+  listInfo!: ListInfo<Post>
   head() {
     return {
       title: `@${this.name}'s starred`,
