@@ -38,6 +38,13 @@ import { Stats } from '~/models/stats'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getThread(
+    postId: string,
+    params?: GeneralPostParameters & Pagination
+  ): Promise<PnutResponse<Post[]>> {
+    return this.get(`/posts/${postId}/thread`, params)
+  }
+
   searchPosts(
     params?: SearchPostRequest & Pagination
   ): Promise<PnutResponse<Post[]>> {

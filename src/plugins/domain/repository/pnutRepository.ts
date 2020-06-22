@@ -145,4 +145,9 @@ export interface PnutRepository {
   searchPosts(
     params?: SearchPostRequest & GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
+
+  getThread(
+    postId: string,
+    params?: GeneralPostParameters & Pagination
+  ): Promise<PnutResponse<Post[]>>
 }
