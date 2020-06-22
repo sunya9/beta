@@ -150,4 +150,7 @@ export interface PnutRepository {
     postId: string,
     params?: GeneralPostParameters & Pagination
   ): Promise<PnutResponse<Post[]>>
+  getFiles(
+    params?: GeneralFileParameters & Pagination
+  ): Promise<PnutResponse<File[]>>
 }

@@ -38,6 +38,12 @@ import { Stats } from '~/models/stats'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getFiles(
+    params?: GeneralFileParameters & Pagination
+  ): Promise<PnutResponse<File[]>> {
+    return this.get('/users/me/files', params)
+  }
+
   getThread(
     postId: string,
     params?: GeneralPostParameters & Pagination
