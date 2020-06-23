@@ -214,9 +214,7 @@ export default class MessageView extends Mixins(
   lastReadMessageId!: string
 
   get me(): boolean {
-    return (
-      !!this.user && this.messageUser && this.user.id === this.messageUser.id
-    )
+    return this.user?.id === this.messageUser?.id
   }
 
   get messageUser(): MinimumUser {

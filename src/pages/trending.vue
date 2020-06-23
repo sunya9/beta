@@ -1,24 +1,32 @@
 <template>
   <div>
     <compose />
-    <post-list :data="data" />
+    <post-list :list-info="listInfo" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
 import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/PostList.vue'
 import { Post } from '~/models/post'
+import { ListInfo } from '~/plugins/domain/util/util'
 
-export default Vue.extend({
+@Component({
   components: {
     PostList,
     Compose,
   },
-  async asyncData({ app: { $resource } }) {
-    const data = await $resource<Post>()
-    return { data }
+  async asyncData({ app: { $interactors } }) {
+    const { listInfo } = await $interactors.getPosts.run({
+      type: 'explore',
+      slug: 'trending',
+      params: {
+        include_directed_posts: localStorage.hide_directed_posts === 'false',
+      },
+    })
+    return { listInfo }
   },
   head() {
     return {
@@ -26,4 +34,7 @@ export default Vue.extend({
     }
   },
 })
+export default class Trending extends Vue {
+  listInfo!: ListInfo<Post>
+}
 </script>

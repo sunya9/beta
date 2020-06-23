@@ -3,18 +3,20 @@
     v-slot="{ item, index, lastUpdate, updateItem }"
     v-bind="$attrs"
     list-class="list-unstyled"
-    list-item-class="message"
   >
-    <message
-      v-if="item"
-      :key="item.id"
-      :message.sync="item"
-      :last-update="lastUpdate"
-      :is-moderator="isModerator"
-      :last-read-message-id="lastReadMessageId"
-      :channel-type="channelType"
-      @update:message="updateItem(index, $event)"
-    />
+    <li tabindex="-1">
+      <message
+        v-if="item"
+        :key="item.id"
+        :message.sync="item"
+        :last-update="lastUpdate"
+        :is-moderator="isModerator"
+        :last-read-message-id="lastReadMessageId"
+        :channel-type="channelType"
+        class="message"
+        @update:message="updateItem(index, $event)"
+      />
+    </li>
   </base-list>
 </template>
 <script lang="ts">

@@ -362,3 +362,9 @@ body.dark {
 .medium-zoom-image--opened {
   z-index: 1050;
 }
+
+.list-group-item + .list-group-item {
+  // previous behavior
+  margin-top: -1px;
+  border-top-width: 1px;
+}

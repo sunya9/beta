@@ -4,25 +4,31 @@
       <compose />
     </div>
     <div>
-      <post-list :data="data" />
+      <post-list :list-info="listInfo" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
 import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/PostList.vue'
+import { ListInfo } from '~/plugins/domain/util/util'
+import { Post } from '~/models/post'
 
-export default Vue.extend({
+@Component({
   middleware: ['auth'],
   components: {
     PostList,
     Compose,
   },
-  async asyncData({ app: { $resource } }) {
-    const data = await $resource()
-    return { data }
+  async asyncData({ app: { $interactors } }) {
+    const { listInfo } = await $interactors.getPosts.run({
+      type: 'bookmark',
+      userId: 'me',
+    })
+    return { listInfo }
   },
   head() {
     return {
@@ -30,4 +36,7 @@ export default Vue.extend({
     }
   },
 })
+export default class Stars extends Vue {
+  listInfo!: ListInfo<Post>
+}
 </script>

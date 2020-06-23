@@ -2,56 +2,44 @@
   <div>
     <div class="card">
       <div class="card-body">
-        <file-list :key="$route.fullPath" :data="data" :options="options" />
+        <file-list :list-info="listInfo" />
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { File } from '../../models/file'
+import { Component } from 'vue-property-decorator'
+import { ModifiedFile } from '~/plugins/domain/usecases/getFiles'
 import FileList from '~/components/file-list.vue'
+import { ListInfo } from '~/plugins/domain/util/util'
 
-const map: { [key in File.Kind]: string } = {
-  audio: ['mpeg', 'mp4', 'wave', 'flac'].map((ext) => `audio/${ext}`).join(','),
-  video: ['mpeg', 'webm'].map((ext) => `video/${ext}`).join(','),
-  image: ['png', 'jpeg', 'gif'].map((ext) => `image/${ext}`).join(','),
-  other: '',
-} as const
-
-function isKind(kindStr?: string): kindStr is File.Kind {
-  return !!kindStr && Object.keys(map).includes(kindStr)
-}
-
-function kind2mimeTypes(kindStr?: string) {
-  return isKind(kindStr) ? map[kindStr] : undefined
-}
-
-export default Vue.extend({
+@Component({
   components: {
     FileList,
   },
   async asyncData({
-    app: { $resource },
+    app: { $interactors },
     route: {
       query: { kind },
     },
   }) {
-    const options = {
-      mime_types: kind2mimeTypes(kind?.toString()),
-    }
-    const data = await $resource({ options })
+    const { listInfo, title } = await $interactors.getFiles.run({ kind })
     return {
-      data,
-      options,
+      listInfo,
+      title,
     }
   },
-  head() {
+  head(this: Files) {
     return {
-      title: 'Your files',
+      title: this.title,
     }
   },
   watchQuery: true,
   key: (route) => route.fullPath,
 })
+export default class Files extends Vue {
+  readonly listInfo!: ListInfo<ModifiedFile>
+  readonly title!: string
+}
 </script>

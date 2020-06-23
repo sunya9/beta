@@ -1,16 +1,19 @@
 import { Usecase } from '~/plugins/domain/usecases/usecase'
-import { PnutResponse } from '~/models/pnut-response'
 import { Message } from '~/models/message'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
+import { GeneralMessageParameters } from '~/plugins/domain/dto/message'
+import { Pagination } from '~/plugins/domain/dto/common'
+import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
+import { Channel } from '~/models/channel'
 
 interface Input {
   channelId: string
-  sinceId?: string
-  beforeId?: string
+  params?: GeneralMessageParameters & Pagination
 }
 
 interface Output {
-  res: PnutResponse<Message[]>
+  listInfo: ListInfo<Message>
+  channel: Channel
 }
 
 export interface GetMessagesUseCase extends Usecase<Input, Promise<Output>> {}
@@ -18,13 +21,32 @@ export interface GetMessagesUseCase extends Usecase<Input, Promise<Output>> {}
 export class GetMessagesInteractor implements GetMessagesUseCase {
   constructor(private readonly pnutRepository: PnutRepository) {}
   async run(input: Input): Promise<Output> {
-    const res = await this.pnutRepository.getMessages(input.channelId, {
-      since_id: input.sinceId,
-      before_id: input.beforeId,
-      include_deleted: true,
-    })
+    const [listInfo, { data: channel }] = await Promise.all([
+      this.createListInfo(input),
+      this.getChannel(input),
+    ])
     return {
-      res,
+      listInfo,
+      channel,
     }
+  }
+
+  private createListInfo(input: Input) {
+    return createListInfo(
+      (config) =>
+        this.pnutRepository.getMessages(input.channelId, {
+          include_deleted: true,
+          ...input.params,
+          ...config,
+        }),
+      input.params
+    )
+  }
+
+  private getChannel(input: Input) {
+    return this.pnutRepository.getChannel(input.channelId, {
+      include_limited_users: true,
+      include_channel_raw: true,
+    })
   }
 }

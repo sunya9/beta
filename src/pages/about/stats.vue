@@ -53,28 +53,26 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
 import { PnutResponse } from '~/models/pnut-response'
 import { Stats } from '~/models/stats'
 
-export default Vue.extend({
-  async asyncData({ app: { $resource } }) {
-    const data = await $resource()
-    return { data }
+@Component({
+  async asyncData({ app: { $interactors } }) {
+    const { stats } = await $interactors.getStats.run()
+    return { stats }
   },
-  data() {
-    return {
-      data: null as PnutResponse<Stats> | null,
-    }
-  },
-  computed: {
-    counts(): Stats.Counts | null {
-      return this.data && this.data.data ? this.data.data.counts : null
-    },
-  },
+
   head() {
     return {
       title: 'Stats',
     }
   },
 })
+export default class StatsView extends Vue {
+  stats!: PnutResponse<Stats>
+  get counts(): Stats.Counts {
+    return this.stats.data.counts
+  }
+}
 </script>

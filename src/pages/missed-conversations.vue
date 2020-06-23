@@ -1,27 +1,32 @@
 <template>
   <div>
     <compose />
-    <post-list :data="data" :option="options" disable-auto-refresh />
+    <post-list :list-info="listInfo" disable-auto-refresh />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
 import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/PostList.vue'
+import { ListInfo } from '~/plugins/domain/util/util'
+import { Post } from '~/models/post'
 
-export default Vue.extend({
+@Component({
   components: {
     PostList,
     Compose,
   },
-  async asyncData({ app: { $resource } }) {
-    const options = {
-      include_directed_posts:
-        localStorage.hide_directed_posts === 'true' ? 0 : 1,
-    }
-    const data = await $resource({ options })
-    return { data, options }
+  async asyncData({ app: { $interactors } }) {
+    const { listInfo } = await $interactors.getPosts.run({
+      type: 'explore',
+      slug: 'missed_conversations',
+      params: {
+        include_directed_posts: localStorage.hide_directed_posts === 'false',
+      },
+    })
+    return { listInfo }
   },
   head() {
     return {
@@ -29,4 +34,7 @@ export default Vue.extend({
     }
   },
 })
+export default class MissedConversations extends Vue {
+  listInfo!: ListInfo<Post>
+}
 </script>

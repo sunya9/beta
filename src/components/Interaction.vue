@@ -22,7 +22,10 @@
         </ul>
       </h6>
       <div class="my-3">
-        <nuxt-link v-if="post" :to="`@${post.user.username}/posts/${post.id}`">
+        <nuxt-link
+          v-if="post && post.user"
+          :to="`@${post.user.username}/posts/${post.id}`"
+        >
           This post
         </nuxt-link>
         {{ actionBy }}
@@ -107,7 +110,7 @@ export default class InteractionView extends Mixins(
   listItem('interaction.event_date')
 ) {
   @Prop({ required: true })
-  interaction!: Interaction<any>
+  interaction!: Interaction
 
   get actionBy() {
     return `${convert[this.interaction.action].text} by`

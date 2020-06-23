@@ -1,31 +1,32 @@
 <template>
   <base-list
-    ref="list"
     v-slot="{ item, index, lastUpdate, selected, updateItem }"
     v-bind="$attrs"
-    :data.sync="data"
+    :list-info="listInfo"
     :data-added-hook="added"
-    :list-item-class="
-      (item) => [
+    tabindex="-1"
+    v-on="$listeners"
+  >
+    <li
+      tabindex="-1"
+      :class="[
         'list-group-item list-group-item-action',
         {
-          'my-4': item.id === main,
+          'mt-4': item.id === main && index !== listInfo.data.length - 1,
+          'mb-4': item.id === main,
           'list-group-item-warning': isTarget(item),
         },
-      ]
-    "
-    tabindex="-1"
-    :option="option"
-    @select="select = $event"
-  >
-    <post
-      :key="item.id"
-      :selected="selected"
-      :post="item"
-      :last-update="lastUpdate"
-      :detail="item.id === main"
-      @update:post="updateItem(index, $event)"
-    />
+      ]"
+    >
+      <post
+        :key="item.id"
+        :selected="selected"
+        :post="item"
+        :last-update="lastUpdate"
+        :detail="item.id === main"
+        @update:post="updateItem(index, $event)"
+      />
+    </li>
   </base-list>
 </template>
 <script lang="ts">
@@ -39,7 +40,7 @@ import {
 } from '~/assets/ts/notification-wrapper'
 import keyBinding, { forList } from '~/assets/ts/key-binding'
 import { Post } from '~/models/post'
-import { PnutResponse } from '~/models/pnut-response'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 const keyMap = {
   r: 'replyModal',
@@ -50,6 +51,7 @@ const keyMap = {
 }
 
 @Component({
+  inheritAttrs: false,
   components: {
     BaseList,
     Post: PostView,
@@ -60,41 +62,31 @@ export default class PostList extends Vue {
   @Prop({ type: String, default: '' })
   main!: string
 
-  @Prop({ type: Boolean, default: false })
-  all!: boolean
-
   @Prop({ type: Object, required: true })
-  data!: PnutResponse<Post[]>
+  listInfo!: ListInfo<Post>
 
-  @Prop({ type: Object, required: true })
-  option!: object
-
-  select!: number
   get user(): User | null {
     return this.$accessor.user
   }
 
   get mainItem(): Post | null {
-    return this.data.data.find((item: Post) => item.id === this.main) || null
+    return (
+      this.listInfo.data.find((item: Post) => item.id === this.main) || null
+    )
   }
 
   isTarget(item: Post): boolean {
-    return !!this.mainItem && this.mainItem.reply_to === item.id
+    return this.mainItem?.reply_to === item.id
   }
 
   added(newItems: Post[]): boolean | void {
-    const posts = newItems.filter(
-      (post) => this.user && post.user && this.user.id !== post.user.id
-    )
+    const posts = newItems.filter((post) => this.user?.id !== post.user?.id)
     if (posts.length > 0) sendPostNotification(posts)
     const mentions = newItems.filter((post) => {
-      const notMe = this.user && post.user && this.user.id !== post.user.id
-      const includedInMention =
-        post.content &&
-        post.content.entities &&
-        post.content.entities.mentions.some(
-          (mention) => this.user && mention.id === this.user.id
-        )
+      const notMe = this.user?.id !== post.user?.id
+      const includedInMention = post.content?.entities.mentions.some(
+        (mention) => mention.id === this.user?.id
+      )
       return notMe && includedInMention
     })
     if (mentions.length > 0) sendMentionNotification(mentions)

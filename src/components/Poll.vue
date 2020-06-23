@@ -23,7 +23,9 @@
           >
             <div :style="getStyle(option)" class="progress-bar">
               <div class="position-absolute w-100" style="right: 0; left: 0;">
-                <div class="mx-3 d-flex justify-content-between">
+                <div
+                  class="mx-3 d-flex justify-content-between align-items-center"
+                >
                   <emojify :text="option.text" />
                   <span>
                     <span>

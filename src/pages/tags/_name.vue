@@ -8,7 +8,7 @@
       <font-awesome-icon icon="rss-square" aria-hidden="true" class="mr-2" />
       <span>RSS</span>
     </a>
-    <post-list :key="name" :data="data" />
+    <post-list :key="name" :list-info="listInfo" />
   </div>
 </template>
 
@@ -16,23 +16,25 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import PostList from '~/components/PostList.vue'
 import { getRSSLink } from '~/assets/ts/util'
+import { Post } from '~/models/post'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 @Component({
   components: {
     PostList,
   },
-  async asyncData({ app: { $resource }, params }) {
+  async asyncData({ app: { $interactors }, params }) {
     const { name } = params
-    const data = await $resource()
+    const { listInfo } = await $interactors.getPosts.run({
+      type: 'hashtag',
+      tag: name,
+    })
     return {
-      data,
+      listInfo,
       name,
     }
   },
-})
-export default class extends Vue {
-  name!: string
-  head() {
+  head(this: Tag) {
     const link = [
       getRSSLink(`https://api.pnut.io/v0/feed/rss/posts/tags/${this.name}`),
     ]
@@ -40,6 +42,10 @@ export default class extends Vue {
       title: `#${this.name}`,
       link,
     }
-  }
+  },
+})
+export default class Tag extends Vue {
+  name!: string
+  listInfo!: ListInfo<Post>
 }
 </script>

@@ -1,6 +1,7 @@
 import { Wrapper } from '@vue/test-utils'
 import { mount } from '../helper'
 import BaseList from '~/components/BaseList.vue'
+import { createListInfo } from '~/plugins/domain/util/util'
 
 type BaseListType = InstanceType<typeof BaseList> & {
   refresh: () => Promise<void>
@@ -11,35 +12,23 @@ describe('BaseList component', () => {
   test('Can refresh even when list is empty', async () => {
     const wrapper = mount(BaseList, {
       propsData: {
-        data: {
-          meta: {
-            more: false,
-          },
-          data: [],
-        },
-        resource: '/200',
+        listInfo: await createListInfo(() =>
+          Promise.resolve({ meta: { code: 200 }, data: [] })
+        ),
       },
     }) as Wrapper<BaseListType>
-    wrapper.vm.$resource = jest.fn().mockReturnValue({
-      meta: { more: false },
-      data: [],
-    })
     const spy = jest.spyOn(wrapper.vm, 'refresh')
     await wrapper.vm.refresh()
     expect(spy).toHaveBeenCalled()
     expect(spy).not.toThrow()
   })
 
-  test("Show a message when hasn't any items", () => {
+  test("Show a message when hasn't any items", async () => {
     const wrapper = mount(BaseList, {
       propsData: {
-        data: {
-          meta: {
-            more: false,
-          },
-          data: [],
-        },
-        resource: '/200',
+        listInfo: await createListInfo(() =>
+          Promise.resolve({ meta: { code: 200 }, data: [] })
+        ),
       },
     }) as Wrapper<BaseListType>
     expect(wrapper.text().toLowerCase()).toContain('No Items'.toLowerCase())
@@ -47,22 +36,14 @@ describe('BaseList component', () => {
   test('Calls refersh() when refreshDate is updated', async () => {
     const wrapper = mount(BaseList, {
       propsData: {
-        data: {
-          meta: {
-            more: false,
-          },
-          data: [],
-        },
+        listInfo: await createListInfo(() =>
+          Promise.resolve({ meta: { code: 200 }, data: [] })
+        ),
         refreshDate: Date.now(),
-        resource: '/200',
       },
     }) as Wrapper<BaseListType>
     const handler = jest.fn()
     wrapper.vm.refresh = handler
-    wrapper.vm.$resource = jest.fn().mockReturnValue({
-      meta: { more: false },
-      data: [],
-    })
     expect(handler).not.toHaveBeenCalled()
     wrapper.setProps({
       refreshDate: Date.now(),

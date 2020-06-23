@@ -14,7 +14,7 @@ export type GeneralUserParameters = {
   include_presense?: boolean
   include_raw?: boolean
   include_user_raw?: boolean
-}
+} & Pagination
 
 export type UserIdRequest = {
   user_id: string
@@ -58,10 +58,16 @@ export type GetUserIntractionsRequest =
       exclude: InteractionType[]
     }
 export type SearchUsersRequest = {
-  q: string
+  q?: string
   order?: SearchType
   locale?: string
   timezone?: string
   types?: User.UserType[]
+} & GeneralUserParameters &
+  Pagination
+
+export type GetInteractionParameters = {
+  filters?: string
+  exclude?: string
 } & GeneralUserParameters &
   Pagination

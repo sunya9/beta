@@ -1,21 +1,23 @@
 <template>
   <div>
-    <user-list :data="data" />
+    <user-list :list-info="listInfo" />
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import UserList from '~/components/UserList.vue'
+import { ListInfo } from '~/plugins/domain/util/util'
+import { User } from '~/models/user'
 
 @Component({
   components: {
     UserList,
   },
-  async asyncData({ app: { $resource } }) {
-    const data = await $resource()
-    return {
-      data,
-    }
+  async asyncData({ app: { $interactors } }) {
+    const { listInfo } = await $interactors.getUsers.run({
+      type: { type: 'blocked' },
+    })
+    return { listInfo }
   },
   head() {
     return {
@@ -23,5 +25,7 @@ import UserList from '~/components/UserList.vue'
     }
   },
 })
-export default class BlockedAccounts extends Vue {}
+export default class BlockedAccounts extends Vue {
+  listInfo!: ListInfo<User>
+}
 </script>

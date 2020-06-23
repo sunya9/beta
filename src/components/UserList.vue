@@ -1,6 +1,8 @@
 <template>
-  <base-list v-slot="{ item }" v-bind="$attrs">
-    <user :user="item" v-bind="componentOptions" />
+  <base-list v-slot="{ item }" v-bind="$attrs" v-on="$listeners">
+    <li tabindex="-1" class="list-group-item list-group-item-action">
+      <user :user="item" v-bind="componentOptions" />
+    </li>
   </base-list>
 </template>
 <script lang="ts">
@@ -9,6 +11,7 @@ import BaseList from '~/components/BaseList.vue'
 import User from '~/components/molecules/User.vue'
 
 @Component({
+  inheritAttrs: false,
   components: {
     BaseList,
     User,

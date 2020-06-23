@@ -2,15 +2,24 @@ import { PnutResponse } from '~/models/pnut-response'
 import { Post } from '~/models/post'
 import {
   GeneralPostParameters,
-  GetExploreStreamRequest,
+  ExploreSlugType,
   PostIdRequest,
   CreatePostRequest,
   UpdatePostRequest,
+  SearchPostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
-import { UserIdRequest, SearchUsersRequest } from '~/plugins/domain/dto/user'
+import {
+  SearchUsersRequest,
+  GeneralUserParameters,
+  GetInteractionParameters,
+} from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
-import { CreatePollRequest } from '~/plugins/domain/dto/poll'
+import {
+  CreatePollRequest,
+  GeneralPollParameters,
+  GetPollRequest,
+} from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
 import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
 import {
@@ -22,23 +31,26 @@ import {
   CreateChannelRequest,
   GeneralChannelParameters,
   CreatePrivateChannelRequest,
+  SearchChannelRequest,
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
+import { UserId, Pagination } from '~/plugins/domain/dto/common'
+import { Stats } from '~/models/stats'
 
 export interface PnutRepository {
   getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
   getMentions(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
-  getInteractions(
+  getPostInteractions(
     postIdRequest: PostIdRequest,
     params?: GeneralPostParameters
-  ): Promise<PnutResponse<Interaction<any>[]>>
+  ): Promise<PnutResponse<Interaction[]>>
   getBookmarks(
-    userIdRequest: UserIdRequest,
+    userId: string,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
   getExplore(
-    explore: GetExploreStreamRequest,
+    slug: ExploreSlugType,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
   getGlobal(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
@@ -85,4 +97,74 @@ export interface PnutRepository {
     channelId: string,
     params?: GeneralMessageParameters
   ): Promise<PnutResponse<Message[]>>
+  getUserPosts(
+    userId: UserId,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>>
+
+  getTaggedPosts(
+    tag: string,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>>
+  getUnifiedStream(
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>>
+  getUser(
+    userId: UserId,
+    params?: GeneralUserParameters
+  ): Promise<PnutResponse<User>>
+  getInteractions(
+    params?: GetInteractionParameters
+  ): Promise<PnutResponse<Interaction[]>>
+  getFollowers(
+    userId: UserId,
+    params?: GeneralUserParameters
+  ): Promise<PnutResponse<User[]>>
+  getFollowing(
+    userId: UserId,
+    params?: GeneralUserParameters
+  ): Promise<PnutResponse<User[]>>
+
+  getSubscribedChannels(
+    params?: GeneralChannelParameters
+  ): Promise<PnutResponse<Channel[]>>
+
+  searchChannels(
+    params?: SearchChannelRequest
+  ): Promise<PnutResponse<Channel[]>>
+  getChannel(
+    channelId: string,
+    params?: GeneralChannelParameters
+  ): Promise<PnutResponse<Channel>>
+
+  getBlockedUsers(
+    params?: GeneralChannelParameters & Pagination
+  ): Promise<PnutResponse<User[]>>
+
+  getMutedUsers(
+    params?: GeneralChannelParameters & Pagination
+  ): Promise<PnutResponse<User[]>>
+
+  getStats(): Promise<PnutResponse<Stats>>
+  searchPosts(
+    params?: SearchPostRequest & GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>>
+
+  getThread(
+    postId: string,
+    params?: GeneralPostParameters & Pagination
+  ): Promise<PnutResponse<Post[]>>
+  getFiles(
+    params?: GeneralFileParameters & Pagination
+  ): Promise<PnutResponse<File[]>>
+
+  getPolls(
+    params?: GeneralPollParameters & Pagination
+  ): Promise<PnutResponse<Poll[]>>
+
+  getPoll(pollId: string, params?: GetPollRequest): Promise<PnutResponse<Poll>>
+  getRevision(
+    postId: string,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>>
 }

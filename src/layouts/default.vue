@@ -1,8 +1,6 @@
 <template>
   <div id="wrapper" :style="`margin-top: 48px`" class="wrapper mb-3">
-    <app-header ref="header">
-      <jumbotron v-if="searchPage" slot="jumbotron" class="jumbotron" />
-    </app-header>
+    <app-header ref="header" />
     <main class="container main">
       <div class="row">
         <transition name="slide" mode="out-in">
@@ -71,26 +69,20 @@
     </main>
     <post-modal />
     <remove-modal />
-    <message-remove-modal />
     <message-modal />
-    <channel-edit-modal />
-    <channel-member-edit-modal />
     <help-modal />
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import { getMenusWithMeta, MenuItem } from '../components/sidebar/MenuItem'
+import { getMenusWithMeta, MenuItem } from '~/components/sidebar/MenuItem'
 import AppHeader from '~/components/organisms/Header.vue'
 import PostModal from '~/components/PostModal.vue'
 import RemoveModal from '~/components/RemoveModal.vue'
-import MessageRemoveModal from '~/components/MessageRemoveModal.vue'
-import ChannelEditModal from '~/components/ChannelEditModal.vue'
-import ChannelMemberEditModal from '~/components/ChannelMemberEditModal.vue'
+
 import MessageModal from '~/components/MessageModal.vue'
 import HelpModal from '~/components/organisms/HelpModal.vue'
 import Sidebar from '~/components/sidebar/Sidebar.vue'
-import Jumbotron from '~/components/Jumbotron.vue'
 import { User } from '~/models/user'
 
 @Component({
@@ -98,13 +90,9 @@ import { User } from '~/models/user'
     AppHeader,
     PostModal,
     RemoveModal,
-    MessageRemoveModal,
-    ChannelEditModal,
-    ChannelMemberEditModal,
     MessageModal,
     HelpModal,
     Sidebar,
-    Jumbotron,
   },
 })
 export default class extends Vue {

@@ -42,6 +42,54 @@ import {
   GetMessagesUseCase,
   GetMessagesInteractor,
 } from '~/plugins/domain/usecases/getMessages'
+import {
+  GetPostsUseCase,
+  GetPostsInteractor,
+} from '~/plugins/domain/usecases/getPosts'
+import {
+  GetProfileWithPostsUseCase,
+  GetProfileWithPostsInteractor,
+} from '~/plugins/domain/usecases/getProfileWithPosts'
+import {
+  GetInteractionsUseCase,
+  GetInteractionsInteractor,
+} from '~/plugins/domain/usecases/getInteractions'
+import {
+  GetUsersUseCase,
+  GetUsersIntereactor,
+} from '~/plugins/domain/usecases/getUsers'
+import {
+  GetChannelsUseCase,
+  GetChannelsInteractor,
+} from '~/plugins/domain/usecases/getChannels'
+import {
+  GetStatsUseCase,
+  GetStatsInteractor,
+} from '~/plugins/domain/usecases/getStats'
+import {
+  SearchUseCase,
+  SearchInteractors,
+} from '~/plugins/domain/usecases/search'
+import {
+  GetThreadUseCase,
+  GetThreadInteractor,
+} from '~/plugins/domain/usecases/getThread'
+import {
+  GetFilesUseCase,
+  GetFilesInteractor,
+} from '~/plugins/domain/usecases/getFiles'
+import {
+  GetPollsInteractor,
+  GetPollsUseCase,
+} from '~/plugins/domain/usecases/getPolls'
+import {
+  GetPollUseCase,
+  GetPollInteractor,
+} from '~/plugins/domain/usecases/getPoll'
+import {
+  GetRevisionInteractor,
+  GetRevisionUseCase,
+} from '~/plugins/domain/usecases/getRevision'
 
 type InteractorType = Readonly<{
   createFile: CreateFileUseCase
@@ -54,6 +102,18 @@ type InteractorType = Readonly<{
   createPrivateChannel: CreatePrivateChannelUseCase
   suggestUsers: SuggestUsersUseCase
   getMessages: GetMessagesUseCase
+  getPosts: GetPostsUseCase
+  getProfileWithPosts: GetProfileWithPostsUseCase
+  getInteractions: GetInteractionsUseCase
+  getUsers: GetUsersUseCase
+  getChannels: GetChannelsUseCase
+  getStats: GetStatsUseCase
+  search: SearchUseCase
+  getThread: GetThreadUseCase
+  getFiles: GetFilesUseCase
+  getPolls: GetPollsUseCase
+  getPoll: GetPollUseCase
+  getRevision: GetRevisionUseCase
 }>
 
 function customizeAxios(axios: NuxtAxiosInstance) {
@@ -132,6 +192,46 @@ function getInteractors(context: Context): InteractorType {
     },
     get getMessages() {
       return new GetMessagesInteractor(getPnutRepository())
+    },
+    get getPosts() {
+      return new GetPostsInteractor(getPnutRepository())
+    },
+    get getProfileWithPosts() {
+      const getPostsUseCase = new GetPostsInteractor(getPnutRepository())
+      return new GetProfileWithPostsInteractor(
+        getPnutRepository(),
+        getPostsUseCase
+      )
+    },
+    get getInteractions() {
+      return new GetInteractionsInteractor(getPnutRepository())
+    },
+    get getUsers() {
+      return new GetUsersIntereactor(getPnutRepository())
+    },
+    get getChannels() {
+      return new GetChannelsInteractor(getPnutRepository())
+    },
+    get getStats() {
+      return new GetStatsInteractor(getPnutRepository())
+    },
+    get search() {
+      return new SearchInteractors(getPnutRepository())
+    },
+    get getThread() {
+      return new GetThreadInteractor(getPnutRepository())
+    },
+    get getFiles() {
+      return new GetFilesInteractor(getPnutRepository())
+    },
+    get getPolls() {
+      return new GetPollsInteractor(getPnutRepository())
+    },
+    get getPoll() {
+      return new GetPollInteractor(getPnutRepository())
+    },
+    get getRevision() {
+      return new GetRevisionInteractor(getPnutRepository())
     },
   }
 }

@@ -4,15 +4,24 @@ import { PnutResponse } from '~/models/pnut-response'
 import { Post } from '~/models/post'
 import {
   GeneralPostParameters,
-  GetExploreStreamRequest,
   PostIdRequest,
   CreatePostRequest,
   UpdatePostRequest,
+  ExploreSlugType,
+  SearchPostRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
-import { UserIdRequest, SearchUsersRequest } from '~/plugins/domain/dto/user'
+import {
+  SearchUsersRequest,
+  GeneralUserParameters,
+  GetInteractionParameters,
+} from '~/plugins/domain/dto/user'
 import { File } from '~/models/file'
-import { CreatePollRequest } from '~/plugins/domain/dto/poll'
+import {
+  CreatePollRequest,
+  GeneralPollParameters,
+  GetPollRequest,
+} from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
 import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
 import {
@@ -24,12 +33,136 @@ import {
   CreateChannelRequest,
   GeneralChannelParameters,
   CreatePrivateChannelRequest,
+  SearchChannelRequest,
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
+import { UserId, Pagination } from '~/plugins/domain/dto/common'
+import { Stats } from '~/models/stats'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getRevision(
+    postId: string,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>> {
+    return this.get(`/posts/${postId}/revisions`, params)
+  }
+
+  getPoll(
+    pollId: string,
+    params?: GetPollRequest
+  ): Promise<PnutResponse<Poll>> {
+    return this.get(`/polls/${pollId}`, params)
+  }
+
+  getPolls(
+    params?: GeneralPollParameters & Pagination
+  ): Promise<PnutResponse<Poll[]>> {
+    return this.get('/users/me/polls', params)
+  }
+
+  getFiles(
+    params?: GeneralFileParameters & Pagination
+  ): Promise<PnutResponse<File[]>> {
+    return this.get('/users/me/files', params)
+  }
+
+  getThread(
+    postId: string,
+    params?: GeneralPostParameters & Pagination
+  ): Promise<PnutResponse<Post[]>> {
+    return this.get(`/posts/${postId}/thread`, params)
+  }
+
+  searchPosts(
+    params?: SearchPostRequest & Pagination
+  ): Promise<PnutResponse<Post[]>> {
+    return this.get('/posts/search', params)
+  }
+
+  getStats(): Promise<PnutResponse<Stats>> {
+    return this.get('/sys/stats')
+  }
+
+  getMutedUsers(
+    params?: GeneralChannelParameters & Pagination
+  ): Promise<PnutResponse<User[]>> {
+    return this.get('/users/me/muted', params)
+  }
+
+  getBlockedUsers(
+    params?: GeneralChannelParameters & Pagination
+  ): Promise<PnutResponse<User[]>> {
+    return this.get('/users/me/blocked', params)
+  }
+
+  getChannel(
+    channelId: string,
+    params?: GeneralChannelParameters
+  ): Promise<PnutResponse<Channel>> {
+    return this.get(`/channels/${channelId}`, params)
+  }
+
+  searchChannels(
+    params?: SearchChannelRequest
+  ): Promise<PnutResponse<Channel[]>> {
+    return this.get('/channels/search', params)
+  }
+
+  getSubscribedChannels(
+    params?: GeneralChannelParameters
+  ): Promise<PnutResponse<Channel[]>> {
+    return this.get('/users/me/channels/subscribed', params)
+  }
+
+  getFollowers(
+    userId: string,
+    params?: GeneralUserParameters
+  ): Promise<PnutResponse<User[]>> {
+    return this.get(`/users/${userId}/followers`, params)
+  }
+
+  getFollowing(
+    userId: string,
+    params?: GeneralUserParameters
+  ): Promise<PnutResponse<User[]>> {
+    return this.get(`/users/${userId}/following`, params)
+  }
+
+  getInteractions(
+    params?: GetInteractionParameters
+  ): Promise<PnutResponse<Interaction[]>> {
+    return this.get('/users/me/interactions', params)
+  }
+
+  getUser(
+    userId: UserId,
+    params?: GeneralUserParameters
+  ): Promise<PnutResponse<User>> {
+    return this.get(`/users/${userId}`, params)
+  }
+
+  getUnifiedStream(
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>> {
+    return this.get('/posts/streams/unified', params)
+  }
+
+  getTaggedPosts(
+    tag: string,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>> {
+    return this.get(`/posts/tags/${tag}`, params)
+  }
+
+  getUserPosts(
+    userId: UserId,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>> {
+    return this.get(`/users/${userId}/posts`, params)
+  }
+
   getMessages(
     channelId: string,
     params?: GeneralMessageParameters
@@ -128,29 +261,29 @@ export class PnutRepositoryImpl implements PnutRepository {
     return this.axios.$get('/users/me/mentions', { params })
   }
 
-  getInteractions(
+  getPostInteractions(
     postIdRequest: PostIdRequest,
     params?: GeneralPostParameters
-  ): Promise<PnutResponse<Interaction<any>[]>> {
+  ): Promise<PnutResponse<Interaction[]>> {
     return this.axios.$get(`/posts/${postIdRequest.post_id}/interactions`, {
       params,
     })
   }
 
   getBookmarks(
-    userIdRequest: UserIdRequest,
+    userId: string,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>> {
-    return this.axios.$get(`/users/${userIdRequest.user_id}/bookmarks`, {
+    return this.axios.$get(`/users/${userId}/bookmarks`, {
       params,
     })
   }
 
   getExplore(
-    explore: GetExploreStreamRequest,
+    slug: ExploreSlugType,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>> {
-    return this.axios.$get(`/posts/streams/explore/${explore.slug}`, { params })
+    return this.axios.$get(`/posts/streams/explore/${slug}`, { params })
   }
 
   getGlobal(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>> {

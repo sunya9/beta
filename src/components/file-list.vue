@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-infinite-scroll="fetchMore"
-    infinite-scroll-disabled="moreDisabled"
-    infinite-scroll-distance="100"
-  >
+  <div>
     <div class="d-flex mb-2">
       <button
         :disabled="!isSelected"
@@ -25,14 +21,17 @@
             <th />
           </tr>
         </thead>
-        <tbody>
-          <file-row
-            v-for="(file, index) in files"
-            :key="file.id"
-            :file.sync="file"
-            @update:file="(newFile) => $set(files, index, newFile)"
-          />
-        </tbody>
+        <base-list
+          v-slot="{ item, index, updateItem }"
+          list-class=""
+          :list-info="listInfo"
+          v-bind="$attrs"
+          list-element="tr"
+          tag="tbody"
+          v-on="$listeners"
+        >
+          <file-row :file="item" @update:file="updateItem(index, $event)" />
+        </base-list>
       </table>
     </div>
 
@@ -49,83 +48,55 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import Vue from 'vue'
+import { Component, Prop } from 'vue-property-decorator'
 import FileRow from '~/components/molecules/FileRow.vue'
 import BaseModal from '~/components/BaseModal.vue'
-import { PnutResponse } from '~/models/pnut-response'
-import { File } from '~/models/file'
+import BaseList from '~/components/BaseList.vue'
+import { ListInfo } from '~/plugins/domain/util/util'
+import { ModifiedFile } from '~/plugins/domain/usecases/getFiles'
 
-export interface ModifiedFile extends File {
-  select: boolean
-}
-
-function addSelectField(file: File) {
-  const modifiedFile = {
-    ...file,
-    select: false,
-  }
-  return modifiedFile
-}
-
-export default Vue.extend({
+@Component({
   components: {
     BaseModal,
     FileRow,
-  },
-  props: {
-    data: {
-      type: Object,
-      required: true,
-    } as PropOptions<PnutResponse<File[]>>,
-    options: {
-      type: Object,
-      required: true,
-    } as PropOptions<object>,
-  },
-  data() {
-    return {
-      busy: false,
-      meta: this.data.meta,
-      files: this.data.data.map(addSelectField),
-    }
-  },
-  computed: {
-    isSelected(): boolean {
-      return this.files.some((file) => file.select)
-    },
-    selectedFiles(): ModifiedFile[] {
-      return this.files.filter((file) => file.select)
-    },
-    moreDisabled(): boolean {
-      return this.busy || !this.meta.more
-    },
-  },
-  methods: {
-    async fetchMore() {
-      this.busy = true
-      const options = {
-        ...this.options,
-        before_id: this.meta.min_id,
-      }
-      const { data: newItems, meta } = await this.$resource<File[]>({ options })
-      this.meta = meta
-
-      if (newItems.length) {
-        this.files = this.files.concat(newItems.map(addSelectField))
-      }
-      this.busy = false
-    },
-    showModal() {
-      this.$modal.show('delete-file-modal')
-    },
-    async deleteFiles() {
-      const deletePromises = this.selectedFiles.map(async (file) => {
-        const res = await this.$axios.$delete(`/files/${file.id}`)
-        return res
-      })
-      await Promise.all(deletePromises)
-      this.files = this.files.filter((file) => !file.select)
-    },
+    BaseList,
   },
 })
+export default class FileList extends Vue {
+  @Prop({
+    type: Object,
+    required: true,
+  })
+  listInfo!: ListInfo<ModifiedFile>
+
+  get files() {
+    return this.listInfo.data
+  }
+
+  set files(newFiles) {
+    this.listInfo.data = newFiles
+  }
+
+  get isSelected(): boolean {
+    return this.files.some((file) => file.select)
+  }
+
+  get selectedFiles(): ModifiedFile[] {
+    return this.files.filter((file) => file.select)
+  }
+
+  showModal() {
+    this.$modal.show('delete-file-modal')
+  }
+
+  async deleteFiles() {
+    const deletePromises = this.selectedFiles.map(async (file) => {
+      const res = await this.$axios.$delete(`/files/${file.id}`)
+      return res
+    })
+    await Promise.all(deletePromises)
+    this.files = this.files.filter((file) => !file.select)
+  }
+}
 </script>

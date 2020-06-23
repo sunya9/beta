@@ -96,8 +96,8 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Watch } from 'vue-property-decorator'
-import { User } from '../../models/user'
 import { createCompose } from './ComposeAbstract'
+import { User } from '~/models/user'
 import bus from '~/assets/ts/bus'
 import Thumb from '~/components/Thumb.vue'
 import InputSpoiler from '~/components/InputSpoiler.vue'

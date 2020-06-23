@@ -1,17 +1,17 @@
 <template>
   <div>
     <compose />
-    <post-list :data="data" :option="options" :refresh-date="date" />
+    <post-list :list-info="listInfo" :refresh-date="date" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator'
-import { PnutResponse } from '../models/pnut-response'
-import { Post } from '../models/post'
+import { Post } from '~/models/post'
 import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/PostList.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 @Component({
   middleware: ['auth'],
@@ -19,13 +19,14 @@ import refreshAfterAdded from '~/assets/ts/refresh-after-added'
     PostList,
     Compose,
   },
-  async asyncData({ app: { $resource } }) {
-    const options = {
-      include_directed_posts:
-        localStorage.hide_directed_posts === 'true' ? 0 : 1,
-    }
-    const data = await $resource({ options })
-    return { data, options }
+  async asyncData({ app: { $interactors } }) {
+    const { listInfo } = await $interactors.getPosts.run({
+      type: 'global',
+      params: {
+        include_directed_posts: localStorage.hide_directed_posts === 'false',
+      },
+    })
+    return { listInfo }
   },
   head() {
     return {
@@ -33,8 +34,7 @@ import refreshAfterAdded from '~/assets/ts/refresh-after-added'
     }
   },
 })
-export default class extends Mixins(refreshAfterAdded) {
-  data!: PnutResponse<Post[]>
-  options!: object
+export default class Global extends Mixins(refreshAfterAdded) {
+  listInfo!: ListInfo<Post>
 }
 </script>

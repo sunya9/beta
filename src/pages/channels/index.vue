@@ -23,14 +23,7 @@
           </nuxt-link>
         </li>
       </ul>
-      <channel-list
-        ref="list"
-        :key="JSON.stringify({ resource, options })"
-        :data="data"
-        :option="options"
-        :resource="resource"
-        :refresh-date="date"
-      />
+      <channel-list :list-info="listInfo" :refresh-date="date" />
     </div>
   </div>
 </template>
@@ -43,7 +36,7 @@ import MessageCompose from '~/components/organisms/MessageCompose.vue'
 import ChannelCompose from '~/components/ChannelCompose.vue'
 import ChannelList from '~/components/ChannelList.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
-import { PnutResponse } from '~/models/pnut-response'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 @Component({
   middleware: ['auth'],
@@ -53,50 +46,19 @@ import { PnutResponse } from '~/models/pnut-response'
     MessageCompose,
     ChannelCompose,
   },
-  async asyncData({ app: { $resource }, query }) {
+  async asyncData({ app: { $interactors }, query }) {
     const isPrivate = !('public' in query)
     const all = 'all' in query
-    const commonOption = {
-      include_recent_message: 1,
-      include_limited_users: 1,
-      include_channel_raw: 1,
-    }
-    const privateMessages = {
-      resource: '/users/me/channels/subscribed',
-      options: {
-        ...commonOption,
-        channel_types: 'io.pnut.core.pm',
-        is_private: 1,
+    const { listInfo } = await $interactors.getChannels.run({
+      isPrivate,
+      all,
+      params: {
+        include_recent_message: true,
+        include_limited_users: true,
+        include_channel_raw: true,
       },
-    }
-    const subscribedChatRoom = {
-      resource: '/users/me/channels/subscribed',
-      options: {
-        ...commonOption,
-        channel_types: 'io.pnut.core.chat',
-        is_public: 1,
-      },
-    }
-    const allChatRoom = {
-      resource: '/channels/search',
-      options: {
-        ...commonOption,
-        channel_types: 'io.pnut.core.chat',
-        is_public: 1,
-        include_inactive: 1,
-      },
-    }
-    const { options, resource } = isPrivate
-      ? privateMessages
-      : all
-      ? allChatRoom
-      : subscribedChatRoom
-
-    const data = await $resource<Channel[]>({
-      url: resource,
-      options,
     })
-    return { data, options, isPrivate, resource }
+    return { isPrivate, listInfo }
   },
   head(this: Messages) {
     return {
@@ -105,9 +67,7 @@ import { PnutResponse } from '~/models/pnut-response'
   },
 })
 export default class Messages extends Mixins(refreshAfterAdded) {
-  resource!: string
-  data!: PnutResponse<Channel[]>
-  options!: object
+  listInfo!: ListInfo<Channel>
   isPrivate!: boolean
   get isPublic(): boolean {
     return !this.isPrivate

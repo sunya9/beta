@@ -1,56 +1,46 @@
 <template>
-  <ul
+  <component
+    :is="tag"
     v-if="items.length"
     v-on-click-outside="updateActiveElement"
     v-infinite-scroll="fetchMore"
-    :class="listClass"
+    :class="[listClass, { reverse }]"
     infinite-scroll-disabled="moreDisabled"
-    infinite-scroll-distance="100"
+    infinite-scroll-distance="1000"
   >
-    <component
-      :is="listElement"
-      v-for="(item, index) in items"
-      :key="item[idField]"
-      :class="
-        typeof listItemClass === 'function'
-          ? listItemClass(item)
-          : listItemClass
-      "
-      v-bind="listItemProps(item)"
-      class="item"
-      tabindex="-1"
-      @click="setSelect(index)"
-    >
+    <template v-for="(item, index) in items">
       <slot
+        tabindex="-1"
         :item="item"
         :index="index"
         :selected="isSelected(index)"
         :last-update="lastUpdate"
         :update-item="updateItem"
+        @click="setSelect(index)"
       />
-    </component>
-    <li
+    </template>
+    <component
+      :is="listElement"
       v-show="more"
       :class="{ 'list-group-item': listClass !== 'list-unstyled' }"
     >
       <div class="text-center w-100 text-muted my-2">
         <font-awesome-icon spin fixed-width size="2x" icon="sync" />
       </div>
-    </li>
-  </ul>
-  <div v-else class="text-center my-3">
+    </component>
+  </component>
+  <component :is="tag" v-else class="text-center my-3">
     <slot name="empty">
-      <div class="list-group-item py-4">
+      <component :is="listElement" class="list-group-item py-4">
         No Items
-      </div>
+      </component>
     </slot>
-  </div>
+  </component>
 </template>
 <script lang="ts">
 import { Prop, Watch, Component, Mixins } from 'vue-property-decorator'
-import { User } from '../models/user'
-import { PnutResponse } from '~/models/pnut-response'
 import keyBinding from '~/assets/ts/key-binding'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 const INTERVAL = 1000 * 30 // 30sec
 
@@ -60,13 +50,20 @@ const keyMap = {
   '.': 'refresh',
 }
 
+export interface GetMoreProps {
+  sinceId?: string
+  beforeId?: string
+}
+
 @Component({})
-export default class BaseList extends Mixins(keyBinding(keyMap)) {
+export default class BaseList<T extends object = object> extends Mixins(
+  keyBinding(keyMap)
+) {
   @Prop({
     type: Function,
     default: () => () => null,
   })
-  dataAddedHook!: (data: any[]) => void
+  dataAddedHook!: (data: T[]) => void
 
   @Prop({
     type: String,
@@ -75,22 +72,10 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
   listClass!: string
 
   @Prop({
-    type: [String, Function],
-    default: 'list-group-item list-group-item-action',
-  })
-  listItemClass!: string | ((data: any) => void)
-
-  @Prop({
     type: [String, Object, Function],
     default: 'li',
   })
   listElement!: string
-
-  @Prop({
-    type: Function,
-    default: () => ({}),
-  })
-  listItemProps!: (data: any) => void
 
   @Prop({
     type: Boolean,
@@ -99,51 +84,52 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
   disableAutoRefresh!: boolean
 
   @Prop({
-    type: Object,
-    validator: (obj) => 'meta' in obj && 'data' in obj,
-    required: true,
-    default: () => ({
-      meta: {},
-      data: [],
-    }),
-  })
-  data!: PnutResponse<any[]>
-
-  @Prop({
-    type: String,
-    default: '',
-  })
-  resource!: string
-
-  @Prop({
-    type: Object,
-    default: () => ({}),
-  })
-  option!: object
-
-  @Prop({
-    type: String,
-    default: 'id',
-  })
-  idField!: string
-
-  @Prop({
     type: Number,
     default: Date.now(),
   })
   refreshDate!: number
 
+  @Prop({
+    type: Object,
+    required: true,
+  })
+  listInfo!: ListInfo<T>
+
+  @Prop({
+    type: Boolean,
+    required: false,
+    default: false,
+  })
+  reverse!: boolean
+
+  @Prop({
+    type: String,
+    required: false,
+    default: 'ul',
+  })
+  tag!: string
+
+  get getOlder() {
+    return this.listInfo.getOlder
+  }
+
+  get getNewer() {
+    return this.listInfo.getNewer
+  }
+
+  get olderMeta() {
+    return this.listInfo.olderMeta
+  }
+
   busy = false
   internalSelect = -1
-  items = this.data.data || []
-  lastUpdate = Date.now()
-  meta = this.data.meta
-  refreshing = false
-  activeElement = (null as any) as Element | null
+  activeElement: Element | null = null
 
-  get user(): User | null {
-    return this.$accessor.user
+  get items(): T[] {
+    return this.listInfo.data
   }
+
+  lastUpdate = Date.now()
 
   get select(): number {
     return this.internalSelect
@@ -161,7 +147,7 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
   }
 
   get more(): boolean {
-    return !!this.meta.more
+    return !!this.olderMeta.more
   }
 
   @Watch('refreshDate')
@@ -173,18 +159,13 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
     this.refresh()
   }
 
-  @Watch('data', { deep: true })
-  onChangeData(data: BaseList['data']) {
-    this.items = 'data' in data ? data.data : []
-  }
-
   mounted() {
     if (this.disableAutoRefresh) return
     const timer = setInterval(this.refresh, INTERVAL)
     this.$once('hook:beforeDestroy', () => clearInterval(timer))
   }
 
-  updateItem(index: number, item: any) {
+  updateItem(index: number, item: T) {
     this.$set(this.items, index, item)
   }
 
@@ -219,14 +200,20 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
     this.activeElement = this.$el.children[this.select]
   }
 
-  scrollDown() {
+  scrollDown(ignoreReverse?: boolean): void {
+    if (this.reverse && !ignoreReverse) return this.scrollUp(true)
     this.select++
     if (this.select < 0) return
     this.focus()
   }
 
-  scrollUp() {
-    this.select--
+  scrollUp(ignoreReverse?: boolean): void {
+    if (this.reverse && !ignoreReverse) return this.scrollDown(true)
+    if (this.reverse && this.select < 0) {
+      this.select = this.listInfo.data.length - 1
+    } else {
+      this.select--
+    }
     this.focus()
   }
 
@@ -234,44 +221,27 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
     if (this.busy) return
     this.busy = true
     try {
-      const options = { ...this.option, before_id: this.meta.min_id }
-      const { data: newItems, meta } = await this.$resource<any[]>({
-        url: this.resource,
-        options,
-      })
-      this.meta = meta
-
-      if (newItems.length) {
-        this.items = this.items.concat(newItems)
-        // this.$emit('update:data', {
-        //   meta: this.meta,
-        //   data: this.items
-        // })
-      }
+      await this.getOlder()
     } catch (e) {
       console.error(e)
+    } finally {
+      this.busy = false
     }
-    this.busy = false
   }
 
   async refresh() {
-    if (this.refreshing) return
-    this.refreshing = true
-    const options = {
-      ...this.option,
-      since_id: this.items.length && this.items[0].pagination_id,
+    if (this.busy) return
+    this.busy = true
+    try {
+      const { size, data } = await this.getNewer()
+      this.lastUpdate = Date.now()
+      this.select += size
+      this.dataAddedHook(data)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      this.busy = false
     }
-    const { data: newItems } = await this.$resource<any[]>({
-      url: this.resource,
-      options,
-    })
-    if (newItems.length) {
-      this.items = newItems.concat(this.items)
-      this.select += newItems.length
-      this.dataAddedHook(newItems)
-    }
-    this.refreshing = false
-    this.lastUpdate = Date.now()
   }
 }
 </script>
@@ -280,6 +250,20 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
 
 .list-group {
   @include no-gutter-xs;
+  display: flex;
+  flex-direction: column;
+  &.reverse {
+    flex-direction: column-reverse;
+    .item:not(.message) {
+      &:only-child,
+      &:first-child {
+        margin-top: 0 !important;
+      }
+      &:first-child:not(:only-child) {
+        border-top: 0;
+      }
+    }
+  }
 }
 
 // workaround for zooming
@@ -290,7 +274,7 @@ export default class BaseList extends Mixins(keyBinding(keyMap)) {
 .item:not(.message) {
   &:only-child,
   &:first-child {
-    margin-top: 0 !important;
+    /* margin-top: 0 !important; */
   }
 }
 </style>

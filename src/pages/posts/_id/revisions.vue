@@ -1,119 +1,48 @@
 <template>
   <div>
     <post-list
-      :key="`post-${id}`"
-      :main="id"
-      :data="data"
-      :option="options"
-      :refresh-date="date"
+      :key="`post-${listInfo.data[0].id}`"
+      :list-info="listInfo"
       disable-auto-refresh
-      all
     />
   </div>
 </template>
 
 <script lang="ts">
-import { Mixins, Component } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import PostList from '~/components/PostList.vue'
-import { getImageURLs } from '~/assets/ts/util'
-import refreshAfterAdded from '~/assets/ts/refresh-after-added'
-import { PnutResponse } from '~/models/pnut-response'
 import { Post } from '~/models/post'
+import { ListInfo } from '~/plugins/domain/util/util'
 
 @Component({
   components: {
     PostList,
   },
-  async asyncData(ctx) {
-    const {
-      params: { id },
-      app: { $resource },
-    } = ctx
-    const options = {
-      include_directed_posts: 1,
-      include_bookmarked_by: 1,
-      include_reposted_by: 1,
-    }
-    const postPromise = $resource<Post[]>({ options })
-
-    const data = await postPromise
-    data.data = data.data ? data.data.reverse() : []
+  async asyncData({ app: { $interactors }, params: { id } }) {
+    const { listInfo, title, meta } = await $interactors.getRevision.run({
+      postId: id,
+    })
     return {
-      id,
-      options,
-      data,
+      listInfo,
+      title,
+      meta,
     }
   },
 
   head(this: Revisions) {
-    const data = this.data
-    const [post] = data.data.filter((post) => post.id === this.id)
-    if (post.user && post.content) {
-      const name = post.user.name
-        ? `${post.user.name}(@${post.user.username})`
-        : `@${post.user.username}`
-      const fullTitle = `${name}: ${post.content.text}`
-      const title =
-        fullTitle.length > 50 ? `${fullTitle.substr(0, 50)}…` : fullTitle
-      const meta = [
-        { hid: 'description', name: 'description', content: fullTitle },
-        {
-          hid: 'og:description',
-          property: 'og:description',
-          content: fullTitle,
-        },
-        { hid: 'og:title', property: 'og:title', content: title },
-      ]
-      const [photo] = getImageURLs(post, true)
-      if (photo) {
-        meta.push(
-          {
-            hid: 'og:image',
-            property: 'og:image',
-            content: photo.original,
-          },
-          {
-            hid: 'og:image:width',
-            property: 'og:image:width',
-            content: photo.width.toString(),
-          },
-          {
-            hid: 'og:image:height',
-            property: 'og:image:height',
-            content: photo.height.toString(),
-          },
-          {
-            hid: 'og:type',
-            property: 'og:type',
-            content: 'article',
-          },
-          {
-            hid: 'article:published_time',
-            property: 'article:published_time',
-            content: post.created_at.toString(),
-          },
-          {
-            hid: 'article:author',
-            property: 'article:author',
-            content: post.user.username,
-          }
-        )
-      }
-      return {
-        title,
-        meta,
-      }
+    return {
+      title: this.title,
+      meta: this.meta,
     }
-    return {}
   },
   validate({ params }) {
     return /^\w+$/.test(params.name) && /\d+$/.test(params.id)
   },
 })
-export default class Revisions extends Mixins(refreshAfterAdded) {
-  data!: PnutResponse<Post[]>
-  options!: object // TODO
-  id!: string
+export default class Revisions extends Vue {
+  readonly listInfo!: ListInfo<Post>
+  readonly meta!: any[]
+  readonly title!: string
 }
 </script>
 

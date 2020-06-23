@@ -1,28 +1,25 @@
 <template>
   <div>
-    <user-list :data="data" :component-options="options" />
+    <user-list :list-info="listInfo" :component-options="componentOptions" />
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
 import UserList from '~/components/UserList.vue'
+import { ListInfo } from '~/plugins/domain/util/util'
+import { User } from '~/models/user'
 
-export default Vue.extend({
+@Component({
   components: {
     UserList,
   },
-  async asyncData({ app: { $resource } }) {
-    const data = await $resource()
+  async asyncData({ app: { $interactors } }) {
+    const { listInfo } = await $interactors.getUsers.run({
+      type: { type: 'muted' },
+    })
     return {
-      data,
-    }
-  },
-  data() {
-    return {
-      options: {
-        disableFollowButton: true,
-        showUnmuteButton: true,
-      },
+      listInfo,
     }
   },
   head() {
@@ -31,4 +28,11 @@ export default Vue.extend({
     }
   },
 })
+export default class MutedAccounts extends Vue {
+  listInfo!: ListInfo<User>
+  componentOptions = {
+    disableFollowButton: true,
+    showUnmuteButton: true,
+  }
+}
 </script>

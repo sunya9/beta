@@ -1,30 +1,20 @@
 <template>
   <div>
-    <compose v-if="user" />
+    <compose v-if="$auth.loggedIn" />
     <splash v-else class="mb-5" />
-    <post-list
-      ref="list"
-      :data="data"
-      :refresh-date="date"
-      :resource="resource"
-      :option="options"
-      type="Post"
-    />
+    <post-list :list-info="listInfo" :refresh-date="date" />
   </div>
 </template>
 
 <script lang="ts">
 import { Mixins, Component } from 'vue-property-decorator'
-import { PnutResponse } from '~/models/pnut-response'
+import { ListInfo } from '~/plugins/domain/util/util'
+import { StreamType } from '~/plugins/domain/dto/streamType'
 import { Post } from '~/models/post'
 import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/PostList.vue'
-import { convertPageId2ApiPath } from '~/plugins/axios/resources'
 import Splash from '~/components/Splash.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
-import { User } from '~/models/user'
-
-const globalPath = convertPageId2ApiPath('global')
 
 @Component({
   components: {
@@ -32,38 +22,28 @@ const globalPath = convertPageId2ApiPath('global')
     PostList,
     Splash,
   },
-  async asyncData({ app: { $resource, $accessor } }) {
-    let streamPath = '/posts/streams/me'
-    if (localStorage.unified_timeline === 'true') {
-      streamPath = '/posts/streams/unified'
-    }
-    const options = {
-      include_directed_posts:
-        localStorage.hide_directed_posts === 'false' ? 1 : 0,
-    }
-    const data = await $resource({
-      url: !$accessor.user ? globalPath : streamPath,
-      options,
+  async asyncData({ $auth, app: { $interactors } }) {
+    const unified = localStorage.unified_timeline === 'true'
+    const streamType: StreamType = $auth.loggedIn
+      ? { type: 'home', unified }
+      : { type: 'global' }
+    const { listInfo } = await $interactors.getPosts.run({
+      ...streamType,
+      params: {
+        include_directed_posts: localStorage.hide_directed_posts === 'false',
+      },
     })
-    return { data, options }
+    return {
+      listInfo,
+    }
   },
   head(this: Index) {
-    const loggedIn = !!this.$accessor.user
     return {
-      title: loggedIn ? 'Your Stream' : '',
+      title: this.$auth.loggedIn ? 'Your Stream' : '',
     }
   },
 })
 export default class Index extends Mixins(refreshAfterAdded) {
-  options!: object
-  data!: PnutResponse<Post[]>
-  get user(): User | null {
-    return this.$accessor.user
-  }
-
-  get resource(): string {
-    // TODO: ?
-    return !this.$accessor.user ? convertPageId2ApiPath('global') : ''
-  }
+  listInfo!: ListInfo<Post>
 }
 </script>

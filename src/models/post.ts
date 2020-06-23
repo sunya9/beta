@@ -1,8 +1,9 @@
 import { DefinitelyUser, User } from './user'
 import { Entity } from './entity'
 import { Raw, HasRaw } from './raw'
+import { Pageable } from './pageable'
 
-export interface Post extends HasRaw {
+export interface Post extends HasRaw, Pageable {
   created_at: Date
   id: string
   is_deleted: boolean

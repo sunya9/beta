@@ -26,3 +26,10 @@ export type ReportReasonType =
 export type RawRequest = {
   raw?: Raw<any>[]
 }
+
+export type UserId = string | 'me'
+
+export interface FetchMoreResult<T> {
+  size: number
+  data: T[]
+}
