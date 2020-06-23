@@ -18,6 +18,7 @@ import { File } from '~/models/file'
 import {
   CreatePollRequest,
   GeneralPollParameters,
+  GetPollRequest,
 } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
 import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
@@ -160,4 +161,6 @@ export interface PnutRepository {
   getPolls(
     params?: GeneralPollParameters & Pagination
   ): Promise<PnutResponse<Poll[]>>
+
+  getPoll(pollId: string, params?: GetPollRequest): Promise<PnutResponse<Poll>>
 }

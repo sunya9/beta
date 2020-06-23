@@ -20,6 +20,7 @@ import { File } from '~/models/file'
 import {
   CreatePollRequest,
   GeneralPollParameters,
+  GetPollRequest,
 } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
 import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
@@ -41,6 +42,13 @@ import { Stats } from '~/models/stats'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getPoll(
+    pollId: string,
+    params?: GetPollRequest
+  ): Promise<PnutResponse<Poll>> {
+    return this.get(`/polls/${pollId}`, params)
+  }
+
   getPolls(
     params?: GeneralPollParameters & Pagination
   ): Promise<PnutResponse<Poll[]>> {

@@ -26,3 +26,7 @@ export type PutPollResponseRequest = {
 }
 
 export type PollIdRequest = { poll_id: string }
+
+export type GetPollRequest = {
+  poll_token: string
+} & GeneralPollParameters
