@@ -61,18 +61,6 @@ Vue.use({
     }
     Vue.prototype.$axios = axios
 
-    // $resource
-
-    Vue.prototype.$resource = (url = '', options = {}) => {
-      return (axios as any).$get(url, {
-        params: {
-          include_post_raw: 1,
-          include_directed_posts: 0,
-          include_message_raw: 1,
-          ...options,
-        },
-      })
-    }
     Vue.prototype.$mousetrap = {
       bind() {},
       unbind() {},
