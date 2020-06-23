@@ -42,6 +42,13 @@ import { Stats } from '~/models/stats'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  getRevision(
+    postId: string,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>> {
+    return this.get(`/posts/${postId}/revisions`, params)
+  }
+
   getPoll(
     pollId: string,
     params?: GetPollRequest

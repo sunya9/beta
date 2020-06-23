@@ -163,4 +163,8 @@ export interface PnutRepository {
   ): Promise<PnutResponse<Poll[]>>
 
   getPoll(pollId: string, params?: GetPollRequest): Promise<PnutResponse<Poll>>
+  getRevision(
+    postId: string,
+    params?: GeneralPostParameters
+  ): Promise<PnutResponse<Post[]>>
 }

@@ -86,6 +86,10 @@ import {
   GetPollUseCase,
   GetPollInteractor,
 } from '~/plugins/domain/usecases/getPoll'
+import {
+  GetRevisionInteractor,
+  GetRevisionUseCase,
+} from '~/plugins/domain/usecases/getRevision'
 
 type InteractorType = Readonly<{
   createFile: CreateFileUseCase
@@ -109,6 +113,7 @@ type InteractorType = Readonly<{
   getFiles: GetFilesUseCase
   getPolls: GetPollsUseCase
   getPoll: GetPollUseCase
+  getRevision: GetRevisionUseCase
 }>
 
 function customizeAxios(axios: NuxtAxiosInstance) {
@@ -224,6 +229,9 @@ function getInteractors(context: Context): InteractorType {
     },
     get getPoll() {
       return new GetPollInteractor(getPnutRepository())
+    },
+    get getRevision() {
+      return new GetRevisionInteractor(getPnutRepository())
     },
   }
 }

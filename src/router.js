@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import postPage from '~/pages/posts/_id.vue'
+import postPage from '~/pages/posts/_id/index.vue'
 Vue.use(Router)
 
 function fixRoutes(defaultRoutes) {
