@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { GeneralPollParameters } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
 import { Usecase } from '~/plugins/domain/usecases/usecase'
@@ -16,8 +17,17 @@ interface Output {
 
 export interface GetPollUseCase extends Usecase<Input, Promise<Output>> {}
 
+export namespace GetPollUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class GetPollInteractor implements GetPollUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
+
   async run(input: Input): Promise<Output> {
     const res = await this.pnutRepository.getPoll(input.pollId, {
       poll_token: input.pollToken,

@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { UserId } from '~/plugins/domain/dto/common'
 import { User } from '~/models/user'
 import { GeneralUserParameters } from '~/plugins/domain/dto/user'
@@ -28,8 +29,16 @@ interface Output {
 
 export interface GetUsersUseCase extends Usecase<Input, Promise<Output>> {}
 
-export class GetUsersIntereactor implements GetUsersUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
+export namespace GetUsersUseCase {
+  export const token = class {}
+}
+
+@singleton()
+export class GetUsersInteractor implements GetUsersUseCase {
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
 
   async run(input: Input): Promise<Output> {
     const listInfo = await this.createListInfo(input)

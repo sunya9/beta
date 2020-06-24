@@ -122,9 +122,9 @@
                 Settings
               </nuxt-link>
               <div class="dropdown-divider" />
-              <a href="#" class="dropdown-item" @click="$auth.logout()">
+              <nuxt-link to="/logout" class="dropdown-item">
                 Log out
-              </a>
+              </nuxt-link>
             </div>
           </li>
           <li v-if="user" id="nav-compose" class="nav-item d-sm-block">

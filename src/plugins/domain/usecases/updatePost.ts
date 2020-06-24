@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { Usecase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { Post } from '~/models/post'
@@ -14,8 +15,16 @@ interface Output {
 
 export interface UpdatePostUseCase extends Usecase<Input, Promise<Output>> {}
 
+export namespace UpdatePostUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class UpdatePostInteractor implements UpdatePostUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
 
   async run({ text, isNsfw: is_nsfw, postId }: Input): Promise<Output> {
     const res = await this.pnutRepository.updatePost(

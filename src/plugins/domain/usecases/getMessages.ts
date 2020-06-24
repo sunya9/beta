@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { Usecase } from '~/plugins/domain/usecases/usecase'
 import { Message } from '~/models/message'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
@@ -18,8 +19,17 @@ interface Output {
 
 export interface GetMessagesUseCase extends Usecase<Input, Promise<Output>> {}
 
+export namespace GetMessagesUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class GetMessagesInteractor implements GetMessagesUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
+
   async run(input: Input): Promise<Output> {
     const [listInfo, { data: channel }] = await Promise.all([
       this.createListInfo(input),

@@ -6,7 +6,7 @@
     <p class="lead">
       Web client for
       <a href="https://pnut.io">pnut.io</a>
-      .
+      <span>.</span>
     </p>
     <p>
       <button

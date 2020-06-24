@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { Interaction } from '~/models/interaction'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { InteractionType } from '~/plugins/domain/dto/common'
@@ -17,6 +18,11 @@ interface Output {
 export interface GetInteractionsUseCase
   extends Usecase<Input, Promise<Output>> {}
 
+export namespace GetInteractionsUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class GetInteractionsInteractor implements GetInteractionsUseCase {
   private getInteractionString(interactionType: Input['interactionType']) {
     return typeof interactionType === 'string'
@@ -24,7 +30,10 @@ export class GetInteractionsInteractor implements GetInteractionsUseCase {
       : interactionType?.join(',') || ''
   }
 
-  constructor(private readonly pnutRepository: PnutRepository) {}
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
 
   async run(input: Input): Promise<Output> {
     const { interactionType } = input

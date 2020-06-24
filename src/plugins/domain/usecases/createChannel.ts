@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { Usecase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { PnutResponse } from '~/models/pnut-response'
@@ -15,8 +16,16 @@ interface Output {
 
 export interface CreateChannelUseCase extends Usecase<Input, Promise<Output>> {}
 
+export namespace CreateChannelUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class CreateChannelInteractor implements CreateChannelUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
 
   async run({ name, description, categories }: Input): Promise<Output> {
     const chatRoomSettings: ChatRoomSettings = {

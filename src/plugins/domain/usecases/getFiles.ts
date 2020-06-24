@@ -1,4 +1,5 @@
 import { startCase } from 'lodash'
+import { singleton, inject } from 'tsyringe'
 import { GeneralFileParameters } from '~/plugins/domain/dto/file'
 import { Pagination } from '~/plugins/domain/dto/common'
 import { File } from '~/models/file'
@@ -46,8 +47,17 @@ function getTitle(kindStr?: string) {
 
 export interface GetFilesUseCase extends Usecase<Input, Promise<Output>> {}
 
+export namespace GetFilesUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class GetFilesInteractor implements GetFilesUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
+
   async run(input: Input): Promise<Output> {
     const kindStr = input.kind?.toString()
     const listInfo = await createListInfo(async (config) => {

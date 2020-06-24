@@ -55,6 +55,7 @@
         </circle>
       </g>
     </svg>
+    <nuxt class="d-none" />
   </div>
 </template>
 <style scoped>
