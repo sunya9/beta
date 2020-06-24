@@ -1,3 +1,4 @@
+import { singleton } from 'tsyringe'
 import { PnutResponse } from '~/models/pnut-response'
 import {
   AbstractCreatePostInteractor,
@@ -17,6 +18,11 @@ interface Output {
 export interface CreatePrivateChannelUseCase
   extends AbstractCreatePostUseCase<Input, Promise<Output>> {}
 
+export namespace CreatePrivateChannelUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class CreatePrivateChannelInteractor
   extends AbstractCreatePostInteractor<Input, Output>
   implements CreatePrivateChannelUseCase {

@@ -1,6 +1,6 @@
-import querystring from 'querystring'
+import 'reflect-metadata'
 import { Plugin, Context } from '@nuxt/types'
-import { NuxtAxiosInstance } from '@nuxtjs/axios'
+import { container, inject, singleton } from 'tsyringe'
 import {
   CreateFileInteractor,
   CreateFileUseCase,
@@ -21,7 +21,7 @@ import {
 import {
   UpdatePostInteractor,
   UpdatePostUseCase,
-} from '~/plugins/domain/usecases/editPost'
+} from '~/plugins/domain/usecases/updatePost'
 import {
   CreateMessageUseCase,
   CreateMessageInteractor,
@@ -35,7 +35,7 @@ import {
   CreatePrivateChannelInteractor,
 } from '~/plugins/domain/usecases/createPrivateChannel'
 import {
-  SuggestUsersInteracator,
+  SuggestUsersInteractor,
   SuggestUsersUseCase,
 } from '~/plugins/domain/usecases/suggestUsers'
 import {
@@ -56,7 +56,7 @@ import {
 } from '~/plugins/domain/usecases/getInteractions'
 import {
   GetUsersUseCase,
-  GetUsersIntereactor,
+  GetUsersInteractor,
 } from '~/plugins/domain/usecases/getUsers'
 import {
   GetChannelsUseCase,
@@ -68,7 +68,7 @@ import {
 } from '~/plugins/domain/usecases/getStats'
 import {
   SearchUseCase,
-  SearchInteractors,
+  SearchInteractor,
 } from '~/plugins/domain/usecases/search'
 import {
   GetThreadUseCase,
@@ -90,156 +90,88 @@ import {
   GetRevisionInteractor,
   GetRevisionUseCase,
 } from '~/plugins/domain/usecases/getRevision'
+import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 
-type InteractorType = Readonly<{
-  createFile: CreateFileUseCase
-  createPoll: CreatePollUseCase
-  getFile: GetFileUseCase
-  createPost: CreatePostUseCase
-  updatePost: UpdatePostUseCase
-  createMessage: CreateMessageUseCase
-  createChannel: CreateChannelUseCase
-  createPrivateChannel: CreatePrivateChannelUseCase
-  suggestUsers: SuggestUsersUseCase
-  getMessages: GetMessagesUseCase
-  getPosts: GetPostsUseCase
-  getProfileWithPosts: GetProfileWithPostsUseCase
-  getInteractions: GetInteractionsUseCase
-  getUsers: GetUsersUseCase
-  getChannels: GetChannelsUseCase
-  getStats: GetStatsUseCase
-  search: SearchUseCase
-  getThread: GetThreadUseCase
-  getFiles: GetFilesUseCase
-  getPolls: GetPollsUseCase
-  getPoll: GetPollUseCase
-  getRevision: GetRevisionUseCase
-}>
-
-function customizeAxios(axios: NuxtAxiosInstance) {
-  axios.onRequest((config) => {
-    config.paramsSerializer = (params) => {
-      const entries = Object.entries(params).reduce<[string, any][]>(
-        (obj, [key, value]) => {
-          if (typeof value === 'undefined') return obj
-          const newValue = typeof value === 'boolean' ? +value : value
-          return obj.concat([[key, newValue]])
-        },
-        []
-      )
-      const obj = Object.fromEntries(entries)
-      return querystring.stringify(obj)
-    }
-  })
+function bind(context: Context) {
+  container
+    .register(PnutRepository.token, {
+      useValue: new PnutRepositoryImpl(context.$axios),
+    })
+    .register(GetProfileWithPostsUseCase.token, {
+      useClass: GetProfileWithPostsInteractor,
+    })
+    .register(GetPostsUseCase.token, { useClass: GetPostsInteractor })
+    .register(CreateFileUseCase.token, { useClass: CreateFileInteractor })
+    .register(CreatePollUseCase.token, { useClass: CreatePollInteractor })
+    .register(GetFileUseCase.token, { useClass: GetFileInteractor })
+    .register(CreatePostUseCase.token, { useClass: CreatePostInteractor })
+    .register(UpdatePostUseCase.token, { useClass: UpdatePostInteractor })
+    .register(CreateMessageUseCase.token, { useClass: CreateMessageInteractor })
+    .register(CreateChannelUseCase.token, { useClass: CreateChannelInteractor })
+    .register(CreatePrivateChannelUseCase.token, {
+      useClass: CreatePrivateChannelInteractor,
+    })
+    .register(SuggestUsersUseCase.token, { useClass: SuggestUsersInteractor })
+    .register(GetMessagesUseCase.token, { useClass: GetMessagesInteractor })
+    .register(GetPostsUseCase.token, { useClass: GetPostsInteractor })
+    .register(GetProfileWithPostsUseCase.token, {
+      useClass: GetProfileWithPostsInteractor,
+    })
+    .register(GetInteractionsUseCase.token, {
+      useClass: GetInteractionsInteractor,
+    })
+    .register(GetUsersUseCase.token, { useClass: GetUsersInteractor })
+    .register(GetChannelsUseCase.token, { useClass: GetChannelsInteractor })
+    .register(GetStatsUseCase.token, { useClass: GetStatsInteractor })
+    .register(SearchUseCase.token, { useClass: SearchInteractor })
+    .register(GetThreadUseCase.token, { useClass: GetThreadInteractor })
+    .register(GetFilesUseCase.token, { useClass: GetFilesInteractor })
+    .register(GetPollsUseCase.token, { useClass: GetPollsInteractor })
+    .register(GetPollUseCase.token, { useClass: GetPollInteractor })
+    .register(GetRevisionUseCase.token, { useClass: GetRevisionInteractor })
 }
 
-function getInteractors(context: Context): InteractorType {
-  customizeAxios(context.$axios)
-  const getPnutRepository = () => {
-    return new PnutRepositoryImpl(context.$axios)
-  }
-  return {
-    get createFile() {
-      return new CreateFileInteractor(getPnutRepository())
-    },
-    get createPoll() {
-      return new CreatePollInteractor(getPnutRepository())
-    },
-    get getFile() {
-      return new GetFileInteractor(getPnutRepository())
-    },
-    get createPost() {
-      const pnutRepo = getPnutRepository()
-      const postPolls = new CreatePollInteractor(pnutRepo)
-      const uploadPhotos = new CreateFileInteractor(pnutRepo)
-      return new CreatePostInteractor(pnutRepo, uploadPhotos, postPolls)
-    },
-    get updatePost() {
-      return new UpdatePostInteractor(getPnutRepository())
-    },
-    get createMessage() {
-      const pnutRepo = getPnutRepository()
-      const createPoll = new CreatePollInteractor(pnutRepo)
-      const createFile = new CreateFileInteractor(pnutRepo)
-      const createPost = new CreatePostInteractor(
-        pnutRepo,
-        createFile,
-        createPoll
-      )
-      return new CreateMessageInteractor(
-        pnutRepo,
-        createFile,
-        createPoll,
-        createPost
-      )
-    },
-
-    get createChannel() {
-      return new CreateChannelInteractor(getPnutRepository())
-    },
-    get createPrivateChannel() {
-      const pnutRepo = getPnutRepository()
-      const createPoll = new CreatePollInteractor(pnutRepo)
-      const createFile = new CreateFileInteractor(pnutRepo)
-      return new CreatePrivateChannelInteractor(
-        getPnutRepository(),
-        createFile,
-        createPoll
-      )
-    },
-    get suggestUsers() {
-      return new SuggestUsersInteracator(getPnutRepository())
-    },
-    get getMessages() {
-      return new GetMessagesInteractor(getPnutRepository())
-    },
-    get getPosts() {
-      return new GetPostsInteractor(getPnutRepository())
-    },
-    get getProfileWithPosts() {
-      const getPostsUseCase = new GetPostsInteractor(getPnutRepository())
-      return new GetProfileWithPostsInteractor(
-        getPnutRepository(),
-        getPostsUseCase
-      )
-    },
-    get getInteractions() {
-      return new GetInteractionsInteractor(getPnutRepository())
-    },
-    get getUsers() {
-      return new GetUsersIntereactor(getPnutRepository())
-    },
-    get getChannels() {
-      return new GetChannelsInteractor(getPnutRepository())
-    },
-    get getStats() {
-      return new GetStatsInteractor(getPnutRepository())
-    },
-    get search() {
-      return new SearchInteractors(getPnutRepository())
-    },
-    get getThread() {
-      return new GetThreadInteractor(getPnutRepository())
-    },
-    get getFiles() {
-      return new GetFilesInteractor(getPnutRepository())
-    },
-    get getPolls() {
-      return new GetPollsInteractor(getPnutRepository())
-    },
-    get getPoll() {
-      return new GetPollInteractor(getPnutRepository())
-    },
-    get getRevision() {
-      return new GetRevisionInteractor(getPnutRepository())
-    },
-  }
+@singleton()
+class Interactors {
+  constructor(
+    @inject(CreateFileUseCase.token) readonly createFile: CreateFileUseCase,
+    @inject(CreatePollUseCase.token) readonly createPoll: CreatePollUseCase,
+    @inject(GetFileUseCase.token) readonly getFile: GetFileUseCase,
+    @inject(CreatePostUseCase.token) readonly createPost: CreatePostUseCase,
+    @inject(UpdatePostUseCase.token) readonly updatePost: UpdatePostUseCase,
+    @inject(CreateMessageUseCase.token)
+    readonly createMessage: CreateMessageUseCase,
+    @inject(CreateChannelUseCase.token)
+    readonly createChannel: CreateChannelUseCase,
+    @inject(CreatePrivateChannelUseCase.token)
+    readonly createPrivateChannel: CreatePrivateChannelUseCase,
+    @inject(SuggestUsersUseCase.token)
+    readonly suggestUsers: SuggestUsersUseCase,
+    @inject(GetMessagesUseCase.token) readonly getMessages: GetMessagesUseCase,
+    @inject(GetPostsUseCase.token) readonly getPosts: GetPostsUseCase,
+    @inject(GetProfileWithPostsUseCase.token)
+    readonly getProfileWithPosts: GetProfileWithPostsUseCase,
+    @inject(GetInteractionsUseCase.token)
+    readonly getInteractions: GetInteractionsUseCase,
+    @inject(GetUsersUseCase.token) readonly getUsers: GetUsersUseCase,
+    @inject(GetChannelsUseCase.token) readonly getChannels: GetChannelsUseCase,
+    @inject(GetStatsUseCase.token) readonly getStats: GetStatsUseCase,
+    @inject(SearchUseCase.token) readonly search: SearchUseCase,
+    @inject(GetThreadUseCase.token) readonly getThread: GetThreadUseCase,
+    @inject(GetFilesUseCase.token) readonly getFiles: GetFilesUseCase,
+    @inject(GetPollsUseCase.token) readonly getPolls: GetPollsUseCase,
+    @inject(GetPollUseCase.token) readonly getPoll: GetPollUseCase,
+    @inject(GetRevisionUseCase.token) readonly getRevision: GetRevisionUseCase
+  ) {}
 }
 
 const plugin: Plugin = (context, inject) => {
-  const interactors = getInteractors(context)
+  bind(context)
+  const interactors = container.resolve(Interactors)
   inject('interactors', interactors)
 }
+
+type InteractorType = Pick<Interactors, keyof Interactors>
 
 export default plugin
 

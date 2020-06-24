@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { ListInfo } from '~/plugins/domain/util/util'
 import { Post } from '~/models/post'
 import { User } from '~/models/user'
@@ -22,10 +23,17 @@ interface Output {
 export interface GetProfileWithPostsUseCase
   extends Usecase<Input, Promise<Output>> {}
 
+export namespace GetProfileWithPostsUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class GetProfileWithPostsInteractor
   implements GetProfileWithPostsUseCase {
   constructor(
+    @inject(PnutRepository.token)
     private readonly pnutRepository: PnutRepository,
+    @inject(GetPostsUseCase.token)
     private readonly getPostsUseCase: GetPostsUseCase
   ) {}
 

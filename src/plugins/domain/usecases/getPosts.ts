@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { PnutResponse } from '~/models/pnut-response'
 import { Post } from '~/models/post'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
@@ -17,8 +18,16 @@ interface Output {
 
 export interface GetPostsUseCase extends Usecase<Input, Promise<Output>> {}
 
+export namespace GetPostsUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class GetPostsInteractor implements GetPostsUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
 
   async run(input: Input): Promise<Output> {
     const listInfo = await createListInfo(

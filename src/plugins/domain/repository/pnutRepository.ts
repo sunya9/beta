@@ -38,6 +38,10 @@ import { User } from '~/models/user'
 import { UserId, Pagination } from '~/plugins/domain/dto/common'
 import { Stats } from '~/models/stats'
 
+export namespace PnutRepository {
+  export const token = class {}
+}
+
 export interface PnutRepository {
   getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
   getMentions(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>

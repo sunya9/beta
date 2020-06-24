@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { Raw } from '~/models/raw'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { PnutResponse } from '~/models/pnut-response'
@@ -37,8 +38,16 @@ function file2ReplacedRaw(
 
 export interface CreateFileUseCase extends Usecase<Input, Promise<Output>> {}
 
+export namespace CreateFileUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class CreateFileInteractor implements CreateFileUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
 
   async run(input: Input): Promise<Output> {
     const photosPromise = input.files.map(this.wrapWithUploadFilePromise)

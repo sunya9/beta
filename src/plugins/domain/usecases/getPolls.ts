@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { GeneralPollParameters } from '~/plugins/domain/dto/poll'
 import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
 import { Poll } from '~/models/poll'
@@ -15,8 +16,16 @@ interface Output {
 
 export interface GetPollsUseCase extends Usecase<Input, Promise<Output>> {}
 
+export namespace GetPollsUseCase {
+  export const token = class {}
+}
+@singleton()
 export class GetPollsInteractor implements GetPollsUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
+
   async run(input: Input): Promise<Output> {
     const listInfo = await createListInfo(
       (config) =>

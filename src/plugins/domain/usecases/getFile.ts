@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { Usecase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralFileParameters } from '~/plugins/domain/dto/file'
@@ -15,8 +16,17 @@ interface Output {
 
 export interface GetFileUseCase extends Usecase<Input, Promise<Output>> {}
 
+export namespace GetFileUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class GetFileInteractor implements GetFileUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
+
   async run(input: Input): Promise<Output> {
     const params: GeneralFileParameters = {
       ...input.params,

@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { PnutResponse } from '~/models/pnut-response'
 import {
   AbstractCreatePostUseCase,
@@ -24,13 +25,19 @@ interface Output {
 export interface CreateMessageUseCase
   extends AbstractCreatePostUseCase<Input, Promise<Output>> {}
 
+export namespace CreateMessageUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class CreateMessageInteractor
   extends AbstractCreatePostInteractor<Input, Output>
   implements CreateMessageUseCase {
   constructor(
-    pnutRepository: PnutRepository,
-    createFileUseCase: CreateFileUseCase,
-    createPollUseCase: CreatePollUseCase,
+    @inject(PnutRepository.token) pnutRepository: PnutRepository,
+    @inject(CreateFileUseCase.token) createFileUseCase: CreateFileUseCase,
+    @inject(CreatePollUseCase.token) createPollUseCase: CreatePollUseCase,
+    @inject(CreatePostUseCase.token)
     private readonly createPostUseCase: CreatePostUseCase
   ) {
     super(pnutRepository, createFileUseCase, createPollUseCase)

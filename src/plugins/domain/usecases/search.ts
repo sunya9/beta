@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { Usecase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { SearchPostRequest } from '~/plugins/domain/dto/post'
@@ -37,8 +38,17 @@ function getTitle({ q, type }: { q?: string; type: SearchClass }) {
 
 export interface SearchUseCase extends Usecase<Input, Promise<Output>> {}
 
-export class SearchInteractors implements SearchUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
+export namespace SearchUseCase {
+  export const token = class {}
+}
+
+@singleton()
+export class SearchInteractor implements SearchUseCase {
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
+
   async run(input: Input): Promise<Output> {
     const title = getTitle({ q: input.params?.q, type: input.type })
     const commonDefaultParams: Input['params'] = {

@@ -1,3 +1,4 @@
+import { singleton, inject } from 'tsyringe'
 import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
 import { Post } from '~/models/post'
 import { Usecase } from '~/plugins/domain/usecases/usecase'
@@ -18,8 +19,17 @@ interface Output {
 
 export interface GetRevisionUseCase extends Usecase<Input, Promise<Output>> {}
 
+export namespace GetRevisionUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class GetRevisionInteractor implements GetRevisionUseCase {
-  constructor(private readonly pnutRepository: PnutRepository) {}
+  constructor(
+    @inject(PnutRepository.token)
+    private readonly pnutRepository: PnutRepository
+  ) {}
+
   async run(input: Input): Promise<Output> {
     const listInfo = await createListInfo(
       (config) =>

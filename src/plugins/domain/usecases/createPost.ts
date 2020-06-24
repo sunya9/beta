@@ -1,3 +1,4 @@
+import { singleton } from 'tsyringe'
 import { Post } from '~/models/post'
 import { PnutResponse } from '~/models/pnut-response'
 import {
@@ -18,6 +19,11 @@ export type PostBody = Pick<
 export interface CreatePostUseCase
   extends AbstractCreatePostUseCase<AbstractInput, Promise<Output>> {}
 
+export namespace CreatePostUseCase {
+  export const token = class {}
+}
+
+@singleton()
 export class CreatePostInteractor
   extends AbstractCreatePostInteractor<AbstractInput, Output>
   implements CreatePostUseCase {
