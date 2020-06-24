@@ -217,6 +217,12 @@ const config: Configuration = {
   redirect: {
     rules: [{ from: '^/messages(.*)$', to: '/channels$1' }],
   },
+  loadingIndicator: {
+    name: 'circle',
+    background: '#f9f9f9',
+    color: '#d36854',
+    color2: '#4a484c',
+  },
 }
 
 export default config
