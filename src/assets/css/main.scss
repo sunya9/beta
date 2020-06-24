@@ -1,6 +1,14 @@
 @import 'override';
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';
+
+.layout-enter-active, .layout-leave-active {
+  transition: opacity .2s ease;
+}
+.layout-enter, .layout-leave-active {
+  opacity: 0
+}
+
 html {
   font-size: 85%;
 }
