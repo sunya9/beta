@@ -41,6 +41,7 @@ function createGetNewer<I extends Pagination, T>({
   return async () => {
     const config = {
       ...input,
+      before_id: undefined,
       since_id: firstMeta.max_id,
     }
     const { data, meta } = await getPnutResponse(config)
@@ -62,6 +63,7 @@ function createGetOlder<I extends Pagination, T>({
   return async () => {
     const config = {
       ...input,
+      since_id: undefined,
       before_id: firstMeta.min_id,
     }
     const { data, meta } = await getPnutResponse(config)
