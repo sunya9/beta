@@ -1,8 +1,7 @@
 <template>
   <div class="media">
-    <user-popper :user="recentMessageUser">
+    <user-popper v-if="is_pm" :user="recentMessageUser">
       <avatar
-        v-if="is_pm"
         :avatar="recentMessageUserAvatar"
         :enable-placeholder="!recentMessageUser"
         size="32"

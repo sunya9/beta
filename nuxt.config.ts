@@ -212,7 +212,7 @@ const config: Configuration = {
   },
   bootstrapVue: {
     bootstrapCSS: false,
-    bootstrapVueCSS: true,
+    bootstrapVueCSS: false,
   },
   redirect: {
     rules: [{ from: '^/messages(.*)$', to: '/channels$1' }],
