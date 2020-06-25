@@ -1,7 +1,7 @@
 import { BaseRaw } from '~/models/raw'
 
 export namespace Language {
-  export const type = 'io.pnut.core.oembed' as const
+  export const type = 'io.pnut.core.language' as const
   export interface Value {
     language: string
   }
