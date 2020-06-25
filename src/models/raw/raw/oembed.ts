@@ -1,5 +1,37 @@
 import { BaseRaw } from '~/models/raw'
 
+export namespace BaseOEmbed {
+  export namespace MediaType {
+    export const photo = 'photo' as const
+    export type photo = typeof photo
+    export const video = 'video' as const
+    export type video = typeof video
+    export const rich = 'rich' as const
+    export type rich = typeof rich
+    export const html5video = 'html5video' as const
+    export type html5video = typeof html5video
+    export const audio = 'audio' as const
+    export type audio = typeof audio
+  }
+  export type MediaType =
+    | MediaType.photo
+    | MediaType.video
+    | MediaType.rich
+    | MediaType.html5video
+    | MediaType.audio
+  export interface BaseValue {
+    version: '1.0'
+    type: MediaType
+    title?: string
+    url?: string
+    author_name?: string
+    author_url?: string
+    provider_name?: string
+    provider_url?: string
+    embeddable_url?: string
+  }
+}
+
 export namespace OEmbed {
   export const type = 'io.pnut.core.oembed' as const
   // TODO
@@ -17,7 +49,7 @@ export namespace OEmbed {
 
   export namespace Photo {
     export interface Value extends BaseOEmbed.BaseValue, VisualContent {
-      type: 'photo'
+      type: BaseOEmbed.MediaType.photo
       url: string
       thumbnail_url?: string
     }
@@ -32,7 +64,7 @@ export namespace OEmbed {
       extends BaseOEmbed.BaseValue,
         VisualContent,
         HaveHTML {
-      type: 'video'
+      type: BaseOEmbed.MediaType.video
     }
   }
 
@@ -42,7 +74,7 @@ export namespace OEmbed {
 
   export namespace HTML5Video {
     export interface Value extends BaseOEmbed.BaseValue, VisualContent {
-      type: 'html5video'
+      type: BaseOEmbed.MediaType.html5video
       sources: {
         type: string
         url: string
@@ -57,7 +89,7 @@ export namespace OEmbed {
 
   export namespace Audio {
     export interface Value extends BaseOEmbed.BaseValue {
-      type: 'audio'
+      type: BaseOEmbed.MediaType.audio
       file_id: string
       file_token_read: string
       url_expires_at: Date
@@ -71,7 +103,7 @@ export namespace OEmbed {
   export namespace Rich {
     // TBD
     export interface Value extends BaseOEmbed.BaseValue, HaveHTML {
-      type: 'rich'
+      type: BaseOEmbed.MediaType.rich
       description: string
     }
   }
@@ -87,19 +119,4 @@ export type OEmbed =
 export interface BaseOEmbed extends BaseRaw {
   type: typeof OEmbed.type
   value: BaseOEmbed.BaseValue
-}
-
-export namespace BaseOEmbed {
-  export type MediaType = 'photo' | 'video' | 'rich' | 'html5video' | 'audio'
-  export interface BaseValue {
-    version: '1.0'
-    type: MediaType
-    title?: string
-    url?: string
-    author_name?: string
-    author_url?: string
-    provider_name?: string
-    provider_url?: string
-    embeddable_url?: string
-  }
 }
