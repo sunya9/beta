@@ -1,5 +1,10 @@
 import { GetterTree } from 'vuex'
-import { getAccessorType, getterTree } from 'nuxt-typed-vuex'
+import {
+  getAccessorType,
+  getterTree,
+  actionTree,
+  mutationTree,
+} from 'nuxt-typed-vuex'
 import { Auth } from '@nuxtjs/auth'
 import { Token } from '~/models/token'
 import { PnutResponse } from '~/models/pnut-response'
@@ -7,10 +12,18 @@ import { User } from '~/models/user'
 
 export type State = {
   auth: Partial<Auth<PnutResponse<Token>>> | null
+  unreadMessages: boolean
 }
 
 export const state = (): State => ({
   auth: null,
+  unreadMessages: false,
+})
+
+export const mutations = mutationTree(state, {
+  updateUnreadMessages(state, newState: boolean) {
+    state.unreadMessages = newState
+  },
 })
 
 export const rawGetters: GetterTree<State, any> = {
@@ -41,7 +54,22 @@ export const getters = getterTree(state, {
   },
 })
 
+export const actions = actionTree(
+  { state, getters, mutations: {} },
+  {
+    nuxtClientInit(): void {},
+    async fetchUnread(): Promise<void> {
+      const { hasUnread } = await this.$interactors.getUnreadCount.run(
+        undefined
+      )
+      this.app.$accessor.updateUnreadMessages(hasUnread)
+    },
+  }
+)
+
 export const accessorType = getAccessorType({
   state,
+  mutations,
   getters,
+  actions,
 })
