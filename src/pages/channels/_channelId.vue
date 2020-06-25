@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <channel-layout :is-pm="isPM">
     <div :key="$route.fullPath" class="row">
       <div class="col-md-4 order-md-2">
         <chat-panel
@@ -28,7 +28,7 @@
     <channel-edit-modal />
     <channel-member-edit-modal />
     <message-remove-modal />
-  </div>
+  </channel-layout>
 </template>
 
 <script lang="ts">
@@ -48,8 +48,10 @@ import { ListInfo } from '~/plugins/domain/util/util'
 import ChannelEditModal from '~/components/ChannelEditModal.vue'
 import ChannelMemberEditModal from '~/components/ChannelMemberEditModal.vue'
 import MessageRemoveModal from '~/components/MessageRemoveModal.vue'
+import ChannelLayout from '~/components/layouts/channel.vue'
 
 @Component({
+  layout: 'no-sidebar',
   components: {
     MessageList,
     MessageCompose,
@@ -58,14 +60,17 @@ import MessageRemoveModal from '~/components/MessageRemoveModal.vue'
     ChannelEditModal,
     ChannelMemberEditModal,
     MessageRemoveModal,
+    ChannelLayout,
   },
   validate({ params: { channelId } }) {
     return /^\d+$/.test(channelId)
   },
-  async asyncData({ app: { $interactors }, params, error }) {
+  async asyncData({ app: { $interactors }, params, error, query }) {
     const { channelId } = params
+    const messageId = query.message_id?.toString()
     const { listInfo, channel } = await $interactors.getMessages.run({
       channelId,
+      messageId,
     })
     try {
       return { listInfo, channel, markerId: listInfo.newerMeta.marker?.id }
