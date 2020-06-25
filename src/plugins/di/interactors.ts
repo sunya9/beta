@@ -21,6 +21,9 @@ import { GetFilesUseCase } from '~/plugins/domain/usecases/getFiles'
 import { GetPollsUseCase } from '~/plugins/domain/usecases/getPolls'
 import { GetPollUseCase } from '~/plugins/domain/usecases/getPoll'
 import { GetRevisionUseCase } from '~/plugins/domain/usecases/getRevision'
+import { CreateConnectionUseCase } from '~/plugins/domain/usecases/createConnection'
+import { GetUnreadCountUseCase } from '~/plugins/domain/usecases/getUnreadCount'
+import { MarkAsReadUseCase } from '~/plugins/domain/usecases/markAsRead'
 
 @singleton()
 export class Interactors {
@@ -52,6 +55,11 @@ export class Interactors {
     @inject(GetFilesUseCase.token) readonly getFiles: GetFilesUseCase,
     @inject(GetPollsUseCase.token) readonly getPolls: GetPollsUseCase,
     @inject(GetPollUseCase.token) readonly getPoll: GetPollUseCase,
-    @inject(GetRevisionUseCase.token) readonly getRevision: GetRevisionUseCase
+    @inject(GetRevisionUseCase.token) readonly getRevision: GetRevisionUseCase,
+    @inject(CreateConnectionUseCase.token)
+    readonly createConnection: CreateConnectionUseCase,
+    @inject(GetUnreadCountUseCase.token)
+    readonly getUnreadCount: GetUnreadCountUseCase,
+    @inject(MarkAsReadUseCase.token) readonly markAsRead: MarkAsReadUseCase
   ) {}
 }

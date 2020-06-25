@@ -25,3 +25,9 @@ declare module '@nuxt/types' {
     $interactors: InteractorType
   }
 }
+
+declare module 'vuex/types/index' {
+  interface Store<S> {
+    $interactors: InteractorType
+  }
+}

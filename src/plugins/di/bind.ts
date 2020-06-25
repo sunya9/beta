@@ -90,6 +90,18 @@ import {
   GetRevisionUseCase,
 } from '~/plugins/domain/usecases/getRevision'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
+import {
+  CreateConnectionUseCase,
+  CreateConnectionInteractor,
+} from '~/plugins/domain/usecases/createConnection'
+import {
+  GetUnreadCountUseCase,
+  GetUnreadCountInteractor,
+} from '~/plugins/domain/usecases/getUnreadCount'
+import {
+  MarkAsReadUseCase,
+  MarkAsReadInteractor,
+} from '~/plugins/domain/usecases/markAsRead'
 
 export function bind(context: Context) {
   container
@@ -128,4 +140,11 @@ export function bind(context: Context) {
     .register(GetPollsUseCase.token, { useClass: GetPollsInteractor })
     .register(GetPollUseCase.token, { useClass: GetPollInteractor })
     .register(GetRevisionUseCase.token, { useClass: GetRevisionInteractor })
+    .register(CreateConnectionUseCase.token, {
+      useClass: CreateConnectionInteractor,
+    })
+    .register(GetUnreadCountUseCase.token, {
+      useClass: GetUnreadCountInteractor,
+    })
+    .register(MarkAsReadUseCase.token, { useClass: MarkAsReadInteractor })
 }
