@@ -34,14 +34,36 @@ import {
   GeneralChannelParameters,
   CreatePrivateChannelRequest,
   SearchChannelRequest,
+  GetUnreadCountRequest,
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
-import { UserId, Pagination } from '~/plugins/domain/dto/common'
+import {
+  UserId,
+  Pagination,
+  ConnectionParameters,
+} from '~/plugins/domain/dto/common'
 import { Stats } from '~/models/stats'
+import { PostMarkerRequest } from '~/plugins/domain/dto/marker'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  postMarker(
+    postMarkerRequest: PostMarkerRequest
+  ): Promise<PnutResponse<import('../../models/marker').Marker>> {
+    return this.post('/markers', postMarkerRequest)
+  }
+
+  getUnread(params?: GetUnreadCountRequest): Promise<PnutResponse<any>> {
+    return this.get('/users/me/channels/num_unread', params)
+  }
+
+  getChannels(
+    params?: GeneralChannelParameters & ConnectionParameters
+  ): Promise<PnutResponse<Channel[]>> {
+    return this.get('/channels', params)
+  }
+
   getRevision(
     postId: string,
     params?: GeneralPostParameters
@@ -111,7 +133,7 @@ export class PnutRepositoryImpl implements PnutRepository {
   }
 
   getSubscribedChannels(
-    params?: GeneralChannelParameters
+    params?: GeneralChannelParameters & ConnectionParameters
   ): Promise<PnutResponse<Channel[]>> {
     return this.get('/users/me/channels/subscribed', params)
   }
