@@ -23,7 +23,11 @@
           </nuxt-link>
         </li>
       </ul>
-      <channel-list :list-info="listInfo" :refresh-date="date" />
+      <channel-list
+        :key="$route.fullPath"
+        :list-info="listInfo"
+        :refresh-date="date"
+      />
     </div>
   </div>
 </template>
