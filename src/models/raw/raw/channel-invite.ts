@@ -1,11 +1,14 @@
-import { Raw } from '~/models/raw'
-
-export type ChannelInvite = Raw<ChannelInvite.Value>
+import { BaseRaw } from '~/models/raw'
 
 export namespace ChannelInvite {
-  export const type = 'io.pnut.core.channel.invite'
+  export const type = 'io.pnut.core.channel.invite' as const
   export interface Value {
     channel_id: string
     name?: string
   }
+}
+
+export interface ChannelInvite extends BaseRaw {
+  type: typeof ChannelInvite.type
+  value: ChannelInvite.Value
 }

@@ -18,7 +18,7 @@ export interface Channel {
 
   you_muted: boolean
   has_unread: boolean
-  raw?: Raw<any>[]
+  raw?: Raw[]
 }
 
 export namespace Channel {

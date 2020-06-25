@@ -193,7 +193,7 @@ export default class MessageCompose extends createCompose({ textCount: 2048 }) {
 
   async submit(broadcast?: boolean) {
     if (this.promise) return
-    const channelId = this.$route.params.channel
+    const channelId = this.channel.id
     this.promise = true
     try {
       if (this.createChannelMode) this.createChannel()

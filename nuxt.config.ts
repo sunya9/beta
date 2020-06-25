@@ -114,6 +114,7 @@ const config: Configuration = {
     '~/plugins/font-awesome',
     '~/plugins/modal',
     '~/plugins/dayjs',
+    '~/plugins/created',
   ],
 
   // router settings

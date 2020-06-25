@@ -4,6 +4,7 @@
       :to="`/channels/${item.id}`"
       tabindex="-1"
       class="list-group-item list-group-item-action"
+      :class="{ 'list-group-item-primary': item.has_unread }"
       tag="li"
     >
       <a style="color: inherit;">

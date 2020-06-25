@@ -55,7 +55,7 @@
             title="Messages"
           >
             <a class="nav-link">
-              <font-awesome-icon icon="envelope" />
+              <message-icon />
             </a>
           </nuxt-link>
           <nuxt-link
@@ -165,6 +165,7 @@ import SearchForm from '~/components/SearchForm.vue'
 import Sidebar from '~/components/sidebar/Sidebar.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import { User } from '~/models/user'
+import MessageIcon from '~/components/organisms/MessageIcon.vue'
 
 const networkEvents = ['online', 'offline']
 
@@ -173,6 +174,7 @@ export default Vue.extend({
     SearchForm,
     Sidebar,
     Avatar,
+    MessageIcon,
   },
   data() {
     return {

@@ -28,7 +28,6 @@ export interface Post extends HasRaw, Pageable {
   content?: Post.PostContent
   you_bookmarked?: boolean
   you_reposted: boolean
-  raw?: Raw<any>[]
   bookmarked_by?: User[]
   reposted_by?: User[]
 }
@@ -44,7 +43,7 @@ export namespace Post {
   }
   export interface PostBody {
     text: string
-    raw: Raw<any>[]
+    raw: Raw[]
     is_nsfw?: boolean
     reply_to?: string
   }

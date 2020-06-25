@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="row">
-      <div v-if="$auth.loggedIn" class="col-md-8">
+      <div class="col-md-8">
         <ul class="nav nav-tabs mb-4">
           <li class="nav-item">
             <nuxt-link
-              :class="{ active: isPM === true }"
+              :class="{ active: isPm }"
               to="/channels"
               class="nav-link"
               exact
@@ -15,7 +15,7 @@
           </li>
           <li class="nav-item">
             <nuxt-link
-              :class="{ active: isPM === false }"
+              :class="{ active: !isPm }"
               to="/channels?public"
               class="nav-link"
             >
@@ -25,23 +25,16 @@
         </ul>
       </div>
     </div>
-    <nuxt-child :key="$route.params.channel" @updateNav="isPM = $event" />
+    <slot />
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
+import { Component, Prop } from 'vue-property-decorator'
 
-export default Vue.extend({
-  layout: 'no-sidebar',
-  data() {
-    return {
-      isPM: null as boolean | null,
-    }
-  },
-  watch: {
-    '$route.fullPath'() {
-      this.isPM = null
-    },
-  },
-})
+@Component({})
+export default class ChannelLayout extends Vue {
+  @Prop({ type: Boolean, required: true })
+  isPm!: boolean
+}
 </script>

@@ -26,7 +26,7 @@ export namespace CreatePrivateChannelUseCase {
 export class CreatePrivateChannelInteractor
   extends AbstractCreatePostInteractor<Input, Output>
   implements CreatePrivateChannelUseCase {
-  async post(input: Input & { raw: Raw<any>[] }): Promise<Output> {
+  async post(input: Input & { raw: Raw[] }): Promise<Output> {
     const { users, isNsfw, raw, text } = input
     const res = await this.pnutRepository.createPrivateChannel({
       destinations: users.map((user) => user.id),

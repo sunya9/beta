@@ -1,15 +1,15 @@
 import { singleton, inject } from 'tsyringe'
-import { Raw } from '~/models/raw'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { PnutResponse } from '~/models/pnut-response'
 import { File as PnutFile } from '~/models/file'
 import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { ReplacementFileRaw } from '~/models/raw/replacement-values/file'
 
 interface Input {
   files: File[]
 }
 interface Output {
-  fileRawList: Raw<PnutFile.Replacement>[]
+  fileRawList: ReplacementFileRaw[]
 }
 
 function obj2FormData(obj: { [key: string]: string | Blob }) {
@@ -19,9 +19,7 @@ function obj2FormData(obj: { [key: string]: string | Blob }) {
   }, new FormData())
 }
 
-function file2ReplacedRaw(
-  fileRes: PnutResponse<PnutFile>
-): Raw<PnutFile.Replacement> {
+function file2ReplacedRaw(fileRes: PnutResponse<PnutFile>): ReplacementFileRaw {
   const image = fileRes.data
   const value = {
     '+io.pnut.core.file': {

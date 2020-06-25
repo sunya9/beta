@@ -63,3 +63,8 @@ export type CreatePrivateChannelRequest = Pick<
 > & {
   destinations: string[]
 }
+
+type ChannelTypes = 'io.pnut.core.pm' | 'io.pnut.core.chat'
+export type GetUnreadCountRequest = {
+  channel_types?: ChannelTypes[]
+}

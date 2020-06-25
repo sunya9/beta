@@ -1,9 +1,7 @@
-import { Raw } from '~/models/raw'
-
-export type LivePhoto = Raw<LivePhoto.Value>
+import { BaseRaw } from '~/models/raw'
 
 export namespace LivePhoto {
-  export const type = 'com.hutattedonmyarm.livephoto'
+  export const type = 'com.hutattedonmyarm.livephoto' as const
   export interface Value {
     version: string
     width?: string
@@ -14,4 +12,9 @@ export namespace LivePhoto {
 
     title?: string
   }
+}
+
+export interface LivePhoto extends BaseRaw {
+  type: typeof LivePhoto.type
+  value: LivePhoto.Value
 }

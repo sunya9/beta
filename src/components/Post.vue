@@ -412,7 +412,7 @@ import {
 import listItem from '~/assets/ts/list-item'
 import { Spoiler } from '~/models/raw/raw/spoiler'
 
-function rawIsPollNotice(raw: Raw<any>): raw is PollNotice {
+function rawIsPollNotice(raw: Raw): raw is PollNotice {
   return raw.type === PollNotice.type
 }
 const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes

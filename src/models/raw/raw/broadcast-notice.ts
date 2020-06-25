@@ -1,11 +1,14 @@
-import { Raw } from '~/models/raw'
-
-export type BroadcastNotice = Raw<BroadcastNotice.Value>
+import { BaseRaw } from '~/models/raw'
 
 export namespace BroadcastNotice {
-  export const type = 'net.patter-app.broadcast'
+  export const type = 'net.patter-app.broadcast' as const
   export interface Value {
     id: string
     url?: string
   }
+}
+
+export interface BroadcastNotice extends BaseRaw {
+  type: typeof BroadcastNotice.type
+  value: BroadcastNotice.Value
 }

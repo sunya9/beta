@@ -1,13 +1,12 @@
-import { Raw } from '~/models/raw'
-
-export type EmbeddedMedia = Raw<EmbeddedMedia.Value>
+import { BaseRaw } from '~/models/raw'
+import { BaseOEmbed } from '~/models/raw/raw/oembed'
 
 export namespace EmbeddedMedia {
-  export const type = 'io.pnut.core.oembed'
+  export const type = 'io.pnut.core.oembed' as const
   // TODO
   export interface Value {
     version: string
-    type: MediaType
+    type: BaseOEmbed.MediaType
     width: number
     height: number
     title: string
@@ -19,11 +18,9 @@ export namespace EmbeddedMedia {
     embeddable_url: string
     html: string
   }
-  enum MediaType {
-    photo,
-    video,
-    rich,
-    html5video,
-    audio,
-  }
+}
+
+export interface EmbeddedMedia extends BaseRaw {
+  type: typeof EmbeddedMedia.type
+  value: EmbeddedMedia.Value
 }

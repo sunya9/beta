@@ -32,11 +32,19 @@ import {
   GeneralChannelParameters,
   CreatePrivateChannelRequest,
   SearchChannelRequest,
+  GetUnreadCountRequest,
 } from '~/plugins/domain/dto/channel'
 import { Channel } from '~/models/channel'
 import { User } from '~/models/user'
-import { UserId, Pagination } from '~/plugins/domain/dto/common'
+import {
+  UserId,
+  Pagination,
+  ConnectionParameters,
+} from '~/plugins/domain/dto/common'
 import { Stats } from '~/models/stats'
+import { Unread } from '~/models/Unread'
+import { PostMarkerRequest } from '~/plugins/domain/dto/marker'
+import { Marker } from '~/models/marker'
 
 export namespace PnutRepository {
   export const token = class {}
@@ -130,7 +138,8 @@ export interface PnutRepository {
   ): Promise<PnutResponse<User[]>>
 
   getSubscribedChannels(
-    params?: GeneralChannelParameters
+    params?: GeneralChannelParameters &
+      ConnectionParameters & { include_read?: boolean }
   ): Promise<PnutResponse<Channel[]>>
 
   searchChannels(
@@ -171,4 +180,14 @@ export interface PnutRepository {
     postId: string,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
+
+  getChannels(
+    params?: GeneralChannelParameters & ConnectionParameters
+  ): Promise<PnutResponse<Channel[]>>
+
+  getUnread(params?: GetUnreadCountRequest): Promise<PnutResponse<Unread>>
+
+  postMarker(
+    postMarkerRequest: PostMarkerRequest
+  ): Promise<PnutResponse<Marker>>
 }

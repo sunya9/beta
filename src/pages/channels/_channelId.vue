@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <channel-layout :is-pm="isPM">
     <div :key="$route.fullPath" class="row">
       <div class="col-md-4 order-md-2">
         <chat-panel
@@ -28,7 +28,7 @@
     <channel-edit-modal />
     <channel-member-edit-modal />
     <message-remove-modal />
-  </div>
+  </channel-layout>
 </template>
 
 <script lang="ts">
@@ -38,7 +38,6 @@ import MessageList from '~/components/MessageList.vue'
 import MessageCompose from '~/components/organisms/MessageCompose.vue'
 import ChatPanel from '~/components/ChatPanel.vue'
 import PmPanel from '~/components/PmPanel.vue'
-import markAsRead from '~/assets/ts/mark-as-read'
 import { getRSSLink, findChatValueRaw } from '~/assets/ts/util'
 import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
 import { Channel } from '~/models/channel'
@@ -49,8 +48,10 @@ import { ListInfo } from '~/plugins/domain/util/util'
 import ChannelEditModal from '~/components/ChannelEditModal.vue'
 import ChannelMemberEditModal from '~/components/ChannelMemberEditModal.vue'
 import MessageRemoveModal from '~/components/MessageRemoveModal.vue'
+import ChannelLayout from '~/components/layouts/channel.vue'
 
 @Component({
+  layout: 'no-sidebar',
   components: {
     MessageList,
     MessageCompose,
@@ -59,6 +60,7 @@ import MessageRemoveModal from '~/components/MessageRemoveModal.vue'
     ChannelEditModal,
     ChannelMemberEditModal,
     MessageRemoveModal,
+    ChannelLayout,
   },
   validate({ params: { channelId } }) {
     return /^\d+$/.test(channelId)
@@ -85,7 +87,7 @@ import MessageRemoveModal from '~/components/MessageRemoveModal.vue'
     }
   },
 })
-export default class ChannelView extends Mixins(refreshAfterAdded, markAsRead) {
+export default class ChannelView extends Mixins(refreshAfterAdded) {
   get rssLink() {
     const id = this.channel.id
     return getRSSLink(`https://api.pnut.io/v0/feed/rss/channels/${id}/messages`)
@@ -132,7 +134,19 @@ export default class ChannelView extends Mixins(refreshAfterAdded, markAsRead) {
   }
 
   mounted() {
-    setTimeout(() => this.markAsRead(this.channel), 1000)
+    setTimeout(this.markAsRead, 1000)
+  }
+
+  async markAsRead() {
+    const { recent_message_id, has_unread, id: channelId } = this.channel
+    if (!recent_message_id || !has_unread) return
+    await this.$interactors.markAsRead.run({
+      type: 'channel',
+      channelId,
+      id: recent_message_id,
+    })
+    this.$toast.success('Marked as read!')
+    this.$accessor.fetchUnread()
   }
 }
 </script>

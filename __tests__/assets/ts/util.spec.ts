@@ -2,6 +2,8 @@ import { fixtures } from '../../helper'
 import * as util from '~/assets/ts/util'
 import { Post } from '~/models/post'
 import { Channel } from '~/models/channel'
+import { OEmbed } from '~/models/raw/raw/oembed'
+import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
 
 describe('util', () => {
   test('getRSSLink', () => {
@@ -42,20 +44,22 @@ describe('util', () => {
       ])
     })
     it('get from raw', () => {
+      const photoRaw: OEmbed.Photo = {
+        type: 'io.pnut.core.oembed',
+        value: {
+          type: 'photo',
+          url: 'original.png',
+          thumbnail_url: 'thumbnail.png',
+          height: 1,
+          version: '1.0',
+          width: 1,
+        },
+      }
       expect(
         util.getImageURLs(
           {
             ...fixtures<Post>('post'),
-            raw: [
-              {
-                type: 'io.pnut.core.oembed',
-                value: {
-                  type: 'photo',
-                  url: 'original.png',
-                  thumbnail_url: 'thumbnail.png',
-                },
-              },
-            ],
+            raw: [photoRaw],
           },
           true
         )
@@ -67,6 +71,17 @@ describe('util', () => {
       ])
     })
     it('Remove duplicate', () => {
+      const photoRaw: OEmbed.Photo = {
+        type: 'io.pnut.core.oembed',
+        value: {
+          type: 'photo',
+          url: 'original.png',
+          thumbnail_url: 'thumbnail.png',
+          height: 1,
+          version: '1.0',
+          width: 1,
+        },
+      }
       const post = fixtures<Post>('post')
       expect(
         util.getImageURLs({
@@ -86,16 +101,7 @@ describe('util', () => {
               tags: [],
             },
           },
-          raw: [
-            {
-              type: 'io.pnut.core.oembed',
-              value: {
-                type: 'photo',
-                url: 'original.png',
-                thumbnail_url: 'thumbnail.png',
-              },
-            },
-          ],
+          raw: [photoRaw],
         })
       ).toMatchObject([
         {
@@ -106,18 +112,21 @@ describe('util', () => {
     })
   })
   test('getAudio', () => {
-    const post = {
-      content: {},
-      raw: [
-        {
-          type: 'io.pnut.core.oembed',
-          value: {
-            type: 'audio',
-            url: 'test.mp3',
-            title: 'test',
-          },
-        },
-      ],
+    const audioRaw: OEmbed.Audio = {
+      type: 'io.pnut.core.oembed',
+      value: {
+        type: 'audio',
+        url: 'test.mp3',
+        title: 'test',
+        file_id: '',
+        file_token_read: '',
+        url_expires_at: new Date(),
+        version: '1.0',
+      },
+    }
+    const post: Post = {
+      ...fixtures<Post>('post'),
+      raw: [audioRaw],
     }
     expect(util.getAudio(post)).toMatchObject([
       {
@@ -127,12 +136,13 @@ describe('util', () => {
     ])
   })
   test('findChatRaw', () => {
-    const value = true
-    const chatRaw = {
+    const chatRaw: ChatRoomSettings = {
       type: 'io.pnut.core.chat-settings',
-      value,
+      value: {
+        name: 'test',
+      },
     }
-    const channel = {
+    const channel: Channel = {
       ...fixtures<Channel>('channel'),
       raw: [chatRaw],
     }
@@ -140,17 +150,17 @@ describe('util', () => {
   })
 
   test('findChatValueRaw', () => {
-    const value = true // dummy
+    const chatRaw: ChatRoomSettings = {
+      type: 'io.pnut.core.chat-settings',
+      value: {
+        name: 'test',
+      },
+    }
     const channel = {
       ...fixtures<Channel>('channel'),
-      raw: [
-        {
-          type: 'io.pnut.core.chat-settings',
-          value,
-        },
-      ],
+      raw: [chatRaw],
     }
-    expect(util.findChatValueRaw(channel)).toEqual(value)
+    expect(util.findChatValueRaw(channel)).toEqual(chatRaw.value)
   })
 
   test('getVideoSrcFromHtml', () => {

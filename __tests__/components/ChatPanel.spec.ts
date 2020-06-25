@@ -5,7 +5,8 @@ import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
 
 describe('ChatPanel component', () => {
   test('Show RSS Link when publicly channel', () => {
-    const chat: ChatRoomSettings = fixtures<Channel>('channel', 'chat')!.raw![0]
+    const chat = fixtures<Channel>('channel', 'chat')!
+      .raw![0] as ChatRoomSettings
     const wrapper = shallowMount(ChatPanel, {
       propsData: {
         initialChannel: fixtures('channel', 'publicly', 'chat'),

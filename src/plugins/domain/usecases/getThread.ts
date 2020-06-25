@@ -35,6 +35,7 @@ export class GetThreadInteractor implements GetThreadUseCase {
     const listInfo = await createListInfo(
       (config) =>
         this.pnutRepository.getThread(input.postId, {
+          include_post_raw: true,
           ...input.params,
           ...config,
         }),

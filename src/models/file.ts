@@ -1,6 +1,6 @@
 import { Client } from './client'
 import { User } from './user'
-import { Raw } from '~/models/raw'
+import { ReplacementFileRaw } from '~/models/raw/replacement-values/file'
 
 export interface File {
   audio_info?: {
@@ -68,7 +68,7 @@ export namespace File {
 
   export function createFileReplacementRaw(
     file?: File
-  ): Raw<File.Replacement> | undefined {
+  ): ReplacementFileRaw | undefined {
     if (!file) return
     const { id: file_id, file_token } = file
     return {

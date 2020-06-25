@@ -1,10 +1,13 @@
-import { Raw } from '~/models/raw'
-
-export type Crosspost = Raw<Crosspost.Value>
+import { BaseRaw } from '~/models/raw'
 
 export namespace Crosspost {
-  export const type = 'io.pnut.core.crosspost'
+  export const type = 'io.pnut.core.crosspost' as const
   export interface Value {
     canonical_url: string
   }
+}
+
+export interface Crosspost extends BaseRaw {
+  type: typeof Crosspost.type
+  value: Crosspost.Value
 }

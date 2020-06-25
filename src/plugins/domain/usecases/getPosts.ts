@@ -35,6 +35,7 @@ export class GetPostsInteractor implements GetPostsUseCase {
         this.getPosts({
           ...input,
           params: {
+            include_post_raw: true,
             ...input.params,
             ...paging,
           },

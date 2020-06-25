@@ -1,6 +1,17 @@
 import querystring from 'querystring'
 import { Plugin } from '@nuxt/types'
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
+import { isArray } from 'lodash'
+
+function modifyValue(value: any) {
+  if (isArray(value)) {
+    return value.join(',')
+  } else if (typeof value === 'boolean') {
+    return +value
+  } else {
+    return value
+  }
+}
 
 function modifyParameterSerializer(axios: NuxtAxiosInstance) {
   axios.onRequest((config) => {
@@ -8,7 +19,7 @@ function modifyParameterSerializer(axios: NuxtAxiosInstance) {
       const entries = Object.entries(params).reduce<[string, any][]>(
         (obj, [key, value]) => {
           if (typeof value === 'undefined') return obj
-          const newValue = typeof value === 'boolean' ? +value : value
+          const newValue = modifyValue(value)
           return obj.concat([[key, newValue]])
         },
         []

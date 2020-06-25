@@ -1,31 +1,37 @@
 <template>
-  <div class="row">
-    <div class="col-md-8">
-      <h2 class="h4">
-        Create a {{ isPrivate ? 'private message' : 'chat room' }}
-      </h2>
-      <div>
-        <message-compose v-if="isPrivate" create-channel-mode />
-        <channel-compose v-else />
+  <channel-layout :is-pm="isPrivate">
+    <div class="row">
+      <div class="col-md-8">
+        <h2 class="h4">
+          Create a {{ isPrivate ? 'private message' : 'chat room' }}
+        </h2>
+        <div>
+          <message-compose v-if="isPrivate" create-channel-mode />
+          <channel-compose v-else />
+        </div>
+        <h2 class="h4">
+          {{ isPrivate ? 'Messages' : 'Chat rooms' }}
+        </h2>
+        <ul v-if="isPublic" class="nav nav-pills my-3">
+          <li class="nav-item">
+            <nuxt-link class="nav-link" to="/channels?public" exact>
+              Subscribed
+            </nuxt-link>
+          </li>
+          <li class="nav-item">
+            <nuxt-link class="nav-link" to="/channels?public&amp;all">
+              All
+            </nuxt-link>
+          </li>
+        </ul>
+        <channel-list
+          :key="$route.fullPath"
+          :list-info="listInfo"
+          :refresh-date="date"
+        />
       </div>
-      <h2 class="h4">
-        {{ isPrivate ? 'Messages' : 'Chat rooms' }}
-      </h2>
-      <ul v-if="isPublic" class="nav nav-pills my-3">
-        <li class="nav-item">
-          <nuxt-link class="nav-link" to="/channels?public" exact>
-            Subscribed
-          </nuxt-link>
-        </li>
-        <li class="nav-item">
-          <nuxt-link class="nav-link" to="/channels?public&amp;all">
-            All
-          </nuxt-link>
-        </li>
-      </ul>
-      <channel-list :list-info="listInfo" :refresh-date="date" />
     </div>
-  </div>
+  </channel-layout>
 </template>
 
 <script lang="ts">
@@ -37,14 +43,17 @@ import ChannelCompose from '~/components/ChannelCompose.vue'
 import ChannelList from '~/components/ChannelList.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 import { ListInfo } from '~/plugins/domain/util/util'
+import ChannelLayout from '~/components/layouts/channel.vue'
 
 @Component({
+  layout: 'no-sidebar',
   middleware: ['auth'],
   watchQuery: ['public', 'all'],
   components: {
     ChannelList,
     MessageCompose,
     ChannelCompose,
+    ChannelLayout,
   },
   async asyncData({ app: { $interactors }, query }) {
     const isPrivate = !('public' in query)

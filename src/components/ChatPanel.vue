@@ -129,9 +129,9 @@ export default class ChatPanel extends BaseChannelPanel {
     const chatRaw = {
       type: 'io.pnut.core.chat-settings',
       value: chatRawValue,
-    }
+    } as const
     const raw = [...this.channel.raw]
-    raw[chatRawIndex] = chatRaw
+    raw.splice(chatRawIndex, 1, chatRaw)
     this.$set(this.channel.raw, chatRawIndex, chatRaw)
     this.update({
       raw,

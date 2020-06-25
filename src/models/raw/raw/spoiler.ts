@@ -1,9 +1,7 @@
-import { Raw } from '~/models/raw'
-
-export type Spoiler = Raw<Spoiler.Value>
+import { BaseRaw } from '~/models/raw'
 
 export namespace Spoiler {
-  export const type = 'shawn.spoiler'
+  export const type = 'shawn.spoiler' as const
   export interface Value {
     topic: string
     expired_at?: string
@@ -17,4 +15,9 @@ export namespace Spoiler {
       value,
     }
   }
+}
+
+export interface Spoiler extends BaseRaw {
+  type: typeof Spoiler.type
+  value: Spoiler.Value
 }
