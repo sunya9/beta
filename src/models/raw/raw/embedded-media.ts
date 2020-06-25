@@ -1,9 +1,7 @@
-import { Raw } from '~/models/raw'
-
-export type EmbeddedMedia = Raw<EmbeddedMedia.Value>
+import { BaseRaw } from '~/models/raw'
 
 export namespace EmbeddedMedia {
-  export const type = 'io.pnut.core.oembed'
+  export const type = 'io.pnut.core.oembed' as const
   // TODO
   export interface Value {
     version: string
@@ -26,4 +24,9 @@ export namespace EmbeddedMedia {
     html5video,
     audio,
   }
+}
+
+export interface EmbeddedMedia extends BaseRaw {
+  type: typeof EmbeddedMedia.type
+  value: EmbeddedMedia.Value
 }

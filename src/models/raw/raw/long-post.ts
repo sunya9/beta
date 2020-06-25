@@ -1,9 +1,7 @@
-import { Raw } from '~/models/raw'
-
-export type LongPost = Raw<LongPost.Value>
+import { BaseRaw } from '~/models/raw'
 
 export namespace LongPost {
-  export const type = 'nl.chimpnut.blog.post'
+  export const type = 'nl.chimpnut.blog.post' as const
   export interface Value {
     body: string
     title?: string
@@ -14,8 +12,13 @@ export namespace LongPost {
   ): LongPost | undefined {
     if (!value) return
     return {
-      type: 'nl.chimpnut.blog.post',
+      type: LongPost.type,
       value,
     }
   }
+}
+
+export interface LongPost extends BaseRaw {
+  type: typeof LongPost.type
+  value: LongPost.Value
 }

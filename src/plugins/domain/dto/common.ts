@@ -24,7 +24,7 @@ export type ReportReasonType =
   | 'user_abuse'
 
 export type RawRequest = {
-  raw?: Raw<any>[]
+  raw?: Raw[]
 }
 
 export type UserId = string | 'me'

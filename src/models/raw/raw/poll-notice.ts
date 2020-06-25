@@ -1,10 +1,8 @@
-import { Raw } from '~/models/raw'
+import { BaseRaw } from '~/models/raw'
 import { Poll } from '~/models/poll'
 
-export type PollNotice = Raw<PollNotice.Value>
-
 export namespace PollNotice {
-  export const type = 'io.pnut.core.poll-notice'
+  export const type = 'io.pnut.core.poll-notice' as const
   export interface Value {
     prompt: string
     poll_token: string
@@ -19,24 +17,37 @@ export namespace PollNotice {
     }
   }
   export interface Replecement {
-    '+io.pnut.core.poll': {
+    [PollNotice.Replacement.key]: {
       poll_token: string
       poll_id: string
     }
   }
+  export namespace Replacement {
+    export const key = '+io.pnut.core.poll' as const
+  }
   export function createPollNoticeReplecementRaw(
     poll?: Poll
-  ): Raw<PollNotice.Replecement> | undefined {
+  ): PollNoticeReplacement | undefined {
     if (!poll) return
     const { id: poll_id, poll_token } = poll
     return {
-      type: 'io.pnut.core.poll-notice',
+      type: PollNotice.type,
       value: {
-        '+io.pnut.core.poll': {
+        [PollNotice.Replacement.key]: {
           poll_token,
           poll_id,
         },
       },
     }
   }
+}
+
+export interface PollNotice extends BaseRaw {
+  type: typeof PollNotice.type
+  value: PollNotice.Value
+}
+
+export interface PollNoticeReplacement extends BaseRaw {
+  type: typeof PollNotice.type
+  value: PollNotice.Replecement
 }

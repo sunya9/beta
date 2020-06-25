@@ -1,3 +1,5 @@
+import { OEmbed } from '~/models/raw/raw/oembed'
+
 const youtube = {
   regexp: /https?:\/\/(?:(?:www)?\.youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9\-_]+)/g,
   html: (id: string) =>
@@ -9,8 +11,7 @@ const youtube = {
 const detectGenerators = [youtube]
 
 type ResObj = { html: string; embeddable_url: string }
-export function createVideoEmbedRaw(text: string) {
-  // resObj = { html, embeddable_url }
+export function createVideoEmbedRaw(text: string): OEmbed.Video[] {
   return detectGenerators
     .reduce<ResObj[]>((rawHtmls, detectGenerator) => {
       let matcher
@@ -23,7 +24,7 @@ export function createVideoEmbedRaw(text: string) {
       }
       return rawHtmls
     }, [])
-    .map((resObj) => {
+    .map<OEmbed.Video>((resObj) => {
       const { html, embeddable_url } = resObj
       return {
         type: 'io.pnut.core.oembed',

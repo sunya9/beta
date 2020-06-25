@@ -1,11 +1,14 @@
-import { Raw } from '~/models/raw'
+import { BaseRaw } from '~/models/raw'
 import { ReplacementFile } from '~/models/raw/replacement-values/file'
 
-export type ChannelCoverImage = Raw<ChannelCoverImage.Value>
-
 export namespace ChannelCoverImage {
-  export const type = 'io.pnut.core.channel.cover'
+  export const type = 'io.pnut.core.channel.cover' as const
   export interface Value {
     '+io.pnut.core.file': ReplacementFile
   }
+}
+
+export interface ChannelCoverImage extends BaseRaw {
+  type: typeof ChannelCoverImage.type
+  value: ChannelCoverImage.Value
 }

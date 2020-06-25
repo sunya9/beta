@@ -1,9 +1,7 @@
-import { Raw } from '~/models/raw'
-
-export type Quote = Raw<Quote.Value>
+import { BaseRaw } from '~/models/raw'
 
 export namespace Quote {
-  export const type = 'com.hutattedonmyarm.quote'
+  export const type = 'com.hutattedonmyarm.quote' as const
 
   export interface Value {
     pos?: number[]
@@ -15,4 +13,9 @@ export namespace Quote {
     source_url?: string
     source_created_at: Date
   }
+}
+
+export interface Quote extends BaseRaw {
+  type: typeof Quote.type
+  value: Quote.Value
 }

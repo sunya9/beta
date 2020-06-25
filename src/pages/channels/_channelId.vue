@@ -65,12 +65,10 @@ import ChannelLayout from '~/components/layouts/channel.vue'
   validate({ params: { channelId } }) {
     return /^\d+$/.test(channelId)
   },
-  async asyncData({ app: { $interactors }, params, error, query }) {
+  async asyncData({ app: { $interactors }, params, error }) {
     const { channelId } = params
-    const messageId = query.message_id?.toString()
     const { listInfo, channel } = await $interactors.getMessages.run({
       channelId,
-      messageId,
     })
     try {
       return { listInfo, channel, markerId: listInfo.newerMeta.marker?.id }

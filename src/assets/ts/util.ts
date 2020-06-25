@@ -35,24 +35,22 @@ function getImagesFromLinks(entityLinks: Entity.Link[]) {
     })
 }
 
-function rawIsOembed(raw: Raw<any>): raw is OEmbed<any> {
+function rawIsOembed(raw: Raw): raw is OEmbed {
   return raw.type === OEmbed.type
 }
 
-function oEmbedIsPhoto(
-  oembed: OEmbed<any>
-): oembed is OEmbed<OEmbed.PhotoValue> {
+function oEmbedIsPhoto(oembed: OEmbed): oembed is OEmbed.Photo {
   return oembed.value.type === 'photo'
 }
 
 // TODO
-export interface PhotoValueForView extends OEmbed.PhotoValue {
+export interface PhotoValueForView extends OEmbed.Photo.Value {
   original: string
   thumb: string
   width: number
   height: number
 }
-function getImagesFromRaws(raws: Raw<any>[]): PhotoValueForView[] {
+function getImagesFromRaws(raws: Raw[]): PhotoValueForView[] {
   return raws
     .filter(rawIsOembed)
     .filter(oEmbedIsPhoto)
@@ -88,7 +86,7 @@ export function getImageURLs(
   return _.uniqBy(photos, 'original')
 }
 
-function rawIsCrosspost(raw: Raw<any>): raw is Crosspost {
+function rawIsCrosspost(raw: Raw): raw is Crosspost {
   return raw.type === Crosspost.type
 }
 
@@ -103,10 +101,10 @@ export function getCrosspostLink(
 
 export function getSpoiler(hasRaw: HasRaw | void): Spoiler.Value | void {
   if (!hasRaw || !hasRaw.raw) return
-  const spoilerRaw = hasRaw.raw.find((r) => {
+  const spoilerRaw = hasRaw.raw.find((r): r is Spoiler => {
     return (
       r.type === 'shawn.spoiler' &&
-      r.value.topic &&
+      !!r.value.topic &&
       (!r.value.expired_at || new Date(r.value.expired_at) > new Date())
     )
   })
@@ -116,7 +114,7 @@ export function getSpoiler(hasRaw: HasRaw | void): Spoiler.Value | void {
   }
 }
 
-function rawIsLongPost(raw: Raw<any>): raw is LongPost {
+function rawIsLongPost(raw: Raw): raw is LongPost {
   return raw.type === LongPost.type
 }
 
@@ -139,9 +137,7 @@ export interface AudioForView {
   title: string
 }
 
-function oembedIsAudio(
-  oembed: OEmbed<any>
-): oembed is OEmbed<OEmbed.AudioValue> {
+function oembedIsAudio(oembed: OEmbed): oembed is OEmbed.Audio {
   return oembed.value.type === 'audio'
 }
 export function getAudio(hasRawData: HasRaw): AudioForView[] | void {
@@ -151,16 +147,14 @@ export function getAudio(hasRawData: HasRaw): AudioForView[] | void {
     .filter(oembedIsAudio)
     .map((r) => {
       return {
-        url: r.value.url,
-        title: r.value.title,
+        url: r.value.url!,
+        title: r.value.title!,
       }
     })
   return audio
 }
 
-function rawIsOembedVideo(
-  oembed: OEmbed<any>
-): oembed is OEmbed<OEmbed.VideoValue> {
+function rawIsOembedVideo(oembed: OEmbed): oembed is OEmbed.Video {
   return oembed.value.type === 'video'
 }
 
@@ -173,7 +167,7 @@ export function getOembedVideo(post: HasRaw & (Post | Message)) {
     .map((r) => r.value)
 }
 
-function rawIsChannelInvite(raw: Raw<any>): raw is ChannelInvite {
+function rawIsChannelInvite(raw: Raw): raw is ChannelInvite {
   return raw.type === ChannelInvite.type
 }
 
@@ -205,7 +199,7 @@ export function getRSSLink(href: string) {
 export function findChatRaw(channel: Channel): ChatRoomSettings | void {
   if (!channel.raw) return
   const chatRaw = channel.raw.find(
-    (r) => r.type === 'io.pnut.core.chat-settings'
+    (r): r is ChatRoomSettings => r.type === 'io.pnut.core.chat-settings'
   )
   if (!chatRaw) return
   return chatRaw
@@ -216,7 +210,7 @@ export function findChatValueRaw(
 ): ChatRoomSettings.Value | void {
   if (!channel.raw) return
   const chatRaw = channel.raw.find(
-    (r) => r.type === 'io.pnut.core.chat-settings'
+    (r): r is ChatRoomSettings => r.type === 'io.pnut.core.chat-settings'
   )
   if (!chatRaw) return
   return chatRaw.value

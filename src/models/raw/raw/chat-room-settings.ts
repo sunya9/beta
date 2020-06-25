@@ -1,9 +1,7 @@
-import { Raw } from '~/models/raw'
-
-export type ChatRoomSettings = Raw<ChatRoomSettings.Value>
+import { BaseRaw, Raw } from '~/models/raw'
 
 export namespace ChatRoomSettings {
-  export const type = 'io.pnut.core.chat-settings'
+  export const type = 'io.pnut.core.chat-settings' as const
   export interface Value {
     name: string
     description?: string
@@ -18,4 +16,13 @@ export namespace ChatRoomSettings {
     | 'tech'
     | 'event'
     | 'general'
+
+  export function isChatRoomSettings(raw?: Raw): raw is ChatRoomSettings {
+    return raw?.type === ChatRoomSettings.type
+  }
+}
+
+export interface ChatRoomSettings extends BaseRaw {
+  type: typeof ChatRoomSettings.type
+  value: ChatRoomSettings.Value
 }

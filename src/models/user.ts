@@ -31,7 +31,7 @@ export interface User {
     domain: string
     link: string
   }
-  raw?: Raw<any>[]
+  raw?: Raw[]
 }
 
 export interface DefinitelyUser extends User {

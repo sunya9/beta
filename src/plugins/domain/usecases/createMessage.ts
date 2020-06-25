@@ -70,19 +70,19 @@ export class CreateMessageInteractor
 
   async broadcast(channelId: string, input: AbstractInput) {
     const crosspost: Crosspost = {
-      type: 'io.pnut.core.crosspost',
+      type: Crosspost.type,
       value: {
         // TODO: use rel="canonical" value in the future
         canonical_url: location.href,
       },
     }
     const invite: ChannelInvite = {
-      type: 'io.pnut.core.channel.invite',
+      type: ChannelInvite.type,
       value: {
         channel_id: channelId,
       },
     }
-    const raw: Raw<any>[] = [crosspost, invite]
+    const raw: Raw[] = [crosspost, invite]
     await this.createPostUseCase.run({
       ...input,
       raw,
