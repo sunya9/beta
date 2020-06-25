@@ -43,7 +43,10 @@ export class GetProfileWithPostsInteractor
       userId: input.username,
       params: input.postParams,
     })
-    const p2 = this.pnutRepository.getUser(input.username, input.userParams)
+    const p2 = this.pnutRepository.getUser(input.username, {
+      include_user_raw: true,
+      ...input.userParams,
+    })
     const [{ listInfo }, user] = await Promise.all([p1, p2])
     return {
       user,
