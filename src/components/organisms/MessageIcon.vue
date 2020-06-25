@@ -10,16 +10,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
-import { Watch } from 'nuxt-property-decorator'
 
 @Component({})
-export default class MessageIcon extends Vue {
-  @Watch('$route.name', { deep: true })
-  onRouteChange(newName: string) {
-    if (!newName.startsWith('channels')) return
-    this.$accessor.fetchUnread()
-  }
-}
+export default class MessageIcon extends Vue {}
 </script>
 <style scoped lang="scss">
 @import '~assets/css/override';
