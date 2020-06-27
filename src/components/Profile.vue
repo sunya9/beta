@@ -13,6 +13,7 @@
       }"
       alt=""
       class="img-fluid card-img-top"
+      loading="lazy"
       @load="loaded = true"
     />
     <div class="card-body pt-3 h-card">

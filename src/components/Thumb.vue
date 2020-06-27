@@ -16,6 +16,7 @@
             :data-original-height="originalHeight"
             alt=""
             class="thumb"
+            loading="lazy"
           />
         </slot>
       </a>

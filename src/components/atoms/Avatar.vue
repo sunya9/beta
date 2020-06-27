@@ -9,6 +9,7 @@
     :srcset="srcset"
     :src="src"
     v-bind="$attrs"
+    loading="lazy"
   />
 </template>
 

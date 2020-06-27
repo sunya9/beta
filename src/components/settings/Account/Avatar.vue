@@ -12,6 +12,7 @@
           width="128"
           height="128"
           alt="avatar image"
+          loading="lazy"
         />
       </div>
       <div class="form-group">

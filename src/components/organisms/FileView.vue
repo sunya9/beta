@@ -6,6 +6,7 @@
         alt=""
         class="img-fluid img-thumbnail"
         style="max-height: 50vh;"
+        loading="lazy"
       />
     </div>
 

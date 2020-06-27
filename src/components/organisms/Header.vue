@@ -71,61 +71,66 @@
             </a>
           </nuxt-link>
           <li v-if="user" id="user-menu" class="nav-item dropdown">
-            <a
-              id="navbarDropdownMenuLink"
-              ref="dropdown"
-              href="#"
-              class="nav-link text-primary"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <span>
-                <span class="d-none d-sm-inline">
-                  {{ user.username }}
-                </span>
-                <span class="d-inline d-sm-none">
-                  <avatar
-                    :avatar="{
-                      link: `https://api.pnut.io/v0/users/@${user.username}/avatar`,
-                    }"
-                    :size="16"
-                    :max-size="16"
-                  />
-                </span>
-              </span>
-              <font-awesome-icon class="ml-2" icon="chevron-down" />
-            </a>
-            <div
-              class="dropdown-menu dropdown-menu-right"
-              aria-labelledby="navbarDropdownMenuLink"
-            >
-              <nuxt-link
-                :to="`/@${user.username}`"
-                class="dropdown-item"
-                active-class=""
+            <app-dropdown v-model="visible">
+              <template v-slot:button>
+                <a
+                  id="navbarDropdownMenuLink"
+                  ref="dropdown"
+                  href="#"
+                  class="nav-link text-primary"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  :aria-expanded="visible ? 'true' : 'false'"
+                  @click.prevent
+                >
+                  <span>
+                    <span class="d-none d-sm-inline">
+                      {{ user.username }}
+                    </span>
+                    <span class="d-inline d-sm-none">
+                      <avatar
+                        :avatar="{
+                          link: `https://api.pnut.io/v0/users/@${user.username}/avatar`,
+                        }"
+                        :size="16"
+                        :max-size="16"
+                      />
+                    </span>
+                  </span>
+                  <font-awesome-icon class="ml-2" icon="chevron-down" />
+                </a>
+              </template>
+              <div
+                class="dropdown-menu dropdown-menu-right show position-absolute"
+                aria-labelledby="navbarDropdownMenuLink"
               >
-                <span class="d-none d-sm-inline">
-                  Profile
-                </span>
-                <span class="d-inline d-sm-none">@{{ user.username }}</span>
-              </nuxt-link>
-              <div class="dropdown-divider d-sm-none" />
-              <nuxt-link to="/channels" class="dropdown-item d-sm-none">
-                Messages
-              </nuxt-link>
-              <nuxt-link class="dropdown-item d-sm-none" to="/files">
-                Files
-              </nuxt-link>
-              <div class="dropdown-divider" />
-              <nuxt-link to="/settings" class="dropdown-item" active-class="">
-                Settings
-              </nuxt-link>
-              <div class="dropdown-divider" />
-              <nuxt-link to="/logout" class="dropdown-item">
-                Log out
-              </nuxt-link>
-            </div>
+                <nuxt-link
+                  :to="`/@${user.username}`"
+                  class="dropdown-item"
+                  active-class=""
+                >
+                  <span class="d-none d-sm-inline">
+                    Profile
+                  </span>
+                  <span class="d-inline d-sm-none">@{{ user.username }}</span>
+                </nuxt-link>
+                <div class="dropdown-divider d-sm-none" />
+                <nuxt-link to="/channels" class="dropdown-item d-sm-none">
+                  Messages
+                </nuxt-link>
+                <nuxt-link class="dropdown-item d-sm-none" to="/files">
+                  Files
+                </nuxt-link>
+                <div class="dropdown-divider" />
+                <nuxt-link to="/settings" class="dropdown-item" active-class="">
+                  Settings
+                </nuxt-link>
+                <div class="dropdown-divider" />
+                <nuxt-link to="/logout" class="dropdown-item">
+                  Log out
+                </nuxt-link>
+              </div>
+            </app-dropdown>
           </li>
           <li v-if="user" id="nav-compose" class="nav-item d-sm-block">
             <a
@@ -166,7 +171,7 @@ import Sidebar from '~/components/sidebar/Sidebar.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import { User } from '~/models/user'
 import MessageIcon from '~/components/organisms/MessageIcon.vue'
-
+import AppDropdown from '~/components/molecules/AppDropdown.vue'
 const networkEvents = ['online', 'offline']
 
 export default Vue.extend({
@@ -175,6 +180,7 @@ export default Vue.extend({
     Sidebar,
     Avatar,
     MessageIcon,
+    AppDropdown,
   },
   data() {
     return {
@@ -182,6 +188,7 @@ export default Vue.extend({
       collapseHeight: 0 as number | string,
       dropdown: null as Dropdown | null,
       collapse: null as Collapse | null,
+      visible: false,
     }
   },
   computed: {
@@ -197,7 +204,7 @@ export default Vue.extend({
     const { height } = this.$el.children[0].getBoundingClientRect()
     this.collapseHeight = `calc(100vh - ${height}px)`
     if (this.$refs.dropdown) {
-      this.dropdown = new Dropdown(this.$refs.dropdown as Element)
+      // this.dropdown = new Dropdown(this.$refs.dropdown as Element)
     }
     this.collapse = new Collapse(this.$refs.toggleButton as Element)
   },
@@ -267,12 +274,9 @@ export default Vue.extend({
 .show.scrollable {
   overflow: auto;
 }
-.dropdown-menu {
-  position: absolute;
-}
 
 .dropdown-menu-right {
-  right: 0;
+  right: -1px;
   left: auto;
   margin-top: 0;
 }
