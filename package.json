@@ -102,7 +102,7 @@
     "reg-notify-github-plugin": "0.8.5",
     "reg-notify-slack-plugin": "0.8.4",
     "reg-publish-gcs-plugin": "0.10.2",
-    "reg-suit": "0.10.0",
+    "reg-suit": "0.10.2",
     "rosie": "2.0.1",
     "storycap": "2.3.5",
     "ts-jest": "26.1.1",
