@@ -48,6 +48,12 @@ import { Marker } from '~/models/marker'
 
 export namespace PnutRepository {
   export const token = class {}
+  export function getHomeLikeStreamMethod(isUnified: boolean) {
+    const method: keyof PnutRepository = isUnified
+      ? 'getUnifiedStream'
+      : 'getHomeStream'
+    return method
+  }
 }
 
 export interface PnutRepository {

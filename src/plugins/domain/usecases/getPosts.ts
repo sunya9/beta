@@ -71,9 +71,7 @@ export class GetPostsInteractor implements GetPostsUseCase {
   }
 
   private getHome(unified: boolean, params?: GeneralPostParameters) {
-    const method: keyof PnutRepository = unified
-      ? 'getUnifiedStream'
-      : 'getHomeStream'
+    const method = PnutRepository.getHomeLikeStreamMethod(unified)
     return this.pnutRepository[method](params)
   }
 }
