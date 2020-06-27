@@ -32,7 +32,7 @@
     "lodash": "4.17.15",
     "medium-zoom": "1.0.5",
     "mousetrap": "1.6.5",
-    "nuxt": "2.13.0",
+    "nuxt": "2.13.2",
     "nuxt-property-decorator": "2.7.2",
     "nuxt-typed-vuex": "0.1.19",
     "nuxt-uid-module": "0.2.0",
