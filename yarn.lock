@@ -3190,10 +3190,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/convert-units@2.3.1":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@types/convert-units/-/convert-units-2.3.1.tgz#7e70c011e9b9ae4af2dfc3c67086993b0178ad4e"
-  integrity sha512-AHEgoIlF2BsJLyT4FMskeWSKYTX5kKb2Huy1ER91N2CU97+lbMNV3BjKPrfMoEovtVIAVKQfxhdv6+HMaOF5+g==
+"@types/convert-units@2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@types/convert-units/-/convert-units-2.3.2.tgz#ecf2f55ca77561703ba4b8c60c9ce58d2e540b23"
+  integrity sha512-HaDWqM6D3X/viVoHF8WD7jlZmcj73b3+pTAF+CZ9DPgQWGZ4i1SBLvsfUZrKeMNEOWuHb+UlnV67Hb0dvNr8PA==
 
 "@types/emoji-regex@8.0.0":
   version "8.0.0"
