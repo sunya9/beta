@@ -16349,10 +16349,10 @@ reg-notify-slack-plugin@0.8.4:
     request "^2.81.0"
     request-promise "^4.2.1"
 
-reg-publish-gcs-plugin@0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/reg-publish-gcs-plugin/-/reg-publish-gcs-plugin-0.9.0.tgz#8fbf9e4f2e9a357e7af58171be61e48be8a0d500"
-  integrity sha512-VxMOTubIhIbINlvUiJJeNblH/JdN48aCBI0C3SbODBOtq51eN1cw36lSusYJoiVt036Sv6BdbKFsjVpp3KmNEg==
+reg-publish-gcs-plugin@0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/reg-publish-gcs-plugin/-/reg-publish-gcs-plugin-0.10.2.tgz#3051cb9d85e1616904b69685b6709c65f6904c6b"
+  integrity sha512-xPj26jbTBnQtnoi8U5Mx/Xw7Ng7S36f7QMZq/3jRHIhnQ30wxOKtGPQHt4d+UyjFUi5anFq890P1vFWsnwBulA==
   dependencies:
     "@google-cloud/storage" "^3.0.2"
     form-data "^2.5.0"
