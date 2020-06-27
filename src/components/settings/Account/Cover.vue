@@ -13,6 +13,7 @@
           :height="internalCover.height"
           alt="cover image"
           class="img-thumbnail"
+          loading="lazy"
         />
       </div>
       <div class="form-group">
