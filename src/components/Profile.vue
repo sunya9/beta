@@ -31,12 +31,10 @@
               rel="me"
               class="u-url"
             >
-              profile.username
+              {{ profile.username }}
             </a>
             <thumb
               :original="profile.content.avatar_image.link"
-              :width="0"
-              :height="0"
               :zooming-options="{
                 customSize: {
                   width: profile.content.avatar_image.width,
