@@ -2,7 +2,7 @@
   <promise-modal ref="promiseModal" v-slot="{ ok }" @show="show" @hide="hide">
     <div
       ref="modal"
-      class="modal"
+      class="modal fade"
       role="dialog"
       tabindex="-1"
       aria-hidden="true"
@@ -132,7 +132,7 @@ export default class BaseModal extends Vue {
   })
   form!: string
 
-  modal: Modal | null = null
+  modal!: Modal
   @Watch('$route.fullPath')
   onChangeFullPath() {
     if (!this.modal) return
@@ -153,7 +153,6 @@ export default class BaseModal extends Vue {
   }
 
   show(...arg: any[]) {
-    if (!this.modal) return
     this.modal.show()
     this.$emit('show', ...arg)
     this.$mousetrap.pause()
