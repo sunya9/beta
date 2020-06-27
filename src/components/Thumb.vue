@@ -17,6 +17,8 @@
             alt=""
             class="thumb"
             loading="lazy"
+            :width="width"
+            :height="height"
           />
         </slot>
       </a>
