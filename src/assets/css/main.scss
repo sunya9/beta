@@ -381,3 +381,13 @@ body.dark {
   margin-top: -1px;
   border-top-width: 1px;
 }
+
+.notification-badge::after {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  display: block;
+  position: absolute;
+  background: map-get($theme-colors, primary);
+  border-radius: 50%;
+}

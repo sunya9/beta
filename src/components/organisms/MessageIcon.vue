@@ -18,14 +18,7 @@ export default class MessageIcon extends Vue {}
 @import '~assets/css/override';
 
 .notification-badge::after {
-  content: '';
-  width: 0.5rem;
-  height: 0.5rem;
-  display: block;
-  position: absolute;
   top: 0%;
   right: -4px;
-  background: map-get($theme-colors, primary);
-  border-radius: 50%;
 }
 </style>
