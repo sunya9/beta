@@ -57,8 +57,12 @@ export namespace PnutRepository {
 }
 
 export interface PnutRepository {
-  getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
-  getMentions(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
+  getHomeStream(
+    params?: GeneralPostParameters & ConnectionParameters
+  ): Promise<PnutResponse<Post[]>>
+  getMentions(
+    params?: GeneralPostParameters & ConnectionParameters
+  ): Promise<PnutResponse<Post[]>>
   getPostInteractions(
     postIdRequest: PostIdRequest,
     params?: GeneralPostParameters
@@ -113,11 +117,11 @@ export interface PnutRepository {
   searchUsers(params: SearchUsersRequest): Promise<PnutResponse<User[]>>
   getMessages(
     channelId: string,
-    params?: GeneralMessageParameters
+    params?: GeneralMessageParameters & ConnectionParameters
   ): Promise<PnutResponse<Message[]>>
   getUserPosts(
     userId: UserId,
-    params?: GeneralPostParameters
+    params?: GeneralPostParameters & ConnectionParameters
   ): Promise<PnutResponse<Post[]>>
 
   getTaggedPosts(
@@ -125,7 +129,7 @@ export interface PnutRepository {
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
   getUnifiedStream(
-    params?: GeneralPostParameters
+    params?: GeneralPostParameters & ConnectionParameters
   ): Promise<PnutResponse<Post[]>>
   getUser(
     userId: UserId,
@@ -171,7 +175,7 @@ export interface PnutRepository {
 
   getThread(
     postId: string,
-    params?: GeneralPostParameters & Pagination
+    params?: GeneralPostParameters & Pagination & ConnectionParameters
   ): Promise<PnutResponse<Post[]>>
   getFiles(
     params?: GeneralFileParameters & Pagination

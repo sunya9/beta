@@ -10,6 +10,9 @@ export namespace PnutResponse {
     min_id?: string
     marker?: Meta.Marker
     code?: number
+    connection_id?: string
+    subscription_id?: string
+    subscription_ids?: string[]
   }
   export namespace Meta {
     export interface Marker {
