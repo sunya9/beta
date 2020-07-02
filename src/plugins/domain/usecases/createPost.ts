@@ -1,4 +1,4 @@
-import { singleton } from 'tsyringe'
+import { singleton, inject } from 'tsyringe'
 import { Post } from '~/models/post'
 import { PnutResponse } from '~/models/pnut-response'
 import {
@@ -6,6 +6,9 @@ import {
   AbstractCreatePostUseCase,
   AbstractCreatePostInteractor,
 } from '~/plugins/domain/usecases/abstractCreatePost'
+import { CreatePollUseCase } from '~/plugins/domain/usecases/createPoll'
+import { CreateFileUseCase } from '~/plugins/domain/usecases/createFile'
+import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 
 interface Output {
   res: PnutResponse<Post>
@@ -27,6 +30,17 @@ export namespace CreatePostUseCase {
 export class CreatePostInteractor
   extends AbstractCreatePostInteractor<AbstractInput, Output>
   implements CreatePostUseCase {
+  constructor(
+    @inject(PnutRepository.token)
+    readonly pnutRepository: PnutRepository,
+    @inject(CreateFileUseCase.token)
+    readonly createFileUseCase: CreateFileUseCase,
+    @inject(CreatePollUseCase.token)
+    readonly createPollUseCase: CreatePollUseCase
+  ) {
+    super(pnutRepository, createFileUseCase, createPollUseCase)
+  }
+
   async post({
     text,
     raw,

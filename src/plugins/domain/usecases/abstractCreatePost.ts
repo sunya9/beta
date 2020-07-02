@@ -31,8 +31,8 @@ export abstract class AbstractCreatePostInteractor<
 > implements AbstractCreatePostUseCase<Input, Promise<Output>> {
   constructor(
     protected readonly pnutRepository: PnutRepository,
-    private readonly createFileUseCase: CreateFileUseCase,
-    private readonly createPollUseCase: CreatePollUseCase
+    readonly createFileUseCase: CreateFileUseCase,
+    readonly createPollUseCase: CreatePollUseCase
   ) {}
 
   async run(input: Input): Promise<Output> {
