@@ -13,6 +13,7 @@ export interface MenuItem {
   click?: () => void
   normal?: boolean
   active?: boolean | (() => boolean)
+  badge?: boolean
 }
 
 function getRouteName(self: Vue): string {

@@ -21,12 +21,14 @@ export function createAppMenus({
       icon: 'home',
       url: '/',
       hidden: !user,
+      badge: self.$accessor.unreadHomeStream,
     },
     {
       label: 'Mentions',
       icon: ['far', 'hand-point-right'],
       url: '/mentions',
       hidden: !user,
+      badge: self.$accessor.unreadMentions,
     },
     {
       label: 'Interactions',
