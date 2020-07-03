@@ -25,6 +25,7 @@ import { ListInfo } from '~/plugins/domain/util/util'
       type: 'mentions',
       params: {
         include_directed_posts: localStorage.hide_directed_posts === 'true',
+        include_marker: true,
       },
     })
     $accessor.updateUnreadMentions(false)
@@ -41,6 +42,19 @@ export default class extends Mixins(refreshAfterAdded) {
   @Watch('$accessor.unreadMentions')
   onChangeUnreadHomeStream() {
     this.$accessor.updateUnreadMentions(false)
+  }
+
+  mounted() {
+    this.markAsRead()
+  }
+
+  markAsRead() {
+    const id = this.listInfo.newerMeta.max_id
+    if (!id) return
+    this.$interactors.markAsRead.run({
+      type: 'mentions',
+      id,
+    })
   }
 }
 </script>

@@ -32,6 +32,7 @@ import refreshAfterAdded from '~/assets/ts/refresh-after-added'
       ...streamType,
       params: {
         include_directed_posts: localStorage.hide_directed_posts === 'false',
+        include_marker: true,
       },
     })
     $accessor.updateUnreadHomeStream(false)
@@ -50,6 +51,19 @@ export default class Index extends Mixins(refreshAfterAdded) {
   @Watch('$accessor.unreadHomeStream')
   onChangeUnreadHomeStream() {
     this.$accessor.updateUnreadHomeStream(false)
+  }
+
+  mounted() {
+    this.markAsRead()
+  }
+
+  markAsRead() {
+    const id = this.listInfo.newerMeta.max_id
+    if (!id) return
+    this.$interactors.markAsRead.run({
+      type: 'personal',
+      id,
+    })
   }
 }
 </script>
