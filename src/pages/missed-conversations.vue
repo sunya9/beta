@@ -22,9 +22,6 @@ import { Post } from '~/models/post'
     const { listInfo } = await $interactors.getPosts.run({
       type: 'explore',
       slug: 'missed_conversations',
-      params: {
-        include_directed_posts: localStorage.hide_directed_posts === 'false',
-      },
     })
     return { listInfo }
   },

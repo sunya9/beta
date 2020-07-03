@@ -31,7 +31,6 @@ import refreshAfterAdded from '~/assets/ts/refresh-after-added'
     const { listInfo } = await $interactors.getPosts.run({
       ...streamType,
       params: {
-        include_directed_posts: localStorage.hide_directed_posts === 'false',
         include_marker: true,
       },
     })

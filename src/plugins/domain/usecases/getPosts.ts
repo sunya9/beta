@@ -6,9 +6,11 @@ import { GeneralPostParameters } from '~/plugins/domain/dto/post'
 import { StreamType } from '~/plugins/domain/dto/streamType'
 import { Usecase } from '~/plugins/domain/usecases/usecase'
 import { createListInfo, ListInfo } from '~/plugins/domain/util/util'
+import { StreamMarkerParams } from '~/plugins/domain/dto/common'
+import { ConfigRepository } from '~/plugins/domain/repository/configStorage'
 
 type Input = StreamType & {
-  params?: GeneralPostParameters
+  params?: GeneralPostParameters & StreamMarkerParams
   data?: PnutResponse<Post[]>
 }
 
@@ -26,7 +28,9 @@ export namespace GetPostsUseCase {
 export class GetPostsInteractor implements GetPostsUseCase {
   constructor(
     @inject(PnutRepository.token)
-    private readonly pnutRepository: PnutRepository
+    private readonly pnutRepository: PnutRepository,
+    @inject(ConfigRepository.token)
+    private readonly configRepository: ConfigRepository
   ) {}
 
   async run(input: Input): Promise<Output> {
@@ -36,6 +40,8 @@ export class GetPostsInteractor implements GetPostsUseCase {
           ...input,
           params: {
             include_post_raw: true,
+            include_directed_posts: this.configRepository
+              .isEnabledDirectedPosts,
             ...input.params,
             ...paging,
           },
