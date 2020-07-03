@@ -12,9 +12,9 @@ import { Message } from '~/models/message'
 interface Input {
   accessToken: string
   handlers: {
-    newHomeStreamHandler(post: PnutResponse<Post>): void
-    newMentionHandler(post: PnutResponse<Post>): void
-    newAnyMesssageHandler(channel: PnutResponse<Channel>): void
+    newHomeStreamHandler(post?: PnutResponse<Post>): void
+    newMentionHandler(post?: PnutResponse<Post>): void
+    newAnyMesssageHandler(channel?: PnutResponse<Channel>): void
     newChannelMesssageHandler(channel: PnutResponse<Message>): void
   }
   connectionError: (error: Error) => void
@@ -116,9 +116,19 @@ export class CreateConnectionInteractor implements CreateConnectionUseCase {
 
   async messageHandler(input: Input, obj: object) {
     if (isConnection(obj)) {
-      this.subscriptionId2SubscriptionTypeMap = await this.getDefaultSubscriptionIds(
+      const { subscriptionMap, unreads } = await this.getDefaultSubscriptionIds(
         obj.meta.connection_id
       )
+      this.subscriptionId2SubscriptionTypeMap = subscriptionMap
+      if (unreads.channels) {
+        input.handlers.newAnyMesssageHandler()
+      }
+      if (unreads.home) {
+        input.handlers.newHomeStreamHandler()
+      }
+      if (unreads.mention) {
+        input.handlers.newMentionHandler()
+      }
     } else if (isPnutRes(obj)) {
       this.notifyNewItem(input, obj)
     }
@@ -142,9 +152,7 @@ export class CreateConnectionInteractor implements CreateConnectionUseCase {
     })
   }
 
-  async getDefaultSubscriptionIds(
-    connection_id: string
-  ): Promise<SubscriptionIdTypeMap> {
+  async getDefaultSubscriptionIds(connection_id: string) {
     const subscribedChannelPromise = this.pnutRepository.getSubscribedChannels({
       connection_id,
       include_read: true,
@@ -154,21 +162,25 @@ export class CreateConnectionInteractor implements CreateConnectionUseCase {
     const homeStreamPromise = this.pnutRepository[method]({
       include_directed_posts: this.configRepository.isEnabledDirectedPosts,
       connection_id,
+      include_marker: true,
     })
     const mentionPromise = this.pnutRepository.getMentions({
       include_directed_posts: this.configRepository.isEnabledDirectedPosts,
       connection_id,
+      include_marker: true,
     })
 
     const [
       {
-        meta: { subscription_id: channelSubscriptionId },
+        meta: { subscription_id: channelSubscriptionId, unread_counts },
       },
       {
-        meta: { subscription_id: homeSubscriptionId },
+        meta: { subscription_id: homeSubscriptionId, marker: homeMarker },
+        data: homeData,
       },
       {
-        meta: { subscription_id: mentionSubscriptionId },
+        meta: { subscription_id: mentionSubscriptionId, marker: mentionMarker },
+        data: mentionData,
       },
     ] = await Promise.all([
       subscribedChannelPromise,
@@ -176,9 +188,20 @@ export class CreateConnectionInteractor implements CreateConnectionUseCase {
       mentionPromise,
     ])
     return {
-      [homeSubscriptionId!]: SubscriptionType.home,
-      [mentionSubscriptionId!]: SubscriptionType.mention,
-      [channelSubscriptionId!]: SubscriptionType.channels,
+      subscriptionMap: {
+        [homeSubscriptionId!]: SubscriptionType.home,
+        [mentionSubscriptionId!]: SubscriptionType.mention,
+        [channelSubscriptionId!]: SubscriptionType.channels,
+      },
+      unreads: {
+        [SubscriptionType.channels]:
+          (unread_counts?.['io.pnut.core.chat'] || 0) +
+            (unread_counts?.['io.pnut.core.pm'] || 0) >
+          0,
+        [SubscriptionType.home]: homeData[0]?.id !== homeMarker?.last_read_id,
+        [SubscriptionType.mention]:
+          mentionData[0]?.id !== mentionMarker?.last_read_id,
+      },
     } as const
   }
 }
