@@ -5,6 +5,8 @@ import {
   SearchType,
   ReportReasonType,
   RawRequest,
+  ConnectionParameters,
+  StreamMarkerParams,
 } from '~/plugins/domain/dto/common'
 import { UserIdRequest } from '~/plugins/domain/dto/user'
 import { User } from '~/models/user'
@@ -103,3 +105,10 @@ export type SearchPostRequest = {
   user_types?: User.UserType[]
   raw_types?: string[]
 }
+
+export type HomeStreamRequest = GeneralPostParameters &
+  ConnectionParameters &
+  StreamMarkerParams
+export type MentionRequest = GeneralPostParameters &
+  ConnectionParameters &
+  StreamMarkerParams

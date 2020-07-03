@@ -7,6 +7,8 @@ import {
   CreatePostRequest,
   UpdatePostRequest,
   SearchPostRequest,
+  HomeStreamRequest,
+  MentionRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
 import {
@@ -57,12 +59,8 @@ export namespace PnutRepository {
 }
 
 export interface PnutRepository {
-  getHomeStream(
-    params?: GeneralPostParameters & ConnectionParameters
-  ): Promise<PnutResponse<Post[]>>
-  getMentions(
-    params?: GeneralPostParameters & ConnectionParameters
-  ): Promise<PnutResponse<Post[]>>
+  getHomeStream(params?: HomeStreamRequest): Promise<PnutResponse<Post[]>>
+  getMentions(params?: MentionRequest): Promise<PnutResponse<Post[]>>
   getPostInteractions(
     postIdRequest: PostIdRequest,
     params?: GeneralPostParameters
@@ -128,9 +126,7 @@ export interface PnutRepository {
     tag: string,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
-  getUnifiedStream(
-    params?: GeneralPostParameters & ConnectionParameters
-  ): Promise<PnutResponse<Post[]>>
+  getUnifiedStream(params?: HomeStreamRequest): Promise<PnutResponse<Post[]>>
   getUser(
     userId: UserId,
     params?: GeneralUserParameters
