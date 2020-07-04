@@ -108,7 +108,7 @@
     "ts-jest": "26.1.1",
     "ts-loader": "7.0.5",
     "typescript": "3.9.6",
-    "vue-docgen-api": "4.25.0",
+    "vue-docgen-api": "4.26.0",
     "vue-docgen-loader": "1.5.0",
     "vue-jest": "3.0.5",
     "vue-loader": "15.9.3",
