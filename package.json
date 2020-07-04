@@ -24,7 +24,7 @@
     "bootstrap.native": "2.0.27",
     "convert-units": "2.3.4",
     "cross-env": "7.0.2",
-    "dayjs": "1.8.28",
+    "dayjs": "1.8.29",
     "dotenv": "8.2.0",
     "emoji-datasource-twitter": "5.0.1",
     "emoji-mart-vue": "2.6.6",
