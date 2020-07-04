@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <h3 class="mb-4">
-      <nuxt-link to=".">@{{ name }}</nuxt-link>
-      's followers
-    </h3>
-    <user-list :list-info="listInfo" />
-  </div>
+  <user-list :list-info="listInfo" />
 </template>
 
 <script lang="ts">
@@ -37,14 +31,14 @@ import { User } from '~/models/user'
       name,
     }
   },
-  head(this: Followers) {
-    return {
-      title: `@${this.name}'s followers`,
-    }
-  },
 })
 export default class Followers extends Vue {
   name!: string
   listInfo!: ListInfo<User>
+  head() {
+    return {
+      title: `@${this.name}'s followers`,
+    }
+  }
 }
 </script>

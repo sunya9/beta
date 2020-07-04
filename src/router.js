@@ -6,9 +6,14 @@ Vue.use(Router)
 function fixRoutes(defaultRoutes) {
   const routes = defaultRoutes.reduce((routes, route) => {
     // Replace "at" prefix with @ because cannot use @ for file/dir name in nuxt's project.
-    if (route.name && route.name.startsWith('at_name')) {
-      route.name = route.name.replace(/^at_name/, '@name')
+    if (route.path?.startsWith('/at_name')) {
       route.path = route.path.replace(/^\/at_/, '/@:')
+      route.children = route.children.map((child) => {
+        return {
+          ...child,
+          name: child.name.replace(/^at_name/, '@name'),
+        }
+      })
     }
     routes.push(route)
     return routes
