@@ -34,7 +34,9 @@ import refreshAfterAdded from '~/assets/ts/refresh-after-added'
         include_marker: true,
       },
     })
-    $accessor.updateUnreadHomeStream(false)
+    if ($auth.loggedIn) {
+      $accessor.updateUnreadHomeStream(false)
+    }
     return {
       listInfo,
     }
