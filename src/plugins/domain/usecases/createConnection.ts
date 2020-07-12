@@ -155,7 +155,7 @@ export class CreateConnectionInteractor implements CreateConnectionUseCase {
   async getDefaultSubscriptionIds(connection_id: string) {
     const subscribedChannelPromise = this.pnutRepository.getSubscribedChannels({
       connection_id,
-      include_read: true,
+      include_read: false,
     })
     const isUnified = this.configRepository.isEnabledUnifiedStream
     const method = PnutRepository.getHomeLikeStreamMethod(isUnified)
@@ -169,10 +169,14 @@ export class CreateConnectionInteractor implements CreateConnectionUseCase {
       connection_id,
       include_marker: true,
     })
+    // workaround
+    const channelUNreadPromise = this.pnutRepository.getUnread({
+      channel_types: ['io.pnut.core.chat', 'io.pnut.core.pm'],
+    })
 
     const [
       {
-        meta: { subscription_id: channelSubscriptionId, unread_counts },
+        meta: { subscription_id: channelSubscriptionId /* unread_counts */ },
       },
       {
         meta: { subscription_id: homeSubscriptionId, marker: homeMarker },
@@ -182,10 +186,12 @@ export class CreateConnectionInteractor implements CreateConnectionUseCase {
         meta: { subscription_id: mentionSubscriptionId, marker: mentionMarker },
         data: mentionData,
       },
+      { data: unreadData },
     ] = await Promise.all([
       subscribedChannelPromise,
       homeStreamPromise,
       mentionPromise,
+      channelUNreadPromise,
     ])
     return {
       subscriptionMap: {
@@ -195,8 +201,8 @@ export class CreateConnectionInteractor implements CreateConnectionUseCase {
       },
       unreads: {
         [SubscriptionType.channels]:
-          (unread_counts?.['io.pnut.core.chat'] || 0) +
-            (unread_counts?.['io.pnut.core.pm'] || 0) >
+          (unreadData?.['io.pnut.core.chat'] || 0) +
+            (unreadData?.['io.pnut.core.pm'] || 0) >
           0,
         [SubscriptionType.home]: homeData[0]?.id !== homeMarker?.last_read_id,
         [SubscriptionType.mention]:
