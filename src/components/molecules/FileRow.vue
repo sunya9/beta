@@ -1,5 +1,9 @@
 <template>
-  <tr :class="{ 'table-active': file.select }" @click.stop="toggleSelect">
+  <tr
+    :class="{ 'table-active': file.select }"
+    tabindex="-1"
+    @click.stop="toggleSelect"
+  >
     <td class="text-center">
       <input type="checkbox" :checked="file.select" />
     </td>
@@ -28,32 +32,35 @@
   </tr>
 </template>
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import Vue from 'vue'
+import { Component, Prop } from 'vue-property-decorator'
 import { ModifiedFile } from '~/plugins/domain/usecases/getFiles'
 
-export default Vue.extend({
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    } as PropOptions<ModifiedFile>,
-  },
-  computed: {
-    date(): string {
-      return this.$dayjs(this.file.created_at).format('LLL')
-    },
-  },
-  methods: {
-    toggleSelect() {
-      this.$emit('update:file', {
-        ...this.file,
-        select: !this.file.select,
-      })
-    },
-  },
-})
+@Component
+export default class FileRow extends Vue {
+  @Prop({
+    type: Object,
+    required: true,
+  })
+  file!: ModifiedFile
+
+  get date(): string {
+    return this.$dayjs(this.file.created_at).format('LLL')
+  }
+
+  toggleSelect() {
+    this.$emit('update:file', {
+      ...this.file,
+      select: !this.file.select,
+    })
+  }
+}
 </script>
-<style scoped>
+<style scoped lang="scss">
+@import '~assets/css/adn_base_variables';
+tr:focus {
+  background: $grayLighter;
+}
 .buttons a {
   opacity: 0;
   transition: all 0.2s ease;

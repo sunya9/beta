@@ -147,6 +147,10 @@ export default class ChannelView extends Vue {
     return findChatValueRaw(this.channel)
   }
 
+  goToChannel() {
+    this.$router.push(`/channels/${this.channel.id}`)
+  }
+
   get hasRecentMessage(): boolean {
     return (
       !this.channel.recent_message?.is_deleted &&

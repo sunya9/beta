@@ -6,6 +6,7 @@
     :data-added-hook="added"
     tabindex="-1"
     v-on="$listeners"
+    @select="select = $event"
   >
     <li
       tabindex="-1"
@@ -30,7 +31,8 @@
   </base-list>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from 'nuxt-property-decorator'
+import { Component, Prop } from 'nuxt-property-decorator'
+import { Mixins } from 'vue-property-decorator'
 import { User } from '~/models/user'
 import BaseList from '~/components/BaseList.vue'
 import PostView from '~/components/Post.vue'
@@ -56,9 +58,11 @@ const keyMap = {
     BaseList,
     Post: PostView,
   },
-  mixins: [keyBinding(keyMap), forList(keyMap)],
 })
-export default class PostList extends Vue {
+export default class PostList extends Mixins(
+  keyBinding(keyMap),
+  forList(keyMap)
+) {
   @Prop({ type: String, default: '' })
   main!: string
 

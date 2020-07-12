@@ -29,6 +29,7 @@
           list-element="tr"
           tag="tbody"
           v-on="$listeners"
+          @select="select = $event"
         >
           <file-row :file="item" @update:file="updateItem(index, $event)" />
         </base-list>
@@ -48,13 +49,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Component, Prop } from 'vue-property-decorator'
+import { Component, Prop, Mixins } from 'vue-property-decorator'
 import FileRow from '~/components/molecules/FileRow.vue'
 import BaseModal from '~/components/BaseModal.vue'
 import BaseList from '~/components/BaseList.vue'
 import { ListInfo } from '~/plugins/domain/util/util'
 import { ModifiedFile } from '~/plugins/domain/usecases/getFiles'
+import keyBinding, { forList } from '~/assets/ts/key-binding'
+
+const keyMap = {
+  t: 'toggleSelect',
+} as const
 
 @Component({
   components: {
@@ -63,7 +68,10 @@ import { ModifiedFile } from '~/plugins/domain/usecases/getFiles'
     BaseList,
   },
 })
-export default class FileList extends Vue {
+export default class FileList extends Mixins(
+  keyBinding(keyMap),
+  forList(keyMap, 'tbody')
+) {
   @Prop({
     type: Object,
     required: true,

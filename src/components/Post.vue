@@ -561,8 +561,29 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
     return this.$accessor.user
   }
 
+  readonly shortcutMap: Readonly<Record<string, () => void>> = {
+    r: () => this.replyModal(),
+    s: () => this.favoriteToggle(),
+    p: () => this.repostToggle(),
+    enter: () => this.goPost(),
+    del: () => this.removeModal(),
+  }
+
+  handleKeyEvent(e: Event) {
+    e.stopPropagation()
+    e.preventDefault()
+    if (!(e instanceof KeyboardEvent)) return
+    const { key } = e
+    this.shortcutMap[key]?.()
+  }
+
   mounted() {
+    this.$el.addEventListener('keydown', this.handleKeyEvent)
     if (!this.me) return
+    this.setupReviseButtonTimer()
+  }
+
+  setupReviseButtonTimer() {
     // TODO
     const diff = Date.now() - new Date(this.itemDate).getTime()
     const over5minutes = diff > FIVE_MINUTES
@@ -573,6 +594,7 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
   }
 
   beforeDestroy() {
+    this.$el.removeEventListener('keydown', this.handleKeyEvent)
     if (!this.timer) return
     clearTimeout(this.timer)
   }
