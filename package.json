@@ -19,7 +19,7 @@
     "@nuxtjs/redirect-module": "0.3.1",
     "@nuxtjs/router": "1.5.0",
     "@nuxtjs/toast": "3.3.0",
-    "animate.css": "^4.1.0",
+    "animate.css": "4.1.0",
     "bootstrap": "4.5.0",
     "bootstrap-vue": "2.15.0",
     "bootstrap.native": "2.0.27",
