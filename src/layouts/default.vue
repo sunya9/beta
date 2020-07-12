@@ -19,7 +19,7 @@
         </transition>
         <div
           :class="{
-            'col-md-8 col-lg-9': !notLoginIndex,
+            'col-md-8 col-lg-9': !notLoginIndex && menusWithMeta.menus.length,
           }"
           class="col-12"
         >
