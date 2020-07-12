@@ -28,7 +28,7 @@ export function getMenus(self: Vue): MenuItem[] {
     about: () => createAboutMenu(self),
     files: () => createFileMenu(),
     search: () => createSearchMenu(self),
-    messages: () => [],
+    channels: () => [],
   }
   const routeName = getRouteName(self)
   return routeName in menus
@@ -42,7 +42,7 @@ export function getMenusWithMeta(self: Vue, getDefault?: boolean) {
     : getMenus(self)
   const isDefault =
     getDefault ||
-    !['settings', 'about', 'files', 'search', 'messages'].includes(
+    !['settings', 'about', 'files', 'search', 'channels'].includes(
       getRouteName(self)
     )
   return {

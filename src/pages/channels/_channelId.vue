@@ -51,7 +51,6 @@ import MessageRemoveModal from '~/components/MessageRemoveModal.vue'
 import ChannelLayout from '~/components/layouts/channel.vue'
 
 @Component({
-  layout: 'no-sidebar',
   components: {
     MessageList,
     MessageCompose,
