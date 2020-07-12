@@ -1,5 +1,5 @@
 const path = require('path')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 
 const srcDir = path.resolve(__dirname, '../src')
 const rootDir = path.resolve(__dirname, '../')
