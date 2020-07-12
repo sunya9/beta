@@ -6,6 +6,7 @@
         alt=""
         class="img-fluid img-thumbnail"
         style="max-height: 50vh;"
+        loading="lazy"
       />
     </div>
 
@@ -183,3 +184,11 @@ export default class FileView extends Vue {
   }
 }
 </script>
+<style lang="scss" scoped>
+table {
+  table-layout: fixed;
+  th {
+    width: 10rem;
+  }
+}
+</style>

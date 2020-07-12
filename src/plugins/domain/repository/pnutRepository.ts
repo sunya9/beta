@@ -7,6 +7,8 @@ import {
   CreatePostRequest,
   UpdatePostRequest,
   SearchPostRequest,
+  HomeStreamRequest,
+  MentionRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
 import {
@@ -48,11 +50,17 @@ import { Marker } from '~/models/marker'
 
 export namespace PnutRepository {
   export const token = class {}
+  export function getHomeLikeStreamMethod(isUnified: boolean) {
+    const method: keyof PnutRepository = isUnified
+      ? 'getUnifiedStream'
+      : 'getHomeStream'
+    return method
+  }
 }
 
 export interface PnutRepository {
-  getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
-  getMentions(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
+  getHomeStream(params?: HomeStreamRequest): Promise<PnutResponse<Post[]>>
+  getMentions(params?: MentionRequest): Promise<PnutResponse<Post[]>>
   getPostInteractions(
     postIdRequest: PostIdRequest,
     params?: GeneralPostParameters
@@ -107,20 +115,18 @@ export interface PnutRepository {
   searchUsers(params: SearchUsersRequest): Promise<PnutResponse<User[]>>
   getMessages(
     channelId: string,
-    params?: GeneralMessageParameters
+    params?: GeneralMessageParameters & ConnectionParameters
   ): Promise<PnutResponse<Message[]>>
   getUserPosts(
     userId: UserId,
-    params?: GeneralPostParameters
+    params?: GeneralPostParameters & ConnectionParameters
   ): Promise<PnutResponse<Post[]>>
 
   getTaggedPosts(
     tag: string,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
-  getUnifiedStream(
-    params?: GeneralPostParameters
-  ): Promise<PnutResponse<Post[]>>
+  getUnifiedStream(params?: HomeStreamRequest): Promise<PnutResponse<Post[]>>
   getUser(
     userId: UserId,
     params?: GeneralUserParameters
@@ -165,7 +171,7 @@ export interface PnutRepository {
 
   getThread(
     postId: string,
-    params?: GeneralPostParameters & Pagination
+    params?: GeneralPostParameters & Pagination & ConnectionParameters
   ): Promise<PnutResponse<Post[]>>
   getFiles(
     params?: GeneralFileParameters & Pagination

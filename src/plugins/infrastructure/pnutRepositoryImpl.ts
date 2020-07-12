@@ -9,6 +9,8 @@ import {
   UpdatePostRequest,
   ExploreSlugType,
   SearchPostRequest,
+  HomeStreamRequest,
+  MentionRequest,
 } from '~/plugins/domain/dto/post'
 import { Interaction } from '~/models/interaction'
 import {
@@ -165,9 +167,7 @@ export class PnutRepositoryImpl implements PnutRepository {
     return this.get(`/users/${userId}`, params)
   }
 
-  getUnifiedStream(
-    params?: GeneralPostParameters
-  ): Promise<PnutResponse<Post[]>> {
+  getUnifiedStream(params?: HomeStreamRequest): Promise<PnutResponse<Post[]>> {
     return this.get('/posts/streams/unified', params)
   }
 
@@ -279,7 +279,7 @@ export class PnutRepositoryImpl implements PnutRepository {
     })
   }
 
-  getMentions(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>> {
+  getMentions(params?: MentionRequest): Promise<PnutResponse<Post[]>> {
     return this.axios.$get('/users/me/mentions', { params })
   }
 
@@ -312,7 +312,7 @@ export class PnutRepositoryImpl implements PnutRepository {
     return this.axios.$get('/posts/streams/global', { params })
   }
 
-  getHomeStream(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>> {
+  getHomeStream(params?: HomeStreamRequest): Promise<PnutResponse<Post[]>> {
     return this.axios.$get('/posts/streams/me', { params })
   }
 }

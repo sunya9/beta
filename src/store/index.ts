@@ -13,16 +13,26 @@ import { User } from '~/models/user'
 export type State = {
   auth: Partial<Auth<PnutResponse<Token>>> | null
   unreadMessages: boolean
+  unreadHomeStream: boolean
+  unreadMentions: boolean
 }
 
 export const state = (): State => ({
   auth: null,
   unreadMessages: false,
+  unreadHomeStream: false,
+  unreadMentions: false,
 })
 
 export const mutations = mutationTree(state, {
   updateUnreadMessages(state, newState: boolean) {
     state.unreadMessages = newState
+  },
+  updateUnreadHomeStream(state, newState: boolean) {
+    state.unreadHomeStream = newState
+  },
+  updateUnreadMentions(state, newState: boolean) {
+    state.unreadMentions = newState
   },
 })
 

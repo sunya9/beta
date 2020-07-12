@@ -264,6 +264,26 @@ export default class MessageView extends Mixins(
     this.$toast.success('Deleted Message!')
     this.$emit('update:message', message)
   }
+
+  readonly shortcutMap: Readonly<Record<string, () => void>> = {
+    del: () => this.removeModal(),
+  }
+
+  handleKeyEvent(e: Event) {
+    e.stopPropagation()
+    e.preventDefault()
+    if (!(e instanceof KeyboardEvent)) return
+    const { key } = e
+    this.shortcutMap[key]?.()
+  }
+
+  mounted() {
+    this.$el.addEventListener('keydown', this.handleKeyEvent)
+  }
+
+  beforeDestroy() {
+    this.$el.removeEventListener('keydown', this.handleKeyEvent)
+  }
 }
 </script>
 
@@ -291,7 +311,7 @@ export default class MessageView extends Mixins(
   background: $grayLighter;
   border-radius: 2px;
   word-break: break-word;
-  .message:focus & {
+  :focus & {
     background: $focus-bg-color;
     &.other::before {
       border-right-color: $focus-bg-color;

@@ -10,8 +10,7 @@ import { mediator } from './mediator'
 
 @Component({})
 export default class PromiseModal extends Vue {
-  resolve: ((value: any) => void) | null = null
-  reject: ((reason: Error) => void) | null = null
+  resolve: ((value?: any) => void) | null = null
   mounted() {
     mediator.$set(mediator.modals, this.$el.id, this)
     this.$on('ok', this.ok)
@@ -25,30 +24,26 @@ export default class PromiseModal extends Vue {
 
   show(...arg: any) {
     this.$emit('show', ...arg)
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.resolve = resolve
-      this.reject = reject
     })
   }
 
   ok(arg: any) {
-    if (!this.resolve) return false
-    this.resolve(arg)
-    this.hide(arg)
+    this.resolve?.(arg)
+    this.hide()
     return true
   }
 
-  cancel(arg: any) {
-    if (!this.reject) return false
-    this.reject(arg)
-    this.hide(arg)
+  cancel() {
+    this.resolve?.()
+    this.hide()
     return true
   }
 
-  hide(arg: any) {
-    if (this.resolve || this.reject) this.$emit('hide', arg)
+  hide() {
+    if (this.resolve) this.$emit('hide')
     this.resolve = null
-    this.reject = null
   }
 }
 </script>

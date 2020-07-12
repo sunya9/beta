@@ -13,6 +13,7 @@
       }"
       alt=""
       class="img-fluid card-img-top"
+      loading="lazy"
       @load="loaded = true"
     />
     <div class="card-body pt-3 h-card">
@@ -30,12 +31,10 @@
               rel="me"
               class="u-url"
             >
-              profile.username
+              {{ profile.username }}
             </a>
             <thumb
               :original="profile.content.avatar_image.link"
-              :width="0"
-              :height="0"
               :zooming-options="{
                 customSize: {
                   width: profile.content.avatar_image.width,
@@ -125,13 +124,21 @@
       id="profile-counts"
       class="card-body d-flex justify-content-between justify-content-md-end"
     >
-      <span class="card-link" append>{{ profile.counts.posts }} Posts</span>
+      <nuxt-link
+        class="card-link"
+        exact-active-class="text-body"
+        :tag="user ? 'a' : 'span'"
+        :event="user ? 'click' : ''"
+        :to="`/@${profile.username}`"
+      >
+        {{ profile.counts.posts }} Posts
+      </nuxt-link>
       <nuxt-link
         :tag="user ? 'a' : 'span'"
         :event="user ? 'click' : ''"
         class="card-link"
-        to="follows"
-        append
+        exact-active-class="text-body"
+        :to="`/@${profile.username}/follows`"
       >
         {{ profile.counts.following }} Follows
       </nuxt-link>
@@ -139,8 +146,8 @@
         :tag="user ? 'a' : 'span'"
         :event="user ? 'click' : ''"
         class="card-link"
-        to="followers"
-        append
+        exact-active-class="text-body"
+        :to="`/@${profile.username}/followers`"
       >
         {{ profile.counts.followers }} Followers
       </nuxt-link>
@@ -148,8 +155,8 @@
         :tag="user ? 'a' : 'span'"
         :event="user ? 'click' : ''"
         class="card-link"
-        to="starred"
-        append
+        exact-active-class="text-body"
+        :to="`/@${profile.username}/starred`"
       >
         {{ profile.counts.bookmarks }} Starred
       </nuxt-link>

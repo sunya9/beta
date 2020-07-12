@@ -12,6 +12,7 @@ import Vue from 'vue'
 import AppHeader from '~/components/organisms/Header.vue'
 
 export default Vue.extend({
+  name: 'NoSidebar',
   components: {
     AppHeader,
   },

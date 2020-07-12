@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <h3>
-      <nuxt-link to=".">@{{ name }}</nuxt-link>
-      's Starred
-    </h3>
-    <post-list :list-info="listInfo" />
-  </div>
+  <post-list :list-info="listInfo" />
 </template>
 
 <script lang="ts">

@@ -22,9 +22,6 @@ import { ListInfo } from '~/plugins/domain/util/util'
     const { listInfo } = await $interactors.getPosts.run({
       type: 'explore',
       slug: 'photos',
-      params: {
-        include_directed_posts: localStorage.hide_directed_posts === 'false',
-      },
     })
     return { listInfo }
   },

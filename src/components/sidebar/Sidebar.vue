@@ -49,7 +49,12 @@
             exact
           >
             <span>
-              <font-awesome-icon :icon="menu.icon" fixed-width class="mr-2" />
+              <span
+                class="position-relative"
+                :class="{ 'notification-badge': menu.badge }"
+              >
+                <font-awesome-icon :icon="menu.icon" fixed-width class="mr-2" />
+              </span>
               <span>{{ menu.label }}</span>
               <!-- <span class="badge badge-important pull-right">{{ badge }}</span>-->
             </span>
@@ -154,5 +159,9 @@ export default class Sidebar extends Vue {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.notification-badge::after {
+  top: 0;
+  right: 3px;
 }
 </style>

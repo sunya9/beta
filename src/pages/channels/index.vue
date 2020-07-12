@@ -46,7 +46,6 @@ import { ListInfo } from '~/plugins/domain/util/util'
 import ChannelLayout from '~/components/layouts/channel.vue'
 
 @Component({
-  layout: 'no-sidebar',
   middleware: ['auth'],
   watchQuery: ['public', 'all'],
   components: {

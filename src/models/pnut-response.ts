@@ -1,3 +1,5 @@
+import { Unread } from '~/models/Unread'
+
 export interface PnutResponse<T> {
   meta: PnutResponse.Meta
   data: T
@@ -10,6 +12,10 @@ export namespace PnutResponse {
     min_id?: string
     marker?: Meta.Marker
     code?: number
+    connection_id?: string
+    subscription_id?: string
+    subscription_ids?: string[]
+    unread_counts?: Unread
   }
   export namespace Meta {
     export interface Marker {

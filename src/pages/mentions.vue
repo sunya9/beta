@@ -7,6 +7,7 @@
 
 <script lang="ts">
 import { Mixins, Component } from 'vue-property-decorator'
+import { Watch } from 'nuxt-property-decorator'
 import { Post } from '~/models/post'
 import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/PostList.vue'
@@ -19,13 +20,14 @@ import { ListInfo } from '~/plugins/domain/util/util'
     PostList,
     Compose,
   },
-  async asyncData({ app: { $interactors } }) {
+  async asyncData({ app: { $interactors, $accessor } }) {
     const { listInfo } = await $interactors.getPosts.run({
       type: 'mentions',
       params: {
-        include_directed_posts: localStorage.hide_directed_posts === 'true',
+        include_marker: true,
       },
     })
+    $accessor.updateUnreadMentions(false)
     return { listInfo }
   },
   head() {
@@ -36,5 +38,22 @@ import { ListInfo } from '~/plugins/domain/util/util'
 })
 export default class extends Mixins(refreshAfterAdded) {
   listInfo!: ListInfo<Post>
+  @Watch('$accessor.unreadMentions')
+  onChangeUnreadHomeStream() {
+    this.$accessor.updateUnreadMentions(false)
+  }
+
+  mounted() {
+    this.markAsRead()
+  }
+
+  markAsRead() {
+    const id = this.listInfo.newerMeta.max_id
+    if (!id) return
+    this.$interactors.markAsRead.run({
+      type: 'mentions',
+      id,
+    })
+  }
 }
 </script>

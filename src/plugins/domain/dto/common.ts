@@ -37,3 +37,11 @@ export interface FetchMoreResult<T> {
 export type ConnectionParameters = {
   connection_id?: string
 }
+
+export type StreamMarkerParams = {
+  include_marker?: boolean
+}
+
+export type StreamMarkerRequest = {
+  update_marker: boolean
+}

@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { Mixins, Component } from 'vue-property-decorator'
+import { Watch } from 'nuxt-property-decorator'
 import { ListInfo } from '~/plugins/domain/util/util'
 import { StreamType } from '~/plugins/domain/dto/streamType'
 import { Post } from '~/models/post'
@@ -22,7 +23,7 @@ import refreshAfterAdded from '~/assets/ts/refresh-after-added'
     PostList,
     Splash,
   },
-  async asyncData({ $auth, app: { $interactors } }) {
+  async asyncData({ $auth, app: { $interactors, $accessor } }) {
     const unified = localStorage.unified_timeline === 'true'
     const streamType: StreamType = $auth.loggedIn
       ? { type: 'home', unified }
@@ -30,9 +31,12 @@ import refreshAfterAdded from '~/assets/ts/refresh-after-added'
     const { listInfo } = await $interactors.getPosts.run({
       ...streamType,
       params: {
-        include_directed_posts: localStorage.hide_directed_posts === 'false',
+        include_marker: true,
       },
     })
+    if ($auth.loggedIn) {
+      $accessor.updateUnreadHomeStream(false)
+    }
     return {
       listInfo,
     }
@@ -45,5 +49,24 @@ import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 })
 export default class Index extends Mixins(refreshAfterAdded) {
   listInfo!: ListInfo<Post>
+  @Watch('$accessor.unreadHomeStream')
+  onChangeUnreadHomeStream() {
+    this.$accessor.updateUnreadHomeStream(false)
+  }
+
+  mounted() {
+    if (this.$auth.loggedIn) {
+      this.markAsRead()
+    }
+  }
+
+  markAsRead() {
+    const id = this.listInfo.newerMeta.max_id
+    if (!id) return
+    this.$interactors.markAsRead.run({
+      type: 'personal',
+      id,
+    })
+  }
 }
 </script>

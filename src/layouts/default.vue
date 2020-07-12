@@ -19,7 +19,7 @@
         </transition>
         <div
           :class="{
-            'col-md-8 col-lg-9': !notLoginIndex,
+            'col-md-8 col-lg-9': !notLoginIndex && menusWithMeta.menus.length,
           }"
           class="col-12"
         >
@@ -95,7 +95,7 @@ import { User } from '~/models/user'
     Sidebar,
   },
 })
-export default class extends Vue {
+export default class Default extends Vue {
   commonShortcuts = {
     '?'(this: Vue) {
       this.$modal.show('help-modal')
