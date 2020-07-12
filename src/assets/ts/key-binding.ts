@@ -14,7 +14,7 @@ const defaultMixin = (keyMap: KeyMap) =>
   Vue.extend({
     async mounted() {
       await this.$nextTick()
-      ;(Object.keys(keyMap) as (keyof KeyMap)[]).forEach((key) =>
+      Object.keys(keyMap).forEach((key) =>
         this.$mousetrap.bind(key, () => {
           const method = keyMap[key]
           if (hasFunction(this, method)) this[method]()
