@@ -20,6 +20,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import Mousetrap from 'mousetrap'
 import '~/plugins/emojify'
 import { BootstrapVue } from 'bootstrap-vue'
+import 'reflect-metadata'
 require('imports-loader?Mousetrap=>require("mousetrap")!mousetrap/plugins/pause/mousetrap-pause') // eslint-disable-line
 
 Vue.use(Vuex)

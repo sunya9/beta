@@ -17,10 +17,11 @@ export const normal = () =>
     ...base(),
     mounted() {
       this.$modal.show('help-modal')
+      this.$el.querySelector('.modal')?.classList.remove('fade')
     },
     beforeDestroy() {
       this.$modal.ok('help-modal')
     },
     router,
-    template: '<help-modal class="show" />',
+    template: '<help-modal />',
   })
