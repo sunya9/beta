@@ -55,7 +55,9 @@ export default class Index extends Mixins(refreshAfterAdded) {
   }
 
   mounted() {
-    this.markAsRead()
+    if (this.$auth.loggedIn) {
+      this.markAsRead()
+    }
   }
 
   markAsRead() {
