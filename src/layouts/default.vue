@@ -95,7 +95,7 @@ import { User } from '~/models/user'
     Sidebar,
   },
 })
-export default class extends Vue {
+export default class Default extends Vue {
   commonShortcuts = {
     '?'(this: Vue) {
       this.$modal.show('help-modal')
