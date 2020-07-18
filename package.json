@@ -41,7 +41,7 @@
     "sass-loader": "9.0.2",
     "string-length": "4.0.1",
     "tsyringe": "4.3.0",
-    "twemoji": "13.0.0",
+    "twemoji": "13.0.1",
     "unicode-substring": "1.0.0",
     "vue-infinite-scroll": "2.0.2",
     "vue-on-click-outside": "1.0.3",
