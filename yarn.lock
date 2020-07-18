@@ -3013,12 +3013,12 @@
     consola "^2.11.3"
     defu "^2.0.2"
 
-"@nuxtjs/component-cache@1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/component-cache/-/component-cache-1.1.5.tgz#4866cb601a7e6a1387e931bbb929bafeec5981d5"
-  integrity sha512-S87xiF9d7WFOWPtcPSGz6T8dnV6wmUDy3W3pN35OhCYtXtav4jS27AySowx1fqk2fl7pPJW5GgTrwSHSKGCB7Q==
+"@nuxtjs/component-cache@1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/component-cache/-/component-cache-1.1.6.tgz#4a6a7b4b769631e9804774077365e44bc4537757"
+  integrity sha512-CqecqRcgw6uV1hxv3TuhA/muo173Q5zDpaOyUg0hlYNRfNGueEdE7ZiO9nwAHEirRk3qHpmvMmh7Bg8+Wlj+Sg==
   dependencies:
-    lru-cache "^5.1.1"
+    lru-cache "^6.0.0"
 
 "@nuxtjs/eslint-config-typescript@2.0.0":
   version "2.0.0"
@@ -13273,6 +13273,13 @@ lru-cache@^5.0.0, lru-cache@^5.1.1:
   integrity sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==
   dependencies:
     yallist "^3.0.2"
+
+lru-cache@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-6.0.0.tgz#6d6fe6570ebd96aaf90fcad1dafa3b2566db3a94"
+  integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
+  dependencies:
+    yallist "^4.0.0"
 
 make-dir@3.0.0:
   version "3.0.0"
