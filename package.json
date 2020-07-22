@@ -1,7 +1,7 @@
 {
   "name": "beta",
   "description": "pnut.io client",
-  "version": "1.12.3",
+  "version": "1.13.0",
   "author": "sunya9 <mugen.xyz@gmail.com> (https://unsweets.net)",
   "bugs": "https://github.com/sunya9/beta/issues",
   "dependencies": {
