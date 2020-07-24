@@ -342,9 +342,8 @@
               :key="reactionUser.id"
               class="list-inline-item"
             >
-              <user-popper :user="reactionUser">
+              <user-popper v-if="reactionUser.content" :user="reactionUser">
                 <nuxt-link
-                  v-if="reactionUser.content"
                   :to="`/@${reactionUser.username}`"
                   :title="`@${reactionUser.username}`"
                 >
