@@ -210,6 +210,7 @@ const config: Configuration = {
   },
   typescript: {
     ignoreNotFoundWarnings: true,
+    typeCheck: false,
   },
   bootstrapVue: {
     bootstrapCSS: false,
