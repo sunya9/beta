@@ -72,26 +72,16 @@
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 import { cloneDeep } from 'lodash'
 import { Poll } from '~/models/poll'
-import { PollNotice } from '~/models/raw/raw/poll-notice'
 
 @Component
 export default class extends Vue {
   @Prop({ required: true })
   poll!: Poll
 
-  @Prop({ default: '' })
-  pollId!: string
-
-  @Prop({ default: '' })
-  pollToken!: string
-
   currentTime = Date.now()
   timer: NodeJS.Timeout | null = null
   preferPercent = true
-  internalPoll: Poll &
-    Partial<Pick<PollNotice.Value, 'poll_token' | 'poll_id'>> = cloneDeep(
-    this.poll
-  )
+  internalPoll: Poll = cloneDeep(this.poll)
 
   get votable() {
     return this.$accessor.user && !this.closed
@@ -117,7 +107,7 @@ export default class extends Vue {
   }
 
   get id() {
-    return this.internalPoll.id || this.internalPoll.poll_id
+    return this.internalPoll.id
   }
 
   async mounted() {
@@ -133,9 +123,7 @@ export default class extends Vue {
 
   async getPoll() {
     const { data } = await this.$axios.$get(
-      `/polls/${this.pollId || this.internalPoll.id}?poll_token=${
-        this.pollToken || this.internalPoll.poll_token
-      }`
+      `/polls/${this.internalPoll.id}?poll_token=${this.internalPoll.poll_token}`
     )
     this.internalPoll = data
   }
@@ -159,9 +147,7 @@ export default class extends Vue {
 
   async respond(position: number) {
     const { data } = await this.$axios.$put(
-      `/polls/${this.id}/response/${position}?poll_token=${
-        this.pollToken || this.internalPoll.poll_token
-      }`
+      `/polls/${this.id}/response/${position}?poll_token=${this.internalPoll.poll_token}`
     )
     this.internalPoll = data
   }

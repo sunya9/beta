@@ -181,13 +181,9 @@
             </div>
           </div>
         </div>
-        <div v-if="poll" class="card mb-3">
+        <div v-if="pollNotice" class="card mb-3">
           <div class="card-body">
-            <poll
-              :poll="poll"
-              :poll-id="poll.poll_id"
-              :poll-token="poll.poll_token"
-            />
+            <poll-notice :poll-notice-value="pollNotice.value" />
           </div>
         </div>
         <p v-if="channelInvite">
@@ -385,12 +381,11 @@ import Avatar from '~/components/atoms/Avatar.vue'
 import UserPopper from '~/components/molecules/UserPopper.vue'
 import Thumb from '~/components/Thumb.vue'
 import Sound from '~/components/Sound.vue'
-import PollView from '~/components/Poll.vue'
+import PollNoticeView from '~/components/PollNotice.vue'
 import EntityText from '~/components/EntityText.vue'
 import Nsfw from '~/components/Nsfw.vue'
 import { Post } from '~/models/post'
 import { PollNotice } from '~/models/raw/raw/poll-notice'
-import { Raw } from '~/models/raw'
 import { User } from '~/models/user'
 
 import {
@@ -411,9 +406,6 @@ import {
 import listItem from '~/assets/ts/list-item'
 import { Spoiler } from '~/models/raw/raw/spoiler'
 
-function rawIsPollNotice(raw: Raw): raw is PollNotice {
-  return raw.type === PollNotice.type
-}
 const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
 
 @Component({
@@ -423,7 +415,7 @@ const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
     Sound,
     Avatar,
     EntityText,
-    Poll: PollView,
+    PollNotice: PollNoticeView,
     Nsfw,
     UserPopper,
   },
@@ -462,11 +454,8 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
     return this.mainPost.is_revised
   }
 
-  get poll(): PollNotice.Value | void {
-    if (!this.mainPost.raw) return undefined
-    const raw = this.mainPost.raw.find(rawIsPollNotice)
-    if (!raw) return undefined
-    return raw.value
+  get pollNotice() {
+    return PollNotice.findPollNotice(this.mainPost.raw)
   }
 
   get reactionUsers(): User[] {
