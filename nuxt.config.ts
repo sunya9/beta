@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import { Configuration } from '@nuxt/types'
+import { NuxtConfig } from '@nuxt/types'
 import { EnvironmentPlugin } from 'webpack'
 import dotenv from 'dotenv'
 import pkg from './package.json'
@@ -9,7 +9,7 @@ dotenv.config()
 const { homepage: npm_package_homepage } = pkg
 const lastModified = fs.statSync('./package.json').mtime
 
-const config: Configuration = {
+const config: NuxtConfig = {
   buildModules: ['@nuxt/typescript-build', 'nuxt-typed-vuex'],
   srcDir: 'src/',
   mode: 'spa',
