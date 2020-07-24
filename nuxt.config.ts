@@ -225,6 +225,9 @@ const config: NuxtConfig = {
     color: '#d36854',
     color2: '#4a484c',
   },
+  generate: {
+    fallback: true,
+  },
 }
 
 export default config
