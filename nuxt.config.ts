@@ -130,7 +130,6 @@ const config: NuxtConfig = {
     '@nuxtjs/pwa',
     '@nuxtjs/component-cache',
     '@nuxtjs/toast',
-    '@nuxtjs/google-analytics',
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     [
@@ -143,9 +142,6 @@ const config: NuxtConfig = {
     'nuxt-uid-module',
     '@nuxtjs/redirect-module',
   ],
-  'google-analytics': {
-    id: 'UA-10104011-16',
-  },
   toast: {
     position: 'bottom-left',
     duration: 5000,
