@@ -5868,10 +5868,13 @@ bootstrap-vue@2.15.0:
     portal-vue "^2.1.7"
     vue-functional-data-merge "^3.1.0"
 
-bootstrap.native@2.0.27:
-  version "2.0.27"
-  resolved "https://registry.yarnpkg.com/bootstrap.native/-/bootstrap.native-2.0.27.tgz#c0978d372cde1bd9f06d015985e99ae7af44f816"
-  integrity sha512-gv2eN4zXHOLN/oPotTxb8CJr9Dk0xlM9YURyHCWjq1Lyt2I669bri/Bp8b0HPOKX7JqRVh+Sk/VwEe0OcQN2fw==
+bootstrap.native@3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/bootstrap.native/-/bootstrap.native-3.0.9.tgz#04ff69caf73a7f07da1648e1543a51b0223b5fa0"
+  integrity sha512-lB8QgFZRmOMStsAfH9Fo/4qKVcOLzsbm2nQXiIm2iqGQkZf9HGWum7uGekFXMoLg/bvK4ONBe4pBoCYkTBxf4A==
+  dependencies:
+    minifill "^0.0.8"
+    shorter-js "^0.1.0"
 
 bootstrap@4.5.0, "bootstrap@>=4.5.0 <5.0.0":
   version "4.5.0"
@@ -13694,6 +13697,11 @@ min-indent@^1.0.0:
   resolved "https://registry.yarnpkg.com/min-indent/-/min-indent-1.0.1.tgz#a63f681673b30571fbe8bc25686ae746eefa9869"
   integrity sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==
 
+minifill@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/minifill/-/minifill-0.0.8.tgz#c6ecef302bee672352986d89257b3c18fc7a9ce5"
+  integrity sha512-DOw02Fev6xB40wyie/YJtnIhY0eI+iQ7aBQlSVkOy5OKlFAxob6uG301uvJyMT7F1OeMGfbDexOTabL3uLid1g==
+
 minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz#2e194de044626d4a10e7f7fbc00ce73e83e4d5c7"
@@ -17885,6 +17893,11 @@ shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
+
+shorter-js@^0.1.0:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/shorter-js/-/shorter-js-0.1.3.tgz#f9e18cf8d2ffe320981cedb337d14f696373908d"
+  integrity sha512-Td4PsK1DVIj72jaPQVSIf73PYfn7K5x/2WIwU0DFu7jdbg91LEN7D48k7+oAdinXUikhf3pa/kpQNlIao8UEvw==
 
 side-channel@^1.0.2:
   version "1.0.2"
