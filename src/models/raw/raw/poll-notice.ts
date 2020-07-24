@@ -1,4 +1,4 @@
-import { BaseRaw } from '~/models/raw'
+import { BaseRaw, Raw } from '~/models/raw'
 import { Poll } from '~/models/poll'
 
 export namespace PollNotice {
@@ -39,6 +39,10 @@ export namespace PollNotice {
         },
       },
     }
+  }
+
+  export function findPollNotice(raws?: Raw[]) {
+    return raws?.find((raw): raw is PollNotice => raw.type === PollNotice.type)
   }
 }
 
