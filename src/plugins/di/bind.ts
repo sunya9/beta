@@ -102,6 +102,10 @@ import {
   MarkAsReadUseCase,
   MarkAsReadInteractor,
 } from '~/plugins/domain/usecases/markAsRead'
+import {
+  UpdateRelationUseCase,
+  UpdateRelationInteractor,
+} from '~/plugins/domain/usecases/updateRelation'
 
 export function bind(context: Context) {
   container
@@ -147,4 +151,7 @@ export function bind(context: Context) {
       useClass: GetUnreadCountInteractor,
     })
     .register(MarkAsReadUseCase.token, { useClass: MarkAsReadInteractor })
+    .register(UpdateRelationUseCase.token, {
+      useClass: UpdateRelationInteractor,
+    })
 }
