@@ -187,7 +187,7 @@
         <b-dropdown-item v-if="me" to="/polls">
           Your polls
         </b-dropdown-item>
-        <base-block-button
+        <block-button
           v-if="user && !me"
           v-slot="{ toggleBlock }"
           :profile.sync="profile"
@@ -195,7 +195,7 @@
           <b-dropdown-item-button @click.prevent="toggleBlock">
             {{ blockText }}
           </b-dropdown-item-button>
-        </base-block-button>
+        </block-button>
         <mute-button
           v-if="user && !me && !profile.you_blocked"
           v-slot="{ toggleMute }"
@@ -230,7 +230,7 @@ import FollowButton from '~/components/atoms/FollowButton.vue'
 import Thumb from '~/components/Thumb.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import EntityText from '~/components/EntityText.vue'
-import BaseBlockButton from '~/components/BaseBlockButton.vue'
+import BlockButton from '~/components/BlockButton.vue'
 import MuteButton from '~/components/MuteButton.vue'
 import createPmModal from '~/components/CreatePmModal.vue'
 import { User } from '~/models/user'
@@ -244,7 +244,7 @@ export default Vue.extend({
     Thumb,
     Avatar,
     EntityText,
-    BaseBlockButton,
+    BlockButton,
     MuteButton,
   },
   props: {
