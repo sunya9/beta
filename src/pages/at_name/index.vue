@@ -1,11 +1,12 @@
 <template>
   <div>
     <compose
+      v-if="listInfo"
       :key="`${$route.params.name}-compose`"
       :initial-text="initialText"
     />
     <post-list
-      ref="list"
+      v-if="listInfo"
       :key="`${$route.params.name}-posts`"
       :list-info="listInfo"
       :refresh-date="date"
@@ -37,15 +38,20 @@ import { ListInfo } from '~/plugins/domain/util/util'
       app: { $interactors },
     } = ctx
     const { name } = params
-    const { listInfo } = await $interactors.getPosts.run({
-      type: 'user',
-      userId: `@${name}`,
-      params: {
-        include_directed_posts: true,
-      },
-    })
+    try {
+      const { listInfo } = await $interactors.getPosts.run({
+        type: 'user',
+        userId: `@${name}`,
+        params: {
+          include_directed_posts: true,
+        },
+      })
+      return {
+        listInfo,
+        uniqueName: name,
+      }
+    } catch (e) {}
     return {
-      listInfo,
       uniqueName: name,
     }
   },
@@ -61,10 +67,7 @@ import { ListInfo } from '~/plugins/domain/util/util'
   },
 })
 export default class Index extends Mixins(refreshAfterAdded) {
-  listInfo!: ListInfo<Post>
-  $refs!: {
-    list: any
-  }
+  listInfo: ListInfo<Post> | null = null
 
   get user(): User | null {
     return this.$accessor.user
