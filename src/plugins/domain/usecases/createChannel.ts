@@ -1,5 +1,5 @@
 import { singleton, inject } from 'tsyringe'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { PnutResponse } from '~/models/pnut-response'
 import { Channel } from '~/models/channel'
@@ -14,7 +14,7 @@ interface Output {
   res: PnutResponse<Channel>
 }
 
-export interface CreateChannelUseCase extends Usecase<Input, Promise<Output>> {}
+export interface CreateChannelUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace CreateChannelUseCase {
   export const token = class {}

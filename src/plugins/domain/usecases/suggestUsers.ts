@@ -1,5 +1,5 @@
 import { singleton, inject } from 'tsyringe'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { User } from '~/models/user'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 
@@ -11,7 +11,7 @@ interface Output {
   users: User[]
 }
 
-export interface SuggestUsersUseCase extends Usecase<Input, Promise<Output>> {}
+export interface SuggestUsersUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace SuggestUsersUseCase {
   export const token = class {}

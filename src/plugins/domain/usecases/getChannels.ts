@@ -1,5 +1,5 @@
 import { singleton, inject } from 'tsyringe'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
 import { Channel } from '~/models/channel'
@@ -16,7 +16,7 @@ interface Output {
   listInfo: ListInfo<Channel>
 }
 
-export interface GetChannelsUseCase extends Usecase<Input, Promise<Output>> {}
+export interface GetChannelsUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace GetChannelsUseCase {
   export const token = class {}

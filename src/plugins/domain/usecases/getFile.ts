@@ -1,5 +1,5 @@
 import { singleton, inject } from 'tsyringe'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralFileParameters } from '~/plugins/domain/dto/file'
 import { PnutResponse } from '~/models/pnut-response'
@@ -14,7 +14,7 @@ interface Output {
   res: PnutResponse<File>
 }
 
-export interface GetFileUseCase extends Usecase<Input, Promise<Output>> {}
+export interface GetFileUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace GetFileUseCase {
   export const token = class {}

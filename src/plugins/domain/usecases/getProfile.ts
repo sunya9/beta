@@ -1,7 +1,7 @@
 import { singleton, inject } from 'tsyringe'
 import { User } from '~/models/user'
 import { PnutResponse } from '~/models/pnut-response'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'
 import { GeneralUserParameters } from '~/plugins/domain/dto/user'
@@ -16,7 +16,7 @@ interface Output {
   user: PnutResponse<User>
 }
 
-export interface GetProfileUseCase extends Usecase<Input, Promise<Output>> {}
+export interface GetProfileUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace GetProfileUseCase {
   export const token = class {}

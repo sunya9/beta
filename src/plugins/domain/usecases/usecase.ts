@@ -1,3 +1,3 @@
-export interface Usecase<Input, Output> {
+export interface UseCase<Input, Output> {
   run(input: Input): Output
 }

@@ -2,7 +2,7 @@ import { singleton, inject } from 'tsyringe'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { PnutResponse } from '~/models/pnut-response'
 import { File as PnutFile } from '~/models/file'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { ReplacementFileRaw } from '~/models/raw/replacement-values/file'
 
 interface Input {
@@ -34,7 +34,7 @@ function file2ReplacedRaw(fileRes: PnutResponse<PnutFile>): ReplacementFileRaw {
   }
 }
 
-export interface CreateFileUseCase extends Usecase<Input, Promise<Output>> {}
+export interface CreateFileUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace CreateFileUseCase {
   export const token = class {}

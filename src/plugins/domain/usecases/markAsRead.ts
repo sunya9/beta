@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe'
 import { PnutResponse } from '~/models/pnut-response'
 import { Marker } from '~/models/marker'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 
 export type Input = (
@@ -20,7 +20,7 @@ interface Output {
   res: PnutResponse<Marker>
 }
 
-export interface MarkAsReadUseCase extends Usecase<Input, Promise<Output>> {}
+export interface MarkAsReadUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace MarkAsReadUseCase {
   export const token = class {}

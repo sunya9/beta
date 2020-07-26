@@ -1,7 +1,7 @@
 import { singleton, inject } from 'tsyringe'
 import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
 import { Post } from '~/models/post'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'
 import { Pagination } from '~/plugins/domain/dto/common'
@@ -18,7 +18,7 @@ interface Output {
   meta?: any[] // TODO?
 }
 
-export interface GetThreadUseCase extends Usecase<Input, Promise<Output>> {}
+export interface GetThreadUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace GetThreadUseCase {
   export const token = class {}
