@@ -46,9 +46,9 @@ import {
   GetPostsInteractor,
 } from '~/plugins/domain/usecases/getPosts'
 import {
-  GetProfileWithPostsUseCase,
-  GetProfileWithPostsInteractor,
-} from '~/plugins/domain/usecases/getProfileWithPosts'
+  GetProfileUseCase,
+  GetProfileInteractor,
+} from '~/plugins/domain/usecases/getProfile'
 import {
   GetInteractionsUseCase,
   GetInteractionsInteractor,
@@ -112,8 +112,8 @@ export function bind(context: Context) {
     .register(PnutRepository.token, {
       useValue: new PnutRepositoryImpl(context.$axios),
     })
-    .register(GetProfileWithPostsUseCase.token, {
-      useClass: GetProfileWithPostsInteractor,
+    .register(GetProfileUseCase.token, {
+      useClass: GetProfileInteractor,
     })
     .register(GetPostsUseCase.token, { useClass: GetPostsInteractor })
     .register(CreateFileUseCase.token, { useClass: CreateFileInteractor })
@@ -129,9 +129,7 @@ export function bind(context: Context) {
     .register(SuggestUsersUseCase.token, { useClass: SuggestUsersInteractor })
     .register(GetMessagesUseCase.token, { useClass: GetMessagesInteractor })
     .register(GetPostsUseCase.token, { useClass: GetPostsInteractor })
-    .register(GetProfileWithPostsUseCase.token, {
-      useClass: GetProfileWithPostsInteractor,
-    })
+    .register(GetProfileUseCase.token, { useClass: GetProfileInteractor })
     .register(GetInteractionsUseCase.token, {
       useClass: GetInteractionsInteractor,
     })
