@@ -29,8 +29,7 @@ export default class extends Mixins(actionable) {
   id: string | null = null
 
   mounted() {
-    // FIXME
-    this.id = `checkbox-${(this as any)._uid}`
+    this.id = `checkbox-${this.$_uid}`
   }
 }
 </script>
