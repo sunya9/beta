@@ -1,5 +1,5 @@
 <template>
-  <post-list :list-info="listInfo" />
+  <post-list v-if="listInfo" :list-info="listInfo" />
 </template>
 
 <script lang="ts">
@@ -16,7 +16,6 @@ import { Post } from '~/models/post'
     const {
       params,
       app: { $interactors },
-      error,
     } = ctx
     const { name } = params
     try {
@@ -28,18 +27,15 @@ import { Post } from '~/models/post'
         listInfo,
         name,
       }
-    } catch (e) {
-      const { meta } = e.response.data
-      error({
-        statusCode: meta.code,
-        message: meta.error_message,
-      })
+    } catch (e) {}
+    return {
+      name,
     }
   },
 })
 export default class extends Vue {
   name!: string
-  listInfo!: ListInfo<Post>
+  listInfo: ListInfo<Post> | null = null
   head() {
     return {
       title: `@${this.name}'s starred`,

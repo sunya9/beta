@@ -1,5 +1,5 @@
 <template>
-  <user-list :list-info="listInfo" />
+  <user-list v-if="listInfo" :list-info="listInfo" />
 </template>
 
 <script lang="ts">
@@ -19,21 +19,26 @@ import { ListInfo } from '~/plugins/domain/util/util'
       app: { $interactors },
     } = ctx
     const { name } = params
-    const { listInfo } = await $interactors.getUsers.run({
-      type: {
-        type: 'following',
-        userId: `@${name}`,
-      },
-    })
+    try {
+      const { listInfo } = await $interactors.getUsers.run({
+        type: {
+          type: 'following',
+          userId: `@${name}`,
+        },
+      })
+      return {
+        listInfo,
+        name,
+      }
+    } catch (e) {}
     return {
-      listInfo,
       name,
     }
   },
 })
 export default class Follows extends Vue {
   name!: string
-  listInfo!: ListInfo<User>
+  listInfo: ListInfo<User> | null = null
   head() {
     return {
       title: `@${this.name}'s following`,
