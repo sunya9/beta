@@ -196,4 +196,16 @@ export interface PnutRepository {
   postMarker(
     postMarkerRequest: PostMarkerRequest
   ): Promise<PnutResponse<Marker>>
+
+  block(userId: string): Promise<PnutResponse<User>>
+
+  unblock(userId: string): Promise<PnutResponse<User>>
+
+  mute(userId: string): Promise<PnutResponse<User>>
+
+  unmute(userId: string): Promise<PnutResponse<User>>
+
+  follow(userId: string): Promise<PnutResponse<User>>
+
+  unfollow(userId: string): Promise<PnutResponse<User>>
 }
