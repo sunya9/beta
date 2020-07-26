@@ -10,7 +10,7 @@ import { CreatePrivateChannelUseCase } from '~/plugins/domain/usecases/createPri
 import { SuggestUsersUseCase } from '~/plugins/domain/usecases/suggestUsers'
 import { GetMessagesUseCase } from '~/plugins/domain/usecases/getMessages'
 import { GetPostsUseCase } from '~/plugins/domain/usecases/getPosts'
-import { GetProfileWithPostsUseCase } from '~/plugins/domain/usecases/getProfileWithPosts'
+import { GetProfileUseCase } from '~/plugins/domain/usecases/getProfile'
 import { GetInteractionsUseCase } from '~/plugins/domain/usecases/getInteractions'
 import { GetUsersUseCase } from '~/plugins/domain/usecases/getUsers'
 import { GetChannelsUseCase } from '~/plugins/domain/usecases/getChannels'
@@ -44,8 +44,8 @@ export class Interactors {
     readonly suggestUsers: SuggestUsersUseCase,
     @inject(GetMessagesUseCase.token) readonly getMessages: GetMessagesUseCase,
     @inject(GetPostsUseCase.token) readonly getPosts: GetPostsUseCase,
-    @inject(GetProfileWithPostsUseCase.token)
-    readonly getProfileWithPosts: GetProfileWithPostsUseCase,
+    @inject(GetProfileUseCase.token)
+    readonly getProfile: GetProfileUseCase,
     @inject(GetInteractionsUseCase.token)
     readonly getInteractions: GetInteractionsUseCase,
     @inject(GetUsersUseCase.token) readonly getUsers: GetUsersUseCase,

@@ -28,7 +28,7 @@ import { User } from '~/models/user'
       app: { $interactors },
     } = ctx
     const { name } = params
-    const { user } = await $interactors.getProfileWithPosts.run({
+    const { user } = await $interactors.getProfile.run({
       username: `@${name}`,
       postParams: {
         include_directed_posts: true,
