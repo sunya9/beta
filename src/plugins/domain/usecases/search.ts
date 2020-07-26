@@ -1,5 +1,5 @@
 import { singleton, inject } from 'tsyringe'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { SearchPostRequest } from '~/plugins/domain/dto/post'
 import { createListInfo, ListInfo } from '~/plugins/domain/util/util'
@@ -36,7 +36,7 @@ function getTitle({ q, type }: { q?: string; type: SearchClass }) {
   return `Search ${type} for "${decodeURIComponent(q)}"`
 }
 
-export interface SearchUseCase extends Usecase<Input, Promise<Output>> {}
+export interface SearchUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace SearchUseCase {
   export const token = class {}

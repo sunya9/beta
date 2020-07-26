@@ -1,5 +1,5 @@
 import { singleton, inject } from 'tsyringe'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { Message } from '~/models/message'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralMessageParameters } from '~/plugins/domain/dto/message'
@@ -17,7 +17,7 @@ interface Output {
   channel: Channel
 }
 
-export interface GetMessagesUseCase extends Usecase<Input, Promise<Output>> {}
+export interface GetMessagesUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace GetMessagesUseCase {
   export const token = class {}

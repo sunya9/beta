@@ -1,7 +1,7 @@
 import { singleton, inject } from 'tsyringe'
 import { GeneralPollParameters } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { PnutResponse } from '~/models/pnut-response'
 
@@ -15,7 +15,7 @@ interface Output {
   res: PnutResponse<Poll>
 }
 
-export interface GetPollUseCase extends Usecase<Input, Promise<Output>> {}
+export interface GetPollUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace GetPollUseCase {
   export const token = class {}

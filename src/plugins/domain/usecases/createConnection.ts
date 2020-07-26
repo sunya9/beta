@@ -1,6 +1,6 @@
 // import WebSocket from 'ws'
 import { inject, singleton } from 'tsyringe'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { Connection } from '~/models/connection'
 import { ConfigRepository } from '~/plugins/domain/repository/configStorage'
@@ -21,7 +21,7 @@ interface Input {
 }
 
 type Output = void
-export interface CreateConnectionUseCase extends Usecase<Input, Output> {}
+export interface CreateConnectionUseCase extends UseCase<Input, Output> {}
 
 export namespace CreateConnectionUseCase {
   export const token = class {}

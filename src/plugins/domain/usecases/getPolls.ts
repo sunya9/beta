@@ -2,7 +2,7 @@ import { singleton, inject } from 'tsyringe'
 import { GeneralPollParameters } from '~/plugins/domain/dto/poll'
 import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
 import { Poll } from '~/models/poll'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { Pagination } from '~/plugins/domain/dto/common'
 
@@ -14,7 +14,7 @@ interface Output {
   listInfo: ListInfo<Poll>
 }
 
-export interface GetPollsUseCase extends Usecase<Input, Promise<Output>> {}
+export interface GetPollsUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace GetPollsUseCase {
   export const token = class {}

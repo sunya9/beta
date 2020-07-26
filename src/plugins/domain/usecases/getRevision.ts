@@ -1,7 +1,7 @@
 import { singleton, inject } from 'tsyringe'
 import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
 import { Post } from '~/models/post'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'
 import { getHtmlMeta } from '~/plugins/domain/util/postUtil'
@@ -17,7 +17,7 @@ interface Output {
   meta?: any[] // TODO?
 }
 
-export interface GetRevisionUseCase extends Usecase<Input, Promise<Output>> {}
+export interface GetRevisionUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace GetRevisionUseCase {
   export const token = class {}

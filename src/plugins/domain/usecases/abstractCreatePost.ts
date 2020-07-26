@@ -1,4 +1,4 @@
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { Raw } from '~/models/raw'
 import { Spoiler } from '~/models/raw/raw/spoiler'
@@ -23,7 +23,7 @@ export interface AbstractInput {
 }
 
 export interface AbstractCreatePostUseCase<Input, Output>
-  extends Usecase<Input, Output> {}
+  extends UseCase<Input, Output> {}
 
 export abstract class AbstractCreatePostInteractor<
   Input extends AbstractInput,

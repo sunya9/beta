@@ -4,7 +4,7 @@ import { GeneralFileParameters } from '~/plugins/domain/dto/file'
 import { Pagination } from '~/plugins/domain/dto/common'
 import { File } from '~/models/file'
 import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 
 const map: { [key in File.Kind]: string } = {
@@ -45,7 +45,7 @@ function getTitle(kindStr?: string) {
   return `${prefix} files`
 }
 
-export interface GetFilesUseCase extends Usecase<Input, Promise<Output>> {}
+export interface GetFilesUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace GetFilesUseCase {
   export const token = class {}

@@ -4,7 +4,7 @@ import { Post } from '~/models/post'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'
 import { StreamType } from '~/plugins/domain/dto/streamType'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { createListInfo, ListInfo } from '~/plugins/domain/util/util'
 import { StreamMarkerParams } from '~/plugins/domain/dto/common'
 import { ConfigRepository } from '~/plugins/domain/repository/configStorage'
@@ -18,7 +18,7 @@ interface Output {
   listInfo: ListInfo<Post>
 }
 
-export interface GetPostsUseCase extends Usecase<Input, Promise<Output>> {}
+export interface GetPostsUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace GetPostsUseCase {
   export const token = class {}

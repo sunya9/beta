@@ -3,7 +3,7 @@ import { UserId } from '~/plugins/domain/dto/common'
 import { User } from '~/models/user'
 import { GeneralUserParameters } from '~/plugins/domain/dto/user'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { createListInfo, ListInfo } from '~/plugins/domain/util/util'
 
 type UserType =
@@ -27,7 +27,7 @@ interface Output {
   listInfo: ListInfo<User>
 }
 
-export interface GetUsersUseCase extends Usecase<Input, Promise<Output>> {}
+export interface GetUsersUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace GetUsersUseCase {
   export const token = class {}

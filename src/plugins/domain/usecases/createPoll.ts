@@ -1,5 +1,5 @@
 import { singleton, inject } from 'tsyringe'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 import { Poll } from '~/models/poll'
@@ -12,7 +12,7 @@ interface Input {
 interface Output {
   poll: Poll
 }
-export interface CreatePollUseCase extends Usecase<Input, Promise<Output>> {}
+export interface CreatePollUseCase extends UseCase<Input, Promise<Output>> {}
 
 export namespace CreatePollUseCase {
   export const token = class {}

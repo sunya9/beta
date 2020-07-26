@@ -3,7 +3,7 @@ import { Interaction } from '~/models/interaction'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { InteractionType } from '~/plugins/domain/dto/common'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { createListInfo, ListInfo } from '~/plugins/domain/util/util'
 
 interface Input {
@@ -16,7 +16,7 @@ interface Output {
 }
 
 export interface GetInteractionsUseCase
-  extends Usecase<Input, Promise<Output>> {}
+  extends UseCase<Input, Promise<Output>> {}
 
 export namespace GetInteractionsUseCase {
   export const token = class {}

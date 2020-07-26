@@ -1,5 +1,5 @@
 import { singleton, inject } from 'tsyringe'
-import { Usecase } from '~/plugins/domain/usecases/usecase'
+import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutResponse } from '~/models/pnut-response'
 import { User } from '~/models/user'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
@@ -14,7 +14,7 @@ interface Output {
 }
 
 export interface UpdateRelationUseCase
-  extends Usecase<Input, Promise<Output>> {}
+  extends UseCase<Input, Promise<Output>> {}
 
 export namespace UpdateRelationUseCase {
   export const token = class {}
