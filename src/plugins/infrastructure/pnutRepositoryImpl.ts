@@ -50,6 +50,30 @@ import { PostMarkerRequest } from '~/plugins/domain/dto/marker'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  block(userId: string): Promise<PnutResponse<User>> {
+    return this.put(`/users/${userId}/block`)
+  }
+
+  unblock(userId: string): Promise<PnutResponse<User>> {
+    return this.delete(`/users/${userId}/block`)
+  }
+
+  mute(userId: string): Promise<PnutResponse<User>> {
+    return this.put(`/users/${userId}/mute`)
+  }
+
+  unmute(userId: string): Promise<PnutResponse<User>> {
+    return this.delete(`/users/${userId}/mute`)
+  }
+
+  follow(userId: string): Promise<PnutResponse<User>> {
+    return this.put(`/users/${userId}/follow`)
+  }
+
+  unfollow(userId: string): Promise<PnutResponse<User>> {
+    return this.delete(`/users/${userId}/follow`)
+  }
+
   postMarker(
     postMarkerRequest: PostMarkerRequest
   ): Promise<PnutResponse<import('../../models/marker').Marker>> {
@@ -233,8 +257,12 @@ export class PnutRepositoryImpl implements PnutRepository {
     return this.put(`/posts/${postId}`, updatePostRequest, params)
   }
 
-  private put(url: string, data: any, params?: any) {
+  private put(url: string, data?: any, params?: any) {
     return this.axios.$put(url, data, { params })
+  }
+
+  private delete(url: string, params?: any) {
+    return this.axios.$delete(url, { params })
   }
 
   private post(url: string, data: any, params?: any) {
