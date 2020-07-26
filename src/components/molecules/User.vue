@@ -50,7 +50,7 @@ import Vue, { PropOptions } from 'vue'
 import FollowButton from '~/components/atoms/FollowButton.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import EntityText from '~/components/EntityText.vue'
-import MuteButton from '~/components/MuteButton.vue'
+import MuteButton from '~/components/atoms/MuteButton.vue'
 import { User } from '~/models/user'
 import UserPopper from '~/components/molecules/UserPopper.vue'
 
