@@ -391,3 +391,9 @@ body.dark {
   background: map-get($theme-colors, primary);
   border-radius: 50%;
 }
+
+.btn-text {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}

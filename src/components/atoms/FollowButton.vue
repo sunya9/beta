@@ -1,7 +1,10 @@
 <template>
   <button
     v-if="user && user.id !== profile.id && !blocking"
-    :class="btnClass"
+    :class="{
+      'btn-secondary': following,
+      'btn-primary': !following,
+    }"
     :disabled="busy"
     class="btn"
     @click="follow"
@@ -44,19 +47,16 @@ export default class FollowButton extends Vue {
     return this.following ? 'Following' : 'Follow'
   }
 
-  get btnClass(): string {
-    return `btn-${this.following ? 'secondary' : 'primary'}`
-  }
-
   async follow() {
-    const method = this.profile.you_follow ? 'delete' : 'put'
     const prev = this.profile.you_follow
     this.updateProfile({ you_follow: !this.profile.you_follow })
     this.busy = true
     try {
-      const { data: profile } = await this.$axios.$request({
-        url: `/users/${this.profile.id}/follow`,
-        method,
+      const {
+        res: { data: profile },
+      } = await this.$interactors.updateRelation.run({
+        type: this.profile.you_follow ? 'unfollow' : 'follow',
+        userId: this.profile.id,
       })
       this.updateProfile(profile)
     } catch (e) {
@@ -75,9 +75,12 @@ export default class FollowButton extends Vue {
     this.updateProfile({ you_blocked: false })
     this.busy = true
     try {
-      const { data: profile } = await this.$axios.$delete(
-        `/users/${this.profile.id}/block`
-      )
+      const {
+        res: { data: profile },
+      } = await this.$interactors.updateRelation.run({
+        type: 'unblock',
+        userId: this.profile.id,
+      })
       this.updateProfile(profile)
     } catch (e) {
       this.$toast.error(e.message)
