@@ -192,19 +192,19 @@
           v-slot="{ toggleBlock }"
           :profile.sync="profile"
         >
-          <b-dropdown-item-button href="#" @click.prevent="toggleBlock">
+          <b-dropdown-item-button @click.prevent="toggleBlock">
             {{ blockText }}
           </b-dropdown-item-button>
         </base-block-button>
-        <base-mute-button
+        <mute-button
           v-if="user && !me && !profile.you_blocked"
           v-slot="{ toggleMute }"
           :profile.sync="profile"
         >
-          <b-dropdown-item-button href="#" @click.prevent="toggleMute">
+          <b-dropdown-item-button @click.prevent="toggleMute">
             {{ muteText }}
           </b-dropdown-item-button>
-        </base-mute-button>
+        </mute-button>
         <b-dropdown-divider />
         <b-dropdown-item
           :href="
@@ -230,7 +230,6 @@ import FollowButton from '~/components/atoms/FollowButton.vue'
 import Thumb from '~/components/Thumb.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import EntityText from '~/components/EntityText.vue'
-import BaseMuteButton from '~/components/BaseMuteButton.vue'
 import BaseBlockButton from '~/components/BaseBlockButton.vue'
 import MuteButton from '~/components/MuteButton.vue'
 import createPmModal from '~/components/CreatePmModal.vue'
@@ -245,7 +244,6 @@ export default Vue.extend({
     Thumb,
     Avatar,
     EntityText,
-    BaseMuteButton,
     BaseBlockButton,
     MuteButton,
   },
