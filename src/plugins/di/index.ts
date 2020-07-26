@@ -10,24 +10,22 @@ const plugin: Plugin = (context, inject) => {
   inject('interactors', interactors)
 }
 
-type InteractorType = Pick<Interactors, keyof Interactors>
-
 export default plugin
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $interactors: InteractorType
+    $interactors: Interactors
   }
 }
 
 declare module '@nuxt/types' {
   interface NuxtAppOptions {
-    $interactors: InteractorType
+    $interactors: Interactors
   }
 }
 
 declare module 'vuex/types/index' {
   interface Store<S> {
-    $interactors: InteractorType
+    $interactors: Interactors
   }
 }
