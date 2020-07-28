@@ -69,14 +69,14 @@
 </template>
 
 <script lang="ts">
-import { Tab } from 'bootstrap.native'
+import BSN from 'bootstrap.native'
 import { Vue, Component } from 'nuxt-property-decorator'
 import MessageCompose from '~/components/organisms/MessageCompose.vue'
 import ChannelCompose from '~/components/ChannelCompose.vue'
 import BaseModal from '~/components/BaseModal.vue'
 
 interface TabMap {
-  [key: string]: Tab
+  [key: string]: BSN.Tab
 }
 
 @Component({
@@ -104,7 +104,7 @@ export default class extends Vue {
     const targets = this.$el.querySelectorAll('[data-toggle="tab"]')
     this.tabMap = Array.from(targets).reduce<TabMap>((obj, target) => {
       const anchor = target as HTMLAnchorElement
-      obj[anchor.hash.slice(1)] = new Tab(target)
+      obj[anchor.hash.slice(1)] = new BSN.Tab(target)
       target.addEventListener('shown.bs.tab', this.shown, false)
       this.$once('hook:beforeDestroy', () =>
         target.removeEventListener('shown.bs.tab', this.shown)

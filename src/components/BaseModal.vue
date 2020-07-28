@@ -64,7 +64,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { Modal } from 'bootstrap.native'
+import BSN from 'bootstrap.native'
 import { Component, Prop, Watch } from 'vue-property-decorator'
 import PromiseModal from '~/plugins/modal/PromiseModal.vue'
 
@@ -132,7 +132,7 @@ export default class BaseModal extends Vue {
   })
   form!: string
 
-  modal!: Modal
+  modal!: BSN.Modal
   @Watch('$route.fullPath')
   onChangeFullPath() {
     if (!this.modal) return
@@ -141,7 +141,7 @@ export default class BaseModal extends Vue {
 
   mounted() {
     const modalEl = this.$refs.modal
-    this.modal = new Modal(modalEl)
+    this.modal = new BSN.Modal(modalEl)
     modalEl.addEventListener('shown.bs.modal', this.shown)
     modalEl.addEventListener('hidden.bs.modal', this.hidden)
   }
