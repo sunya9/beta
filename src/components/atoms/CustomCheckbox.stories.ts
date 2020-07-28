@@ -1,6 +1,6 @@
 import { withKnobs, boolean } from '@storybook/addon-knobs'
 import CustomCheckbox from './CustomCheckbox.vue'
-export default { title: 'CustomCheckbox', decorators: [withKnobs] }
+export default { title: 'atoms/CustomCheckbox', decorators: [withKnobs] }
 
 const base = {
   components: { CustomCheckbox },

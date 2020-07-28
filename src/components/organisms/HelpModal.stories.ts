@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelpModal from './HelpModal.vue'
 
-export default { title: 'HelpModal' }
+export default { title: 'organisms/HelpModal' }
 
 function base() {
   return {

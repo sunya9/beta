@@ -5,7 +5,7 @@ import { accessorType } from '~/store'
 import { DeepPartial } from '~/../types'
 import { assignAccessor } from '~/fixtures/accessor'
 
-export default { title: 'UserPopperInner' }
+export default { title: 'molecules/UserPopperInner' }
 
 function base(accessor?: DeepPartial<typeof accessorType>) {
   assignAccessor(accessor)

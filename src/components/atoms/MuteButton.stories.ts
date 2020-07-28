@@ -3,7 +3,7 @@ import MuteButton from './MuteButton.vue'
 import { getFixtures } from '~/fixtures'
 import { User } from '~/models/user'
 
-export default { title: 'MuteButton', decorators: [withKnobs] }
+export default { title: 'atoms/MuteButton', decorators: [withKnobs] }
 
 const base = {
   components: { MuteButton },

@@ -4,7 +4,7 @@ import { DeepPartial } from '~/../types'
 import { accessorType } from '~/store'
 import { assignAccessor } from '~/fixtures/accessor'
 
-export default { title: 'Compose', decorators: [withKnobs] }
+export default { title: 'organisms/Compose', decorators: [withKnobs] }
 
 const base = (accessor?: DeepPartial<typeof accessorType>) => {
   assignAccessor(accessor)
