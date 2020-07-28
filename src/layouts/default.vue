@@ -23,41 +23,7 @@
           }"
           class="col-12"
         >
-          <h3
-            v-if="!notLoginIndex"
-            :class="{
-              'justify-content-between mb-4': selectedDropdownItem,
-              'justify-content-end': !selectedDropdownItem,
-            }"
-            class="d-flex align-items-center mb-0"
-          >
-            <div v-if="selectedDropdownItem" class="d-flex align-items-center">
-              <div
-                class="d-block bg-primary text-center rounded-circle text-white border-white mr-1 icon"
-              >
-                <font-awesome-icon
-                  :icon="selectedDropdownItem.icon"
-                  fixed-width
-                />
-              </div>
-              {{ selectedDropdownItem.label }}
-            </div>
-
-            <div
-              v-if="menusWithMeta.menus.length && !menusWithMeta.isDefault"
-              class="ml-3 d-md-none h4 mb-1 mt-1"
-            >
-              <a
-                data-toggle="collapse"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle local navigation"
-                data-target="#navbarSupportedContent"
-              >
-                <font-awesome-icon icon="bars" size="lg" />
-              </a>
-            </div>
-          </h3>
+          <page-title />
           <div id="navbarSupportedContent" class="collapse">
             <sidebar v-if="!menusWithMeta.isDefault" narrow />
           </div>
@@ -75,7 +41,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import { getMenusWithMeta, MenuItem } from '~/components/sidebar/MenuItem'
+import { getMenusWithMeta } from '~/components/sidebar/MenuItem'
 import AppHeader from '~/components/organisms/Header.vue'
 import PostModal from '~/components/PostModal.vue'
 import RemoveModal from '~/components/RemoveModal.vue'
@@ -83,6 +49,7 @@ import RemoveModal from '~/components/RemoveModal.vue'
 import MessageModal from '~/components/MessageModal.vue'
 import HelpModal from '~/components/organisms/HelpModal.vue'
 import Sidebar from '~/components/sidebar/Sidebar.vue'
+import PageTitle from '~/components/atoms/PageTitle.vue'
 import { User } from '~/models/user'
 
 @Component({
@@ -93,6 +60,7 @@ import { User } from '~/models/user'
     MessageModal,
     HelpModal,
     Sidebar,
+    PageTitle,
   },
 })
 export default class Default extends Vue {
@@ -159,14 +127,6 @@ export default class Default extends Vue {
 
   get menusWithMeta() {
     return getMenusWithMeta(this)
-  }
-
-  get dropdownItems(): MenuItem[] {
-    return this.menusWithMeta.menus
-  }
-
-  get selectedDropdownItem(): MenuItem | void {
-    return this.dropdownItems.find((item) => item.url === this.$route.path)
   }
 
   get user(): User | null {
@@ -244,16 +204,5 @@ export default class Default extends Vue {
 .jumbotron {
   margin-bottom: -50px;
   padding-top: 4rem;
-}
-.icon {
-  width: 2rem;
-  height: 2rem;
-  font-size: 1rem;
-  vertical-align: middle;
-  overflow: hidden;
-  border: 3px double white;
-  > svg {
-    vertical-align: -0.25rem;
-  }
 }
 </style>
