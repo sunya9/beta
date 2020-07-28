@@ -8,10 +8,12 @@
     type="button"
     @click="$emit('input', !value)"
   >
-    <font-awesome-icon v-if="icon" :icon="icon" />
-    <span class="d-none d-lg-inline ml-2">
-      {{ text }}
-    </span>
+    <div class="align-middle">
+      <font-awesome-icon v-if="icon" :icon="icon" />
+      <span class="d-none d-lg-inline ml-2">
+        {{ text }}
+      </span>
+    </div>
   </button>
 </template>
 <script lang="ts">
