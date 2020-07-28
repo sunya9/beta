@@ -5,7 +5,7 @@
       <div class="row">
         <transition name="slide" mode="out-in">
           <div
-            v-if="!notLoginIndex && menusWithMeta.menus.length"
+            v-if="sidebarVisibility"
             :class="{
               'col-md-4 col-lg-3': !notLoginIndex,
             }"
@@ -50,7 +50,6 @@ import MessageModal from '~/components/MessageModal.vue'
 import HelpModal from '~/components/organisms/HelpModal.vue'
 import Sidebar from '~/components/sidebar/Sidebar.vue'
 import PageTitle from '~/components/atoms/PageTitle.vue'
-import { User } from '~/models/user'
 
 @Component({
   components: {
@@ -117,20 +116,16 @@ export default class Default extends Vue {
 
   bodyClass = ''
 
-  get notLoginIndex(): boolean {
-    return !this.user && this.$route.name === 'index'
+  get sidebarVisibility() {
+    return !this.notLoginIndex && this.menusWithMeta.menus.length
   }
 
-  get searchPage(): boolean {
-    return !!this.$route && !!this.$route.fullPath.match(/^\/search/)
+  get notLoginIndex(): boolean {
+    return !this.$auth.loggedIn && this.$route.name === 'index'
   }
 
   get menusWithMeta() {
     return getMenusWithMeta(this)
-  }
-
-  get user(): User | null {
-    return this.$accessor.user
   }
 
   @Watch('$route')
