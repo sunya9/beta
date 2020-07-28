@@ -24,6 +24,7 @@ const webpackConfig = {
       assets: path.resolve(srcDir, 'assets'),
       '~~': rootDir,
       '~': srcDir,
+      'bootstrap.native$': 'bootstrap.native/dist/bootstrap-native-v4.js',
     },
     extensions: ['.ts', '.tsx'],
   },
