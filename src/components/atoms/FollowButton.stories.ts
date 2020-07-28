@@ -3,7 +3,7 @@ import FollowButton from './FollowButton.vue'
 import { getFixtures } from '~/fixtures'
 import { User } from '~/models/user'
 
-export default { title: 'FollowButton', decorators: [withKnobs] }
+export default { title: 'atoms/FollowButton', decorators: [withKnobs] }
 
 const base = {
   components: { FollowButton },

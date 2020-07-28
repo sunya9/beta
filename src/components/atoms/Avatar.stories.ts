@@ -1,6 +1,6 @@
 import { withKnobs, select } from '@storybook/addon-knobs'
 import Avatar from './Avatar.vue'
-export default { title: 'Avatar', decorators: [withKnobs] }
+export default { title: 'atoms/Avatar', decorators: [withKnobs] }
 
 const base = {
   components: { Avatar },

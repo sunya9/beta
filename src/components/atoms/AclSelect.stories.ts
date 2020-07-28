@@ -3,7 +3,7 @@ import { withKnobs, select, boolean } from '@storybook/addon-knobs'
 import AclSelect from './AclSelect.vue'
 import { accessorType } from '~/store'
 import { DeepPartial } from '~/../types'
-export default { title: 'AclSelect', decorators: [withKnobs] }
+export default { title: 'atoms/AclSelect', decorators: [withKnobs] }
 
 function base(accessor?: DeepPartial<typeof accessorType>) {
   Vue.prototype.$accessor = accessor
