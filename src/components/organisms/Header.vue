@@ -165,13 +165,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Dropdown, Collapse } from 'bootstrap.native'
+import BSN from 'bootstrap.native'
 import SearchForm from '~/components/SearchForm.vue'
 import Sidebar from '~/components/sidebar/Sidebar.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import { User } from '~/models/user'
 import MessageIcon from '~/components/organisms/MessageIcon.vue'
 import AppDropdown from '~/components/molecules/AppDropdown.vue'
+
 const networkEvents = ['online', 'offline']
 
 export default Vue.extend({
@@ -186,8 +187,8 @@ export default Vue.extend({
     return {
       online: true,
       collapseHeight: 0 as number | string,
-      dropdown: null as Dropdown | null,
-      collapse: null as Collapse | null,
+      dropdown: null as BSN.Dropdown | null,
+      collapse: null as BSN.Collapse | null,
       visible: false,
     }
   },
@@ -206,7 +207,7 @@ export default Vue.extend({
     if (this.$refs.dropdown) {
       // this.dropdown = new Dropdown(this.$refs.dropdown as Element)
     }
-    this.collapse = new Collapse(this.$refs.toggleButton as Element)
+    this.collapse = new BSN.Collapse(this.$refs.toggleButton as Element)
   },
   beforeDestroy() {
     networkEvents.forEach((event) =>

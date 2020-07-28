@@ -58,7 +58,7 @@
 import Vue, { PropOptions } from 'vue'
 import unicodeSubstring from 'unicode-substring'
 import stringLength from 'string-length'
-import { Popover } from 'bootstrap.native'
+import BSN from 'bootstrap.native'
 import NuxtLinkMod from '~/components/NuxtLinkMod.vue'
 import { Entity } from '~/models/entity'
 
@@ -215,7 +215,7 @@ export default Vue.extend({
   mounted() {
     // ensure to initialize
     Array.from(this.$el.querySelectorAll('[data-toggle="popover"]')).forEach(
-      (target) => new Popover(target)
+      (target) => new BSN.Popover(target)
     )
   },
   methods: {

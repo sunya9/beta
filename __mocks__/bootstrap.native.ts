@@ -1,10 +1,10 @@
 function noop() {}
-export const Collapse = noop
-export const Popover = noop
+const Collapse = noop
+const Popover = noop
 
 const toggleBoolStr = (b: string | null) => !(b === 'true')
 
-export class Dropdown {
+class Dropdown {
   el: HTMLElement
   btn: HTMLElement | null = null
   constructor(dropdownEl: HTMLElement) {
@@ -23,7 +23,7 @@ export class Dropdown {
   show() {}
 }
 
-export class Modal {
+class Modal {
   el: HTMLElement
   constructor(el: HTMLElement) {
     this.el = el
@@ -32,4 +32,12 @@ export class Modal {
   show() {}
   hide() {}
 }
-export const Tab = noop
+const Tab = noop
+
+export default {
+  Collapse,
+  Popover,
+  Dropdown,
+  Modal,
+  Tab,
+}

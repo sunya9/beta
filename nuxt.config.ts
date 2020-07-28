@@ -81,7 +81,7 @@ const config: NuxtConfig = {
       )
         return
       config.resolve.alias['bootstrap.native$'] =
-        'bootstrap.native/dist/bootstrap-native-v4.js'
+        'bootstrap.native/dist/bootstrap-native.esm.min.js'
       config.module.rules.unshift({
         test: /\.worker\.(js|ts)$/,
         loader: 'worker-loader',
