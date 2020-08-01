@@ -41,14 +41,13 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import { getMenusWithMeta } from '~/components/sidebar/MenuItem'
+import { getMenusWithMeta } from '~/components/organisms/sidebar/MenuItem'
 import AppHeader from '~/components/organisms/Header.vue'
-import PostModal from '~/components/PostModal.vue'
-import RemoveModal from '~/components/RemoveModal.vue'
-
-import MessageModal from '~/components/MessageModal.vue'
+import PostModal from '~/components/organisms/PostModal.vue'
+import RemoveModal from '~/components/organisms/RemoveModal.vue'
+import MessageModal from '~/components/organisms/MessageModal.vue'
 import HelpModal from '~/components/organisms/HelpModal.vue'
-import Sidebar from '~/components/sidebar/Sidebar.vue'
+import Sidebar from '~/components/organisms/sidebar/Sidebar.vue'
 import PageTitle from '~/components/atoms/PageTitle.vue'
 
 @Component({

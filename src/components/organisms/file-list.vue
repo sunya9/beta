@@ -51,8 +51,8 @@
 <script lang="ts">
 import { Component, Prop, Mixins } from 'vue-property-decorator'
 import FileRow from '~/components/molecules/FileRow.vue'
-import BaseModal from '~/components/BaseModal.vue'
-import BaseList from '~/components/BaseList.vue'
+import BaseModal from '~/components/molecules/BaseModal.vue'
+import BaseList from '~/components/molecules/BaseList.vue'
 import { ListInfo } from '~/plugins/domain/util/util'
 import { ModifiedFile } from '~/plugins/domain/usecases/getFiles'
 import keyBinding, { forList } from '~/assets/ts/key-binding'

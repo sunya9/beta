@@ -5,7 +5,7 @@ import {
   authedUserCreateStore,
   authedAccessor,
 } from '../helper'
-import PostList from '~/components/PostList.vue'
+import PostList from '~/components/organisms/PostList.vue'
 import { createListInfo } from '~/plugins/domain/util/util'
 
 const posts = [fixtures('post'), fixtures('post', 'main', 'replyTo')]

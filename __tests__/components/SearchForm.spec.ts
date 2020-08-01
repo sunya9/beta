@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { shallowMount, createLocalVue } from '../helper'
-import SearchForm from '~/components/SearchForm.vue'
+import SearchForm from '~/components/molecules/SearchForm.vue'
 
 describe('SearchForm component', () => {
   let localVue: typeof Vue

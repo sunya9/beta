@@ -1,5 +1,5 @@
 import { mount, RouterLinkStub as NuxtLink } from '../helper'
-import NuxtLinkMod from '~/components/NuxtLinkMod.vue'
+import NuxtLinkMod from '~/components/atoms/NuxtLinkMod.vue'
 
 describe('NuxtLinkMod component', () => {
   test('If include own domain, use <nuxt-link>', () => {

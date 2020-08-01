@@ -71,9 +71,9 @@
 <script lang="ts">
 import { upperFirst } from 'lodash'
 import { Component, Prop } from 'vue-property-decorator'
-import ChannelPanel from '~/components/ChannelPanel.vue'
-import { BaseChannelPanel } from '~/components/BaseChannelPanel'
-import ChannelUserList from '~/components/ChannelUserList.vue'
+import ChannelPanel from '~/components/organisms/ChannelPanel.vue'
+import { BaseChannelPanel } from '~/components/molecules/BaseChannelPanel'
+import ChannelUserList from '~/components/organisms/ChannelUserList.vue'
 import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
 import { Channel } from '~/models/channel'
 

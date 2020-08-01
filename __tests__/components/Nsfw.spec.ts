@@ -1,6 +1,6 @@
 import { Wrapper } from '@vue/test-utils'
 import { shallowMount } from '../helper'
-import Nsfw from '~/components/Nsfw.vue'
+import Nsfw from '~/components/organisms/Nsfw.vue'
 
 describe('NSFW component', () => {
   describe('When post does not include nsfw', () => {

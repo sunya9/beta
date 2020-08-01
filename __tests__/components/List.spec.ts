@@ -1,6 +1,6 @@
 import { Wrapper } from '@vue/test-utils'
 import { mount } from '../helper'
-import BaseList from '~/components/BaseList.vue'
+import BaseList from '~/components/molecules/BaseList.vue'
 import { createListInfo } from '~/plugins/domain/util/util'
 
 type BaseListType = InstanceType<typeof BaseList> & {

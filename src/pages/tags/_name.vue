@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import PostList from '~/components/PostList.vue'
+import PostList from '~/components/organisms/PostList.vue'
 import { getRSSLink } from '~/assets/ts/util'
 import { Post } from '~/models/post'
 import { ListInfo } from '~/plugins/domain/util/util'

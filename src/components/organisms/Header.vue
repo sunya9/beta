@@ -166,8 +166,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import BSN from 'bootstrap.native'
-import SearchForm from '~/components/SearchForm.vue'
-import Sidebar from '~/components/sidebar/Sidebar.vue'
+import SearchForm from '~/components/molecules/SearchForm.vue'
+import Sidebar from '~/components/organisms/sidebar/Sidebar.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import { User } from '~/models/user'
 import MessageIcon from '~/components/organisms/MessageIcon.vue'

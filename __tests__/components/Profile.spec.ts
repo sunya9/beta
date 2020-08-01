@@ -12,7 +12,7 @@ import {
   createLocalVue,
   authedAccessor,
 } from '../helper'
-import Profile from '~/components/Profile.vue'
+import Profile from '~/components/organisms/Profile.vue'
 import { User } from '~/models/user'
 
 type ProfileType = Vue & typeof Profile

@@ -7,7 +7,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import BaseList from '~/components/BaseList.vue'
+import BaseList from '~/components/molecules/BaseList.vue'
 import User from '~/components/molecules/User.vue'
 
 @Component({

@@ -4,7 +4,7 @@ import {
   fixtures,
   authedAccessor,
 } from '../helper'
-import Interaction from '~/components/Interaction.vue'
+import Interaction from '~/components/organisms/Interaction.vue'
 
 describe('Interaction component', () => {
   it('reply', () => {

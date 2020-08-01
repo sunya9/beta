@@ -25,8 +25,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import KeySets from '~/components/KeySets.vue'
-import BaseModal from '~/components/BaseModal.vue'
+import KeySets from '~/components/molecules/KeySets.vue'
+import BaseModal from '~/components/molecules/BaseModal.vue'
 
 const keyMaps = {
   streamActions: [

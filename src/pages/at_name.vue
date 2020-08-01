@@ -6,9 +6,9 @@
 </template>
 <script lang="ts">
 import { Component, Watch, Mixins } from 'vue-property-decorator'
-import Profile from '~/components/Profile.vue'
+import Profile from '~/components/organisms/Profile.vue'
 import Compose from '~/components/organisms/Compose.vue'
-import PostList from '~/components/PostList.vue'
+import PostList from '~/components/organisms/PostList.vue'
 import { getTitle } from '~/assets/ts/util'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 import { User } from '~/models/user'

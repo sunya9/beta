@@ -22,8 +22,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import Message from '~/components/Message.vue'
-import BaseModal from '~/components/BaseModal.vue'
+import Message from '~/components/organisms/Message.vue'
+import BaseModal from '~/components/molecules/BaseModal.vue'
 
 interface VM {
   remove: () => void

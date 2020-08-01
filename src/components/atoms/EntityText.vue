@@ -59,7 +59,7 @@ import Vue, { PropOptions } from 'vue'
 import unicodeSubstring from 'unicode-substring'
 import stringLength from 'string-length'
 import BSN from 'bootstrap.native'
-import NuxtLinkMod from '~/components/NuxtLinkMod.vue'
+import NuxtLinkMod from '~/components/atoms/NuxtLinkMod.vue'
 import { Entity } from '~/models/entity'
 
 interface ExtendedLinkInfo {

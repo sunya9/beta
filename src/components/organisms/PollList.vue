@@ -7,8 +7,8 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import BaseList from '~/components/BaseList.vue'
-import Poll from '~/components/Poll.vue'
+import BaseList from '~/components/molecules/BaseList.vue'
+import Poll from '~/components/organisms/Poll.vue'
 export default Vue.extend({
   components: {
     BaseList,

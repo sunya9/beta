@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Sidebar from './Sidebar.vue'
-import { MenuItem } from '~/components/sidebar/MenuItem'
+import { MenuItem } from '~/components/organisms/sidebar/MenuItem'
 
 export function createFileMenu(): MenuItem[] {
   return [

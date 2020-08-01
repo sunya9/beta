@@ -1,6 +1,6 @@
 import { Wrapper } from '@vue/test-utils'
 import { shallowMount, stub } from '../../../helper'
-import Index from '~/components/settings/Account/index.vue'
+import Index from '~/components/molecules/settings/Account/index.vue'
 
 describe('settings/Account/index component', () => {
   let wrapper: Wrapper<Vue>

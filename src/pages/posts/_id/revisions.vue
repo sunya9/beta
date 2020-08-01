@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import PostList from '~/components/PostList.vue'
+import PostList from '~/components/organisms/PostList.vue'
 import { Post } from '~/models/post'
 import { ListInfo } from '~/plugins/domain/util/util'
 

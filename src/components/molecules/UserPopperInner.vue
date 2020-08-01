@@ -27,7 +27,7 @@ import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
 import { User } from '~/models/user'
 import Avatar from '~/components/atoms/Avatar.vue'
-import EntityText from '~/components/EntityText.vue'
+import EntityText from '~/components/atoms/EntityText.vue'
 import FollowButton from '~/components/atoms/FollowButton.vue'
 import RelationBadge from '~/components/atoms/RelationBadge.vue'
 

@@ -13,9 +13,9 @@
   </channel-panel>
 </template>
 <script lang="ts">
-import ChannelUserList from '~/components/ChannelUserList.vue'
-import ChannelPanel from '~/components/ChannelPanel.vue'
-import { BaseChannelPanel } from '~/components/BaseChannelPanel'
+import ChannelUserList from '~/components/organisms/ChannelUserList.vue'
+import ChannelPanel from '~/components/organisms/ChannelPanel.vue'
+import { BaseChannelPanel } from '~/components/molecules/BaseChannelPanel'
 
 export default BaseChannelPanel.extend({
   components: {

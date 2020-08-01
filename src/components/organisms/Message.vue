@@ -154,8 +154,8 @@
 import { Component, Mixins, Prop } from 'vue-property-decorator'
 import Avatar from '~/components/atoms/Avatar.vue'
 import UserPopper from '~/components/molecules/UserPopper.vue'
-import Thumb from '~/components/Thumb.vue'
-import EntityText from '~/components/EntityText.vue'
+import Thumb from '~/components/molecules/Thumb.vue'
+import EntityText from '~/components/atoms/EntityText.vue'
 import listItem from '~/assets/ts/list-item'
 import {
   getImageURLs,
@@ -169,7 +169,7 @@ import {
 import { User } from '~/models/user'
 import { Message } from '~/models/message'
 import { Spoiler } from '~/models/raw/raw/spoiler'
-import Sound from '~/components/Sound.vue'
+import Sound from '~/components/molecules/Sound.vue'
 
 @Component({
   components: {

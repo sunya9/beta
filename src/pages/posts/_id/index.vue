@@ -15,7 +15,7 @@
 <script lang="ts">
 import { Mixins, Component } from 'vue-property-decorator'
 import { ListInfo } from '~/plugins/domain/util/util'
-import PostList from '~/components/PostList.vue'
+import PostList from '~/components/organisms/PostList.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 import { Post } from '~/models/post'
 

@@ -11,7 +11,7 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator'
 import { Search } from '~/assets/ts/search'
-import UserList from '~/components/UserList.vue'
+import UserList from '~/components/organisms/UserList.vue'
 import { User } from '~/models/user'
 import { ListInfo } from '~/plugins/domain/util/util'
 
