@@ -66,7 +66,7 @@
     "@storybook/preset-typescript": "3.0.0",
     "@storybook/theming": "5.3.19",
     "@storybook/vue": "5.3.19",
-    "@testing-library/jest-dom": "5.11.1",
+    "@testing-library/jest-dom": "5.11.2",
     "@types/convert-units": "2.3.2",
     "@types/emoji-regex": "8.0.0",
     "@types/jest": "26.0.7",
