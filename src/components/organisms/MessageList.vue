@@ -22,8 +22,8 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Mixins } from 'vue-property-decorator'
-import BaseList from '~/components/BaseList.vue'
-import Message from '~/components/Message.vue'
+import BaseList from '~/components/molecules/BaseList.vue'
+import Message from '~/components/organisms/Message.vue'
 import keyBinding, { forList } from '~/assets/ts/key-binding'
 
 const keyMap = {

@@ -9,7 +9,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
-import PollList from '~/components/PollList.vue'
+import PollList from '~/components/organisms/PollList.vue'
 import { ListInfo } from '~/plugins/domain/util/util'
 import { Poll } from '~/models/poll'
 

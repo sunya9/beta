@@ -6,7 +6,7 @@ import {
   fixtures,
   authedAccessor,
 } from '../helper'
-import PostModal from '~/components/PostModal.vue'
+import PostModal from '~/components/organisms/PostModal.vue'
 import { Post } from '~/models/post'
 
 type PostModalType = InstanceType<typeof PostModal> & {

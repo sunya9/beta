@@ -6,7 +6,7 @@ import {
   fixtures,
   authedAccessor,
 } from '../helper'
-import Post from '~/components/Post.vue'
+import Post from '~/components/organisms/Post.vue'
 
 type PostType = InstanceType<typeof Post>
 

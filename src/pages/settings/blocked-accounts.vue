@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import UserList from '~/components/UserList.vue'
+import UserList from '~/components/organisms/UserList.vue'
 import { ListInfo } from '~/plugins/domain/util/util'
 import { User } from '~/models/user'
 

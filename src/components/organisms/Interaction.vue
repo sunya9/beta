@@ -64,7 +64,7 @@
 
 <script lang="ts">
 import { Component, Mixins, Prop } from 'vue-property-decorator'
-import Post from '~/components/Post.vue'
+import Post from '~/components/organisms/Post.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import UserPopper from '~/components/molecules/UserPopper.vue'
 import listItem from '~/assets/ts/list-item'

@@ -10,7 +10,7 @@ import { Mixins, Component } from 'vue-property-decorator'
 import { Watch } from 'nuxt-property-decorator'
 import { Post } from '~/models/post'
 import Compose from '~/components/organisms/Compose.vue'
-import PostList from '~/components/PostList.vue'
+import PostList from '~/components/organisms/PostList.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 import { ListInfo } from '~/plugins/domain/util/util'
 

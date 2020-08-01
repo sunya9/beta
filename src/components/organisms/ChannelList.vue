@@ -20,7 +20,7 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator'
 import { Channel } from '~/models/channel'
-import BaseList from '~/components/BaseList.vue'
+import BaseList from '~/components/molecules/BaseList.vue'
 import ChannelView from '~/components/molecules/Channel.vue'
 import keyBinding, { forList } from '~/assets/ts/key-binding'
 

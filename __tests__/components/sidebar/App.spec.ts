@@ -9,7 +9,7 @@ import {
   RouterLinkStub as NuxtLink,
   createLocalVue,
 } from '../../helper'
-import AppSidebar from '~/components/sidebar/App'
+import AppSidebar from '~/components/organisms/sidebar/App'
 
 const menus = [
   'Your Stream',

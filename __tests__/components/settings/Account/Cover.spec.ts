@@ -1,6 +1,6 @@
 import { Wrapper } from '@vue/test-utils'
 import { shallowMount } from '../../../helper'
-import Cover from '~/components/settings/Account/Cover.vue'
+import Cover from '~/components/molecules/settings/Account/Cover.vue'
 
 type CoverType = InstanceType<typeof Cover> & {
   coverChanged: (arg: { target: { files: unknown[] } }) => Promise<void>

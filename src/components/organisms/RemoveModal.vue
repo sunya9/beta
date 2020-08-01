@@ -1,3 +1,4 @@
+x
 <template>
   <base-modal
     id="remove-modal"
@@ -14,8 +15,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
-import PostView from '~/components/Post.vue'
-import BaseModal from '~/components/BaseModal.vue'
+import PostView from '~/components/organisms/Post.vue'
+import BaseModal from '~/components/molecules/BaseModal.vue'
 import { Post } from '~/models/post'
 
 @Component({

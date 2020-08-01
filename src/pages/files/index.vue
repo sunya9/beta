@@ -11,7 +11,7 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import { ModifiedFile } from '~/plugins/domain/usecases/getFiles'
-import FileList from '~/components/file-list.vue'
+import FileList from '~/components/organisms/file-list.vue'
 import { ListInfo } from '~/plugins/domain/util/util'
 
 @Component({

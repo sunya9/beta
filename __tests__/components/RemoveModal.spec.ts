@@ -1,7 +1,7 @@
 import { Wrapper } from '@vue/test-utils'
 import { shallowMount, fixtures } from '../helper'
-import RemoveModal from '~/components/RemoveModal.vue'
-import BaseModal from '~/components/BaseModal.vue'
+import RemoveModal from '~/components/organisms/RemoveModal.vue'
+import BaseModal from '~/components/molecules/BaseModal.vue'
 import { Post } from '~/models/post'
 
 type RemoveModalType = Vue &

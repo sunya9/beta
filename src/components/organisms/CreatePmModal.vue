@@ -20,7 +20,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { User } from '~/models/user'
-import BaseModal from '~/components/BaseModal.vue'
+import BaseModal from '~/components/molecules/BaseModal.vue'
 import MessageCompose from '~/components/organisms/MessageCompose.vue'
 export default Vue.extend({
   components: {

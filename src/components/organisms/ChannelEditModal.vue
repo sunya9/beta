@@ -56,7 +56,7 @@ import Vue from 'vue'
 import { cloneDeep } from 'lodash'
 import { Component } from 'vue-property-decorator'
 import { Channel } from '~/models/channel'
-import BaseModal from '~/components/BaseModal.vue'
+import BaseModal from '~/components/molecules/BaseModal.vue'
 import { findChatRaw } from '~/assets/ts/util'
 import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
 

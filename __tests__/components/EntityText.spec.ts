@@ -1,5 +1,5 @@
 import { mount, fixtures } from '../helper'
-import EntityText from '~/components/EntityText.vue'
+import EntityText from '~/components/atoms/EntityText.vue'
 import { Post } from '~/models/post'
 
 // TODO: write tests

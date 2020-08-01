@@ -6,7 +6,7 @@ import {
   fixtures,
   authedAccessor,
 } from '../helper'
-import PollView from '~/components/Poll.vue'
+import PollView from '~/components/organisms/Poll.vue'
 import { Poll } from '~/models/poll'
 
 describe('Poll component', () => {

@@ -16,8 +16,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
-import BaseList from '~/components/BaseList.vue'
-import Interaction from '~/components/Interaction.vue'
+import BaseList from '~/components/molecules/BaseList.vue'
+import Interaction from '~/components/organisms/Interaction.vue'
 
 @Component({
   inheritAttrs: false,

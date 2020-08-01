@@ -1,5 +1,5 @@
 import { shallowMount } from '../helper'
-import Splash from '~/components/Splash.vue'
+import Splash from '~/components/molecules/Splash.vue'
 
 describe('Splash component', () => {
   test('Called $auth.loginWith when login button is clicked', () => {

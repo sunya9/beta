@@ -13,8 +13,8 @@ import { ListInfo } from '~/plugins/domain/util/util'
 import { StreamType } from '~/plugins/domain/dto/streamType'
 import { Post } from '~/models/post'
 import Compose from '~/components/organisms/Compose.vue'
-import PostList from '~/components/PostList.vue'
-import Splash from '~/components/Splash.vue'
+import PostList from '~/components/organisms/PostList.vue'
+import Splash from '~/components/molecules/Splash.vue'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 
 @Component({

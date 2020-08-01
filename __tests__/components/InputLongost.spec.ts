@@ -1,6 +1,6 @@
 import { shallowMount } from '../helper'
 
-import InputLongpost from '~/components/InputLongpost.vue'
+import InputLongpost from '~/components/organisms/InputLongpost.vue'
 
 describe('InputLongpost component', () => {
   test('initial data is empty', () => {

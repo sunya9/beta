@@ -34,8 +34,8 @@
 import { Component, Prop } from 'nuxt-property-decorator'
 import { Mixins } from 'vue-property-decorator'
 import { User } from '~/models/user'
-import BaseList from '~/components/BaseList.vue'
-import PostView from '~/components/Post.vue'
+import BaseList from '~/components/molecules/BaseList.vue'
+import PostView from '~/components/organisms/Post.vue'
 import {
   sendPostNotification,
   sendMentionNotification,

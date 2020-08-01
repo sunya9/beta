@@ -35,7 +35,10 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
-import { getMenusWithMeta, MenuItem } from '../sidebar/MenuItem'
+import {
+  getMenusWithMeta,
+  MenuItem,
+} from '~/components/organisms/sidebar/MenuItem'
 
 @Component({})
 export default class PageTitle extends Vue {

@@ -8,7 +8,7 @@
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
 import { Poll } from '~/models/poll'
-import PollView from '~/components/Poll.vue'
+import PollView from '~/components/organisms/Poll.vue'
 import { PollNotice } from '~/models/raw/raw/poll-notice'
 @Component({
   components: { Poll: PollView },

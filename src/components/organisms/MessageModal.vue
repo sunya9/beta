@@ -72,8 +72,8 @@
 import BSN from 'bootstrap.native'
 import { Vue, Component } from 'nuxt-property-decorator'
 import MessageCompose from '~/components/organisms/MessageCompose.vue'
-import ChannelCompose from '~/components/ChannelCompose.vue'
-import BaseModal from '~/components/BaseModal.vue'
+import ChannelCompose from '~/components/organisms/ChannelCompose.vue'
+import BaseModal from '~/components/molecules/BaseModal.vue'
 
 interface TabMap {
   [key: string]: BSN.Tab

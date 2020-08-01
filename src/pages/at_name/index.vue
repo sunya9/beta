@@ -17,9 +17,9 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator'
 import { Post } from '~/models/post'
-import Profile from '~/components/Profile.vue'
+import Profile from '~/components/organisms/Profile.vue'
 import Compose from '~/components/organisms/Compose.vue'
-import PostList from '~/components/PostList.vue'
+import PostList from '~/components/organisms/PostList.vue'
 import { getRSSLink } from '~/assets/ts/util'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
 import { User } from '~/models/user'

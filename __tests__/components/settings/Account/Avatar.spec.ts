@@ -1,6 +1,6 @@
 import { Wrapper } from '@vue/test-utils'
 import { shallowMount, fixtures } from '../../../helper'
-import Avatar from '~/components/settings/Account/Avatar.vue'
+import Avatar from '~/components/molecules/settings/Account/Avatar.vue'
 import { User } from '~/models/user'
 
 type AvatarType = InstanceType<typeof Avatar> & {

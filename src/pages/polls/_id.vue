@@ -8,7 +8,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
-import Poll from '~/components/Poll.vue'
+import Poll from '~/components/organisms/Poll.vue'
 import { PnutResponse } from '~/models/pnut-response'
 @Component({
   components: {
