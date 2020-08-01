@@ -106,7 +106,7 @@
     "rosie": "2.0.1",
     "storycap": "2.3.5",
     "ts-jest": "26.1.4",
-    "ts-loader": "8.0.1",
+    "ts-loader": "8.0.2",
     "typescript": "3.9.7",
     "vue-docgen-api": "4.28.1",
     "vue-docgen-loader": "1.5.0",
