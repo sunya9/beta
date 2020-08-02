@@ -106,6 +106,10 @@ import {
   UpdateRelationUseCase,
   UpdateRelationInteractor,
 } from '~/plugins/domain/usecases/updateRelation'
+import {
+  UpdateProfileUseCase,
+  UpdateProfileInteractor,
+} from '~/plugins/domain/usecases/updateProfile'
 
 export function bind(context: Context) {
   container
@@ -152,4 +156,5 @@ export function bind(context: Context) {
     .register(UpdateRelationUseCase.token, {
       useClass: UpdateRelationInteractor,
     })
+    .register(UpdateProfileUseCase.token, { useClass: UpdateProfileInteractor })
 }

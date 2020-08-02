@@ -71,3 +71,12 @@ export type GetInteractionParameters = {
   exclude?: string
 } & GeneralUserParameters &
   Pagination
+
+export type UpdateUserRequest = {
+  name: string
+  content: {
+    text: string
+  }
+  timezone: string
+  locale: string
+}

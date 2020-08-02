@@ -25,6 +25,7 @@ import { CreateConnectionUseCase } from '~/plugins/domain/usecases/createConnect
 import { GetUnreadCountUseCase } from '~/plugins/domain/usecases/getUnreadCount'
 import { MarkAsReadUseCase } from '~/plugins/domain/usecases/markAsRead'
 import { UpdateRelationUseCase } from '~/plugins/domain/usecases/updateRelation'
+import { UpdateProfileUseCase } from '~/plugins/domain/usecases/updateProfile'
 
 @singleton()
 export class Interactors {
@@ -63,6 +64,8 @@ export class Interactors {
     readonly getUnreadCount: GetUnreadCountUseCase,
     @inject(MarkAsReadUseCase.token) readonly markAsRead: MarkAsReadUseCase,
     @inject(UpdateRelationUseCase.token)
-    readonly updateRelation: UpdateRelationUseCase
+    readonly updateRelation: UpdateRelationUseCase,
+    @inject(UpdateProfileUseCase.token)
+    readonly updateProfile: UpdateProfileUseCase
   ) {}
 }

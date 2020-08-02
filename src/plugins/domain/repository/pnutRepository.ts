@@ -15,6 +15,7 @@ import {
   SearchUsersRequest,
   GeneralUserParameters,
   GetInteractionParameters,
+  UpdateUserRequest,
 } from '~/plugins/domain/dto/user'
 import { File } from '~/entity/file'
 import {
@@ -208,4 +209,5 @@ export interface PnutRepository {
   follow(userId: string): Promise<PnutResponse<User>>
 
   unfollow(userId: string): Promise<PnutResponse<User>>
+  updateUser(updateUserRequest: UpdateUserRequest): Promise<PnutResponse<User>>
 }
