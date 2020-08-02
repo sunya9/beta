@@ -1,13 +1,13 @@
 import { singleton } from 'tsyringe'
-import { PnutResponse } from '~/models/pnut-response'
+import { PnutResponse } from '~/entity/pnut-response'
 import {
   AbstractCreatePostInteractor,
   AbstractInput,
   AbstractCreatePostUseCase,
 } from '~/plugins/domain/usecases/abstractCreatePost'
-import { Raw } from '~/models/raw'
-import { Message } from '~/models/message'
-import { User } from '~/models/user'
+import { Raw } from '~/entity/raw'
+import { Message } from '~/entity/message'
+import { User } from '~/entity/user'
 interface Input extends AbstractInput {
   users: User[]
 }

@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Prop, Component } from 'vue-property-decorator'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 @Component
 export default class RelationBadge extends Vue {

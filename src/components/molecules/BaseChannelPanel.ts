@@ -1,5 +1,5 @@
 import Vue, { PropOptions } from 'vue'
-import { Channel } from '~/models/channel'
+import { Channel } from '~/entity/channel'
 
 export const BaseChannelPanel = Vue.extend({
   props: {

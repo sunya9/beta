@@ -1,6 +1,6 @@
 import { singleton, inject } from 'tsyringe'
-import { PnutResponse } from '~/models/pnut-response'
-import { Post } from '~/models/post'
+import { PnutResponse } from '~/entity/pnut-response'
+import { Post } from '~/entity/post'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'
 import { StreamType } from '~/plugins/domain/dto/streamType'

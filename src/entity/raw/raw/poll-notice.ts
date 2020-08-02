@@ -1,5 +1,5 @@
-import { BaseRaw, Raw } from '~/models/raw'
-import { Poll } from '~/models/poll'
+import { BaseRaw, Raw } from '~/entity/raw'
+import { Poll } from '~/entity/poll'
 
 export namespace PollNotice {
   export const type = 'io.pnut.core.poll-notice' as const

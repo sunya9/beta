@@ -11,7 +11,7 @@ import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/organisms/PostList.vue'
 import { getTitle } from '~/assets/ts/util'
 import refreshAfterAdded from '~/assets/ts/refresh-after-added'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 @Component({
   components: {

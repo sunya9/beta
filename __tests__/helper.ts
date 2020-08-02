@@ -9,7 +9,7 @@ import { useAccessor } from 'nuxt-typed-vuex'
 import axiosMock from './axios-mock'
 import fixtures from './fixtures'
 import { getters, State, accessorType } from '~/store'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 function createStore() {
   const store = new Vuex.Store<State>({

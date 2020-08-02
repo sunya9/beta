@@ -43,8 +43,8 @@
 import { Component, Prop, Mixins } from 'vue-property-decorator'
 import markAsRead from '~/assets/ts/mark-as-read'
 import CustomCheckbox from '~/components/atoms/CustomCheckbox.vue'
-import { User } from '~/models/user'
-import { Channel } from '~/models/channel'
+import { User } from '~/entity/user'
+import { Channel } from '~/entity/channel'
 
 @Component({
   components: {

@@ -1,4 +1,4 @@
-import { BaseRaw } from '~/models/raw'
+import { BaseRaw } from '~/entity/raw'
 
 export namespace BaseOEmbed {
   export namespace MediaType {

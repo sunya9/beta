@@ -1,6 +1,6 @@
 import { Client } from './client'
 import { User } from './user'
-import { ReplacementFileRaw } from '~/models/raw/replacement-values/file'
+import { ReplacementFileRaw } from '~/entity/raw/replacement-values/file'
 
 export interface File {
   audio_info?: {

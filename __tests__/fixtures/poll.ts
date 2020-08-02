@@ -1,7 +1,7 @@
 import { fixtures } from '../helper'
 import { testClient } from './client'
-import { Poll } from '~/models/poll'
-import { User } from '~/models/user'
+import { Poll } from '~/entity/poll'
+import { User } from '~/entity/user'
 
 const now = new Date()
 const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)

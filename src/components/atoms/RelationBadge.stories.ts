@@ -1,6 +1,6 @@
 import RelationBadge from './RelationBadge.vue'
 import { getFixtures } from '~/fixtures'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import { accessorType } from '~/store'
 import { DeepPartial } from '~/../types'
 import { assignAccessor } from '~/fixtures/accessor'

@@ -1,13 +1,13 @@
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
-import { Raw } from '~/models/raw'
-import { Spoiler } from '~/models/raw/raw/spoiler'
-import { LongPost } from '~/models/raw/raw/long-post'
+import { Raw } from '~/entity/raw'
+import { Spoiler } from '~/entity/raw/raw/spoiler'
+import { LongPost } from '~/entity/raw/raw/long-post'
 import { createRawList } from '~/util/createRawList'
 import { createVideoEmbedRaw } from '~/assets/ts/oembed'
 import { CreateFileUseCase } from '~/plugins/domain/usecases/createFile'
 import { CreatePollUseCase } from '~/plugins/domain/usecases/createPoll'
-import { PollNotice } from '~/models/raw/raw/poll-notice'
+import { PollNotice } from '~/entity/raw/raw/poll-notice'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 
 export interface AbstractInput {

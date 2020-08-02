@@ -7,7 +7,7 @@ import {
   authedAccessor,
 } from '../helper'
 import PostModal from '~/components/organisms/PostModal.vue'
-import { Post } from '~/models/post'
+import { Post } from '~/entity/post'
 
 type PostModalType = InstanceType<typeof PostModal> & {
   show: (post: Post) => void

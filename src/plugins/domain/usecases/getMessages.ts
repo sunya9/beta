@@ -1,11 +1,11 @@
 import { singleton, inject } from 'tsyringe'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
-import { Message } from '~/models/message'
+import { Message } from '~/entity/message'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralMessageParameters } from '~/plugins/domain/dto/message'
 import { Pagination } from '~/plugins/domain/dto/common'
 import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
-import { Channel } from '~/models/channel'
+import { Channel } from '~/entity/channel'
 
 interface Input {
   channelId: string

@@ -1,5 +1,5 @@
-import { BaseRaw } from '~/models/raw'
-import { ReplacementFile } from '~/models/raw/replacement-values/file'
+import { BaseRaw } from '~/entity/raw'
+import { ReplacementFile } from '~/entity/raw/replacement-values/file'
 
 export namespace ChannelAvatarImage {
   export const type = 'io.pnut.core.channel.avatar' as const

@@ -1,5 +1,5 @@
 import fixtures from '.'
-import { Channel } from '~/models/channel'
+import { Channel } from '~/entity/channel'
 
 const baseChannel: Channel = {
   id: '1',

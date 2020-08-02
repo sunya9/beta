@@ -94,8 +94,8 @@ import Cover from './Cover.vue'
 import Avatar from './Avatar.vue'
 import locales from '~/assets/json/locales.json'
 import timezones from '~/assets/json/timezones.json'
-import { PnutResponse } from '~/models/pnut-response'
-import { User } from '~/models/user'
+import { PnutResponse } from '~/entity/pnut-response'
+import { User } from '~/entity/user'
 
 @Component({
   components: {

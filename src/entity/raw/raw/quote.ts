@@ -1,4 +1,4 @@
-import { BaseRaw } from '~/models/raw'
+import { BaseRaw } from '~/entity/raw'
 
 export namespace Quote {
   export const type = 'com.hutattedonmyarm.quote' as const

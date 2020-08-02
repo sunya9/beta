@@ -10,7 +10,7 @@ import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import Compose from '~/components/organisms/Compose.vue'
 import PostList from '~/components/organisms/PostList.vue'
-import { Post } from '~/models/post'
+import { Post } from '~/entity/post'
 import { ListInfo } from '~/plugins/domain/util/util'
 
 @Component({

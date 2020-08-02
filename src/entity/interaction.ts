@@ -1,7 +1,7 @@
 import { Pageable } from './pageable'
 import { Post } from './post'
 import { User } from './user'
-import { Poll } from '~/models/poll'
+import { Poll } from '~/entity/poll'
 
 interface BaseInteraction<T> extends Pageable {
   event_date: Date

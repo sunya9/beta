@@ -1,18 +1,18 @@
 import { singleton, inject } from 'tsyringe'
-import { PnutResponse } from '~/models/pnut-response'
+import { PnutResponse } from '~/entity/pnut-response'
 import {
   AbstractCreatePostUseCase,
   AbstractCreatePostInteractor,
   AbstractInput,
 } from '~/plugins/domain/usecases/abstractCreatePost'
-import { Message } from '~/models/message'
-import { Crosspost } from '~/models/raw/raw/crosspost'
-import { ChannelInvite } from '~/models/raw/raw/channel-invite'
+import { Message } from '~/entity/message'
+import { Crosspost } from '~/entity/raw/raw/crosspost'
+import { ChannelInvite } from '~/entity/raw/raw/channel-invite'
 import { CreatePostUseCase } from '~/plugins/domain/usecases/createPost'
 import { CreatePollUseCase } from '~/plugins/domain/usecases/createPoll'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { CreateFileUseCase } from '~/plugins/domain/usecases/createFile'
-import { Raw } from '~/models/raw'
+import { Raw } from '~/entity/raw'
 
 export interface Input extends AbstractInput {
   channelId: string

@@ -6,8 +6,8 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import Account from '~/components/molecules/settings/Account/index.vue'
-import { PnutResponse } from '~/models/pnut-response'
-import { User } from '~/models/user'
+import { PnutResponse } from '~/entity/pnut-response'
+import { User } from '~/entity/user'
 
 @Component({
   components: {

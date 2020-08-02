@@ -7,7 +7,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import UserList from '~/components/organisms/UserList.vue'
 import { ListInfo } from '~/plugins/domain/util/util'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 @Component({
   components: {

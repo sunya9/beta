@@ -1,4 +1,4 @@
-import { BaseRaw } from '~/models/raw'
+import { BaseRaw } from '~/entity/raw'
 
 export namespace ChannelInvite {
   export const type = 'io.pnut.core.channel.invite' as const

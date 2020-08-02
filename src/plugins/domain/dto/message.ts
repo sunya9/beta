@@ -4,7 +4,7 @@ import {
   RawRequest,
   Pagination,
 } from '~/plugins/domain/dto/common'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 export type GeneralMessageParameters = {
   include_deleted?: boolean

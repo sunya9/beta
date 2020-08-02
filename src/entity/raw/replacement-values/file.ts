@@ -1,5 +1,5 @@
-import { BaseRaw } from '~/models/raw'
-import { OEmbed } from '~/models/raw/raw/oembed'
+import { BaseRaw } from '~/entity/raw'
+import { OEmbed } from '~/entity/raw/raw/oembed'
 export interface ReplacementFile {
   file_token: string
   format: 'oembed'

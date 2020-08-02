@@ -51,7 +51,7 @@ import FollowButton from '~/components/atoms/FollowButton.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import EntityText from '~/components/atoms/EntityText.vue'
 import MuteButton from '~/components/atoms/MuteButton.vue'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import UserPopper from '~/components/molecules/UserPopper.vue'
 
 export default Vue.extend({

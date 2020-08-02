@@ -1,6 +1,6 @@
 import { singleton, inject } from 'tsyringe'
 import { UserId } from '~/plugins/domain/dto/common'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import { GeneralUserParameters } from '~/plugins/domain/dto/user'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { UseCase } from '~/plugins/domain/usecases/usecase'

@@ -54,8 +54,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
-import { PnutResponse } from '~/models/pnut-response'
-import { Stats } from '~/models/stats'
+import { PnutResponse } from '~/entity/pnut-response'
+import { Stats } from '~/entity/stats'
 
 @Component({
   async asyncData({ app: { $interactors } }) {

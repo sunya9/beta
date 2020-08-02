@@ -1,6 +1,6 @@
 import { singleton, inject } from 'tsyringe'
-import { User } from '~/models/user'
-import { PnutResponse } from '~/models/pnut-response'
+import { User } from '~/entity/user'
+import { PnutResponse } from '~/entity/pnut-response'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'

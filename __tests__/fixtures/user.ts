@@ -1,4 +1,4 @@
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 const baseUser: User = {
   id: '1',

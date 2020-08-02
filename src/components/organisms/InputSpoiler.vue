@@ -15,7 +15,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { Spoiler } from '~/models/raw/raw/spoiler'
+import { Spoiler } from '~/entity/raw/raw/spoiler'
 
 export default Vue.extend({
   data() {

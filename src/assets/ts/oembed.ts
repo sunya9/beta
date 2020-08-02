@@ -1,4 +1,4 @@
-import { OEmbed } from '~/models/raw/raw/oembed'
+import { OEmbed } from '~/entity/raw/raw/oembed'
 
 const youtube = {
   regexp: /https?:\/\/(?:(?:www)?\.youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9\-_]+)/g,

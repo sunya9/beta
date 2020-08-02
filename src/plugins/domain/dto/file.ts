@@ -1,4 +1,4 @@
-import { File } from '~/models/file'
+import { File } from '~/entity/file'
 
 export type GeneralFileParameters = {
   include_incomplete?: boolean

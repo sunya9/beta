@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Sidebar from './Sidebar.vue'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import { MenuItem } from '~/components/organisms/sidebar/MenuItem'
 
 export function createAppMenus({

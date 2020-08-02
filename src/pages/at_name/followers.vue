@@ -7,7 +7,7 @@ import Vue from 'vue'
 import { Component } from 'nuxt-property-decorator'
 import { ListInfo } from '~/plugins/domain/util/util'
 import UserList from '~/components/organisms/UserList.vue'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 @Component({
   middleware: 'auth',

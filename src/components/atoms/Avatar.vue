@@ -16,7 +16,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import deletedUser from '~/assets/img/beta.svg'
 
 function sizeValidator(numLike: string) {

@@ -1,4 +1,4 @@
-import { BaseRaw } from '~/models/raw'
+import { BaseRaw } from '~/entity/raw'
 
 export namespace Crosspost {
   export const type = 'io.pnut.core.crosspost' as const

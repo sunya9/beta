@@ -1,4 +1,4 @@
-import { Post } from '~/models/post'
+import { Post } from '~/entity/post'
 import { getImageURLs } from '~/assets/ts/util'
 
 export function getHtmlMeta(post?: Post) {

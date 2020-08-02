@@ -19,7 +19,7 @@ import { Mixins, Component } from 'vue-property-decorator'
 import { Search } from '~/assets/ts/search'
 import PostList from '~/components/organisms/PostList.vue'
 import { getRSSLink } from '~/assets/ts/util'
-import { Post } from '~/models/post'
+import { Post } from '~/entity/post'
 import { ListInfo } from '~/plugins/domain/util/util'
 
 @Component({

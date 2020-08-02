@@ -1,9 +1,9 @@
 import { singleton, inject } from 'tsyringe'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
-import { PnutResponse } from '~/models/pnut-response'
-import { File as PnutFile } from '~/models/file'
+import { PnutResponse } from '~/entity/pnut-response'
+import { File as PnutFile } from '~/entity/file'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
-import { ReplacementFileRaw } from '~/models/raw/replacement-values/file'
+import { ReplacementFileRaw } from '~/entity/raw/replacement-values/file'
 
 interface Input {
   files: File[]

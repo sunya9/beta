@@ -7,9 +7,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
-import { Poll } from '~/models/poll'
+import { Poll } from '~/entity/poll'
 import PollView from '~/components/organisms/Poll.vue'
-import { PollNotice } from '~/models/raw/raw/poll-notice'
+import { PollNotice } from '~/entity/raw/raw/poll-notice'
 @Component({
   components: { Poll: PollView },
 })

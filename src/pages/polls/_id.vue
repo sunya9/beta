@@ -9,7 +9,7 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import Poll from '~/components/organisms/Poll.vue'
-import { PnutResponse } from '~/models/pnut-response'
+import { PnutResponse } from '~/entity/pnut-response'
 @Component({
   components: {
     Poll,

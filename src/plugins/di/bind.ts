@@ -4,7 +4,7 @@ import {
   CreateFileInteractor,
   CreateFileUseCase,
 } from '~/plugins/domain/usecases/createFile'
-import { PnutRepositoryImpl } from '~/plugins/infrastructure/pnutRepositoryImpl'
+import { PnutRepositoryImpl } from '~/plugins/infrastructure/repository/pnutRepositoryImpl'
 import {
   CreatePollInteractor,
   CreatePollUseCase,

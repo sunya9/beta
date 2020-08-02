@@ -9,7 +9,7 @@ import {
   authedAccessor,
 } from '../helper'
 import MessageCompose from '~/components/organisms/MessageCompose.vue'
-import { Channel } from '~/models/channel'
+import { Channel } from '~/entity/channel'
 
 describe('MessageCompose component', () => {
   let wrapper: Wrapper<Vue>

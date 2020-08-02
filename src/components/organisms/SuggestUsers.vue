@@ -46,7 +46,7 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import debounce from 'lodash/debounce'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import Avatar from '~/components/atoms/Avatar.vue'
 
 @Component({

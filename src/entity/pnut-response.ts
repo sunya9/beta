@@ -1,4 +1,4 @@
-import { Unread } from '~/models/Unread'
+import { Unread } from '~/entity/Unread'
 
 export interface PnutResponse<T> {
   meta: PnutResponse.Meta

@@ -1,5 +1,5 @@
 import { getTitle } from './util'
-import { Post, DefinitelyPost } from '~/models/post'
+import { Post, DefinitelyPost } from '~/entity/post'
 
 function isEnabledNotification() {
   return localStorage.getItem('notification') === 'true'

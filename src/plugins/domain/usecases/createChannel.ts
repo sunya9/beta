@@ -1,9 +1,9 @@
 import { singleton, inject } from 'tsyringe'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
-import { PnutResponse } from '~/models/pnut-response'
-import { Channel } from '~/models/channel'
-import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
+import { PnutResponse } from '~/entity/pnut-response'
+import { Channel } from '~/entity/channel'
+import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
 
 interface Input {
   name: string

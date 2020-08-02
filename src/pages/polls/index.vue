@@ -11,7 +11,7 @@ import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import PollList from '~/components/organisms/PollList.vue'
 import { ListInfo } from '~/plugins/domain/util/util'
-import { Poll } from '~/models/poll'
+import { Poll } from '~/entity/poll'
 
 @Component({
   middleware: ['auth'],

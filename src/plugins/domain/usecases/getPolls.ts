@@ -1,7 +1,7 @@
 import { singleton, inject } from 'tsyringe'
 import { GeneralPollParameters } from '~/plugins/domain/dto/poll'
 import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
-import { Poll } from '~/models/poll'
+import { Poll } from '~/entity/poll'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { Pagination } from '~/plugins/domain/dto/common'

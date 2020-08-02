@@ -2,7 +2,7 @@ import { singleton, inject } from 'tsyringe'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
-import { Channel } from '~/models/channel'
+import { Channel } from '~/entity/channel'
 import { GeneralChannelParameters } from '~/plugins/domain/dto/channel'
 import { Pagination } from '~/plugins/domain/dto/common'
 

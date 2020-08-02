@@ -72,7 +72,7 @@
 import { Component, Prop, Watch } from 'nuxt-property-decorator'
 import { Mixins } from 'vue-property-decorator'
 import { createCompose } from './ComposeAbstract'
-import { Post } from '~/models/post'
+import { Post } from '~/entity/post'
 import bus from '~/assets/ts/bus'
 import Thumb from '~/components/molecules/Thumb.vue'
 import InputPoll from '~/components/organisms/InputPoll.vue'

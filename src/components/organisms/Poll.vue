@@ -71,7 +71,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 import { cloneDeep } from 'lodash'
-import { Poll } from '~/models/poll'
+import { Poll } from '~/entity/poll'
 
 @Component
 export default class extends Vue {

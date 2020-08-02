@@ -1,7 +1,7 @@
 import fixtures from '.'
-import { Interaction } from '~/models/interaction'
-import { Post } from '~/models/post'
-import { User } from '~/models/user'
+import { Interaction } from '~/entity/interaction'
+import { Post } from '~/entity/post'
+import { User } from '~/entity/user'
 
 const post = fixtures<Post>('post')
 

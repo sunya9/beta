@@ -1,6 +1,6 @@
-import { Poll } from '~/models/poll'
-import { Spoiler } from '~/models/raw/raw/spoiler'
-import { LongPost } from '~/models/raw/raw/long-post'
+import { Poll } from '~/entity/poll'
+import { Spoiler } from '~/entity/raw/raw/spoiler'
+import { LongPost } from '~/entity/raw/raw/long-post'
 
 const oneDayMin = 60 * 24
 export function getMinimumPoll(): Poll.PostBody {

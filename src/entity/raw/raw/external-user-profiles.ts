@@ -1,4 +1,4 @@
-import { BaseRaw } from '~/models/raw'
+import { BaseRaw } from '~/entity/raw'
 
 export namespace ExternalUserProfiles {
   export const type = 'me.rafaelcosta.user.profiles' as const

@@ -24,7 +24,7 @@
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
 import { FileWrapper } from '~/components/organisms/ComposeAbstract'
-import { Token } from '~/models/token'
+import { Token } from '~/entity/token'
 
 @Component({})
 export default class AddFile extends Vue {

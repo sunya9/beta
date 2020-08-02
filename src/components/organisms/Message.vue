@@ -166,9 +166,9 @@ import {
   AudioForView,
   MinimumUser,
 } from '~/assets/ts/util'
-import { User } from '~/models/user'
-import { Message } from '~/models/message'
-import { Spoiler } from '~/models/raw/raw/spoiler'
+import { User } from '~/entity/user'
+import { Message } from '~/entity/message'
+import { Spoiler } from '~/entity/raw/raw/spoiler'
 import Sound from '~/components/molecules/Sound.vue'
 
 @Component({

@@ -38,8 +38,8 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { User } from '~/models/user'
-import { PnutResponse } from '~/models/pnut-response'
+import { User } from '~/entity/user'
+import { PnutResponse } from '~/entity/pnut-response'
 
 function isFileInput(t: EventTarget): t is HTMLInputElement {
   return 'files' in t

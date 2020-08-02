@@ -4,7 +4,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
-import { File } from '~/models/file'
+import { File } from '~/entity/file'
 import FileView from '~/components/organisms/FileView.vue'
 
 @Component({

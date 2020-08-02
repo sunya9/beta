@@ -1,6 +1,6 @@
 import { singleton, inject } from 'tsyringe'
 import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
-import { Post } from '~/models/post'
+import { Post } from '~/entity/post'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'

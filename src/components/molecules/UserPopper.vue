@@ -15,7 +15,7 @@
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
 import UserPopperInner from './UserPopperInner.vue'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 @Component({
   components: { UserPopperInner },

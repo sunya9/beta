@@ -5,7 +5,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'nuxt-property-decorator'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import UserList from '~/components/organisms/UserList.vue'
 import { ListInfo } from '~/plugins/domain/util/util'
 

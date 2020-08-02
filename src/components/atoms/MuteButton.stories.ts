@@ -1,7 +1,7 @@
 import { withKnobs } from '@storybook/addon-knobs'
 import MuteButton from './MuteButton.vue'
 import { getFixtures } from '~/fixtures'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 export default { title: 'atoms/MuteButton', decorators: [withKnobs] }
 
