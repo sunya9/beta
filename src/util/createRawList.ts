@@ -1,4 +1,4 @@
-import { Raw } from '~/models/raw'
+import { Raw } from '~/entity/raw'
 
 export function createRawList(
   ...nullableRawList: Array<Raw | undefined>

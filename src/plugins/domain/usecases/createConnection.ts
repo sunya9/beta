@@ -2,12 +2,12 @@
 import { inject, singleton } from 'tsyringe'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
-import { Connection } from '~/models/connection'
+import { Connection } from '~/entity/connection'
 import { ConfigRepository } from '~/plugins/domain/repository/configStorage'
-import { PnutResponse } from '~/models/pnut-response'
-import { Post } from '~/models/post'
-import { Channel } from '~/models/channel'
-import { Message } from '~/models/message'
+import { PnutResponse } from '~/entity/pnut-response'
+import { Post } from '~/entity/post'
+import { Channel } from '~/entity/channel'
+import { Message } from '~/entity/message'
 
 interface Input {
   accessToken: string

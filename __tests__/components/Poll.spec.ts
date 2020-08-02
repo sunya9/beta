@@ -7,7 +7,7 @@ import {
   authedAccessor,
 } from '../helper'
 import PollView from '~/components/organisms/Poll.vue'
-import { Poll } from '~/models/poll'
+import { Poll } from '~/entity/poll'
 
 describe('Poll component', () => {
   let wrapper: Wrapper<InstanceType<typeof PollView>>

@@ -124,7 +124,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import draggable from 'vuedraggable'
-import { Poll } from '~/models/poll'
+import { Poll } from '~/entity/poll'
 
 const ONE_DAY_MINUTE = 1440
 const PER_HOUR = 60

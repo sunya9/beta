@@ -1,7 +1,7 @@
 import { Wrapper } from '@vue/test-utils'
 import { mount, authedAccessor } from '../helper'
 import FollowButton from '~/components/atoms/FollowButton.vue'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 describe('FollowButton component', () => {
   let wrapper: Wrapper<Vue>

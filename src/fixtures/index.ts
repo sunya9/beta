@@ -1,6 +1,6 @@
 import { Factory } from 'rosie'
 import '~/fixtures/user'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 type FixtureType = 'user'
 

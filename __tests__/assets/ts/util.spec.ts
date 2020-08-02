@@ -1,9 +1,9 @@
 import { fixtures } from '../../helper'
 import * as util from '~/assets/ts/util'
-import { Post } from '~/models/post'
-import { Channel } from '~/models/channel'
-import { OEmbed } from '~/models/raw/raw/oembed'
-import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
+import { Post } from '~/entity/post'
+import { Channel } from '~/entity/channel'
+import { OEmbed } from '~/entity/raw/raw/oembed'
+import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
 
 describe('util', () => {
   test('getRSSLink', () => {

@@ -9,7 +9,7 @@ import {
   StreamMarkerParams,
 } from '~/plugins/domain/dto/common'
 import { UserIdRequest } from '~/plugins/domain/dto/user'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 export type GeneralPostParameters = Pagination & {
   include_deleted?: boolean

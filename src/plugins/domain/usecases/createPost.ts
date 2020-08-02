@@ -1,6 +1,6 @@
 import { singleton, inject } from 'tsyringe'
-import { Post } from '~/models/post'
-import { PnutResponse } from '~/models/pnut-response'
+import { Post } from '~/entity/post'
+import { PnutResponse } from '~/entity/pnut-response'
 import {
   AbstractInput,
   AbstractCreatePostUseCase,

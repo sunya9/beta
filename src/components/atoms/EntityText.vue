@@ -60,7 +60,7 @@ import unicodeSubstring from 'unicode-substring'
 import stringLength from 'string-length'
 import BSN from 'bootstrap.native'
 import NuxtLinkMod from '~/components/atoms/NuxtLinkMod.vue'
-import { Entity } from '~/models/entity'
+import { Entity } from '~/entity/entity'
 
 interface ExtendedLinkInfo {
   link: string

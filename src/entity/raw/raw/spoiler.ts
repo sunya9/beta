@@ -1,4 +1,4 @@
-import { BaseRaw } from '~/models/raw'
+import { BaseRaw } from '~/entity/raw'
 
 export namespace Spoiler {
   export const type = 'shawn.spoiler' as const

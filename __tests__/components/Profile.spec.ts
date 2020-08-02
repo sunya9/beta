@@ -13,7 +13,7 @@ import {
   authedAccessor,
 } from '../helper'
 import Profile from '~/components/organisms/Profile.vue'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 type ProfileType = Vue & typeof Profile
 

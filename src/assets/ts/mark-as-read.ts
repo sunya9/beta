@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Channel } from '~/models/channel'
+import { Channel } from '~/entity/channel'
 
 // need channel data
 export default Vue.extend({

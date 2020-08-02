@@ -1,6 +1,6 @@
 import Router from 'vue-router'
 import FileRow from './FileRow.vue'
-import { File } from '~/models/file'
+import { File } from '~/entity/file'
 import { DeepPartial } from '~/../types'
 export default { title: 'molecules/FileRow' }
 

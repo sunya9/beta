@@ -27,7 +27,7 @@ import { Component } from 'vue-property-decorator'
 import PostView from '~/components/organisms/Post.vue'
 import Compose from '~/components/organisms/Compose.vue'
 import BaseModal from '~/components/molecules/BaseModal.vue'
-import { Post } from '~/models/post'
+import { Post } from '~/entity/post'
 
 @Component({
   components: {

@@ -233,9 +233,9 @@ import EntityText from '~/components/atoms/EntityText.vue'
 import BlockButton from '~/components/atoms/BlockButton.vue'
 import MuteButton from '~/components/atoms/MuteButton.vue'
 import createPmModal from '~/components/organisms/CreatePmModal.vue'
-import { User } from '~/models/user'
-import { Channel } from '~/models/channel'
-import { PnutResponse } from '~/models/pnut-response'
+import { User } from '~/entity/user'
+import { Channel } from '~/entity/channel'
+import { PnutResponse } from '~/entity/pnut-response'
 
 export default Vue.extend({
   components: {

@@ -1,6 +1,6 @@
 import { singleton, inject } from 'tsyringe'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 
 interface Input {

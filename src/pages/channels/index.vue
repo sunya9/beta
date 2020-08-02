@@ -37,7 +37,7 @@
 <script lang="ts">
 import { Component } from 'nuxt-property-decorator'
 import { Mixins } from 'vue-property-decorator'
-import { Channel } from '~/models/channel'
+import { Channel } from '~/entity/channel'
 import MessageCompose from '~/components/organisms/MessageCompose.vue'
 import ChannelCompose from '~/components/organisms/ChannelCompose.vue'
 import ChannelList from '~/components/organisms/ChannelList.vue'

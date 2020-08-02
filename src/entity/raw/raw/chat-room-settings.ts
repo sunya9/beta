@@ -1,4 +1,4 @@
-import { BaseRaw, Raw } from '~/models/raw'
+import { BaseRaw, Raw } from '~/entity/raw'
 
 export namespace ChatRoomSettings {
   export const type = 'io.pnut.core.chat-settings' as const

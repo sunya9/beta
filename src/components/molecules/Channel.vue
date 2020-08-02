@@ -67,9 +67,9 @@ import { Prop, Component } from 'vue-property-decorator'
 import Avatar from '~/components/atoms/Avatar.vue'
 import UserPopper from '~/components/molecules/UserPopper.vue'
 import { getSpoiler, findChatValueRaw } from '~/assets/ts/util'
-import { Channel } from '~/models/channel'
-import { Spoiler } from '~/models/raw/raw/spoiler'
-import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
+import { Channel } from '~/entity/channel'
+import { Spoiler } from '~/entity/raw/raw/spoiler'
+import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
 import { userIdsIsString } from '~/util/channel'
 
 function isSimpleUser(

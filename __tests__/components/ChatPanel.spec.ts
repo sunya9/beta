@@ -1,7 +1,7 @@
 import { shallowMount, fixtures, createStore } from '../helper'
 import ChatPanel from '~/components/organisms/ChatPanel.vue'
-import { Channel } from '~/models/channel'
-import { ChatRoomSettings } from '~/models/raw/raw/chat-room-settings'
+import { Channel } from '~/entity/channel'
+import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
 
 describe('ChatPanel component', () => {
   test('Show RSS Link when publicly channel', () => {

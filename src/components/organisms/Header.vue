@@ -169,7 +169,7 @@ import BSN from 'bootstrap.native'
 import SearchForm from '~/components/molecules/SearchForm.vue'
 import Sidebar from '~/components/organisms/sidebar/Sidebar.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import MessageIcon from '~/components/organisms/MessageIcon.vue'
 import AppDropdown from '~/components/molecules/AppDropdown.vue'
 

@@ -1,4 +1,4 @@
-import { BaseRaw } from '~/models/raw'
+import { BaseRaw } from '~/entity/raw'
 
 export namespace BroadcastNotice {
   export const type = 'net.patter-app.broadcast' as const

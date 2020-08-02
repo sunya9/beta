@@ -4,7 +4,7 @@ import {
   SearchType,
   Pagination,
 } from '~/plugins/domain/dto/common'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 export type GeneralUserParameters = {
   include_html?: boolean

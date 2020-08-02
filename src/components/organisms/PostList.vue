@@ -33,7 +33,7 @@
 <script lang="ts">
 import { Component, Prop } from 'nuxt-property-decorator'
 import { Mixins } from 'vue-property-decorator'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import BaseList from '~/components/molecules/BaseList.vue'
 import PostView from '~/components/organisms/Post.vue'
 import {
@@ -41,7 +41,7 @@ import {
   sendMentionNotification,
 } from '~/assets/ts/notification-wrapper'
 import keyBinding, { forList } from '~/assets/ts/key-binding'
-import { Post } from '~/models/post'
+import { Post } from '~/entity/post'
 import { ListInfo } from '~/plugins/domain/util/util'
 
 const keyMap = {

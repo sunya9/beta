@@ -9,7 +9,7 @@
 </template>
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 export default Vue.extend({
   props: {

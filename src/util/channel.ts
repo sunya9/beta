@@ -1,4 +1,4 @@
-import { Channel } from '~/models/channel'
+import { Channel } from '~/entity/channel'
 
 export function userIdsIsString(
   userIds: Array<string | Channel.SimpleUser>

@@ -1,6 +1,6 @@
 import { injectable, inject } from 'tsyringe'
-import { PnutResponse } from '~/models/pnut-response'
-import { Marker } from '~/models/marker'
+import { PnutResponse } from '~/entity/pnut-response'
+import { Marker } from '~/entity/marker'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 

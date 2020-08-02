@@ -384,9 +384,9 @@ import Sound from '~/components/molecules/Sound.vue'
 import PollNoticeView from '~/components/organisms/PollNotice.vue'
 import EntityText from '~/components/atoms/EntityText.vue'
 import Nsfw from '~/components/organisms/Nsfw.vue'
-import { Post } from '~/models/post'
-import { PollNotice } from '~/models/raw/raw/poll-notice'
-import { User } from '~/models/user'
+import { Post } from '~/entity/post'
+import { PollNotice } from '~/entity/raw/raw/poll-notice'
+import { User } from '~/entity/user'
 
 import {
   getImageURLs,
@@ -404,7 +404,7 @@ import {
   ImageForView,
 } from '~/assets/ts/util'
 import listItem from '~/assets/ts/list-item'
-import { Spoiler } from '~/models/raw/raw/spoiler'
+import { Spoiler } from '~/entity/raw/raw/spoiler'
 
 const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
 

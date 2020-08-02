@@ -28,8 +28,8 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
 import Avatar from '~/components/atoms/Avatar.vue'
-import { Channel } from '~/models/channel'
-import { User } from '~/models/user'
+import { Channel } from '~/entity/channel'
+import { User } from '~/entity/user'
 
 type Kind = 'owner' | 'full' | 'write' | 'read'
 

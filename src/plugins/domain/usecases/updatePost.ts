@@ -1,8 +1,8 @@
 import { singleton, inject } from 'tsyringe'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
-import { Post } from '~/models/post'
-import { PnutResponse } from '~/models/pnut-response'
+import { Post } from '~/entity/post'
+import { PnutResponse } from '~/entity/pnut-response'
 
 interface Input {
   postId: string

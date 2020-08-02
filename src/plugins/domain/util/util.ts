@@ -1,5 +1,5 @@
 import { Pagination, FetchMoreResult } from '~/plugins/domain/dto/common'
-import { PnutResponse } from '~/models/pnut-response'
+import { PnutResponse } from '~/entity/pnut-response'
 
 export type InsertPosition = 'first' | 'last'
 

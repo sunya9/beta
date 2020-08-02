@@ -62,7 +62,7 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import { ListInfo } from '~/plugins/domain/util/util'
-import { Interaction } from '~/models/interaction'
+import { Interaction } from '~/entity/interaction'
 import InteractionList from '~/components/organisms/InteractionList.vue'
 
 @Component({

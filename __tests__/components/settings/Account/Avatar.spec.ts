@@ -1,7 +1,7 @@
 import { Wrapper } from '@vue/test-utils'
 import { shallowMount, fixtures } from '../../../helper'
 import Avatar from '~/components/molecules/settings/Account/Avatar.vue'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 type AvatarType = InstanceType<typeof Avatar> & {
   avatarChanged: (e: { target: { files: { size: number }[] } }) => Promise<void>

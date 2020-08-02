@@ -1,4 +1,4 @@
-import { BaseRaw } from '~/models/raw'
+import { BaseRaw } from '~/entity/raw'
 
 export namespace LongPost {
   export const type = 'nl.chimpnut.blog.post' as const

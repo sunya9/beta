@@ -2,8 +2,8 @@ import { singleton, inject } from 'tsyringe'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { GeneralFileParameters } from '~/plugins/domain/dto/file'
-import { PnutResponse } from '~/models/pnut-response'
-import { File } from '~/models/file'
+import { PnutResponse } from '~/entity/pnut-response'
+import { File } from '~/entity/file'
 
 interface Input {
   id: string

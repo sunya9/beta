@@ -1,6 +1,6 @@
 import { singleton, inject } from 'tsyringe'
-import { PnutResponse } from '~/models/pnut-response'
-import { Stats } from '~/models/stats'
+import { PnutResponse } from '~/entity/pnut-response'
+import { Stats } from '~/entity/stats'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 

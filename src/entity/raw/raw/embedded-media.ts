@@ -1,5 +1,5 @@
-import { BaseRaw } from '~/models/raw'
-import { BaseOEmbed } from '~/models/raw/raw/oembed'
+import { BaseRaw } from '~/entity/raw'
+import { BaseOEmbed } from '~/entity/raw/raw/oembed'
 
 export namespace EmbeddedMedia {
   export const type = 'io.pnut.core.oembed' as const

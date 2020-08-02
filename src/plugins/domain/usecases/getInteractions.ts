@@ -1,5 +1,5 @@
 import { singleton, inject } from 'tsyringe'
-import { Interaction } from '~/models/interaction'
+import { Interaction } from '~/entity/interaction'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { InteractionType } from '~/plugins/domain/dto/common'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'

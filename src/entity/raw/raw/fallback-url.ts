@@ -1,4 +1,4 @@
-import { BaseRaw } from '~/models/raw'
+import { BaseRaw } from '~/entity/raw'
 export namespace FallbackUrl {
   export const type = 'io.pnut.core.fallback_url' as const
   export interface Value {

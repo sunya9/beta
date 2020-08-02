@@ -2,7 +2,7 @@ import { singleton, inject } from 'tsyringe'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
-import { Poll } from '~/models/poll'
+import { Poll } from '~/entity/poll'
 
 interface Input {
   poll: CreatePollRequest

@@ -165,7 +165,7 @@
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
 import convert from 'convert-units'
-import { File } from '~/models/file'
+import { File } from '~/entity/file'
 import SourceLink from '~/components/atoms/SourceLink.vue'
 
 @Component({

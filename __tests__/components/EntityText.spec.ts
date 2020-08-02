@@ -1,6 +1,6 @@
 import { mount, fixtures } from '../helper'
 import EntityText from '~/components/atoms/EntityText.vue'
-import { Post } from '~/models/post'
+import { Post } from '~/entity/post'
 
 // TODO: write tests
 describe('EntityText component', () => {

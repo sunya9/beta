@@ -4,7 +4,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
-import { Source } from '~/models/source'
+import { Source } from '~/entity/source'
 
 @Component
 export default class SourceLink extends Vue {

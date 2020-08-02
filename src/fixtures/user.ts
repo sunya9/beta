@@ -1,5 +1,5 @@
 import { Factory } from 'rosie'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 
 Factory.define<User>('user')
   .sequence('id')

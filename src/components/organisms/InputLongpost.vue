@@ -30,7 +30,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import { LongPost } from '~/models/raw/raw/long-post'
+import { LongPost } from '~/entity/raw/raw/long-post'
 
 export default Vue.extend({
   data() {

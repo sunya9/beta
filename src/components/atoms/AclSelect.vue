@@ -19,8 +19,8 @@
 </template>
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { User } from '~/models/user'
-import { Channel } from '~/models/channel'
+import { User } from '~/entity/user'
+import { Channel } from '~/entity/channel'
 
 const permissions: Channel.Permission[] = ['read', 'write', 'full']
 export default Vue.extend({

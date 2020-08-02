@@ -1,4 +1,4 @@
-import { BaseRaw } from '~/models/raw'
+import { BaseRaw } from '~/entity/raw'
 
 export namespace LivePhoto {
   export const type = 'com.hutattedonmyarm.livephoto' as const

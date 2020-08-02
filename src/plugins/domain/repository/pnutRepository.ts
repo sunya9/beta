@@ -1,5 +1,5 @@
-import { PnutResponse } from '~/models/pnut-response'
-import { Post } from '~/models/post'
+import { PnutResponse } from '~/entity/pnut-response'
+import { Post } from '~/entity/post'
 import {
   GeneralPostParameters,
   ExploreSlugType,
@@ -10,25 +10,25 @@ import {
   HomeStreamRequest,
   MentionRequest,
 } from '~/plugins/domain/dto/post'
-import { Interaction } from '~/models/interaction'
+import { Interaction } from '~/entity/interaction'
 import {
   SearchUsersRequest,
   GeneralUserParameters,
   GetInteractionParameters,
 } from '~/plugins/domain/dto/user'
-import { File } from '~/models/file'
+import { File } from '~/entity/file'
 import {
   CreatePollRequest,
   GeneralPollParameters,
   GetPollRequest,
 } from '~/plugins/domain/dto/poll'
-import { Poll } from '~/models/poll'
+import { Poll } from '~/entity/poll'
 import { GeneralFileParameters, FileIdRequest } from '~/plugins/domain/dto/file'
 import {
   CreateMessageRequest,
   GeneralMessageParameters,
 } from '~/plugins/domain/dto/message'
-import { Message } from '~/models/message'
+import { Message } from '~/entity/message'
 import {
   CreateChannelRequest,
   GeneralChannelParameters,
@@ -36,17 +36,17 @@ import {
   SearchChannelRequest,
   GetUnreadCountRequest,
 } from '~/plugins/domain/dto/channel'
-import { Channel } from '~/models/channel'
-import { User } from '~/models/user'
+import { Channel } from '~/entity/channel'
+import { User } from '~/entity/user'
 import {
   UserId,
   Pagination,
   ConnectionParameters,
 } from '~/plugins/domain/dto/common'
-import { Stats } from '~/models/stats'
-import { Unread } from '~/models/Unread'
+import { Stats } from '~/entity/stats'
+import { Unread } from '~/entity/Unread'
 import { PostMarkerRequest } from '~/plugins/domain/dto/marker'
-import { Marker } from '~/models/marker'
+import { Marker } from '~/entity/marker'
 
 export namespace PnutRepository {
   export const token = class {}

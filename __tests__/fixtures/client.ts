@@ -1,4 +1,4 @@
-import { Client } from '~/models/client'
+import { Client } from '~/entity/client'
 
 export const testClient: Client.Source = {
   id: '1',

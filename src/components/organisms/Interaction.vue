@@ -68,7 +68,7 @@ import Post from '~/components/organisms/Post.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import UserPopper from '~/components/molecules/UserPopper.vue'
 import listItem from '~/assets/ts/list-item'
-import { Interaction } from '~/models/interaction'
+import { Interaction } from '~/entity/interaction'
 
 const convert: {
   [key in Interaction.ActionType]: {

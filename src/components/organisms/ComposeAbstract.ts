@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import { Component, Prop, Mixins } from 'vue-property-decorator'
-import { User } from '~/models/user'
-import { Spoiler } from '~/models/raw/raw/spoiler'
-import { LongPost } from '~/models/raw/raw/long-post'
+import { User } from '~/entity/user'
+import { Spoiler } from '~/entity/raw/raw/spoiler'
+import { LongPost } from '~/entity/raw/raw/long-post'
 import textCount from '~/assets/ts/text-count'
 import { CreatePollRequest } from '~/plugins/domain/dto/poll'
 

@@ -97,11 +97,11 @@
 <script lang="ts">
 import { Component, Prop, Watch } from 'vue-property-decorator'
 import { createCompose } from './ComposeAbstract'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import bus from '~/assets/ts/bus'
 import Thumb from '~/components/molecules/Thumb.vue'
 import InputSpoiler from '~/components/organisms/InputSpoiler.vue'
-import { Channel } from '~/models/channel'
+import { Channel } from '~/entity/channel'
 import AddFile from '~/components/atoms/AddFile.vue'
 import ToggleNsfw from '~/components/atoms/ToggleNsfw.vue'
 import ToggleLongpost from '~/components/atoms/ToggleLongpost.vue'

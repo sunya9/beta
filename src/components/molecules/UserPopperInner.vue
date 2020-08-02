@@ -25,7 +25,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import Avatar from '~/components/atoms/Avatar.vue'
 import EntityText from '~/components/atoms/EntityText.vue'
 import FollowButton from '~/components/atoms/FollowButton.vue'

@@ -6,7 +6,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import PostList from '~/components/organisms/PostList.vue'
 import { ListInfo } from '~/plugins/domain/util/util'
-import { Post } from '~/models/post'
+import { Post } from '~/entity/post'
 
 @Component({
   components: {

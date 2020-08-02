@@ -123,8 +123,8 @@ import CustomCheckbox from '~/components/atoms/CustomCheckbox.vue'
 import BaseModal from '~/components/molecules/BaseModal.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
 import AclSelect from '~/components/atoms/AclSelect.vue'
-import { User } from '~/models/user'
-import { Channel } from '~/models/channel'
+import { User } from '~/entity/user'
+import { Channel } from '~/entity/channel'
 import { userIdsIsString, userIdIsSimpleUser } from '~/util/channel'
 
 function atUserStr(user: Channel.UserWithAcl) {

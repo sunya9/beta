@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { withKnobs } from '@storybook/addon-knobs'
 import FollowButton from './FollowButton.vue'
 import { getFixtures } from '~/fixtures'
-import { User } from '~/models/user'
+import { User } from '~/entity/user'
 import { accessorType } from '~/store'
 import { DeepPartial } from '~/../types'
 
