@@ -17,6 +17,7 @@ import {
   SearchUsersRequest,
   GeneralUserParameters,
   GetInteractionParameters,
+  UpdateUserRequest,
 } from '~/plugins/domain/dto/user'
 import { File } from '~/entity/file'
 import {
@@ -51,6 +52,12 @@ import { Marker } from '~/entity/marker'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  updateUser(
+    updateUserRequest: UpdateUserRequest
+  ): Promise<PnutResponse<User>> {
+    return this.put(`/users/me`, updateUserRequest)
+  }
+
   block(userId: string): Promise<PnutResponse<User>> {
     return this.put(`/users/${userId}/block`)
   }
