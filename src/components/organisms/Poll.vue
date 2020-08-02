@@ -122,9 +122,12 @@ export default class extends Vue {
   }
 
   async getPoll() {
-    const { data } = await this.$axios.$get(
-      `/polls/${this.internalPoll.id}?poll_token=${this.internalPoll.poll_token}`
-    )
+    const {
+      res: { data },
+    } = await this.$interactors.getPoll.run({
+      pollId: this.internalPoll.id,
+      pollToken: this.internalPoll.poll_token,
+    })
     this.internalPoll = data
   }
 
