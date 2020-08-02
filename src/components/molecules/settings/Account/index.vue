@@ -113,7 +113,7 @@ export default class AccountView extends Vue {
   account!: User
 
   name = this.account.name
-  description = this.account.content?.text || ''
+  description = this.account.content?.markdown_text || ''
   timezone = this.account.timezone
   locale = this.account.locale
 
