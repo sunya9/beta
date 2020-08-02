@@ -14603,13 +14603,13 @@ nuxt-property-decorator@2.7.2:
     vuex-class "^0.3.2"
     vuex-module-decorators "^0.16.1"
 
-nuxt-typed-vuex@0.1.19:
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/nuxt-typed-vuex/-/nuxt-typed-vuex-0.1.19.tgz#da474c6c0516019668285f2536544c10ddbe4509"
-  integrity sha512-G5hCiXkJeXG7noD3YoB2MUrXLLqf+VV6lwOvYRa+3L/s2JORBbRSIO+BM8c+ycclVUBcgdexZJjPdlp5iEGUjA==
+nuxt-typed-vuex@0.1.20:
+  version "0.1.20"
+  resolved "https://registry.yarnpkg.com/nuxt-typed-vuex/-/nuxt-typed-vuex-0.1.20.tgz#cb96f4a563e0e8bb00853a3bdb336c057ea4be3c"
+  integrity sha512-0vu9g6WM4605eC3EuvZyKnBCQPTk4O1FbXDCkCi323qf467YDrE6ANTRV4xh2nlRwcgMGk647Om5aqZ9d5297w==
   dependencies:
     normalize-path "^3.0.0"
-    typed-vuex "0.1.19"
+    typed-vuex "0.1.20"
 
 nuxt-uid-module@0.2.0:
   version "0.2.0"
@@ -19588,10 +19588,10 @@ typed-styles@^0.0.7:
   resolved "https://registry.yarnpkg.com/typed-styles/-/typed-styles-0.0.7.tgz#93392a008794c4595119ff62dde6809dbc40a3d9"
   integrity sha512-pzP0PWoZUhsECYjABgCGQlRGL1n7tOHsgwYv3oIiEpJwGhFTuty/YNeduxQYzXXa3Ge5BdT6sHYIQYpl4uJ+5Q==
 
-typed-vuex@0.1.19:
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/typed-vuex/-/typed-vuex-0.1.19.tgz#81cffcad5e76b55bac562258f48dd56ff64088cf"
-  integrity sha512-ugrJwMEoQNncJA+ziocbaEYnu23m1ekFoRcP+cXg3SPhEqGu4u8/RoRYF4eKycvGKf3YdkRTAXn5czaDWUgrWw==
+typed-vuex@0.1.20:
+  version "0.1.20"
+  resolved "https://registry.yarnpkg.com/typed-vuex/-/typed-vuex-0.1.20.tgz#0b0bf0016c6bd3fa6feca1266281f7a5bd761cc1"
+  integrity sha512-NVqFHqjLFShFJ1GxApM1IVN3XIvhVJSqKqlzvKw7tbFnMKzlhHstMp9M5TaS8JFqPWAgHIjq8myI/t7Q6p2Gew==
 
 typedarray-to-buffer@^3.1.5:
   version "3.1.5"
