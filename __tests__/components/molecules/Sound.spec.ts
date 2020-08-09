@@ -5,7 +5,7 @@ describe('Sound component', () => {
     const wrapper = mount(Sound, {
       propsData: {
         title: 'title',
-        removeable: true,
+        removable: true,
       },
     })
     expect(wrapper.vm).toBeTruthy()
