@@ -8,19 +8,41 @@ import {
 } from '../helper'
 import PollView from '~/components/organisms/Poll.vue'
 import { Poll } from '~/entity/poll'
+import { Interactors } from '~/plugins/di/interactors'
+import { getFixtures } from '~/fixtures'
+import { DeepPartial } from '~/../types'
 
 describe('Poll component', () => {
   let wrapper: Wrapper<InstanceType<typeof PollView>>
   let opts: ThisTypedMountOptions<InstanceType<typeof PollView>>
+  let getPoll: {
+    run: jest.Mock
+  }
+  const poll = getFixtures('poll')
+
   beforeEach(() => {
+    const output: DeepPartial<ReturnType<
+      Interactors['getPoll']['run']
+    >> = Promise.resolve({
+      res: {
+        data: poll,
+        meta: {
+          code: 200,
+        },
+      },
+    })
+    getPoll = {
+      run: jest.fn().mockReturnValue(output),
+    }
     opts = {
       propsData: {
-        pollId: '1',
-        pollToken: 'poll_token',
-        poll: fixtures('poll'),
+        poll,
       },
       mocks: {
         $store: createStore(),
+        $interactors: {
+          getPoll,
+        },
       },
     }
   })
@@ -45,6 +67,7 @@ describe('Poll component', () => {
       wrapper = mount(PollView, {
         ...opts,
         mocks: {
+          ...opts.mocks,
           $store: authedUserCreateStore(),
           $accessor: authedAccessor(),
         },
