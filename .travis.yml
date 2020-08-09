@@ -31,7 +31,7 @@ before_script:
   - git checkout $TRAVIS_BRANCH || git checkout -b $TRAVIS_BRANCH
   - yarn build-storybook
   - yarn screenshot
-script: DIR=$(mktemp) && echo $GCP_KEY_VALUE | base64 -d > $DIR && GOOGLE_APPLICATION_CREDENTIALS=$DIR yarn run test
+script: DIR=$(mktemp) && echo $GCP_KEY_VALUE | base64 -d > $DIR && GOOGLE_APPLICATION_CREDENTIALS=$DIR yarn ci
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
