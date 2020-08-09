@@ -34,7 +34,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
-import { ModifiedFile } from '~/plugins/domain/usecases/getFiles'
+import { ModifiedFile } from '~/plugins/domain/entity/ModifiedFile'
 
 @Component
 export default class FileRow extends Vue {

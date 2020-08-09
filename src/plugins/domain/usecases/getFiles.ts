@@ -6,6 +6,7 @@ import { File } from '~/entity/file'
 import { ListInfo, createListInfo } from '~/plugins/domain/util/util'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
+import { ModifiedFile } from '~/plugins/domain/entity/ModifiedFile'
 
 const map: { [key in File.Kind]: string } = {
   audio: ['mpeg', 'mp4', 'wave', 'flac'].map((ext) => `audio/${ext}`).join(','),
@@ -16,10 +17,6 @@ const map: { [key in File.Kind]: string } = {
 
 function isKind(kindStr?: string): kindStr is File.Kind {
   return !!kindStr && Object.keys(map).includes(kindStr)
-}
-
-export interface ModifiedFile extends File {
-  select: boolean
 }
 
 function addSelectField(file: File) {
