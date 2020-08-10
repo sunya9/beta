@@ -65,3 +65,40 @@ export namespace User {
     height: number
   }
 }
+
+export class UserEntity implements User {
+  badge!: { id: string; name: string } | undefined
+  content!: User.UserContent | undefined
+  counts!:
+    | {
+        bookmarks: number
+        clients: number
+        followers: number
+        following: number
+        posts: number
+        users: number
+      }
+    | undefined
+
+  created_at!: Date
+  follows_you!: boolean
+  id!: string
+  locale!: string
+  name!: string
+  timezone!: string
+  type!: User.UserType
+  username!: string
+  you_blocked!: boolean
+  you_can_follow!: boolean
+  you_follow!: boolean
+  you_muted!: boolean
+  verified!: { domain: string; link: string } | undefined
+  raw!: Raw[] | undefined
+  constructor(userField: User) {
+    Object.assign(this, userField)
+  }
+
+  get isMe() {
+    return this.you_follow && this.follows_you && !this.you_can_follow
+  }
+}
