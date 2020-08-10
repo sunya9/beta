@@ -273,8 +273,13 @@ export class PnutRepositoryImpl implements PnutRepository {
     return this.axios.$delete(url, { params })
   }
 
-  private post(url: string, data: any, params?: any) {
-    return this.axios.$post(url, data, { params })
+  private post(
+    url: string,
+    data: any,
+    params?: any,
+    headers?: Record<string, string>
+  ) {
+    return this.axios.$post(url, data, { params, headers })
   }
 
   private get(url: string, params?: any) {
@@ -292,63 +297,55 @@ export class PnutRepositoryImpl implements PnutRepository {
     fileIdRequest: FileIdRequest,
     params?: GeneralFileParameters
   ): Promise<PnutResponse<File>> {
-    return this.axios.$get(`/files/${fileIdRequest.file_id}`, {
-      params,
-    })
+    return this.get(`/files/${fileIdRequest.file_id}`, params)
   }
 
   postPoll(
     poll: CreatePollRequest,
     fallbackText?: string
   ): Promise<PnutResponse<Poll>> {
-    return this.axios.$post('/polls', {
+    return this.post('/polls', {
       ...poll,
       prompt: poll.prompt || fallbackText,
     })
   }
 
   uploadFile(data: FormData): Promise<PnutResponse<File>> {
-    return this.axios.$post('/files', data, {
-      headers: {
-        'Content-type': 'multipart/form-data',
-      },
+    return this.post('/files', data, null, {
+      'Content-type': 'multipart/form-data',
     })
   }
 
   getMentions(params?: MentionRequest): Promise<PnutResponse<Post[]>> {
-    return this.axios.$get('/users/me/mentions', { params })
+    return this.get('/users/me/mentions', params)
   }
 
   getPostInteractions(
     postIdRequest: PostIdRequest,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Interaction[]>> {
-    return this.axios.$get(`/posts/${postIdRequest.post_id}/interactions`, {
-      params,
-    })
+    return this.get(`/posts/${postIdRequest.post_id}/interactions`, params)
   }
 
   getBookmarks(
     userId: string,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>> {
-    return this.axios.$get(`/users/${userId}/bookmarks`, {
-      params,
-    })
+    return this.get(`/users/${userId}/bookmarks`, params)
   }
 
   getExplore(
     slug: ExploreSlugType,
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>> {
-    return this.axios.$get(`/posts/streams/explore/${slug}`, { params })
+    return this.get(`/posts/streams/explore/${slug}`, params)
   }
 
   getGlobal(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>> {
-    return this.axios.$get('/posts/streams/global', { params })
+    return this.get('/posts/streams/global', params)
   }
 
   getHomeStream(params?: HomeStreamRequest): Promise<PnutResponse<Post[]>> {
-    return this.axios.$get('/posts/streams/me', { params })
+    return this.get('/posts/streams/me', params)
   }
 }
