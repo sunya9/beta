@@ -146,7 +146,7 @@ describe('util', () => {
       ...fixtures<Channel>('channel'),
       raw: [chatRaw],
     }
-    expect(util.findChatRaw(channel)).toEqual(chatRaw)
+    expect(ChatRoomSettings.findChatRaw(channel)).toEqual(chatRaw)
   })
 
   test('findChatValueRaw', () => {
