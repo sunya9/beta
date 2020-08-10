@@ -1,5 +1,5 @@
-import { getTitle } from './util'
 import { Post, DefinitelyPost } from '~/entity/post'
+import { User } from '~/entity/user'
 
 function isEnabledNotification() {
   return localStorage.getItem('notification') === 'true'
@@ -17,7 +17,7 @@ export function sendPostNotification(posts: Post[]) {
         avatar_image: { link: icon },
       },
     } = post.user
-    const title = getTitle(post.user)
+    const title = User.getTitle(post.user)
     const options = {
       icon,
       body,
@@ -49,7 +49,7 @@ export function sendMentionNotification(mentions: Post[]): Notification[] {
           avatar_image: { link: icon },
         },
       } = mention.user
-      const title = getTitle(mention.user)
+      const title = User.getTitle(mention.user)
       const options = {
         icon,
         body,

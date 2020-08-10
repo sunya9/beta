@@ -48,6 +48,11 @@ export namespace User {
     | typeof UserType.human
     | typeof UserType.feed
     | typeof UserType.bot
+
+  export function getTitle({ username, name }: User): string {
+    return name ? `${name} (@${username})` : `@${username}`
+  }
+
   export interface UserContent extends Entity.HaveEntity {
     avatar_image: UserImage
     cover_image: UserImage
