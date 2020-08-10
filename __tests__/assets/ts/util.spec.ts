@@ -160,7 +160,7 @@ describe('util', () => {
       ...fixtures<Channel>('channel'),
       raw: [chatRaw],
     }
-    expect(util.findChatValueRaw(channel)).toEqual(chatRaw.value)
+    expect(ChatRoomSettings.findChatValueRaw(channel)).toEqual(chatRaw.value)
   })
 
   test('getVideoSrcFromHtml', () => {
