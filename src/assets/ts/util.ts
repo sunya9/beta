@@ -83,13 +83,15 @@ function rawIsOembedVideo(oembed: OEmbed): oembed is OEmbed.Video {
   return oembed.value.type === 'video'
 }
 
-export function getOembedVideo(post: HasRaw & (Post | Message)) {
-  if (!post.content) return []
-  if (!post.raw) return []
-  return post.raw
-    .filter(rawIsOembed)
-    .filter(rawIsOembedVideo)
-    .map((r) => r.value)
+export function getOembedVideo(
+  post: HasRaw & (Post | Message)
+): OEmbed.Video.Value[] {
+  return (
+    post.raw
+      ?.filter(rawIsOembed)
+      .filter(rawIsOembedVideo)
+      .map((r) => r.value) || []
+  )
 }
 
 export function getRSSLink(href: string) {
