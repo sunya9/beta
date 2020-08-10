@@ -391,18 +391,17 @@ import { User } from '~/entity/user'
 import {
   getImageURLs,
   getAudio,
-  getChannelInvite,
   getOembedVideo,
   getVideoSrcFromHtml,
   determineVideoType,
   AudioForView,
-  ChannelInviteForView,
   ImageForView,
 } from '~/assets/ts/util'
 import listItem from '~/assets/ts/list-item'
 import { Spoiler } from '~/entity/raw/raw/spoiler'
 import { Crosspost } from '~/entity/raw/raw/crosspost'
 import { LongPost } from '~/entity/raw/raw/long-post'
+import { ChannelInvite } from '~/entity/raw/raw/channel-invite'
 
 const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
 
@@ -516,8 +515,8 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
     return LongPost.getLongpost(this.mainPost)
   }
 
-  get channelInvite(): ChannelInviteForView | void {
-    return getChannelInvite(this.mainPost)
+  get channelInvite() {
+    return ChannelInvite.getChannelInvite(this.mainPost)
   }
 
   get me(): boolean {
