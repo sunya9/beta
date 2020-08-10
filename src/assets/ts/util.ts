@@ -5,7 +5,6 @@ import { Post } from '~/entity/post'
 import { OEmbed } from '~/entity/raw/raw/oembed'
 import { Channel } from '~/entity/channel'
 import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
-import { LongPost } from '~/entity/raw/raw/long-post'
 import { ChannelInvite } from '~/entity/raw/raw/channel-invite'
 import { User } from '~/entity/user'
 import { Message } from '~/entity/message'
@@ -59,24 +58,6 @@ export function getImageURLs(
     Array.prototype.push.apply(photos, linkPhotos)
   }
   return _.uniqBy(photos, 'original')
-}
-
-function rawIsLongPost(raw: Raw): raw is LongPost {
-  return raw.type === LongPost.type
-}
-
-export type LongPostValueForView = Pick<LongPost.Value, 'body' | 'title'>
-export function getLongpost(
-  post: HasRaw & (Post | Message)
-): LongPostValueForView | void {
-  if (!post.content) return
-  if (!post.raw) return
-  const longpost = post.raw.find(rawIsLongPost)
-  if (!longpost) return
-  return {
-    body: longpost.value.body,
-    title: longpost.value.title,
-  }
 }
 
 export interface AudioForView {
