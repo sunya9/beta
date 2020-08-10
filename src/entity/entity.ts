@@ -25,4 +25,19 @@ export namespace Entity {
       tags: Tag[]
     }
   }
+  export interface HaveEntityWrapper {
+    content?: Entity.HaveEntity
+  }
+
+  const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
+  export function getImagesFromLinks(entityLinks: Entity.Link[]) {
+    return entityLinks
+      .filter((link) => imgExt.test(link.link))
+      .map((link) => {
+        return {
+          original: link.link,
+          thumb: link.link,
+        }
+      })
+  }
 }
