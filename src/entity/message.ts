@@ -1,7 +1,7 @@
-import { User } from './user'
+import { User, UserEntity } from './user'
 import { Entity } from './entity'
 import { Client } from './client'
-import { HasRaw } from './raw'
+import { HasRaw, Raw } from './raw'
 
 export interface Message extends HasRaw, Entity.HaveEntityWrapper {
   created_at: Date
@@ -19,4 +19,26 @@ export interface Message extends HasRaw, Entity.HaveEntityWrapper {
 
 export namespace Message {
   export type MessageContent = Entity.HaveEntity
+}
+
+export class MessageEntity implements Message {
+  constructor(private readonly message: Message) {
+    Object.assign(this, message)
+  }
+
+  created_at!: Date
+  channel_id!: string
+  id!: string
+  is_deleted!: boolean
+  is_sticky!: boolean
+  source!: Client.Source
+  reply_to!: string | undefined
+  thread_id!: string
+  get user() {
+    return this.message.user && new UserEntity(this.message.user)
+  }
+
+  content!: Entity.HaveEntity | undefined
+  deleted_by!: boolean | undefined
+  raw!: Raw[] | undefined
 }
