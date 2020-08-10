@@ -4,7 +4,6 @@ import { Raw, HasRaw } from '~/entity/raw'
 import { Post } from '~/entity/post'
 import { OEmbed } from '~/entity/raw/raw/oembed'
 import { Channel } from '~/entity/channel'
-import { Spoiler } from '~/entity/raw/raw/spoiler'
 import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
 import { LongPost } from '~/entity/raw/raw/long-post'
 import { ChannelInvite } from '~/entity/raw/raw/channel-invite'
@@ -60,21 +59,6 @@ export function getImageURLs(
     Array.prototype.push.apply(photos, linkPhotos)
   }
   return _.uniqBy(photos, 'original')
-}
-
-export function getSpoiler(hasRaw: HasRaw | void): Spoiler.Value | void {
-  if (!hasRaw || !hasRaw.raw) return
-  const spoilerRaw = hasRaw.raw.find((r): r is Spoiler => {
-    return (
-      r.type === 'shawn.spoiler' &&
-      !!r.value.topic &&
-      (!r.value.expired_at || new Date(r.value.expired_at) > new Date())
-    )
-  })
-  if (!spoilerRaw) return
-  return {
-    topic: spoilerRaw.value.topic,
-  }
 }
 
 function rawIsLongPost(raw: Raw): raw is LongPost {

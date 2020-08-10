@@ -160,7 +160,6 @@ import listItem from '~/assets/ts/list-item'
 import {
   getImageURLs,
   getAudio,
-  getSpoiler,
   deletedUser,
   ImageForView,
   AudioForView,
@@ -240,8 +239,8 @@ export default class MessageView extends Mixins(
     return getAudio(this.message) || []
   }
 
-  get spoiler(): Spoiler.Value | void {
-    return getSpoiler(this.message)
+  get spoiler() {
+    return Spoiler.getSpoiler(this.message)
   }
 
   get user(): User | null {

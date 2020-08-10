@@ -66,7 +66,6 @@ import Vue from 'vue'
 import { Prop, Component } from 'vue-property-decorator'
 import Avatar from '~/components/atoms/Avatar.vue'
 import UserPopper from '~/components/molecules/UserPopper.vue'
-import { getSpoiler } from '~/assets/ts/util'
 import { Channel } from '~/entity/channel'
 import { Spoiler } from '~/entity/raw/raw/spoiler'
 import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
@@ -135,8 +134,8 @@ export default class ChannelView extends Vue {
     return this.recentMessageUser?.content?.avatar_image
   }
 
-  get spoiler(): Spoiler.Value | void {
-    return getSpoiler(this.channel.recent_message)
+  get spoiler() {
+    return Spoiler.getSpoiler(this.channel.recent_message)
   }
 
   get is_pm(): boolean {
