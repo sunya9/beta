@@ -7,7 +7,6 @@ import { Channel } from '~/entity/channel'
 import { Spoiler } from '~/entity/raw/raw/spoiler'
 import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
 import { LongPost } from '~/entity/raw/raw/long-post'
-import { Crosspost } from '~/entity/raw/raw/crosspost'
 import { ChannelInvite } from '~/entity/raw/raw/channel-invite'
 import { User } from '~/entity/user'
 import { Message } from '~/entity/message'
@@ -61,19 +60,6 @@ export function getImageURLs(
     Array.prototype.push.apply(photos, linkPhotos)
   }
   return _.uniqBy(photos, 'original')
-}
-
-function rawIsCrosspost(raw: Raw): raw is Crosspost {
-  return raw.type === Crosspost.type
-}
-
-export function getCrosspostLink(
-  post: HasRaw & (Post | Message)
-): string | void {
-  if (!post.content || !post.raw) return
-  const crosspost = post.raw.find(rawIsCrosspost)
-  if (!crosspost) return
-  return crosspost.value.canonical_url
 }
 
 export function getSpoiler(hasRaw: HasRaw | void): Spoiler.Value | void {

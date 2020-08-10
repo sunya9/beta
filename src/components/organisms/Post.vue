@@ -391,7 +391,6 @@ import { User } from '~/entity/user'
 import {
   getImageURLs,
   getAudio,
-  getCrosspostLink,
   getSpoiler,
   getLongpost,
   getChannelInvite,
@@ -405,6 +404,7 @@ import {
 } from '~/assets/ts/util'
 import listItem from '~/assets/ts/list-item'
 import { Spoiler } from '~/entity/raw/raw/spoiler'
+import { Crosspost } from '~/entity/raw/raw/crosspost'
 
 const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
 
@@ -506,8 +506,8 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
     return getAudio(this.mainPost)
   }
 
-  get crosspost(): string | void {
-    return getCrosspostLink(this.mainPost)
+  get crosspost() {
+    return Crosspost.getCrosspostLink(this.mainPost)
   }
 
   get spoiler(): Spoiler.Value | void {
