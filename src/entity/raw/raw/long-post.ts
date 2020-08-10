@@ -1,4 +1,5 @@
-import { BaseRaw } from '~/entity/raw'
+import { BaseRaw, Raw, HasRaw } from '~/entity/raw'
+import { Entity } from '~/entity/entity'
 
 export namespace LongPost {
   export const type = 'nl.chimpnut.blog.post' as const
@@ -15,6 +16,16 @@ export namespace LongPost {
       type: LongPost.type,
       value,
     }
+  }
+
+  export function rawIsLongPost(raw: Raw): raw is LongPost {
+    return raw.type === LongPost.type
+  }
+
+  export function getLongpost(
+    post: HasRaw & Entity.HaveEntityWrapper
+  ): LongPost.Value | undefined {
+    return post.raw?.find(rawIsLongPost)?.value
   }
 }
 
