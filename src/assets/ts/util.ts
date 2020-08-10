@@ -195,17 +195,6 @@ export function findChatRaw(channel: Channel): ChatRoomSettings | void {
   return chatRaw
 }
 
-export function findChatValueRaw(
-  channel: Channel
-): ChatRoomSettings.Value | void {
-  if (!channel.raw) return
-  const chatRaw = channel.raw.find(
-    (r): r is ChatRoomSettings => r.type === 'io.pnut.core.chat-settings'
-  )
-  if (!chatRaw) return
-  return chatRaw.value
-}
-
 export interface MinimumUser
   extends Required<Pick<User, 'id' | 'name' | 'username'>> {
   content?: {

@@ -38,7 +38,7 @@ import MessageList from '~/components/organisms/MessageList.vue'
 import MessageCompose from '~/components/organisms/MessageCompose.vue'
 import ChatPanel from '~/components/organisms/ChatPanel.vue'
 import PmPanel from '~/components/organisms/PmPanel.vue'
-import { getRSSLink, findChatValueRaw } from '~/assets/ts/util'
+import { getRSSLink } from '~/assets/ts/util'
 import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
 import { Channel } from '~/entity/channel'
 import { User } from '~/entity/user'
@@ -97,9 +97,8 @@ export default class ChannelView extends Mixins(refreshAfterAdded) {
   listInfo!: ListInfo<Message>
   markerId!: string
 
-  get chat(): ChatRoomSettings.Value | void {
-    if (!this.channel) return undefined
-    return findChatValueRaw(this.channel)
+  get chat() {
+    return ChatRoomSettings.findChatValueRaw(this.channel)
   }
 
   get user(): User | null {
