@@ -3,7 +3,7 @@ import { Entity } from './entity'
 import { Client } from './client'
 import { HasRaw } from './raw'
 
-export interface Message extends HasRaw {
+export interface Message extends HasRaw, Entity.HaveEntityWrapper {
   created_at: Date
   channel_id: string
   id: string

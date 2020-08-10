@@ -3,7 +3,7 @@ import { Entity } from './entity'
 import { Raw, HasRaw } from './raw'
 import { Pageable } from './pageable'
 
-export interface Post extends HasRaw, Pageable {
+export interface Post extends HasRaw, Pageable, Entity.HaveEntityWrapper {
   created_at: Date
   id: string
   is_deleted: boolean

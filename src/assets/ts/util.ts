@@ -12,19 +12,6 @@ import { ChannelInvite } from '~/entity/raw/raw/channel-invite'
 import { User } from '~/entity/user'
 import { Message } from '~/entity/message'
 
-const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
-
-function getImagesFromLinks(entityLinks: Entity.Link[]) {
-  return entityLinks
-    .filter((link) => imgExt.test(link.link))
-    .map((link) => {
-      return {
-        original: link.link,
-        thumb: link.link,
-      }
-    })
-}
-
 function rawIsOembed(raw: Raw): raw is OEmbed {
   return raw.type === OEmbed.type
 }
@@ -60,7 +47,7 @@ export interface ImageForView {
   height: number
 }
 export function getImageURLs(
-  post: HasRaw & (Post | Message),
+  post: HasRaw & Entity.HaveEntityWrapper,
   rawOnly = false
 ): ImageForView[] {
   if (!post.content) return []
@@ -70,7 +57,7 @@ export function getImageURLs(
     Array.prototype.push.apply(photos, embedPhotos)
   }
   if (!rawOnly) {
-    const linkPhotos = getImagesFromLinks(post.content.entities.links)
+    const linkPhotos = Entity.getImagesFromLinks(post.content.entities.links)
     Array.prototype.push.apply(photos, linkPhotos)
   }
   return _.uniqBy(photos, 'original')
