@@ -5,7 +5,6 @@ import { Post } from '~/entity/post'
 import { OEmbed } from '~/entity/raw/raw/oembed'
 import { Channel } from '~/entity/channel'
 import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
-import { ChannelInvite } from '~/entity/raw/raw/channel-invite'
 import { User } from '~/entity/user'
 import { Message } from '~/entity/message'
 
@@ -93,26 +92,6 @@ export function getOembedVideo(post: HasRaw & (Post | Message)) {
     .filter(rawIsOembed)
     .filter(rawIsOembedVideo)
     .map((r) => r.value)
-}
-
-function rawIsChannelInvite(raw: Raw): raw is ChannelInvite {
-  return raw.type === ChannelInvite.type
-}
-
-export interface ChannelInviteForView extends ChannelInvite.Value {
-  display_name: string
-}
-export function getChannelInvite(
-  post: HasRaw & (Post | Message)
-): ChannelInviteForView | void {
-  if (!post || !post.content || !post.raw) return
-  const channelRaw = post.raw.find(rawIsChannelInvite)
-  if (!channelRaw) return
-  return {
-    ...channelRaw.value,
-    display_name:
-      channelRaw.value.name || `Channel ${channelRaw.value.channel_id}`,
-  }
 }
 
 export function getRSSLink(href: string) {
