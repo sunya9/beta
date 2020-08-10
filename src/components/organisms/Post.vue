@@ -391,7 +391,6 @@ import { User } from '~/entity/user'
 import {
   getImageURLs,
   getAudio,
-  getSpoiler,
   getLongpost,
   getChannelInvite,
   getOembedVideo,
@@ -510,8 +509,8 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
     return Crosspost.getCrosspostLink(this.mainPost)
   }
 
-  get spoiler(): Spoiler.Value | void {
-    return getSpoiler(this.mainPost)
+  get spoiler() {
+    return Spoiler.getSpoiler(this.mainPost)
   }
 
   get longpost(): LongPostValueForView | void {

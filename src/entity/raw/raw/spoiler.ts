@@ -1,4 +1,4 @@
-import { BaseRaw } from '~/entity/raw'
+import { BaseRaw, HasRaw } from '~/entity/raw'
 
 export namespace Spoiler {
   export const type = 'shawn.spoiler' as const
@@ -14,6 +14,16 @@ export namespace Spoiler {
       type: 'shawn.spoiler',
       value,
     }
+  }
+
+  export function getSpoiler(hasRaw?: HasRaw): Spoiler.Value | undefined {
+    return hasRaw?.raw?.find((r): r is Spoiler => {
+      return (
+        r.type === 'shawn.spoiler' &&
+        !!r.value.topic &&
+        (!r.value.expired_at || new Date(r.value.expired_at) > new Date())
+      )
+    })?.value
   }
 }
 
