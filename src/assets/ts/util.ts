@@ -14,16 +14,6 @@ import { Message } from '~/entity/message'
 
 const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
 
-export function getTitle({
-  username,
-  name,
-}: {
-  username: string
-  name: string
-}): string {
-  return name ? `${name} (@${username})` : `@${username}`
-}
-
 function getImagesFromLinks(entityLinks: Entity.Link[]) {
   return entityLinks
     .filter((link) => imgExt.test(link.link))
