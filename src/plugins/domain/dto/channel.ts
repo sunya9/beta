@@ -1,5 +1,6 @@
 import { CreateMessageRequest } from './message'
 import { RawRequest } from '~/plugins/domain/dto/common'
+import { Channel } from '~/entity/channel'
 
 export type GeneralChannelParameters = {
   include_read?: boolean
@@ -17,19 +18,10 @@ export type ChannelIdRequest = {
   channel_id: string
 }
 
-type ChannelCategory =
-  | 'fun'
-  | 'lifestyle'
-  | 'profession'
-  | 'language'
-  | 'community'
-  | 'tech'
-  | 'event'
-  | 'general'
 export type SearchChannelRequest = {
   order?: 'activity' | 'id' | 'popularity'
   q?: string
-  categories?: ChannelCategory[]
+  categories?: Channel.ChannelCategory[]
   channel_types?: string[]
   raw_types?: string[]
   exclude_channel_types?: string[]

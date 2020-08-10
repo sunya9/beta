@@ -55,4 +55,17 @@ export namespace Channel {
     extends Pick<Channel.SimpleUser, 'username' | 'avatar_image'> {
     acl: Channel.Permission
   }
+
+  export const channelCategories = [
+    'general',
+    'fun',
+    'lifestyle',
+    'profession',
+    'language',
+    'community',
+    'tech',
+    'event',
+  ] as const
+
+  export type ChannelCategory = typeof channelCategories[number]
 }

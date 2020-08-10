@@ -6,17 +6,8 @@ export namespace ChatRoomSettings {
   export interface Value {
     name: string
     description?: string
-    categories?: Category[]
+    categories?: Channel.ChannelCategory[]
   }
-  type Category =
-    | 'fun'
-    | 'lifestyle'
-    | 'profession'
-    | 'language'
-    | 'community'
-    | 'tech'
-    | 'event'
-    | 'general'
 
   export function findChatRaw(channel: Channel): ChatRoomSettings | undefined {
     return channel.raw?.find((r): r is ChatRoomSettings => r.type === type)
