@@ -57,7 +57,6 @@ import { cloneDeep } from 'lodash'
 import { Component } from 'vue-property-decorator'
 import { Channel } from '~/entity/channel'
 import BaseModal from '~/components/molecules/BaseModal.vue'
-import { findChatRaw } from '~/assets/ts/util'
 import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
 
 @Component({
@@ -97,7 +96,7 @@ export default class ChannelEditModal extends Vue {
   }
 
   show(channel: Channel) {
-    const chatRaw = findChatRaw(channel)
+    const chatRaw = ChatRoomSettings.findChatRaw(channel)
     if (!chatRaw) return
     const chat = chatRaw.value
     if (!chat || !chat.categories) chat.categories = []

@@ -3,8 +3,6 @@ import { Entity } from '~/entity/entity'
 import { Raw, HasRaw } from '~/entity/raw'
 import { Post } from '~/entity/post'
 import { OEmbed } from '~/entity/raw/raw/oembed'
-import { Channel } from '~/entity/channel'
-import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
 import { User } from '~/entity/user'
 import { Message } from '~/entity/message'
 
@@ -101,15 +99,6 @@ export function getRSSLink(href: string) {
     type: 'application/rss+xml',
     href,
   }
-}
-
-export function findChatRaw(channel: Channel): ChatRoomSettings | void {
-  if (!channel.raw) return
-  const chatRaw = channel.raw.find(
-    (r): r is ChatRoomSettings => r.type === 'io.pnut.core.chat-settings'
-  )
-  if (!chatRaw) return
-  return chatRaw
 }
 
 export interface MinimumUser

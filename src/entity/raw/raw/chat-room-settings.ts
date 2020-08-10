@@ -18,6 +18,10 @@ export namespace ChatRoomSettings {
     | 'event'
     | 'general'
 
+  export function findChatRaw(channel: Channel): ChatRoomSettings | undefined {
+    return channel.raw?.find((r): r is ChatRoomSettings => r.type === type)
+  }
+
   export function isChatRoomSettings(raw?: Raw): raw is ChatRoomSettings {
     return raw?.type === ChatRoomSettings.type
   }
