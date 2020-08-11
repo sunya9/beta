@@ -1,5 +1,5 @@
 import RelationBadge from './RelationBadge.vue'
-import { getFixtures } from '~/fixtures'
+import { getUserFixture } from '~/fixtures'
 import { User } from '~/entity/user'
 import { accessorType } from '~/store'
 import { DeepPartial } from '~/../types'
@@ -14,7 +14,9 @@ const base = (accessor?: DeepPartial<typeof accessorType>) => {
   }
 }
 
-const profile: User = getFixtures('user')
+const profile: User = getUserFixture({
+  you_can_follow: true,
+})
 
 export const normal = () => ({
   ...base(),
@@ -26,10 +28,9 @@ export const normal = () => ({
   template: '<relation-badge :user="profile" />',
 })
 
-const notFollowedUser: User = {
-  ...getFixtures('user'),
+const notFollowedUser: User = getUserFixture({
   follows_you: false,
-}
+})
 
 export const notFollowed = () => ({
   ...base(),
@@ -41,10 +42,9 @@ export const notFollowed = () => ({
   template: '<relation-badge :user="profile" />',
 })
 
-const me: User = {
-  ...getFixtures('user'),
+const me: User = getUserFixture({
   follows_you: false,
-}
+})
 
 export const myself = () => ({
   ...base({
