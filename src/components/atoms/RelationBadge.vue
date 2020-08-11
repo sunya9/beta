@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Prop, Component } from 'vue-property-decorator'
-import { User } from '~/entity/user'
+import { User, UserEntity } from '~/entity/user'
 
 @Component
 export default class RelationBadge extends Vue {
@@ -20,12 +20,12 @@ export default class RelationBadge extends Vue {
   })
   user!: User
 
-  get me() {
-    return this.$accessor.user
+  get userEntity() {
+    return new UserEntity(this.user)
   }
 
   get myself() {
-    return this.me?.id === this.user.id
+    return this.userEntity.isMe
   }
 
   get relation(): string {
