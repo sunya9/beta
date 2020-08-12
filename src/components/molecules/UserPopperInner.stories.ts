@@ -1,6 +1,6 @@
 import Router from 'vue-router'
 import UserPopperInner from './UserPopperInner.vue'
-import { getFixtures } from '~/fixtures'
+import { getUserFixture } from '~/fixtures'
 import { accessorType } from '~/store'
 import { DeepPartial } from '~/../types'
 import { assignAccessor } from '~/fixtures/accessor'
@@ -21,7 +21,7 @@ export const normal = () => {
     props: {
       user: {
         type: Object,
-        default: () => getFixtures('user'),
+        default: () => getUserFixture(),
       },
     },
     template: '<user-popper-inner :user="user" />',

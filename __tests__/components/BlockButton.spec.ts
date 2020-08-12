@@ -1,8 +1,8 @@
 import { mount } from '@vue/test-utils'
 import BlockButton from '~/components/atoms/BlockButton.vue'
-import { getFixtures } from '~/fixtures'
+import { getUserFixture } from '~/fixtures'
 
-const user = getFixtures('user')
+const user = getUserFixture()
 
 describe('BlockButton component', () => {
   test('render without crash', () => {

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { withKnobs } from '@storybook/addon-knobs'
 import FollowButton from './FollowButton.vue'
-import { getFixtures } from '~/fixtures'
+import { getUserFixture } from '~/fixtures'
 import { User } from '~/entity/user'
 import { accessorType } from '~/store'
 import { DeepPartial } from '~/../types'
@@ -15,15 +15,13 @@ const base = (accessor?: DeepPartial<typeof accessorType>) => {
   }
 }
 
-const profile: User = {
-  ...getFixtures('user'),
+const profile: User = getUserFixture({
   you_follow: false,
-}
+})
 
-const me: User = {
-  ...getFixtures('user'),
+const me: User = getUserFixture({
   id: '2',
-}
+})
 
 export const normal = () => ({
   ...base({ user: me }),
