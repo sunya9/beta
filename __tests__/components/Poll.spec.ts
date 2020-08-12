@@ -9,7 +9,7 @@ import {
 import PollView from '~/components/organisms/Poll.vue'
 import { Poll } from '~/entity/poll'
 import { Interactors } from '~/plugins/di/interactors'
-import { getFixtures } from '~/fixtures'
+import { getPollFixture } from '~/fixtures'
 import { DeepPartial } from '~/../types'
 
 describe('Poll component', () => {
@@ -18,7 +18,7 @@ describe('Poll component', () => {
   let getPoll: {
     run: jest.Mock
   }
-  const poll = getFixtures('poll')
+  const poll = getPollFixture()
 
   beforeEach(() => {
     const output: DeepPartial<ReturnType<
