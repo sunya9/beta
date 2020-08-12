@@ -16,8 +16,8 @@ import { getMinimumPoll } from '~/util/minimum-entities'
   components: { ToggleButton },
 })
 export default class ToggleSpoiler extends Vue {
-  @Prop({ type: Object, required: false, default: true })
-  value!: object
+  @Prop({ type: Object, required: false, default: null })
+  value!: object | null
 
   toggle(state: boolean) {
     this.$emit('input', state ? getMinimumPoll() : null)
