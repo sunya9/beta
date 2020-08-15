@@ -1,20 +1,28 @@
 <template>
   <div v-if="internalPoll">
-    <p>{{ internalPoll.prompt }}</p>
+    <p>{{ internalPoll.prompt }}
+    <template v-if="internalPoll.max_options != 1">
+      <br><em>(Up to {{internalPoll.max_options}} options)</em>
+    </template></p>
     <ul class="list-unstyled mb-3">
       <li
         v-for="(option, index) in internalPoll.options"
         :key="index"
         class="mb-1"
       >
-        <a
-          v-if="!finished"
-          :class="{ disabled: !votable }"
-          class="btn btn-outline-primary btn-block"
-          @click="respond(option.position)"
-        >
-          <emojify :text="option.text" />
-        </a>
+        <div v-if="votable" class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            :id="`pos-` + option.position"
+            v-model="checkedPositions"
+            :value="option.position"
+            :disabled="disabledOption(option.position)"
+            class="custom-control-input"
+          />
+          <label :for="`pos-` + option.position" class="custom-control-label">
+            <emojify :text="option.text" />
+          </label>
+        </div>
         <div v-else>
           <div
             class="progress position-relative"
@@ -48,9 +56,16 @@
         </div>
       </li>
     </ul>
+    <a
+      v-if="votable"
+      class="btn btn-outline-primary btn-block"
+      @click="respond()"
+    >
+      Save Response
+    </a>
     <footer>
       <ul class="list-inline">
-        <li v-if="finished" class="list-inline-item text-muted">
+        <li v-if="closed" class="list-inline-item text-muted">
           Total: {{ total }}
         </li>
         <li class="list-inline-item text-muted">
@@ -83,12 +98,14 @@ export default class extends Vue {
   preferPercent = true
   internalPoll: Poll = cloneDeep(this.poll)
 
+  checkedPositions = []
+
   get votable() {
     return this.$accessor.user && !this.closed
   }
 
-  get finished() {
-    return this.internalPoll.you_responded || this.closed
+  disabledOption(position: string) {
+    return this.checkedPositions.length >= this.internalPoll.max_options && this.checkedPositions.indexOf(position) == -1
   }
 
   get until() {
@@ -129,6 +146,13 @@ export default class extends Vue {
       pollToken: this.internalPoll.poll_token,
     })
     this.internalPoll = data
+
+    this.checkedPositions = []
+    for(let i = 0; i < this.internalPoll.options.length; i++) {
+      if (this.internalPoll.options[i].is_your_response) {
+        this.checkedPositions.push(this.internalPoll.options[i].position)
+      }
+    }
   }
 
   updateTime() {
@@ -148,9 +172,9 @@ export default class extends Vue {
     }
   }
 
-  async respond(position: number) {
+  async respond() {
     const { data } = await this.$axios.$put(
-      `/polls/${this.id}/response/${position}?poll_token=${this.internalPoll.poll_token}`
+      `/polls/${this.id}/response?poll_token=${this.internalPoll.poll_token}&positions=${this.checkedPositions.join(',')}`
     )
     this.internalPoll = data
   }
