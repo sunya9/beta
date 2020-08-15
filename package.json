@@ -105,7 +105,7 @@
     "reg-suit": "0.10.2",
     "rosie": "2.0.1",
     "storycap": "2.3.5",
-    "ts-jest": "26.1.4",
+    "ts-jest": "26.2.0",
     "ts-loader": "8.0.2",
     "typescript": "3.9.7",
     "vue-docgen-api": "4.30.0",
