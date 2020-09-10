@@ -91,34 +91,31 @@ export function createCompose(composeOptions: ComposeOptions) {
     get availablePoll(): boolean {
       return (
         !!this.poll &&
-        this.poll.options &&
-        this.poll.options.filter((option) => option.text).length >= 2
+        this.poll.options.filter((option) => option?.text).length >= 2
       )
     }
 
     get availableSpoiler(): boolean {
       return (
         !!this.spoiler &&
-        !!this.spoiler.topic &&
         this.spoiler.topic.length > 0 &&
         this.spoiler.topic.length <= 128
       )
     }
 
     get availableLongpost(): boolean {
+      if (!this.longpost) return false
+      const length = this.longpost.body.length
+      if (!length) return false
       return (
-        !!this.longpost &&
-        !!this.longpost.body &&
-        this.longpost.body.length > 0 &&
-        this.longpost.body.length <= 6144 &&
+        length > 0 &&
+        length <= 6144 &&
         (!this.longpost.title || this.longpost.title.length < 128)
       )
     }
 
     mounted() {
-      if (this.focus) {
-        this.setFocus()
-      }
+      this.setFocus()
     }
 
     created() {
