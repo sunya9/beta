@@ -165,8 +165,7 @@ import {
   AudioForView,
   MinimumUser,
 } from '~/assets/ts/util'
-import { User } from '~/entity/user'
-import { Message } from '~/entity/message'
+import { Message, MessageEntity } from '~/entity/message'
 import { Spoiler } from '~/entity/raw/raw/spoiler'
 import Sound from '~/components/molecules/Sound.vue'
 
@@ -212,8 +211,12 @@ export default class MessageView extends Mixins(
   })
   lastReadMessageId!: string
 
+  get messageEntity() {
+    return new MessageEntity(this.message)
+  }
+
   get me(): boolean {
-    return this.user?.id === this.messageUser?.id
+    return !!this.messageEntity.user?.isMe
   }
 
   get messageUser(): MinimumUser {
@@ -241,10 +244,6 @@ export default class MessageView extends Mixins(
 
   get spoiler() {
     return Spoiler.getSpoiler(this.message)
-  }
-
-  get user(): User | null {
-    return this.$accessor.user
   }
 
   get authorAvatar() {
