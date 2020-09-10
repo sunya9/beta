@@ -61,7 +61,9 @@ describe('Poll component', () => {
     })
     test('Disable vote butons when logged out', () => {
       wrapper = mount(PollView, opts)
-      expect(wrapper.find('a.disabled').exists()).toBe(true)
+      expect(wrapper.find('.custom-control.custom-checkbox').exists()).not.toBe(
+        true
+      )
     })
     test('Enable vote butons when logged in', () => {
       wrapper = mount(PollView, {
@@ -72,7 +74,7 @@ describe('Poll component', () => {
           $accessor: authedAccessor(),
         },
       })
-      expect(wrapper.find('a.disabled').exists()).toBe(false)
+      expect(wrapper.find('.custom-control-input').exists()).toBe(true)
     })
   })
   describe('Voting is over', () => {
@@ -132,7 +134,7 @@ describe('Poll component', () => {
         ...opts,
         propsData: {
           ...opts.propsData,
-          poll: fixtures<Poll>('poll', 'detail', 'responded'),
+          poll: fixtures<Poll>('poll', 'detail', 'closed', 'responded'),
         },
       })
       expect(wrapper.text()).toContain('Total: 1')

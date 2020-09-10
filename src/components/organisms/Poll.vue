@@ -1,9 +1,12 @@
 <template>
   <div v-if="internalPoll">
-    <p>{{ internalPoll.prompt }}
-    <template v-if="internalPoll.max_options != 1">
-      <br><em>(Up to {{internalPoll.max_options}} options)</em>
-    </template></p>
+    <p>
+      {{ internalPoll.prompt }}
+      <template v-if="internalPoll.max_options != 1">
+        <br />
+        <em>(Up to {{ internalPoll.max_options }} options)</em>
+      </template>
+    </p>
     <ul class="list-unstyled mb-3">
       <li
         v-for="(option, index) in internalPoll.options"
@@ -12,9 +15,9 @@
       >
         <div v-if="votable" class="custom-control custom-checkbox">
           <input
-            type="checkbox"
             :id="`pos-` + option.position"
             v-model="checkedPositions"
+            type="checkbox"
             :value="option.position"
             :disabled="disabledOption(option.position)"
             class="custom-control-input"
@@ -65,7 +68,7 @@
     </a>
     <footer>
       <ul class="list-inline">
-        <li v-if="closed" class="list-inline-item text-muted">
+        <li v-if="responded || closed" class="list-inline-item text-muted">
           Total: {{ total }}
         </li>
         <li class="list-inline-item text-muted">
@@ -98,14 +101,17 @@ export default class extends Vue {
   preferPercent = true
   internalPoll: Poll = cloneDeep(this.poll)
 
-  checkedPositions = []
+  checkedPositions: number[] = []
 
   get votable() {
     return this.$accessor.user && !this.closed
   }
 
-  disabledOption(position: string) {
-    return this.checkedPositions.length >= this.internalPoll.max_options && this.checkedPositions.indexOf(position) == -1
+  disabledOption(position: number) {
+    return (
+      this.checkedPositions.length >= this.internalPoll.max_options &&
+      !this.checkedPositions.includes(position)
+    )
   }
 
   get until() {
@@ -114,6 +120,10 @@ export default class extends Vue {
 
   get closed() {
     return new Date(this.internalPoll.closed_at).getTime() < this.currentTime
+  }
+
+  get responded() {
+    return this.internalPoll.you_responded
   }
 
   get total() {
@@ -148,7 +158,7 @@ export default class extends Vue {
     this.internalPoll = data
 
     this.checkedPositions = []
-    for(let i = 0; i < this.internalPoll.options.length; i++) {
+    for (let i = 0; i < this.internalPoll.options.length; i++) {
       if (this.internalPoll.options[i].is_your_response) {
         this.checkedPositions.push(this.internalPoll.options[i].position)
       }
@@ -174,7 +184,9 @@ export default class extends Vue {
 
   async respond() {
     const { data } = await this.$axios.$put(
-      `/polls/${this.id}/response?poll_token=${this.internalPoll.poll_token}&positions=${this.checkedPositions.join(',')}`
+      `/polls/${this.id}/response?poll_token=${
+        this.internalPoll.poll_token
+      }&positions=${this.checkedPositions.join(',')}`
     )
     this.internalPoll = data
   }
