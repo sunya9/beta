@@ -3889,10 +3889,10 @@
     "@types/glob" "*"
     "@types/node" "*"
 
-"@types/rosie@0.0.37":
-  version "0.0.37"
-  resolved "https://registry.yarnpkg.com/@types/rosie/-/rosie-0.0.37.tgz#b3829baca3748b3a2a95c5d027d65c3ac54d0ef4"
-  integrity sha512-ZjeBPOz2ny50513sxtGpI9iIyH8+N/Ac1F9MIxzPJsyf6nSTdVuzsCEMzEbKqCubru/u1uvBiQa4lUBptvdIUw==
+"@types/rosie@0.0.38":
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/@types/rosie/-/rosie-0.0.38.tgz#bead6124c3ea11ee2b2e1b23b18a2688c289c028"
+  integrity sha512-9g0bcHxRXr5PkuS+hjdRX7wl7edV9M+eX9zAypcVGn69FUckVayEK4yMysKpwtY/CxKgvbx/XKIvCTau7anf9w==
 
 "@types/serve-static@*":
   version "1.13.4"
