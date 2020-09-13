@@ -16951,63 +16951,63 @@ reg-cli@^0.16.1:
     mustache "3.1.0"
     x-img-diff-js "0.3.5"
 
-reg-gh-app-interface@^1.0.1:
+reg-gh-app-interface@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/reg-gh-app-interface/-/reg-gh-app-interface-1.0.6.tgz#6e4f78f2e5c60585dac87b21d1cbc586dbb7f71c"
   integrity sha512-aLI9CpVlSyw3pdJkPS4E7P8pMjJG3DQrEN5bO5ANySxhHndXA7/uTGEe6kcK6V+/+xcYOsvoE6UrRphhkCZy3w==
 
-reg-keygen-git-hash-plugin@0.8.5:
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/reg-keygen-git-hash-plugin/-/reg-keygen-git-hash-plugin-0.8.5.tgz#8738a964396844de14dbf98f07ac5a5d983b3576"
-  integrity sha512-d0Bk8bWnXLaqIl37MVVdZRia87POgLuJ6yOhZBrVGz0Zn41vE+SeS8nuMEwsxvNBrqWvESvzBmetcfTFOEhkxw==
+reg-keygen-git-hash-plugin@0.10.3:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/reg-keygen-git-hash-plugin/-/reg-keygen-git-hash-plugin-0.10.3.tgz#8519a8c1384d5996877a8e45ec04aa4ccabc6361"
+  integrity sha512-Dpe4hmyV1P0nlMXZ1kDQye1XyuZaVBCIIqt83N6sQnohPy0/ez3vFSS8B0JUJjr7J2YSphbaiWXuIOvb46aSsg==
   dependencies:
-    reg-suit-util "^0.8.5"
+    reg-suit-util "^0.10.3"
 
-reg-notify-github-plugin@0.8.5:
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/reg-notify-github-plugin/-/reg-notify-github-plugin-0.8.5.tgz#18f6beb8280468ee65d4f95f3249b7bcb5d206e1"
-  integrity sha512-4JSJDXuJGHC8NO+uhpibMDptw3Lz0nHduOj/GuxLEUBbio3w9102VvR5fHcgW9hPPKjjwM0B/6WamLNbWWN50A==
+reg-notify-github-plugin@0.10.3:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/reg-notify-github-plugin/-/reg-notify-github-plugin-0.10.3.tgz#284539c5c618f9ab7a4031436ceccb4b25acc261"
+  integrity sha512-hfYiXj0ni3adWj1Xgx7oMIwN/qqLyMDQsblm6HoNOzY9yxithMQKT7G/2ngecSUU66hi840dLc+u40uGrmfKHQ==
   dependencies:
     opn "^5.4.0"
-    reg-gh-app-interface "^1.0.1"
-    reg-suit-util "^0.8.5"
+    reg-gh-app-interface "^1.0.6"
+    reg-suit-util "^0.10.3"
     request "^2.81.0"
     request-promise "^4.2.1"
     tiny-commit-walker "^1.1.2"
 
-reg-notify-slack-plugin@0.8.4:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/reg-notify-slack-plugin/-/reg-notify-slack-plugin-0.8.4.tgz#de8ca73ee20aed3a5b1a9eeeb4f95532ce723f40"
-  integrity sha512-J6peTb2v6jqKmTtLqIColOP0PgtkNyTE6zsPX1MHJSVV+EqcgzhylQ/6iJn/BQqFrBgDBiNaiBwtO/MBqL6CGQ==
+reg-notify-slack-plugin@0.10.3:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/reg-notify-slack-plugin/-/reg-notify-slack-plugin-0.10.3.tgz#f796dfc6be3ee7764cf5a79493eee15bcf58d342"
+  integrity sha512-c46HotFrLoR+XK6yHOSEUjQ7s3scZShmlT+rFTHq+QxzTcLr9pC5YdG7yQfUuaE0dahq74PuDKjIhQ9Kxov/0Q==
   dependencies:
     request "^2.81.0"
     request-promise "^4.2.1"
 
-reg-publish-gcs-plugin@0.10.2:
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/reg-publish-gcs-plugin/-/reg-publish-gcs-plugin-0.10.2.tgz#3051cb9d85e1616904b69685b6709c65f6904c6b"
-  integrity sha512-xPj26jbTBnQtnoi8U5Mx/Xw7Ng7S36f7QMZq/3jRHIhnQ30wxOKtGPQHt4d+UyjFUi5anFq890P1vFWsnwBulA==
+reg-publish-gcs-plugin@0.10.3:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/reg-publish-gcs-plugin/-/reg-publish-gcs-plugin-0.10.3.tgz#5bf9b62f6b41455ad1ba42af3e947b706aafd789"
+  integrity sha512-cR1vwEJ75S2aHz3HUym7ZDX01flFqM2+k0KnFro3QrrWGICtagC9MT9s0W/+09reiYH16tthy3bKLBb+v6Vgyg==
   dependencies:
     "@google-cloud/storage" "^3.0.2"
     form-data "^2.5.0"
     mkdirp "^0.5.1"
-    reg-suit-util "^0.8.5"
+    reg-suit-util "^0.10.3"
     uuid "^3.1.0"
 
-reg-suit-core@^0.10.2:
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/reg-suit-core/-/reg-suit-core-0.10.2.tgz#dcd29de22500c411b456e2067594003770ecc2ba"
-  integrity sha512-k/yPA/NEmV8MdJa8dvXjE89yzI3x5OD7Ur2f7UbporZX7z3lZHD64sIJdOFfzv5DfmlR2muMRtAvLp5krBYaXA==
+reg-suit-core@^0.10.3:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/reg-suit-core/-/reg-suit-core-0.10.3.tgz#d341eff4e5ca206e91ef64efab0ad3739ae4a301"
+  integrity sha512-9ZTyDGhYFazZPVyOvfc8Tma34FltSyEfuee33/UHBOw79hwK2D5M3fz9IyaRmBwmTY/O7cj30RCd+Sv12ew+3A==
   dependencies:
     cpx "^1.5.0"
     reg-cli "^0.16.1"
-    reg-suit-util "^0.8.5"
+    reg-suit-util "^0.10.3"
     rimraf "^2.6.1"
 
-reg-suit-util@^0.8.5:
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/reg-suit-util/-/reg-suit-util-0.8.5.tgz#a86eeacb032b5550fb98a0c696822e8a0ef072ef"
-  integrity sha512-9SdOTaXpTMAVurch5fP6u5kd9pADktUZgKYEbCIh4ud4tAObl6sKGPtD+bnsjkN4cymj7PBZSNXijgrW7lCV2w==
+reg-suit-util@^0.10.3:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/reg-suit-util/-/reg-suit-util-0.10.3.tgz#c5c4067e77b7a1b8fde661ffd31d818d7e0d3af1"
+  integrity sha512-Fx++RKCxr08mqN+Yg10ueaaq8IUnm9h3fu+45LsFkMg34e22kfZk5JtpeUANvUuYzsVYjQ0NU25S024Aho6gzg==
   dependencies:
     chalk "^2.0.1"
     cli-progress "^1.4.1"
@@ -17017,16 +17017,16 @@ reg-suit-util@^0.8.5:
     mime-types "^2.1.15"
     mkdirp "^0.5.1"
 
-reg-suit@0.10.2:
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/reg-suit/-/reg-suit-0.10.2.tgz#bb6fe6385a8ddc55b835ffc112e4a3e726fd8d80"
-  integrity sha512-Tq5rzBo46wMOzjYmOFscbwwb19yPAZ3y7kPdC8TxmlX1Wzkc4rTqlz57Ej8Ao2M1oQyY+0zf8HDaNJk2HS61YA==
+reg-suit@0.10.3:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/reg-suit/-/reg-suit-0.10.3.tgz#834d9ef9835c269c26e126a01fe678b6a2d2ee0e"
+  integrity sha512-wGlh5C+1Ewl6q+0SlDudMxNDWYL4jHUL2zrs3EzIekfbBH0elokGh1MOCuiqp8MmmuPbUnaGivjPYhg3ExZPvQ==
   dependencies:
     cp-file "^7.0.0"
     ignore "^3.3.7"
     inquirer "^3.1.1"
-    reg-suit-core "^0.10.2"
-    reg-suit-util "^0.8.5"
+    reg-suit-core "^0.10.3"
+    reg-suit-util "^0.10.3"
     yargs "^8.0.2"
 
 regenerate-unicode-properties@^8.2.0:
