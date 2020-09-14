@@ -34,7 +34,7 @@
     "mousetrap": "1.6.5",
     "nuxt": "2.14.3",
     "nuxt-property-decorator": "2.7.2",
-    "nuxt-typed-vuex": "0.1.20",
+    "nuxt-typed-vuex": "0.1.21",
     "nuxt-uid-module": "0.2.0",
     "reflect-metadata": "0.1.13",
     "sass-loader": "10.0.2",
