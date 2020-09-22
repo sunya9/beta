@@ -32,7 +32,7 @@
     "lodash": "4.17.20",
     "medium-zoom": "1.0.6",
     "mousetrap": "1.6.5",
-    "nuxt": "2.14.3",
+    "nuxt": "2.14.6",
     "nuxt-property-decorator": "2.8.3",
     "nuxt-typed-vuex": "0.1.21",
     "nuxt-uid-module": "0.2.0",
@@ -55,7 +55,7 @@
     "@babel/plugin-transform-typescript": "7.11.0",
     "@babel/preset-env": "7.11.5",
     "@babel/preset-typescript": "7.10.4",
-    "@nuxt/types": "2.14.3",
+    "@nuxt/types": "2.14.6",
     "@nuxt/typescript-build": "2.0.3",
     "@nuxtjs/eslint-config-typescript": "3.0.0",
     "@storybook/addon-actions": "5.3.21",
@@ -112,7 +112,6 @@
     "vue-docgen-loader": "1.5.0",
     "vue-jest": "3.0.6",
     "vue-loader": "15.9.3",
-    "vue-template-compiler": "2.6.11",
     "webpack-merge": "5.1.4"
   },
   "engines": {
