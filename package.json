@@ -72,7 +72,7 @@
     "@types/jest": "26.0.14",
     "@types/lodash": "4.14.161",
     "@types/mousetrap": "1.6.4",
-    "@types/nuxtjs__auth": "4.8.4",
+    "@types/nuxtjs__auth": "4.8.5",
     "@types/rosie": "0.0.38",
     "@types/twemoji": "12.1.1",
     "@typescript-eslint/eslint-plugin": "3.10.1",
