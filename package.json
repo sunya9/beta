@@ -21,7 +21,7 @@
     "animate.css": "4.1.1",
     "bootstrap": "4.5.2",
     "bootstrap-vue": "2.17.3",
-    "bootstrap.native": "3.0.10",
+    "bootstrap.native": "3.0.13",
     "convert-units": "2.3.4",
     "cross-env": "7.0.2",
     "dayjs": "1.8.36",

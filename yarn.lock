@@ -4770,13 +4770,13 @@ bootstrap-vue@2.17.3:
     portal-vue "^2.1.7"
     vue-functional-data-merge "^3.1.0"
 
-bootstrap.native@3.0.10:
-  version "3.0.10"
-  resolved "https://registry.yarnpkg.com/bootstrap.native/-/bootstrap.native-3.0.10.tgz#58df5c9afdc495c7a68a9d6287421cc8fc0e2efe"
-  integrity sha512-Rqjup9aUM6xmWV620OQtaTbNu8gNukH2S0gfo9WzvTZCZUu/QUEnhSazTaQUfV0KVzKO/QQAy8vfShFKIGMAkA==
+bootstrap.native@3.0.13:
+  version "3.0.13"
+  resolved "https://registry.yarnpkg.com/bootstrap.native/-/bootstrap.native-3.0.13.tgz#95c6ed59c3dcb180643d140a1e9095d35a246c9d"
+  integrity sha512-8df8/6+zXDxolYCIn7QNsQ+3NozgNmMfBgSyOolhs0GDUWyG6MfM3oGv7GsOfFbQRjBL7VFqQ1KJuBb/uW/HXA==
   dependencies:
     minifill "^0.0.8"
-    shorter-js "^0.1.4"
+    shorter-js "^0.1.7"
 
 bootstrap@4.5.2, "bootstrap@>=4.5.2 <5.0.0":
   version "4.5.2"
@@ -16733,10 +16733,10 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-shorter-js@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/shorter-js/-/shorter-js-0.1.4.tgz#94e39d7f14f2b5de44fde6a4665a303e437dc2d1"
-  integrity sha512-pKA910IvKicFs3brUAzR4o/JCSWt2KoXQjzxunhR1fikJwu5j3ABKfymywtf+3oVKnV4r8KAWfNDcueVXOzeIw==
+shorter-js@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/shorter-js/-/shorter-js-0.1.7.tgz#e02ca55838fa4841553d0fdc49870adde7f5cb19"
+  integrity sha512-H7dO5P4a0LndmaRgTsRTHn3Rf2Oy7ocVf6M1ZvYJIIAtOcEnE7lmhQ7bnDzoU22JbN6KR+VgLzhuuSAhMpoxrQ==
 
 side-channel@^1.0.2:
   version "1.0.3"
