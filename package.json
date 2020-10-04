@@ -44,7 +44,7 @@
     "unicode-substring": "1.0.0",
     "vue-infinite-scroll": "2.0.2",
     "vue-on-click-outside": "1.0.3",
-    "vue-property-decorator": "9.0.0",
+    "vue-property-decorator": "9.0.2",
     "vue-scrollto": "2.18.2",
     "vuedraggable": "2.24.1",
     "zooming": "2.1.1"
