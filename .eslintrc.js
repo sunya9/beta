@@ -56,5 +56,7 @@ module.exports = {
     ],
     'vue/singleline-html-element-content-newline': 'off',
     'unicorn/number-literal-case': 'off',
+    'no-redeclare': 'off',
+    '@typescript-eslint/no-redeclare': 'error',
   },
 }

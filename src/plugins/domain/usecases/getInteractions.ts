@@ -1,18 +1,17 @@
 import { singleton, inject } from 'tsyringe'
-import { Interaction } from '~/entity/interaction'
+import { InteractionType, Interaction } from '~/entity/interaction'
 import { PnutRepository } from '~/plugins/domain/repository/pnutRepository'
-import { InteractionType } from '~/plugins/domain/dto/common'
 import { GeneralPostParameters } from '~/plugins/domain/dto/post'
 import { UseCase } from '~/plugins/domain/usecases/usecase'
 import { createListInfo, ListInfo } from '~/plugins/domain/util/util'
 
 interface Input {
-  interactionType?: InteractionType[] | string | Array<string | null>
+  interactionType?: Interaction.ActionType[] | string | Array<string | null>
   params?: GeneralPostParameters
 }
 
 interface Output {
-  listInfo: ListInfo<Interaction>
+  listInfo: ListInfo<InteractionType>
 }
 
 export interface GetInteractionsUseCase

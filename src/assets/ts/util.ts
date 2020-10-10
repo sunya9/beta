@@ -2,15 +2,15 @@ import _ from 'lodash'
 import { Entity } from '~/entity/entity'
 import { Raw, HasRaw } from '~/entity/raw'
 import { Post } from '~/entity/post'
-import { OEmbed } from '~/entity/raw/raw/oembed'
+import { OEmbed, OEmbedType } from '~/entity/raw/raw/oembed'
 import { User } from '~/entity/user'
 import { Message } from '~/entity/message'
 
-function rawIsOembed(raw: Raw): raw is OEmbed {
+function rawIsOembed(raw: Raw): raw is OEmbedType {
   return raw.type === OEmbed.type
 }
 
-function oEmbedIsPhoto(oembed: OEmbed): oembed is OEmbed.Photo {
+function oEmbedIsPhoto(oembed: OEmbedType): oembed is OEmbed.Photo {
   return oembed.value.type === 'photo'
 }
 
@@ -62,7 +62,7 @@ export interface AudioForView {
   title: string
 }
 
-function oembedIsAudio(oembed: OEmbed): oembed is OEmbed.Audio {
+function oembedIsAudio(oembed: OEmbedType): oembed is OEmbed.Audio {
   return oembed.value.type === 'audio'
 }
 export function getAudio(hasRawData: HasRaw): AudioForView[] | void {
@@ -79,7 +79,7 @@ export function getAudio(hasRawData: HasRaw): AudioForView[] | void {
   return audio
 }
 
-function rawIsOembedVideo(oembed: OEmbed): oembed is OEmbed.Video {
+function rawIsOembedVideo(oembed: OEmbedType): oembed is OEmbed.Video {
   return oembed.value.type === 'video'
 }
 

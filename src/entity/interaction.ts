@@ -9,7 +9,8 @@ interface BaseInteraction<T> extends Pageable {
   objects: T[]
   users: User[]
 }
-export type Interaction =
+
+export type InteractionType =
   | Interaction.Bookmark
   | Interaction.Reply
   | Interaction.Repost

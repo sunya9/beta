@@ -1,4 +1,5 @@
 import { Wrapper } from '@vue/test-utils'
+import Vue from 'vue'
 import { shallowMount, fixtures } from '../helper'
 import RemoveModal from '~/components/organisms/RemoveModal.vue'
 import BaseModal from '~/components/molecules/BaseModal.vue'

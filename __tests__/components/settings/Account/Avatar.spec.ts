@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { Wrapper } from '@vue/test-utils'
 import { shallowMount, fixtures } from '../../../helper'
 import Avatar from '~/components/molecules/settings/Account/Avatar.vue'

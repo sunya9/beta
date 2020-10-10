@@ -29,11 +29,11 @@
         <div v-else>
           <div
             class="progress position-relative"
-            style="height: 2rem;"
+            style="height: 2rem"
             @click="toggleDisplay"
           >
             <div :style="getStyle(option)" class="progress-bar">
-              <div class="position-absolute w-100" style="right: 0; left: 0;">
+              <div class="position-absolute w-100" style="right: 0; left: 0">
                 <div
                   class="mx-3 d-flex justify-content-between align-items-center"
                 >
@@ -75,9 +75,7 @@
           <nuxt-link :to="`/polls/${internalPoll.id}`" class="text-muted">
             <font-awesome-icon :icon="['far', 'clock']" class="mr-2" />
             <span v-if="closed">Closed at</span>
-            <span v-else>
-              ~
-            </span>
+            <span v-else>~</span>
             {{ until }}
           </nuxt-link>
         </li>
@@ -97,7 +95,7 @@ export default class extends Vue {
   poll!: Poll
 
   currentTime = Date.now()
-  timer: NodeJS.Timeout | null = null
+  timer: number | null = null
   preferPercent = true
   internalPoll: Poll = cloneDeep(this.poll)
 
@@ -138,7 +136,7 @@ export default class extends Vue {
   }
 
   async mounted() {
-    this.timer = setInterval(this.updateTime, 1000)
+    this.timer = window.setInterval(this.updateTime, 1000)
     await this.getPoll()
   }
 

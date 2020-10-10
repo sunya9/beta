@@ -1,11 +1,11 @@
 import fixtures from '.'
-import { Interaction } from '~/entity/interaction'
+import { InteractionType } from '~/entity/interaction'
 import { Post } from '~/entity/post'
 import { User } from '~/entity/user'
 
 const post = fixtures<Post>('post')
 
-const baseInteraction: Interaction = {
+const baseInteraction: InteractionType = {
   event_date: new Date(),
   pagination_id: '1',
   users: [fixtures('user')],
@@ -15,21 +15,21 @@ const baseInteraction: Interaction = {
 }
 export default baseInteraction
 
-export const reply: Partial<Interaction> = {
+export const reply: Partial<InteractionType> = {
   action: 'reply',
   objects: [post],
 }
 
-export const bookmark: Partial<Interaction> = {
+export const bookmark: Partial<InteractionType> = {
   action: 'bookmark',
   objects: [post],
 }
 
-export const repost: Partial<Interaction> = {
+export const repost: Partial<InteractionType> = {
   action: 'repost',
   objects: [post],
 }
-export const follow: Partial<Interaction> = {
+export const follow: Partial<InteractionType> = {
   action: 'follow',
   objects: [fixtures<User>('user', 'notMe')],
 }

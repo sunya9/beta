@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import * as Vuex from 'vuex'
 import { defaultsDeep } from 'lodash'
 import { ThisTypedMountOptions } from '@vue/test-utils'

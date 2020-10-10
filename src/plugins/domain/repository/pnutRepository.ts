@@ -10,7 +10,7 @@ import {
   HomeStreamRequest,
   MentionRequest,
 } from '~/plugins/domain/dto/post'
-import { Interaction } from '~/entity/interaction'
+import { InteractionType } from '~/entity/interaction'
 import {
   SearchUsersRequest,
   GeneralUserParameters,
@@ -65,7 +65,7 @@ export interface PnutRepository {
   getPostInteractions(
     postIdRequest: PostIdRequest,
     params?: GeneralPostParameters
-  ): Promise<PnutResponse<Interaction[]>>
+  ): Promise<PnutResponse<InteractionType[]>>
   getBookmarks(
     userId: string,
     params?: GeneralPostParameters
@@ -134,7 +134,7 @@ export interface PnutRepository {
   ): Promise<PnutResponse<User>>
   getInteractions(
     params?: GetInteractionParameters
-  ): Promise<PnutResponse<Interaction[]>>
+  ): Promise<PnutResponse<InteractionType[]>>
   getFollowers(
     userId: UserId,
     params?: GeneralUserParameters

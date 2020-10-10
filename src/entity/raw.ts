@@ -9,7 +9,7 @@ import { LongPost } from '~/entity/raw/raw/long-post'
 import { ChannelCoverImage } from '~/entity/raw/raw/channel-cover-image'
 import { ChannelInvite } from '~/entity/raw/raw/channel-invite'
 import { ChatRoomSettings } from '~/entity/raw/raw/chat-room-settings'
-import { OEmbed } from '~/entity/raw/raw/oembed'
+import { OEmbedType } from '~/entity/raw/raw/oembed'
 import { Crosspost } from '~/entity/raw/raw/crosspost'
 import { Spoiler } from '~/entity/raw/raw/spoiler'
 import { ReplacementFileRaw } from '~/entity/raw/replacement-values/file'
@@ -27,7 +27,7 @@ export type Raw =
   | ChannelCoverImage
   | ChannelInvite
   | ChatRoomSettings
-  | OEmbed
+  | OEmbedType
   | Crosspost
   | Spoiler
   | ReplacementFileRaw

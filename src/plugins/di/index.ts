@@ -25,7 +25,8 @@ declare module '@nuxt/types' {
 }
 
 declare module 'vuex/types/index' {
-  interface Store<S> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export interface Store<S> {
     $interactors: Interactors
   }
 }

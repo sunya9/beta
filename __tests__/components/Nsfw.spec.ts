@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { Wrapper } from '@vue/test-utils'
 import { shallowMount } from '../helper'
 import Nsfw from '~/components/organisms/Nsfw.vue'

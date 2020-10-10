@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { Wrapper } from '@vue/test-utils'
 import { mount, authedAccessor } from '../helper'
 import FollowButton from '~/components/atoms/FollowButton.vue'

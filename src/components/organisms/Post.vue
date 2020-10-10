@@ -63,9 +63,7 @@
             class="text-muted"
           />
         </nuxt-link>
-        <span v-else class="text-gray-dark">
-          Deleted user
-        </span>
+        <span v-else class="text-gray-dark">Deleted user</span>
       </h6>
       <nsfw :include-nsfw="mainPost.is_nsfw">
         <div class="d-flex flex-wrap flex-md-nowrap">
@@ -109,12 +107,8 @@
                     :icon="!showLongpost ? 'plus' : 'minus'"
                     aria-hidden="true"
                   />
-                  <span v-if="!showLongpost">
-                    Expand Post
-                  </span>
-                  <span v-else>
-                    Collapse Post
-                  </span>
+                  <span v-if="!showLongpost">Expand Post</span>
+                  <span v-else>Collapse Post</span>
                 </button>
                 <div v-if="showLongpost" class="mt-2 longpost">
                   <emojify
@@ -311,25 +305,19 @@
               <div class="count">
                 {{ post.counts.replies }}
               </div>
-              <small class="text-muted">
-                replies
-              </small>
+              <small class="text-muted">replies</small>
             </li>
             <li class="list-inline-item">
               <div class="count">
                 {{ post.counts.reposts }}
               </div>
-              <small class="text-muted">
-                reposts
-              </small>
+              <small class="text-muted">reposts</small>
             </li>
             <li class="list-inline-item">
               <div class="count">
                 {{ post.counts.bookmarks }}
               </div>
-              <small class="text-muted">
-                stars
-              </small>
+              <small class="text-muted">stars</small>
             </li>
           </ul>
           <ul class="list-inline ml-3">
@@ -442,7 +430,7 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
   })
   preview!: boolean
 
-  timer: NodeJS.Timer | null = null
+  timer: number | null = null
   disableEdit = true
   showSpoiler = false
   showLongpost = false
@@ -575,7 +563,10 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
     if (over5minutes) return
     const remainMilliSeconds = FIVE_MINUTES - diff
     this.disableEdit = false
-    this.timer = setTimeout(() => (this.disableEdit = true), remainMilliSeconds)
+    this.timer = window.setTimeout(
+      () => (this.disableEdit = true),
+      remainMilliSeconds
+    )
   }
 
   beforeDestroy() {
