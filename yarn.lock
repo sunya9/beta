@@ -7194,10 +7194,10 @@ emittery@^0.7.1:
   resolved "https://registry.yarnpkg.com/emittery/-/emittery-0.7.1.tgz#c02375a927a40948c0345cc903072597f5270451"
   integrity sha512-d34LN4L6h18Bzz9xpoku2nPwKxCPlPMr3EEKTkoEBi+1/+b0lcRkRJ1UVyyZaKNeqGR3swcGl6s390DNO4YVgQ==
 
-emoji-datasource-twitter@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/emoji-datasource-twitter/-/emoji-datasource-twitter-5.0.1.tgz#a4e1c85e4def8235cadbcd85fbce32a2335d165c"
-  integrity sha512-PiQav2Y6V/P3FjA6p5GJRhzbINv/yc6pn/YCuyJFmk/ZZzI++COXyPCC7SUv9HUeKnJWK+gdj1josUK0vCjvvA==
+emoji-datasource-twitter@6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/emoji-datasource-twitter/-/emoji-datasource-twitter-6.0.0.tgz#b93d4b813c17e979d7986fb1d7500ca762973ff4"
+  integrity sha512-b9jckv3M7Rs11dRiNqg5LBVGUAjp3RSKHWA3clvaYQtPwaTlCiHgH5biBJIBy7VJkThFcS/GiS53t48h/UJl5g==
 
 emoji-mart-vue@2.6.6:
   version "2.6.6"
