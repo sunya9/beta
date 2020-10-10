@@ -109,7 +109,7 @@ export namespace OEmbed {
   }
 }
 
-export type OEmbed =
+export type OEmbedType =
   | OEmbed.Audio
   | OEmbed.HTML5Video
   | OEmbed.Photo

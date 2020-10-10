@@ -1,6 +1,6 @@
-import Vue from 'vue'
 import dayjs from 'dayjs'
 import Mousetrap from 'mousetrap'
+import { Interactors } from '~/plugins/di/interactors'
 import { accessorType } from '~/store'
 
 declare module 'vue/types/vue' {
@@ -25,3 +25,10 @@ export type DeepPartial<T> = T extends object
       [P in keyof T]?: DeepPartial<T[P]> | null
     }
   : T
+
+declare module 'vuex/types/index' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface Store<S> {
+    $interactors: Interactors
+  }
+}

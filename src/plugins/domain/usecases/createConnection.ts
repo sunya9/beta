@@ -30,12 +30,12 @@ export namespace CreateConnectionUseCase {
 const thirtySecMs = 30 * 1000
 
 type SubscriptionType =
-  | SubscriptionType.home
-  | SubscriptionType.mention
-  | SubscriptionType.channels
-  | SubscriptionType.messages
+  | Subscription.home
+  | Subscription.mention
+  | Subscription.channels
+  | Subscription.messages
 
-export namespace SubscriptionType {
+export namespace Subscription {
   export const home = 'home' as const
   export type home = typeof home
   export const mention = 'mention' as const
@@ -47,11 +47,11 @@ export namespace SubscriptionType {
 }
 
 function isConnection(obj: any): obj is Connection {
-  return !!obj?.['meta']?.['connection_id']
+  return !!obj?.meta?.connection_id
 }
 
 function isPnutRes(obj: any): obj is PnutResponse<any> {
-  return !!obj?.['meta']?.['subscription_ids']
+  return !!obj?.meta?.subscription_ids
 }
 
 type SubscriptionIdTypeMap = { [key: string]: SubscriptionType }
@@ -99,7 +99,7 @@ export class CreateConnectionInteractor implements CreateConnectionUseCase {
       ws.send('💓')
     }, thirtySecMs)
 
-    const cleanup = (ev: WebSocketEventMap['close']) => {
+    const cleanup = (ev: CloseEvent) => {
       clearInterval(timer)
       ws.removeEventListener('close', cleanup)
       const error = ev.code === 1000 ? undefined : new Error() // TODO
@@ -140,13 +140,13 @@ export class CreateConnectionInteractor implements CreateConnectionUseCase {
     obj.meta.subscription_ids?.forEach((subscriptionId) => {
       const type = map[subscriptionId]
       switch (type) {
-        case SubscriptionType.home:
+        case Subscription.home:
           return input.handlers.newHomeStreamHandler(obj)
-        case SubscriptionType.mention:
+        case Subscription.mention:
           return input.handlers.newMentionHandler(obj)
-        case SubscriptionType.messages:
+        case Subscription.messages:
           return input.handlers.newChannelMesssageHandler(obj)
-        case SubscriptionType.channels:
+        case Subscription.channels:
           return input.handlers.newAnyMesssageHandler(obj)
       }
     })
@@ -195,17 +195,17 @@ export class CreateConnectionInteractor implements CreateConnectionUseCase {
     ])
     return {
       subscriptionMap: {
-        [homeSubscriptionId!]: SubscriptionType.home,
-        [mentionSubscriptionId!]: SubscriptionType.mention,
-        [channelSubscriptionId!]: SubscriptionType.channels,
+        [homeSubscriptionId!]: Subscription.home,
+        [mentionSubscriptionId!]: Subscription.mention,
+        [channelSubscriptionId!]: Subscription.channels,
       },
       unreads: {
-        [SubscriptionType.channels]:
+        [Subscription.channels]:
           (unreadData?.['io.pnut.core.chat'] || 0) +
             (unreadData?.['io.pnut.core.pm'] || 0) >
           0,
-        [SubscriptionType.home]: homeData[0]?.id !== homeMarker?.last_read_id,
-        [SubscriptionType.mention]:
+        [Subscription.home]: homeData[0]?.id !== homeMarker?.last_read_id,
+        [Subscription.mention]:
           mentionData[0]?.id !== mentionMarker?.last_read_id,
       },
     } as const

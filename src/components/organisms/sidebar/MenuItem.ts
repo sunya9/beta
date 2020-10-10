@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { createAppMenus } from './App'
 import { createSettingsMenu } from './Settings'
 import { createFileMenu } from './Files'
