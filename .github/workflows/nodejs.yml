@@ -28,7 +28,7 @@ jobs:
     - run: yarn screenshot
     - name: prepare gcp key
       id: prepare_gcp_key
-      run: GOOGLE_APPLICATION_CREDENTIALS=$(mktemp) && echo $GOOGLE_APPLICATION_CREDENTIALS_BASE64 | base64 -d > $FILE && echo "::set-output name=GOOGLE_APPLICATION_CREDENTIALS::$FILE"
+      run: GOOGLE_APPLICATION_CREDENTIALS=$(mktemp) && echo $GOOGLE_APPLICATION_CREDENTIALS_BASE64 | base64 -d > $GOOGLE_APPLICATION_CREDENTIALS && echo "::set-output name=GOOGLE_APPLICATION_CREDENTIALS::$GOOGLE_APPLICATION_CREDENTIALS"
       env:
         GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64}}
     - run: yarn ci
