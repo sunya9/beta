@@ -31,6 +31,9 @@ jobs:
       run: GOOGLE_APPLICATION_CREDENTIALS=$(mktemp) && echo $GOOGLE_APPLICATION_CREDENTIALS_BASE64 | base64 -d > $GOOGLE_APPLICATION_CREDENTIALS && echo "::set-output name=GOOGLE_APPLICATION_CREDENTIALS::$GOOGLE_APPLICATION_CREDENTIALS"
       env:
         GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64}}
+    - name: workaround for detached HEAD
+      run: |
+        git checkout ${GITHUB_REF#refs/heads/} || git checkout -b ${GITHUB_REF#refs/heads/} && git pull
     - run: yarn ci
       env:
         COVERAGE_FILE: coverage/lcov.info
