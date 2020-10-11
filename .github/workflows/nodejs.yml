@@ -1,0 +1,38 @@
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: yarn build-storybook
+    - run: yarn screenshot
+    - name: prepare gcp key
+      run: FILE=$(mktemp) && echo $GOOGLE_APPLICATION_CREDENTIALS_BASE64 | base64 -d > $FILE && GOOGLE_APPLICATION_CREDENTIALS=$FILE yarn ci
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64}}
+    - run: yarn ci
+      env:
+        COVERAGE_FILE: coverage/lcov.info
+    - run: yarn build
+    - name: Send coverage report
+      uses: paambaati/codeclimate-action@v2.7.4
+      env:
+        CC_TEST_REPORTER_ID: 06f5b199c1d9bb6f814adf03807ad1df9b6184d4a268daba4672f4f95418ac7e
