@@ -42,7 +42,7 @@ describe('Compose component', () => {
       })
     })
     describe('when text length is 256', () => {
-      test('postCounter equals 0 ', async () => {
+      test('postCounter equals 0', async () => {
         type('a'.repeat(256))
         await new Promise((resolve) => setTimeout(resolve, 500))
         const remaining = +wrapper.find('[data-test-id="post-counter"]').text()
@@ -104,12 +104,12 @@ describe('Compose component', () => {
         $submitButton = wrapper.find('button[type="submit"]')
       })
       describe('has not text', () => {
-        test('disabled ', () => {
+        test('disabled', () => {
           expect($submitButton.attributes().disabled).toBe('disabled')
         })
       })
       describe('has text over 256 characters', () => {
-        test('disabled ', () => {
+        test('disabled', () => {
           type('a'.repeat(260))
           expect($submitButton.attributes().disabled).toBe('disabled')
         })
