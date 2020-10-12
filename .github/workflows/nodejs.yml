@@ -22,12 +22,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn build-storybook
-    - run: yarn screenshot
-    - name: prepare gcp key
-      run: FILE=$(mktemp) && echo $GOOGLE_APPLICATION_CREDENTIALS_BASE64 | base64 -d > $FILE && GOOGLE_APPLICATION_CREDENTIALS=$FILE yarn ci
-      env:
-        GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64}}
+    - name: Install modules
+      run: yarn
     - run: yarn ci
       env:
         COVERAGE_FILE: coverage/lcov.info

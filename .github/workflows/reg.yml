@@ -1,0 +1,30 @@
+name: Regsuit
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js v14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: Install modules
+        run: yarn
+      - run: yarn build-storybook
+      - run: yarn screenshot
+      - name: workaround for detached HEAD
+        run: git checkout ${GITHUB_REF#refs/heads/} || git checkout -b ${GITHUB_REF#refs/heads/} && git pull
+      - name: prepare gcp key
+        id: prepare_gcp_key
+        run: GOOGLE_APPLICATION_CREDENTIALS=$(mktemp) && echo $GOOGLE_APPLICATION_CREDENTIALS_BASE64 | base64 -d > $GOOGLE_APPLICATION_CREDENTIALS && echo "::set-output name=GOOGLE_APPLICATION_CREDENTIALS::$GOOGLE_APPLICATION_CREDENTIALS"
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64}}
+      - name: run reg-suit
+        run: yarn reg-suit run
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS:  ${{steps.prepare_gcp_key.outputs.GOOGLE_APPLICATION_CREDENTIALS}}
