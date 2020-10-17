@@ -46,7 +46,7 @@
     "vue-on-click-outside": "1.0.3",
     "vue-property-decorator": "9.0.2",
     "vue-scrollto": "2.19.1",
-    "vuedraggable": "2.24.1",
+    "vuedraggable": "2.24.2",
     "zooming": "2.1.1"
   },
   "devDependencies": {
