@@ -57,7 +57,7 @@
     "@babel/preset-typescript": "7.12.1",
     "@nuxt/types": "2.14.7",
     "@nuxt/typescript-build": "2.0.3",
-    "@nuxtjs/eslint-config-typescript": "3.0.0",
+    "@nuxtjs/eslint-config-typescript": "4.0.0",
     "@storybook/addon-actions": "5.3.21",
     "@storybook/addon-backgrounds": "5.3.21",
     "@storybook/addon-knobs": "5.3.21",
