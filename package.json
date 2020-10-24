@@ -37,7 +37,7 @@
     "nuxt-typed-vuex": "0.1.22",
     "nuxt-uid-module": "0.2.0",
     "reflect-metadata": "0.1.13",
-    "sass-loader": "10.0.3",
+    "sass-loader": "10.0.4",
     "string-length": "4.0.1",
     "tsyringe": "4.3.0",
     "twemoji": "13.0.1",
