@@ -19642,10 +19642,10 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
 
-vue-docgen-api@4.33.1:
-  version "4.33.1"
-  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-4.33.1.tgz#ea6bcf8c30242677b249e0423030a3132268b744"
-  integrity sha512-q+htx4h/Qd+qwCBE7T7OR79CHgFWzyIraLdhi+/stTO+owSvKh2rQsVMN8zGUn5VaSkXWb5ku8lWIHD71AUNfg==
+vue-docgen-api@4.33.4:
+  version "4.33.4"
+  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-4.33.4.tgz#b76858e492f67673adb1c04ee33ea617b52936d1"
+  integrity sha512-2YAWMUhzFYPCOE9th+bc0l768eMp2gKjp0kuGbNVxxWL6F3bnw4eehDX15pDGgIqyzVavL7w5TA8dTkl59GY+Q==
   dependencies:
     "@babel/parser" "^7.6.0"
     "@babel/types" "^7.6.0"
@@ -19657,7 +19657,7 @@ vue-docgen-api@4.33.1:
     pug "^3.0.0"
     recast "0.19.1"
     ts-map "^1.0.3"
-    vue-inbrowser-compiler-utils "^4.33.0"
+    vue-inbrowser-compiler-utils "^4.33.4"
 
 vue-docgen-loader@1.5.0:
   version "1.5.0"
@@ -19691,10 +19691,10 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
 
-vue-inbrowser-compiler-utils@^4.33.0:
-  version "4.33.0"
-  resolved "https://registry.yarnpkg.com/vue-inbrowser-compiler-utils/-/vue-inbrowser-compiler-utils-4.33.0.tgz#3bb510a7931c62d076a035f71dc31a5329e4e015"
-  integrity sha512-9VxLYc+J8o3Z1H6GpnPYD9J2lMcP4ahi1BoYTcRM6Yw0F/17Gbypog3yVCyh1VO4uDoIldi4b9ZF33zvR5KEvg==
+vue-inbrowser-compiler-utils@^4.33.4:
+  version "4.33.4"
+  resolved "https://registry.yarnpkg.com/vue-inbrowser-compiler-utils/-/vue-inbrowser-compiler-utils-4.33.4.tgz#895d6053612d6b88a29e8c58d7284e44eebfbcf5"
+  integrity sha512-8/YvqKy0s7UUUdR8eHLwbuAEb3qs5SfM4Og21E9scKxAwfFBw20YJCLnXB/uEbYsGGpuMg/oY0P7lehfBhm1Tw==
   dependencies:
     camelcase "^5.3.1"
 
