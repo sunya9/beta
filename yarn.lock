@@ -3252,10 +3252,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/convert-units@2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@types/convert-units/-/convert-units-2.3.2.tgz#ecf2f55ca77561703ba4b8c60c9ce58d2e540b23"
-  integrity sha512-HaDWqM6D3X/viVoHF8WD7jlZmcj73b3+pTAF+CZ9DPgQWGZ4i1SBLvsfUZrKeMNEOWuHb+UlnV67Hb0dvNr8PA==
+"@types/convert-units@2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@types/convert-units/-/convert-units-2.3.3.tgz#ef654b2ec875ea7c862c75be46e22f996afe94a0"
+  integrity sha512-oo4ZyjU0nZMDQFP0AKYk4KvFjydlSpbgXTCdF+TC3d/TL4b85/zi0W5pC97UrzXXpwsbcVEfS01nEgUqKgjSww==
 
 "@types/emoji-regex@8.0.0":
   version "8.0.0"
