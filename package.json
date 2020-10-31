@@ -67,7 +67,7 @@
     "@storybook/theming": "5.3.21",
     "@storybook/vue": "5.3.21",
     "@testing-library/jest-dom": "5.11.5",
-    "@types/convert-units": "2.3.2",
+    "@types/convert-units": "2.3.3",
     "@types/emoji-regex": "8.0.0",
     "@types/jest": "26.0.15",
     "@types/lodash": "4.14.162",
