@@ -20,7 +20,7 @@
     "@nuxtjs/toast": "3.3.1",
     "animate.css": "4.1.1",
     "bootstrap": "4.5.3",
-    "bootstrap-vue": "2.18.1",
+    "bootstrap-vue": "2.19.0",
     "bootstrap.native": "3.0.13",
     "convert-units": "2.3.4",
     "cross-env": "7.0.2",
