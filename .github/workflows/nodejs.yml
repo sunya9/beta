@@ -35,6 +35,7 @@ jobs:
     - name: Install modules
       run: yarn
     - run: yarn ci
+      continue-on-error: true
       env:
         COVERAGE_FILE: coverage/lcov.info
     - run: yarn build
