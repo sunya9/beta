@@ -39,7 +39,7 @@
     "reflect-metadata": "0.1.13",
     "sass-loader": "10.1.0",
     "string-length": "4.0.1",
-    "tsyringe": "4.3.0",
+    "tsyringe": "4.4.0",
     "twemoji": "13.0.1",
     "unicode-substring": "1.0.0",
     "vue-infinite-scroll": "2.0.2",
