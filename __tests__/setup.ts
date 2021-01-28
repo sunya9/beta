@@ -13,6 +13,7 @@ import { BootstrapVue } from 'bootstrap-vue'
 import { getters } from '~/store'
 import { authedUserCreateStore } from '~/../__tests__/helper'
 import '~/plugins/dayjs'
+import '~/plugins/intersection-observer.client'
 
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
@@ -21,10 +22,6 @@ config.stubs = {
   'client-only': {
     functional: true,
     render: (h, context) => h('div', context.data, context.children),
-  },
-  // emoji picker
-  picker: {
-    render: (h) => h('div'),
   },
   'nuxt-link': RouterLinkStub,
 }
@@ -71,7 +68,6 @@ Vue.use({
     ;[
       // dummy directives
       'on-click-outside',
-      'infinite-scroll',
       'shortkey',
     ].forEach((directive) => {
       Vue.directive(directive, {

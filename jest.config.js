@@ -12,6 +12,7 @@ module.exports = {
   moduleNameMapper: {
     '^[@~]/(.*)$': '<rootDir>/src/$1',
     '^helper$': '<rootDir>/__tests__/helper',
+    '\\.css$': '<rootDir>/__mocks__/styleMock.ts',
   },
   setupFiles: ['jest-localstorage-mock', '<rootDir>/__tests__/setup.ts'],
   setupFilesAfterEnv: ['<rootDir>/__tests__/setupAfter.ts'],

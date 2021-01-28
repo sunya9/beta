@@ -100,7 +100,6 @@ const config: NuxtConfig = {
   plugins: [
     '~/plugins/di',
     '~/plugins/bootstrap.client',
-    '~/plugins/vue-infinite',
     '~/plugins/mousetrap',
     '~/plugins/vue-outside',
     '~/plugins/emoji',
@@ -111,6 +110,7 @@ const config: NuxtConfig = {
     '~/plugins/modal',
     '~/plugins/dayjs',
     '~/plugins/created',
+    '~/plugins/intersection-observer.client',
   ],
 
   // router settings
@@ -143,7 +143,7 @@ const config: NuxtConfig = {
     duration: 5000,
   },
   workbox: {
-    dev: process.env.NODE_ENV !== 'production',
+    dev: false,
     runtimeCaching: [
       {
         urlPattern: 'https://twemoji.maxcdn.com/*',
