@@ -103,7 +103,7 @@
     "reg-publish-gcs-plugin": "0.10.10",
     "reg-suit": "0.10.13",
     "rosie": "2.0.1",
-    "storycap": "3.0.1",
+    "storycap": "3.0.3",
     "ts-jest": "26.4.4",
     "ts-loader": "8.0.11",
     "typescript": "4.0.5",
