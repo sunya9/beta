@@ -110,6 +110,7 @@ const config: NuxtConfig = {
     '~/plugins/modal',
     '~/plugins/dayjs',
     '~/plugins/created',
+    '~/plugins/intersection-observer.client',
   ],
 
   // router settings

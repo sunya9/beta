@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
+import { Picker } from 'emoji-mart-vue-fast'
 import EmojiPicker from '~/components/molecules/EmojiPicker.vue'
 import EmojiButton from '~/components/atoms/EmojiButton.vue'
-import { Picker } from '~/plugins/emoji'
 
 describe('EmojiPicker', () => {
   test('render', () => {
@@ -9,11 +9,7 @@ describe('EmojiPicker', () => {
     expect(wrapper.vm).toBeTruthy()
   })
   test('show palette when click', async () => {
-    const wrapper = mount(EmojiPicker, {
-      stubs: {
-        picker: Picker,
-      },
-    })
+    const wrapper = mount(EmojiPicker)
     const pickerWrapper = wrapper.findComponent(Picker)
     expect(pickerWrapper.element).not.toBeVisible()
     await wrapper.findComponent(EmojiButton).trigger('click')

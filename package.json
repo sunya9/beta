@@ -28,6 +28,7 @@
     "dotenv": "8.2.0",
     "emoji-mart-vue-fast": "^7.0.7",
     "emoji-regex": "9.2.0",
+    "intersection-observer": "^0.12.0",
     "lodash": "4.17.20",
     "medium-zoom": "1.0.6",
     "mousetrap": "1.6.5",
