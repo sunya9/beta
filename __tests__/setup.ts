@@ -71,7 +71,6 @@ Vue.use({
     ;[
       // dummy directives
       'on-click-outside',
-      'infinite-scroll',
       'shortkey',
     ].forEach((directive) => {
       Vue.directive(directive, {

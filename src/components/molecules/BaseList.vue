@@ -2,11 +2,9 @@
   <component
     :is="tag"
     v-if="items.length"
+    ref="rootElement"
     v-on-click-outside="updateActiveElement"
-    v-infinite-scroll="fetchMore"
     :class="[listClass, { reverse }]"
-    infinite-scroll-disabled="moreDisabled"
-    infinite-scroll-distance="1000"
   >
     <template v-for="(item, index) in items">
       <slot
@@ -39,10 +37,13 @@
 </template>
 <script lang="ts">
 import { Prop, Watch, Component, Mixins } from 'vue-property-decorator'
+import { throttle } from 'lodash'
 import keyBinding from '~/assets/ts/key-binding'
 import { ListInfo } from '~/plugins/domain/util/util'
 
 const INTERVAL = 1000 * 30 // 30sec
+
+const THRESHOLD = 2000
 
 const keyMap = {
   j: 'scrollDown',
@@ -159,10 +160,30 @@ export default class BaseList<T extends object = object> extends Mixins(
     this.refresh()
   }
 
+  $refs!: {
+    rootElement: HTMLElement
+  }
+
   mounted() {
     if (this.disableAutoRefresh) return
     const timer = setInterval(this.refresh, INTERVAL)
     this.$once('hook:beforeDestroy', () => clearInterval(timer))
+    window.addEventListener('scroll', this.onScrollThrottle)
+    this.onScroll()
+  }
+
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.onScrollThrottle)
+  }
+
+  onScrollThrottle = throttle(this.onScroll, 250)
+
+  onScroll() {
+    if (this.moreDisabled) return
+    const reachBottom =
+      this.$refs.rootElement.getBoundingClientRect().bottom < THRESHOLD
+    if (!reachBottom) return
+    this.fetchMore()
   }
 
   updateItem(index: number, item: T) {
