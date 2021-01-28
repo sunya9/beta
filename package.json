@@ -23,7 +23,7 @@
     "bootstrap-vue": "2.19.0",
     "bootstrap.native": "3.0.14",
     "convert-units": "2.3.4",
-    "cross-env": "7.0.2",
+    "cross-env": "7.0.3",
     "dayjs": "1.9.6",
     "dotenv": "8.2.0",
     "emoji-mart-vue-fast": "^7.0.7",
