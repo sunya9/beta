@@ -6,8 +6,8 @@
         v-show="showEmojiPicker"
         ref="picker"
         v-on-click-outside="closeEmojiPalette"
-        :background-image-fn="getSheet"
         set="twitter"
+        :data="emojiIndex"
         class="emoji-picker"
         @select="addEmoji"
       />
@@ -15,17 +15,23 @@
   </div>
 </template>
 
+import 'emoji-mart-vue-fast/css/emoji-mart.css'
+
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
+import data from 'emoji-mart-vue-fast/data/all.json'
+import { Picker, EmojiIndex } from 'emoji-mart-vue-fast'
 import EmojiButton from '~/components/atoms/EmojiButton.vue'
-import { Picker, Emoji } from '~/plugins/emoji'
+import { Emoji } from '~/plugins/emoji'
+import 'emoji-mart-vue-fast/css/emoji-mart.css'
 
 @Component({
   components: { EmojiButton, Picker },
 })
 export default class EmojiPicker extends Vue {
   showEmojiPicker = false
+  emojiIndex = new EmojiIndex(data)
 
   addEmoji(emoji: Emoji) {
     this.$emit('select', emoji.native)
@@ -48,10 +54,6 @@ export default class EmojiPicker extends Vue {
 
   closeEmojiPalette() {
     this.showEmojiPicker = false
-  }
-
-  getSheet() {
-    return require('emoji-datasource-twitter/img/twitter/sheets-128/64.png')
   }
 }
 </script>
