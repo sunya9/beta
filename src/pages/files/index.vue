@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
-import { ModifiedFile } from '~/plugins/domain/usecases/getFiles'
+import { ModifiedFile } from '~/plugins/domain/entity/ModifiedFile'
 import FileList from '~/components/organisms/file-list.vue'
 import { ListInfo } from '~/plugins/domain/util/util'
 
