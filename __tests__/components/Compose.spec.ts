@@ -10,7 +10,6 @@ import Compose from '~/components/organisms/Compose.vue'
 // import EmojiPicker from '~/components/molecules/EmojiPicker.vue'
 
 describe('Compose component', () => {
-  let vm: InstanceType<typeof Compose>
   let wrapper: Wrapper<InstanceType<typeof Compose>>
   beforeEach(() => {
     wrapper = mount(
@@ -23,7 +22,6 @@ describe('Compose component', () => {
         attachTo: document.createElement('div'),
       })
     )
-    vm = wrapper.vm
   })
   function type(text: string) {
     wrapper.find('[data-test-id="compose"]').setValue(text)
@@ -64,40 +62,6 @@ describe('Compose component', () => {
   })
   // FIXME
   describe('methods', () => {
-    describe('setFocus', () => {
-      describe('when focus prop is object', () => {
-        test('can pass object', () => {
-          wrapper.setProps({
-            focus: [0, 10],
-          })
-          expect(vm.$props.focus).toEqual([0, 10])
-        })
-      })
-      describe('when focus prop is string or number', () => {
-        test('can pass string or number', () => {
-          wrapper.setProps({
-            focus: 1,
-          })
-          expect(vm.$props.focus).toBe(1)
-          wrapper.setProps({
-            focus: '1',
-          })
-          expect(vm.$props.focus).toBe('1')
-        })
-      })
-      describe('when focus prop is boolean', () => {
-        test('can pass boolean', () => {
-          wrapper.setProps({
-            focus: true,
-          })
-          expect(vm.$props.focus).toBe(true)
-          wrapper.setProps({
-            focus: false,
-          })
-          expect(vm.$props.focus).toBe(false)
-        })
-      })
-    })
     describe('submit button', () => {
       let $submitButton: Wrapper<Vue>
       beforeEach(() => {
@@ -125,14 +89,11 @@ describe('Compose component', () => {
     test('is visible', () => {
       expect(wrapper.find('.open-emoji-picker').element).toBeVisible()
     })
-    describe.skip('clicked picker button', () => {
+    describe('clicked picker button', () => {
       // let emojiPicker: Wrapper<Vue>
       beforeEach(() => {
         wrapper.find('.open-emoji-picker').trigger('click')
         // emojiPicker = wrapper.findComponent(EmojiPicker)
-      })
-      test('emoji palette is visible', () => {
-        // expect(emojiPicker.element).toBeVisible()
       })
     })
   })
