@@ -19727,10 +19727,10 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
 
-vue-docgen-api@4.33.6:
-  version "4.33.6"
-  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-4.33.6.tgz#223f083f5d1c96ff50328484f49594870413551d"
-  integrity sha512-BQ7mAG/TSYUr6a4361lequGJqjaEnx6TMT/PFJWodcTBDV0Hbemx1vDQuLvfUhuwxDnBGxoRME8lWVmfyAdmJA==
+vue-docgen-api@4.35.0:
+  version "4.35.0"
+  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-4.35.0.tgz#2f2d3394b69af3d57d8e8d4897008462826dfc9e"
+  integrity sha512-mO74xKeD5DH9T4Wjtte+1J8cgHN5v9LCN2IOPF9aKp6MqeZXcqjDawyAFNajNw0iA7TAX64HhEImvuSYEtx+Fg==
   dependencies:
     "@babel/parser" "^7.6.0"
     "@babel/types" "^7.6.0"
