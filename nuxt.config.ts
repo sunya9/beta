@@ -111,6 +111,7 @@ const config: NuxtConfig = {
     '~/plugins/dayjs',
     '~/plugins/created',
     '~/plugins/intersection-observer.client',
+    '~/plugins/composition-api',
   ],
 
   // router settings

@@ -14,6 +14,7 @@ import { getters } from '~/store'
 import { authedUserCreateStore } from '~/../__tests__/helper'
 import '~/plugins/dayjs'
 import '~/plugins/intersection-observer.client'
+import '~/plugins/composition-api'
 
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
