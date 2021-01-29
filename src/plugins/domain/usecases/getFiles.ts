@@ -57,17 +57,17 @@ export class GetFilesInteractor implements GetFilesUseCase {
 
   async run(input: Input): Promise<Output> {
     const kindStr = input.kind?.toString()
-    const listInfo = await createListInfo(async (config) => {
+    const listInfo = await createListInfo(async (pagination) => {
       const { data, meta } = await this.pnutRepository.getFiles({
         ...input.params,
-        ...config,
+        ...pagination,
         mime_types: isKind(kindStr) ? [map[kindStr]] : undefined,
       })
       return {
         meta,
         data: data.map(addSelectField),
       }
-    }, input.params)
+    })
     const title = getTitle(kindStr)
     return {
       listInfo,

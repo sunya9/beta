@@ -34,19 +34,16 @@ export class GetPostsInteractor implements GetPostsUseCase {
   ) {}
 
   async run(input: Input): Promise<Output> {
-    const listInfo = await createListInfo(
-      (paging) =>
-        this.getPosts({
-          ...input,
-          params: {
-            include_post_raw: true,
-            include_directed_posts: this.configRepository
-              .isEnabledDirectedPosts,
-            ...input.params,
-            ...paging,
-          },
-        }),
-      input.params
+    const listInfo = await createListInfo((pagination) =>
+      this.getPosts({
+        ...input,
+        params: {
+          include_post_raw: true,
+          include_directed_posts: this.configRepository.isEnabledDirectedPosts,
+          ...input.params,
+          ...pagination,
+        },
+      })
     )
     return {
       listInfo,

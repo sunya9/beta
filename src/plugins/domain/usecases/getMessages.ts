@@ -42,14 +42,12 @@ export class GetMessagesInteractor implements GetMessagesUseCase {
   }
 
   private createListInfo(input: Input) {
-    return createListInfo(
-      (config) =>
-        this.pnutRepository.getMessages(input.channelId, {
-          include_deleted: true,
-          ...input.params,
-          ...config,
-        }),
-      input.params
+    return createListInfo((pagination) =>
+      this.pnutRepository.getMessages(input.channelId, {
+        include_deleted: true,
+        ...input.params,
+        ...pagination,
+      })
     )
   }
 

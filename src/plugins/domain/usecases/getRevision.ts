@@ -31,13 +31,11 @@ export class GetRevisionInteractor implements GetRevisionUseCase {
   ) {}
 
   async run(input: Input): Promise<Output> {
-    const listInfo = await createListInfo(
-      (config) =>
-        this.pnutRepository.getRevision(input.postId, {
-          ...input.params,
-          ...config,
-        }),
-      input.params
+    const listInfo = await createListInfo((pagination) =>
+      this.pnutRepository.getRevision(input.postId, {
+        ...input.params,
+        ...pagination,
+      })
     )
     const data = listInfo.data
     const [post] = data

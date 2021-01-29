@@ -32,14 +32,12 @@ export class GetThreadInteractor implements GetThreadUseCase {
   ) {}
 
   async run(input: Input): Promise<Output> {
-    const listInfo = await createListInfo(
-      (config) =>
-        this.pnutRepository.getThread(input.postId, {
-          include_post_raw: true,
-          ...input.params,
-          ...config,
-        }),
-      input.params
+    const listInfo = await createListInfo((pagination) =>
+      this.pnutRepository.getThread(input.postId, {
+        include_post_raw: true,
+        ...input.params,
+        ...pagination,
+      })
     )
     const data = listInfo.data
     const id = input.postId

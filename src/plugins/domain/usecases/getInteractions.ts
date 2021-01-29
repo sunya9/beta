@@ -36,14 +36,12 @@ export class GetInteractionsInteractor implements GetInteractionsUseCase {
 
   async run(input: Input): Promise<Output> {
     const { interactionType } = input
-    const listInfo = await createListInfo(
-      (params) =>
-        this.pnutRepository.getInteractions({
-          ...input.params,
-          filters: this.getInteractionString(interactionType),
-          ...params,
-        }),
-      input.params
+    const listInfo = await createListInfo((pagination) =>
+      this.pnutRepository.getInteractions({
+        ...input.params,
+        filters: this.getInteractionString(interactionType),
+        ...pagination,
+      })
     )
     return {
       listInfo,
