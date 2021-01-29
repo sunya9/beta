@@ -92,33 +92,10 @@
                   <em>[Post deleted]</em>
                 </entity-text>
               </p>
-              <div v-if="!post.is_deleted && longpost" class="my-2">
-                <button
-                  :class="{
-                    'btn-link': showLongpost,
-                    'btn-outline-primary': !showLongpost,
-                  }"
-                  class="btn mb-2"
-                  data-test-collapse-button
-                  type="button"
-                  @click="toggleLongpost"
-                >
-                  <font-awesome-icon
-                    :icon="!showLongpost ? 'plus' : 'minus'"
-                    aria-hidden="true"
-                  />
-                  <span v-if="!showLongpost">Expand Post</span>
-                  <span v-else>Collapse Post</span>
-                </button>
-                <div v-if="showLongpost" class="mt-2 longpost">
-                  <emojify
-                    v-if="longpost.title"
-                    :text="longpost.title"
-                    element="h5"
-                  />
-                  <emojify :text="longpost.body" element="p" />
-                </div>
-              </div>
+              <long-post
+                v-if="!post.is_deleted && longPost"
+                :long-post="longPost"
+              />
             </template>
           </div>
           <div
@@ -390,7 +367,7 @@ import { Spoiler } from '~/entity/raw/raw/spoiler'
 import { Crosspost } from '~/entity/raw/raw/crosspost'
 import { LongPost } from '~/entity/raw/raw/long-post'
 import { ChannelInvite } from '~/entity/raw/raw/channel-invite'
-
+import LongPostView from '~/components/organisms/LongPost'
 const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
 
 @Component({
@@ -403,6 +380,7 @@ const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
     PollNotice: PollNoticeView,
     Nsfw,
     UserPopper,
+    LongPost: LongPostView,
   },
 })
 export default class PostView extends Mixins(listItem('post.created_at')) {
@@ -433,7 +411,6 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
   timer: number | null = null
   disableEdit = true
   showSpoiler = false
-  showLongpost = false
 
   get revised(): boolean {
     return this.mainPost.is_revised
@@ -499,7 +476,7 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
     return Spoiler.getSpoiler(this.mainPost)
   }
 
-  get longpost() {
+  get longPost() {
     return LongPost.getLongpost(this.mainPost)
   }
 
@@ -577,10 +554,6 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
 
   toggleSpoiler() {
     this.showSpoiler = !this.showSpoiler
-  }
-
-  toggleLongpost() {
-    this.showLongpost = !this.showLongpost
   }
 
   async editPost() {
@@ -688,9 +661,7 @@ footer {
 .text-gray-dark {
   color: $gray;
 }
-.longpost {
-  white-space: pre-wrap;
-}
+
 .video-wrapper {
   // 16:9
   padding-bottom: 56.25%;
