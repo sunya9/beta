@@ -27,13 +27,11 @@ export class GetPollsInteractor implements GetPollsUseCase {
   ) {}
 
   async run(input: Input): Promise<Output> {
-    const listInfo = await createListInfo(
-      (config) =>
-        this.pnutRepository.getPolls({
-          ...input.params,
-          ...config,
-        }),
-      input.params
+    const listInfo = await createListInfo((pagination) =>
+      this.pnutRepository.getPolls({
+        ...input.params,
+        ...pagination,
+      })
     )
     return {
       listInfo,

@@ -30,16 +30,14 @@ export class GetChannelsInteractor implements GetChannelsUseCase {
   ) {}
 
   async run(input: Input): Promise<Output> {
-    const listInfo = await createListInfo(
-      (config) =>
-        this.getChannels({
-          ...input,
-          params: {
-            ...input.params,
-            ...config,
-          },
-        }),
-      input.params
+    const listInfo = await createListInfo((pagination) =>
+      this.getChannels({
+        ...input,
+        params: {
+          ...input.params,
+          ...pagination,
+        },
+      })
     )
     return {
       listInfo,

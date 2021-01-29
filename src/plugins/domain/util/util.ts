@@ -1,112 +1,74 @@
 import { Pagination, FetchMoreResult } from '~/plugins/domain/dto/common'
 import { PnutResponse } from '~/entity/pnut-response'
 
-export type InsertPosition = 'first' | 'last'
+export enum Direction {
+  First,
+  Last,
+}
 
-export function getInserPosition(
+export function getInsertPosition(
   pagination?: Pick<Pagination, 'before_id' | 'since_id'>
-): InsertPosition | undefined {
-  if (pagination?.before_id) return 'last'
-  if (pagination?.since_id) return 'first'
+): Direction {
+  if (pagination?.since_id) return Direction.First
+  return Direction.Last
 }
 
-export function composeList<T>(props: {
-  newData: T[]
-  data?: T[]
-  insertPosition?: InsertPosition
-}) {
-  if (!props.data) return props.newData
-  if (props.insertPosition === 'first') return [...props.newData, ...props.data]
-  if (props.insertPosition === 'last') return [...props.data, ...props.newData]
-  return props.newData
+type GetPnutResponse<T> = (config?: Pagination) => Promise<PnutResponse<T[]>>
+
+interface FetchMoreProps<T> {
+  getPnutResponse: GetPnutResponse<T>
+  meta: PnutResponse.Meta
+  direction: Direction
 }
 
-type GetPnutResponse<I extends Pagination, T> = (
-  config?: I
-) => Promise<PnutResponse<T[]>>
-
-interface FetchMoreProps<I extends Pagination, T> {
-  getPnutResponse: GetPnutResponse<Partial<I>, T>
-  firstData: T[]
-  firstMeta: PnutResponse.Meta
-  input: Partial<I>
-}
-
-function createGetNewer<I extends Pagination, T>({
+function createMore<T>({
   getPnutResponse,
-  firstData,
-  firstMeta,
-  input,
-}: FetchMoreProps<I, T>) {
-  return async () => {
-    const config = {
-      ...input,
-      before_id: undefined,
-      since_id: firstMeta.max_id,
-    }
-    const { data, meta } = await getPnutResponse(config)
-    firstData.unshift(...data)
-    Object.assign(firstMeta, meta)
-    return {
-      size: data.length,
-      data,
-    }
-  }
+  meta,
+  direction,
+}: FetchMoreProps<T>) {
+  const config =
+    direction === Direction.First
+      ? {
+          before_id: undefined,
+          since_id: meta.max_id,
+        }
+      : {
+          since_id: undefined,
+          before_id: meta.min_id,
+        }
+  return getPnutResponse(config)
 }
 
-function createGetOlder<I extends Pagination, T>({
-  getPnutResponse,
-  firstData,
-  firstMeta,
-  input,
-}: FetchMoreProps<I, T>) {
-  return async () => {
-    const config = {
-      ...input,
-      since_id: undefined,
-      before_id: firstMeta.min_id,
-    }
-    const { data, meta } = await getPnutResponse(config)
-    firstData.push(...data)
-    Object.assign(firstMeta, meta)
-    return {
-      size: data.length,
-      data,
-    }
-  }
-}
-export async function createListInfo<I extends Pagination, T>(
-  getPnutResponse: GetPnutResponse<Partial<I>, T>,
-  input?: I
-) {
-  const firstRes = await getPnutResponse(input)
-  const firstData = composeList({
-    newData: firstRes.data,
-    data: [],
-    insertPosition: getInserPosition(input),
-  })
+export async function createListInfo<T>(getPnutResponse: GetPnutResponse<T>) {
+  const { meta: initialMeta, data: initialData } = await getPnutResponse()
   const olderMeta = {
-    ...firstRes.meta,
+    ...initialMeta,
   }
   const newerMeta = {
-    ...firstRes.meta,
+    ...initialMeta,
   }
   return {
     olderMeta,
     newerMeta,
-    data: firstData,
-    getNewer: createGetNewer({
-      getPnutResponse,
-      firstData,
-      firstMeta: newerMeta,
-      input: { ...input },
-    }),
-    getOlder: createGetOlder({
-      getPnutResponse,
-      firstData,
-      firstMeta: olderMeta,
-      input: { ...input },
-    }),
+    data: initialData,
+    getNewer: async () => {
+      const { data, meta } = await createMore({
+        getPnutResponse,
+        meta: newerMeta,
+        direction: Direction.First,
+      })
+      initialData.unshift(...data)
+      Object.assign(newerMeta, meta)
+    },
+    getOlder: async () => {
+      const { data, meta } = await createMore({
+        getPnutResponse,
+        meta: olderMeta,
+        direction: Direction.Last,
+      })
+      initialData.push(...data)
+      Object.assign(olderMeta, meta)
+    },
   }
 }
 

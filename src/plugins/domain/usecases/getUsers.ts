@@ -49,10 +49,10 @@ export class GetUsersInteractor implements GetUsersUseCase {
 
   private createListInfo(input: Input) {
     const { type } = input
-    return createListInfo((newParams) => {
+    return createListInfo((pagination) => {
       const params = {
         ...input.params,
-        ...newParams,
+        ...pagination,
       }
       switch (type.type) {
         case 'followers':
@@ -64,6 +64,6 @@ export class GetUsersInteractor implements GetUsersUseCase {
         case 'muted':
           return this.pnutRepository.getMutedUsers(params)
       }
-    }, input.params)
+    })
   }
 }

@@ -57,11 +57,11 @@ export class SearchInteractor implements SearchUseCase {
     switch (input.type) {
       case 'post':
         return {
-          listInfo: await createListInfo((config) => {
+          listInfo: await createListInfo((pagination) => {
             return this.pnutRepository.searchPosts({
               ...commonDefaultParams,
               ...input.params,
-              ...config,
+              ...pagination,
             })
           }),
           title,
@@ -69,11 +69,11 @@ export class SearchInteractor implements SearchUseCase {
         }
       case 'user':
         return {
-          listInfo: await createListInfo((config) => {
+          listInfo: await createListInfo((pagination) => {
             return this.pnutRepository.searchUsers({
               ...commonDefaultParams,
               ...input.params,
-              ...config,
+              ...pagination,
             })
           }),
           title,
