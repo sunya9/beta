@@ -29,11 +29,6 @@ export type RawRequest = {
 
 export type UserId = string | 'me'
 
-export interface FetchMoreResult<T> {
-  size: number
-  data: T[]
-}
-
 export type ConnectionParameters = {
   connection_id?: string
 }
