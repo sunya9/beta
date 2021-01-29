@@ -22,7 +22,7 @@
           <custom-checkbox
             :checked="!channel.has_unread"
             :disabled="!channel.has_unread"
-            @change="() => markAsRead(channel)"
+            @change="markAsRead"
           >
             Mark as read
           </custom-checkbox>
@@ -30,9 +30,7 @@
       </div>
       <div class="col-sm col-md-12">
         <h2 class="h3">
-          <slot name="memberTitle">
-            Members
-          </slot>
+          <slot name="memberTitle">Members</slot>
         </h2>
         <slot name="memberList" />
       </div>
@@ -40,8 +38,8 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Mixins } from 'vue-property-decorator'
-import markAsRead from '~/assets/ts/mark-as-read'
+import { Component, Prop } from 'vue-property-decorator'
+import Vue from 'vue'
 import CustomCheckbox from '~/components/atoms/CustomCheckbox.vue'
 import { User } from '~/entity/user'
 import { Channel } from '~/entity/channel'
@@ -51,7 +49,7 @@ import { Channel } from '~/entity/channel'
     CustomCheckbox,
   },
 })
-export default class ChannelPanel extends Mixins(markAsRead) {
+export default class ChannelPanel extends Vue {
   @Prop({
     type: Object,
     required: true,
@@ -60,6 +58,16 @@ export default class ChannelPanel extends Mixins(markAsRead) {
 
   get user(): User | null {
     return this.$accessor.user
+  }
+
+  async markAsRead() {
+    if (!this.channel.recent_message_id) return
+    await this.$interactors.markAsRead.run({
+      id: this.channel.recent_message_id,
+      type: 'channel',
+      channelId: this.channel.id,
+    })
+    this.channel.has_unread = false
   }
 
   cancelSubscribe(bool: boolean) {
