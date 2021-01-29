@@ -9,7 +9,7 @@
       <message
         v-if="item"
         :key="item.id"
-        :message.sync="item"
+        :message="item"
         :last-update="lastUpdate"
         :is-moderator="isModerator"
         :last-read-message-id="lastReadMessageId"
