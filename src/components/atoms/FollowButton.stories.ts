@@ -1,30 +1,22 @@
-import Vue from 'vue'
 import { withKnobs } from '@storybook/addon-knobs'
 import FollowButton from './FollowButton.vue'
-import { getUserFixture } from '~/fixtures'
 import { User } from '~/entity/user'
-import { accessorType } from '~/store'
-import { DeepPartial } from '~/../types'
+import { loginAs } from '~/fixtures/accessor'
+import { myselfEntity, user } from '~/fixtures/user'
 
 export default { title: 'atoms/FollowButton', decorators: [withKnobs] }
 
-const base = (accessor?: DeepPartial<typeof accessorType>) => {
-  Vue.prototype.$accessor = accessor
+const base = (user?: User) => {
+  loginAs(user)
   return {
     components: { FollowButton },
   }
 }
 
-const profile: User = getUserFixture({
-  you_follow: false,
-})
-
-const me: User = getUserFixture({
-  id: '2',
-})
+const profile = user.build()
 
 export const normal = () => ({
-  ...base({ user: me }),
+  ...base(myselfEntity),
   data() {
     return {
       profile,
@@ -39,7 +31,7 @@ const followingUser: User = {
 }
 
 export const following = () => ({
-  ...base({ user: me }),
+  ...base(myselfEntity),
   data() {
     return {
       profile: followingUser,
@@ -54,7 +46,7 @@ const blockedUser: User = {
 }
 
 export const blocked = () => ({
-  ...base({ user: me }),
+  ...base(myselfEntity),
   data() {
     return {
       profile: blockedUser,

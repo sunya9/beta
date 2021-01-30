@@ -1,13 +1,12 @@
 import { withKnobs } from '@storybook/addon-knobs'
 import Compose from './Compose.vue'
-import { DeepPartial } from '~/../types'
-import { accessorType } from '~/store'
-import { assignAccessor } from '~/fixtures/accessor'
+import { loginAs } from '~/fixtures/accessor'
+import { User } from '~/entity/user'
 
 export default { title: 'organisms/Compose', decorators: [withKnobs] }
 
-const base = (accessor?: DeepPartial<typeof accessorType>) => {
-  assignAccessor(accessor)
+const base = (user?: User) => {
+  loginAs(user)
   return {
     components: { Compose },
   }

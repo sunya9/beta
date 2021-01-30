@@ -1,12 +1,12 @@
-import Vue from 'vue'
 import Router from 'vue-router'
 import Header from './Header.vue'
-import { accessorType } from '~/store'
-import { DeepPartial } from '~/../types'
+import {  loginAs } from '~/fixtures/accessor'
+import { User } from '~/entity/user'
+import { myselfEntity } from '~/fixtures/user'
 export default { title: 'organisms/Header', decorators: [] }
 
-const base = (accessor?: DeepPartial<typeof accessorType>) => {
-  Vue.prototype.$accessor = accessor
+const base = (user?:User) => {
+  loginAs(user)
 
   return {
     components: {
@@ -17,17 +17,11 @@ const base = (accessor?: DeepPartial<typeof accessorType>) => {
 }
 
 export const notLoggedIn = () => ({
-  ...base({
-    user: null,
-  }),
+  ...base(),
   template: '<Header />',
 })
 
 export const loggedIn = () => ({
-  ...base({
-    user: {
-      username: 'test',
-    },
-  }),
+  ...base(myselfEntity),
   template: '<Header />',
 })

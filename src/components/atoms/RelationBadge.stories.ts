@@ -1,14 +1,13 @@
 import RelationBadge from './RelationBadge.vue'
 import { getUserFixture } from '~/fixtures'
 import { User } from '~/entity/user'
-import { accessorType } from '~/store'
-import { DeepPartial } from '~/../types'
-import { assignAccessor } from '~/fixtures/accessor'
+import {  loginAs } from '~/fixtures/accessor'
+import { myselfEntity } from '~/fixtures/user'
 
 export default { title: 'atoms/RelationBadge' }
 
-const base = (accessor?: DeepPartial<typeof accessorType>) => {
-  assignAccessor(accessor)
+const base = (user?: User) => {
+  loginAs(user)
   return {
     components: { RelationBadge },
   }
@@ -47,9 +46,7 @@ const me: User = getUserFixture({
 })
 
 export const myself = () => ({
-  ...base({
-    user: me,
-  }),
+  ...base(myselfEntity),
   data() {
     return {
       me,
