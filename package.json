@@ -70,7 +70,7 @@
     "@types/convert-units": "2.3.3",
     "@types/emoji-regex": "8.0.0",
     "@types/jest": "26.0.20",
-    "@types/lodash": "4.14.165",
+    "@types/lodash": "4.14.168",
     "@types/mousetrap": "1.6.4",
     "@types/nuxtjs__auth": "4.8.5",
     "@types/rosie": "0.0.38",
