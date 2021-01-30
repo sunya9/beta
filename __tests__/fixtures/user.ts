@@ -1,19 +1,19 @@
 import { User } from '~/entity/user'
 
-const baseUser: User = {
+export const baseUser: User = {
   id: '1',
   username: 'username',
   content: {
     cover_image: {
-      link: 'https://example.com/cover.png',
+      link: 'https://via.placeholder.com/960x223.png?text=cover',
       width: 960,
-      height: 640,
+      height: 223,
       is_default: false,
     },
     avatar_image: {
-      link: 'https://example.com/avatar.png',
-      width: 128,
-      height: 128,
+      link: 'https://via.placeholder.com/256.png?text=avatar',
+      width: 256,
+      height: 256,
       is_default: false,
     },
     entities: {

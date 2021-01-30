@@ -4,8 +4,8 @@ import { DeepPartial } from '~/../types'
 
 export function assignAccessor(accessor?: DeepPartial<typeof getAccessorType>) {
   Vue.prototype.$accessor = {
-    ...accessor,
     user: { username: 'test' },
     storage: { available: 1, total: 1 },
+    ...accessor,
   }
 }

@@ -1,7 +1,8 @@
 import { Factory } from 'rosie'
 import { User } from '~/entity/user'
 
-export const user = new Factory<User>().sequence('id').attrs({
+export const user = new Factory<User>().attrs({
+  id: '2',
   content: {
     avatar_image: {
       height: 256,
@@ -55,4 +56,13 @@ export const user = new Factory<User>().sequence('id').attrs({
   name: 'test',
   timezone: 'Asia/Tokyo',
   type: User.UserType.human,
+})
+
+export const myself = user.build({
+  follows_you: true,
+  you_blocked: false,
+  you_follow: true,
+  you_muted: false,
+  you_can_follow: false,
+  id: '1',
 })
