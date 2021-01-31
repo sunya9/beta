@@ -21,7 +21,7 @@
           ref="coverFileInput"
           type="file"
           accept="image/*"
-          style="display: none;"
+          style="display: none"
           @change="coverChanged"
         />
         <button

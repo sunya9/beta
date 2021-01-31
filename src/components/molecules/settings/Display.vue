@@ -1,8 +1,6 @@
 <template>
   <div>
-    <custom-checkbox v-model="square">
-      Square avatars
-    </custom-checkbox>
+    <custom-checkbox v-model="square">Square avatars</custom-checkbox>
     <custom-checkbox v-model="theme">
       Dark theme (will refresh to take effect)
     </custom-checkbox>

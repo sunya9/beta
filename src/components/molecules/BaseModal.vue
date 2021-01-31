@@ -25,9 +25,7 @@
               aria-label="Close"
               @click="hideRequest"
             >
-              <span aria-hidden="true">
-                &times;
-              </span>
+              <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">

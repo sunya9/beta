@@ -4,11 +4,7 @@
     <p class="lead">
       {{ error.message }}
     </p>
-    <nuxt-link
-      v-if="error.statusCode"
-      :to="error.home || '/'"
-      class="btn btn-primary"
-    >
+    <nuxt-link v-if="error.statusCode" to="/" class="btn btn-primary">
       Top
     </nuxt-link>
   </div>
@@ -18,13 +14,13 @@ import Vue, { PropOptions } from 'vue'
 import { NuxtError } from '@nuxt/types'
 
 export default Vue.extend({
+  layout: 'no-sidebar',
   props: {
     error: {
       type: Object,
       required: true,
     } as PropOptions<NuxtError>,
   },
-  layout: 'no-sidebar',
   head() {
     const title = this.error.statusCode ? this.error.statusCode.toString() : ''
     return {

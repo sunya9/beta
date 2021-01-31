@@ -21,9 +21,9 @@ describe('Poll component', () => {
   const poll = getPollFixture()
 
   beforeEach(() => {
-    const output: DeepPartial<ReturnType<
-      Interactors['getPoll']['run']
-    >> = Promise.resolve({
+    const output: DeepPartial<
+      ReturnType<Interactors['getPoll']['run']>
+    > = Promise.resolve({
       res: {
         data: poll,
         meta: {

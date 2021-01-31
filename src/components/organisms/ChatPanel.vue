@@ -9,9 +9,7 @@
         @click="channelEditModal"
       >
         <font-awesome-icon :icon="['far', 'edit']" class="mr-2" />
-        <span class="d-none d-sm-inline">
-          Edit
-        </span>
+        <span class="d-none d-sm-inline">Edit</span>
       </button>
     </template>
     <p class="text-muted">
@@ -37,9 +35,7 @@
         <font-awesome-icon icon="globe" />
         Public
       </template>
-      <template v-else>
-        Members
-      </template>
+      <template v-else>Members</template>
       <button
         v-if="isModerator"
         class="btn btn-link mr-2"
@@ -47,9 +43,7 @@
         @click.stop.prevent="memberEditModal"
       >
         <font-awesome-icon :icon="['far', 'edit']" />
-        <span class="d-none d-sm-inline ml-2">
-          Edit
-        </span>
+        <span class="d-none d-sm-inline ml-2">Edit</span>
       </button>
     </template>
     <template slot="memberList">

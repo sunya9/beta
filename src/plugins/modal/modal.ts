@@ -11,7 +11,7 @@ const modalObj = {
 const plugin: PluginObject<never> = {
   install(Vue) {
     Vue.prototype.$modal = modalObj
-    Vue.component('promise-modal', PromiseModal)
+    Vue.component('PromiseModal', PromiseModal)
   },
 }
 

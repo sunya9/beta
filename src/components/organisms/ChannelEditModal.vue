@@ -40,11 +40,9 @@
       <div class="form-group">
         <h5>Categories</h5>
         <select v-model="chat.categories" class="form-control" multiple>
-          <template>
-            <option v-for="category in categories" :key="category">
-              {{ category }}
-            </option>
-          </template>
+          <option v-for="category in categories" :key="category">
+            {{ category }}
+          </option>
         </select>
       </div>
     </form>

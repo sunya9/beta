@@ -15,7 +15,7 @@
       type="file"
       multiple
       accept="image/*,video/*,audio/*"
-      style="display: none;"
+      style="display: none"
       @change="fileChange"
     />
   </button>

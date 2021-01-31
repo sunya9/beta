@@ -26,9 +26,7 @@
             alt="β"
             class="align-center mr-2 d-inline-block"
           />
-          <span class="d-none d-sm-inline header-title">
-            Beta
-          </span>
+          <span class="d-none d-sm-inline header-title">Beta</span>
         </nuxt-link>
         <span class="navbar-text mr-auto">
           <a
@@ -72,7 +70,7 @@
           </nuxt-link>
           <li v-if="user" id="user-menu" class="nav-item dropdown">
             <app-dropdown v-model="visible">
-              <template v-slot:button>
+              <template #button>
                 <a
                   id="navbarDropdownMenuLink"
                   ref="dropdown"
@@ -109,9 +107,7 @@
                   class="dropdown-item"
                   active-class=""
                 >
-                  <span class="d-none d-sm-inline">
-                    Profile
-                  </span>
+                  <span class="d-none d-sm-inline">Profile</span>
                   <span class="d-inline d-sm-none">@{{ user.username }}</span>
                 </nuxt-link>
                 <div class="dropdown-divider d-sm-none" />

@@ -27,7 +27,7 @@
             <a
               v-if="!profile.verified"
               :href="`/@${profile.username}`"
-              style="display: none;"
+              style="display: none"
               rel="me"
               class="u-url"
             >
@@ -168,7 +168,7 @@
         data-test-id="profile-dropdown"
         variant="link"
       >
-        <template v-slot:button-content>
+        <template #button-content>
           <font-awesome-icon icon="ellipsis-h" />
         </template>
         <template v-if="!me && user && !profile.you_blocked">
@@ -177,16 +177,12 @@
             data-test-id="send-message"
             @click.prevent.stop="sendMessage"
           >
-            <span v-if="!messagePromise">
-              Send a Message
-            </span>
+            <span v-if="!messagePromise">Send a Message</span>
             <font-awesome-icon v-else icon="circle-notch" fixed-width spin />
           </b-dropdown-item-button>
           <div class="dropdown-divider" />
         </template>
-        <b-dropdown-item v-if="me" to="/polls">
-          Your polls
-        </b-dropdown-item>
+        <b-dropdown-item v-if="me" to="/polls">Your polls</b-dropdown-item>
         <block-button
           v-if="user && !me"
           v-slot="{ toggleBlock }"
