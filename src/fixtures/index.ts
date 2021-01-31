@@ -4,7 +4,6 @@ import { user } from '~/fixtures/user'
 import { client } from '~/fixtures/client'
 import { Poll } from '~/entity/poll'
 import { User } from '~/entity/user'
-import { Client } from '~/entity/client'
 
 const typeMap = {
   user,

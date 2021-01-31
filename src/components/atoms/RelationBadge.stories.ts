@@ -1,7 +1,7 @@
 import RelationBadge from './RelationBadge.vue'
 import { getUserFixture } from '~/fixtures'
 import { User } from '~/entity/user'
-import {  loginAs } from '~/fixtures/accessor'
+import { loginAs } from '~/fixtures/accessor'
 import { myselfEntity } from '~/fixtures/user'
 
 export default { title: 'atoms/RelationBadge' }

@@ -5,7 +5,7 @@ import { loginAs } from '~/fixtures/accessor'
 
 export default { title: 'atoms/ToggleButton', decorators: [withKnobs] }
 
-const base = (user?:User) => {
+const base = (user?: User) => {
   loginAs(user)
   return {
     components: { ToggleButton },

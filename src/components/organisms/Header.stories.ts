@@ -1,11 +1,11 @@
 import Router from 'vue-router'
 import Header from './Header.vue'
-import {  loginAs } from '~/fixtures/accessor'
+import { loginAs } from '~/fixtures/accessor'
 import { User } from '~/entity/user'
 import { myselfEntity } from '~/fixtures/user'
 export default { title: 'organisms/Header', decorators: [] }
 
-const base = (user?:User) => {
+const base = (user?: User) => {
   loginAs(user)
 
   return {

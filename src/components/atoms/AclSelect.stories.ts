@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { withKnobs, select, boolean } from '@storybook/addon-knobs'
 import AclSelect from './AclSelect.vue'
 import { loginAs } from '~/fixtures/accessor'
