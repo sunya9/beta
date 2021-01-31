@@ -1,13 +1,12 @@
 import { boolean, withKnobs } from '@storybook/addon-knobs'
 import ToggleButton from './ToggleButton.vue'
-import { accessorType } from '~/store'
-import { DeepPartial } from '~/../types'
-import { assignAccessor } from '~/fixtures/accessor'
+import { User } from '~/entity/user'
+import { loginAs } from '~/fixtures/accessor'
 
 export default { title: 'atoms/ToggleButton', decorators: [withKnobs] }
 
-const base = (accessor?: DeepPartial<typeof accessorType>) => {
-  assignAccessor(accessor)
+const base = (user?: User) => {
+  loginAs(user)
   return {
     components: { ToggleButton },
   }

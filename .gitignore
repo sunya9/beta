@@ -74,6 +74,7 @@ dist
 sw.*
 
 .vscode
-.out
 __screenshots__
 .reg
+.nuxt-storybook
+storybook-static

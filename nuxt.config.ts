@@ -221,6 +221,9 @@ const config: NuxtConfig = {
   generate: {
     fallback: true,
   },
+  storybook: {
+    addons: ['@storybook/addon-knobs/register'],
+  },
 }
 
 export default config

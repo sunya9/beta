@@ -58,7 +58,7 @@ export const user = new Factory<User>().attrs({
   type: User.UserType.human,
 })
 
-export const myself = user.build({
+export const myselfEntity = user.build({
   follows_you: true,
   you_blocked: false,
   you_follow: true,

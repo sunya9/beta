@@ -1,14 +1,13 @@
 import Router from 'vue-router'
 import UserPopperInner from './UserPopperInner.vue'
 import { getUserFixture } from '~/fixtures'
-import { accessorType } from '~/store'
-import { DeepPartial } from '~/../types'
-import { assignAccessor } from '~/fixtures/accessor'
+import { User } from '~/entity/user'
+import { loginAs } from '~/fixtures/accessor'
 
 export default { title: 'molecules/UserPopperInner' }
 
-function base(accessor?: DeepPartial<typeof accessorType>) {
-  assignAccessor(accessor)
+function base(user?: User) {
+  loginAs(user)
   return {
     components: { UserPopperInner },
     router: new Router(),

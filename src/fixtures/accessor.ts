@@ -1,11 +1,29 @@
-import Vue from 'vue'
-import { getAccessorType } from 'nuxt-typed-vuex'
-import { DeepPartial } from '~/../types'
+import { User } from '~/entity/user'
+import { Token } from '~/entity/token'
 
-export function assignAccessor(accessor?: DeepPartial<typeof getAccessorType>) {
-  Vue.prototype.$accessor = {
-    user: { username: 'test' },
-    storage: { available: 1, total: 1 },
-    ...accessor,
+export function loginAs(user?: User) {
+  if (user) {
+    const token: Token = {
+      app: {
+        id: 'test-app-id',
+        link: 'https://example.com/test-app',
+        name: 'test-app',
+      },
+      scopes: ['basic'],
+      storage: {
+        available: 1024 * 500,
+        total: 1024 * 500,
+      },
+      user,
+    }
+
+    window.$nuxt.$auth.setUser({
+      data: token,
+      meta: {
+        code: 200,
+      },
+    })
+  } else {
+    window.$nuxt.$auth.setUser()
   }
 }
