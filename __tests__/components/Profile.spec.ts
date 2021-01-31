@@ -41,7 +41,9 @@ describe('Profile component', () => {
   describe('Cover', () => {
     test('Show cover image', () => {
       const wrapper = mount(Profile, opts)
-      expect(wrapper.find('img').attributes().src).toContain('https://via.placeholder.com/960x223.png?text=cover')
+      expect(wrapper.find('img').attributes().src).toContain(
+        'https://via.placeholder.com/960x223.png?text=cover'
+      )
     })
   })
   describe('Userinfo', () => {

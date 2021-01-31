@@ -83,7 +83,7 @@
               <div
                 v-if="thumbs.length"
                 class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
-                style="margin-top: 0.8em;"
+                style="margin-top: 0.8em"
               >
                 <thumb
                   v-for="(t, i) in thumbs"

@@ -64,7 +64,7 @@
               class="ml-1 text-uppercase"
               split-button-type="submit"
             >
-              <template v-slot:button-content>
+              <template #button-content>
                 <span class="text-uppercase">
                   <font-awesome-icon
                     v-show="promise"

@@ -5,7 +5,7 @@
         :src="file.link"
         alt=""
         class="img-fluid img-thumbnail"
-        style="max-height: 50vh;"
+        style="max-height: 50vh"
         loading="lazy"
       />
     </div>
@@ -70,41 +70,31 @@
               </template>
               <template v-if="file.video_info">
                 <tr>
-                  <th>
-                    bitrate
-                  </th>
+                  <th>bitrate</th>
                   <td>
                     {{ file.video_info.bitrate }}
                   </td>
                 </tr>
                 <tr>
-                  <th>
-                    duration
-                  </th>
+                  <th>duration</th>
                   <td>
                     {{ file.video_info.duration }}
                   </td>
                 </tr>
                 <tr>
-                  <th>
-                    duration_string
-                  </th>
+                  <th>duration_string</th>
                   <td>
                     {{ file.video_info.duration_string }}
                   </td>
                 </tr>
                 <tr>
-                  <th>
-                    height
-                  </th>
+                  <th>height</th>
                   <td>
                     {{ file.video_info.height }}
                   </td>
                 </tr>
                 <tr>
-                  <th>
-                    width
-                  </th>
+                  <th>width</th>
                   <td>
                     {{ file.video_info.width }}
                   </td>

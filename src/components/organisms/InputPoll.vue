@@ -66,9 +66,7 @@
 
     <div class="input-group d-inline-sm duration">
       <div class="input-group-prepend">
-        <span class="input-group-text">
-          Duration:
-        </span>
+        <span class="input-group-text">Duration:</span>
       </div>
 
       <select v-model.number="dateForm.days" class="form-control">
@@ -78,12 +76,8 @@
       </select>
       <div class="input-group-append input-group-prepend">
         <span class="input-group-text">
-          <span class="d-md-none" title="days">
-            d
-          </span>
-          <span class="d-none d-sm-inline">
-            Days
-          </span>
+          <span class="d-md-none" title="days">d</span>
+          <span class="d-none d-sm-inline">Days</span>
         </span>
       </div>
 
@@ -94,12 +88,8 @@
       </select>
       <div class="input-group-append input-group-prepend">
         <span class="input-group-text">
-          <span class="d-md-none" title="hours">
-            h
-          </span>
-          <span class="d-none d-sm-inline">
-            Hours
-          </span>
+          <span class="d-md-none" title="hours">h</span>
+          <span class="d-none d-sm-inline">Hours</span>
         </span>
       </div>
 
@@ -110,12 +100,8 @@
       </select>
       <div class="input-group-append">
         <span class="input-group-text">
-          <span class="d-md-none" title="min">
-            m
-          </span>
-          <span class="d-none d-sm-inline">
-            Min
-          </span>
+          <span class="d-md-none" title="min">m</span>
+          <span class="d-none d-sm-inline">Min</span>
         </span>
       </div>
     </div>

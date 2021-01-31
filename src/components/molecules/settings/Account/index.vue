@@ -6,9 +6,7 @@
     </div>
     <form action="/proxy/users/me" method="post" @submit.prevent="update">
       <div class="form-group row">
-        <label class="col-form-label col-sm-12 col-md-3" for="name">
-          Name
-        </label>
+        <label class="col-form-label col-sm-12 col-md-3" for="name">Name</label>
         <div class="col-sm-12 col-md-9">
           <input
             id="name"

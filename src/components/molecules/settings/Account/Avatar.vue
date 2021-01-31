@@ -20,7 +20,7 @@
           ref="avatarFileInput"
           type="file"
           accept="image/*"
-          style="display: none;"
+          style="display: none"
           @change="avatarChanged"
         />
         <button

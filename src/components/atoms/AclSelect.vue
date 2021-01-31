@@ -6,15 +6,9 @@
     class="form-control"
     @change="$emit('change', $event.target.value)"
   >
-    <option v-if="!anyUserRead">
-      read
-    </option>
-    <option v-if="!anyUserWrite">
-      write
-    </option>
-    <option :disabled="!isOwner" value="full">
-      moderate
-    </option>
+    <option v-if="!anyUserRead">read</option>
+    <option v-if="!anyUserWrite">write</option>
+    <option :disabled="!isOwner" value="full">moderate</option>
   </select>
 </template>
 <script lang="ts">

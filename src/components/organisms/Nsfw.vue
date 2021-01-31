@@ -5,9 +5,7 @@
         <div class="card-body">
           <div class="media">
             <div class="media-body align-self-center">
-              <p class="mb-0">
-                This post includes NSFW.
-              </p>
+              <p class="mb-0">This post includes NSFW.</p>
             </div>
             <button class="btn btn-outline-primary" @click="toggle">
               Show

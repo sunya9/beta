@@ -8,12 +8,12 @@
         class="mr-2"
       />
     </user-popper>
-    <div class="media-body" style="overflow: hidden;">
+    <div class="media-body" style="overflow: hidden">
       <h5>
         <font-awesome-icon
           v-show="channel.you_muted"
           :icon="['far', 'bell-slash']"
-          style="float: right;"
+          style="float: right"
         />
         <template v-if="is_pm">
           {{ members }}

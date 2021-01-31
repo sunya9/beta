@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h3 class="d-flex align-items-center mb-4">
-      Your polls
-    </h3>
+    <h3 class="d-flex align-items-center mb-4">Your polls</h3>
     <poll-list :list-info="listInfo" />
   </div>
 </template>

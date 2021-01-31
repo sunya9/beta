@@ -1,33 +1,5 @@
 import Vue from 'vue'
-
-type KeyMap = Record<string, string>
-
-// FIXME
-function hasFunction(
-  vue: Vue,
-  method: string
-): vue is Vue & { [key: string]: () => void } {
-  return method in vue
-}
-
-const defaultMixin = (keyMap: KeyMap) =>
-  Vue.extend({
-    async mounted() {
-      await this.$nextTick()
-      Object.keys(keyMap).forEach((key) =>
-        this.$mousetrap.bind(key, () => {
-          const method = keyMap[key]
-          if (hasFunction(this, method)) this[method]()
-          else this.$emit(method)
-        })
-      )
-    },
-    beforeDestroy() {
-      Object.keys(keyMap).forEach((key) => this.$mousetrap.unbind(key))
-    },
-  })
-
-export default defaultMixin
+import { KeyMap } from '~/assets/ts/key-binding'
 
 export const forList = (keyMap: KeyMap, selector?: string) =>
   Vue.extend({

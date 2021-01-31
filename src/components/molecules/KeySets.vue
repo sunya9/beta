@@ -5,9 +5,7 @@
         <template v-if="keySet.key.includes('+')">
           <kbd>
             <template v-for="(key, i) in keySet.key.split('+')">
-              <template v-if="i">
-                +
-              </template>
+              <template v-if="i">+</template>
               <kbd :key="key">
                 {{ key }}
               </kbd>
@@ -16,9 +14,7 @@
         </template>
         <template v-else-if="typeof keySet.key === 'object'">
           <template v-for="(key, i) in keySet.key">
-            <template v-if="i">
-              &nbsp;
-            </template>
+            <template v-if="i">&nbsp;</template>
             <kbd :key="`${key}-${i}`">{{ key }}</kbd>
           </template>
         </template>
