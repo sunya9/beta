@@ -12,7 +12,7 @@
     "@fortawesome/vue-fontawesome": "2.0.2",
     "@nuxt/typescript-runtime": "2.0.1",
     "@nuxtjs/auth": "4.9.1",
-    "@nuxtjs/axios": "5.13.0",
+    "@nuxtjs/axios": "5.13.1",
     "@nuxtjs/component-cache": "1.1.6",
     "@nuxtjs/pwa": "3.3.5",
     "@nuxtjs/redirect-module": "0.3.1",
