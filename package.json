@@ -50,11 +50,11 @@
     "zooming": "2.1.1"
   },
   "devDependencies": {
-    "@babel/core": "7.12.13",
+    "@babel/core": "7.12.16",
     "@babel/plugin-transform-modules-commonjs": "7.12.13",
-    "@babel/plugin-transform-typescript": "7.12.13",
-    "@babel/preset-env": "7.12.13",
-    "@babel/preset-typescript": "7.12.13",
+    "@babel/plugin-transform-typescript": "7.12.16",
+    "@babel/preset-env": "7.12.16",
+    "@babel/preset-typescript": "7.12.16",
     "@nuxt/types": "2.14.12",
     "@nuxt/typescript-build": "2.0.4",
     "@nuxtjs/eslint-config-typescript": "5.0.0",
