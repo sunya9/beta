@@ -19,7 +19,7 @@ import {
   GetInteractionParameters,
   UpdateUserRequest,
 } from '~/plugins/domain/dto/user'
-import { File } from '~/entity/file'
+import { File as PnutFile } from '~/entity/file'
 import {
   CreatePollRequest,
   GeneralPollParameters,
@@ -120,7 +120,7 @@ export class PnutRepositoryImpl implements PnutRepository {
 
   getFiles(
     params?: GeneralFileParameters & Pagination
-  ): Promise<PnutResponse<File[]>> {
+  ): Promise<PnutResponse<PnutFile[]>> {
     return this.get('/users/me/files', params)
   }
 
@@ -273,13 +273,13 @@ export class PnutRepositoryImpl implements PnutRepository {
     return this.axios.$delete(url, { params })
   }
 
-  private post(
+  private post<T>(
     url: string,
     data: any,
     params?: any,
     headers?: Record<string, string>
   ) {
-    return this.axios.$post(url, data, { params, headers })
+    return this.axios.$post<T>(url, data, { params, headers })
   }
 
   private get(url: string, params?: any) {
@@ -296,7 +296,7 @@ export class PnutRepositoryImpl implements PnutRepository {
   getFile(
     fileIdRequest: FileIdRequest,
     params?: GeneralFileParameters
-  ): Promise<PnutResponse<File>> {
+  ): Promise<PnutResponse<PnutFile>> {
     return this.get(`/files/${fileIdRequest.file_id}`, params)
   }
 
@@ -310,7 +310,7 @@ export class PnutRepositoryImpl implements PnutRepository {
     })
   }
 
-  uploadFile(data: FormData): Promise<PnutResponse<File>> {
+  uploadFile(data: FormData): Promise<PnutResponse<PnutFile>> {
     return this.post('/files', data, null, {
       'Content-type': 'multipart/form-data',
     })
@@ -347,5 +347,13 @@ export class PnutRepositoryImpl implements PnutRepository {
 
   getHomeStream(params?: HomeStreamRequest): Promise<PnutResponse<Post[]>> {
     return this.get('/posts/streams/me', params)
+  }
+
+  updateCover(file: File): Promise<PnutResponse<User>> {
+    const fd = new FormData()
+    fd.append('cover', file)
+    return this.post<PnutResponse<User>>('/users/me/cover', fd, null, {
+      'Content-Type': 'multipart/form-data',
+    })
   }
 }
