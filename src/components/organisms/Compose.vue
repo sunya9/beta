@@ -214,14 +214,14 @@ export default class Compose extends Mixins(
     return this.promise || this.textOverflow || this.hasNoText
   }
 
-  submit() {
+  async submit() {
     if (this.cannotSubmit) return
     try {
+      this.promise = true
       if (this.editPost) {
-        this.promise = true
-        this.updatePost(this.editPost.id)
+        await this.updatePost(this.editPost.id)
       } else {
-        this.createPost()
+        await this.createPost()
       }
     } catch (e) {
       console.error(e)
