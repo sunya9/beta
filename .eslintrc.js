@@ -10,7 +10,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:jest/recommended',
     'plugin:prettier/recommended',
-    'prettier/vue',
+    'prettier',
   ],
   plugins: ['jest'],
   // add your custom rules here
