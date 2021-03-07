@@ -79,7 +79,7 @@
     "babel-preset-vue": "2.0.2",
     "eslint": "7.21.0",
     "eslint-config-prettier": "8.1.0",
-    "eslint-plugin-jest": "24.1.7",
+    "eslint-plugin-jest": "24.1.8",
     "eslint-plugin-prettier": "3.3.1",
     "flush-promises": "1.0.2",
     "http-server": "0.12.3",
