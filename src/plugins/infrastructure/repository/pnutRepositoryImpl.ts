@@ -356,4 +356,8 @@ export class PnutRepositoryImpl implements PnutRepository {
       'Content-Type': 'multipart/form-data',
     })
   }
+
+  deleteCover(): Promise<PnutResponse<User>> {
+    return this.delete('/users/me/cover')
+  }
 }

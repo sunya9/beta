@@ -212,4 +212,5 @@ export interface PnutRepository {
   updateUser(updateUserRequest: UpdateUserRequest): Promise<PnutResponse<User>>
 
   updateCover(file: File): Promise<PnutResponse<User>>
+  deleteCover(): Promise<PnutResponse<User>>
 }
