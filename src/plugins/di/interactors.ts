@@ -26,6 +26,7 @@ import { GetUnreadCountUseCase } from '~/plugins/domain/usecases/getUnreadCount'
 import { MarkAsReadUseCase } from '~/plugins/domain/usecases/markAsRead'
 import { UpdateRelationUseCase } from '~/plugins/domain/usecases/updateRelation'
 import { UpdateProfileUseCase } from '~/plugins/domain/usecases/updateProfile'
+import { UpdateCoverUseCase } from '~/plugins/domain/usecases/updateCover'
 
 @singleton()
 export class Interactors {
@@ -66,6 +67,8 @@ export class Interactors {
     @inject(UpdateRelationUseCase.token)
     readonly updateRelation: UpdateRelationUseCase,
     @inject(UpdateProfileUseCase.token)
-    readonly updateProfile: UpdateProfileUseCase
+    readonly updateProfile: UpdateProfileUseCase,
+    @inject(UpdateCoverUseCase.token)
+    readonly updateCover: UpdateCoverUseCase
   ) {}
 }

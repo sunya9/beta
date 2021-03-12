@@ -22,86 +22,82 @@
           type="file"
           accept="image/*"
           style="display: none"
-          @change="coverChanged"
+          @change="changeCover"
         />
         <button
           :disabled="promise"
           type="button"
           class="btn btn-outline-secondary"
-          @click="changeCover"
+          @click="$refs.coverFileInput.click()"
         >
           Change cover
         </button>
+        <button
+          v-if="!internalCover.is_default"
+          v-b-modal.confirm
+          class="btn btn-link"
+        >
+          Remove cover
+        </button>
+        <b-modal id="confirm" title="Remove the cover" @ok="removeCover">
+          Are you sure?
+        </b-modal>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import { Prop, Component, Vue } from 'vue-property-decorator'
 import { User } from '~/entity/user'
-import { PnutResponse } from '~/entity/pnut-response'
 
 function isFileInput(t: EventTarget): t is HTMLInputElement {
   return 'files' in t
 }
 
-export default Vue.extend({
-  props: {
-    cover: {
-      type: Object,
-      required: true,
-      validator(obj) {
-        return ['is_default', 'height', 'width', 'height'].every(
-          (key) => key in obj
-        )
-      },
-    },
-  },
-  data() {
-    return {
-      promise: null as Promise<PnutResponse<User>> | null,
-      internalCover: this.cover,
-    }
-  },
-  methods: {
-    async coverChanged(e: Event) {
-      if (
-        !e.target ||
-        !isFileInput(e.target) ||
-        !e.target.files ||
-        !e.target.files.length
+@Component
+export default class AccountCover extends Vue {
+  @Prop({
+    type: Object,
+    required: true,
+    validator(obj) {
+      return ['is_default', 'height', 'width', 'height'].every(
+        (key) => key in obj
       )
-        return false
-      const file = e.target.files[0]
-      if (file.size > 4194000) {
-        this.$toast.error('Over 4MiB.')
-        return
-      }
-      const fd = new FormData()
-      fd.append('cover', file)
-      try {
-        this.promise = this.$axios
-          .$post<PnutResponse<User>>('/users/me/cover', fd, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          })
-          .catch((err) => {
-            throw new Error(err.response.data.meta.error_message)
-          })
-        const response = await this.promise
-        if (!response.data.content) return
-        this.internalCover = response.data.content.cover_image
-        this.$toast.success('Changed!')
-      } catch (err) {
-        this.$toast.error(err.message)
-      }
-      this.promise = null
     },
-    changeCover() {
-      // TODO
-      ;(this.$refs.coverFileInput as HTMLInputElement).click()
-    },
-  },
-})
+  })
+  cover!: User.UserImage
+
+  promise = false
+
+  internalCover = this.cover
+
+  async changeCover(e: Event) {
+    if (
+      !e.target ||
+      !isFileInput(e.target) ||
+      !e.target.files ||
+      !e.target.files.length
+    )
+      return false
+    await this.updateCover(e.target.files[0])
+    this.$toast.success('Changed!')
+  }
+
+  async updateCover(file?: File) {
+    this.promise = true
+    await this.$interactors.updateCover
+      .run({ file })
+      .then((output) => (this.internalCover = output.cover))
+      .finally(() => (this.promise = false))
+  }
+
+  async removeCover() {
+    await this.updateCover()
+    this.$toast.success('Deleted.')
+  }
+
+  $refs!: {
+    coverFileInput: HTMLInputElement
+  }
+}
 </script>

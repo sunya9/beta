@@ -1,15 +1,13 @@
-import { Wrapper } from '@vue/test-utils'
-import { shallowMount } from '../../../helper'
+import { shallowMount, Wrapper } from '@vue/test-utils'
+import Vue from 'vue'
+import flushPromises from 'flush-promises'
 import Cover from '~/components/molecules/settings/Account/Cover.vue'
-
-type CoverType = InstanceType<typeof Cover> & {
-  coverChanged: (arg: { target: { files: unknown[] } }) => Promise<void>
-}
+import {
+  UpdateCoverUseCase,
+  Output,
+} from '~/plugins/domain/usecases/updateCover'
 
 describe('Cover component', () => {
-  let wrapper: Wrapper<CoverType>
-  let $input: HTMLInputElement | null
-  let $button: HTMLButtonElement | null
   const newCover = {
     is_default: false,
     width: 100,
@@ -22,89 +20,123 @@ describe('Cover component', () => {
     height: 200,
     is_default: false,
   }
-  beforeEach(() => {
-    wrapper = shallowMount(Cover, {
+  const updateCover: UpdateCoverUseCase = {
+    run(): Promise<Output> {
+      return Promise.resolve({
+        cover: { ...newCover },
+      })
+    },
+  }
+
+  function getElements(wrapper: Wrapper<Vue>) {
+    const input = wrapper.find('input')
+    const $input = wrapper.vm.$el.querySelector<HTMLInputElement>(
+      'input[type="file"]'
+    )!!
+    const $button = wrapper.vm.$el.querySelector('button')!!
+    const $img = wrapper.vm.$el.querySelector('img')!!
+    return {
+      input,
+      $input,
+      $button,
+      $img,
+    }
+  }
+
+  test('show file picker when clicked button', () => {
+    const wrapper = shallowMount(Cover, {
       propsData: {
         cover: oldCover,
       },
-    }) as Wrapper<CoverType>
-    $input = wrapper.vm.$el.querySelector('input[type="file"]')
-    $button = wrapper.vm.$el.querySelector('button')
-    wrapper.vm.$toast.error = jest.fn()
-    wrapper.vm.$toast.success = jest.fn()
-  })
-  test('show file picker when clicked button', () => {
+    })
+    const { $button, $input } = getElements(wrapper)
     const picker = jest.fn()
     if ($input) {
       $input.onclick = picker
     }
-    $button?.click()
+    $button.click()
     expect(picker).toHaveBeenCalled()
   })
-  test('return false when not be picked', async () => {
-    expect(
-      await wrapper.vm.coverChanged({
-        target: {
-          files: [],
-        },
-      })
-    ).toBe(false)
-  })
-  test('show error toast when file size over 4MiB', async () => {
-    const file = {
-      size: 4194001,
-    }
-    await wrapper.vm.coverChanged({
-      target: {
-        files: [file],
+  test('keep old cover url if not be picked', async () => {
+    const wrapper = shallowMount(Cover, {
+      propsData: {
+        cover: oldCover,
       },
     })
-    expect(wrapper.vm.$toast.error).toHaveBeenCalled()
+    const { input } = getElements(wrapper)
+    await input.trigger('change')
+    await flushPromises()
+
+    expect(wrapper.find('img').attributes('src')).toBe(oldCover.link)
+  })
+
+  test('show error toast when throw exception on updateCover', async () => {
+    const errorHandler = jest.fn()
+    const wrapper = shallowMount(Cover, {
+      propsData: {
+        cover: oldCover,
+      },
+      mocks: {
+        $interactors: {
+          updateCover: {
+            run() {
+              return Promise.reject(new Error('Error'))
+            },
+          } as UpdateCoverUseCase,
+        },
+        $toast: {
+          success: jest.fn(),
+        },
+      },
+      parentComponent: {
+        errorCaptured() {
+          errorHandler()
+          return false
+        },
+      },
+    })
+    const { input } = getElements(wrapper)
+    const file = new File([''], 'test')
+    const files: FileList = {
+      item: () => file,
+      length: 1,
+    }
+    Object.defineProperty(input.element, 'files', {
+      value: files,
+    })
+    await input.trigger('change')
+    await flushPromises()
+    expect(errorHandler).toHaveBeenCalled()
+    expect(wrapper.vm.$toast.success).not.toHaveBeenCalled()
   })
   test('show toast and update img when succeed at uploading cover', async () => {
-    const file = new Blob([])
-    wrapper.vm.$axios.$post = jest.fn().mockReturnValue(
-      Promise.resolve({
-        data: {
-          content: {
-            cover_image: newCover,
-          },
+    const wrapper = shallowMount(Cover, {
+      propsData: {
+        cover: oldCover,
+      },
+      mocks: {
+        $interactors: {
+          updateCover,
         },
-      })
-    )
-    wrapper.vm.$toast.success = jest.fn()
-    wrapper.vm.$toast.error = jest.fn()
-    try {
-      await wrapper.vm.coverChanged({
-        target: {
-          files: [file],
+        $toast: {
+          success: jest.fn(),
         },
-      })
-    } catch (e) {
-      console.error('error', e)
-    }
-    // await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$toast.success).toHaveBeenCalled()
-    expect(wrapper.vm.$toast.error).not.toHaveBeenCalled()
-    const $img: HTMLImageElement | null = wrapper.vm.$el.querySelector('img')
-    expect($img?.src).toBe(newCover.link)
-  })
-  test('throw error when failed to request', async () => {
-    const file = new Blob([])
-    const $post = jest.fn(() => {
-      throw new Error('error')
-    })
-    wrapper.vm.$axios.$post = $post
-    await wrapper.vm.coverChanged({
-      target: {
-        files: [file],
       },
     })
-    expect($post).toHaveBeenCalled()
-    expect($post).toThrow()
-    expect(wrapper.vm.$toast.success).not.toHaveBeenCalled()
-    expect(wrapper.vm.$toast.error).toHaveBeenCalled()
-    const $img: HTMLImageElement | null = wrapper.vm.$el.querySelector('img')
-    expect($img?.src).toBe(oldCover.link)
+    const { input, $img } = getElements(wrapper)
+    const file = new File([''], 'test')
+    const files = [file]
+    const fileList: FileList = {
+      item: (index) => files[index],
+      ...files,
+      length: files.length,
+    }
+    Object.defineProperty(input.element, 'files', {
+      value: fileList,
+    })
+    await input.trigger('change')
+    await flushPromises()
+    expect(wrapper.vm.$toast.success).toHaveBeenCalled()
+    expect($img.src).toBe(newCover.link)
   })
 })

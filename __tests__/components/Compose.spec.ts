@@ -60,29 +60,20 @@ describe('Compose component', () => {
     // FIXME
     // disabled textarea and submit button when posted
   })
-  // FIXME
-  describe('methods', () => {
-    describe('submit button', () => {
-      let $submitButton: Wrapper<Vue>
-      beforeEach(() => {
-        $submitButton = wrapper.find('button[type="submit"]')
-      })
-      describe('has not text', () => {
-        test('disabled', () => {
-          expect($submitButton.attributes().disabled).toBe('disabled')
-        })
-      })
-      describe('has text over 256 characters', () => {
-        test('disabled', () => {
-          type('a'.repeat(260))
-          expect($submitButton.attributes().disabled).toBe('disabled')
-        })
-      })
-      describe('has some photos but has not text', () => {
-        test('disabled', () => {
-          expect($submitButton.attributes().disabled).toBe('disabled')
-        })
-      })
+  describe('submit button', () => {
+    let $submitButton: Wrapper<Vue>
+    beforeEach(() => {
+      $submitButton = wrapper.find('button[type="submit"]')
+    })
+    test('disabled if text is empty', () => {
+      expect($submitButton.attributes().disabled).toBe('disabled')
+    })
+    test('disabled if message is over 256 characters', () => {
+      type('a'.repeat(260))
+      expect($submitButton.attributes().disabled).toBe('disabled')
+    })
+    test('disabled if has some photos but has not text', () => {
+      expect($submitButton.attributes().disabled).toBe('disabled')
     })
   })
   describe('picker button', () => {

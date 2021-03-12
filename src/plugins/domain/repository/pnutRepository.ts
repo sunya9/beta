@@ -17,7 +17,7 @@ import {
   GetInteractionParameters,
   UpdateUserRequest,
 } from '~/plugins/domain/dto/user'
-import { File } from '~/entity/file'
+import { File as PnutFile } from '~/entity/file'
 import {
   CreatePollRequest,
   GeneralPollParameters,
@@ -75,7 +75,7 @@ export interface PnutRepository {
     params?: GeneralPostParameters
   ): Promise<PnutResponse<Post[]>>
   getGlobal(params?: GeneralPostParameters): Promise<PnutResponse<Post[]>>
-  uploadFile(data: FormData): Promise<PnutResponse<File>>
+  uploadFile(data: FormData): Promise<PnutResponse<PnutFile>>
   postPoll(
     poll: CreatePollRequest,
     fallbackText?: string
@@ -84,7 +84,7 @@ export interface PnutRepository {
   getFile(
     file: FileIdRequest,
     params?: GeneralFileParameters
-  ): Promise<PnutResponse<File>>
+  ): Promise<PnutResponse<PnutFile>>
 
   createPost(
     createPostRequest: CreatePostRequest,
@@ -176,7 +176,7 @@ export interface PnutRepository {
   ): Promise<PnutResponse<Post[]>>
   getFiles(
     params?: GeneralFileParameters & Pagination
-  ): Promise<PnutResponse<File[]>>
+  ): Promise<PnutResponse<PnutFile[]>>
 
   getPolls(
     params?: GeneralPollParameters & Pagination
@@ -210,4 +210,7 @@ export interface PnutRepository {
 
   unfollow(userId: string): Promise<PnutResponse<User>>
   updateUser(updateUserRequest: UpdateUserRequest): Promise<PnutResponse<User>>
+
+  updateCover(file: File): Promise<PnutResponse<User>>
+  deleteCover(): Promise<PnutResponse<User>>
 }
