@@ -50,10 +50,10 @@
     "zooming": "2.1.1"
   },
   "devDependencies": {
-    "@babel/core": "7.13.8",
+    "@babel/core": "7.13.10",
     "@babel/plugin-transform-modules-commonjs": "7.13.8",
     "@babel/plugin-transform-typescript": "7.13.0",
-    "@babel/preset-env": "7.13.9",
+    "@babel/preset-env": "7.13.10",
     "@babel/preset-typescript": "7.13.0",
     "@nuxt/types": "2.15.2",
     "@nuxt/typescript-build": "2.1.0",
