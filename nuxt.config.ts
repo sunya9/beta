@@ -10,9 +10,13 @@ const { homepage: npm_package_homepage } = pkg
 const lastModified = fs.statSync('./package.json').mtime
 
 const config: NuxtConfig = {
-  buildModules: ['@nuxt/typescript-build', 'nuxt-typed-vuex'],
+  buildModules: [
+    '@nuxt/typescript-build',
+    'nuxt-typed-vuex',
+    '@nuxtjs/router-extras',
+  ],
   srcDir: 'src/',
-  mode: 'spa',
+  ssr: false,
   head: {
     titleTemplate(partial) {
       return partial ? `${partial} - Beta` : 'Beta'
@@ -129,12 +133,6 @@ const config: NuxtConfig = {
     '@nuxtjs/toast',
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    [
-      '@nuxtjs/router',
-      {
-        keepDefaultRouter: true,
-      },
-    ],
     'bootstrap-vue/nuxt',
     'nuxt-uid-module',
     '@nuxtjs/redirect-module',
