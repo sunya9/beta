@@ -3119,12 +3119,13 @@
   resolved "https://registry.yarnpkg.com/@nuxtjs/redirect-module/-/redirect-module-0.3.1.tgz#90a6986882337401cb0576cdf9479d4e3b552cce"
   integrity sha512-yL2unrYfUSqs+4cUtkQvEQMsuTeCOlQd+Y5sTqMZzWBadF8h01tCVDG95zmOTNIiCupb+sQho2Tixwl1f826aw==
 
-"@nuxtjs/router@1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/router/-/router-1.5.1.tgz#1511d87d7a3253fd37558d7585a2289bc3433dd2"
-  integrity sha512-TQdDOzpknaTv3WETzq9837qIQJ3UjStZDM66aih0MfNk6maI0wnVxkhkgDuBlQTC8cLzbzKsrttLCHp6fr95zw==
+"@nuxtjs/router@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/router/-/router-1.6.0.tgz#7d81b5ee26844a4423b2f16a98714e02621017de"
+  integrity sha512-HSuIDyL/2bO4zzEtqVNt0jxG4++7bIa1On5ILCgwZNp+0TPZhS+m4o3st6ai8avFLDllj34Ym+65/CLJ9TZRoA==
   dependencies:
     consola "^2.15.3"
+    defu "^3.2.2"
 
 "@nuxtjs/storybook@3.3.1":
   version "3.3.1"
