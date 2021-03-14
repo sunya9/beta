@@ -15,7 +15,7 @@
     "@nuxtjs/component-cache": "1.1.6",
     "@nuxtjs/pwa": "3.3.5",
     "@nuxtjs/redirect-module": "0.3.1",
-    "@nuxtjs/router-extras": "^1.1.1",
+    "@nuxtjs/router-extras": "1.1.1",
     "@nuxtjs/toast": "3.3.1",
     "@vue/composition-api": "1.0.0-rc.5",
     "animate.css": "4.1.1",
