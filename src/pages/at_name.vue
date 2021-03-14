@@ -89,3 +89,8 @@ export default class Index extends Mixins(refreshAfterAdded) {
   }
 }
 </script>
+<router>
+  {
+    path: '/@:name'
+  }
+</router>
