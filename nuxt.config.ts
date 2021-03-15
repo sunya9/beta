@@ -11,6 +11,7 @@ const lastModified = fs.statSync('./package.json').mtime
 
 const config: NuxtConfig = {
   buildModules: [
+    '@nuxtjs/pwa',
     '@nuxt/typescript-build',
     'nuxt-typed-vuex',
     '@nuxtjs/router-extras',
@@ -128,7 +129,6 @@ const config: NuxtConfig = {
     last_modified: lastModified.toString(),
   },
   modules: [
-    '@nuxtjs/pwa',
     '@nuxtjs/component-cache',
     '@nuxtjs/toast',
     '@nuxtjs/axios',
@@ -141,29 +141,30 @@ const config: NuxtConfig = {
     position: 'bottom-left',
     duration: 5000,
   },
-  workbox: {
-    dev: false,
-    runtimeCaching: [
-      {
-        urlPattern: 'https://twemoji.maxcdn.com/*',
-        handler: 'cacheFirst',
-        method: 'GET',
-      },
-      {
-        urlPattern: 'https://.*.cloudfront.net/*',
-        handler: 'cacheFirst',
-        method: 'GET',
-      },
-    ],
-  },
-  manifest: {
-    name: 'Beta',
-  },
-  icon: {
-    iconSrc: 'static/img/beta.png',
-  },
-  meta: {
-    theme_color: '#d36854',
+  pwa: {
+    icon: {
+      fileName: 'img/beta.png',
+    },
+    meta: {
+      theme_color: '#d36854',
+    },
+    manifest: {
+      name: 'Beta',
+    },
+    workbox: {
+      runtimeCaching: [
+        {
+          urlPattern: 'https://twemoji.maxcdn.com/*',
+          handler: 'cacheFirst',
+          method: 'GET',
+        },
+        {
+          urlPattern: 'https://.*.cloudfront.net/*',
+          handler: 'cacheFirst',
+          method: 'GET',
+        },
+      ],
+    },
   },
   axios: {
     baseURL: 'https://api.pnut.io/v0',
