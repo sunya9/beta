@@ -102,7 +102,7 @@ export class CreateConnectionInteractor implements CreateConnectionUseCase {
     const cleanup = (ev: CloseEvent) => {
       clearInterval(timer)
       ws.removeEventListener('close', cleanup)
-      const error = ev.code === 1000 ? undefined : new Error() // TODO
+      const error = ev.code === 1000 ? undefined : new Error('clean up error')
       resolve(error)
     }
     ws.addEventListener('message', (data) => {
