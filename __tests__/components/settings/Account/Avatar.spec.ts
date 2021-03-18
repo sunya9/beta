@@ -1,91 +1,192 @@
 import Vue from 'vue'
-import { Wrapper } from '@vue/test-utils'
+import { mount, Wrapper } from '@vue/test-utils'
+import flushPromises from 'flush-promises'
 import { shallowMount, fixtures } from '../../../helper'
 import Avatar from '~/components/molecules/settings/Account/Avatar.vue'
 import { User } from '~/entity/user'
 
-type AvatarType = InstanceType<typeof Avatar> & {
-  avatarChanged: (e: { target: { files: { size: number }[] } }) => Promise<void>
-}
-
 describe('Avatar component', () => {
-  let wrapper: Wrapper<AvatarType>
-  let $input: Wrapper<Vue>
-  let $image: Wrapper<Vue>
-  const oldAvatar = fixtures<User>('user').content?.avatar_image
+  const oldAvatar = fixtures<User>('user').content!!.avatar_image
+  const newAvatar: User.UserImage = {
+    ...oldAvatar,
+    link: 'https://example.com/newAvatar.png',
+  }
 
-  beforeEach(() => {
-    wrapper = shallowMount(Avatar, {
+  function findElements(wrapper: Wrapper<Vue>) {
+    return {
+      get input() {
+        return wrapper.find('input[type="file"]')
+      },
+      get image() {
+        return wrapper.find('img')
+      },
+      get changeButton() {
+        return wrapper.find('button')
+      },
+      get removeButton() {
+        return wrapper.find('button:nth-of-type(2)')
+      },
+    }
+  }
+
+  test('input receive change event if button is clicked', async () => {
+    const handler = jest.fn()
+    const wrapper = shallowMount(Avatar, {
       propsData: {
         avatar: oldAvatar,
       },
-    }) as Wrapper<AvatarType>
-    $input = wrapper.find('input[type="file"]')
-    $image = wrapper.find('img')
-    wrapper.vm.$toast.error = jest.fn()
-    wrapper.vm.$toast.success = jest.fn()
-  })
-  test('show file picker when button is clicked', () => {
-    const handler = jest.fn()
-    $input.element.onclick = handler
-    wrapper.find('button').trigger('click')
+    })
+    const { input, changeButton } = findElements(wrapper)
+    input.element.onclick = handler
+    await changeButton.trigger('click')
+    await flushPromises()
     expect(handler).toHaveBeenCalled()
   })
-  test('Avatar does not be changed when not be picked', () => {
-    const handler = jest.fn()
-    $input.element.onchange = handler
-    $input.trigger('change')
-    expect(handler).toHaveBeenCalled()
-    expect($image.attributes().src).toBe(oldAvatar?.link)
-  })
-  test('show error toast when file size over 2MiB', async () => {
-    // const file = new File([], 'dummy')
-    // $input.trigger('change')
-    await wrapper.vm.avatarChanged({
-      target: {
-        files: [
-          {
-            size: 2097001,
-          },
-        ],
+
+  test('keep old avatar if user does not pick images', async () => {
+    const wrapper = shallowMount(Avatar, {
+      propsData: {
+        avatar: oldAvatar,
       },
     })
-    expect(wrapper.vm.$toast.error).toHaveBeenCalled()
+    const { input, image } = findElements(wrapper)
+    await input.trigger('change')
+    await flushPromises()
+    expect(image.attributes('src')).toBe(oldAvatar.link)
+  })
+
+  test('show error toast if throw exception in internal', async () => {
+    const error = jest.fn()
+    const success = jest.fn()
+    const wrapper = shallowMount(Avatar, {
+      propsData: {
+        avatar: oldAvatar,
+      },
+      mocks: {
+        $toast: {
+          success,
+        },
+        $interactors: {
+          updateAvatar: {
+            run() {
+              return Promise.reject(new Error('error'))
+            },
+          },
+        },
+      },
+      parentComponent: {
+        errorCaptured() {
+          error()
+          return false
+        },
+      },
+    })
+    const els = findElements(wrapper)
+    const file = new File([''], 'test')
+    const files: FileList = {
+      item: () => file,
+      length: 1,
+    }
+    Object.defineProperty(els.input.element, 'files', {
+      value: files,
+    })
+    await els.input.trigger('change')
+    await flushPromises()
+    expect(error).toHaveBeenCalled()
+    expect(success).not.toHaveBeenCalled()
   })
   test('show toast and update img when succeed at uploading avatar', async () => {
-    await wrapper.vm.avatarChanged({
-      target: {
-        files: [
-          new File(
-            [],
-            fixtures<User>('user', 'newAvatar').content!.avatar_image.link
-          ),
-        ],
+    const success = jest.fn()
+    const error = jest.fn()
+    const wrapper = shallowMount(Avatar, {
+      propsData: {
+        avatar: oldAvatar,
+      },
+      mocks: {
+        $toast: {
+          success,
+        },
+        $interactors: {
+          updateAvatar: {
+            run() {
+              return Promise.resolve({
+                avatar: newAvatar,
+              })
+            },
+          },
+        },
+      },
+      parentComponent: {
+        errorCaptured() {
+          error()
+          return false
+        },
       },
     })
-    expect(wrapper.vm.$toast.success).toHaveBeenCalled()
-    expect(wrapper.vm.$toast.error).not.toHaveBeenCalled()
-    expect(wrapper.vm.$el.querySelector('img')?.src).not.toBe(oldAvatar?.link)
+    const els = findElements(wrapper)
+    const file = new File([''], 'test')
+    const files = [file]
+    const fileList: FileList = {
+      item: (index) => files[index],
+      ...files,
+      length: files.length,
+    }
+    Object.defineProperty(els.input.element, 'files', {
+      value: fileList,
+    })
+    await els.input.trigger('change')
+    await flushPromises()
+
+    expect(success).toHaveBeenCalled()
+    expect(error).not.toHaveBeenCalled()
+    const src = els.image.attributes('src')
+    expect(src).not.toBe(oldAvatar.link)
+    expect(src).toBe(newAvatar.link)
   })
-  test('throw error when failed to request', async () => {
-    const $post = jest.fn(() => {
-      throw new Error('error')
-    })
-    // const fileList: FileList = {
-    //   index
-    //   item(index: number) { return  }
-    // }
-    wrapper.vm.$axios.$post = $post
-    // ;($input.element as HTMLInputElement).files = [file]
-    // $input.trigger('change')
-    await wrapper.vm.avatarChanged({
-      target: {
-        files: [{ size: 1 }],
+
+  test('Remove avatar and set default avatar', async () => {
+    const success = jest.fn()
+    const error = jest.fn()
+    const wrapper = mount(Avatar, {
+      propsData: {
+        avatar: newAvatar,
+      },
+      mocks: {
+        $toast: {
+          success,
+        },
+        $interactors: {
+          updateAvatar: {
+            run() {
+              return Promise.resolve({
+                avatar: {
+                  ...oldAvatar,
+                  is_default: true,
+                },
+              })
+            },
+          },
+        },
+      },
+      stubs: {
+        'b-modal': true,
+      },
+      parentComponent: {
+        errorCaptured() {
+          error()
+          return false
+        },
       },
     })
-    expect($post).toHaveBeenCalled()
-    expect(wrapper.vm.$toast.success).not.toHaveBeenCalled()
-    expect(wrapper.vm.$toast.error).toHaveBeenCalled()
-    expect(wrapper.vm.$el.querySelector('img')?.src).toBe(oldAvatar?.link)
+    const els = findElements(wrapper)
+    await els.removeButton.trigger('click')
+    wrapper.find('b-modal-stub').vm.$emit('ok')
+    await flushPromises()
+    expect(success).toHaveBeenCalled()
+    expect(error).not.toHaveBeenCalled()
+    const src = els.image.attributes('src')
+    expect(src).not.toBe(newAvatar.link)
+    expect(src).toBe(oldAvatar.link)
+    expect(els.removeButton.exists()).toBe(false)
   })
 })
