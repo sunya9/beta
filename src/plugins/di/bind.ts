@@ -114,6 +114,10 @@ import {
   UpdateCoverInteractor,
   UpdateCoverUseCase,
 } from '~/plugins/domain/usecases/updateCover'
+import {
+  UpdateAvatarInteractor,
+  UpdateAvatarUseCase,
+} from '~/plugins/domain/usecases/updateAvatar'
 
 export function bind(context: Context) {
   container
@@ -162,4 +166,5 @@ export function bind(context: Context) {
     })
     .register(UpdateProfileUseCase.token, { useClass: UpdateProfileInteractor })
     .register(UpdateCoverUseCase.token, { useClass: UpdateCoverInteractor })
+    .register(UpdateAvatarUseCase.token, { useClass: UpdateAvatarInteractor })
 }

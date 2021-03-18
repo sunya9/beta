@@ -52,6 +52,18 @@ import { Marker } from '~/entity/marker'
 
 export class PnutRepositoryImpl implements PnutRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
+  updateAvatar(file: File): Promise<PnutResponse<User>> {
+    const fd = new FormData()
+    fd.append('avatar', file)
+    return this.post<PnutResponse<User>>('/users/me/avatar', fd, null, {
+      'Content-Type': 'multipart/form-data',
+    })
+  }
+
+  deleteAvatar(): Promise<PnutResponse<User>> {
+    return this.delete('/users/me/avatar')
+  }
+
   updateUser(
     updateUserRequest: UpdateUserRequest
   ): Promise<PnutResponse<User>> {

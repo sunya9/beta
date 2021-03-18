@@ -21,16 +21,30 @@
           type="file"
           accept="image/*"
           style="display: none"
-          @change="avatarChanged"
+          @change="changeAvatar"
         />
         <button
           :disabled="promise"
           type="button"
           class="btn btn-outline-secondary"
-          @click="changeAvatar"
+          @click="$refs.avatarFileInput.click()"
         >
           Change avatar
         </button>
+        <button
+          v-if="!internalAvatar.is_default"
+          v-b-modal.avatar-confirm
+          class="btn btn-link"
+        >
+          Remove avatar
+        </button>
+        <b-modal
+          id="avatar-confirm"
+          title="Remove the avatar"
+          @ok="removeAavatar"
+        >
+          Are you sure?
+        </b-modal>
       </div>
     </div>
   </div>
@@ -40,7 +54,10 @@
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
 import { User } from '~/entity/user'
-import { PnutResponse } from '~/entity/pnut-response'
+
+function isFileInput(t: EventTarget): t is HTMLInputElement {
+  return 'files' in t
+}
 
 @Component
 export default class Avatar extends Vue {
@@ -52,42 +69,36 @@ export default class Avatar extends Vue {
   })
   avatar!: User.UserImage
 
-  promise: Promise<PnutResponse<User>> | null = null
+  promise = false
   internalAvatar = this.avatar
-  changeAvatar() {
-    // TODO
-    ;(this.$refs.avatarFileInput as HTMLInputElement).click()
+
+  $refs!: {
+    avatarFileInput: HTMLInputElement
   }
 
-  async avatarChanged(e: Event) {
-    if (!e.target) return
-    const target = e.target as HTMLInputElement
-    if (!target.files || !target.files.length) return false
-    const file = target.files[0]
-    if (file.size > 2097000) {
-      this.$toast.error('Over 2MiB.')
-      return
-    }
-    const fd = new FormData()
-    fd.append('avatar', file)
-    try {
-      this.promise = this.$axios
-        .$post<PnutResponse<User>>('/users/me/avatar', fd, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .catch((err) => {
-          throw new Error(err.response.data.meta.error_message)
-        })
-      const response = await this.promise
-      if (!response.data.content) return // TODO: improve error handling
-      this.internalAvatar = response.data.content.avatar_image
-      this.$toast.success('Changed!')
-    } catch (err) {
-      this.$toast.error(err.message)
-    }
-    this.promise = null
+  async changeAvatar(e: Event) {
+    if (
+      !e.target ||
+      !isFileInput(e.target) ||
+      !e.target.files ||
+      !e.target.files.length
+    )
+      return false
+    await this.updateAvatar(e.target.files[0])
+    this.$toast.success('Changed!')
+  }
+
+  updateAvatar(file?: File) {
+    this.promise = true
+    return this.$interactors.updateAvatar
+      .run({ file })
+      .then((res) => (this.internalAvatar = res.avatar))
+      .finally(() => (this.promise = false))
+  }
+
+  async removeAavatar() {
+    await this.updateAvatar()
+    this.$toast.success('Deleted.')
   }
 }
 </script>
