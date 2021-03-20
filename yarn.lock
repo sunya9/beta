@@ -19356,7 +19356,24 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
 
-vue-docgen-api@4.35.0, vue-docgen-api@^4.33.1:
+vue-docgen-api@4.36.1:
+  version "4.36.1"
+  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-4.36.1.tgz#99b7345a8d0e84cd85fc91ff087b2d7e98df696d"
+  integrity sha512-DITKMq8pCoOaFJJ0QxGsqPd/wmbLI9wELzh2zJ7d/Acg5rD7UjD1io/FlSVvKqM4s9kuP7x7Zpik5aiyqErMTw==
+  dependencies:
+    "@babel/parser" "^7.6.0"
+    "@babel/types" "^7.6.0"
+    "@vue/compiler-dom" "^3.0.0-rc.6"
+    "@vue/compiler-sfc" "^3.0.0-rc.6"
+    ast-types "0.13.3"
+    hash-sum "^1.0.2"
+    lru-cache "^4.1.5"
+    pug "^3.0.0"
+    recast "0.19.1"
+    ts-map "^1.0.3"
+    vue-inbrowser-compiler-utils "^4.33.6"
+
+vue-docgen-api@^4.33.1:
   version "4.35.0"
   resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-4.35.0.tgz#2f2d3394b69af3d57d8e8d4897008462826dfc9e"
   integrity sha512-mO74xKeD5DH9T4Wjtte+1J8cgHN5v9LCN2IOPF9aKp6MqeZXcqjDawyAFNajNw0iA7TAX64HhEImvuSYEtx+Fg==
