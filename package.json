@@ -97,7 +97,7 @@
     "reg-notify-slack-plugin": "0.10.15",
     "reg-publish-gcs-plugin": "0.10.15",
     "reg-suit": "0.10.15",
-    "rosie": "2.0.1",
+    "rosie": "2.1.0",
     "storycap": "3.0.3",
     "ts-jest": "26.5.4",
     "ts-loader": "8.0.18",
