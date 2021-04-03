@@ -98,7 +98,7 @@
     "reg-publish-gcs-plugin": "0.10.15",
     "reg-suit": "0.10.15",
     "rosie": "2.1.0",
-    "storycap": "3.0.3",
+    "storycap": "3.0.4",
     "ts-jest": "26.5.4",
     "ts-loader": "8.1.0",
     "ts-node": "9.1.1",
