@@ -137,7 +137,7 @@ describe('Profile component', () => {
       )
       expect(dropdownButton.attributes('aria-expanded')).toBe('false')
       await dropdownButton.trigger('click')
-      await new Promise((resolve) => setTimeout(resolve, 10)) // dirty hack
+      await new Promise((resolve) => setTimeout(resolve, 100)) // dirty hack
       expect(dropdownButton.attributes('aria-expanded')).toBe('true')
     })
     test('Not show Block/Mute link in not my profile', () => {
