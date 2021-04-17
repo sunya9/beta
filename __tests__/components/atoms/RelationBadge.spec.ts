@@ -1,15 +1,17 @@
 import { mount } from '@vue/test-utils'
+import { authedAccessor } from '~/../__tests__/helper'
 import RelationBadge from '~/components/atoms/RelationBadge.vue'
-import { getUserFixture } from '~/fixtures'
+import * as userFixtures from '~/fixtures/user'
 
 describe('RelationBadge', () => {
   test('render badge', () => {
-    const user = getUserFixture({
-      you_can_follow: true,
-    })
+    const user = userFixtures.followerUser
     const wrapper = mount(RelationBadge, {
       propsData: {
         user,
+      },
+      mocks: {
+        $accessor: authedAccessor,
       },
     })
     expect(wrapper.vm).toBeTruthy()
@@ -17,13 +19,12 @@ describe('RelationBadge', () => {
     expect(wrapper.text()).toContain('Follows you')
   })
   test('hide when not followed', () => {
-    const user = getUserFixture({
-      you_can_follow: true,
-      follows_you: false,
-    })
     const wrapper = mount(RelationBadge, {
       propsData: {
-        user,
+        user: userFixtures.anotherUser,
+      },
+      mocks: {
+        $accessor: authedAccessor,
       },
     })
     expect(wrapper.element.nodeType).toBe(Node.COMMENT_NODE)
@@ -31,14 +32,12 @@ describe('RelationBadge', () => {
   })
 
   test("hide when it's me", () => {
-    const user = getUserFixture({
-      you_can_follow: false,
-      follows_you: true,
-      you_follow: true,
-    })
     const wrapper = mount(RelationBadge, {
       propsData: {
-        user,
+        user: userFixtures.myselfEntity,
+      },
+      mocks: {
+        $accessor: authedAccessor,
       },
     })
     expect(wrapper.element.nodeType).toBe(Node.COMMENT_NODE)
