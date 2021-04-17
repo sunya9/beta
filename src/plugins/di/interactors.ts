@@ -28,6 +28,7 @@ import { UpdateRelationUseCase } from '~/plugins/domain/usecases/updateRelation'
 import { UpdateProfileUseCase } from '~/plugins/domain/usecases/updateProfile'
 import { UpdateCoverUseCase } from '~/plugins/domain/usecases/updateCover'
 import { UpdateAvatarUseCase } from '~/plugins/domain/usecases/updateAvatar'
+import { ExistingPmUseCase } from '~/plugins/domain/usecases/existingPm'
 
 @singleton()
 export class Interactors {
@@ -72,6 +73,8 @@ export class Interactors {
     @inject(UpdateCoverUseCase.token)
     readonly updateCover: UpdateCoverUseCase,
     @inject(UpdateAvatarUseCase.token)
-    readonly updateAvatar: UpdateAvatarUseCase
+    readonly updateAvatar: UpdateAvatarUseCase,
+    @inject(ExistingPmUseCase.token)
+    readonly existingPm: ExistingPmUseCase
   ) {}
 }

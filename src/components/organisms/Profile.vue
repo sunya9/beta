@@ -221,7 +221,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import FollowButton from '~/components/atoms/FollowButton.vue'
 import Thumb from '~/components/molecules/Thumb.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
@@ -230,10 +230,8 @@ import BlockButton from '~/components/atoms/BlockButton.vue'
 import MuteButton from '~/components/atoms/MuteButton.vue'
 import createPmModal from '~/components/organisms/CreatePmModal.vue'
 import { User } from '~/entity/user'
-import { Channel } from '~/entity/channel'
-import { PnutResponse } from '~/entity/pnut-response'
 
-export default Vue.extend({
+@Component({
   components: {
     createPmModal,
     FollowButton,
@@ -243,81 +241,89 @@ export default Vue.extend({
     BlockButton,
     MuteButton,
   },
-  props: {
-    initialProfile: {
-      required: true,
-      type: Object,
-    } as PropOptions<User>,
-  },
-  data() {
-    return {
-      headerHeight: 0,
-      loaded: false,
-      profile: this.initialProfile,
-      messagePromise: null as Promise<PnutResponse<Channel>> | null,
-    }
-  },
-  computed: {
-    user(): User | null {
-      return this.$accessor.user
-    },
-    relation(): string {
-      return this.profile.follows_you ? 'Follows you' : ''
-    },
-    me(): boolean {
-      return !!this.user && this.profile.id === this.user.id
-    },
-    atname(): string {
-      return `@${this.profile.username}`
-    },
-    blockText(): string {
-      const prefix = this.profile.you_blocked ? 'Unblock' : 'Block'
-      return `${prefix} ${this.atname}`
-    },
-    muteText(): string {
-      const prefix = this.profile.you_muted ? 'Unmute' : 'Mute'
-      return `${prefix} ${this.atname}`
-    },
-  },
-  watch: {
-    profile: {
-      handler(profile) {
-        this.$emit('update:initialProfile', profile)
-      },
-      deep: true,
-    },
-    loaded(bool) {
-      if (!bool) return
-      this.headerHeight = 0
-    },
-  },
+})
+export default class Profile extends Vue {
+  @Prop({
+    required: true,
+    type: Object,
+  })
+  initialProfile!: User
+
+  headerHeight = 0
+  loaded = false
+  profile = this.initialProfile
+  messagePromise = false
+
+  get user(): User | null {
+    return this.$accessor.user
+  }
+
+  get relation(): string {
+    return this.profile.follows_you ? 'Follows you' : ''
+  }
+
+  get me(): boolean {
+    return !!this.user && this.profile.id === this.user.id
+  }
+
+  get atname(): string {
+    return `@${this.profile.username}`
+  }
+
+  get blockText(): string {
+    const prefix = this.profile.you_blocked ? 'Unblock' : 'Block'
+    return `${prefix} ${this.atname}`
+  }
+
+  get muteText(): string {
+    const prefix = this.profile.you_muted ? 'Unmute' : 'Mute'
+    return `${prefix} ${this.atname}`
+  }
+
+  @Watch('profile', { deep: true })
+  onChangeProfile(profile: User) {
+    this.$emit('update:initialProfile', profile)
+  }
+
+  @Watch('loaded')
+  onLoaded(bool: Boolean) {
+    if (!bool) return
+    this.headerHeight = 0
+  }
+
   mounted() {
+    this.resizeHeader()
+  }
+
+  resizeHeader() {
+    if (!this.$el) return
     const { width } = this.$el.getBoundingClientRect()
     if (!this.profile.content) return
     // 2 === side border width
     const ratio = (width - 2) / this.profile.content.cover_image.width
     this.headerHeight = this.profile.content.cover_image.height * ratio
-  },
-  methods: {
-    async sendMessage() {
-      try {
-        this.messagePromise = this.$axios.$get<PnutResponse<Channel>>(
-          `/users/me/channels/existing_pm?ids=@${this.profile.username}`
-        )
-        const { data } = await this.messagePromise
+  }
+
+  sendMessage() {
+    this.messagePromise = true
+    this.$interactors.existingPm
+      .run({
+        userIds: [`@${this.profile.username}`],
+      })
+      .then((output) => {
         // found
-        this.$router.push(`/channels/${data.id}`)
-      } catch (e) {
+        this.$router.push(`/channels/${output.res.data.id}`)
+      })
+      .catch(() => {
         // not found and transition to /channels
         this.$modal.show('create-pm-modal', {
           isPrivate: true,
           target: this.profile.username,
         })
-      }
-      this.messagePromise = null
-    },
-  },
-})
+      })
+      .finally(() => (this.messagePromise = false))
+  }
+}
 </script>
 <style scoped lang="scss">
 @import '~assets/css/mixin';
