@@ -64,7 +64,7 @@
     "@types/emoji-regex": "8.0.0",
     "@types/jest": "26.0.22",
     "@types/lodash": "4.14.168",
-    "@types/mousetrap": "1.6.6",
+    "@types/mousetrap": "1.6.7",
     "@types/nuxtjs__auth": "4.8.7",
     "@types/rosie": "0.0.39",
     "@types/twemoji": "12.1.1",
