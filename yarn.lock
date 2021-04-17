@@ -4576,10 +4576,10 @@
     "@types/glob" "*"
     "@types/node" "*"
 
-"@types/rosie@0.0.38":
-  version "0.0.38"
-  resolved "https://registry.yarnpkg.com/@types/rosie/-/rosie-0.0.38.tgz#bead6124c3ea11ee2b2e1b23b18a2688c289c028"
-  integrity sha512-9g0bcHxRXr5PkuS+hjdRX7wl7edV9M+eX9zAypcVGn69FUckVayEK4yMysKpwtY/CxKgvbx/XKIvCTau7anf9w==
+"@types/rosie@0.0.39":
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/@types/rosie/-/rosie-0.0.39.tgz#d793fc22f79922ef0f4e691a0c521509fa22517d"
+  integrity sha512-rhBFUVM1vhEDDsmTR2BzPpMWEb7+4PbL2QZ9Vfyb/ArvZpXqaf7gBS+5U0LvI5nqaPnbxDLvy0ZbGHU0u13RnA==
 
 "@types/sass-loader@8.0.1":
   version "8.0.1"
