@@ -5,35 +5,26 @@ import flushPromises from 'flush-promises'
 import {
   mount,
   createStore,
-  authedUserCreateStore,
-  RouterLinkStub as NuxtLink,
   shallowMount,
-  fixtures,
   createLocalVue,
   authedAccessor,
 } from '../helper'
 import Profile from '~/components/organisms/Profile.vue'
-import { User } from '~/entity/user'
-
-type ProfileType = Vue & typeof Profile
+import * as userFixtures from '~/fixtures/user'
 
 describe('Profile component', () => {
-  let opts: ThisTypedMountOptions<ProfileType>
+  let opts: ThisTypedMountOptions<Vue>
 
   beforeEach(() => {
-    const user = fixtures<User>('user')
     opts = {
       propsData: {
-        initialProfile: user,
+        initialProfile: userFixtures.anotherUser,
       },
       mocks: {
-        $store: authedUserCreateStore(),
         $accessor: authedAccessor(),
       },
-      attachTo: document.createElement('div'),
       stubs: {
         Thumb: true,
-        NuxtLink,
         CreatePmModal: true,
       },
     }
@@ -42,7 +33,7 @@ describe('Profile component', () => {
     test('Show cover image', () => {
       const wrapper = mount(Profile, opts)
       expect(wrapper.find('img').attributes().src).toContain(
-        'https://via.placeholder.com/960x223.png?text=cover'
+        'https://via.placeholder.com/960x223'
       )
     })
   })
@@ -52,7 +43,7 @@ describe('Profile component', () => {
         ...opts,
         propsData: {
           ...opts.propsData,
-          initialProfile: fixtures('user', 'hasVerifiedDomain'),
+          initialProfile: userFixtures.verifiedDomainUser,
         },
       })
       expect(wrapper.find('#profile-domain').exists()).toBe(true)
@@ -66,38 +57,49 @@ describe('Profile component', () => {
         ...opts,
         propsData: {
           ...opts.propsData,
-          initialProfile: fixtures('user', 'hasBio'),
+          initialProfile: userFixtures.anotherUser,
         },
       })
       expect(wrapper.find('.description').exists()).toBe(true)
     })
     test('Hidden bio when profile.text does not exist', () => {
-      const wrapper = mount(Profile, opts)
+      const wrapper = mount(Profile, {
+        ...opts,
+        propsData: {
+          initialProfile: userFixtures.withoutDescription,
+        },
+      })
       expect(wrapper.find('.description').exists()).toBe(false)
     })
   })
   test('counts', () => {
     const wrapper = mount(Profile, opts)
     const text = wrapper.find('#profile-counts').text()
-    expect(text).toContain('1 Posts')
-    expect(text).toContain('2 Follows')
+    expect(text).toContain('5 Posts')
+    expect(text).toContain('4 Follows')
     expect(text).toContain('3 Followers')
-    expect(text).toContain('4 Starred')
+    expect(text).toContain('1 Starred')
   })
   describe('Me', () => {
     test('Not shown follow button', () => {
-      const wrapper = shallowMount(Profile, opts)
+      const wrapper = shallowMount(Profile, {
+        ...opts,
+        propsData: {
+          ...opts.propsData,
+          initialProfile: userFixtures.myselfEntity,
+        },
+      })
       expect(wrapper.find('follow-button-stub').exists()).toBe(false)
     })
   })
   describe('Everyone except me', () => {
-    let wrapper: Wrapper<ProfileType>
+    let wrapper: Wrapper<Vue>
     beforeEach(() => {
       wrapper = shallowMount(Profile, {
         ...opts,
         propsData: {
           ...opts.propsData,
-          initialProfile: fixtures('user', 'notMe'),
+          initialProfile: userFixtures.anotherUser,
         },
       })
     })
@@ -105,6 +107,13 @@ describe('Profile component', () => {
       expect(wrapper.find('follow-button-stub').exists()).toBe(true)
     })
     test('relation is not shown when another user not follow you', () => {
+      wrapper = mount(Profile, {
+        ...opts,
+        propsData: {
+          ...opts.propsData,
+          initialProfile: userFixtures.anotherUser,
+        },
+      })
       const $relation = wrapper.find('#profile-relation')
       expect($relation.text().trim()).toBe('')
     })
@@ -113,7 +122,7 @@ describe('Profile component', () => {
         ...opts,
         propsData: {
           ...opts.propsData,
-          initialProfile: fixtures('user', 'followsYou'),
+          initialProfile: userFixtures.followerUser,
         },
       })
       const $relation = wrapper.find('#profile-relation')
@@ -121,33 +130,34 @@ describe('Profile component', () => {
     })
   })
   describe('more dropdown', () => {
-    test.skip('Show dropdown when three dots is clicked', async () => {
+    test('Show dropdown when three dots is clicked', async () => {
       const wrapper = mount(Profile, opts)
-      const dropdownWrapper = wrapper.find('[data-test-id="profile-dropdown"]')
-      expect(dropdownWrapper.classes()).not.toContain('show')
-      await dropdownWrapper.find('.dropdown-toggle').element.click()
-      await wrapper.vm.$nextTick()
-      await flushPromises()
-      expect(dropdownWrapper.classes()).toContain('show')
+      const dropdownButton = wrapper.find(
+        '[data-test-id="profile-dropdown"] > button'
+      )
+      expect(dropdownButton.attributes('aria-expanded')).toBe('false')
+      await dropdownButton.trigger('click')
+      await new Promise((resolve) => setTimeout(resolve, 10)) // dirty hack
+      expect(dropdownButton.attributes('aria-expanded')).toBe('true')
     })
     test('Not show Block/Mute link in not my profile', () => {
       const wrapper = mount(Profile, {
         ...opts,
         propsData: {
           ...opts.propsData,
-          initialProfile: fixtures('user', 'notMe'),
+          initialProfile: userFixtures.anotherUser,
         },
       })
       const text = wrapper.text()
       expect(text).toContain('Block')
       expect(text).toContain('Mute')
     })
-    test('Show Block/Mute link in myself profile', () => {
+    test('Hide Block/Mute link in myself profile', () => {
       const wrapper = mount(Profile, {
         ...opts,
         propsData: {
           ...opts.propsData,
-          initialProfile: fixtures('user'),
+          initialProfile: userFixtures.myselfEntity,
         },
       })
       const text = wrapper.text()
@@ -165,20 +175,25 @@ describe('Profile component', () => {
         ...opts,
         propsData: {
           ...opts.propsData,
-          initialProfile: fixtures('user', 'notMe'),
+          initialProfile: userFixtures.anotherUser,
         },
       })
       expect(wrapper.find('[data-test-id="send-message"]').exists()).toBe(true)
     })
     test('Hidden the button when logged out or block or myself', () => {
       const selector = '[data-test-id="send-message"]'
-      const myselfWrapper = shallowMount(Profile, opts)
+      const myselfWrapper = shallowMount(Profile, {
+        ...opts,
+        propsData: {
+          initialProfile: userFixtures.myselfEntity,
+        },
+      })
       expect(myselfWrapper.find(selector).exists()).toBe(false)
       const blockedWrapper = shallowMount(Profile, {
         ...opts,
         propsData: {
           ...opts.propsData,
-          initialProfile: fixtures('user', 'notMe', 'blocked'),
+          initialProfile: userFixtures.blockedUser,
         },
       })
       expect(blockedWrapper.find(selector).exists()).toBe(false)
@@ -186,7 +201,7 @@ describe('Profile component', () => {
         ...opts,
         propsData: {
           ...opts.propsData,
-          initialProfile: fixtures('user'),
+          initialProfile: userFixtures.myselfEntity,
         },
         mocks: {
           $store: createStore(),
@@ -209,7 +224,24 @@ describe('Profile component', () => {
         ...opts,
         propsData: {
           ...opts.propsData,
-          initialProfile: fixtures('user', 'notMe'),
+          initialProfile: userFixtures.anotherUser,
+        },
+        mocks: {
+          $accessor: {
+            user: userFixtures.myselfEntity,
+          },
+          $interactors: {
+            existingPm: {
+              run: () =>
+                Promise.resolve({
+                  res: {
+                    data: {
+                      id: '1',
+                    },
+                  },
+                }),
+            },
+          },
         },
         router,
         localVue,
@@ -224,7 +256,17 @@ describe('Profile component', () => {
         ...opts,
         propsData: {
           ...opts.propsData,
-          initialProfile: fixtures('user', 'carol'),
+          initialProfile: userFixtures.anotherUser,
+        },
+        mocks: {
+          $accessor: {
+            user: userFixtures.myselfEntity,
+          },
+          $interactors: {
+            existingPm: {
+              run: () => Promise.reject(new Error('Not found')),
+            },
+          },
         },
       })
       const fn = jest.fn()
@@ -240,7 +282,7 @@ describe('Profile component', () => {
         ...opts,
         propsData: {
           ...opts.propsData,
-          initialProfile: fixtures('user'),
+          initialProfile: userFixtures.anotherUser,
         },
         mocks: {
           $store: createStore(),
