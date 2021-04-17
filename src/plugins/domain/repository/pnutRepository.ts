@@ -215,4 +215,5 @@ export interface PnutRepository {
   deleteCover(): Promise<PnutResponse<User>>
   updateAvatar(file: File): Promise<PnutResponse<User>>
   deleteAvatar(): Promise<PnutResponse<User>>
+  existingPm(userIds: string[]): Promise<PnutResponse<Channel>>
 }

@@ -372,4 +372,9 @@ export class PnutRepositoryImpl implements PnutRepository {
   deleteCover(): Promise<PnutResponse<User>> {
     return this.delete('/users/me/cover')
   }
+
+  existingPm(userIds: string[]): Promise<PnutResponse<Channel>> {
+    const commmaSeparatedIds = userIds.join(',')
+    return this.get(`/users/me/channels/existing_pm?$ids=${commmaSeparatedIds}`)
+  }
 }
