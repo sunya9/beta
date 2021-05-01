@@ -26,7 +26,7 @@
     "cross-env": "7.0.3",
     "dayjs": "1.10.4",
     "dotenv": "8.2.0",
-    "emoji-mart-vue-fast": "10.0.0",
+    "emoji-mart-vue-fast": "10.0.1",
     "emoji-regex": "9.2.2",
     "intersection-observer": "0.12.0",
     "lodash": "4.17.21",
