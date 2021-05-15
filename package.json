@@ -19,7 +19,7 @@
     "@nuxtjs/toast": "3.3.1",
     "@vue/composition-api": "1.0.0-rc.8",
     "animate.css": "4.1.1",
-    "bootstrap": "4.6.0",
+    "bootstrap": "5.0.1",
     "bootstrap-vue": "2.21.2",
     "bootstrap.native": "3.0.15",
     "convert-units": "2.3.4",
