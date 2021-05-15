@@ -1,7 +1,8 @@
 import { OEmbed } from '~/entity/raw/raw/oembed'
 
 const youtube = {
-  regexp: /https?:\/\/(?:(?:www)?\.youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9\-_]+)/g,
+  regexp:
+    /https?:\/\/(?:(?:www)?\.youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9\-_]+)/g,
   html: (id: string) =>
     `<iframe src="https://www.youtube.com/embed/${id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
 

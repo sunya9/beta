@@ -100,7 +100,16 @@
           </div>
           <div
             v-if="thumbs.length"
-            class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
+            class="
+              flex-shrink-1
+              mb-2
+              d-flex
+              mr-auto
+              ml-auto
+              mr-md-2
+              flex-wrap flex-lg-nowrap
+              justify-content-md-end
+            "
           >
             <thumb
               v-for="(t, i) in thumbs"
@@ -114,7 +123,16 @@
           </div>
           <div
             v-if="clips"
-            class="flex-shrink-1 mb-2 d-flex mr-auto ml-auto mr-md-2 flex-wrap flex-lg-nowrap justify-content-md-end"
+            class="
+              flex-shrink-1
+              mb-2
+              d-flex
+              mr-auto
+              ml-auto
+              mr-md-2
+              flex-wrap flex-lg-nowrap
+              justify-content-md-end
+            "
           >
             <sound
               v-for="(t, i) in clips"

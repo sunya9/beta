@@ -9,7 +9,16 @@
   >
     <div v-if="selectedDropdownItem" class="d-flex align-items-center">
       <div
-        class="d-block bg-primary text-center rounded-circle text-white border-white mr-1 icon"
+        class="
+          d-block
+          bg-primary
+          text-center
+          rounded-circle
+          text-white
+          border-white
+          mr-1
+          icon
+        "
       >
         <font-awesome-icon :icon="selectedDropdownItem.icon" fixed-width />
       </div>

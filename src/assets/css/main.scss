@@ -4,14 +4,16 @@
 @import 'animate.css';
 
 :root {
-  --animate-duration: .2s;
+  --animate-duration: 0.2s;
 }
 
-.layout-enter-active, .layout-leave-active {
-  transition: opacity .2s ease;
+.layout-enter-active,
+.layout-leave-active {
+  transition: opacity 0.2s ease;
 }
-.layout-enter, .layout-leave-active {
-  opacity: 0
+.layout-enter,
+.layout-leave-active {
+  opacity: 0;
 }
 
 html {

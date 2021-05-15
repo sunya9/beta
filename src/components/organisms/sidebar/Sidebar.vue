@@ -6,7 +6,15 @@
           <span
             v-if="menu.type === 'heading'"
             :key="menu.label"
-            class="heading list-group-item pt-4 pl-0 border-left-0 border-top-0 h5 text-uppercase"
+            class="
+              heading
+              list-group-item
+              pt-4
+              pl-0
+              border-left-0 border-top-0
+              h5
+              text-uppercase
+            "
           >
             {{ menu.label }}
           </span>
@@ -45,7 +53,12 @@
               },
               itemClass,
             ]"
-            class="d-inline-flex justify-content-between flex-nowrap text-overflow"
+            class="
+              d-inline-flex
+              justify-content-between
+              flex-nowrap
+              text-overflow
+            "
             exact
           >
             <span>

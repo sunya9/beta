@@ -29,7 +29,8 @@ export namespace CreatePostUseCase {
 @singleton()
 export class CreatePostInteractor
   extends AbstractCreatePostInteractor<AbstractInput, Output>
-  implements CreatePostUseCase {
+  implements CreatePostUseCase
+{
   constructor(
     @inject(PnutRepository.token)
     readonly pnutRepository: PnutRepository,

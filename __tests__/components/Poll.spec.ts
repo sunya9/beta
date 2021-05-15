@@ -21,16 +21,15 @@ describe('Poll component', () => {
   const poll = getPollFixture()
 
   beforeEach(() => {
-    const output: DeepPartial<
-      ReturnType<Interactors['getPoll']['run']>
-    > = Promise.resolve({
-      res: {
-        data: poll,
-        meta: {
-          code: 200,
+    const output: DeepPartial<ReturnType<Interactors['getPoll']['run']>> =
+      Promise.resolve({
+        res: {
+          data: poll,
+          meta: {
+            code: 200,
+          },
         },
-      },
-    })
+      })
     getPoll = {
       run: jest.fn().mockReturnValue(output),
     }
