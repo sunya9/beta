@@ -288,7 +288,7 @@ export default class BaseList<T extends object = object> extends Mixins(
 }
 
 // workaround for zooming
-.list-group /deep/ .list-group-item:hover {
+.list-group ::v-deep .list-group-item:hover {
   z-index: auto;
 }
 

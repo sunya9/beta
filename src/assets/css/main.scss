@@ -1,7 +1,7 @@
 @import 'override';
-@import '~bootstrap/scss/bootstrap';
-@import '~bootstrap-vue/src/index.scss';
-@import '~animate.css';
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-vue/src/index.scss';
+@import 'animate.css';
 
 :root {
   --animate-duration: .2s;
