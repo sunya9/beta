@@ -15,7 +15,13 @@
           <span class="navbar-toggler-icon" />
         </button>
         <nuxt-link
-          class="p-0 navbar-brand text-uppercase d-inline-flex align-items-center"
+          class="
+            p-0
+            navbar-brand
+            text-uppercase
+            d-inline-flex
+            align-items-center
+          "
           to="/"
           exact
         >

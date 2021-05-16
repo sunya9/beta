@@ -9,7 +9,5 @@
   },
   "reviewers": ["@sunya9"],
   "assignees": ["@sunya9"],
-  "schedule": [
-    "every weekend"
-  ]
+  "schedule": ["every weekend"]
 }

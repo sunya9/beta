@@ -19,10 +19,21 @@
     <div class="card-body pt-3 h-card">
       <div class="flex-column d-flex flex-sm-row align-items-sm-start">
         <div
-          class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row"
+          class="
+            d-flex
+            justify-content-sm-between
+            w-100
+            flex-column flex-sm-row
+          "
         >
           <div
-            class="d-flex flex-column align-items-center align-items-sm-stretch flex-sm-row justify-content-center justify-content-sm-start"
+            class="
+              d-flex
+              flex-column
+              align-items-center align-items-sm-stretch
+              flex-sm-row
+              justify-content-center justify-content-sm-start
+            "
           >
             <a
               v-if="!profile.verified"
@@ -55,7 +66,11 @@
             <div class="w-100">
               <h3 :title="profile.id" class="card-title mb-1">
                 <span
-                  class="d-flex flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap align-items-center align-items-sm-baseline"
+                  class="
+                    d-flex
+                    flex-column flex-sm-row flex-row-sm flex-wrap flex-lg-nowrap
+                    align-items-center align-items-sm-baseline
+                  "
                 >
                   <span :class="{ 'p-name': !profile.name }" class="p-nickname">
                     @{{ profile.username }}

@@ -28,7 +28,8 @@ export interface AbstractCreatePostUseCase<Input, Output>
 export abstract class AbstractCreatePostInteractor<
   Input extends AbstractInput,
   Output
-> implements AbstractCreatePostUseCase<Input, Promise<Output>> {
+> implements AbstractCreatePostUseCase<Input, Promise<Output>>
+{
   constructor(
     protected readonly pnutRepository: PnutRepository,
     readonly createFileUseCase: CreateFileUseCase,

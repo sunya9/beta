@@ -30,9 +30,8 @@ describe('Cover component', () => {
 
   function getElements(wrapper: Wrapper<Vue>) {
     const input = wrapper.find('input')
-    const $input = wrapper.vm.$el.querySelector<HTMLInputElement>(
-      'input[type="file"]'
-    )!!
+    const $input =
+      wrapper.vm.$el.querySelector<HTMLInputElement>('input[type="file"]')!!
     const $button = wrapper.vm.$el.querySelector('button')!!
     const $img = wrapper.vm.$el.querySelector('img')!!
     return {

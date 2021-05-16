@@ -29,8 +29,7 @@ export const user = new Factory<User>().attrs({
       mentions: [],
       tags: [],
     },
-    html:
-      '<span itemscope itemtype="https://pnut.io/schemas/Post"><a href="https://example.com">test</a> [example.com]</span>',
+    html: '<span itemscope itemtype="https://pnut.io/schemas/Post"><a href="https://example.com">test</a> [example.com]</span>',
     text: 'test [example.com]',
   },
   badge: {

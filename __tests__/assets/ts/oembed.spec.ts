@@ -13,8 +13,7 @@ describe('oembed', () => {
         type: 'video',
         width: 480,
         height: 270,
-        html:
-          '<iframe src="https://www.youtube.com/embed/exam-ple_" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+        html: '<iframe src="https://www.youtube.com/embed/exam-ple_" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
         embeddable_url: 'https://www.youtube.com/watch?v=exam-ple_',
       },
     }
@@ -27,8 +26,7 @@ describe('oembed', () => {
         type: 'video',
         width: 480,
         height: 270,
-        html:
-          '<iframe src="https://www.youtube.com/embed/123exXmp-le_" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+        html: '<iframe src="https://www.youtube.com/embed/123exXmp-le_" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
         embeddable_url: 'http://youtu.be/123exXmp-le_',
       },
     }

@@ -12,7 +12,7 @@ jobs:
       - name: Use Node.js v14
         uses: actions/setup-node@v2
         with:
-          node-version: "14.x"
+          node-version: '14.x'
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -37,4 +37,4 @@ jobs:
       - name: run reg-suit
         run: yarn reg-suit run
         env:
-          GOOGLE_APPLICATION_CREDENTIALS:  ${{steps.prepare_gcp_key.outputs.GOOGLE_APPLICATION_CREDENTIALS}}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{steps.prepare_gcp_key.outputs.GOOGLE_APPLICATION_CREDENTIALS}}

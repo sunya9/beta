@@ -32,7 +32,8 @@ export namespace CreateMessageUseCase {
 @singleton()
 export class CreateMessageInteractor
   extends AbstractCreatePostInteractor<Input, Output>
-  implements CreateMessageUseCase {
+  implements CreateMessageUseCase
+{
   constructor(
     @inject(PnutRepository.token) pnutRepository: PnutRepository,
     @inject(CreateFileUseCase.token) createFileUseCase: CreateFileUseCase,

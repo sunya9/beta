@@ -9,7 +9,6 @@ module.exports = {
     '@nuxtjs/eslint-config-typescript',
     'eslint:recommended',
     'plugin:jest/recommended',
-    'plugin:prettier/recommended',
     'prettier',
   ],
   plugins: ['jest'],

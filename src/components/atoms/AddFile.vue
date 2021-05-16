@@ -46,9 +46,9 @@ export default class AddFile extends Vue {
   fileChange(e: Event) {
     const { target } = e
     if (!(target instanceof HTMLInputElement) || !target.files?.length) return
-    const newFileWrappers: FileWrapper[] = Array.from(
-      target.files
-    ).map((file, i) => ({ file, id: `${new Date().getTime()}-${i}` }))
+    const newFileWrappers: FileWrapper[] = Array.from(target.files).map(
+      (file, i) => ({ file, id: `${new Date().getTime()}-${i}` })
+    )
     const fileWrappers = this.value.concat(newFileWrappers)
     this.$emit('input', fileWrappers)
     // reset file form for detecting changes(if there `sn't below code, not working when is selected same file)
