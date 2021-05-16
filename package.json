@@ -79,7 +79,6 @@
     "eslint": "7.26.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-jest": "24.3.6",
-    "eslint-plugin-prettier": "3.4.0",
     "flush-promises": "1.0.2",
     "http-server": "0.12.3",
     "husky": "6.0.0",
@@ -139,8 +138,8 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production nuxt build",
     "dev": "nuxt",
-    "lint": "eslint --ext ts,js,vue --ignore-path .gitignore .",
-    "lint:fix": "eslint --ext ts,js,vue --fix  --ignore-path .gitignore .",
+    "lint": "eslint --ext ts,js,vue --ignore-path .gitignore . && prettier --ignore-path .gitignore --check .",
+    "lint:fix": "eslint --ext ts,js,vue --ignore-path .gitignore . && prettier --ignore-path .gitignore --write .",
     "start": "cross-env NODE_ENV=production nuxt start",
     "ci": "run-p 'test --coverage' lint",
     "test": "jest",
