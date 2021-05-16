@@ -4,7 +4,7 @@ import {
   getterTree,
   actionTree,
   mutationTree,
-} from 'nuxt-typed-vuex'
+} from 'typed-vuex'
 import { Auth } from '@nuxtjs/auth'
 import { Token } from '~/entity/token'
 import { PnutResponse } from '~/entity/pnut-response'

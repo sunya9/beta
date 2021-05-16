@@ -5,7 +5,7 @@ import {
   RouterLinkStub as NuxtLink,
   ThisTypedMountOptions,
 } from '@vue/test-utils'
-import { useAccessor } from 'nuxt-typed-vuex'
+import { useAccessor } from 'typed-vuex'
 import axiosMock from './axios-mock'
 import fixtures from './fixtures'
 import { getters, State, accessorType } from '~/store'
