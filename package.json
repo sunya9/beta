@@ -40,7 +40,7 @@
     "sass-loader": "10.2.0",
     "string-length": "4.0.2",
     "tsyringe": "4.5.0",
-    "twemoji": "13.0.2",
+    "twemoji": "13.1.0",
     "unicode-substring": "1.0.0",
     "vue-on-click-outside": "1.0.3",
     "vue-property-decorator": "9.1.2",
