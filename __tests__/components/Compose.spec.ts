@@ -80,12 +80,5 @@ describe('Compose component', () => {
     test('is visible', () => {
       expect(wrapper.find('.open-emoji-picker').element).toBeVisible()
     })
-    describe('clicked picker button', () => {
-      // let emojiPicker: Wrapper<Vue>
-      beforeEach(() => {
-        wrapper.find('.open-emoji-picker').trigger('click')
-        // emojiPicker = wrapper.findComponent(EmojiPicker)
-      })
-    })
   })
 })
