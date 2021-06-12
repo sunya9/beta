@@ -19121,10 +19121,10 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
 
-vue-docgen-api@4.39.0:
-  version "4.39.0"
-  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-4.39.0.tgz#a27d223fe7400117160355f5a2b46f5f5ccdc2cf"
-  integrity sha512-Sd3zVHwR/hqoLZQyc9OeGWIXfa/+dtvYpfTTJL7GciMbs4GlDWijXLngneOOp6ObW+It3a/eXM6gtlhI/wgPhA==
+vue-docgen-api@4.40.0:
+  version "4.40.0"
+  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-4.40.0.tgz#18a6b25359a2340c051df612ad73f0c7714cb0d1"
+  integrity sha512-wQKnLILHJpJjaWGfQ4gvlg9yvI5I+qgB0YppPZUmz6PEpqaFZDoBejDfCjmpM9Hzf8OB9N0zyRmgvT4UxP3Ifg==
   dependencies:
     "@babel/parser" "^7.13.12"
     "@babel/types" "^7.13.12"
@@ -19136,7 +19136,7 @@ vue-docgen-api@4.39.0:
     pug "^3.0.2"
     recast "0.20.4"
     ts-map "^1.0.3"
-    vue-inbrowser-compiler-utils "^4.39.0"
+    vue-inbrowser-compiler-utils "^4.40.0"
 
 vue-docgen-api@^4.33.1:
   version "4.38.2"
@@ -19194,10 +19194,10 @@ vue-inbrowser-compiler-utils@^4.37.0:
   dependencies:
     camelcase "^5.3.1"
 
-vue-inbrowser-compiler-utils@^4.39.0:
-  version "4.39.0"
-  resolved "https://registry.yarnpkg.com/vue-inbrowser-compiler-utils/-/vue-inbrowser-compiler-utils-4.39.0.tgz#0e9a2b5d8d3a8a96c08d98cf0a09ffe546d51941"
-  integrity sha512-dtdqNELGa3snFgN6eXMhCN/EDn0f+B6Kl+QOgzyKPnpXSUjxvsT4lmw/ZhQq08HCic3DsuXW48pqlq/iBC6wNw==
+vue-inbrowser-compiler-utils@^4.40.0:
+  version "4.40.0"
+  resolved "https://registry.yarnpkg.com/vue-inbrowser-compiler-utils/-/vue-inbrowser-compiler-utils-4.40.0.tgz#9ba62e66d63461b47877655f45a4e86975e5b2e5"
+  integrity sha512-uJVt2fGpfs3g1x4zQWzbv7eFmI7PnoYTagZdWEOQIbqbKXJEJW3S22NIvImfW5DYVwjpGFPUpakK1R0TE3IE3A==
   dependencies:
     camelcase "^5.3.1"
 
