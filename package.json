@@ -17,7 +17,7 @@
     "@nuxtjs/redirect-module": "0.3.1",
     "@nuxtjs/router-extras": "1.1.1",
     "@nuxtjs/toast": "3.3.1",
-    "@vue/composition-api": "1.0.0-rc.12",
+    "@vue/composition-api": "1.0.0-rc.13",
     "animate.css": "4.1.1",
     "bootstrap": "4.6.0",
     "bootstrap-vue": "2.21.2",
