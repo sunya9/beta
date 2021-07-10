@@ -62,7 +62,7 @@
     "@testing-library/jest-dom": "5.11.9",
     "@types/convert-units": "2.3.4",
     "@types/emoji-regex": "8.0.0",
-    "@types/jest": "26.0.23",
+    "@types/jest": "26.0.24",
     "@types/lodash": "4.14.171",
     "@types/mousetrap": "1.6.8",
     "@types/nuxtjs__auth": "4.8.7",
