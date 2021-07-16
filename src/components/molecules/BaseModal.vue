@@ -130,7 +130,7 @@ export default class BaseModal extends Vue {
   })
   form!: string
 
-  modal!: BSN.Modal
+  modal!: InstanceType<BSN["Modal"]>;
   @Watch('$route.fullPath')
   onChangeFullPath() {
     if (!this.modal) return
