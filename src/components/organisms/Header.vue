@@ -2,18 +2,8 @@
   <header>
     <nav class="navbar navbar-light navbar fixed-top px-0">
       <div class="container" @click.self="scrollToTop">
-        <button
-          ref="toggleButton"
-          class="navbar-toggler mr-2 d-md-none align-items-stretch"
-          type="button"
-          data-toggle="collapse"
-          data-target="#globalNavigation"
-          aria-controls="globalNavigation"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon" />
-        </button>
+        <b-navbar-toggle target="globalNavigation" class="d-md-none" />
+
         <nuxt-link
           class="
             p-0
@@ -151,14 +141,15 @@
         </ul>
       </div>
       <div class="container d-md-none">
-        <sidebar
-          id="globalNavigation"
-          :style="{
-            'max-height': collapseHeight,
-          }"
-          always-default
-          class="collapse scrollable w-100"
-        />
+        <b-collapse id="globalNavigation" v-model="globalNavigation" class="w-100 scrollable">
+          <sidebar
+            :style="{
+              'max-height': collapseHeight,
+            }"
+            always-default
+            class=""
+          />
+        </b-collapse>
       </div>
     </nav>
     <slot name="jumbotron" />
@@ -167,7 +158,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import BSN from 'bootstrap.native'
 import SearchForm from '~/components/molecules/SearchForm.vue'
 import Sidebar from '~/components/organisms/sidebar/Sidebar.vue'
 import Avatar from '~/components/atoms/Avatar.vue'
@@ -189,9 +179,8 @@ export default Vue.extend({
     return {
       online: true,
       collapseHeight: 0 as number | string,
-      dropdown: null as BSN.Dropdown | null,
-      collapse: null as BSN.Collapse | null,
       visible: false,
+      globalNavigation: false
     }
   },
   computed: {
@@ -206,10 +195,7 @@ export default Vue.extend({
     )
     const { height } = this.$el.children[0].getBoundingClientRect()
     this.collapseHeight = `calc(100vh - ${height}px)`
-    if (this.$refs.dropdown) {
-      // this.dropdown = new Dropdown(this.$refs.dropdown as Element)
-    }
-    this.collapse = new BSN.Collapse(this.$refs.toggleButton as Element)
+    this.setupCloseNavEvent()
   },
   beforeDestroy() {
     networkEvents.forEach((event) =>
@@ -217,6 +203,13 @@ export default Vue.extend({
     )
   },
   methods: {
+    setupCloseNavEvent() {
+      this.$router.beforeEach((_to, _from, next) => {
+        next()
+        if(!this.globalNavigation) return;
+        this.$root.$emit('bv::toggle::collapse', 'globalNavigation')
+      })
+    },
     scrollToTop() {
       this.$scrollTo('body')
     },

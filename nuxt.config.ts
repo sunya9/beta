@@ -104,7 +104,6 @@ const config: NuxtConfig = {
   // plugin settings
   plugins: [
     '~/plugins/di',
-    '~/plugins/bootstrap.client',
     '~/plugins/mousetrap',
     '~/plugins/vue-outside',
     '~/plugins/emoji',
