@@ -114,7 +114,7 @@ const config: NuxtConfig = {
     '~/plugins/font-awesome',
     '~/plugins/modal',
     '~/plugins/dayjs',
-    '~/plugins/created',
+    // '~/plugins/created', disabled until support v1 api
     '~/plugins/intersection-observer.client',
     '~/plugins/composition-api',
   ],
@@ -132,7 +132,7 @@ const config: NuxtConfig = {
     '@nuxtjs/component-cache',
     '@nuxtjs/toast',
     '@nuxtjs/axios',
-    '@nuxtjs/auth',
+    '@nuxtjs/auth-next',
     'bootstrap-vue/nuxt',
     'nuxt-uid-module',
     '@nuxtjs/redirect-module',
@@ -172,10 +172,12 @@ const config: NuxtConfig = {
   auth: {
     strategies: {
       pnut: {
-        _scheme: 'oauth2',
-        authorization_endpoint: 'https://pnut.io/oauth/authenticate',
-        token_endpoint: 'https://api.pnut.io/v0/oauth/access_token',
-        userinfo_endpoint: 'https://api.pnut.io/v0/token',
+        scheme: 'oauth2',
+        endpoints: {
+          authorization: 'https://pnut.io/oauth/authenticate',
+          token: false,
+          userInfo: 'https://api.pnut.io/v0/token',
+        },
         scope: [
           'stream',
           'messages:io.pnut.core.pm',
@@ -186,9 +188,8 @@ const config: NuxtConfig = {
           'files',
           'polls',
         ],
-        client_id: process.env.CLIENT_ID,
+        clientId: process.env.CLIENT_ID,
       },
-      local: false,
     },
     redirect: {
       callback: '/callback',
