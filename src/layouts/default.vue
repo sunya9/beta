@@ -24,7 +24,10 @@
           class="col-12"
         >
           <page-title />
-          <b-collapse id="navbarSupportedContent" v-model="navbarSupportedContent">
+          <b-collapse
+            id="navbarSupportedContent"
+            v-model="navbarSupportedContent"
+          >
             <sidebar v-if="!menusWithMeta.isDefault" narrow />
           </b-collapse>
           <div>
@@ -149,7 +152,7 @@ export default class Default extends Vue {
   setupCloseNavEvent() {
     this.$router.beforeEach((_to, _from, next) => {
       next()
-      if(!this.navbarSupportedContent) return;
+      if (!this.navbarSupportedContent) return
       this.$root.$emit('bv::toggle::collapse', 'navbarSupportedContent')
     })
   }

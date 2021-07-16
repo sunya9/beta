@@ -141,7 +141,11 @@
         </ul>
       </div>
       <div class="container d-md-none">
-        <b-collapse id="globalNavigation" v-model="globalNavigation" class="w-100 scrollable">
+        <b-collapse
+          id="globalNavigation"
+          v-model="globalNavigation"
+          class="w-100 scrollable"
+        >
           <sidebar
             :style="{
               'max-height': collapseHeight,
@@ -180,7 +184,7 @@ export default Vue.extend({
       online: true,
       collapseHeight: 0 as number | string,
       visible: false,
-      globalNavigation: false
+      globalNavigation: false,
     }
   },
   computed: {
@@ -206,7 +210,7 @@ export default Vue.extend({
     setupCloseNavEvent() {
       this.$router.beforeEach((_to, _from, next) => {
         next()
-        if(!this.globalNavigation) return;
+        if (!this.globalNavigation) return
         this.$root.$emit('bv::toggle::collapse', 'globalNavigation')
       })
     },
