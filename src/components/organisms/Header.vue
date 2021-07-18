@@ -2,8 +2,16 @@
   <header>
     <nav class="navbar navbar-light navbar fixed-top px-0">
       <div class="container" @click.self="scrollToTop">
-        <b-navbar-toggle target="globalNavigation" class="d-md-none" />
-
+        <button
+          class="navbar-toggler mr-2 d-md-none align-items-stretch"
+          type="button"
+          aria-controls="globalNavigation"
+          aria-label="Toggle globalNavigation"
+          :aria-expanded="globalNavigation.toString()"
+          @click="$root.$emit('bv::toggle::collapse', 'globalNavigation')"
+        >
+          <span class="navbar-toggler-icon" />
+        </button>
         <nuxt-link
           class="
             p-0
