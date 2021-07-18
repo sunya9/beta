@@ -10,7 +10,7 @@
   >
     <div class="align-middle">
       <font-awesome-icon v-if="icon" :icon="icon" />
-      <span class="d-none d-lg-inline ml-2">
+      <span class="d-none d-xl-inline ml-2">
         {{ text }}
       </span>
     </div>
