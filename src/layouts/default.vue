@@ -24,9 +24,12 @@
           class="col-12"
         >
           <page-title />
-          <div id="navbarSupportedContent" class="collapse">
+          <b-collapse
+            id="navbarSupportedContent"
+            v-model="navbarSupportedContent"
+          >
             <sidebar v-if="!menusWithMeta.isDefault" narrow />
-          </div>
+          </b-collapse>
           <div>
             <nuxt />
           </div>
@@ -114,6 +117,7 @@ export default class Default extends Vue {
   }
 
   bodyClass = ''
+  navbarSupportedContent = false
 
   get sidebarVisibility() {
     return !this.notLoginIndex && this.menusWithMeta.menus.length
@@ -142,6 +146,15 @@ export default class Default extends Vue {
       }
     }
     this.keyboardBind()
+    this.setupCloseNavEvent()
+  }
+
+  setupCloseNavEvent() {
+    this.$router.beforeEach((_to, _from, next) => {
+      next()
+      if (!this.navbarSupportedContent) return
+      this.$root.$emit('bv::toggle::collapse', 'navbarSupportedContent')
+    })
   }
 
   beforeDestroy() {

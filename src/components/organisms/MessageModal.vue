@@ -76,7 +76,7 @@ import ChannelCompose from '~/components/organisms/ChannelCompose.vue'
 import BaseModal from '~/components/molecules/BaseModal.vue'
 
 interface TabMap {
-  [key: string]: BSN.Tab
+  [key: string]: InstanceType<BSN['Tab']>
 }
 
 @Component({

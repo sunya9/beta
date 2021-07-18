@@ -511,10 +511,7 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
   }
 
   get permalink(): string {
-    const user = this.mainPost.user
-    return user
-      ? `/@${user.username}/posts/${this.mainPost.id}`
-      : `/posts/${this.mainPost.id}`
+    return `/posts/${this.mainPost.id}`
   }
 
   get reply_permalink(): string {

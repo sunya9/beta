@@ -5,13 +5,16 @@ import {
   actionTree,
   mutationTree,
 } from 'typed-vuex'
-import { Auth } from '@nuxtjs/auth'
 import { Token } from '~/entity/token'
 import { PnutResponse } from '~/entity/pnut-response'
 import { User } from '~/entity/user'
 
 export type State = {
-  auth: Partial<Auth<PnutResponse<Token>>> | null
+  // this is fake type
+  auth: Partial<{
+    user: Partial<PnutResponse<Token>>
+    loggedIn: boolean
+  }> | null
   unreadMessages: boolean
   unreadHomeStream: boolean
   unreadMentions: boolean

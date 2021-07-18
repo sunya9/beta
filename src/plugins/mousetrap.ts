@@ -6,4 +6,11 @@ const plugin: Plugin = (_, inject) => {
   inject('mousetrap', Mousetrap)
 }
 
+declare module 'mousetrap' {
+  export interface MousetrapStatic {
+    pause(): void
+    unpause(): void
+  }
+}
+
 export default plugin

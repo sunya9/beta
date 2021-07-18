@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import * as Vuex from 'vuex'
+import VueRouter from 'vue-router'
 import { defaultsDeep } from 'lodash'
-import { ThisTypedMountOptions } from '@vue/test-utils'
+import { ThisTypedMountOptions, createLocalVue, mount } from '@vue/test-utils'
 import {
   shallowMount,
   createStore,
@@ -27,16 +28,23 @@ describe('Header component', () => {
   beforeEach(() => {
     $store = createStore()
     authedStore = authedUserCreateStore()
+    const localVue = createLocalVue()
+    localVue.use(VueRouter)
+    const router = new VueRouter()
     opts = defaultsDeep({}, baseOpts, {
       mocks: {
         $store,
       },
+      localVue,
+      router,
     })
     authOpts = defaultsDeep({}, baseOpts, {
       mocks: {
         $store: authedStore,
         $accessor: authedAccessor(),
       },
+      localVue,
+      router,
     })
   })
   test('Hide search form when not logged in', () => {
@@ -75,5 +83,27 @@ describe('Header component', () => {
   test('Show messages link when logged in', () => {
     const wrapper = shallowMount(Header, authOpts)
     expect(wrapper.find('#nav-messages').exists()).toBe(true)
+  })
+
+  test('Toggle glovalNavigation when click humberger menu', async () => {
+    const wrapper = mount(Header, opts)
+    const globalNavigation = wrapper.find('#globalNavigation')
+    expect(globalNavigation.isVisible()).toBe(false)
+    await wrapper.find("[aria-controls='globalNavigation']").trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(globalNavigation.isVisible()).toBe(true)
+  })
+
+  test('Close glovalNavigation when change route', async () => {
+    const wrapper = mount(Header, opts)
+    const globalNavigation = wrapper.find('#globalNavigation')
+    expect(globalNavigation.isVisible()).toBe(false)
+    await wrapper.find("[aria-controls='globalNavigation']").trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(globalNavigation.isVisible()).toBe(true)
+    await wrapper.vm.$router.push('/test')
+    // FIXME
+    await new Promise((resolve) => setTimeout(resolve, 150))
+    expect(globalNavigation.isVisible()).toBe(false)
   })
 })

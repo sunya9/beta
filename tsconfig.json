@@ -24,9 +24,9 @@
       "@types/node",
       "@nuxt/types",
       "@nuxtjs/axios",
-      "@types/nuxtjs__auth",
       "@nuxtjs/toast",
-      "@types/jest"
+      "@types/jest",
+      "@nuxtjs/auth-next"
     ]
   },
   "exclude": ["node_modules"]

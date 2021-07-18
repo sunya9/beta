@@ -29,15 +29,13 @@
       v-if="menusWithMeta.menus.length && !menusWithMeta.isDefault"
       class="ml-3 d-md-none h4 mb-1 mt-1"
     >
-      <a
-        data-toggle="collapse"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
+      <b-button
+        v-b-toggle.navbarSupportedContent
         aria-label="Toggle local navigation"
-        data-target="#navbarSupportedContent"
+        variant="link"
       >
         <font-awesome-icon icon="bars" size="lg" />
-      </a>
+      </b-button>
     </div>
   </h3>
 </template>
