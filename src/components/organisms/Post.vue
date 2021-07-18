@@ -268,7 +268,11 @@
           </template>
           <template v-if="!viewOnly && me">
             <li class="list-inline-item remove">
-              <a class="text-muted" href="#" @click.stop.prevent="removeModal">
+              <a
+                class="text-muted"
+                href="#"
+                @click.stop.prevent="showRemoveModal"
+              >
                 <font-awesome-icon icon="trash" class="mr-1" />
                 <span>Remove</span>
               </a>
@@ -354,6 +358,15 @@
         />
       </div>
     </div>
+    <b-modal
+      v-model="removeModal"
+      title="Remove post?"
+      auto-focus-button="cancel"
+      @ok="remove"
+    >
+      <p>Do you want to remove this post?</p>
+      <post v-if="post" :post="post" view-only />
+    </b-modal>
   </div>
 </template>
 
@@ -400,6 +413,7 @@ const FIVE_MINUTES = 1000 * 60 * 5 // 5 minutes
     UserPopper,
     LongPost: LongPostView,
   },
+  name: 'Post',
 })
 export default class PostView extends Mixins(listItem('post.created_at')) {
   @Prop({
@@ -531,7 +545,7 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
     s: () => this.favoriteToggle(),
     p: () => this.repostToggle(),
     enter: () => this.goPost(),
-    del: () => this.removeModal(),
+    del: () => this.showRemoveModal(),
   }
 
   handleKeyEvent(e: Event) {
@@ -605,12 +619,11 @@ export default class PostView extends Mixins(listItem('post.created_at')) {
     repost: ActionButton
   }
 
-  async removeModal() {
+  removeModal = false
+
+  showRemoveModal() {
     if (!this.me || this.mainPost.is_deleted) return
-    try {
-      await this.$modal.show('remove-modal', this.post)
-      this.remove()
-    } catch (e) {}
+    this.removeModal = true
   }
 
   async remove() {
