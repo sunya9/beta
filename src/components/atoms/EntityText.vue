@@ -36,9 +36,10 @@
           <a
             v-if="entity.replace"
             :key="`links-${i}-replaced-icon`"
-            :data-content="`<a href='${entity.link}' target='_new'>${entity.link}</a>`"
-            data-toggle="popover"
-            data-trigger="click"
+            v-b-popover.click.top.html="
+              `<a href='${entity.link}' target='_new'>${entity.link}</a>`
+            "
+            title="Original URL"
             href="#"
             class="mx-1"
             @click.prevent
@@ -58,7 +59,6 @@
 import Vue, { PropOptions } from 'vue'
 import unicodeSubstring from 'unicode-substring'
 import stringLength from 'string-length'
-import BSN from 'bootstrap.native'
 import NuxtLinkMod from '~/components/atoms/NuxtLinkMod.vue'
 import { Entity } from '~/entity/entity'
 
@@ -211,12 +211,6 @@ export default Vue.extend({
         }, [])
         .filter((entity) => !(entity.type === 'text' && entity.text === ''))
     },
-  },
-  mounted() {
-    // ensure to initialize
-    Array.from(this.$el.querySelectorAll('[data-toggle="popover"]')).forEach(
-      (target) => new BSN.Popover(target)
-    )
   },
   methods: {
     unicodeSubstring,
