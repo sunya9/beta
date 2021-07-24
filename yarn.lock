@@ -4404,10 +4404,10 @@
     "@types/glob" "*"
     "@types/node" "*"
 
-"@types/rosie@0.0.39":
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/@types/rosie/-/rosie-0.0.39.tgz#d793fc22f79922ef0f4e691a0c521509fa22517d"
-  integrity sha512-rhBFUVM1vhEDDsmTR2BzPpMWEb7+4PbL2QZ9Vfyb/ArvZpXqaf7gBS+5U0LvI5nqaPnbxDLvy0ZbGHU0u13RnA==
+"@types/rosie@0.0.40":
+  version "0.0.40"
+  resolved "https://registry.yarnpkg.com/@types/rosie/-/rosie-0.0.40.tgz#3fe51a3ac08d2f1a335999e74ee7b8743610ab11"
+  integrity sha512-Snog8oO88AXDhFG1BHPkKSg2urcGhyA+/fqQUuc4Abejt+HHrc2VszujyJGVBlN6DD8Gnp3PV5rogs3uYt/ZOA==
 
 "@types/sass-loader@8.0.1":
   version "8.0.1"
