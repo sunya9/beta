@@ -95,7 +95,7 @@
     "reg-publish-gcs-plugin": "0.10.16",
     "reg-suit": "0.10.16",
     "rosie": "2.1.0",
-    "sass": "1.37.0",
+    "sass": "1.37.5",
     "storycap": "3.0.4",
     "ts-jest": "27.0.4",
     "ts-node": "10.1.0",
