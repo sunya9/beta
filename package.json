@@ -63,7 +63,7 @@
     "@types/convert-units": "2.3.4",
     "@types/emoji-regex": "8.0.0",
     "@types/jest": "26.0.24",
-    "@types/lodash": "4.14.171",
+    "@types/lodash": "4.14.172",
     "@types/mousetrap": "1.6.8",
     "@types/rosie": "0.0.40",
     "@types/twemoji": "12.1.2",
