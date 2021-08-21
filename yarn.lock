@@ -4118,6 +4118,11 @@
   resolved "https://registry.yarnpkg.com/@types/emoji-regex/-/emoji-regex-8.0.0.tgz#df215c9ff818e071087fb8e7e6e74c4cb42a1303"
   integrity sha512-iacbaYN9IWWrGWTwlYLVOeUtN/e4cjN9Uh6v7Yo1Qa/vJzeSQeh10L/erBBSl53BTmbnQ07vsWp8mmNHGI4WbQ==
 
+"@types/estree@^0.0.48":
+  version "0.0.48"
+  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.48.tgz#18dc8091b285df90db2f25aa7d906cfc394b7f74"
+  integrity sha512-LfZwXoGUDo0C3me81HXgkBg5CTQYb6xzEl+fNmbO4JdRiSKQ8A0GD1OBBvKAIsbCUgoyAty7m99GqqMQe784ew==
+
 "@types/etag@1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@types/etag/-/etag-1.8.0.tgz#37f0b1f3ea46da7ae319bbedb607e375b4c99f7e"
@@ -4928,6 +4933,17 @@
     estree-walker "^2.0.1"
     source-map "^0.6.1"
 
+"@vue/compiler-core@3.2.4":
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.2.4.tgz#a98d295771998c1e8dccc4ee3d52feb14b02aea9"
+  integrity sha512-c8NuQq7mUXXxA4iqD5VUKpyVeklK53+DMbojYMyZ0VPPrb0BUWrZWFiqSDT+MFDv0f6Hv3QuLiHWb1BWMXBbrw==
+  dependencies:
+    "@babel/parser" "^7.12.0"
+    "@babel/types" "^7.12.0"
+    "@vue/shared" "3.2.4"
+    estree-walker "^2.0.1"
+    source-map "^0.6.1"
+
 "@vue/compiler-dom@3.0.11", "@vue/compiler-dom@^3.0.7":
   version "3.0.11"
   resolved "https://registry.yarnpkg.com/@vue/compiler-dom/-/compiler-dom-3.0.11.tgz#b15fc1c909371fd671746020ba55b5dab4a730ee"
@@ -4935,6 +4951,14 @@
   dependencies:
     "@vue/compiler-core" "3.0.11"
     "@vue/shared" "3.0.11"
+
+"@vue/compiler-dom@3.2.4", "@vue/compiler-dom@^3.2.0":
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-dom/-/compiler-dom-3.2.4.tgz#3a43de243eba127abbe57e796a0b969d2df78c08"
+  integrity sha512-uj1nwO4794fw2YsYas5QT+FU/YGrXbS0Qk+1c7Kp1kV7idhZIghWLTjyvYibpGoseFbYLPd+sW2/noJG5H04EQ==
+  dependencies:
+    "@vue/compiler-core" "3.2.4"
+    "@vue/shared" "3.2.4"
 
 "@vue/compiler-sfc@^3.0.7":
   version "3.0.11"
@@ -4958,6 +4982,29 @@
     postcss-selector-parser "^6.0.4"
     source-map "^0.6.1"
 
+"@vue/compiler-sfc@^3.2.0":
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.2.4.tgz#9807868cc950291f163c3930a81bb16e870df097"
+  integrity sha512-GM+ouDdDzhqgkLmBH4bgq4kiZxJQArSppJiZHWHIx9XRaefHLmc1LBNPmN8ivm4SVfi2i7M2t9k8ZnjsScgzPQ==
+  dependencies:
+    "@babel/parser" "^7.13.9"
+    "@babel/types" "^7.13.0"
+    "@types/estree" "^0.0.48"
+    "@vue/compiler-core" "3.2.4"
+    "@vue/compiler-dom" "3.2.4"
+    "@vue/compiler-ssr" "3.2.4"
+    "@vue/shared" "3.2.4"
+    consolidate "^0.16.0"
+    estree-walker "^2.0.1"
+    hash-sum "^2.0.0"
+    lru-cache "^5.1.1"
+    magic-string "^0.25.7"
+    merge-source-map "^1.1.0"
+    postcss "^8.1.10"
+    postcss-modules "^4.0.0"
+    postcss-selector-parser "^6.0.4"
+    source-map "^0.6.1"
+
 "@vue/compiler-ssr@3.0.11":
   version "3.0.11"
   resolved "https://registry.yarnpkg.com/@vue/compiler-ssr/-/compiler-ssr-3.0.11.tgz#ac5a05fd1257412fa66079c823d8203b6a889a13"
@@ -4965,6 +5012,14 @@
   dependencies:
     "@vue/compiler-dom" "3.0.11"
     "@vue/shared" "3.0.11"
+
+"@vue/compiler-ssr@3.2.4":
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-ssr/-/compiler-ssr-3.2.4.tgz#be51f219c2042b3e530373e60bc126ada6bb1cc0"
+  integrity sha512-bKZuXu9/4XwsFHFWIKQK+5kN7mxIIWmMmT2L4VVek7cvY/vm3p4WTsXYDGZJy0htOTXvM2ifr6sflg012T0hsw==
+  dependencies:
+    "@vue/compiler-dom" "3.2.4"
+    "@vue/shared" "3.2.4"
 
 "@vue/component-compiler-utils@^3.1.0":
   version "3.2.0"
@@ -4993,6 +5048,11 @@
   version "3.0.11"
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.0.11.tgz#20d22dd0da7d358bb21c17f9bde8628152642c77"
   integrity sha512-b+zB8A2so8eCE0JsxjL24J7vdGl8rzPQ09hZNhystm+KqSbKcAej1A+Hbva1rCMmTTqA+hFnUSDc5kouEo0JzA==
+
+"@vue/shared@3.2.4":
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.4.tgz#ba2a09527afff27b28d08f921b4a597e9504ca7a"
+  integrity sha512-j2j1MRmjalVKr3YBTxl/BClSIc8UQ8NnPpLYclxerK65JIowI4O7n8O8lElveEtEoHxy1d7BelPUDI0Q4bumqg==
 
 "@vue/test-utils@1.2.1":
   version "1.2.1"
@@ -19329,15 +19389,15 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
 
-vue-docgen-api@4.41.0:
-  version "4.41.0"
-  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-4.41.0.tgz#1b6ce52064819430864eae4d7f84c064fda984be"
-  integrity sha512-XGWtTMRbDY+7zBWzigWG7tGbRcjvHg7TsHw+fGqOu02Xo4S6uSAqsQw6E+g4q75oP0AHrLBi+48sbY0ECcLvvQ==
+vue-docgen-api@4.41.1:
+  version "4.41.1"
+  resolved "https://registry.yarnpkg.com/vue-docgen-api/-/vue-docgen-api-4.41.1.tgz#ac5372708397611f2a46536a1d79449d9f100220"
+  integrity sha512-Qe7PMqg6s36pwk81NdVwxylufbyTv7qfGxh4uJQo6W30W9kcitIUpzl843VBKeahp5Dtlvpr2ma6/xTtqStWig==
   dependencies:
     "@babel/parser" "^7.13.12"
     "@babel/types" "^7.13.12"
-    "@vue/compiler-dom" "^3.0.7"
-    "@vue/compiler-sfc" "^3.0.7"
+    "@vue/compiler-dom" "^3.2.0"
+    "@vue/compiler-sfc" "^3.2.0"
     ast-types "0.14.2"
     hash-sum "^1.0.2"
     lru-cache "^4.1.5"
