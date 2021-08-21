@@ -97,7 +97,7 @@
     "rosie": "2.1.0",
     "sass": "1.37.5",
     "storycap": "3.0.4",
-    "ts-jest": "27.0.4",
+    "ts-jest": "27.0.5",
     "ts-node": "10.2.0",
     "typescript": "4.3.5",
     "vue-docgen-api": "4.41.0",
