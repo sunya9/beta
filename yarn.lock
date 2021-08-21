@@ -4108,10 +4108,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/convert-units@2.3.4":
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/@types/convert-units/-/convert-units-2.3.4.tgz#e61a79826383dd946ea68f41d0c8af72719054c1"
-  integrity sha512-sUm/L/Ch12qR6vL7Qy7FEvoeiURAoTEJyiFrb0/TADFR8YlDHPnH8cdG4bmVUPuQZRPz7mjx2QIT1IgpuzHC0A==
+"@types/convert-units@2.3.5":
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/@types/convert-units/-/convert-units-2.3.5.tgz#e6b617a6af9ae39daca7a4a199064cfcc3bf28ee"
+  integrity sha512-uPxhvoCflbz9hm0aiLEHnwT7JTdhJcKUmArdmmKtWjbK+tw9hUguYh0vTpA5ugqc9/a+hWdPB7NW0SX6peLS8g==
 
 "@types/emoji-regex@8.0.0":
   version "8.0.0"

@@ -60,7 +60,7 @@
     "@nuxtjs/storybook": "3.3.2",
     "@storybook/addon-knobs": "6.2.9",
     "@testing-library/jest-dom": "5.11.9",
-    "@types/convert-units": "2.3.4",
+    "@types/convert-units": "2.3.5",
     "@types/emoji-regex": "8.0.0",
     "@types/jest": "26.0.24",
     "@types/lodash": "4.14.172",
