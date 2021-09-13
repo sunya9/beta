@@ -38,7 +38,7 @@
     "nuxt-uid-module": "0.2.0",
     "reflect-metadata": "0.1.13",
     "sass-loader": "10.2.0",
-    "string-length": "4.0.2",
+    "string-length": "5.0.1",
     "tsyringe": "4.6.0",
     "twemoji": "13.1.0",
     "unicode-substring": "1.0.0",
