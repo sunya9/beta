@@ -58,7 +58,7 @@
     "@nuxt/typescript-build": "2.1.0",
     "@nuxtjs/eslint-config-typescript": "6.0.1",
     "@nuxtjs/storybook": "3.3.2",
-    "@storybook/addon-knobs": "6.2.9",
+    "@storybook/addon-knobs": "6.4.0",
     "@testing-library/jest-dom": "5.11.9",
     "@types/convert-units": "2.3.5",
     "@types/emoji-regex": "8.0.0",
