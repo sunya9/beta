@@ -37,6 +37,6 @@ jobs:
           COVERAGE_FILE: coverage/lcov.info
       - run: yarn build
       - name: Send coverage report
-        uses: paambaati/codeclimate-action@v2.7.5
+        uses: paambaati/codeclimate-action@v3.2.0
         env:
           CC_TEST_REPORTER_ID: 06f5b199c1d9bb6f814adf03807ad1df9b6184d4a268daba4672f4f95418ac7e
